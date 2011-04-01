@@ -1,21 +1,19 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/searchall/css/searchall.css" />
+<link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
+<link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search_b.css" />
 <div class="searchall_widget">
     <!-- SEARCH BAR -->
     <div class="fl-left fl-container fl-fix search_bar">
         <div id="search_form">
-            <!-- <select class="skinned_select" title="__MSG__SEARCH_SCOPE__">
-            <option value="entire_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
-            <option value="friends">__MSG__FRIENDS__</option>
-            </select> --><input type="text" id="search_text" maxlength="255" class="input" title="__MSG__INSERT_NAME_OR_KEYWORD__" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
+            <input type="text" id="search_text" maxlength="255" class="input" title="__MSG__INSERT_NAME_OR_KEYWORD__" value="" />
             <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary">
                 <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
             </button>
         </div>
     </div>
     <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">
-        __MSG__FOUND__ <strong id="search_numberFound">0</strong>
-        __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span>
+        __MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS__
+        <span id="search_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="search_mysearchterm"></strong>"</span></span>
     </div>
     <div class="fl-left fl-container search_result_title" id="search_result_tag_title" style="display:none">
         <span class="keyword"><strong id="search_mytagterm"></strong></span>
@@ -31,12 +29,10 @@
     <!-- SEARCH RESULTS -->
     <div class="fl-container search_results">
         <!-- CONTENT / MEDIA PART -->
-        <div id="cm_results_header_template" style="display:none;">
-            <!--
+        <div id="cm_results_header_template" style="display:none;"><!--
             <a href="${query_href}" id="search_content_title" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a>
             <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_cm" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_CONTENT_AND_MEDIA_RESULTS__ &raquo;</small></a>
-            -->
-        </div>
+        --></div>
         <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="cm_header">
             <div class='s3d-highlight_area_background_tl'>
                 <div class='s3d-highlight_area_background_tinner'>
@@ -47,8 +43,7 @@
                 </div>
                 <div id="cm_search_result">
                 </div>
-                <div id="cm_search_result_template">
-                    <!--
+                <div id="cm_search_result_template"><!--
                     {for i in items}
                     {if i['sakai:pooled-content-file-name']}
                     {var contentFound = true}
@@ -98,8 +93,7 @@
                     {if !contentFound}
                     __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
                     {/if}
-                    -->
-                </div>
+                --></div>
                 <div class="search_results_part_footer">
                     <!-- -->
                 </div>
@@ -110,12 +104,10 @@
             </div>
         </div>
         <!-- GROUPS -->
-        <div id="groups_results_header_template" style="display:none;">
-            <!--
+        <div id="groups_results_header_template" style="display:none;"><!--
             <a href="${query_href}" id="search_groups_title" class="search_results_part_title">__MSG__GROUPS__</a>
             <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_sites" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a>
-            -->
-        </div>
+        --></div>
         <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="sites_header">
             <div class='s3d-highlight_area_background_tl'>
                 <div class='s3d-highlight_area_background_tinner'>
@@ -126,8 +118,7 @@
                 </div>
                 <div id="sites_search_result">
                 </div>
-                <div id="sites_search_result_template">
-                    <!--
+                <div id="sites_search_result_template"><!--
                     {for i in items}
                     {if i['sakai:group-id']}
                     {var groupsFound = true}
@@ -148,8 +139,7 @@
                     {if !groupsFound}
                     __MSG__NO_GROUPS_FOUND__.
                     {/if}
-                    -->
-                </div>
+                --></div>
             </div>
             <div class="s3d-highlight_area_background_bl">
                 <div class="s3d-highlight_area_background_binner">
@@ -157,12 +147,10 @@
             </div>
         </div>
         <!-- PEOPLE PART -->
-        <div id="people_results_header_template" style="display:none">
-            <!--
+        <div id="people_results_header_template" style="display:none"><!--
             <a href="${query_href}" id="search_people_title" class="search_results_part_title">__MSG__PEOPLE__</a>
             <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_people" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_PEOPLE_RESULTS__ &raquo;</small></a>
-            -->
-        </div>
+        --></div>
         <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="people_header">
             <div class='s3d-highlight_area_background_tl'>
                 <div class='s3d-highlight_area_background_tinner'>
@@ -173,10 +161,9 @@
                 </div>
                 <div id="people_search_result">
                 </div>
-                <div id="people_search_result_template">
-                    <!--
+                <div id="people_search_result_template"><!--
                     {for i in items}
-                    {if !i.isAnonymous && i.userid}
+                    {if i.userid}
                     {var peopleFound = true}
                     <div class="fl-container fl-fix search_result_person">
                     {if ! i.picture}
@@ -193,13 +180,13 @@
                     {if ! i.isMe && ! sakai.data.me.user.anon}
                     <div class="search_result_person_links">
                     {if !i.connected}
-                    <button type="button" class="search_result_person_link link_add_to_contacts s3d-link-button s3d-action" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</button>
+                    <button type="button" class="search_result_person_link link_add_to_contacts s3d-link-button s3d-action sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>__MSG__ADD_TO_CONTACTS__</button>
                     <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
                     {elseif i.invited}
                     <button type="button" class="search_result_person_link link_accept_invitation s3d-link-button s3d-action" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</button>
                     <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
                     {/if}
-                    <button type="button" class="search_result_person_link search_result_person_link_message s3d-link-button s3d-action" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</button>
+                    <button type="button" class="search_result_person_link search_result_person_link_message s3d-link-button s3d-action sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user">__MSG__MESSAGE__</button>
                     </div>
                     {/if}
                     </div>
@@ -208,8 +195,7 @@
                     {if !peopleFound}
                     __MSG__NO_PEOPLE_FOUND__.
                     {/if}
-                    -->
-                </div>
+                --></div>
             </div>
             <div class="s3d-highlight_area_background_bl">
                 <div class="s3d-highlight_area_background_binner">

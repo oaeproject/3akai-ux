@@ -1279,6 +1279,10 @@ define(["jquery",
                 html4.ATTRIBS["video::autoplay"] = 0;
                 html4.ATTRIBS["li::sakai-ref"] = 0;
                 html4.ATTRIBS["li::sakai-path"] = 0;
+                html4.ATTRIBS["button::sakai-entityid"] = 0;
+                html4.ATTRIBS["button::sakai-entityname"] = 0;
+                html4.ATTRIBS["button::sakai-entitytype"] = 0;
+                html4.ATTRIBS["button::entitypicture"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];

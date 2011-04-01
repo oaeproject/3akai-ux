@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai) {
      
     /**
      * @name sakai.WIDGET_ID
@@ -37,20 +37,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
         // CONFIG VARS //
         /////////////////
 
-        var mainSearch = false;
-        var contactclicked = false;
-
         var peopleToSearch = 6;
         var cmToSearch = 5;
-        var nrOfCharactersAroundTerm = 300;
-        var sitesToSearch = 5;
+        var groupsToSearch = 5;
 
-        var foundPeople = false;
-        var searchterm = "";
-        var tagterm = "";
-
+        ///////////////
+        // HELP VARS //
+        ///////////////
+        
         var totalItemsFound = 0;
-
 
         /////////////
         // CSS IDs //
@@ -64,11 +59,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
                 thousands : search + "_result_thousands",
                 introductionText: "#introduction_text",
                 button : search + "_button",
-                text : ".search_content_main " + search + '_text',
+                text : search + '_text',
                 numberFound : search + '_numberFound',
                 searchTerm : search + "_mysearchterm",
                 tagTerm : search + "_mytagterm",
-                searchBarSelectedClass : "search_bar_selected",
                 pagerClass : ".jq_pager",
                 messageClass : ".search_result_person_link_message",
                 messageID : "search_result_person_link_message_",
@@ -77,7 +71,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
                 addToContactsDialog : '#add_to_contacts_dialog',
                 sendmessageContainer : "#sendmessagecontainer",
                 resultTitle : "#search_result_title",
-                resultTagTitle : "#search_result_tag_title"
+                resultTagTitle : "#search_result_tag_title",
+                matchingLabel: "#search_result_extended_matching"
             },
             people : {
                 displayMore : "#display_more_people",
@@ -99,32 +94,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
                 searchResult : "#cm_search_result",
                 searchResultTemplate : "cm_search_result_template",
                 header : "#cm_header"
-            },
-            addFriend : {
-                types : '#add_friend_types',
-                typesList : 'add_friends_list_type',
-                typesTemplate : "add_friend_types_template",
-                displayNameClass : ".add_friend_displayname",
-                profilePicture : "#add_friend_profilepicture",
-                personalNote : "#add_friend_personal_note",
-                personalNoteTemplate : "add_friend_personal_note_template",
-                doInvite : "#add_friends_do_invite",
-                form : "#add_friends_form",
-                response: "#add_to_contacts_response",
-                addToContacts : "#link_add_to_contacts_{USERID}",
-                addToContactsDivider : "#link_add_to_contacts_{USERID}_divider",
-                errors : {
-                    request : "#add_to_contacts_error_request",
-                    message : "#add_to_contacts_error_message",
-                    noTypeSelected : "#add_to_contacts_error_noTypeSelected"
-                }
-
-            },
-            tabs : {
-                all : "#tab_search_all",
-                content : "#tab_search_content",
-                people : "#tab_search_people",
-                sites : "#tab_search_sites"
             }
         };
 
@@ -133,28 +102,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
         // Functions //
         ///////////////
 
-        sakai_global._search.reset = function() {
-            // Hide the blocks
-            $(searchConfig.cm.header).hide();
-            $(searchConfig.people.header).hide();
-            $(searchConfig.sites.header).hide();
-            $(searchConfig.global.resultTitle).hide();
-            $(searchConfig.global.introductionText).show();
-        };
-
-
-        var showSearchContent = function() {
+        var showSearchContent = function(params) {
             // Set searching messages
-            $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(searchterm)));
-            if (tagterm) {
-                var tags = tagterm.replace("/tags/", "").split("/");
-                if(tags[0] === "directory"){
-                    $(searchConfig.global.tagTerm).html($("#search_result_results_located_in").html() + " " + tags.splice(1,tags.length).toString().replace(/,/g, "<span class='search_directory_seperator'>&raquo;</span>"));
-                } else {
-                    $(searchConfig.global.tagTerm).html($("#search_result_results_tagged_under").html() + " " + sakai.api.Security.saneHTML(tagterm.replace("/tags/", "")));
-                }
+            $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
+            totalItemsFound = 0;
+            $(searchConfig.global.numberFound).text(totalItemsFound);
+            
+            // Set search box values
+            if (!params.q || (params.q === "*" || params.q === "**")){
+                $(searchConfig.global.text).val("");
+                $(searchConfig.global.matchingLabel).hide();
+            } else {
+                $(searchConfig.global.text).val(params.q);
+                $(searchConfig.global.matchingLabel).show();
             }
-            $(searchConfig.global.numberFound).text("0");
 
             $(searchConfig.cm.displayMoreNumber).text("0");
             $(searchConfig.people.displayMoreNumber).text("0");
@@ -176,17 +137,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
             $(searchConfig.people.displayMore).hide();
 
             $(searchConfig.global.resultTitle).show();
-        };
-
-
-        /**
-         * Adds a "historical event". This way the searchterm will be added in the url bar and the user can use his back and forward button.
-         * @param {Object} page Page you are on (for search_b this is always 1)
-         * @param {Object} searchquery The searchterm
-         */
-        var doHSearch = function() {
-            totalItemsFound = 0;
-            History.addBEvent("1", encodeURIComponent($(searchConfig.global.text).val()));
         };
 
         /**
@@ -211,28 +161,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
 
         };
 
-    /*
-    * This will build the search querystring from the tagterm and searchterm
-    */
-    var buildQuerystring = function() {
-        var querystring = "#";
-        if (tagterm) {
-            querystring += "tag=" + tagterm;
-        }
-        if (searchterm !== $(searchConfig.global.text).attr("title").toLowerCase() + " ...") {
-            if (querystring !== "#") {
-                querystring += "&";
-            }
-            querystring += "q=" + searchterm;
-        } else {
-            if (querystring !== "#") {
-                querystring += "&";
-            }
-            querystring += "q=*";
-        }
-        return querystring;
-    };
-
         /**
          * This will render the results for the found content and media. It will add the nr of results to the total
          * If nessecary it will show the link to display more.
@@ -250,13 +178,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
             // Adjust total search result count
             updateTotalHitCount(foundCM.results.length);
 
-            var querystring = buildQuerystring();
-            $("#cm_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"/search/content" + querystring, "show_more":Math.abs(foundCM.total) > cmToSearch}));
+            var params = sakai_global.data.search.getQueryParams();
+            $("#cm_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=content&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
 
             if (foundCM && foundCM.results) {
-
-                finaljson = mainSearch.prepareCMforRendering(foundCM.results, finaljson);
-
+                finaljson = sakai_global.data.search.prepareCMforRendering(foundCM.results, finaljson);
             }
             $(searchConfig.cm.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
         };
@@ -266,35 +192,35 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
          * If nessecary it will show the link to dispolay more.
          * @param {Object} results Response from the REST service.
          */
-        var renderSites = function(foundSites) {
+        var renderGroups = function(foundGroups) {
 
             var finaljson = {};
             finaljson.items = [];
 
             // set required fields to default values in case foundCM is empty
                // this can be the case when a search fails
-            foundSites.results = foundSites.results || [];
-            foundSites.total = foundSites.total || 0;
+            foundGroups.results = foundGroups.results || [];
+            foundGroups.total = foundGroups.total || 0;
 
             // Adjust total search result count
-            if (foundSites.results) {
+            if (foundGroups.results) {
 
-                updateTotalHitCount(foundSites.results.length);
+                updateTotalHitCount(foundGroups.results.length);
 
-                var querystring = buildQuerystring();
-                $("#sites_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("groups_results_header_template", {"query_href":"/search/groups" + querystring, "show_more":Math.abs(foundSites.total) > sitesToSearch}));
+                var params = sakai_global.data.search.getQueryParams();
+                $("#sites_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("groups_results_header_template", {"query_href":"#l=groups&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundGroups.total) > groupsToSearch}));
 
-                if (foundSites && foundSites.results) {
+                if (foundGroups && foundGroups.results) {
 
-                    for (var group in foundSites.results){
-                        if (foundSites.results.hasOwnProperty(group)) {
-                            if (foundSites.results[group]["sakai:group-title"]) {
-                                foundSites.results[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-title"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+                    for (var group in foundGroups.results){
+                        if (foundGroups.results.hasOwnProperty(group)) {
+                            if (foundGroups.results[group]["sakai:group-title"]) {
+                                foundGroups.results[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundGroups.results[group]["sakai:group-title"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                             }
-                            if (foundSites.results[group]["sakai:group-description"]) {
-                                foundSites.results[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundSites.results[group]["sakai:group-description"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
+                            if (foundGroups.results[group]["sakai:group-description"]) {
+                                foundGroups.results[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(foundGroups.results[group]["sakai:group-description"]), $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
                             }
-                            finaljson.items.push(foundSites.results[group]);
+                            finaljson.items.push(foundGroups.results[group]);
                         }
                     }
 
@@ -304,17 +230,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
                         var full_path = finaljson.items[i]["path"];
                         var site_path = finaljson.items[i]["sakai:group-id"];
                         var page_path = site_path;
-                        if (finaljson.items[i]["excerpt"]) {
-                            var stripped_excerpt = $(""+finaljson.items[i]["excerpt"] + "").text().replace(/<[^>]*>/g, "");
-                            finaljson.items[i]["excerpt"] = stripped_excerpt;
-                        }
-
-                        if (finaljson.items[i]["type"] === "sakai/pagecontent") {
-                            page_path = full_path.replace(/\/_pages/g, "");
-                            page_path = page_path.replace(/\/pageContent/g, "");
-                            page_path = page_path.replace(/\//g,"");
-                            page_path = site_path + "#" + page_path;
-                        }
                         finaljson.items[i]["pagepath"] = page_path;
                         finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".search_results .search_results_container").width() - 80, {max_rows: 1,whole_word: false},"search_result_course_site_excerpt");
 
@@ -348,240 +263,124 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_main.js"], fu
             // Adjust total search result count
             updateTotalHitCount(results.results.length);
 
-            var querystring = buildQuerystring();
-            $("#people_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("people_results_header_template", {"query_href":"/search/people" + querystring, "show_more":Math.abs(results.total) > peopleToSearch}));
+            var params = sakai_global.data.search.getQueryParams();
+            $("#people_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("people_results_header_template", {"query_href":"#l=people&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(results.total) > peopleToSearch}));
 
             if (results && results.results) {
-                finaljson = mainSearch.preparePeopleForRender(results.results, finaljson);
+                finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
             }
-            foundPeople = finaljson.items;
 
             $(searchConfig.people.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
-        };
-
-
-
-         /**
-         * This function gets called everytime the page loads and a new searchterm is entered.
-         * It gets called by search_history.js
-         * @param {String} searchquery The searchterm you want to search trough.
-         */
-        sakai_global._search.doSearch = function(page, searchquery, searchwhere) {
-
-            // Get the tag if present.
-            tagterm = mainSearch.getSearchTags();
-
-            // Check if the searchquery is empty
-            if((searchquery === "" || searchquery === undefined) && (tagterm === "" || tagterm === undefined)){
-
-                // If there is nothing in the search query, remove the html and hide some divs
-                $(".search_results_container").hide();
-                $(searchConfig.global.resultTitle).hide();
-                $(searchConfig.global.pagerClass).hide();
-                return;
+         
+         };
+        
+        var doSearch = function(){
+            
+            var params = sakai_global.data.search.getQueryParams();
+            showSearchContent(params);
+            var urlsearchterm = sakai.api.Server.createSearchString(params.q);
+            
+            // Set off the 3 AJAX requests
+            var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
+            var usersUrl = sakai.config.URL.SEARCH_USERS;
+            var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
+            if (urlsearchterm === "*" || urlsearchterm === "**") {
+            	filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+                usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
+                groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
             }
-
-            mainSearch.fillInElements(page, searchquery, searchwhere);
-
-            // Get the search term out of the input box.
-            // If we were redirected to this page it will be added previously already.
-            searchterm = $(searchConfig.global.text).val().toLowerCase();
-
-            // Rebind everything
-            mainSearch.addEventListeners(searchterm);
-
-            if (searchquery && searchterm && searchterm !== $(searchConfig.global.text).attr("title").toLowerCase() + " ...") {
-                // Show and hide the correct elements.
-                showSearchContent();
-
-                // Convert spaces etc.
-
-                var urlsearchterm = mainSearch.prepSearchTermForURL(searchterm);
-
-                // Set off the 3 AJAX requests
-                // Content & Media Search
-                var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
-                var usersUrl = sakai.config.URL.SEARCH_USERS;
-                var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
-                if (urlsearchterm === "*" || urlsearchterm === "**") {
-                    filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
-                    usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
-                    groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
+            
+            // Content search
+            $.ajax({
+                url: filesUrl,
+                data: {
+                    "page": 0,
+                    "q" : urlsearchterm,
+                    "items" : cmToSearch
+                },
+                cache: false,
+                success: function(data) {
+                    renderCM(data);
+                },
+                error: function() {
+                    renderCM({});
                 }
-                $.ajax({
-                    url: filesUrl,
-                    data: {
-                        "q" : urlsearchterm,
-                        "items" : cmToSearch
-                    },
-                    cache: false,
-                    success: function(data) {
-                        renderCM(data);
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        renderCM({});
-                    }
-                });
+            });
 
-                // People Search
-                $.ajax({
-                    cache: false,
-                    url: usersUrl,
-                    data: {
-                        page: 0,
-                        items: peopleToSearch,
-                        q: urlsearchterm,
-                        sortOn: "lastName",
-                        sortOrder: "asc"
-                    },
-                    success: function(data) {
-
-                        // Store found people in data cache
-                        sakai_global.data.search.results_people = {};
-                        for (var i = 0, j = data.results.length; i < j; i++) {
-                            sakai_global.data.search.results_people[data.results[i]["rep:userId"]] = data.results[i];
-                        }
-
-                        // Render results
-                        renderPeople(data);
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-
-                        sakai_global.data.search.results_people = {};
-                        renderPeople({});
-                    }
-                });
-
-                // Sites search
-                $.ajax({
-                    cache: false,
-                    url: groupsUrl,
-                    data: {
-                         page: 0,
-                         items: 5,
-                         q: urlsearchterm
-                    },
-                    success: function(data) {
-                        renderSites(data);
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        renderSites({});
-                    }
-                });
-
-            } else if (tagterm) {
-                // add text to search input
-                $(searchConfig.global.text).val(tagterm);
-
-                // Show and hide the correct elements.
-                showSearchContent();
-                $(searchConfig.global.resultTitle).hide();
-                $(searchConfig.global.resultTagTitle).show();
-
-                // Search based on tags and render each search section
-                $.ajax({
-                    url: tagterm + ".tagged.5.json",
-                    cache: false,
-                    dataType: "json",
-                    success: function(data) {
-
-                        var json = {};
-                        if (typeof(data) === 'string') {
-                            data = $.parseJSON(data);
-                        }
-                        json.results = data;
-                        json.items = json.results.length;
-
-                        renderSites(json);
-                        renderCM(json);
-
-                        // Store found people in data cache
-                        sakai_global.data.search.results_people = {};
-                        for (var i = 0, j = json.results.length; i < j; i++) {
-                            sakai_global.data.search.results_people[json.results[i]["rep:userId"]] = json.results[i];
-                        }
-                        renderPeople(json);
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        renderCM({});
-                        sakai_global.data.search.results_people = {};
-                        renderPeople({});
-                        renderSites({});
-                    }
-                });
-            } else {
-                // There was no search term provided.
-                // Reset the whole thing
-                sakai_global._search.reset();
-            }
-        };
-
-
-        /**
-         * Will search for a user in the list of results we got from the server.
-         * @param {String} userid
-         * @return Will return the user object if something is found, false if nothing is found.
-         */
-        var searchPerson = function(userid) {
-            var person = false;
-            for (var i = 0, j = foundPeople.length; i<j; i++) {
-                if (foundPeople[i].userid === userid) {
-                    person = foundPeople[i];
-                    break;
+            // People Search
+            $.ajax({
+                cache: false,
+                url: usersUrl,
+                data: {
+                    "page": 0,
+                    "items": peopleToSearch,
+                    "q": urlsearchterm,
+                    "sortOn": "lastName",
+                    "sortOrder": "asc"
+                },
+                success: function(data) {
+                    renderPeople(data);
+                },
+                error: function() {
+                    renderPeople({});
                 }
-            }
-            return person;
-        };
+           });
 
-
-        ////////////
-        // EVENTS //
-        ////////////
-
-        /** When a user wants to message another  user */
-        $(searchConfig.global.messageClass).live("click", function() {
-            var reg = new RegExp(searchConfig.global.messageID, "gi");
-            var contactclicked = $(this).attr("id").replace(reg,"");
-            var person = searchPerson(contactclicked);
-            if (contactclicked) {
-                $(searchConfig.global.sendmessageContainer).show();
-                if (!person.uuid) {
-                    person.uuid = person.userid;
-                }
-                if (!person.hasOwnProperty("firstName") && !person.hasOwnProperty("lastName")) {
-                    person.firstName = person.uuid;
-                    person.lastName = "";
-                }
-                $(window).trigger("initialize.sendmessage.sakai", [person, true]);
+           // Groups search
+           $.ajax({
+               cache: false,
+               url: groupsUrl,
+               data: {
+                   "page": 0,
+                   "items": groupsToSearch,
+                   "q": urlsearchterm
+               },
+               success: function(data) {
+                   renderGroups(data);
+               },
+               error: function() {
+                   renderGroups({});
+               }
+           });
+        }
+        
+        ///////////////////
+        // Event binding //
+        ///////////////////
+        
+        $(searchConfig.global.text).live("keydown", function(ev){
+            if (ev.keyCode === 13) {
+                $.bbq.pushState({
+                    "q": $(searchConfig.global.text).val(),
+                    "page": 0
+                }, 0);
             }
         });
-
-        /** A user want to make a new friend */
-        $(searchConfig.global.addToContactsLink).live("click", function(ev) {
-            contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
-            $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
+        
+        $(searchConfig.global.button).live("click", function(ev){
+            $.bbq.pushState({
+                "q": $(searchConfig.global.text).val(),
+                "page": 0
+            }, 0);
         });
-
 
         /////////////////////////
         // Initialise Function //
         /////////////////////////
-
-        var thisFunctionality = {
-            "doHSearch" : doHSearch
-        };
-
-        var doInit = function() {
-            alert("Here");
-            mainSearch = sakai_global._search(searchConfig, thisFunctionality);
-            alert("Here");
-            // add the bindings
-            mainSearch.addEventListeners();
-        };
-        doInit();
+        
+        $(window).bind("hashchange", function(ev){
+            doSearch();
+        });
+        
+        $(window).bind("sakai.search.util.finish", function(ev){
+            doSearch();
+        });
+            
+        $(window).trigger("sakai.search.util.init");
 
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
     sakai.api.Widgets.widgetLoader.informOnLoad("searchall");
+
 });
