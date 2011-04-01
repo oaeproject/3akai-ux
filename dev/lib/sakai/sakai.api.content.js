@@ -255,6 +255,24 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         }
                     });
                 }
+            } else if (/flickr\.com$/.test(uri.host)) {
+                var fPhotoId = uri.path.split('/')[3];
+                if (fPhotoId) {
+                    $.ajax({
+                        url: "/var/proxy/flickr/flickrGetPhotoInfo.json",
+                        type: "GET",
+                        async: false,
+                        cache: false,
+                        dataType: "json",
+                        data: {
+                            "photoId": fPhotoId
+                        },
+                        success: function(data){
+                            result.url = "http://farm" + data.photo.farm + ".static.flickr.com/" + data.photo.server + "/" + data.photo.id + "_" + data.photo.secret + "_b.jpg";
+                            result.type = "image";
+                        }
+                    });
+                }
             }
             return result;
         }
