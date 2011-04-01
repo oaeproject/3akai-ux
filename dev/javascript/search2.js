@@ -56,7 +56,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             },
         	"9574379429432": {
-        		"page": "Search All"
+        		"page": "<div id='widget_searchall' class='widget_inline'></div>"
         	},
         	"6573920372": {
         		"page": "Search Content"
