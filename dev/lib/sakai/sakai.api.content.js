@@ -222,7 +222,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                             "photoId" : photoId
                         },
                         success: function(data){
-                            result.url = data.feed.icon["$t"];
+                            var splitPath = data.feed.icon["$t"].split('/');
+                            // insert the size we want as the second to last
+                            // entry in the array
+                            splitPath.splice(-2, 1, "s920");
+                            result.url = splitPath.join('/');
                             result.type = "image";
                         }
                     });
