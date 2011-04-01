@@ -42,14 +42,14 @@ require(
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
                 sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
-                });
+            });
             if (result) {
                 ok(result, "JSHint clean");
             } else {
                 for (var i=0,j=JSHINT.errors.length; i<j; i++) {
                     var error = JSHINT.errors[i];
                     if (error) {
-                        ok(false, "JSHint error on line " + error.line + " character " + error.character + ": " + error.reason + error.evidence);
+                        ok(false, "JSHint error on line " + error.line + " character " + error.character + ": " + error.reason + ", " + error.evidence);
                     }
                 }
             }

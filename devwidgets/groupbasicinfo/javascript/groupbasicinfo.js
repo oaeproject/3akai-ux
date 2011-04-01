@@ -175,10 +175,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // user has changed tags
             sakai_global.currentgroup.data.authprofile["sakai:tags"] = [];
             $(enteredTags).each(function(i, tag) {
-            tag = tag.replace(/\s+/g, " ");
-            if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
-            	if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
-                	sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
+                tag = tag.replace(/\s+/g, " ");
+                if (sakai.api.Security.escapeHTML(tag) === tag && tag.replace(/\\/g,"").length) {
+                    if ($.inArray(tag, sakai_global.currentgroup.data.authprofile["sakai:tags"]) < 0) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"].push(tag.replace(/\\/g,""));
                     }
                 }
             });
@@ -199,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
             sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
             sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
-            
+
             // Update the group object
             sakai_global.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
             sakai_global.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
@@ -208,7 +208,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.updateGroupInfo(sakai_global.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
                 if (success) {
                     groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
-                    sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function() {
+                    sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function(success, newtags) {
+                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = newtags;
                         $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
                     });
                 }
@@ -220,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addAnotherLocation = function(){
             $("#assignlocation_container").jqmShow();
         };
-        
+
         var processTagsAndDirectory = function(mode){
             // Extract tags that start with "directory:"
             var directory = [];
@@ -340,6 +341,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderLocations(data);
         });
 
+        sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         renderTemplateBasicInfo();
     };
 

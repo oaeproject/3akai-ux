@@ -59,7 +59,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             var callback = null;
             var arg = null;
-            var mimeType = sakai_global.content_profile.content_data.data["mimeType"];
+            var mimeType = sakai_global.content_profile.content_data.data["_mimeType"];
             if (isJwPlayerSupportedVideo(mimeType)){
                 callback = renderVideoPlayer;
             } else if (mimeType === "audio/mp3" || mimeType === "audio/x-aac") {
@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderTextPreview = function(){
-            if (sakai_global.content_profile.content_data.data["length"] > 1500000){
+            if (sakai_global.content_profile.content_data.data["_length"] > 1500000){
                 renderDefaultPreview();
                 return;
             }
@@ -201,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#upload_content").live("click", function() {
                 $(window).trigger("init.fileupload.sakai", {
                     newVersion: true,
-                    isLink: sakai_global.content_profile.content_data.data["mimeType"] === "x-sakai/link",
+                    isLink: sakai_global.content_profile.content_data.data["_mimeType"] === "x-sakai/link",
                     contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });

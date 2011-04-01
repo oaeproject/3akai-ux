@@ -8,6 +8,6 @@
     "personalportal":true,
     "type":"sakai",
     "enabled":true,
-    "hasSettings":true,
+    "hasSettings":false,
     "url":"/devwidgets/mysakai2/mysakai2.html"
 }

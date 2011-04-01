@@ -79,6 +79,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $deletePageLink = $("#navigation_delete_page", $rootel);
         var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
         var $nodeleteDialog = $("#no_delete_dialog"); // ^^
+        var $nodeleteDialogChild = $("#no_delete_page_child"); // ^^
+        var $nodeleteDialogChildTitle = $("#no_delete_page_title"); // ^^
         var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
         var $navigation_delete_confirm_title = $("#navigation_delete_confirm_title");
         var $navigation_admin_options = $("#navigation_admin_options", $rootel);
@@ -240,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 attr: { id: p_id },
                 data: {
                     title: p_title_short,
-                    attr: {"href": "#", "title": p_title},
+                    attr: {"href": "#page="+page_info["pageURLName"], "title": p_title},
                     pagePosition: p_pagePosition
                 },
                 children:[]
@@ -309,19 +311,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // Show the Delete confirmation window when the user clicks 'Delete page'
-        $deletePageLink.click(function () {
+        var deletePage = function () {
+            if (!sakai_global.sitespages.selectedpage ||
+                !sakai_global.sitespages.site_info.hasOwnProperty("_pages") ||
+                !sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]) {
+                return false;
+            }
             var pageTitle = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].pageTitle;
             if(pageTitle) {
                 $deleteConfirmPageTitle.html("&quot;" + pageTitle + "&quot;");
             } else {
                 $deleteConfirmPageTitle.html($navigation_delete_confirm_title.html());
             }
-            if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === false) {
+
+            var deletable = true, childpage = false, childPageTitle = [];
+
+            // check if page is deletable
+            if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === "false" || sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === false) {
+                deletable = false;
+            } else {
+                // check for child pages and if they're deletable
+                for(var i in sakai_global.sitespages.site_info._pages){
+                    if (sakai_global.sitespages.site_info._pages.hasOwnProperty(i)) {
+                        if (i.indexOf(sakai_global.sitespages.selectedpage) === 0) {
+                            // check if child page is deletable
+                            if (sakai_global.sitespages.site_info._pages[i].deletable === "false" || sakai_global.sitespages.site_info._pages[i].deletable === false){
+                                deletable = false;
+                                childpage = true;
+                                childPageTitle.push(sakai_global.sitespages.site_info._pages[i].pageTitle);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!deletable) {
+                $nodeleteDialogChild.hide();
+                $nodeleteDialogChildTitle.hide();
+                if (childpage) {
+                    $nodeleteDialogChild.show();
+                    $nodeleteDialogChildTitle.html(sakai.api.Security.saneHTML(childPageTitle.join(", ")));
+                    $nodeleteDialogChildTitle.show();
+                }
                 $nodeleteDialog.jqmShow();
             } else {
                 $deleteDialog.jqmShow();
             }
-        });
+        };
+        $deletePageLink.click(deletePage);
 
 
         //////////////////////////
@@ -460,6 +497,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
+         * Handles enabling or hiding the delete page action
+         *
+         * @param pagecount  the number of pages currently displayed
+         */
+        var handleDeleteLink = function (pagecount) {
+            if (pagecount === 0) {
+                // disable delete link
+                $deletePageLink.css({
+                    cursor: "default",
+                    color: "#999"
+                }).hover(function () {
+                    $(this).css("text-decoration", "none");
+                }).unbind("click");
+            } else {
+                // enable delete link
+                $deletePageLink.css({
+                    cursor: "pointer",
+                    color: "#666"
+                }).hover(function () {
+                    $(this).css("text-decoration", "underline");
+                }, function () {
+                    $(this).css("text-decoration", "none");
+                }).click(deletePage);
+            }
+        };
+
+
+        /**
          * Renders no pages in the navigation widget along with a message explaining
          * why no pages are viewable.
          *
@@ -542,27 +607,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var renderPages = function (selectedPageUrlName, site_info_object, allowDnd) {
-            // set the number of pages in the group
-            $pageCount.html("(" + sakai_global.sitespages.site_info.number_of_pages() + ")");
+            var pagecount = sakai_global.sitespages.site_info.number_of_pages();
+            // set the number of pages
+            $pageCount.html("(" + pagecount + ")");
+            handleDeleteLink(pagecount);
 
-            // Create navigation data object
-            var navigationData = convertToHierarchy(fullURLs(site_info_object));
-            sortOnPagePosition(navigationData);
+            var navigationData = [];
+            var initiallySelect = "";
 
-            // determine which page to initially select
-            var initiallySelect = navigationData[0].attr.id;
-            if(selectedPageUrlName) {
-                initiallySelect = "nav_" + selectedPageUrlName;
+            if (pagecount) {
+                // Create navigation data object
+                navigationData = convertToHierarchy(fullURLs(site_info_object));
+                sortOnPagePosition(navigationData);
+
+                // determine which page to initially select
+                initiallySelect = navigationData[0].attr.id;
+                if(selectedPageUrlName) {
+                    initiallySelect = "nav_" + selectedPageUrlName;
+                }
+
+                for(var i in navigationData){
+                    if (navigationData.hasOwnProperty(i)) {
+                        navigationData[i].data.attr.href = "#page=" + navigationData[i].attr.id.split("nav_")[1];
+                    }
+                }
             }
 
             // destroy any existing jstree instance
             $navigationTree.jstree("destroy");
-
-            for(var i in navigationData){
-                if (navigationData.hasOwnProperty(i)) {
-                    navigationData[i].data.attr.href = "#page=" + navigationData[i].attr.id.split("nav_")[1];
-                }
-            }
 
             // set up new jstree navigation tree
             var pluginArray = allowDnd ?
@@ -655,6 +727,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // update reference to the page in the nav
                         var newID = "nav_" + newName;
                         $moved_node.attr("id", newID);
+                        $moved_node.find("a").attr("href", "#page=" + newName);
                         $navigationTree.jstree("open_node", $reference_node);
                         $navigationTree.jstree("select_node", $moved_node);
                     });
@@ -758,12 +831,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         /**
-         * Function used to update the number of pages within the navigation
+         * Function used to get the number of pages within the navigation
          * tree. The updated pagecount is stored in the
          * sakai_global.sitespages.navigation.pagecount global variable and
          * returned by this function.
          */
-        var update_pagecount = function () {
+        var get_pagecount = function () {
 
             /**
              * Function used to recursively count the number of pages in the tree
@@ -787,6 +860,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.sitespages.navigation.pagecount = 0;
             count_pages($navigationTree.jstree("get_json", -1), 0);
             return sakai_global.sitespages.navigation.pagecount;
+        };
+
+
+        /**
+         * Function used to update the number of pages within the navigation
+         * tree.
+         */
+        var update_pagecount = function () {
+            var pagecount = get_pagecount();
+            $pageCount.html("(" + pagecount + ")");
+            handleDeleteLink(pagecount);
         };
 
 
@@ -844,39 +928,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "id": "nav_" + nodeID
                     }
                 };
-                var $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
-                $navigationTree.jstree("create_node", $lastNode, "after", newNode, function(e){
-                    $lastNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+                var $refNode = $navigationTree;
+                if (sakai_global.sitespages.site_info.number_of_pages()) {
+                    $refNode = $navigationTree.find("ul.jstree-no-dots > li").last();
+                }
+                $navigationTree.jstree("create_node", $refNode, "after", newNode, function (e) {
+                    $refNode = $navigationTree.find("ul.jstree-no-dots > li").last();
                     $navigationTree.jstree("deselect_node", $navigationTree.jstree("get_selected"));
-                    $navigationTree.jstree("select_node", $lastNode);
+                    $navigationTree.jstree("select_node", $refNode);
                 });
-
-                // update page count
-                $pageCount.html("(" + update_pagecount() + ")");
+                update_pagecount();
             }
         };
 
         sakai_global.sitespages.navigation.deleteNode = function(nodeID) {
-            if (!$.bbq.getState("page")) {
-                $pageCount.html("(" + sakai_global.sitespages.site_info.number_of_pages() + ")");
-                var navigationData = convertToHierarchy(fullURLs(sakai_global.sitespages.site_info._pages));
-                sortOnPagePosition(navigationData);
-
-                // determine which page to initially select
-                var initiallySelect = navigationData[0].attr.id.toString().replace("nav_", "");
-                sakai_global.sitespages.navigation.selectNode(initiallySelect);
-            }
             if (nodeID) {
                 var $nodeToDelete = $navigationTree.find("#nav_" + nodeID);
+                var $nodeBelow = $nodeToDelete.next();
                 $navigationTree.jstree("delete_node", $nodeToDelete);
-
-                // update page count
-                var pagecount = update_pagecount();
-                if (pagecount > 0) {
-                    $pageCount.html("(" + pagecount + ")");
-                } else {
-                    $pageCount.html("");
+                if (!$navigationTree.jstree("get_selected").length &&
+                    $nodeBelow.length) {
+                    $navigationTree.jstree("select_node", $nodeBelow);
                 }
+                update_pagecount();
             }
         };
 

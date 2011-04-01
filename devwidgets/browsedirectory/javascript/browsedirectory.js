@@ -116,7 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initiallySelect = browsedirectoryData[0].attr.id;
             // if id is passed set inital select as id
             if (id) {
-                initiallySelect = id;
+                var lastIndex = id.split("/").length - 1;
+                initiallySelect = id.split("/")[lastIndex];
             }
 
             // set up new jstree for directory
@@ -191,8 +192,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (nodeId) {
                 nodeId = nodeId.split("/").reverse().shift();
                 var $nodeToSelect = $browsedirectoryTree.find("#" + nodeId);
-                if ($browsedirectoryTree.jstree("get_selected").attr("id") !== $nodeToSelect.attr("id")) {
-                    $browsedirectoryTree.jstree("deselect_node", $browsedirectoryTree.jstree("get_selected"));
+                var $selected = $browsedirectoryTree.jstree("get_selected");
+                if ($selected.attr("id") !== $nodeToSelect.attr("id")) {
+                    $browsedirectoryTree.jstree("deselect_node", $selected);
                     $browsedirectoryTree.jstree("select_node", $nodeToSelect);
                 }
             } else {
@@ -221,6 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             var id = $.bbq.getState("location");
             renderDirectories(id);
+            $(window).trigger("hashchange", id);
         };
 
         doInit();

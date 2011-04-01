@@ -316,6 +316,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (i_object["sakai:tag-uuid"]) {
                 delete i_object["sakai:tag-uuid"];
             }
+            if (i_object.basic && i_object.basic.elements && i_object.basic.elements["tags"]) {
+                delete i_object.basic.elements["tags"];
+            }
         };
 
 
@@ -476,7 +479,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     saveProfileACL();
 
                     // update entity widget
-                    sakai.data.me.profile = $.extend(true, {}, sakai_global.profile.main.data);
+                    // clear tag in sakai.data.me
+                    sakai.data.me.profile["sakai:tags"] = [];
+                    //copy sakai_global tag to sakai.data.me
+                    sakai.data.me.profile["sakai:tags"] = sakai_global.profile.main.data.basic.elements.tags;
                     $(window).trigger("render.entity.sakai", ["myprofile", sakai_global.profile.main.data]);
 
                     // scroll to top of the page
