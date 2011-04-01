@@ -1022,12 +1022,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         /**
          *
-         * Show a specific message
+         * Show a specific message on message row click
          *
          */
-        $(inboxInboxMessage).live("click", function(e, ui){
+        $(inboxTableMessage).live("click", function(e, ui){
 
-            var id = e.target.id;
+            var id = $(e.target).parents("tr").attr("id");
             id = id.split('_');
             $.bbq.pushState({
                 "message": id[id.length - 1]
