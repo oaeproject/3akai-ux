@@ -20,34 +20,25 @@
     <!-- FORM -->
     <div id="message_form" class="dialog_content">
 
-        <!-- CONTAINER FOR MESSAGES -->
-        <div id="message_done"></div>
-
         <div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
             <form class="compose-form" action="" method="post">
 
-                <!-- FROM -->
-                <div>__MSG__FROM__: <span id="message_from"></span></div>
-
                 <!-- TO -->
-                <div id="sendmessage_fixed_to_user" style="display:none;">__MSG__TO__: <span id="message_to"></span></div>
-
-                <!-- MULTIPLE RECIPIENTS -->
-                <div id="sendmessage_to_container" style="display:none;">
-                    <label id="sendmessage_to_autoSuggest_label"
-                        for="sendmessage_to_autoSuggest">__MSG__ADDITIONAL_RECIPIENTS__</label>
+                <div class="sendmessage_send_form">
+                    <!-- MULTIPLE RECIPIENTS -->
+                    <label id="sendmessage_label_to_autoSuggest" for="sendmessage_to_autoSuggest">__MSG__SEND_MESSAGE_TO__:</label>
                     <input type="text" id="sendmessage_to_autoSuggest" />
                 </div>
 
                 <!-- SUBJECT -->
-                <div>
-                    <label for="comp-subject">__MSG__SUBJECT__</label><br />
+                <div class="sendmessage_send_form">
+                    <label for="comp-subject">__MSG__SUBJECT__:</label>
                     <input type="text" class="compose-subject" id="comp-subject" />
                 </div>
 
                 <!-- BODY -->
-                <div>
-                    <label for="comp-body">__MSG__BODY__</label><br />
+                <div class="sendmessage_send_form">
+                    <label for="comp-body">__MSG__BODY__:</label>
                     <textarea class="compose-body" id="comp-body" cols="90" rows="10"></textarea>
                 </div>
 

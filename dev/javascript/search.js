@@ -358,6 +358,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global._search.doSearch = function(page, searchquery, searchwhere) {
 
+            alert("In Do Search");
+
             // Get the tag if present.
             tagterm = mainSearch.getSearchTags();
 
@@ -551,7 +553,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
             $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
         });
-
 
         /////////////////////////
         // Initialise Function //

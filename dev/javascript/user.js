@@ -65,7 +65,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
-                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
             },
             "9867733100": {
                 "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
@@ -77,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
             },
             "2024634737": {
-                "box": "inbox"
+                "box": "messages"
             },
             "3679202964": {
                 "box": "invitations"
@@ -143,10 +143,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "_title": "Publications"
                     }
                 },
-                "content": {
+                "library": {
                     "_ref": "9834611274",
-                    "_title": "My Content",
-                    "_altTitle": "${user}'s Content",
+                    "_title": "My Library",
+                    "_altTitle": "${user}'s Library",
                     "main": {
                         "_ref": "9834611274",
                         "_title": "Content"
@@ -221,7 +221,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai_global.profile.main.mode.value = "edit";
                 contextData = {
                     "profile": sakai.data.me.profile,
-                    "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
+                    "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
+                    "userid": sakai.data.me.user.userid
                 };
                 determineContentContactsMemberships();
             } else {
@@ -239,6 +240,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 contextData = {
                     "profile": profile,
                     "displayName": sakai.api.User.getDisplayName(profile),
+                    "userid": qs.get("id"),
                     "altTitle": true
                 };
                 if (sakai.data.me.user.anon) {

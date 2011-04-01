@@ -431,26 +431,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         };
 
+        // Create a group
+
         $(window).bind("sakai.overlays.createGroup", function(ev){
             $("#creategroupcontainer").show();
             // Load the creategroup widget.
             $(window).trigger("init.creategroup.sakai");
         });
 
-        $("#subnavigation_simple_group_link").live("click", function(){
+        $("#subnavigation_simple_group_link, .sakai_create_group_overlay").live("click", function(){
             $(window).trigger("sakai.overlays.createGroup");
         });
 
-        $(".sakai_create_group_overlay").live("click", function(){
-            $(window).trigger("sakai.overlays.createGroup");
-        });
+        // Add content
 
-        $(".sakai_add_content_overlay").live("click", function(ev) {
+        $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
             $(window).trigger("init.fileupload.sakai");
         });
 
-        $("#subnavigation_add_content_link").live("click", function(ev) {
-            $(window).trigger("init.fileupload.sakai");
+        // Send a message
+
+        $(".sakai_sendmessage_overlay").live("click", function(ev){
+            var el = $(this);
+            var person = false;
+            if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
+                person = {
+                    "uuid": el.attr("sakai-entityid"),
+                    "username": el.attr("sakai-entityname"),
+                    "type": el.attr("sakai-entitytype") || "user"
+                }
+            }
+            $(window).trigger("initialize.sendmessage.sakai", [person]);
+        });
+
+        // Add to contacts
+
+        $(".sakai_addtocontacts_overlay").live("click", function(ev){
+            var el = $(this);
+            if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
+                var person = {
+                    "uuid": el.attr("sakai-entityid"),
+                    "username": el.attr("sakai-entityname"),
+                    "picture": el.attr("sakai-entitypicture") || false
+                }
+                $(window).trigger("initialize.addToContacts.sakai", [person]);
+            }
         });
 
         /////////////////////////
