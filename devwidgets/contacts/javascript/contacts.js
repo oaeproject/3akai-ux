@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".contacts_accepted_items").hover(
                 function(){
                     $(".contacts_message").show();
-                    $(this).addClass("contacts_highlight");                
+                    $(this).addClass("contacts_highlight");
                 },
                 function(){
                     $(".contacts_message").hide();
