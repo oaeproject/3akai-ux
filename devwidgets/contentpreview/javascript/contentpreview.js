@@ -84,6 +84,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "video") {
                     callback = renderVideoPlayer;
                     arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
+                } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "image") {
+                    callback = renderImagePreview;
+                    arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
                 } else {
                     callback = renderExternalHTMLPreview;
                 }
