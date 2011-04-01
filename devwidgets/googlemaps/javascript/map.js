@@ -149,7 +149,7 @@ function setMap(jsonTarget) {
 
     var latLng = new google.maps.LatLng(json.lat, json.lng);
     map.setCenter(latLng);
-    map.setZoom(json.mapzoom);
+    map.setZoom(parseInt(json.mapzoom, 10));
     marker.setPosition(latLng);
 
     // Init the infoWindow object and decide to open it or not

@@ -451,6 +451,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     pagecount: Math.ceil(messagesForTypeCat / messagesPerPage),
                     buttonClickCallback: showPage
                 });
+                $(inboxPager).show();
+            }
+            else {
+                // hide pager less than one page
+                $(inboxPager).hide();
             }
         };
 

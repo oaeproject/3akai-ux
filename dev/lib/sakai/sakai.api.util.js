@@ -33,8 +33,9 @@ define(["jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
         "/dev/configuration/config.js",
+        "/dev/configuration/config_custom.js",
         "/dev/lib/misc/trimpath.template.js"],
-        function($, sakai_serv, sakai_l10n, sakai_conf) {
+        function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
     
     var util = {
 
@@ -837,9 +838,10 @@ define(["jquery",
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
+            $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
-                    this.include.css(val);
+                    util.include.css(val);
                 });
             }
         },
