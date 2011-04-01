@@ -591,6 +591,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Get chat status
             getChatStatus();
+
+            // If chat is disabled hide chat status
+            if (!sakai.config.enableChat){
+                $("#topnavigation_chat_status").hide();
+                $("#topnavigation_chat_status_menu").hide();
+            }
         };
 
         if (sakai.data.me.user.anon) {
