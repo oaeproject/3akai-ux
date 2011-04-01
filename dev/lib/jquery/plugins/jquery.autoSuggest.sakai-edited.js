@@ -90,7 +90,7 @@
                         var v_data = {};
                         v_data[opts.selectedValuesProp] = vals[i];
                         if(vals[i] != ""){
-                            $.fn.autoSuggest.add_selected_item(v_data, "000"+i);
+                            add_selected_item(v_data, "000"+i);
                         }       
                     }
                     prefill_value = opts.preFill;
@@ -104,7 +104,7 @@
                             if(new_v == undefined){ new_v = ""; }
                             prefill_value = prefill_value+new_v+",";
                             if(new_v != ""){
-                                $.fn.autoSuggest.add_selected_item(opts.preFill[i], "000"+i);
+                                add_selected_item(opts.preFill[i], "000"+i);
                             }       
                         }
                     }
