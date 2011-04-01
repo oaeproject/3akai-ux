@@ -1388,7 +1388,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 var timestamp = date.getTime();
 
                 var activityObject = {
-                    "created": timestamp,
+                    "_created": timestamp,
                     "actorProfile": sakai.data.me.profile,
                     "sakai:activity-actor": sakai.data.me.user.userid,
                     "sakai:activityMessage": activityMessage
