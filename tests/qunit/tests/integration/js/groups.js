@@ -48,7 +48,7 @@ require(
         asyncTest("User is a manager of the group", 1, function() {
             sakai.api.Groups.getManagers(group_id, function(success, data) {
                 if (success) {
-                    ok(data[0]["rep:userId"] === "admin", "Admin is a manager of the group");
+                    ok(data && data[0] && data[0]["rep:userId"] === "admin", "Admin is a manager of the group");
                 } else {
                     ok(false, "Could not get group manager info");
                 }
@@ -76,11 +76,13 @@ require(
                     sakai.api.Groups.addUsersToGroup(group_id, "members", [user_random], function(success) {
                         ok(success, "User was added to group");
                         if (success) {
-                            // check to see that they've been added to the group
-                            sakai.api.Groups.getMembers(group_id, function(success, data) {
-                                ok(data[0]["rep:userId"] === user_random, "User shows up in list of group members");
-                                start();
-                            });
+                            setTimeout(function() {
+                                // check to see that they've been added to the group
+                                sakai.api.Groups.getMembers(group_id, function(success, data) {
+                                    ok(data && data[0] && data[0]["rep:userId"] === user_random, "User shows up in list of group members");
+                                    start();
+                                });
+                            }, 6000);
                         } else {
                             start();
                         }
@@ -171,7 +173,7 @@ require(
                         if (success) {
                             // check to see that the user is now a member of the group
                             sakai.api.Groups.getMembers(group_id, function(success, data) {
-                                ok(data[0]["rep:userId"] === user_random, "User shows up in list of group members, join was successful");
+                                ok(data && data[0] && data[0]["rep:userId"] === user_random, "User shows up in list of group members, join was successful");
                                 if (success) {
                                     sakai.api.User.loadMeData(function() {
                                         ok(sakai.api.Groups.isCurrentUserAMember(group_id, sakai.data.me), "/system/me says the current user is a member of the groups");
