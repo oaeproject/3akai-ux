@@ -44,15 +44,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         // Help variables
-        var me = sakai.data.me;
-        var friend = false;
-        var callbackWhenDone = false;
-        var fadeOutTime = 1000; // The amount of time it takes to fade out the message and hide the layover.
+        var contactToAdd = false;
+        
         // CSS selectors
         var addToContacts = "#addtocontacts";
         var addToContactsClass = ".addtocontacts";
 
-        var addToContactsAdd = addToContacts + "_add";
         var addToContactsDialog = addToContacts + "_dialog";
         var addToContactsDone = addToContacts + "_done";
         var addToContactsDoneContainer = addToContacts + "_done_container";
@@ -90,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
             var json = {
                 sakai: sakai,
-                me: me
+                me: sakai.data.me
             };
             sakai.api.Util.TemplateRenderer(addToContactsFormPersonalNoteTemplate.replace(/#/gi, ""), json, $(addToContactsFormPersonalNote));
         };
@@ -100,17 +97,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} user The JSON object containing the user info. This follows the /rest/me format.
          */
         var fillInUserInfo = function(user){
-            if (user) {
-
-                $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
-
-                // Check for picture
-                if (user.picture && $.parseJSON(user.picture).name) {
-                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="/~' + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name + '" width="60" height="60" />');
-                }
-                else {
-                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
-                }
+            $(addToContactsInfoDisplayName).text(user.username);
+            // Check for picture
+            if (user.picture) {
+            	$(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.picture + '" width="60" height="60" />');
+            } else {
+                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
             }
         };
 
@@ -172,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     success: function(data){
                         $(addToContactsDialog).jqmHide();
                         sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, "invitation", false,false,true,"contact_invitation");
-                        callbackWhenDone(friend);
+                        $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
                         sakai.api.Util.notification.show("", $(addToContactsDone).text());
@@ -209,25 +201,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method will fill in all the user info.
          * @param {Object} hash The layover object we get from jqModal
          */
-        var loadDialog = function(hash){
+        //var loadDialog = function(hash){
             // Show the form
-            $(addToContactsDoneContainer).hide();
-            $(addToContactsAdd).show();
+        //    $(addToContactsDoneContainer).hide();
+        //    $(addToContactsAdd).show();
 
-            hash.w.show();
-        };
+        //    hash.w.show();
+        //};
 
         ////////////////////
         // Public methods //
         ////////////////////
 
-        /**
-         * Set a personal note.
-         * @param {string} note The text you wish to display in the note.
-         */
-        var setPersonalNote = function(note){
-            $(addToContactsFormPersonalNote).val(note);
-        };
+        ///**
+         //* Set a personal note.
+         //* @param {string} note The text you wish to display in the note.
+         //*/
+        //var setPersonalNote = function(note){
+        //    $(addToContactsFormPersonalNote).val(note);
+        //};
 
 
         /////////////////////////
@@ -239,28 +231,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} user The userid or the /rest/me info for this user.
          * @param {Function} callback The callback function that will be executed after the request.
          */
-        var initialize = function(user, callback){
-            callbackWhenDone = callback;
+        var initialize = function(user){
             // Check if we have a JSON object or a userid String.
-            if (!user.preferences) {
+            //if (!user.preferences) {
                 // This is a uuid. Fetch the info from /rest/me
-                $.ajax({
-                    url: "/~" + user + "/public/authprofile.infinity.json",
-                    success: function(data){
+            //    $.ajax({
+            //        url: "/~" + user + "/public/authprofile.infinity.json",
+            //        success: function(data){
 
-                        friend = $.extend(data, {}, true);
-                        friend.uuid = user;
+            //            friend = $.extend(data, {}, true);
+            //            friend.uuid = user;
 
                         // We have the data, render it.
-                        fillInUserInfo(friend);
-                    }
-                });
-            }
-            else {
-                friend = user;
-                friend.uuid = user.preferences.uuid;
-                fillInUserInfo(friend);
-            }
+            //            fillInUserInfo(friend);
+            //        }
+            //    });
+            //}
+            //else {
+                contactToAdd = user;
+                fillInUserInfo(contactToAdd);
+            //}
 
             // Render the templates
             renderTemplates();
@@ -269,15 +259,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addToContactsDialog).jqmShow();
 
             // Give the user options to manipulate this widget.
-            return {
-                "setPersonalNote": setPersonalNote
-            };
+            //return {
+            //    "setPersonalNote": setPersonalNote
+            //};
         };
 
-        $(window).bind("initialize.addToContacts.sakai", function(e, obj) {
-            var user = obj.user;
-            var callback = obj.callback;
-            initialize(user, callback);
+        $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {
+            initialize(userObj);
         });
 
         /////////////////////
@@ -287,7 +275,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Bind the invite button
         $(addToContactsFormButtonInvite).bind("click", function(){
             // Invite this person.
-            doInvite(friend.uuid);
+            doInvite(contactToAdd.uuid);
             return false;
         });
 
@@ -322,8 +310,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(addToContactsDialog).jqm({
             modal: true,
             overlay: 20,
-            toTop: true,
-            onShow: loadDialog
+            toTop: true
+            //onShow: loadDialog
         });
     };
 
