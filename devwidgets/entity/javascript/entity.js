@@ -501,7 +501,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 success: function(data){
                     var presence = $.parseJSON(data.results[3].body);
                     for (var l in presence.contacts){
-                        if (presence.contacts[l].user === userid){
+                        if (presence.contacts[l].user === userid && presence.contacts[l].profile && sakai.config.enableChat){
                             if (presence.contacts[l].profile.chatstatus && presence.contacts[l]["sakai:status"] === "online") {
                                 entityconfig.data.profile.chatstatus = presence.contacts[l].profile.chatstatus;
                             } else {
