@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         else {
                             sakai.api.Widgets.Container.informFinish(tuid, "rss");
                         }
-                    });
+                    }, true);
                 }
             });
 
@@ -166,6 +166,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 resultJSON.entries.sort(sortByDatefunction);
                 pagerClickHandler(1);
+            });
+        };
+
+        var bindFeedRemove = function () {
+            $(rootel + " " + rssRemove).bind("click", function(e,ui){
+                var index = this.id.split("-")[1];
+                resultJSON.feeds.splice(index,1);
+                $(rssRemoveFeed + "-" + index).parent().remove();
             });
         };
 
@@ -203,34 +211,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var channel = $(xmlobject).find("channel");
 
                 // put all the nodes in JSON-props
-                rss.title = $("title",channel).text();
-                rss.link = $("link",channel).text();
+                rss.title = $("title:eq(0)",channel).text();
+                rss.link = $("link:eq(0)",channel).text();
                 rss.id = feedUrl;
-                rss.description = $("description",channel).text();
+                rss.description = $("description:eq(0)",channel).text();
                 $(xmlobject).find("item").each(function() {
                     var item = $(this);
                     var pubDate = "";
-                    var timeNow = new Date();
-                    var parseDate = timeNow;
+                    var pubDateObj = new Date();
                     if ($("pubDate",item).length > 0){
-
-                        // We have to parse the RFC 822 date to help IE understand it, as it is something dodgy there...
-                        pubDate = sakai.api.l10n.transformDateTimeShort(sakai.api.Util.parseRFC822Date($("pubDate",item).text()));
-
+                        pubDateObj = sakai.api.Util.parseRFC822Date($("pubDate",item).text());
+                        if (pubDateObj.valueOf()) {
+                            // we have a valid date
+                            pubDate = sakai.api.l10n.transformDateTimeShort(pubDateObj);
+                        } else {
+                            // invalid date
+                            pubDate = $("pubDate",item).text();
+                            pubDateObj = new Date();  // can't sort on date...
+                        }
                     }
-
-                    // check for malformed date from rss feed
-                    if (pubDate.indexOf("NaN") !== -1) {
-                        pubDate = $("pubDate",item).text();
-                    }
-
                     rss.items.push({
                         "title" : $("title",item).text(),
                         "link" : $("link",item).text(),
                         "description" : $("description",item).text(),
                         "pubDate" : pubDate,
                         "guid" : $("guid",item).text(),
-                        "parsedDate" : parseDate
+                        "pubDateObj" : pubDateObj
                     });
               });
               return rss;
@@ -262,6 +268,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                url : sakai.config.URL.PROXY_RSS +  url,
                type : "GET",
                success : function(data) {
+                    $(rssTxtUrl,rootel).val("");
                     onResponse(printFeed(data));
                },
                error: function(xhr, textStatus, thrownError) {
@@ -282,20 +289,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * sorts an array of feeds on the pubDate, this can be used with the JavaScript sort function
-         * @param {Object} a
-         * @param {Object} b
+         * @param {Object} a  a rss feed item
+         * @param {Object} b  another rss feed item
          */
-        var sortByDatefunction = function(a, b){
+        var sortByDatefunction = function(a, b) {
 
             var ret = -1;
             if (currentSort === "dateD") {
                 ret = 1;
             }
 
-            if(a.pubDate >  b.pubDate){
+            if(a.pubDateObj >  b.pubDateObj){
                 return ret;
             }
-            else if(b.pubDate >  a.pubDate){
+            else if(b.pubDateObj >  a.pubDateObj){
                 return -(ret);
             }
             return 0;
@@ -323,15 +330,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
+        /**
+         * Converts checkbox display settings to bools (they get sent back
+         * from the server as strings). This function is only effective if the
+         * resultJSON object contains the displaySource and displayHeadlines settings
+         */
+        var convertDisplaySettingsToBool = function () {
+            if (!resultJSON) { return; }
+            if (resultJSON.displaySource) {
+                if (!resultJSON.displaySource || resultJSON.displaySource === "false") {
+                    resultJSON.displaySource = false;
+                } else {
+                    resultJSON.displaySource = true;
+                }
+            }
+            if (resultJSON.displayHeadlines) {
+                if (!resultJSON.displayHeadlines || resultJSON.displayHeadlines === "false") {
+                    resultJSON.displayHeadlines = false;
+                } else {
+                    resultJSON.displayHeadlines = true;
+                }
+            }
+        };
+
+
         ////////////////////////
         // Settings functions //
         ////////////////////////
 
         /**
-         * gets al the feeds and puts the in the settings list
+         * gets all the feeds and puts the in the settings list
          * @param {Object} urlFeeds
          */
-        var fillRssFeed = function(){
+        var fillRssFeed = function() {
             getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed){
                 resultJSON.feeds.push(rssFeed);
                 // if not all the feeds are retrieve call this function again
@@ -341,11 +372,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // if all the feed are retrieved render the rss
                 else{
                     $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
-                    $(rootel + " " + rssRemove).bind("click", function(e,ui){
-                        var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
-                        resultJSON.feeds.splice(index,1);
-                        $(rssRemoveFeed + index).parent().remove();
-                    });
+                    bindFeedRemove();
                 }
             });
         };
@@ -413,10 +440,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     fillRssOutput();
                 }
                 // all the feeds have been retrieved
-                else{
+                else {
                     // sort by date
                     resultJSON.entries.sort(sortByDatefunction);
-                    // make sure the array only has the requesten number of entries (example : 20 latest entries)
+                    // make sure the array only has the requested number of entries (example : 20 latest entries)
                     resultJSON.entries.splice(resultJSON.numEntries,resultJSON.entries.length - resultJSON.numEntries);
                     // show the first page only
                     pagerClickHandler(1);
@@ -437,10 +464,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 resultJSON.feeds = resultJSON.feeds || [];
                 $(rssTxtTitle,rootel).val(resultJSON.title);
                 $(rssNumEntries,rootel).val(resultJSON.numEntries);
-                $(rssDisplaySource, rootel).attr("checked", resultJSON.displaySource);
-                $(rssDisplayHeadlines, rootel).attr("checked", resultJSON.displayHeadlines);
+                if (resultJSON.displaySource) {
+                    $(rssDisplaySource, rootel).attr("checked", "checked");
+                } else {
+                    $(rssDisplaySource, rootel).removeAttr("checked");
+                }
+                if (resultJSON.displayHeadlines) {
+                    $(rssDisplayHeadlines, rootel).attr("checked", "checked");
+                } else {
+                    $(rssDisplayHeadlines, rootel).removeAttr("checked");
+                }
                 resultJSON.feeds = [];
-                fillRssFeed(resultJSON.urlFeeds);
+                if (resultJSON.urlFeeds && resultJSON.urlFeeds.length) {
+                    fillRssFeed(resultJSON.urlFeeds);
+                }
             }
 
         };
@@ -468,11 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 resultJSON.feeds = resultJSON.feeds || [];
                 resultJSON.feeds.push(rssFeed);
                 $(rssFeedListContainer, rootel).html(sakai.api.Util.TemplateRenderer(rssFeedListTemplate, resultJSON));
-                $(rootel + " " + rssRemove).bind("click", function(e,ui){
-                    var index = parseInt(e.target.parentNode.id.replace(rssRemoveNoDot, ""),10);
-                    resultJSON.feeds.splice(index,1);
-                    $(rssRemoveFeed + index).parent().remove();
-                });
+                bindFeedRemove();
             }
         };
 
@@ -480,14 +513,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * adds a feed to the widget
          */
         var addRssFeed = function(){
-            var rssURL = $(rssTxtUrl,rootel).val().replace("http://","");
+            var rssURL = $(rssTxtUrl,rootel).val();
+            if (!rssURL || $.trim(rssURL) === "") {
+                sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
+                return false;
+            }
+            rssURL = rssURL.replace("http://","");
             if(!checkIfRssAlreadyAdded(rssURL)){
                 getFeed(rssURL, getFeedResponse);
             }
             else{
                 sakai.api.Util.notification.show($(rssFeedAlreadyAdded).html(), $(rssFeedAlreadyEntered).html());
             }
-            $(rssTxtUrl,rootel).val("");
         };
 
         /**
@@ -495,10 +532,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getSettingsObject = function(){
             resultJSON.feeds = resultJSON.feeds || [];
-            if(resultJSON.feeds.length === 0){
-                sakai.api.Util.notification.show("", $(rssPasteValidRssAddress).html());
-                return false;
-            }
             resultJSON.title = $(rssTxtTitle,rootel).val();
             resultJSON.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
             if((resultJSON.numEntries + "") === "NaN"){
@@ -509,8 +542,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show("", $(rssPagesShouldBeBiggerThan).html() + resultJSON.numEntries);
                 return false;
             }
-            resultJSON.displaySource =  $(rssDisplaySource, rootel).attr("checked");
-            resultJSON.displayHeadlines =  $(rssDisplayHeadlines, rootel).attr("checked");
+            resultJSON.displaySource = $(rssDisplaySource, rootel).is(":checked");
+            resultJSON.displayHeadlines = $(rssDisplayHeadlines, rootel).is(":checked");
             resultJSON.urlFeeds = [];
             for(var i= 0; i< resultJSON.feeds.length;i++){
                 resultJSON.urlFeeds.push(resultJSON.feeds[i].id);
@@ -535,6 +568,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                     if (success) {
                         resultJSON = data;
+                        convertDisplaySettingsToBool();
                         loadSettings(true);
                     } else {
                         loadSettings(false);
@@ -551,7 +585,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         resultJSON = data;
                         resultJSON.entries = [];
                         resultJSON.feeds = [];
-                        fillRssOutput();
+                        convertDisplaySettingsToBool();
+                        if (resultJSON.urlFeeds && resultJSON.urlFeeds.length) {
+                            fillRssOutput();
+                        } else {
+                            $("#rss_no_feeds").show();
+                        }
                     } else {
                         $("#rss_no_feeds").show();
                     }
