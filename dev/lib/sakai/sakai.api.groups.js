@@ -437,8 +437,11 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
-                    url: "/~" + groupID + "/joinrequests.create.html?userid=" + userID,
+                    url: "/~" + groupID + "/joinrequests.create.html",
                     type: "POST",
+                    data: {
+                        userid: userID
+                    },
                     success: function (data) {
                         if ($.isFunction(callback)) {
                             callback(true);
