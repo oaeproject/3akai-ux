@@ -26,8 +26,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.data.search = sakai_global.data.search || {};
     sakai_global._search = function(config, callback) {
 
-        alert("In _search");
-
         var searchConfig = config;
         var hasHadFocus = false;
         var searchSubset = false;

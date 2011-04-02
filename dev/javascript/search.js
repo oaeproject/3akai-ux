@@ -364,8 +364,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global._search.doSearch = function(page, searchquery, searchwhere) {
 
-            alert("In Do Search");
-
             // Get the tag if present.
             tagterm = mainSearch.getSearchTags();
 

@@ -294,27 +294,27 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     loadGroupEntityWidget();
                     break;
-                    
+
             }
         };
-        
+
         var loadGroupEntityWidget = function(){
             var context = "group";
-            var type = "group"
+            var type = "group";
             if (sakai_global.show.canEdit()){
                 type = "group_managed";
             }
-            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);          
-        }
-        
+            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);
+        };
+
         $(window).bind("sakai.entity.ready", function(){
             loadGroupEntityWidget();
         });
-        
+
         $("#entity_manage_group").live("click", function(){
-            document.location = "/dev/group_edit2.html?id=" + entityID;    
+            document.location = "/dev/group_edit2.html?id=" + entityID;
         });
-        
+
         var loadPagesWidget = function(){
             renderedPagesWidget = true;
             var basepath = "/~" + entityID + "/pages/";

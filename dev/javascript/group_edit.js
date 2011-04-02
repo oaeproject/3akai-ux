@@ -92,9 +92,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         
         var renderEntityWidget = function(){
             var context = "group";
-            var type = "group_managemode"
-            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);  
-        }
+            var type = "group_managemode";
+            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);
+        };
 
         $("#entity_group_back").live("click", function(){
             document.location = "/dev/group.html?id=" + getGroupId();
