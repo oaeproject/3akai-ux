@@ -19,7 +19,7 @@
 
 <div id="contacts_template"><!--
     <h1>__MSG__CONTACTS__ (20)</h1>
-    {if pending.results.length}
+    {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
             {for pending in pending.results}
@@ -27,7 +27,7 @@
                     <a href="/~${pending.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
                     <div class="contacts_list">
                         <div class="contacts_name s3d-bold contacts_pending_name">
-                            <a href="~${pending.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(pending.profile)}">${sakai.api.User.getDisplayName(pending.profile)}</a>
+                            <a href="/~${pending.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(pending.profile)}">${sakai.api.User.getDisplayName(pending.profile)}</a>
                          </div>
                      </div>
                 </div>
@@ -35,7 +35,7 @@
         </div>
     {/if}
 
-    {if invited.results.length}
+    {if invited && invited.results.length}
         <div class="contacts_main" id="contacts_pending">
             <h2>__MSG__PENDING_CONTACT_REQUEST_FROM_OTHER_PEOPLE__</h2>
             {for invited in invited.results}
@@ -43,7 +43,7 @@
                     <a href="/~${invited.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
                     <div class="contacts_list">
                         <div class="contacts_name s3d-bold">
-                            <a href="~${invited.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(invited.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(invited.profile), 170, null, "s3d-bold")}</a>
+                            <a href="/~${invited.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(invited.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(invited.profile), 170, null, "s3d-bold")}</a>
                          </div>
                          <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${invited.profile.userid}">__MSG__ADD_TO_CONTACTS__</button>
                      </div>
@@ -53,15 +53,21 @@
     {/if}
 
     <div class="contacts_main" id="contacts_accepted">
-        <h2>__MSG__MY_CONTACTS__</h2>
+        {if sakai_global.profile.main.mode.value !== "view"}
+            <h2>__MSG__MY_CONTACTS__</h2>
+        {else}
+            <h2>${sakai_global.profile.main.data.homePath.split("~")[1]}'s __MSG__CONTACTS__</h2>
+        {/if}
         {if accepted.results.length}
             {for accepted in accepted.results}
                 <div class="fl-container fl-fix contacts_item contacts_accepted_items">
                     <img alt="accepted icon" src="/dev/images/user_avatar_icon_32x32.png">
                     <div class="contacts_list">
-                        <button type="button" class="s3d-button s3d-button-link-2-state contact_delete_button" id="contacts_delete_contact_${accepted.profile.userid}">
-                            <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
-                        </button>
+                        {if sakai_global.profile.main.mode.value !== "view"}
+                            <button type="button" class="s3d-button s3d-button-link-2-state contact_delete_button" id="contacts_delete_contact_${accepted.profile.userid}">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
+                            </button>
+                        {/if}
                         <div class="contacts_name s3d-bold s3d-regular-links">
                             <a href="/~${accepted.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(accepted.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(accepted.profile), 170, null, "s3d-bold")}</a>
                          </div>

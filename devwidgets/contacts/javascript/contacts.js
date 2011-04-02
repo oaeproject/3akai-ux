@@ -83,16 +83,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var determineRenderContacts = function(dataObj){
-            if(dataObj.accepted && dataObj.pending && dataObj.invited){
-                renderContacts(dataObj);
+            if (sakai_global.profile.main.mode.value !== "view") {
+                if (dataObj.accepted && dataObj.pending && dataObj.invited) {
+                    renderContacts(dataObj);
+                }
+            }else{
+                if(dataObj.accepted){
+                    renderContacts(dataObj);
+                }
             }
         };
 
         var getAccepted = function(dataObj){
+            var url = "";
+            if(sakai_global.profile.main.mode.value !== "view"){
+                url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=1000"
+                data = {};
+            }else{
+                url = "/var/contacts/findbyuser.json"
+                data = {
+                    "userid": sakai_global.profile.main.data.homePath.split("~")[1]
+                };
+            }
+
             $.ajax({
-                url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=1000",
+                url: url,
                 cache: false,
                 async: true,
+                data: data,
                 success: function(data){
                     dataObj.accepted = data;
                     determineRenderContacts(dataObj);
@@ -129,12 +147,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "accepted": false,
                 "pending": false,
                 "invited": false,
-                "sakai":sakai
+                "sakai": sakai
             };
 
-            getAccepted(dataObj);
-            getPending(dataObj);
-            getPendingToOther(dataObj);
+            if (sakai_global.profile.main.mode.value !== "view") {
+                getAccepted(dataObj);
+                getPending(dataObj);
+                getPendingToOther(dataObj);
+            }
+            else {
+                getAccepted(dataObj);
+            }
         }
 
         var doInit = function(){
