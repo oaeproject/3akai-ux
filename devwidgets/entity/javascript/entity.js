@@ -95,20 +95,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderEntity = function(context){
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         }
-        
+
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
              var obj = {
-                 "context": context, 
-                 "type": type, 
+                 "context": context,
+                 "type": type,
                  "anon": sakai.data.me.user.anon || false,
                  "data": data || {}
              }
              renderEntity(obj);
              addBinding(obj);
         });
-        
+
         $(window).trigger("sakai.entity.ready");
-            
+
     };
     sakai.api.Widgets.widgetLoader.informOnLoad("entity");
 });

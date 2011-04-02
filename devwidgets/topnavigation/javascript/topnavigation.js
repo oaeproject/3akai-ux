@@ -48,7 +48,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var subnavtrClass = "hassubnav_tr";
 
         // Elements
-        var subnavtl = ".hassubnav_tl"
+        var subnavtl = ".hassubnav_tl";
         var navLinkDropdown = ".navigation_link_dropdown";
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserDropdown = ".topnavigation_user_dropdown";
 
         // Form
-        var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form"
+        var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
         var topnavUseroptionsLoginFieldsUsername = "#topnavigation_user_options_login_fields_username";
         var topnavUseroptionsLoginFieldsPassword = "#topnavigation_user_options_login_fields_password";
         var topnavuserOptionsLoginButtonLogin = "#topnavigation_user_options_login_button_login";
@@ -69,7 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserInboxMessages = "#topnavigation_user_inbox_messages";
         var topnavUserOptionsName = "#topnavigation_user_options_name";
         var topnavUserContainer = ".topnavigation_user_container";
-        var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields"
+        var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields";
         var topnavUserOptionsLoginError = "#topnavigation_user_options_login_error";
 
         // Templates
@@ -95,10 +95,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showLogout = function(){
             if ($(topnavUserDropdown).is(":visible")) {
-                $(topnavUserDropdown).hide()
+                $(topnavUserDropdown).hide();
             } else {
                 $(topnavUserDropdown).show();
-                $(topnavUserDropdown).css("display", "inline")
+                $(topnavUserDropdown).css("display", "inline");
             }
         };
 
@@ -125,7 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        
+
         var renderUser = function(){
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {"anon" : sakai.data.me.user.anon}));
         };
@@ -339,8 +339,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     } else {
                         if (!sakai.config.Navigation[i].anonymous) {
-                            var temp = createMenuList(i);
-                            menulinks.push(temp);
+                            var temp2 = createMenuList(i);
+                            menulinks.push(temp2);
                         }
                     }
                 }
@@ -420,16 +420,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 return false;
-            })
+            });
         };
-        
+
         //////////////
         // OVERLAYS //
         //////////////
-        
+
         var renderOverlays = function(){
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-        }
+        };
 
         // Create a group
 
@@ -438,19 +438,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Load the creategroup widget.
             $(window).trigger("init.creategroup.sakai");
         });
-        
+
         $("#subnavigation_simple_group_link, .sakai_create_group_overlay").live("click", function(){
-        	$(window).trigger("sakai.overlays.createGroup");
+            $(window).trigger("sakai.overlays.createGroup");
         });
 
         // Add content
-        
+
         $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
             $(window).trigger("init.fileupload.sakai");
         });
-        
+
         // Send a message
-        
+
         $(".sakai_sendmessage_overlay").live("click", function(ev){
             var el = $(this);
             var person = false;
@@ -461,11 +461,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "type": el.attr("sakai-entitytype") || "user"
                 }
             }
-            $(window).trigger("initialize.sendmessage.sakai", [person]);    
+            $(window).trigger("initialize.sendmessage.sakai", [person]);
         });
-        
+
         // Add to contacts
-        
+
         $(".sakai_addtocontacts_overlay").live("click", function(ev){
             var el = $(this);
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
@@ -475,7 +475,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "picture": el.attr("sakai-entitypicture") || false
                 }
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
-            } 
+            }
         });
 
         /////////////////////////

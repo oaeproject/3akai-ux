@@ -22,12 +22,12 @@
  */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-    
+
     sakai_global.data = sakai_global.data || {};
     sakai_global.data.search = sakai_global.data.search || {};
-    
+
     $(window).bind("sakai.search.util.init", function(ev, config){
-        
+
         /////////////////////
         // Get my contacts //
         /////////////////////
@@ -42,19 +42,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
-        
+
         ////////////////////////////////
         // Finish util initialisation //
         ////////////////////////////////
-        
+
         var finishUtilInit = function(){
             $(window).trigger("sakai.search.util.finish");
         }
-        
+
         ///////////////////////////
         // Prepare for rendering //
         ///////////////////////////
-        
+
         sakai_global.data.search.prepareCMforRendering = function(results, finaljson, searchterm) {
             for (var i = 0, j = results.length; i < j; i++) {
                 // Set the item object in finaljson equal to the object in results
@@ -77,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             finaljson.sakai = sakai;
             return finaljson;
         };
-        
+
         sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
@@ -111,7 +111,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
-                    
+
                     user.connected = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
@@ -135,42 +135,42 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     finaljson.items.push(user);
-                    
+
                 }
             }
             finaljson.sakai = sakai;
             return finaljson;
         };
-        
+
         //////////////////////
         // Query parameters //
         //////////////////////
-        
+
         sakai_global.data.search.getQueryParams = function(){
             var params = {
-                "page": $.bbq.getState('page') || 0, 
-                "q": $.bbq.getState('q') || "*", 
+                "page": $.bbq.getState('page') || 0,
+                "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet')
             }
             return params;
         }
-        
+
         ////////////
         // EVENTS //
         ////////////
 
-        /* 
+        /*
         $(searchConfig.global.addToContactsLink).live("click", function(ev) {
             contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
             $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
         }); */
-        
+
         /////////////////////////
         // Util initialisation //
         /////////////////////////
-        
+
         getMyContacts();
 
     });
-    
+
 });

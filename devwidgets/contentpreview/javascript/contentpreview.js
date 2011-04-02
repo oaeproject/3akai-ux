@@ -42,7 +42,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var obj = {};
         obj.type = "showpreview";
-        
+
         var qs = new Querystring();
 
         var isJwPlayerSupportedVideo = function(mimeType) {
@@ -83,6 +83,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
                 } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "video") {
                     callback = renderVideoPlayer;
+                    arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
+                } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "image") {
+                    callback = renderImagePreview;
                     arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
                 } else {
                     callback = renderExternalHTMLPreview;
@@ -150,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_html_iframe").attr("height", "560px");
             $("#contentpreview_html_iframe").attr("frameborder", "0");
         };
-        
+
         var renderExternalHTMLPreview = function(url){
             $(".contentpreview_externalhtml_preview").show();
             json.sakai = sakai;

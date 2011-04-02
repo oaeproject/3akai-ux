@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Help variables
         var contactToAdd = false;
-        
+
         // CSS selectors
         var addToContacts = "#addtocontacts";
         var addToContactsClass = ".addtocontacts";
@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addToContactsInfoDisplayName).text(user.username);
             // Check for picture
             if (user.picture) {
-            	$(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.picture + '" width="60" height="60" />');
+                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.picture + '" width="60" height="60" />');
             } else {
                 $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
             }
