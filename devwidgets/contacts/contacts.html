@@ -27,7 +27,7 @@
                     <a href="/~${pending.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
                     <div class="contacts_list">
                         <div class="contacts_name s3d-bold contacts_pending_name">
-                            <a href="${pending.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(pending.profile)}">${sakai.api.User.getDisplayName(pending.profile)}</a>
+                            <a href="~${pending.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(pending.profile)}">${sakai.api.User.getDisplayName(pending.profile)}</a>
                          </div>
                      </div>
                 </div>
@@ -43,7 +43,7 @@
                     <a href="/~${invited.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
                     <div class="contacts_list">
                         <div class="contacts_name s3d-bold">
-                            <a href="${invited.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(invited.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(invited.profile), 170, null, "s3d-bold")}</a>
+                            <a href="~${invited.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(invited.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(invited.profile), 170, null, "s3d-bold")}</a>
                          </div>
                          <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${invited.profile.userid}">__MSG__ADD_TO_CONTACTS__</button>
                      </div>
