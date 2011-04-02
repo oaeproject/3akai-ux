@@ -804,7 +804,7 @@ define(function() {
                         "label": "MY_PROFILE"
                     },
                     {
-                        "url" : "/dev/user.html#l=content",
+                        "url" : "/dev/user.html#l=library",
                         "id": "subnavigation_content_link",
                         "label": "MY_CONTENT"
                     },
