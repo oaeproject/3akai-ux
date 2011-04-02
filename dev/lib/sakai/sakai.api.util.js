@@ -724,7 +724,7 @@ define(["jquery",
                 var selector = tagname;
                 for (var i in attributes) {
                     if (i && attributes.hasOwnProperty(i)) {
-                        selector += "[" + i + "*=" + attributes[i] + "]";
+                        selector += "[" + i + "*='" + attributes[i] + "']";
                     }
                 }
                 if ($(selector).length) {
