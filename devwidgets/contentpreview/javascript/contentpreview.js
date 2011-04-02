@@ -91,9 +91,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback = renderStoredPreview;
             } else  if (mimeType.substring(0, 6) === "image/") {
                 callback = renderImagePreview;
-            } else if (sakai_global.content_profile.content_data.data["sakai:needsprocessing"] === "false") {
+            } else if (sakai_global.content_profile.content_data.data["sakai:pagecount"]){				
+				callback = renderDocumentPreview; // document-viewer					
+            } else if (sakai_global.content_profile.content_data.data["sakai:needsprocessing"] === "false") { //TODO: with the documentviewer this is probably obsolete
                 callback = renderStoredPreview;
-            } else {
+			} else {
                 callback = renderDefaultPreview;
                 obj.type = "default";
             }
@@ -202,9 +204,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return so;
         };
 
+		//TODO: with the documentviewer this is probably obsolete
         var renderStoredPreview = function(){
             renderImagePreview("/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
         };
+		
+		var renderDocumentPreview = function(){
+			var sakData = sakai_global.content_profile.content_data.data;
+            var pdfDoc = {
+                id: sakData['jcr:name'],
+                title: sakData['sakai:pooled-content-file-name'],
+                pages: sakData['sakai:pagecount'],
+                resources: {
+                    pdf: sakai_global.content_profile.content_data.url,
+                    page: {
+                        image: 'http://' + window.location.host + "/p/" + sakData['jcr:name'] + ".page{page}-{size}.jpg"
+                    }
+                }
+            };
+            DV.load(pdfDoc, {
+                container: '#contentpreview_document_preview',
+                width: 900,
+                height: 500,
+                sidebar: false,
+                text: false
+            }); 
+		};
 
         var renderDefaultPreview = function(){
             //Nothing really, it's all part of the template
