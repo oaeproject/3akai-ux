@@ -1,0 +1,40 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/* Left Hand nav */
+#newaddcontent_container {width:1018px; height:490px; background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;left:31%;padding:12px;}
+#newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:212px; height:56px; cursor:pointer;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item span {line-height:56px; color:#006E96;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item {-moz-border-radius: 5px 0 0 5px;background-color: #E5EAED;border-color: #a9a9a9;border-style: solid none solid solid;border-width: 1px 0 1px 1px;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item span {color:#424242;}
+#newaddcontent_container #newaddcontent_container_lhchoice .lhchoice_icon {display: block;float: left;height: 20px;margin-left: 5px;margin-right: 10px;margin-top: 19px;width: 20px;}
+#newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_upload_content_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_upload_icon.png") no-repeat scroll 0 0 transparent;}
+#newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_add_new_document_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_new_document_icon.png") no-repeat scroll 0 0 transparent;}
+#newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_add_existing_content_icon {background: url("/devwidgets/newaddcontent/images/addnewcontent_existing_content_icon.png") no-repeat scroll 0 0 transparent;}
+#newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_add_link_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_add_link_icon.png") no-repeat scroll 0 0 transparent;}
+
+/* Middle item */
+#newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float: left;width: 529px;margin-left: -2px;height: 443px;position:absolute; left:226px;-moz-border-radius: 0 5px 5px 5px;}
+
+/* Right selected items */
+#newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px;border:1px #a9a9a9 solid;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;padding: 10px 12px;text-align:center;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header span{font-size:11px;font-weight:normal;}
+
+/* Actions */
+#newaddcontent_container #newaddcontent_container_actions {bottom:0;margin:0 12px 12px 0;position:absolute;right:0;}
