@@ -179,7 +179,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             }
 
-            dataArr.push(messageArr);
+            if (messageArr.length) {
+                dataArr.push(messageArr);
+            }
         }
 
         var parseContent = function(data, dataArr){

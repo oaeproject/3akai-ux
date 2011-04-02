@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fill in the user name
          */
         var setUserName = function(){
-            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 50));
+            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100));
         };
 
         /**
@@ -261,7 +261,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                                 "name" : data.results[i]["sakai:pooled-content-file-name"],
                                 "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
-                                "css_class" : sakai.config.MimeTypes[data.results[i].mimeType].cssClass
+                                "css_class" : sakai.config.MimeTypes[data.results[i]["_mimeType"]].cssClass
                             };
                             files.push(tempFile);
                         }
