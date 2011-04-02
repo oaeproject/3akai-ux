@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $joinrequestsError = $("#joinrequests_error", $rootel);
         var $joinrequestsSuccess = $("#joinrequests_success", $rootel);
         var $joinrequestsTemplate = $("#joinrequests_template", $rootel);
-        var $addLink = $("a.joinrequests_add_link", $rootel);
+        var $addLink = $(".joinrequests_add_link", $rootel);
         var $ignoreLink = $("a.joinrequests_ignore_link", $rootel);
 
 

@@ -174,9 +174,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} page Page you are on (for search_b this is always 1)
          * @param {Object} searchquery The searchterm
          */
-        var doHSearch = function() {
+        var doHSearch = function(page, searchquery) {
+            if (!page) {
+                page = 1;
+            }
+            if (!searchquery) {
+                searchquery = $(searchConfig.global.text).val();
+            }
             totalItemsFound = 0;
-            History.addBEvent("1", encodeURIComponent($(searchConfig.global.text).val()));
+            History.addBEvent(page, encodeURIComponent(searchquery));
         };
 
         /**
