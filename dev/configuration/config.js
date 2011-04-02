@@ -829,7 +829,7 @@ define(function() {
                     {
                         "id": "subnavigation_add_content_link",
                         "label": "ADD_CONTENT",
-                        "url": "javascript:;"
+                        "url": "#"
                     },
                     {
                         "id": "subnavigation_add_contacts_link",
@@ -842,7 +842,7 @@ define(function() {
                     {
                         "id": "subnavigation_simple_group_link",
                         "label": "CREATE_GROUP",
-                        "url": "javascript:;"
+                        "url": "#"
                     }
                 ]
             },

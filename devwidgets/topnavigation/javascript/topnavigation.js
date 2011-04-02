@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fill in the user name
          */
         var setUserName = function(){
-            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 50));
+            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100));
         };
 
         /**
@@ -261,7 +261,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                                 "name" : data.results[i]["sakai:pooled-content-file-name"],
                                 "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
-                                "css_class" : sakai.config.MimeTypes[data.results[i].mimeType].cssClass
+                                "css_class" : sakai.config.MimeTypes[data.results[i]["_mimeType"]].cssClass
                             };
                             files.push(tempFile);
                         }
@@ -332,15 +332,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             for (var i in sakai.config.Navigation) {
                 if (sakai.config.Navigation.hasOwnProperty(i)) {
+                    var temp = "";
                     if (sakai.data.me.user.anon) {
                         if (sakai.config.Navigation[i].anonymous) {
-                            var temp = createMenuList(i);
+                            temp = createMenuList(i);
                             menulinks.push(temp);
                         }
                     } else {
                         if (!sakai.config.Navigation[i].anonymous) {
-                            var temp2 = createMenuList(i);
-                            menulinks.push(temp2);
+                            temp = createMenuList(i);
+                            menulinks.push(temp);
                         }
                     }
                 }
@@ -459,7 +460,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "uuid": el.attr("sakai-entityid"),
                     "username": el.attr("sakai-entityname"),
                     "type": el.attr("sakai-entitytype") || "user"
-                }
+                };
             }
             $(window).trigger("initialize.sendmessage.sakai", [person]);
         });
@@ -473,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "uuid": el.attr("sakai-entityid"),
                     "username": el.attr("sakai-entityname"),
                     "picture": el.attr("sakai-entitypicture") || false
-                }
+                };
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
             }
         });
