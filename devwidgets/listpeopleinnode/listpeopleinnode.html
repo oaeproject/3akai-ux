@@ -14,8 +14,9 @@
     </div>
 
     <!-- WIDGET BODY -->
-    <div class="fl-widget-content s3d-widget-content">
+    <div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
         <!-- <div id="listpeopleinnode_ajax_loader" style="display:none;"></div>-->
+        <div id="listpeopleinnode_main_progress_loading"></div>
         <div id="listpeopleinnode_people_container"><!-- --></div>
     </div>
 
@@ -49,7 +50,9 @@
             {/for}
         </ul>
     {else}
-        <span id="listpeopleinnode_no_people">__MSG__NO_PEOPLE_IN_THIS_LOCATION__</span>
+        <ul>
+          <li>__MSG__NO_PEOPLE_IN_THIS_LOCATION__</li>
+        </ul>
     {/if}
     {if items < total}
         <div class="fl-text-align-right">

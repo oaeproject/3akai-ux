@@ -417,7 +417,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Search based on tags and render each search section
                 $.ajax({
-                    url: tagterm + ".tagged.5.json",
+                    url: tagterm + ".tagged.5.json?type=group",
                     cache: false,
                     success: function(data) {
 
@@ -479,6 +479,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the sites and add a new item to the history list.
          */
         var doInit = function() {
+            // check the URL for a query arg
+            mainSearch.checkQuery();
+
             // Get my sites
             mainSearch.getMySites();
 
@@ -487,7 +490,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // display faceted panel
             mainSearch.addFacetedPanel();
-
         };
 
 

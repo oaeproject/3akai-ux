@@ -326,7 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Toggle the advanced view
             $(remotecontentSettingsAdvancedToggleSettings).click(function(){
-                $("#remotecontent_settings_advanced", rootel).toggle();
+                $(remotecontentSettingsAdvanced, rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });

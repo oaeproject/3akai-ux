@@ -33,8 +33,9 @@ define(["jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
         "/dev/configuration/config.js",
+        "/dev/configuration/config_custom.js",
         "/dev/lib/misc/trimpath.template.js"],
-        function($, sakai_serv, sakai_l10n, sakai_conf) {
+        function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
     
     var util = {
 
@@ -350,7 +351,7 @@ define(["jquery",
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"");
+                val = $.trim(val.replace(/#/g,"").replace(/\s+/g, " "));
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
@@ -360,7 +361,7 @@ define(["jquery",
                 }
             });
             $(currentTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"");
+                val = $.trim(val).replace(/#/g,"").replace(/\s+/g, " ");
                 if (val && $.inArray(val,newTags) == -1) {
                     if (util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
@@ -369,10 +370,20 @@ define(["jquery",
                     }
                 }
             });
+            currentTags = currentTags || [];
+            // determine the tags the entity has
+            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
+            $(tags).each(function(i,val) {
+                if ($.inArray(val, tagsToDelete) > -1) {
+                    tags.splice(tags.indexOf(val), 1);
+                } else if ($.trim(val.split("/")[0]) === "directory" || $.trim(val) === "") {
+                    tags.splice(tags.indexOf(val), 1);
+                }
+            });
             deleteTags(tagLocation, tagsToDelete, function() {
                 setTags(tagLocation, tagsToAdd, function(success) {
                     if ($.isFunction(callback)) {
-                        callback(success);
+                        callback(success, tags);
                     }
                 });
             });
@@ -830,9 +841,10 @@ define(["jquery",
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
+            $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
-                    this.include.css(val);
+                    util.include.css(val);
                 });
             }
         },

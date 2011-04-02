@@ -79,6 +79,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $deletePageLink = $("#navigation_delete_page", $rootel);
         var $deleteDialog = $("#delete_dialog");  // careful! coming from sitespages.html
         var $nodeleteDialog = $("#no_delete_dialog"); // ^^
+        var $nodeleteDialogChild = $("#no_delete_page_child"); // ^^
+        var $nodeleteDialogChildTitle = $("#no_delete_page_title"); // ^^
         var $deleteConfirmPageTitle = $(".sitespages_delete_confirm_page_title");  // careful! coming from sitespages.html
         var $navigation_delete_confirm_title = $("#navigation_delete_confirm_title");
         var $navigation_admin_options = $("#navigation_admin_options", $rootel);
@@ -240,7 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 attr: { id: p_id },
                 data: {
                     title: p_title_short,
-                    attr: {"href": "#", "title": p_title},
+                    attr: {"href": "#page="+page_info["pageURLName"], "title": p_title},
                     pagePosition: p_pagePosition
                 },
                 children:[]
@@ -313,7 +315,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!sakai_global.sitespages.selectedpage ||
                 !sakai_global.sitespages.site_info.hasOwnProperty("_pages") ||
                 !sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]) {
-                alert("no page is selected");
                 return false;
             }
             var pageTitle = sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].pageTitle;
@@ -322,7 +323,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $deleteConfirmPageTitle.html($navigation_delete_confirm_title.html());
             }
-            if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === false) {
+
+            var deletable = true, childpage = false, childPageTitle = [];
+
+            // check if page is deletable
+            if (sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === "false" || sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage].deletable === false) {
+                deletable = false;
+            } else {
+                // check for child pages and if they're deletable
+                for(var i in sakai_global.sitespages.site_info._pages){
+                    if (sakai_global.sitespages.site_info._pages.hasOwnProperty(i)) {
+                        if (i.indexOf(sakai_global.sitespages.selectedpage) === 0) {
+                            // check if child page is deletable
+                            if (sakai_global.sitespages.site_info._pages[i].deletable === "false" || sakai_global.sitespages.site_info._pages[i].deletable === false){
+                                deletable = false;
+                                childpage = true;
+                                childPageTitle.push(sakai_global.sitespages.site_info._pages[i].pageTitle);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!deletable) {
+                $nodeleteDialogChild.hide();
+                $nodeleteDialogChildTitle.hide();
+                if (childpage) {
+                    $nodeleteDialogChild.show();
+                    $nodeleteDialogChildTitle.html(sakai.api.Security.saneHTML(childPageTitle.join(", ")));
+                    $nodeleteDialogChildTitle.show();
+                }
                 $nodeleteDialog.jqmShow();
             } else {
                 $deleteDialog.jqmShow();
@@ -697,6 +727,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // update reference to the page in the nav
                         var newID = "nav_" + newName;
                         $moved_node.attr("id", newID);
+                        $moved_node.find("a").attr("href", "#page=" + newName);
                         $navigationTree.jstree("open_node", $reference_node);
                         $navigationTree.jstree("select_node", $moved_node);
                     });

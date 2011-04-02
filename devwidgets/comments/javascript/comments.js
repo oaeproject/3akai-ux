@@ -154,54 +154,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Date} date
          */
         var getTimeAgo = function(date){
-            if (date !== null) {
-                var currentDate = new Date();
-                var iTimeAgo = (currentDate - date) / (1000);
-                if (iTimeAgo < 60) {
-                    if (Math.floor(iTimeAgo) === 1) {
-                        return Math.floor(iTimeAgo) +" " + sakai.api.i18n.General.getValueForKey("SECOND");
-                    }
-                    return Math.floor(iTimeAgo) + " "+sakai.api.i18n.General.getValueForKey("SECONDS");
-                }
-                else
-                    if (iTimeAgo < 3600) {
-                        if (Math.floor(iTimeAgo / 60) === 1) {
-                            
-                            return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTE");
-                        }
-                        return Math.floor(iTimeAgo / 60) + " "+sakai.api.i18n.General.getValueForKey("MINUTES");
-                    }
-                    else
-                        if (iTimeAgo < (3600 * 60)) {
-                            if (Math.floor(iTimeAgo / (3600)) === 1) {
-                                return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOUR");
-                            }
-                            return Math.floor(iTimeAgo / (3600)) + " "+sakai.api.i18n.General.getValueForKey("HOURS");
-                        }
-                        else
-                            if (iTimeAgo < (3600 * 60 * 30)) {
-                                if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                                    return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAY");
-                                }
-                                return Math.floor(iTimeAgo / (3600 * 60)) + " "+sakai.api.i18n.General.getValueForKey("DAYS");
-                            }
-                            else
-                                if (iTimeAgo < (3600 * 60 * 30 * 12)) {
-                                    if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTH");
-                                    }
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+sakai.api.i18n.General.getValueForKey("MONTHS");
-                                }
-                                else {
-                                    if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEAR");
-                                    }
-                                    return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+sakai.api.i18n.General.getValueForKey("YEARS");
-                                }
-            }
-
-            return null;
-
+            return sakai.api.Datetime.getTimeAgo(date);
         };
 
         /**
@@ -243,6 +196,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
+                // Use the sakai API function to parse the date and convert to the users local time
+                comment.date = sakai.api.l10n.parseDateString(tempDate, sakai.data.me);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
                 comment.messageTxt = comment["sakai:body"];
                 comment.message = tidyInput(comment["sakai:body"]);
@@ -424,8 +379,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(commentsMessageTxt, rootel).val("");
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
-                        // Get the comments.
-                        getComments();
+                        var postData = {
+                            "post": data.message,
+                            "replies": []
+                        };
+                        postData.post["profile"] = [me.profile];
+                        postData.post["jcr:path"] = widgeturl + "/message/inbox/" + postData.post["jcr:name"];
+                        postData.post["canDelete"] = true;
+                        postData.post["canEdit"] = true;
+                        if (widgetSettings && widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
+                            json.results.push(postData);
+                        } else {
+                            json.results.unshift(postData);
+                        }
+                        // Show the added comment
+                        showComments();
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
@@ -514,7 +482,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
 
-            comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
+            comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
             // These properties are noy yet used in the comments-widget, but are saved in JCR
             comments['sakai:allowanonymous'] = true;
@@ -627,7 +595,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /** Bind the insert comment button*/
         $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-            $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
+            $(commentsMainContainerTextarea, rootel).width($(commentsCommentMessage, rootel).width() - 15);
             // checks if the user is loggedIn
             var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
             var txtToFocus = commentsMessageTxt;
@@ -691,7 +659,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 type: 'POST',
                 success: function(){
-                    getComments();
+                    // mark the comment as deleted or undeleted
+                    for (var i = 0; i < json.results.length; i++) {
+                        if (json.results[i].post["sakai:id"] === id){
+                            json.results[i].post["sakai:deleted"] = deleteValue;
+                        }
+                    }
+                    showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
@@ -719,7 +693,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Edit link
          */
         $(commentsEdit, rootel).live('click', function(e, ui){
-            $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
+            $(commentsMainContainerTextarea, rootel).width($(commentsCommentMessage, rootel).width() - 15);
             var id = e.target.id.replace("comments_edit_", "");
             // Show the textarea
             $(commentsMessage + id, rootel).hide();
@@ -746,7 +720,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     type: 'POST',
                     success: function(data){
                         // Set the new message
-                        $(commentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
+                        $(commentsMessage + id, rootel).html("<p>" + sakai.api.Security.saneHTML(tidyInput(message)) + "</p>");
                         // Hide the form
                         $(commentsMessageEditContainer + id, rootel).hide();
                         $(commentsMessage + id, rootel).show();

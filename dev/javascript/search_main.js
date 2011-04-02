@@ -174,8 +174,26 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             /** When we click the search button the search should get executed. */
             $(searchConfig.global.button).unbind("click");
             $(searchConfig.global.button).bind("click", function(ev) {
-                callback.doHSearch();
+                if (!hasHadFocus) {
+                    callback.doHSearch(1, "*");
+                } else {
+                    callback.doHSearch();
+                }
             });
+        };
+
+
+        /**
+         * Checks for a query arg in the URL. If none, does a search for all (*).
+         */
+        var checkQuery = function () {
+            if ((!$.bbq.getState("q") ||
+                $.trim($.bbq.getState("q")) === "") &&
+                (!$.bbq.getState("tag") ||
+                $.trim($.bbq.getState("tag")) === "")) {
+
+                callback.doHSearch(1, "*");
+            }
         };
 
 
@@ -490,8 +508,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             'prepSearchTermForURL': prepSearchTermForURL,
             'preparePeopleForRender': preparePeopleForRender,
             'prepareCMforRendering': prepareCMforRendering,
-            'addFacetedPanel': addFacetedPanel
-
+            'addFacetedPanel': addFacetedPanel,
+            'checkQuery': checkQuery
         };
     };
 });

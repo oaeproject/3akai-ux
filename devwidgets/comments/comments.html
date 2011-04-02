@@ -21,7 +21,7 @@
         {for i in comments}
             <div class="comments_topCommentBar">
                 <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.picture}" />
-                <div class="comments_posterData s3d-regular-light-links">
+                <div class="comments_posterData">
                     <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
                 </div>
@@ -33,14 +33,19 @@
                 <div class="comments_commentLinks">
                     <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
                     <ul>
-                        {if i.canEdit && i.canEdit === true}
+                        {if i.canEdit && i.canEdit === true && i["sakai:deleted"] !== true}
                             <li><button type="button" class="comments_edit s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>
+                        {/if}
+                        {if i.canEdit && i.canEdit === true && i.canDelete && i.canDelete === true && !(i["sakai:deleted"] && i["sakai:deleted"] === true)}
+                          <li> |
+                        {else}
+                          <li>
                         {/if}
                         {if i.canDelete && i.canDelete === true}
                             {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                <li>| <button type="button" class="comments_undelete s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
+                                <button type="button" class="comments_undelete s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
                             {else}
-                                <li>| <button type="button" class="comments_delete s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
+                                <button type="button" class="comments_delete s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
                             {/if}
                         {/if}
                     </ul>
