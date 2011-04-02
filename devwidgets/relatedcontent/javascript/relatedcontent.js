@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             searchquery = prepSearchTermForURL(searchterm);
             if (contentData.data["sakai:tags"]){
                 searchquery = searchquery + " OR " + contentData.data["sakai:tags"].join(" OR ");
-            } 
+            }
 
             // get related content for contentData
             // return some search results for now

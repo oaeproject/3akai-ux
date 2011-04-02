@@ -23,6 +23,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var content_path = ""; // The current path of the content
         var ready_event_fired = 0;
         var list_event_fired = false;
+        var tooltip_opened = false;
+        var intervalId;
 
 
         ///////////////////////////////
@@ -398,21 +400,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var checkShareContentTour = function(){
             var querystring = new Querystring();
-            if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true") {
-                // display tooltip
-                var tooltipData = {
-                    "tooltipSelector":"#entity_content_share_button",
-                    "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
-                    "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P3",
-                    "tooltipArrow":"top",
-                    "tooltipLeft":30
-                };
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("ready.tooltip.sakai", function() {
+            if (querystring.contains("sharecontenttour") && querystring.get("sharecontenttour") === "true" && !tooltip_opened) {
+                if ($("#entity_content_share_link").length) {
+                    tooltip_opened = true;
+                    // display tooltip
+                    var tooltipLeft = 410;
+                    if ($.browser.msie && $.browser.version === "7.0"){
+                        tooltipLeft = 310;
+                    }
+                    var tooltipData = {
+                        "tooltipSelector": "#entity_content_share_link",
+                        "tooltipTitle": "TOOLTIP_SHARE_CONTENT",
+                        "tooltipDescription": "TOOLTIP_SHARE_CONTENT_P3",
+                        "tooltipArrow": "top",
+                        "tooltipLeft": tooltipLeft,
+                        "tooltipTop": -10
+                    };
+                    if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
+                        $(window).bind("ready.tooltip.sakai", function(){
+                            $(window).trigger("init.tooltip.sakai", tooltipData);
+                        });
+                    } else {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
-                    });
+                    }
+                    if (intervalId){
+                        clearInterval(intervalId);
+                    }
                 } else {
-                    $(window).trigger("init.tooltip.sakai", tooltipData);
+                    intervalId = setInterval(checkShareContentTour, 2000);
                 }
             }
         };
@@ -470,7 +485,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             handleHashChange();
 
-            // check for share content tour in progress
             checkShareContentTour();
         };
 

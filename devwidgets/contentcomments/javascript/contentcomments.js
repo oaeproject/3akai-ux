@@ -554,7 +554,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if (getComments) {
                     pagerClickHandler(1);
                 }
-                if (allowComments === "false") {
+                var isAnon = me.user && me.user.anon;
+                if (allowComments == "false" || isAnon) {
                     // hide comments entry box
                     $("#comments_userCommentContainer", rootel).hide();
                 } else {

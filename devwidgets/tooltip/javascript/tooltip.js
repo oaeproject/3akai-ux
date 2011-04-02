@@ -89,8 +89,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (tooltipSelector) {
                 var eleOffset = $(tooltipSelector).offset();
-                $tooltip_widget.css("top", topOffset + eleOffset.top);
-                $tooltip_widget.css("left", leftOffset + eleOffset.left);
+                if (eleOffset.top){
+                    topOffset += eleOffset.top;
+                }
+                if (eleOffset.left){
+                    leftOffset += eleOffset.left;
+                }
+                $tooltip_widget.css("top", topOffset);
+                $tooltip_widget.css("left", leftOffset);
             }
             // bind tooltip movement
             $(window).unbind("update.tooltip.sakai");
