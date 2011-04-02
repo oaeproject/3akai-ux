@@ -18,7 +18,7 @@
 </div>
 
 <div id="contacts_template"><!--
-    <h1>__MSG__CONTACTS__ (20)</h1>
+    <h1>__MSG__CONTACTS__ (${accepted.results.length || 0})</h1>
     {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
