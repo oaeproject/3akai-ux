@@ -32,13 +32,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Get my contacts //
         /////////////////////
 
-        var getMyContacts = function() {
+        sakai_global.data.search.getMyContacts = function(callback) {
             $.ajax({
                 url: sakai.config.URL.CONTACTS_FIND_ALL + "?&page=0&n=100",
                 cache: false,
                 success: function(data) {
                     sakai_global.data.search.contacts = $.extend(data, {}, true);
-                    finishUtilInit();
+                    if (callback) {
+                        callback();
+                    }
                 }
             });
         };
@@ -155,21 +157,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return params;
         }
 
-        ////////////
-        // EVENTS //
-        ////////////
-
-        /*
-        $(searchConfig.global.addToContactsLink).live("click", function(ev) {
-            contactclicked = (this.id.substring(searchConfig.global.addToContactsFiller.length));
-            $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
-        }); */
-
         /////////////////////////
         // Util initialisation //
         /////////////////////////
 
-        getMyContacts();
+        sakai_global.data.search.getMyContacts(finishUtilInit);
 
     });
 

@@ -1291,6 +1291,7 @@ define(["jquery",
                 html4.ATTRIBS["video::autoplay"] = 0;
                 html4.ATTRIBS["li::sakai-ref"] = 0;
                 html4.ATTRIBS["li::sakai-path"] = 0;
+                html4.ATTRIBS["span::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;

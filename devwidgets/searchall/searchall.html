@@ -181,7 +181,7 @@
                     <div class="search_result_person_links">
                     {if !i.connected}
                     <button type="button" class="search_result_person_link link_add_to_contacts s3d-link-button s3d-action sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>__MSG__ADD_TO_CONTACTS__</button>
-                    <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
+                    <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider sakai_addtocontacts_overlay" sakai-entityid="${i.userid}">|</span>
                     {elseif i.invited}
                     <button type="button" class="search_result_person_link link_accept_invitation s3d-link-button s3d-action" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</button>
                     <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
