@@ -1,17 +1,10 @@
-.contacts_main{margin:0 10px 10px 15px;overflow:hidden; }
-.contacts_title {border-bottom:1px solid #DDDDDD; padding:5px 0;}
-.contacts_title span{ color: #666666; font-size:1.1em;}
-.contacts_widget{overflow:hidden;}
-.contacts_items {color:#333;padding:10px 0 0; border-bottom:1px solid #DDDDDD;}
-.contacts_items img {float: left;padding: 0 10px 5px 0;width: 35px;}
-.contacts_list {margin:0;font-size:1em;}
-.contacts_name {color:#878A8C; width:250px; display:inline-block;}
-.contacts_highlight {background:#C4E6FD;}
-.contacts_post {font-size:.8em;color:#878A8C;} 
-.contacts_expand{background:#CAE1FF;}
-.contacts_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
-.contacts_placeholder {width:20px; float:left;}
-.contacts_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
-.contacts_table_div {margin:20px 0 0 70px;display:none;}
-.contacts_table { border:1px solid white;background:white;}
-td {padding:5px;background:#EFF2F4;}
+#contacts_container .contacts_main{margin:0 10px 10px 0;overflow:hidden; }
+#contacts_container h1{font-size: 18px;font-weight: normal; margin:0;}
+#contacts_container h2 {border-bottom:1px solid #DDDDDD; padding:5px 0; color:#636363;font-size: 14px;margin:10px 0 0;}
+#contacts_container .contacts_item {color:#333;padding:10px 0 0; border-bottom:1px solid #DDDDDD;}
+#contacts_container .contacts_item img {float: left;margin: 0 10px 5px 20px;width: 35px;}
+#contacts_container .contacts_name {color:#878A8C; width:350px; display:inline-block;margin-top:11px;}
+#contacts_container .contacts_no_contacts {margin-top:7px;display:block;}
+#contacts_container .contacts_pending_name {width:auto;}
+#contacts_container .contacts_highlight {background:#C4E6FD;}
+#contacts_container .contact_delete_button{float:right; margin-top:10px;}

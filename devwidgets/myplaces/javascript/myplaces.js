@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 function(){
                     $(".myplaces_share_button").show();
                     $(this).addClass("myplaces_highlight");
-                    $(this).children('img').attr("src","/dev/images/default_profile_picture_32.png");                
+                    $(this).children('img').attr("src","/dev/images/default_profile_picture_32.png");
                 },
                 function(){
                     $(".myplaces_share_button").hide();

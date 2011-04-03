@@ -160,15 +160,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     }
                                 }
                             }
-                            for (var ii in contentMembers.viewers) {
-                                if (contentMembers.viewers.hasOwnProperty(ii)) {
-                                    if (contentMembers.viewers[ii].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.viewers[ii]["rep:userId"] === sakai.data.me.user.userid) {
+                            for (var jj in contentMembers.viewers) {
+                                if (contentMembers.viewers.hasOwnProperty(jj)) {
+                                    if (contentMembers.viewers[jj].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.viewers[jj]["rep:userId"] === sakai.data.me.user.userid) {
                                             viewer = true;
                                         }
-                                    } else if (contentMembers.viewers[ii].hasOwnProperty("sakai:group-id")) {
+                                    } else if (contentMembers.viewers[jj].hasOwnProperty("sakai:group-id")) {
                                         if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.viewers[ii]["sakai:group-id"],
+                                            contentMembers.viewers[jj]["sakai:group-id"],
                                             sakai.data.me)) {
                                             viewer = true;
                                         }
@@ -197,9 +197,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                             return false;
                         });
-                        
+
                         if (sakai.config.MimeTypes[contentInfo["_mimeType"]]){
-                	        contentInfo.iconURL = sakai.config.MimeTypes[contentInfo["_mimeType"]].URL;
+                            contentInfo.iconURL = sakai.config.MimeTypes[contentInfo["_mimeType"]].URL;
                         } else {
                             contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
                         }
@@ -231,7 +231,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Security.send404();
             }
         };
-        
+
         var initEntityWidget = function(){
             var context = "content";
             var type = "content_not_shared";
@@ -243,7 +243,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data.data]);
         };
-        
+
         $(window).bind("sakai.entity.ready", function(){
             initEntityWidget();
         });
@@ -438,7 +438,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             addRemoveUsers(peopleList.mode, peopleList, 'add');
         });
-        
+
         $("#entity_content_share, #entity_content_permissions").live("click", function(){
             var pl_config = {
                 "mode": "search",

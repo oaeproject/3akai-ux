@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var layover = true;        //    Will this widget be in a popup or inside another element.
             var putContentInId = null;    //     if the widget runs in another element, this variable contains the id
             var callbackWhenDone = null;    //    Callback function for when the message gets sent
-            
+
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
             var dialogFooterContainer = "#sendmessage_dialog_footer";
@@ -372,15 +372,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 overlay: 20,
                 toTop: true
             });
-            
+
             ////////////////////
             // Initialization //
             ////////////////////
-            
+
             $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body) {
                 initialize(userObj, insertInId, callback, subject, body);
             });
-            
+
             $(window).trigger("ready.sendmessage.sakai");
         };
     }

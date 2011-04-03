@@ -7,6 +7,6 @@
 .myplaces_list {margin:0;font-size:1em;}
 .myplaces_name {color:#878A8C; width:250px; display:inline-block;}
 .myplaces_highlight {background:#C4E6FD;}
-.myplaces_post {font-size:.8em;color:#878A8C;} 
+.myplaces_post {font-size:.8em;color:#878A8C;}
 .myplaces_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
 .myplaces_share_button {float:right; display:none;}

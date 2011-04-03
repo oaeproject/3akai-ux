@@ -188,7 +188,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             }
 
             $(".body-container", $rootel).show();
-            
+
             if (doShowDashboard) {
                 showDashboard();
             }
@@ -1001,7 +1001,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         if (document.location.pathname === "/dev/group.html"){
             $(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
                 init(path, editmode, propertyname, fixedContainer);
-            });  
+            });
         } else {
             init("", true, "personalportal", false);
         }

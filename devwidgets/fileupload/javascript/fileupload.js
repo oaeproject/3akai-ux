@@ -456,8 +456,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var batchDescriptionData = [];
             // Check if it's a link that's been uploaded
             if (uploadedLink) {
+                var preview = "";
                 if (newVersionIsLink) {
-                    var preview = sakai.api.Content.getPreviewUrl($fileUploadLinkBoxInput.val())
+                    preview = sakai.api.Content.getPreviewUrl($fileUploadLinkBoxInput.val());
                     var item = {
                         "url": "/p/" + oldVersionPath,
                         "method": "POST",
@@ -477,7 +478,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 else {
 
                     var url = $fileUploadLinkBoxInput.val();
-                    var preview = sakai.api.Content.getPreviewUrl(url);
+                    preview = sakai.api.Content.getPreviewUrl(url);
                     $.each(data, function(index, path) {
                         var item2 = {
                             "url": "/p/" + path,

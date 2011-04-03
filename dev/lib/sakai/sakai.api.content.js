@@ -201,25 +201,82 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             result.type = "iframe";
             result.url = url;
             if (/vimeo\.com$/.test(uri.host)) {
-                result.url = "http://player.vimeo.com/video" + uri.path;
+                if (uri.path !== "") {
+                  result.url = "http://player.vimeo.com/video" + uri.path;
+                }
             } else if (/picasaweb\.google\.com$/.test(uri.host)) {
-                var userId = uri.path.split('/')[1];
-                var albumName = uri.path.split('/')[2];
-                var photoId = uri.anchor;
-                result.url = "https://picasaweb.google.com/data/feed/base/user/" + userId + "/album/" + albumName + "/photoid/" + photoId + "?alt=json";
-                result.type = "image";
+                var splitPath = uri.path.split('/');
+                if (splitPath.length >= 3 && uri.anchor !== "") {
+                    var userId = splitPath[1];
+                    var albumName = splitPath[2];
+                    var photoId = uri.anchor;
+
+                    $.ajax({
+                        url: "/var/proxy/google/picasaGetPhoto.json",
+                        type: "GET",
+                        async: false,
+                        cache: false,
+                        data: {
+                            "userId" : userId,
+                            "albumName" : albumName,
+                            "photoId" : photoId
+                        },
+                        success: function(data){
+                            var splitPath = data.feed.icon["$t"].split('/');
+                            // insert the size we want as the second to last
+                            // entry in the array
+                            splitPath.splice(-2, 1, "s920");
+                            result.url = splitPath.join('/');
+                            result.type = "image";
+                        }
+                    });
+                }
             } else if (/youtube\.com$/.test(uri.host)) {
-                var qs = new Querystring(uri.query);
-                if (qs.get("v")){
+                if (uri.queryKey.v){
                     result.url = url;
                     result.type = "video";
-                    result.avatar = "http://img.youtube.com/vi/" + qs.get("v") + "/0.jpg";    
+                    result.avatar = "http://img.youtube.com/vi/" + uri.queryKey.v + "/0.jpg";
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 asin = bookId[bookId.indexOf('dp')+1];
                 result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
                 result.type = "iframe";
+            } else if (/videolectures\.net$/.test(uri.host)) {
+                var lectureId = uri.path.split('/')[1];
+                if (lectureId) {
+                    $.ajax({
+                        url: "/var/proxy/videolectures/videoLecturesGetSnippet.json",
+                        type: "GET",
+                        async: false,
+                        cache: false,
+                        data: {
+                            "lectureId" : lectureId
+                        },
+                        success: function(data){
+                            result.url = $($(data).find("textarea").val()).find("img").attr("src");
+                            result.type = "image";
+                        }
+                    });
+                }
+            } else if (/flickr\.com$/.test(uri.host)) {
+                var fPhotoId = uri.path.split('/')[3];
+                if (fPhotoId) {
+                    $.ajax({
+                        url: "/var/proxy/flickr/flickrGetPhotoInfo.json",
+                        type: "GET",
+                        async: false,
+                        cache: false,
+                        dataType: "json",
+                        data: {
+                            "photoId": fPhotoId
+                        },
+                        success: function(data){
+                            result.url = "http://farm" + data.photo.farm + ".static.flickr.com/" + data.photo.server + "/" + data.photo.id + "_" + data.photo.secret + "_b.jpg";
+                            result.type = "image";
+                        }
+                    });
+                }
             }
             return result;
         }

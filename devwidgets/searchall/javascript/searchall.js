@@ -18,7 +18,7 @@
 
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai) {
-     
+
     /**
      * @name sakai.WIDGET_ID
      *
@@ -32,7 +32,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.searchall = function (tuid, showSettings) {
-         
+
         /////////////////
         // CONFIG VARS //
         /////////////////
@@ -44,7 +44,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         ///////////////
         // HELP VARS //
         ///////////////
-        
+
         var totalItemsFound = 0;
 
         /////////////
@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
             totalItemsFound = 0;
             $(searchConfig.global.numberFound).text(totalItemsFound);
-            
+
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")){
                 $(searchConfig.global.text).val("");
@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             updateTotalHitCount(foundCM.results.length);
 
             var params = sakai_global.data.search.getQueryParams();
-            $("#cm_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=content&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
+            $("#cm_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=library&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
 
             if (foundCM && foundCM.results) {
                 finaljson = sakai_global.data.search.prepareCMforRendering(foundCM.results, finaljson);
@@ -271,25 +271,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
 
             $(searchConfig.people.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
-         
+
          };
-        
+
         var doSearch = function(){
-            
+
             var params = sakai_global.data.search.getQueryParams();
             showSearchContent(params);
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);
-            
+
             // Set off the 3 AJAX requests
             var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             var usersUrl = sakai.config.URL.SEARCH_USERS;
             var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
             if (urlsearchterm === "*" || urlsearchterm === "**") {
-            	filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
+                filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
                 usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
                 groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
             }
-            
+
             // Content search
             $.ajax({
                 url: filesUrl,
@@ -343,11 +343,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                }
            });
         }
-        
+
         ///////////////////
         // Event binding //
         ///////////////////
-        
+
         $(searchConfig.global.text).live("keydown", function(ev){
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
@@ -356,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }, 0);
             }
         });
-        
+
         $(searchConfig.global.button).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
@@ -364,18 +364,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, 0);
         });
 
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            sakai_global.data.search.getMyContacts();
+            $('.sakai_addtocontacts_overlay').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                    $(this).hide();
+                }
+            });
+        });
+
         /////////////////////////
         // Initialise Function //
         /////////////////////////
-        
+
         $(window).bind("hashchange", function(ev){
             doSearch();
         });
-        
+
         $(window).bind("sakai.search.util.finish", function(ev){
             doSearch();
         });
-            
+
         $(window).trigger("sakai.search.util.init");
 
     };

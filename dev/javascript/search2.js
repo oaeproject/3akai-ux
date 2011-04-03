@@ -19,9 +19,9 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.search = function() {
-        
-        var pubdata = {	
-        	"structure0": {
+
+        var pubdata = {
+            "structure0": {
                 "all": {
                     "_ref": "9574379429432",
                     "_title": "Search All",
@@ -34,7 +34,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "_ref": "6573920372",
                     "_title": "Search Content",
                     "main": {
-                    	"_ref": "6573920372",
+                        "_ref": "6573920372",
                         "_title": "Search Content"
                     }
                 },
@@ -47,7 +47,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 },
                 "people": {
-                	"_title": "Search People",
+                    "_title": "Search People",
                     "_ref": "49294509202",
                     "main": {
                         "_ref": "49294509202",
@@ -55,30 +55,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                      }
                 }
             },
-        	"9574379429432": {
-        		"page": "<div id='widget_searchall' class='widget_inline'></div>"
-        	},
-        	"6573920372": {
-        		"page": "Search Content"
-        	},
-        	"87949372639": {
-        		"page": "Search Groups"
-        	},
-        	"49294509202": {
-        		"page": "Search People"
-        	}
-        }
+            "9574379429432": {
+                "page": "<div id='widget_searchall' class='widget_inline'></div>"
+            },
+            "6573920372": {
+                "page": "Search Content"
+            },
+            "87949372639": {
+                "page": "Search Groups"
+            },
+            "49294509202": {
+                "page": "Search People"
+            }
+        };
 
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
-        }
+        };
 
         var renderEntity = function(){
             $(window).trigger("sakai.entity.init", ["search"]);
-        }
+        };
 
         $(window).bind("sakai.entity.ready", function(){
-            renderEntity(); 
+            renderEntity();
         });
 
         $(window).bind("lhnav.ready", function(){

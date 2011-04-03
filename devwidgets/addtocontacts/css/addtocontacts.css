@@ -26,3 +26,6 @@
 #addtocontacts_dialog .addtocontacts_piccol{vertical-align:top;width:75px;}
 #addtocontacts_done{background-color:#D9F7D8;border:1px solid #0F0;text-align:center;width:75%;margin:10px auto;padding:10px 0 10px 10px;}
 #addtocontacts_dialog .addtocontacts_bold,#addtocontacts_form_invite{font-weight:700;}
+#addtocontacts_dialog .addtocontacts_user_name {width: 120px; vertical-align: top;}
+#addtocontacts_dialog #addtocontacts_form_personalnote_label {display:block; margin: 10px 0px 5px;}
+#addtocontacts_dialog .addtocontacts_actionbuttons {text-align:right;}
