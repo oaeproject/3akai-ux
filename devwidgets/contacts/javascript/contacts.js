@@ -67,6 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".contact_delete_button").live("click", function(){
                 removeRequest($(this)[0].id.split("contacts_delete_contact_")[1]);
             });
+
         };
 
         var renderContacts = function(dataObj){
