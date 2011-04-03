@@ -244,7 +244,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "altTitle": true
                 };
                 if (sakai.data.me.user.anon) {
-                    contextType = "user_other";
+                    contextType = "user_anon";
+                    determineContentContactsMemberships
                 } else {
                     sakai.api.User.getContacts(checkContact);
                 }
@@ -254,13 +255,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var checkContact = function(){
             var contacts = sakai.data.me.mycontacts;
             var isContact = false;
+            var isContactInvited = false;
+            var isContactPending = false;
             for (var i = 0; i < contacts.length; i++){
                 if (contacts[i].profile.userid === qs.get("id")){
-                    isContact = true;
+                    if (contacts[i].details["sakai:state"] === "ACCEPTED") {
+                        isContact = true;
+                    } else if (contacts[i].details["sakai:state"] === "INVITED"){
+                        isContactInvited = true
+                    } else if (contacts[i].details["sakai:state"] === "PENDING"){
+                        isContactPending = true
+                    }
                 }
             }
             if (isContact){
                 contextType = "contact";
+            } else if (isContactInvited){
+                contextType = "contact_invited";
+            } else if (isContactPending){
+                contextType = "contact_pending";
             } else {
                 contextType = "user_other";
             }
@@ -331,6 +344,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("sakai.entity.init", ["user", contextType, contextData]);
             }
         };
+        
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            $('.sakai_addtocontacts_overlay').each(function(index) {
+                contextType = "contact_pending";
+                renderEntity();
+            });
+        });
+        
+        $("#entity_user_accept_invitation").live("click", function(){
+            sakai.api.User.acceptContactInvite(contextData.userid);
+            contextType = "contact";
+            renderEntity();
+        });
 
         $(window).bind("sakai.entity.ready", function(){
             renderEntity();
