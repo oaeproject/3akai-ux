@@ -277,6 +277,23 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         }
                     });
                 }
+            } else if (/slideshare\.net$/.test(uri.host)) {
+                if (uri.path !== "") {
+                    $.ajax({
+                        url: "/var/proxy/slideshare/slideshareGetSlideshow.json",
+                        type: "GET",
+                        dataType: "xml",
+                        async: false,
+                        cache: false,
+                        data: {
+                            "slideshow_url": uri.source
+                        },
+                        success: function(data){
+                            result.url = $(data).find("Embed").text();
+                            result.type = "embed";
+                        }
+                    });
+                }
             }
             return result;
         }
