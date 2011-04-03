@@ -20,7 +20,7 @@
 <div id="contacts_template"><!--
     <h1>__MSG__CONTACTS__ {if accepted.results.length} (${accepted.results.length}){/if}</h1>
     {if pending && pending.results.length}
-        <div class="contacts_main" id="contacts_pending" display:none;>
+        <div class="contacts_main" id="contacts_pending" style="display:none;">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
             {for pending in pending.results}
                 <div class="fl-container fl-fix contacts_item">
@@ -53,12 +53,12 @@
     {/if}
 
     <div class="contacts_main" id="contacts_accepted">
-        {if sakai_global.profile.main.mode.value !== "view"}
-            <h2>__MSG__MY_CONTACTS__</h2>
-        {else}
-            <h2>${sakai_global.profile.main.data.basic.elements.firstName.value}'s __MSG__CONTACTS__</h2>
-        {/if}
         {if accepted.results.length}
+            {if sakai_global.profile.main.mode.value !== "view"}
+                <h2>__MSG__MY_CONTACTS__</h2>
+            {else}
+                <h2>${sakai_global.profile.main.data.basic.elements.firstName.value}'s __MSG__CONTACTS__</h2>
+            {/if}
             {for accepted in accepted.results}
                 <div class="fl-container fl-fix contacts_item contacts_accepted_items">
                     <img alt="accepted icon" src="/dev/images/user_avatar_icon_32x32.png">
@@ -86,6 +86,7 @@
                 </a>
                 <span class="contacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
             {else}
+                <span class="contacts_no_contacts">${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__HAS_NO_CONTACTS__</span>
                 <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__ ${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__AS_A_CONTACT__</span>
                 </button>
