@@ -87,6 +87,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "image") {
                     callback = renderImagePreview;
                     arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
+                } else if (sakai_global.content_profile.content_data.data["sakai:preview-url"] && sakai_global.content_profile.content_data.data["sakai:preview-type"] === "embed") {
+                    callback = renderEmbedPreview;
+                    arg = sakai_global.content_profile.content_data.data["sakai:preview-url"];
                 } else {
                     callback = renderExternalHTMLPreview;
                 }
@@ -152,6 +155,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#contentpreview_html_iframe").attr("width", "920px");
             $("#contentpreview_html_iframe").attr("height", "560px");
             $("#contentpreview_html_iframe").attr("frameborder", "0");
+        };
+
+        var renderEmbedPreview = function(){
+            $("#contentpreview_html_preview").html(sakai_global.content_profile.content_data.data["sakai:preview-url"]);
+            $(".contentpreview_html_preview").show();
         };
 
         var renderExternalHTMLPreview = function(url){
