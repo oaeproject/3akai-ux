@@ -43,16 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var contactsTemplate = "contacts_template";
 
         var acceptRequest = function(user){
-            $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
-                type: "POST",
-                data: {
-                    "targetUserId": user
-                },
-                success: function(data){
-                    getContacts();
-                }
-            });
+            sakai.api.User.acceptContactInvite(user, getContacts);
         };
 
         var removeRequest = function(user){
