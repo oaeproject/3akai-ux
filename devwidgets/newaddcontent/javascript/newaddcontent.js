@@ -46,7 +46,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        // Containers
         var newaddcontentContainer = "#newaddcontent_container";
+
+        // Elements
+        var newaddcontentContainerLHChoiceItem = ".newaddcontent_container_lhchoice_item";
+        var newaddcontentContainerNewItem = "#newaddcontent_container_newitem";
+
+        // Classes
+        var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
+        var newaddcontentContainerLHChoiceItemClass = "newaddcontent_container_lhchoice_item";
+        var newaddcontentContainerNewItemExtraRoundedBorder = "newaddcontent_container_newitem_extraroundedborder";
 
         ////////////////////
         // INITIALIZATION //
@@ -81,9 +91,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         };
 
+        var addBinding = function(){
+            $(newaddcontentContainerLHChoiceItem).bind("click", function(){
+                if($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)){
+                    $(newaddcontentContainerNewItem).addClass(newaddcontentContainerNewItemExtraRoundedBorder);
+                }else{
+                    $(newaddcontentContainerNewItem).removeClass(newaddcontentContainerNewItemExtraRoundedBorder);
+                }
+                $(newaddcontentContainerLHChoiceItem).removeClass(newaddcontentContainerLHChoiceSelectedItem);
+                $(this).addClass(newaddcontentContainerLHChoiceSelectedItem);
+            });
+        };
+
         var initialize = function(data){
             initializeJQM();
             renderInterface();
+            addBinding();
         };
 
 

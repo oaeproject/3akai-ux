@@ -30,6 +30,7 @@
 
 /* Middle item */
 #newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float: left;width: 529px;margin-left: -2px;height: 443px;position:absolute; left:226px;-moz-border-radius: 0 5px 5px 5px;}
+#newaddcontent_container .newaddcontent_container_newitem_extraroundedborder {-moz-border-radius: 5px 5px 5px 5px !important;}
 
 /* Right selected items */
 #newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px;border:1px #a9a9a9 solid;}
