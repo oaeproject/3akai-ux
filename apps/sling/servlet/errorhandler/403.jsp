@@ -107,7 +107,7 @@
         </div>
 
         <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require-jquery.js"></script>
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- 403 JS -->
         <script>require(["/dev/javascript/sakai.403.js"]);</script>

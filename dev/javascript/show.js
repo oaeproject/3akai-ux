@@ -300,12 +300,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var loadGroupEntityWidget = function(){
             var context = "group";
-            var type = "group"
+            var type = "group";
             if (sakai_global.show.canEdit()){
                 type = "group_managed";
             }
             $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);
-        }
+        };
 
         $(window).bind("sakai.entity.ready", function(){
             loadGroupEntityWidget();

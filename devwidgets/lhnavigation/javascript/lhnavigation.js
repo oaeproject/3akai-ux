@@ -45,8 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Elements
         var navSelectedItemArrow = ".lhnavigation_selected_item_arrow";
         var navSelectedItem = ".lhnavigation_selected_item";
-        
-        
+
+
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -94,8 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             showHideSubnav($clickedItem);
         };
-        
-        
+
         var renderData = function(){
             $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
                 "private": privstructure,
@@ -103,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "contextData": contextData
             }));
         };
-        
+
         var includeChildCount = function(structure){
             var childCount = 0;
             for (var level in structure){
@@ -139,7 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return structure;
         };
-        
+
         var selectPage = function(){
             var state = $.bbq.getState("l");
             var selected = state || false;
@@ -156,8 +155,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         selected = first;
                     }
-                    break;    
-                } 
+                    break;
+                }
             }
             if (!selected){
                 for (var first in pubstructure.items){
@@ -171,8 +170,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         selected = first;
                     }
-                    break;    
-                } 
+                    break;
+                }
             }
             // Select correct item
             var menuitem = $("li[sakai-path=" + selected + "]");
@@ -187,10 +186,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // Render page
                 renderPage(ref);
-            }  
-        
+            }
+
         }
-        
+
         var renderPage = function(ref){
             $("#s3d-page-main-content > div").hide();
             if ($("#s3d-page-main-content #" + ref).length > 0){
@@ -200,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 createPageToShow(ref, content);
             }
         }
-        
+
         var getPageContent = function(ref){
             if (privstructure.pages[ref]) {
                 return privstructure.pages[ref].page;
@@ -210,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
         }
-        
+
         var createPageToShow = function(ref, content){
             // Create the new element
             var $el = $("<div>").attr("id", ref);
@@ -250,7 +249,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
         // INITIALISATION //
         ////////////////////
-        
+
         var renderNavigation = function(pubdata, privdata, cData){
             contextData = cData;
             privstructure = processData(privdata);
@@ -259,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding();
             selectPage();
         }
-        
+
         $(window).bind("hashchange", function(e, data){
             selectPage();
         });
@@ -267,9 +266,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData){
            renderNavigation(pubdata, privdata, cData);
         });
-        
+
         $(window).trigger("lhnav.ready");
-        
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("lhnavigation");

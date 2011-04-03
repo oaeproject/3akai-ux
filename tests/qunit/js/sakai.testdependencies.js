@@ -71,6 +71,14 @@ if(Array.hasOwnProperty("indexOf") === false){
     };
 }
 
+require({
+    baseUrl:"/dev/lib/",
+    paths: {
+        "jquery": "jquery/jquery-1.5.2"
+    },
+    priority: ["jquery"]
+});
+
 require(
     {
         baseUrl: "/dev/lib/"

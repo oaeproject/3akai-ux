@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
 
                 // send message to other person
-                var userstring = sakai.api.User.getDisplayName(me.profile);
+                var userstring = sakai.api.User.getDisplayName(sakai.data.me.profile);
 
                 var title = $("#addtocontacts_invitation_title_key").html().replace(/\$\{user\}/g, userstring);
                 var message = $("#addtocontacts_invitation_body_key").html().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n") + ",";
@@ -204,26 +204,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method will fill in all the user info.
          * @param {Object} hash The layover object we get from jqModal
          */
-        //var loadDialog = function(hash){
-            // Show the form
-        //    $(addToContactsDoneContainer).hide();
-        //    $(addToContactsAdd).show();
-
-        //    hash.w.show();
-        //};
-
-        ////////////////////
-        // Public methods //
-        ////////////////////
-
-        ///**
-         //* Set a personal note.
-         //* @param {string} note The text you wish to display in the note.
-         //*/
-        //var setPersonalNote = function(note){
-        //    $(addToContactsFormPersonalNote).val(note);
-        //};
-
+        var loadDialog = function(hash){
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.username));
+            hash.w.show();
+        };
 
         /////////////////////////
         // Initialise function //
@@ -235,25 +219,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Function} callback The callback function that will be executed after the request.
          */
         var initialize = function(user){
-            // Check if we have a JSON object or a userid String.
-            //if (!user.preferences) {
-                // This is a uuid. Fetch the info from /rest/me
-            //    $.ajax({
-            //        url: "/~" + user + "/public/authprofile.infinity.json",
-            //        success: function(data){
-
-            //            friend = $.extend(data, {}, true);
-            //            friend.uuid = user;
-
-                        // We have the data, render it.
-            //            fillInUserInfo(friend);
-            //        }
-            //    });
-            //}
-            //else {
-                contactToAdd = user;
-                fillInUserInfo(contactToAdd);
-            //}
+            contactToAdd = user;
+            fillInUserInfo(contactToAdd);
 
             // Render the templates
             renderTemplates();
@@ -261,10 +228,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Show the layover
             $(addToContactsDialog).jqmShow();
 
-            // Give the user options to manipulate this widget.
-            //return {
-            //    "setPersonalNote": setPersonalNote
-            //};
         };
 
         $(window).bind("initialize.addToContacts.sakai", function(e, userObj) {
@@ -313,8 +276,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(addToContactsDialog).jqm({
             modal: true,
             overlay: 20,
-            toTop: true
-            //onShow: loadDialog
+            toTop: true,
+            onShow: loadDialog
         });
     };
 

@@ -46,7 +46,7 @@
     <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
     <div id="entity_name" class="s3d-bold">${data.displayName}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=content" title="${data.counts["content"]} Documents">Documents</a>,
+        <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
         <span class="entity_number">(${data.counts["memberships"]})</span> <a href="#l=memberships" title="${data.counts["memberships"]} Memberships">Memberships</a>,
         <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
     </div>
@@ -137,7 +137,7 @@
     <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div>
     <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">(1)</span> <a href="#l=content" title="1 Documents">Documents</a>,
+        <span class="entity_number">(1)</span> <a href="#l=library" title="1 Documents">Documents</a>,
         <span class="entity_number">(2)</span> <a href="#l=memberships" title="(2) Participants">Participants</a>
     </div>
     {if type && type == "group_managed"}

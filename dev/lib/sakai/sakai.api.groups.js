@@ -740,10 +740,10 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if (group.groupid.match("-managers" + "$") || !group["sakai:group-title"]) {
                 return false;
             } else {
-            	if (group.groupid === "everyone") {
-                	return false;
+                if (group.groupid === "everyone") {
+                    return false;
                 } else {
-                	return true;
+                    return true;
                 }
             } 
         },
