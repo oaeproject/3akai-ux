@@ -5,6 +5,8 @@
 #contacts_container .contacts_item img {float: left;margin: 0 10px 5px 20px;width: 35px;}
 #contacts_container .contacts_name {color:#878A8C; width:350px; display:inline-block;margin-top:11px;}
 #contacts_container .contacts_no_contacts {margin-top:7px;display:block;}
+#contacts_container a.contacts_no_contacts {text-decoration:none;}
 #contacts_container .contacts_pending_name {width:auto;}
 #contacts_container .contacts_highlight {background:#C4E6FD;}
 #contacts_container .contact_delete_button{float:right; margin-top:10px;}
+#contacts_container .contact_search_button {margin-top: 10px;}

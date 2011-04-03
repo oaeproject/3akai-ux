@@ -29,6 +29,7 @@
 
 /* No contacts */
 .mycontacts_widget #mycontacts_nocontacts{font-size:.95em;padding-bottom:10px;display:block;}
+.mycontacts_widget a.contacts_no_contacts {text-decoration:none;}
 
 /* Widget icon */
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
