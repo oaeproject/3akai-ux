@@ -289,16 +289,17 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                             "slideshow_url": uri.source
                         },
                         success: function(data){
-                            var embed = $($(data).find("Embed").text());
-                            // resize to fit contentpreview
-                            embed.find('*[style*="width"]').css("width", "920px");
-                            debug.log(embed.find('*[style*="width"]'));
-                            embed.find('*[style*="height"]').css("height", "500px");
-                            embed.find('*[width="425"]').attr("width", "920");
-                            embed.find('*[height="355"]').attr("height", "500");
-
-                            result.url = embed.html();
-                            result.type = "embed";
+                            if (!$(data).find("SlideShareServiceError").text()){
+                                var embed = $($(data).find("Embed").text());
+                                // resize to fit contentpreview
+                                embed.find('*[style*="width"]').css("width", "920px");
+                                embed.find('*[style*="height"]').css("height", "500px");
+                                embed.find('*[width="425"]').attr("width", "920");
+                                embed.find('*[height="355"]').attr("height", "500");
+    
+                                result.url = embed.html();
+                                result.type = "embed";
+                            }
                         }
                     });
                 }
