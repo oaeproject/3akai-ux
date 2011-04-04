@@ -4,9 +4,12 @@
 #contacts_container .contacts_item {color:#333;padding:10px 0 0; border-bottom:1px solid #DDDDDD;}
 #contacts_container .contacts_item img {float: left;margin: 0 10px 5px 20px;width: 35px;}
 #contacts_container .contacts_name {color:#878A8C; width:350px; display:inline-block;margin-top:11px;}
-#contacts_container .contacts_no_contacts {margin-top:7px;display:block;}
+#contacts_container .contacts_no_contacts {margin-top:15px;display:block;}
 #contacts_container a.contacts_no_contacts {text-decoration:none;}
 #contacts_container .contacts_pending_name {width:auto;}
 #contacts_container .contacts_highlight {background:#C4E6FD;}
 #contacts_container .contact_delete_button{float:right; margin-top:10px;}
-#contacts_container .contact_search_button {margin-top: 10px;}
+#contacts_container .contact_search_button {margin-top: 10px;background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat right -41px transparent;padding-right:50px;}
+#contacts_container .contact_search_button span{line-height:40px;height:40px;background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat top left transparent !important;padding-left:50px;}
+#contacts_container .contact_search_button:hover {background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat right -123px transparent;}
+#contacts_container .contact_search_button:hover span{background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat scroll left -82px transparent !important;}
