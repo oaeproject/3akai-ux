@@ -15,17 +15,15 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
-
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -48,15 +46,64 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Containers
         var newaddcontentContainer = "#newaddcontent_container";
+        var newaddcontentContainerNewItem = "#newaddcontent_container_newitem";
+        var newaddcontentContainerNewItemFields = "#newaddcontent_container_newitem_fields";
+
+        // Templates
+        var newaddcontentUploadContentTemplate = "newaddcontent_upload_content_template";
+        var newaddcontentAddDocumentTemplate = "newaddcontent_add_document_template";
+        var newaddcontentAddExistingTemplate = "newaddcontent_add_existing_template";
+        var newaddcontentAddLinkTemplate = "newaddcontent_add_link_template";
 
         // Elements
         var newaddcontentContainerLHChoiceItem = ".newaddcontent_container_lhchoice_item";
-        var newaddcontentContainerNewItem = "#newaddcontent_container_newitem";
+        var newaddcontentContainerLHChoiceSelectedSubitem = ".newaddcontent_container_lhchoice_selected_subitem";
+        var newaddcontentContainerLHChoiceSubItem = ".newaddcontent_container_lhchoice_subitem";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
         var newaddcontentContainerLHChoiceItemClass = "newaddcontent_container_lhchoice_item";
-        var newaddcontentContainerNewItemExtraRoundedBorder = "newaddcontent_container_newitem_extraroundedborder";
+        var newaddcontentContainerNewItemExtraRoundedBorderClass = "newaddcontent_container_newitem_extraroundedborder";
+        var newaddcontentContainerLHChoiceSelectedSubitemClass = "newaddcontent_container_lhchoice_selected_subitem";
+
+
+        ///////////////////////
+        // UPLOADING ACTIONS //
+        ///////////////////////
+
+        var addLink = function(link){
+            
+        };
+
+        ///////////////
+        // RENDERING //
+        ///////////////
+
+        var renderUploadNewContent = function(){
+            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentUploadContentTemplate,{}));
+        };
+
+        var renderNewDocument = function(){
+            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddDocumentTemplate,{}));
+        };
+
+        var renderExistingContent = function(context){
+            switch(context){
+                case "everything":
+                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    break;
+                case "my_content":
+                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    break;
+                case "shared_with_me":
+                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    break;
+            }
+        };
+
+        var renderAddLink = function(){
+            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddLinkTemplate,{}));
+        };
 
         ////////////////////
         // INITIALIZATION //
@@ -77,36 +124,76 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $newaddcontentContainer.css({
                     "top": htmlScrollPos + 100 + "px"
                 });
-            }
-            else if (docScrollPos > 0) {
-                $newaddcontentContainer.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
+            } else if (docScrollPos > 0) {
+                    $newaddcontentContainer.css({
+                        "top": docScrollPos + 100 + "px"
+                    });
+                }
 
             $(newaddcontentContainer).jqmShow();
         };
 
-        var renderInterface = function(){
 
+        /////////////
+        // BINDING //
+        /////////////
+
+        var navigateMenu = function(){
+            if ($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)) {
+                $(newaddcontentContainerNewItem).addClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
+            }
+            else {
+                $(newaddcontentContainerNewItem).removeClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
+            }
+            $(newaddcontentContainerLHChoiceItem).removeClass(newaddcontentContainerLHChoiceSelectedItem);
+            $(this).addClass(newaddcontentContainerLHChoiceSelectedItem);
+
+            switch ($(this)[0].id) {
+                case "newaddcontent_upload_content":
+                    renderUploadNewContent();
+                    break;
+                case "newaddcontent_new_document":
+                    renderNewDocument();
+                    break;
+                case "newaddcontent_add_link":
+                    renderAddLink();
+                    break;
+                case "": // No ID found on class -> subnav present
+                    switch ($(this).children("ul").children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {
+                        case "newaddcontent_existing_content_everything":
+                            renderExistingContent("everything");
+                            break;
+                        case "newaddcontent_existing_content_my_content":
+                            renderExistingContent("my_content");
+                            break;
+                        case "newaddcontent_existing_content_shared_with_me":
+                            renderExistingContent("shared_with_me");
+                            break;
+                    }
+                    break;
+            }
+        };
+
+        var navigateSubItem = function(){
+            $(newaddcontentContainerLHChoiceSelectedSubitem).removeClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
+            $(this).addClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
+        };
+
+        var removeBinding = function(){
+            $(newaddcontentContainerLHChoiceItem).unbind("click", navigateMenu);
+            $(newaddcontentContainerLHChoiceSubItem).unbind("click", navigateSubItem);
         };
 
         var addBinding = function(){
-            $(newaddcontentContainerLHChoiceItem).bind("click", function(){
-                if($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)){
-                    $(newaddcontentContainerNewItem).addClass(newaddcontentContainerNewItemExtraRoundedBorder);
-                }else{
-                    $(newaddcontentContainerNewItem).removeClass(newaddcontentContainerNewItemExtraRoundedBorder);
-                }
-                $(newaddcontentContainerLHChoiceItem).removeClass(newaddcontentContainerLHChoiceSelectedItem);
-                $(this).addClass(newaddcontentContainerLHChoiceSelectedItem);
-            });
+            removeBinding();
+            $(newaddcontentContainerLHChoiceItem).bind("click", navigateMenu);
+            $(newaddcontentContainerLHChoiceSubItem).bind("click", navigateSubItem);
         };
 
         var initialize = function(data){
             initializeJQM();
-            renderInterface();
             addBinding();
+            renderUploadNewContent();
         };
 
 
@@ -114,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // EVENTS //
         ////////////
 
-        $(window).bind("init.newaddcontent.sakai", function(e, data) {
+        $(window).bind("init.newaddcontent.sakai", function(e, data){
             initialize();
         });
 
