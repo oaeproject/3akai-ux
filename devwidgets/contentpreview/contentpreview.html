@@ -1,5 +1,14 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentpreview/css/contentpreview.css" />
+<!--[if (!IE)|(gte IE 8)]><!-->
+<link href="/devwidgets/contentpreview/lib/document-viewer/assets/viewer-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/devwidgets/contentpreview/lib/document-viewer/assets/plain-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<!--<![endif]-->
+<!--[if lte IE 7]>
+<link href="/devwidgets/contentpreview/lib/document-viewer/assets/viewer.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/devwidgets/contentpreview/lib/document-viewer/assets/plain.css" media="screen" rel="stylesheet" type="text/css" />
+<![endif]-->
+
 <div style="display:none;">__MSG__IE_PLACEHOLDER__</div>
 <div id="contentpreview_widget_main_container" class="contentpreview_widget">
 </div>
@@ -51,7 +60,8 @@
         <div class="contentpreview_text_preview contentpreview_other_preview" id="contentpreview_text_preview"></div>
         <div class="contentpreview_html_preview contentpreview_other_preview" id="contentpreview_html_preview"></div>
         <div class="contentpreview_externalhtml_preview contentpreview_other_preview" id="contentpreview_externalhtml_preview"></div>
-        <div class="contentpreview_image_preview" id="contentpreview_image_preview"></div>
+		<div class="contentpreview_document_preview" id="contentpreview_document_preview"></div>      
+		<div class="contentpreview_image_preview" id="contentpreview_image_preview"></div>
         <div id="contentpreview_other_preview_buttons">
             {if buttons === "default"}
                 <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.path}" class="s3d-button s3d-button-primary" target="_blank">
