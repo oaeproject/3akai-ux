@@ -458,7 +458,7 @@ define(["jquery",
             } else {
                 // has to be synchronous
                 $.ajax({
-                    url: sakai_conf.URL.CONTACTS_FIND_STATE,
+                    url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
                     async: false,
                     success: function(data) {
                         sakaiUserAPI.data.me.mycontacts = data.results;
@@ -484,9 +484,9 @@ define(["jquery",
             return ret;
         },
 
-        acceptContactInvite : function(inviteFrom, inviteTo, callback) {
+        acceptContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + inviteTo + "/contacts.accept.html",
+                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.accept.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
@@ -504,9 +504,9 @@ define(["jquery",
             });
         },
 
-        ignoreContactInvite : function(inviteFrom, inviteTo, callback) {
+        ignoreContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + inviteTo + "/contacts.ignore.html",
+                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.ignore.html",
                 type: "POST",
                 data: {
                     "targetUserId": accepting

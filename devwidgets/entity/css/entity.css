@@ -39,6 +39,8 @@
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px;}
 #entity_container .entity_user_image_clicked {width:93px; height:46px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-right:15px;margin-top:-7px;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
+#entity_container .entity_user_contact_pending {background:#fff; border:1px solid #ccc; display:inline-block; font-size:0.9em;margin:0 5px 5px 0;overflow:visible;padding:0 15px;position:relative;top: -1px; height: 23px; line-height: 23px;}
+#entity_container .entity_user_contact_pending_inner {color:#333333 !important;font-size:11px;margin:0 !important;}
 
 /* Group */
 #entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
