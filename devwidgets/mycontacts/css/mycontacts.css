@@ -32,9 +32,9 @@
 .mycontacts_widget a.contacts_no_contacts {text-decoration:none;}
 .mycontacts_widget .contact_search_button {margin-top: 10px;background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat right -41px transparent;padding-right:50px;}
 .mycontacts_widget .contact_search_button span{line-height:40px;height:40px;background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat top left transparent !important;padding-left:50px;}
-.mycontacts_widget .contact_search_button:hover {background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat right -123px transparent;}
-.mycontacts_widget .contact_search_button:hover span{background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat scroll left -82px transparent !important;}
-.mycontacts_widget .mycontacts_no_contacts {}
+.mycontacts_widget .contact_search_button:hover {background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat right -41px transparent !important;}
+.mycontacts_widget .contact_search_button:hover span{background:url("/devwidgets/contacts/images/contacts_invite_button.png") no-repeat top left transparent !important; color: #333 !important;}
+.mycontacts_widget .mycontacts_no_contacts {display: block; max-width: 50px; margin-bottom: 10px;}
 
 /* Widget icon */
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
