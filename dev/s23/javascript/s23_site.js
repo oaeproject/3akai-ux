@@ -122,9 +122,34 @@ sakai.s23_site = function(){
                 // Show the page container
                 $("#"+completexid).show();
             }else{
+                // Sometimes Sakai2 tools have a layouthint property (but not
+                // always). If it does, we look at the second number to figure
+                // out the column for display. Otherwise we just throw it in
+                // the first column.
+                var renderData = {
+                    xid: page.xid,
+                    columnTools: [[]],
+                };
+                for (var i = 0; i < page.tools.length; i++) {
+                    if (page.tools[i].layouthint) {
+                        var colstr = page.tools[i].layouthint.split(",")[1];
+                        if (colstr === "0") {
+                            renderData.columnTools[0].push(page.tools[i]);
+                        }
+                        else if (colstr === "1") {
+                            if (renderData.columnTools.length < 2) {
+                                renderData.columnTools.push([]);
+                            }
+                            renderData.columnTools[1].push(page.tools[i]);
+                        }
+                    }
+                    else {
+                        renderData.columnTools[0].push(page.tools[i]);
+                    }
+                }
 
                 // Render the tools of the site and add them to the page container
-                s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, page));
+                s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
                 var loadIframe = function() {
                     $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                 };
