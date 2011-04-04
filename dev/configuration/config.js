@@ -820,7 +820,7 @@ define(function() {
                         "label": "MY_MESSAGES"
                     },
                     {
-                        "url" : "/preferences",
+                        "url" : "javascript:;",
                         "id": "subnavigation_preferences_link",
                         "label": "MY_PREFERENCES"
                     },

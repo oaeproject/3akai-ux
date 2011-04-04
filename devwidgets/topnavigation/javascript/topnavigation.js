@@ -380,6 +380,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).keyup();
             });
 
+            $("#subnavigation_preferences_link").click(function(){
+                $(window).trigger("init.accountpreferences.sakai");
+            });
+
             $("#topnavigation_search_input").keyup(function(evt){
                 var val = $.trim($(this).val());
                 if (val && evt.keyCode != 16) {
