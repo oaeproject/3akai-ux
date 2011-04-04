@@ -20,7 +20,7 @@
               <ul>
               {for result in data.results}
                 {for tag in result.tags}
-                  <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" style="font-size:${1.00 + Math.log(tag.count)/2}em" class="s3d-regular-links">${tag.name}</a></li>
+                  <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" class="s3d-regular-links{if tag.count <= 5} tags_font1{elseif tag.count <= 15 } tags_font2{elseif tag.count <= 30 } tags_font3{elseif tag.count <= 90 } tags_font4{elseif tag.count > 90 } tags_font5{/if}">${tag.name}</a></li>
                 {forelse}
                   <li>__MSG__NO_TAGS_FOUND__</li>
                 {/for}

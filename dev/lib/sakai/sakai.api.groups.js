@@ -437,8 +437,11 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
-                    url: "/~" + groupID + "/joinrequests.create.html?userid=" + userID,
+                    url: "/~" + groupID + "/joinrequests.create.html",
                     type: "POST",
+                    data: {
+                        userid: userID
+                    },
                     success: function (data) {
                         if ($.isFunction(callback)) {
                             callback(true);
@@ -546,7 +549,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          */
         getMembers : function(groupID, callback) {
             $.ajax({
-                url: "/system/userManager/group/" + groupID + ".members.detailed.json",
+                url: "/system/userManager/group/" + groupID + ".members.json",
                 success: function(data) {
                     if ($.isFunction(callback)) {
                         callback(true, data);
@@ -570,7 +573,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          */
         getManagers : function(groupID, callback) {
             $.ajax({
-                url: "/system/userManager/group/" + groupID + "-managers.members.detailed.json",
+                url: "/system/userManager/group/" + groupID + "-managers.members.json",
                 success: function(data) {
                     if ($.isFunction(callback)) {
                         callback(true, data);

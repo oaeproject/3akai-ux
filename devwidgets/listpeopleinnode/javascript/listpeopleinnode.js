@@ -45,6 +45,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $listpeopleinnodeTitle = $("#listpeopleinnode_title");
         var $listpeopleinnodePeopleContainer = $("#listpeopleinnode_people_container");
 
+        var listpeopleinnodeMainLoadingProgress = "#listpeopleinnode_main_progress_loading";
+        var listpeopleinnodeMainProgress = "listpeopleinnode_main_progress";
+
         // Templates
         var listpeopleinnodeTitleTemplate = "listpeopleinnode_title_template";
         var listpeopleinnodePeopleTemplate = "listpeopleinnode_people_template";
@@ -53,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //var $listpeopleinnodeAjaxLoader = $("#listpeopleinnode_ajax_loader");
 
         var searchQuery = "/search/people#tag=${query}";
+        var currentSearch = "";
 
         var listpeopleinnodeEllipsisContainer = ".listinpeopleinnode_ellipsis_container";
         /**
@@ -73,6 +77,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} selected
          */
         var searchUsersInNode = function(selected){
+            $listpeopleinnodePeopleContainer.html("");
+            $(listpeopleinnodeMainLoadingProgress).addClass(listpeopleinnodeMainProgress);
+
             var params = {
                 page: 0,
                 items: 10,
@@ -90,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 data: params,
                 success: function(data){
+                    $(listpeopleinnodeMainLoadingProgress).removeClass(listpeopleinnodeMainProgress);
                     if (typeof(data) === 'string') {
                         data = $.parseJSON(data);
                     }
@@ -117,7 +125,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(e, node) {
             var selected = node || $.bbq.getState("location");
-            if (selected) {
+            if (selected && selected !== currentSearch) {
+                currentSearch = selected;
                 $listpeopleinnodePeopleContainer.text("");
 
                 // Set title

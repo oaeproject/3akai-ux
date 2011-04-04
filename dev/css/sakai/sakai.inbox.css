@@ -37,6 +37,7 @@
 .inbox_main .inbox-heading{font-weight:bold;color:#333 !important;font-size:17px;padding:4px 0 0 5px;}
 /** Table **/.inbox_main .main_content_container{width:670px;border-left:3px solid #d5dbdf;border-right:3px solid #d5dbdf;min-height:400px;padding-bottom:10px;}
 .inbox_main .inbox-table{width:670px;margin:0;border-spacing:0;border-collapse:collapse;}
+.inbox_main .inbox-table .inbox_message{cursor:pointer;}
 .inbox_main .top_decor{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -1823px transparent;height:32px;width:673px;border:none;padding:9px 0 0 7px;}
 
 /** Buttons **/

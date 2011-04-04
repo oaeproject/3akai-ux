@@ -116,7 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             initiallySelect = browsedirectoryData[0].attr.id;
             // if id is passed set inital select as id
             if (id) {
-                initiallySelect = id;
+                var lastIndex = id.split("/").length - 1;
+                initiallySelect = id.split("/")[lastIndex];
             }
 
             // set up new jstree for directory
@@ -222,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             var id = $.bbq.getState("location");
             renderDirectories(id);
-            $(window).trigger("hashchange", initiallySelect);
+            $(window).trigger("hashchange", id);
         };
 
         doInit();
