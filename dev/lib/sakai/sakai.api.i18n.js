@@ -445,7 +445,7 @@ define(["jquery",
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_config.displayDebugInfo === true && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
+                    if (sakai_config.displayDebugInfo === true && meData.user && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;

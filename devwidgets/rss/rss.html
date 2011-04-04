@@ -14,7 +14,7 @@
         <label for="rss_settings_txtUrl">__MSG__RSS_FEED_URL__:</label><br />
         <input type="text" id="rss_settings_txtUrl" />
         <br/>
-        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">__MSG__ADD_URL__</span></button>
+        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">__MSG__ADD_RSS_FEED__</span></button>
         <br />
 
         <div id="rss_settings_rssFeedList">
@@ -23,9 +23,10 @@
         <div id="rss_settings_rssFeedListTemplate" style="display:none"><!--
             {for i in feeds}
             <div class="rss_settings_rssFeedListItem">
-                <span class="rss_bold rss_setting_listLeft">${i.title}</span>
-                <button type="button" id="rss_settings_removeFeed${feeds.indexOf(i)}" class="rss_settings_removeFeed rss_setting_listRight s3d-bold s3d-link-button"><img src="/dev/images/close_icon_small.png" alt="X"></img></button>
-                <div class="fl-push"></div>
+                <button type="button" id="rss_settings_removeFeed-${feeds.indexOf(i)}"
+                    title="__MSG__REMOVE_FEED__" class="rss_settings_removeFeed rss_setting_listRight s3d-bold s3d-link-button"><img src="/dev/images/close_icon_small.png" alt="X"></img></button>
+                <span class="rss_feed_title">${i.title}</span>
+                <span class="rss_grey"><a href="${i.id}" target="_blank">${i.id}</a></span>
                 <span>
                     ${i.items.length}
                     {if i.items.length == 1}
@@ -44,8 +45,8 @@
             <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label><br />
         </p>
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">__MSG__ADD_RSS_FEED__</span></button>
+            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
         </div>
     </form>
     <hr class='fl-hidden fl-push'>
@@ -70,19 +71,16 @@
 
         {for i in shownEntries}
             <div class="rss_output_entry">
+                <span class="rss_title fl-force-right">${i.pubDate}</span>
+                <a href="${i.link}"><h2 class="fl-force-left">${i.title}</h2></a>
+                <div class="fl-push"></div>
                 {if !displayHeadlines}
-                    <h2 class="fl-force-left">${i.title}</h2>
-                    <span class="rss_title fl-force-right" >${i.pubDate}</span>
-                    <div class="fl-push"></div>
                     <p>${i.description}
                         {if i.link != ""}
-                            <a href="${i.link}" target="_blank">__MSG__READ_MORE__</a>
+                            <a href="${i.link}" target="_blank">... __MSG__READ_MORE__</a>
                         {/if}
                     </p>
                 {else}
-                    <a href="${i.link}"><h2 class="fl-force-left">${i.title}</h2></a>
-                    <span class="rss_title fl-force-right" >${i.pubDate}</span>
-                    <div class="fl-push"></div>
                     {if displaySource}
                         <br />
                     {/if}
