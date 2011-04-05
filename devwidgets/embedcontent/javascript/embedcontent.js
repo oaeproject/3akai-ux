@@ -157,34 +157,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Get the mimetype of a provided file
-         * @param {Object} file File provided to get mimetype of
-         */
-        var getMimeType = function(file) {
-            var mimetype = "";
-            mimetype = file["_mimeType"] || "";
-            return mimetype;
-        };
-
-        /**
          * Creates an object out of results provided
          * This object contains valuable information about the file like path, name, type,...
          * @param {Object} result results provided (eg through a search)
          * @param {Object} name optional name provided
          */
         var createDataObject = function(result, name) {
-            var mimetype = getMimeType(result);
+            var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
                 "value": name || result['jcr:name'],
                 "name": result['sakai:pooled-content-file-name'],
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
-                "mimetype": mimetype,
+                "_mimeType": mimetype,
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['jcr:name']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
                 "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
-                "extension": result['sakai:fileextension']
+                "extension": result['sakai:fileextension'],
+                "jcr:name": result['jcr:name'],
+                "_mimeType/page1-small": result["_mimeType/page1-small"]
             };
 
             // if the type is application need to auto check the display name so set ispreviewexist false
