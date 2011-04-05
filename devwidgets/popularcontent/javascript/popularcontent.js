@@ -48,6 +48,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
         var popularcontentMainProgress = "popularcontent_main_progress";
 
         var contentData = {};
+        var currentSearch = "";
 
         var popularContentEllipsisContainer = ".popularcontent_ellipsis_container";
 
@@ -59,8 +60,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
 
         var handleHashChange = function(e, node) {
             var selected = node || $.bbq.getState("location");
-            if (selected) {
+            if (selected && selected !== currentSearch) {
                 loadDataDirectory(selected, renderPopularContent);
+                currentSearch = selected;
             }
         };
 

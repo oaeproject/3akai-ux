@@ -20,10 +20,11 @@
 .listpeopleinnode_widget .fl-widget-titlebar .widget_title_icon{background:url("/dev/images/contacts_icon.png") no-repeat scroll left top transparent}
 
 /* Content */
-.listpeopleinnode_widget .s3d-widget-content{padding:0!important;}
 .listpeopleinnode_widget .s3d-list-item{cursor:pointer;}
 #listpeopleinnode_no_people{padding:10px;line-height:25px;}
 #listpeopleinnode_ajax_loader{background:url(/dev/images/ajax_load.gif) no-repeat scroll 8px 8px transparent;height:18px;width:87px;}
 .listpeopleinnode_ellipsis_container{word-wrap:break-word;}
 .listpeopleinnode_seeall{padding-right:10px;}
 .listpeopleinnode_main_progress {background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative;height:25px;}
+#listpeopleinnode_people_container {margin: 0 10px 0 15px;}
+#listpeopleinnode_people_container ul li {list-style-type:none;}
