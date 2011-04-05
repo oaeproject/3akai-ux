@@ -23,7 +23,7 @@
                                 {if thumbnail}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
-                                {elseif (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
+                                {elseif (mimeType.substring(0,6)=="image/")}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     <img class="s3d-icon-32" src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[mimeType]}
