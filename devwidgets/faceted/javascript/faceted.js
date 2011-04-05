@@ -99,15 +99,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization //
         ////////////////////
 
-        /**
-         * Render function
-         */
-        var render = function(facetedConfig){
-            renderTemplateFaceted(facetedConfig);
-        };
-
         $(window).bind("render.faceted.sakai", function(e, config) {
-            render(config);
+            renderTemplateFaceted(config);
         });
 
         // Indicate that the widget has finished loading

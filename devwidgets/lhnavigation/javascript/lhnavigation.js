@@ -174,13 +174,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             // Select correct item
-            var menuitem = $("li[sakai-path=" + selected + "]");
+            var menuitem = $("li[data-sakai-path='" + selected + "']");
             if (menuitem){
                 if (selected.split("/").length > 1){
-                    var par = $("li[sakai-path=" + selected.split("/")[0] + "]");
+                    var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
                     showHideSubnav(par, true);
                 }
-                var ref = menuitem.attr("sakai-ref");
+                var ref = menuitem.attr("data-sakai-ref");
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
@@ -236,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     showHideSubnav(el);
                 } else {
                     var path = {
-                        "l": el.attr("sakai-path")
+                        "l": el.attr("data-sakai-path")
                     }
                     if (path.l) {
                         $.bbq.pushState(path, 2);
@@ -272,8 +272,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("lhnavigation");
-});
 
-//} else {
-//    showHideSubnav(el);
-//}
+});
