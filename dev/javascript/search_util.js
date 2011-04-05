@@ -53,11 +53,57 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("sakai.search.util.finish");
         }
 
+        ////////////////////
+        // Faceted Search //
+        ////////////////////
+        
+        /**
+         * Adds the faceted panel to the page if a search is performed
+         */
+        sakai_global.data.search.addFacetedPanel = function(searchConfig) {
+            
+            //alert("Here");
+            
+            $(window).bind("ready.faceted.sakai", function(e){
+                $(window).trigger("render.faceted.sakai", searchConfig.facetedConfig);
+
+                var currentfacet = $.bbq.getState('facet');
+                if (currentfacet) {
+                    $("#" + currentfacet).addClass("faceted_category_selected");
+                } else {
+                    $(".faceted_category:first").addClass("faceted_category_selected");
+                }
+
+                // bind faceted search elements
+                // loop through each faceted category and bind the link to trigger a search
+
+                $(".faceted_category").bind("click", function(ev){
+                    var facet = $(this).attr("id");
+                    //alert("Facet changed");
+                    //var searchquery = $(searchConfig.global.text).val();
+                    //var searchwhere = getSearchWhereSites();
+
+                    // sometimes page search takes a long time and
+                    // if another link is clicked in between load old link data instead of new link
+                    // so need to check if new link is clicked kill the previous ajax request.
+                    //var killPreviousAjaxCall = false;
+                    /*if (mainFacetedUrl !== searchConfig.facetedConfig.facets[facet].searchurl) {
+                        killPreviousAjaxCall = true;
+                    }*/
+
+                    //mainFacetedUrl = searchConfig.facetedConfig.facets[facet].searchurl;
+                    //sakai_global._search.doHSearch(1, searchquery, searchwhere, facet, killPreviousAjaxCall);
+                });
+
+            });
+
+        };
+
         ///////////////////////////
         // Prepare for rendering //
         ///////////////////////////
 
-        sakai_global.data.search.prepareCMforRendering = function(results, finaljson, searchterm) {
+        sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i < j; i++) {
                 // Set the item object in finaljson equal to the object in results
                 finaljson.items[i] = results[i];
@@ -74,6 +120,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
                         finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
                     }
+                }
+            }
+            finaljson.sakai = sakai;
+            return finaljson;
+        };
+        
+        sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
+            for (var group in results){
+                if (results.hasOwnProperty(group)) {
+                    if (results[group]["sakai:group-title"]) {
+                        results[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-title"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+                    }
+                    if (results[group]["sakai:group-description"]) {
+                        results[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-description"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "searchall_result_course_site_excerpt");
+                    }
+                    finaljson.items.push(results[group]);
+                }
+            }
+
+            // If result is page content set up page path
+            for (var i=0, j=finaljson.items.length; i<j; i++ ) {
+                var full_path = finaljson.items[i]["path"];
+                var site_path = finaljson.items[i]["sakai:group-id"];
+                var page_path = site_path;
+                finaljson.items[i]["pagepath"] = page_path;
+                finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false},"searchall_result_course_site_excerpt");
+
+                if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
+                    finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
+                    finaljson.items[i].picture.picPath = "/~"+finaljson.items[i]["sakai:group-id"]+"/public/profile/"+finaljson.items[i].picture.name;
                 }
             }
             finaljson.sakai = sakai;
@@ -150,7 +226,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         sakai_global.data.search.getQueryParams = function(){
             var params = {
-                "page": $.bbq.getState('page') || 0,
+                "page": $.bbq.getState('page') || 1,
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet')
             }

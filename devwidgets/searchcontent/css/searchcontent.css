@@ -1,0 +1,144 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+ /*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+strong{color:#000;}
+
+/* SEARCH BAR */
+.skinned_select{float:left;width:190px;height:23px;border:1px solid #ddd;padding-top:3px;}
+.searchcontent_bar input{border:1px solid #ddd;float:left;margin:0 5px;height:19px;width:200px;font-size:1em;padding-left:5px;display:block;padding-top:2px;}
+.searchcontent_button{top:3px;}
+
+/* SEARCH RESULTS TITLE */
+.searchcontent_result_title{width:80%;text-align:center;font-size:1.1em;color:#999;padding:0;}
+
+/* SEARCH RESULTS */
+#searchcontent_results_container{margin:10px 0 0;padding:0 10px;}
+.searchcontent_results_part{padding-bottom:10px;}
+.searchcontent_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
+.searchcontent_results_part_title{font-weight:bold;color:#333;float:left;}
+.display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
+.searchcontent_result{color:#333;padding:5px 0 10px;}
+.searchcontent_result img{float:left;padding:0 10px 10px 0;width:50px;}
+.searchcontent_result_sites img{width:30px;}
+.searchcontent_result_right{margin-left:60px;}
+.searchcontent_result_star{background-image:url(/dev/images//star.png);display:block;float:left;position:relative;top:-4px;left:0;}
+.searchcontent_result_header{color:#39c;margin:0 0 5px 25px;font-weight:bold;font-size:1.1em;}
+.searchcontent_result_tags,.searchcontent_result_description{margin:0 0 5px;color:#333;font-size:.95em;}
+.searchcontent_result_footer{margin:0 0 5px 25px;color:#999;font-size:.85em;}
+
+/* search results people */
+.searchcontent_result_person{padding:8px;margin:15px 10px 0 0;border:1px solid #ddd;width:200px;height:60px;float:left;}
+.searchcontent_result_person_picture{float:left;display:block;width:60px;height:60px;padding:0;margin:0;}
+.searchcontent_result_dot{display:block;float:left;position:relative;left:5px;}
+.searchcontent_result_person_name{display:block;color:#39c;font-weight:bold;margin-left:80px;}
+.searchcontent_result_person_dept{display:block;color:#999;font-size:.85em;margin-left:80px;}
+
+/* search result images */
+.searchcontent_result_image_container{float:left;margin:15px 10px 10px 0;}
+
+/* Search Directory */
+.searchcontent_directory_seperator{padding:0 10px;}
+
+/* Sakai Search Tab */
+#tab_searchcontent_sakai2{display:none;}
+
+/* HEADER */
+.content_search{padding:0;}
+.content_search h1.title{font-size:1.4em;font-weight:bold;margin:15px 0 0;padding:0;}
+.content_search .breadcrumb{font-size:.85em;padding:15px 0 0;color:#444;}
+.breadcrumb .pipe-divider{padding:0 6px;color:#AAA;}
+
+/* Content */
+.content_b{position:relative;top:-15px;}
+
+/* Button */
+.searchcontent_add_content_button,.searchcontent_add_group_button{float:right;}
+.searchcontent_content_wrapper{padding:0;margin:0 0 20px;}
+.searchcontent_content_main{margin:0;min-height:350px;}
+.searchcontent_tab_content_top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1567px transparent;padding:0 5px 0 0;margin:0;}
+.searchcontent_tab_content_top_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;margin:0;height:6px;}
+.searchcontent_bar{padding:5px 10px 10px 0px; float:right;}
+.searchcontent_bar #introduction_text h4{font-weight:normal;font-size:1.1em;color:#999;padding:0;margin:0 0 10px;}
+.searchcontent_content_main .searchcontent_bar{width:auto;}
+.searchcontent_content_main .searchcontent_results{display:block; overflow:hidden;width:500px;}
+.searchcontent_content_main .searchcontent_results_faceted{float:right;width:30%;}
+.searchcontent_content_main .searchcontent_results_container{padding:0;margin:0 0 10px;display:none;float:left;width:100%;overflow-y:hidden;}
+.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_tl,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_tinner,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_bl,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_binner{margin-left:0;margin-right:0;}
+.searchcontent_content_main .searchcontent_results_container_sub{width:74%!important;overflow-y:hidden;}
+.searchcontent_result_title{text-align:left;margin:10px;font-weight:normal;font-size:1em;color:#828e9c;margin:0 10px 10px;padding-bottom:10px;padding-top:8px;}
+.searchcontent_result_title strong{background-color:transparent;color:#828e9c;font-weight:bold;}
+
+/* 1px padding to avoid scroll bar in older Webkit browsers */
+.searchcontent_padded_nocontent{padding-bottom:10px;}
+.searchcontent_padded_groups{padding:0 10px;}
+.searchcontent_no_groups{padding:10px 0;}
+.searchcontent_results_part_header{font-weight:normal;font-size:1.2em;margin-bottom:10px;margin-top:10px;overflow:hidden;}
+a.searchcontent_results_part_title{color:#5a6a7c;}
+.display_more_link{font-size:.95em;font-weight:bold;}
+.searchcontent_result_header{margin:0 0 5px;}
+.searchcontent_result_description{margin:0 0 5px;}
+.searchcontent_result_footer{margin:0 0 5px;font-size:.95em;}
+.searchcontent_result_footer a{color:#390;}
+
+/* search results people */
+.searchcontent_result_person{margin:5px 8px 10px;padding:10px;width:280px;background-color:#FFF;height:50px;float:left;border:none;overflow:hidden;}
+.searchcontent_result_person_picture{float:left;display:block;width:48px;height:48px;padding:0;margin:0;}
+.searchcontent_result_dot{display:block;float:left;position:relative;left:5px;}
+.searchcontent_result_person .searchcontent_result_person_name{display:block;color:#000;font-weight:bold;font-size:1em;margin-left:57px;margin-top:4px;}
+.searchcontent_result_person_dept{display:block;color:#999;font-size:.85em;margin:0 0 4px 57px;line-height:12px;}
+.searchcontent_result_person_links{margin-left:57px;}
+.searchcontent_result_person_link{font-size:.85em;}
+.searchcontent_result_person_divider{color:#ddd;margin:0 0 0 0px!important;}
+.searchcontent_result_course_site{padding:5px 0 10px 10px;}
+.searchcontent_result_course_site_title a, .searchcontent_result_content_title a{margin:0 0 5px;font-size:1em;}
+.searchcontent_result_course_site_url a{font-size:.95em;color:#999;}
+.searchcontent_result_course_site_excerpt{font-size:.95em;color:#666;}
+.searchcontent_result_course_site_excerpt strong{font-size:.95em;color:#333;}
+#add_to_contacts_dialog{width:600px!important;margin-left:-300px!important;}
+#add_to_contacts_dialog td{border:none!important;padding:0!important;}
+.site_heading{border-bottom:none;}
+.searchcontent_no_results{padding:10px;}
+.searchcontent_result_person_threedots{display:block;width:150px;}

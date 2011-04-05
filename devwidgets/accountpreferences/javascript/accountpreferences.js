@@ -410,17 +410,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var doInit = function(){
-
-            // An anonymous user shouldn't have access to this page
-            disableElements($(saveNewPass));
-            disableElements($(saveRegional));
-            selectTimezone(me.user.locale.timezone);
-            getLanguages();
-            initValidation();
-
-            // if allowpasswordchange is false then hide the regional setting
-            if(!sakai.config.allowPasswordChange){
-                $(passChangeContainer).hide();
+            if (!sakai.data.me.user.anon) {
+                // An anonymous user shouldn't have access to this page
+                disableElements($(saveNewPass));
+                disableElements($(saveRegional));
+                selectTimezone(me.user.locale.timezone);
+                getLanguages();
+                initValidation();
+                
+                // if allowpasswordchange is false then hide the regional setting
+                if (!sakai.config.allowPasswordChange) {
+                    $(passChangeContainer).hide();
+                }
             }
         };
 

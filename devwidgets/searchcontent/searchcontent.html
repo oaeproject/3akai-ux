@@ -1,0 +1,122 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/searchcontent/css/searchcontent.css" />
+<div class="searchcontent_widget" id="searchcontent_widget">
+    <div class="searchcontent_content_main">
+        <!-- SEARCH BAR -->
+        <div class="fl-left fl-container fl-fix searchcontent_bar">
+            <span id="form"><input type="text" maxlength="255" id="searchcontent_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
+                <button id="button" class="s3d-search-button s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
+                </button>
+            </span>    
+        </div>
+        <div class="fl-left fl-container searchcontent_result_title" id="results_header">
+        	__MSG__FOUND__ <strong id="searchcontent_numberFound">0</strong> __MSG__RESULTS__
+            <span id="searchcontent_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="searchcontent_mysearchterm"></strong>"</span></span>
+        </div> 
+        <!-- TEMPORARY SEARCH TEXT -->
+        <div id="result_temp" style="display:none;">
+            <div class="padded_content">
+                <b>__MSG__SEARCHING__ ...</b>
+            </div>
+        </div>
+        <div class="searchcontent_results_faceted">
+                        <span id="searchcontent_result_title" style="display:none;">__MSG__REFINE_YOUR_SEARCH__</span>
+                        <span id="searchcontent_result_all_content" style="display:none;">__MSG__ALL_CONTENT_I_CAN_SEE__</span>
+                        <span id="searchcontent_result_content_I_manage" style="display:none;">__MSG__CONTENT_I_CAN_EDIT__</span>
+                        <span id="searchcontent_result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_SHARED_WITH_ME__</span>
+                        <!-- FACETED WIDGET -->
+                        <div id="widget_faceted" class="widget_inline">
+                        </div>
+                    </div>
+        <div class="fl-container searchcontent_results">
+            <!-- SEARCH RESULTS -->
+            <div id="results_page1" class="results_container s3d-highlight_area_background results_container_sub">
+                <div class="s3d-highlight_area_background_tl">
+                    <div class="s3d-highlight_area_background_tinner">
+                    </div>
+                </div>
+                <!-- CONTENT -->
+                <div class="fl-container fl-fix results_part">
+                    <div id="result_results_tagged_under" style="display:none;">
+                        <span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span>
+                    </div>
+                    <div id="result_results_located_in" style="display:none;">
+                        <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
+                    </div>
+                    <div class="searchcontent_results_faceted">
+                        <span id="result_title" style="display:none;">__MSG__REFINE_YOUR_SEARCH__</span>
+                        <span id="result_all_content" style="display:none;">__MSG__ALL_CONTENT_I_CAN_SEE__</span>
+                        <span id="result_content_I_manage" style="display:none;">__MSG__CONTENT_I_CAN_EDIT__</span>
+                        <span id="result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_SHARED_WITH_ME__</span>
+                        <!-- FACETED WIDGET -->
+                        <div id="widget_faceted" class="widget_inline">
+                        </div>
+                    </div>
+                    <!-- CONTAINER FOR THE RESULTS -->
+                    <div id="searchcontent_results_container" class="s3d-highlight_area_background">
+                    </div>
+                    <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
+                </div>
+                <div class="s3d-highlight_area_background_bl">
+                    <div class="s3d-highlight_area_background_binner">
+                    </div>
+                </div>
+                <!-- TEMPLATE CONTAINING THE RESULTS -->
+                <div id="searchcontent_results_template"><!--
+                    {for i in items}
+                    {if i['sakai:pooled-content-file-name']}
+                    {var contentFound = true}
+                    <div class="fl-container fl-fix searchcontent_result">
+                    {if i['_mimeType']}
+                    {var mimeType = i['_mimeType']}
+                    {elseif i.file && i.file['_mimeType']}
+                    {var mimeType = i.file['_mimeType']}
+                    {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
+                    {var mimeType = i['jcr:content']['_mimeType']}
+                    {elseif i['jcr:primaryType'] === "sling:Folder"}
+                    {var mimeType = 'folder'}
+                    {/if}
+                    <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                    {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                    {elseif sakai.config.MimeTypes[mimeType]}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                    {else}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                    {/if}
+                    </a>
+                    <div class="searchcontent_result_right">
+                    <div class="s3d-bold">
+                    <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                    {if i['sakai:pooled-content-file-name']}
+                    ${i['sakai:pooled-content-file-name']}
+                    {elseif i['jcr:name']}
+                    ${i['jcr:name']}
+                    {/if}
+                    </a>
+                    </div>
+                    {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
+                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                    <div class="result_tags">__MSG__TAGS__:
+                    {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
+                    </div>
+                    {/if}
+                    {if mimeTypeDescription}<div class="searchcontent_result_type s3d-content-type-link"><a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                    </div>
+                    </div>
+                    {/if}
+                    {/for}
+                    {if !contentFound}
+                    <div class="searchcontent_padded_nocontent">__MSG__NO_CONTENT_AND_MEDIA_FOUND__</div>
+                    {/if}
+                --></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/searchcontent/javascript/searchcontent.js"></script>

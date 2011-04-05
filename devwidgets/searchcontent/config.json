@@ -1,0 +1,18 @@
+{
+    "description":        "Search Content",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/searchcontent/bundles/default.properties"
+    },
+    "id":                 "searchcontent",
+    "name":               "Search Content",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "core",
+    "url":                "/devwidgets/searchcontent/searchcontent.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
