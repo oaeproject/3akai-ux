@@ -260,6 +260,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
                 usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
                 groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
+                $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
+            } else {
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
             }
 
             // Content search

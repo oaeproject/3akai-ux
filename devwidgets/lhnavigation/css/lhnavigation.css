@@ -18,7 +18,8 @@
 
 /* Widget Container CSS */
 #lhnavigation_container ul{margin:12px 0 0;}
-#lhnavigation_container ul li{display:block; list-style:none;color:#707e8c;padding:4px 12px 0 28px;}
+#lhnavigation_container ul li{display:block; list-style:none;padding:4px 12px 0 28px;}
+#lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;}
 #lhnavigation_container ul li .lhnavigation_private {background:url("/dev/images/icons_sprite.png") no-repeat scroll -823px -21px transparent;height:16px;margin-left:136px;margin-top:-16px;position:absolute;width:11px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top: 3px;position: absolute;width: 12px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}

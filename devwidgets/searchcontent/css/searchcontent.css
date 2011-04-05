@@ -104,6 +104,7 @@ strong{color:#000;}
 .searchcontent_bar #introduction_text h4{font-weight:normal;font-size:1.1em;color:#999;padding:0;margin:0 0 10px;}
 .searchcontent_content_main .searchcontent_bar{width:auto;}
 .searchcontent_content_main .searchcontent_results{display:block; overflow:hidden;width:500px;}
+.searchcontent_content_main .searchcontent_results_anon{width:710px;}
 .searchcontent_content_main .searchcontent_results_faceted{float:right;width:30%;}
 .searchcontent_content_main .searchcontent_results_container{padding:0;margin:0 0 10px;display:none;float:left;width:100%;overflow-y:hidden;}
 .searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_tl,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_tinner,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_bl,.searchcontent_content_main .searchcontent_results_container .s3d-highlight_area_background_binner{margin-left:0;margin-right:0;}
