@@ -54,6 +54,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var privstructure = false;
         var pubstructure = false;
         var contextData = false;
+        
+        var parametersToCarryOver = {};
 
         ////////////////////
         // UTIL FUNCTIONS //
@@ -71,6 +73,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         }
 
+        ////////////
+        // Events //
+        ////////////
+        
+        /**
+         * Adjust the left hand navigation to include a set of given hash
+         * parameters and re-render the navigation
+         */
+        $(window).bind("lhnav.addHashParam", function(ev, params){
+            for (var p in params){
+            	parametersToCarryOver[p] = params[p];
+            }
+            $("#lhnavigation_container a").each(function(index){
+                var oldHref =  $(this).attr("href");
+                var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
+                $(this).attr("href", newHref);
+            });
+        });
 
         /////////////////////
         // MENU NAVIGATION //
@@ -99,7 +119,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
                 "private": privstructure,
                 "public": pubstructure,
-                "contextData": contextData
+                "contextData": contextData,
+                "parametersToCarryOver": parametersToCarryOver
             }));
         };
 
@@ -234,13 +255,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var el = $(this);
                 if (el.hasClass("lhnavigation_hassubnav")) {
                     showHideSubnav(el);
-                } else {
-                    var path = {
-                        "l": el.attr("data-sakai-path")
-                    }
-                    if (path.l) {
-                        $.bbq.pushState(path, 2);
-                    }
                 }
             });
         };
