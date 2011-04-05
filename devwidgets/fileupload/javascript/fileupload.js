@@ -833,10 +833,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         for (var file in uploadedFiles) {
                             if (uploadedFiles.hasOwnProperty(file)) {
                                 sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
-                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData);
-
-                                // update the entity widget with the new activity
-                                $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData, function(activityData, success){
+                                    if (success) {
+                                        // update the entity widget with the new activity
+                                        $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+                                    }
+                                });
                             }
                         }
 
