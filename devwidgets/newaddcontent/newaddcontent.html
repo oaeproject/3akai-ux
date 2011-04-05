@@ -6,6 +6,7 @@
 
     <div id="newaddcontent_container_selecteditems">
         <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__ <span>(__MSG__TYPE_DIRECTLY_INTO_LIST__)</span></div>
+        <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
     </div>
 
     <ul id="newaddcontent_container_lhchoice">
@@ -44,13 +45,16 @@
     <div id="newaddcontent_container_newitem">
         <div id="newaddcontent_container_newitem_raquo_right"></div>
         <div id="newaddcontent_container_newitem_fields"></div>
-        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_upload_content" title="__MSG__ADD__">
+        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_add_to_list" title="__MSG__ADD__">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
         </button>
     </div>
 
     <div id="newaddcontent_container_actions">
-        <button type="button" class="s3d-link-button jqmClose">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
+        <button title="Add" class="s3d-button s3d-button-link-2-state newaddcontent_container_start_upload" type="button">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DONE_ADD_COLLECTED__</span>
+        </button>
     </div>
 </div>
 
@@ -111,6 +115,22 @@
     <label for="newaddcontent_add_link_tags">__MSG__TAGS__:</label>
     <input type="text" id="newaddcontent_add_link_tags"/>
 </form>
+--></div>
+
+<div id="newaddcontent_selecteditems_template"><!--
+    <ul>
+    {for item in items}
+        <li id="newaddcontent_selecteditems_${item_index}">
+            <div class="newaddcontent_selecteditems_remove"></div>
+            <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
+            <span class="newaddcontent_selecteditems_title">${item.title}</span>
+            <span class="newaddcontent_selecteditems_actions">
+                <button type="button" class="s3d-link-button s3d-bold">__MSG__EDIT_DETAILS__</button>
+                <button type="button" class="s3d-link-button s3d-bold">__MSG__ADD_PERMISSIONS__</button>
+            </span>
+        </li>
+    {/for}
+    </ul>
 --></div>
 
 <!-- JAVASCRIPT -->
