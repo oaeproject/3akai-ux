@@ -305,6 +305,29 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             }
             return result;
+        },
+
+        getMimeType : function(content){
+            var mimeType;
+            if (content['_mimeType']){
+                mimeType = content['_mimeType'];
+            } else if (content.file && content.file['_mimeType']){
+                mimeType = content.file['_mimeType'];
+            } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){
+                mimeType = content['jcr:content']['_mimeType'];
+            } else if (content['jcr:primaryType'] === "sling:Folder"){
+                mimeType = 'folder';
+            }
+            return mimeType;
+        },
+
+        getThumbnail : function(content){
+            var thumbnail = "";
+
+            if (content['_mimeType/page1-small']) {
+                thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
+            }
+            return thumbnail;
         }
     };
 });
