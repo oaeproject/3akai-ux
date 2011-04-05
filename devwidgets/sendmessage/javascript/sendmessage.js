@@ -47,16 +47,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // CONFIGURATION VARIABLES //
             /////////////////////////////
 
-            var rootel = $(tuid);
+            var $rootel = $("#"+tuid);
 
             var toUser = false;  // configurable user to include as a message recipient
             var layover = true;        //    Will this widget be in a popup or inside another element.
-            var putContentInId = null;    //     if the widget runs in another element, this variable contains the id
             var callbackWhenDone = null;    //    Callback function for when the message gets sent
 
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
             var dialogFooterContainer = "#sendmessage_dialog_footer";
+            var dialogFooterInner = "dialog_footer_inner";
 
             var messageDialogContainer = '#message_dialog';
             var messageForm = "#message_form";
@@ -249,10 +249,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * a modal dialog. This function can be called from other widgets or pages.
              * @param {Object} userObj The user object containing the nescecary information {uuid:  "user1", username: "John Doe", type: "user"}, or a user profile
              * @param {Boolean} allowOtherReceivers If the user can add other users, default = false
-             * @param {String} insertInId Insert the HTML into another element instead of showing it as a popup
+             * @param {String} insertInId Insert the HTML into another element instead of showing it as a popup (String ID or jQuery)
              * @param {Object} callback When the message is sent this function will be called. If no callback is provided a standard message will be shown that fades out.
              */
-            var initialize = function(userObj, insertInId, callback, subject, body) {
+            var initialize = function(userObj, $insertInId, callback, subject, body) {
 
                 // Make sure that everything is standard.
                 resetView();
@@ -274,23 +274,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 // Maybe we dont want to display a popup but instead want to add it in another div.
-                if (insertInId) {
-
+                if ($insertInId) {
+                    if (!($insertInId instanceof jQuery)) {
+                        $insertInId = $(insertInId);
+                    }
                     // Make sure this id exists.
-                    if ($(insertInId).length > 0) {
+                    if ($insertInId.length > 0) {
                         // The id exists!
                         layover = false;
-                        putContentInId = insertInId;
 
                         // Remove the dialog stuff.
                         $(dialogHeaderClass).remove();
                         $(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
                         $(dialogBoxContainer).removeClass(dialogBoxClass);
-                        $(dialogFooterContainer).removeClass(dialogFooterClass);
-
+                        $(dialogFooterContainer).removeClass(dialogFooterClass).find("." + dialogFooterInner).removeClass(dialogFooterInner);
+                        $(messageForm).removeClass('dialog_content');
+                        debug.log("appendage");
                         // Altough this isnt strictly nescecary it is cleaner.
-                        rootel = $(insertInId);
-                        rootel.append($(messageDialogContainer));
+                        $rootel = $insertInId;
+                        $rootel.append($(messageDialogContainer));
                     }
 
                 }
@@ -303,10 +305,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // show popup
                 if (layover) {
                     $(messageDialogContainer).jqmShow();
-                }
-                else {
-                    // We want to add this in another element.
-                    loadMessageDialog();
                 }
 
             };

@@ -59,7 +59,7 @@
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         {for level in private.items}
             {if level._childCount > 1}
-                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" sakai-ref="${level._ref}" sakai-path="${level_index}">
+                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level_index}">
             <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
             <div class="lhnavigation_private"></div>
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
@@ -67,14 +67,14 @@
             <ul class="lhnavigation_subnav" style="display:none;">
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
-                        <li class="lhnavigation_hoverable_item" sakai-ref="${sublevel._ref}" sakai-path="${level_index}/${sublevel_index}">
+                        <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-path="${level_index}/${sublevel_index}">
                             <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                     {/if}
                 {/for}
             </ul>
             {else}
-                <li class="lhnavigation_hoverable_item" sakai-ref="${level._ref}" sakai-path="${level_index}">
+                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-path="${level_index}">
                     <span class="s3d-bold">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span>
                     <div class="lhnavigation_private"></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
@@ -85,21 +85,21 @@
     <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list">  
         {for level in public.items}
             {if level._childCount > 1}
-                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" sakai-ref="${level._ref}" sakai-path="${level_index}">
+                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level_index}">
             <div class="lhnavigation_has_subnav"></div><span class="s3d-bold">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>
             <ul class="lhnavigation_subnav" style="display:none;">
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
-                        <li class="lhnavigation_hoverable_item" sakai-ref="${sublevel._ref}" sakai-path="${level_index}/${sublevel_index}">
+                        <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-path="${level_index}/${sublevel_index}">
                             <a href="javascript:;" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                     {/if}
                 {/for}
             </ul>
             {else}
-                <li class="lhnavigation_hoverable_item" sakai-ref="${level._ref}" sakai-path="${level_index}">
+                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-path="${level_index}">
                     <span class="s3d-bold">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                 </li>

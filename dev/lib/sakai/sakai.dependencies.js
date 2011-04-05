@@ -103,6 +103,7 @@ require(
         "/dev/lib/jquery/plugins/jquery.threedots.js",
         "/dev/lib/jquery/plugins/jquery.form.js",
         "/dev/lib/jquery/plugins/jquery.MultiFile.js",
+        "/dev/lib/jquery/plugins/jquery.hoverIntent.sakai-edit.js",
         "/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
         "/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
     ],

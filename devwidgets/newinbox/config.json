@@ -9,4 +9,5 @@
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/newinbox/newinbox.html",
+    "hashParams": ["message", "newmessage"]
 }
