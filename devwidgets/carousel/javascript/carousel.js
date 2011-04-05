@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai": sakai,
                 "maxwidth": "350",
                 "height": "200px"
-            }
+            };
             return "<img src=\"" + json.contentURL + "\" style=\"max-width:" + json.maxwidth + ";\"/>";
         };
 
@@ -141,9 +141,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var renderCarousel = function(dataArr){
-            $(carouselContainer).html(sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
+            sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
                 "data": dataArr
-            }, false, false));
+            }, $(carouselContainer), false);
             $(carouselContainer).jcarousel({
                 auto: 5,
                 animation: "slow",
@@ -182,48 +182,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (messageArr.length) {
                 dataArr.push(messageArr);
             }
-        }
+        };
 
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
 
-            for (var item in data.content.results) {
-                var obj = {}
+            $.each(data.content.results, function(index, item) {
+                var obj = {};
 
-                if (data.content.results[item]["_mimeType"] && data.content.results[item]["_mimeType"].substring(0, 6) === "image/") {
-                    obj.preview = renderImagePreview(data.content.results[item]["jcr:name"], data.content.results[item]["_lastModified"]);
-                }else if (isJwPlayerSupportedVideo(data.content.results[item]["_mimeType"] || "")) {
-                    obj.preview = renderVideoPlayer(data.content.results[item]["jcr:name"]);
+                if (item["_mimeType"] && item["_mimeType"].substring(0, 6) === "image/") {
+                    obj.preview = renderImagePreview(item["jcr:name"], item["_lastModified"]);
+                }else if (isJwPlayerSupportedVideo(item["_mimeType"] || "")) {
+                    obj.preview = renderVideoPlayer(item["jcr:name"]);
                 } else {
                     obj.preview = false;
                 }
-                if (data.content.results[item]["sakai:description"]) {
-                    obj.description = sakai.api.Util.applyThreeDots(data.content.results[item]["sakai:description"], 700);
+                if (item["sakai:description"]) {
+                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], 700);
                 }
-                if (data.content.results[item]["sakai:tags"]) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(data.content.results[item]["sakai:tags"]);
+                if (item["sakai:tags"]) {
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                 }
-                if (data.content.results[item][data.content.results[item]["jcr:name"] + "/comments"]) {
+                if (item[item["jcr:name"] + "/comments"]) {
                     obj.comments = [];
-                    for (var prop in data.content.results[item][data.content.results[item]["jcr:name"] + "/comments"]) {
-                        if (data.content.results[item][data.content.results[item]["jcr:name"] + "/comments"][prop].hasOwnProperty("_id")) {
-                            obj.comments.push(data.content.results[item][data.content.results[item]["jcr:name"] + "/comments"][prop]);
+                    for (var prop in item[item["jcr:name"] + "/comments"]) {
+                        if (item[item["jcr:name"] + "/comments"][prop].hasOwnProperty("_id")) {
+                            obj.comments.push(item[item["jcr:name"] + "/comments"][prop]);
                         }
                     }
                 }
-                if(sakai.config.MimeTypes[data.content.results[item]["_mimeType"]]) {
-                    obj.icon = sakai.config.MimeTypes[data.content.results[item]["_mimeType"]].URL;
+                if(sakai.config.MimeTypes[item["_mimeType"]]) {
+                    obj.icon = sakai.config.MimeTypes[item["_mimeType"]].URL;
                 }else{
                     obj.icon = sakai.config.MimeTypes.other.URL;
                 }
 
-                obj.title = data.content.results[item]["sakai:pooled-content-file-name"];
-                obj.mimeType = data.content.results[item]["_mimeType"] || "";
-                obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.content.results[item]["_created"]), sakai.data.me)
-                obj.createdBy = data.content.results[item]["sakai:pool-content-created-for"];
-                obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.content.results[item]["_lastModified"]), sakai.data.me);
-                obj.lastModifiedBy = data.content.results[item]["_lastModifiedBy"];
-                obj.url = "/content#content_path=/p/" + data.content.results[item]["jcr:name"];
+                obj.title = item["sakai:pooled-content-file-name"];
+                obj.mimeType = item["_mimeType"] || "";
+                obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
+                obj.createdBy = item["sakai:pool-content-created-for"];
+                obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
+                obj.lastModifiedBy = item["_lastModifiedBy"];
+                obj.url = "/content#content_path=/p/" + item["jcr:name"];
                 obj.contentType = "content";
 
                 if (obj.preview) {
@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 } else {
                     noPreviewArr.push(obj);
                 }
-            }
+            });
 
             // Add items with no preview to final array.
             // Objective is to fill one rendered list item with two items (without preview), drop item that's left over if necessary.
@@ -254,25 +254,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var parseGroups = function(data, dataArr){
-            for(var group in data.groups.results){
+            $.each(data.groups.results, function (index, group){
                 var obj = {};
 
-                if(data.groups.results[group].members || data.groups.results[group].members.length){
-                    obj.members = data.groups.results[group].members;
+                if(group.members && group.members.length){
+                    obj.members = group.members;
                 }
-                if(data.groups.results[group]["sakai:group-description"] && data.groups.results[group]["sakai:group-description"].length){
-                    obj.description = data.groups.results[group]["sakai:group-description"];
+                if(group["sakai:group-description"] && group["sakai:group-description"].length){
+                    obj.description = group["sakai:group-description"];
                 }
-                if(data.groups.results[group]["sakai:tags"] && data.groups.results[group]["sakai:tags"].length){
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(data.groups.results[group]["sakai:tags"]);
+                if(group["sakai:tags"] && group["sakai:tags"].length){
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                 }
 
                 obj.contentType = "group";
-                obj.groupid = data.groups.results[group]["sakai:group-id"];
-                obj.title = data.groups.results[group]["sakai:group-title"];
+                obj.groupid = group["sakai:group-id"];
+                obj.title = group["sakai:group-title"];
 
                 dataArr.push(obj);
-            }
+            });
         };
 
         var parseData = function(data){
@@ -310,16 +310,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 url: "/var/search/groups-all.json?page=0&items=50&q=*",
                 cache: false,
                 success: function(data){
-                    for (var group in data.results) {
+                    $.each(data.results, function(index, group) {
                         $.ajax({
-                            url: "/system/userManager/group/" + data.results[group].groupid + ".members.detailed.json?items=1000",
+                            url: "/system/userManager/group/" + group.groupid + ".members.detailed.json?items=1000",
                             cache: false,
                             async: false,
                             success: function(memberData){
                                 data.results[group].members = memberData;
                             }
                         });
-                    }
+                    });
                     dataArr.groups = data;
                     checkDataParsable(dataArr);
                 }
