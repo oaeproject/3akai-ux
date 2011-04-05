@@ -1311,6 +1311,8 @@ define(["jquery",
                                 } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
                                     attribKey = '*::' + attribName;
                                     atype = html4.ATTRIBS[attribKey];
+                                } else if (attribName.indexOf('data-') === 0) {
+                                    atype = html4.atype.IDREFS;
                                 }
                                 if (atype !== null) {
                                     switch (atype) {
