@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             updateTotalHitCount(foundCM.results.length);
 
             var params = sakai_global.data.search.getQueryParams();
-            $("#cm_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=library&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
+            $("#cm_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=content&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
 
             if (foundCM && foundCM.results) {
                 finaljson = sakai_global.data.search.prepareCMforRender(foundCM.results, finaljson);
@@ -324,7 +324,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text).val(),
-                    "page": 0
+                    "page": 1
                 }, 0);
             }
         });
@@ -332,7 +332,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         $(searchConfig.global.button).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "page": 0
+                "page": 1
             }, 0);
         });
 

@@ -37,12 +37,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 10;
-        var searchterm = "";
-        var tagterm = "";
-        var currentpage = 0;
+        var resultsToDisplay = 4;
+        //var searchterm = "";
+        //var tagterm = "";
+        //var currentpage = 0;
 
-        var searchAjaxCall = false;
+        //var searchAjaxCall = false;
 
         // Search URL mapping
         var searchURLmap = {
@@ -144,6 +144,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         };
         
         var renderResults = function(results, success) {
+            var params = sakai_global.data.search.getQueryParams();
             var finaljson = {};
             finaljson.items = [];
             if (success) {
@@ -160,14 +161,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass).pager({
-                    pagenumber: currentpage,
+                    pagenumber: params["page"],
                     pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                     buttonClickCallback: pager_click_handler
                 });
 
                 // If we have results we add them to the object.
                 if (results && results.results) {
-                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson, searchterm);
+                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     for(var item in finaljson.items){
                         if(finaljson.items.hasOwnProperty(item)){
                             if (finaljson.items[item]["sakai:description"]) {
@@ -262,10 +263,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             //    return;
             //}
 
-            var page = 1;
+            //var page = 1;
             //alert(page);
             //if (!isNaN(params["page"])){
-            //    page = parseInt(params["page"],  10);
+            page = params["page"];
             //}
             //alert(page);
 

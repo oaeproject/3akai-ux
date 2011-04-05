@@ -79,6 +79,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 $(".faceted_category").bind("click", function(ev){
                     var facet = $(this).attr("id");
+                    $.bbq.pushState({
+                        "page": 1,
+                        "facet": facet
+                    }, 0);
                     //alert("Facet changed");
                     //var searchquery = $(searchConfig.global.text).val();
                     //var searchwhere = getSearchWhereSites();
@@ -226,7 +230,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         sakai_global.data.search.getQueryParams = function(){
             var params = {
-                "page": $.bbq.getState('page') || 1,
+                "page": parseInt($.bbq.getState('page'), 10) || 1,
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet')
             }
