@@ -56,6 +56,25 @@
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DONE_ADD_COLLECTED__</span>
         </button>
     </div>
+    <div id="newaddcontent_selecteditems_edit_data" style="display:none;">
+        <span style="display:none"><!----></span>
+        <div id="newaddcontent_selecteditems_edit_data_fields">
+            <div class="newaddcontent_selecteditems_edit_data_close"><!----></div>
+            <form class="newaddcontent_form">
+                <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
+                <input type="text" id="newaddcontent_selecteditems_edit_data_title"/>
+                <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
+                <textarea id="newaddcontent_selecteditems_edit_data_description"></textarea>
+                <label for="newaddcontent_selecteditems_edit_data_tags"> __MSG__TAGS__:</label>
+                <input type="text" id="newaddcontent_selecteditems_edit_data_tags"/>
+            </form>
+        </div>
+        <div id="newaddcontent_selecteditems_edit_data_actions">
+            <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
+            </button>
+        </div>
+    </div>
 </div>
 
 <div id="newaddcontent_upload_content_template" style="display:none;"><!--
@@ -125,8 +144,9 @@
             <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
             <span class="newaddcontent_selecteditems_title">${item.title}</span>
             <span class="newaddcontent_selecteditems_actions">
-                <button type="button" class="s3d-link-button s3d-bold">__MSG__EDIT_DETAILS__</button>
-                <button type="button" class="s3d-link-button s3d-bold">__MSG__ADD_PERMISSIONS__</button>
+                <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                <span class="newaddcontent_selecteditems_split">|</span>
+                <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
             </span>
         </li>
     {/for}

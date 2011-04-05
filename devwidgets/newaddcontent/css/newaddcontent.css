@@ -53,8 +53,17 @@
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title {display:block;padding-left:2px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_actions button {font-size:11px;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_container {height: 402px;overflow: auto;}
-#newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_remove {background:url("/devwidgets/newaddcontent/images/newaddcontent_remove_icon.png") no-repeat top left transparent;width:13px;height:13px;float:right;margin-top:1px;cursor:pointer;}
+#newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_remove, #newaddcontent_container .newaddcontent_selecteditems_edit_data_close {background:url("/devwidgets/newaddcontent/images/newaddcontent_remove_icon.png") no-repeat top left transparent;width:13px;height:13px;float:right;margin-top:1px;cursor:pointer;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_icon {height: 16px;margin-left: -17px;position: absolute;width: 16px;}
+#newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_selecteditems_split {color:#E5EAED;}
+
+/* Right selected items edit popup */
+#newaddcontent_selecteditems_edit_data {position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0px 1px 5px 0px;-moz-border-radius:5px 5px 5px;}
+#newaddcontent_selecteditems_edit_data_fields{padding:10px;}
+#newaddcontent_selecteditems_edit_data_actions {height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;}
+#newaddcontent_selecteditems_edit_data_actions button {float: right;margin-top: 5px;}
+#newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input{width:253px;margin:0 0 2px;}
+#newaddcontent_selecteditems_edit_data_fields label {margin:2px 0 0;}
 
 /* Actions */
 #newaddcontent_container #newaddcontent_container_actions {bottom:0;margin:0 12px 12px 0;position:absolute;right:0;}
