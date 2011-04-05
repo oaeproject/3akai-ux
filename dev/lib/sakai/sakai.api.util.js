@@ -1296,6 +1296,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
+                html4.ATTRIBS["a::data-reset-hash"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1311,6 +1312,8 @@ define(["jquery",
                                 } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
                                     attribKey = '*::' + attribName;
                                     atype = html4.ATTRIBS[attribKey];
+                                } else if (attribName.indexOf('data-') === 0) {
+                                    atype = html4.atype.IDREFS;
                                 }
                                 if (atype !== null) {
                                     switch (atype) {

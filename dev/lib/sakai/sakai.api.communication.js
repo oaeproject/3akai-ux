@@ -357,7 +357,7 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
                 dataType: "json",
                 success: function(data){
                     if ($.isFunction(callback)) {
-                        sakai_user.getUser(data["sakai:from"], function(profiledata){
+                        sakai_user.getUser(data["sakai:from"], function(success,profiledata){
                             data.userFrom = [];
                             data.userFrom[0] = profiledata;
                             callback(data);

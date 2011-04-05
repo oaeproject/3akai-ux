@@ -728,7 +728,7 @@ define(["jquery",
                     state = {},
                     doReplace = 0;
                 state = $.deparam.fragment(args, true);
-                doReplace = replace === "true" ? 2 : 0;
+                doReplace = replace === true ? 2 : 0;
                 $.bbq.pushState(state, doReplace);
                 return false;
             });
@@ -742,9 +742,12 @@ define(["jquery",
          * hash change
          * @param {Object} paramsObject The object containing key value pairs
          *                              to add to the URL
+         * @param {String} url          The url you want to add hash parameters
+         *                              to. If not provided, the system will use
+         *                              the current page URL.
          */
-        createHashURL : function(paramsObject) {
-            return $.param.fragment(window.location.hash, paramsObject);
+        createHashURL : function(paramsObject, url) {
+            return $.param.fragment(url || window.location.hash, paramsObject);
         },
 
         /**
