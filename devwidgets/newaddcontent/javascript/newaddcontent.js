@@ -49,6 +49,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentContainerNewItem = "#newaddcontent_container_newitem";
         var newaddcontentContainerNewItemFields = "#newaddcontent_container_newitem_fields";
         var newaddcontentContainerSelectedItemsContainer = "#newaddcontent_container_selecteditems_container";
+        var newaddcontentSelecteditemsEditDataContainer = "#newaddcontent_selecteditems_edit_data_container";
+        var newaddcontentSelectedItemsEditPermissionsContainer = "#newaddcontent_selecteditems_edit_permissions_container";
+        var newaddcontentSelectedItemsEditDataContainer = "#newaddcontent_selecteditems_edit_data_container";
 
         // Templates
         var newaddcontentUploadContentTemplate = "newaddcontent_upload_content_template";
@@ -56,6 +59,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentAddExistingTemplate = "newaddcontent_add_existing_template";
         var newaddcontentAddLinkTemplate = "newaddcontent_add_link_template";
         var newaddcontentSelectedItemsTemplate = "newaddcontent_selecteditems_template";
+        var newaddcontentSelectedItemsEditPermissionsTemplates = "newaddcontent_selecteditems_edit_permissions_template";
+        var newaddcontentSelectedItemsEditDataTemplate = "newaddcontent_selecteditems_edit_data_template";
 
         // Elements
         var newaddcontentContainerLHChoiceItem = ".newaddcontent_container_lhchoice_item";
@@ -67,7 +72,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentSelectedItemsActionsEdit = ".newaddcontent_selecteditems_actions_edit";
         var newaddcontentSelectedItemsActionsPermissions = ".newaddcontent_selecteditems_actions_permissions";
         var newaddcontentSelectedItemsEditDataClose = ".newaddcontent_selecteditems_edit_data_close";
-        var newaddcontentSelecteditemsEditData = "#newaddcontent_selecteditems_edit_data";
         var newaddcontentContainerNewItemSaveChanges = ".newaddcontent_container_newitem_save_changes";
 
         // Classes
@@ -88,7 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////////
 
         var renderQueue = function(){
-            $(newaddcontentContainerSelectedItemsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload}));
+            $(newaddcontentContainerSelectedItemsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload, "sakai":sakai}));
         };
 
         var addContentToQueue = function(contentToAdd){
@@ -97,9 +101,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var removeItemToAdd = function(){
+            $(newaddcontentSelectedItemsEditPermissionsContainer).hide();
+            $(newaddcontentSelectedItemsEditDataContainer).hide();
             itemsToUpload.splice($(this).parent()[0].id.split("newaddcontent_selecteditems_")[1],1);
             $(this).parent().remove();
-            $(newaddcontentContainerSelectedItemsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload}));
+            renderQueue();
         };
 
         var constructItemToAdd = function(){
@@ -111,6 +117,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "title": $linkForm.find("#newaddcontent_add_link_title").val(),
                         "description": $linkForm.find("#newaddcontent_add_link_description").val(),
                         "tags":$linkForm.find("#newaddcontent_add_link_tags").val(),
+                        "permissions":"public",
+                        "copyright":"creativecommons",
                         "css_class": "icon-url-sprite",
                         "type":"link"
                     }
@@ -121,19 +129,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var changePermissions = function(){
-            
+            $(newaddcontentSelectedItemsEditDataContainer).hide();
+            var index = $(this).parents("li")[0].id.split("_")[2];
+            $(newaddcontentSelectedItemsEditPermissionsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsEditPermissionsTemplates,{item: itemsToUpload[index], i:index, copyright:sakai.config.Permissions.Copyright, sakai:sakai}));
+            $(newaddcontentSelectedItemsEditPermissionsContainer).show();
+            $(newaddcontentSelectedItemsEditPermissionsContainer).css("left", $(this).parents("li").position().left + "px");
+            $(newaddcontentSelectedItemsEditPermissionsContainer).css("top", $(this).parents("li").position().top + 40 + "px");
         };
 
         var editData = function(){
+            $(newaddcontentSelectedItemsEditPermissionsContainer).hide();
             var index = $(this).parents("li")[0].id.split("_")[2];
-            $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_title").val(itemsToUpload[index].title);
-            $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_description").val(itemsToUpload[index].description);
-            $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_tags").val(itemsToUpload[index].tags);
-            $(newaddcontentSelecteditemsEditData + " > span")[0].id = index;
-
-            $(newaddcontentSelecteditemsEditData).show();
-            $(newaddcontentSelecteditemsEditData).css("left", $(this).parents("li").position().left + "px");
-            $(newaddcontentSelecteditemsEditData).css("top", $(this).parents("li").position().top + 40 + "px");
+            $(newaddcontentSelectedItemsEditDataContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsEditDataTemplate,{item: itemsToUpload[index], i:index}));
+            $(newaddcontentSelecteditemsEditDataContainer).show();
+            $(newaddcontentSelecteditemsEditDataContainer).css("left", $(this).parents("li").position().left + "px");
+            $(newaddcontentSelecteditemsEditDataContainer).css("top", $(this).parents("li").position().top + 40 + "px");
         };
 
         var closeEditData = function(){
@@ -141,10 +151,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var saveEdit = function(){
-            var index = $(newaddcontentSelecteditemsEditData + " > span")[0].id;
-            itemsToUpload[index].title = $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_title").val();
-            itemsToUpload[index].description = $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_description").val();
-            itemsToUpload[index].tags = $(newaddcontentSelecteditemsEditData + " #newaddcontent_selecteditems_edit_data_tags").val();
+            var index = $(newaddcontentSelecteditemsEditDataContainer + " > span")[0].id;
+            if ($(newaddcontentSelecteditemsEditDataContainer).is(":visible")) {
+                itemsToUpload[index].title = $(newaddcontentSelecteditemsEditDataContainer + " #newaddcontent_selecteditems_edit_data_title").val();
+                itemsToUpload[index].description = $(newaddcontentSelecteditemsEditDataContainer + " #newaddcontent_selecteditems_edit_data_description").val();
+                itemsToUpload[index].tags = $(newaddcontentSelecteditemsEditDataContainer + " #newaddcontent_selecteditems_edit_data_tags").val();
+            }else{
+                itemsToUpload[index].permissions = $(newaddcontentSelectedItemsEditPermissionsContainer + " #newaddcontent_selecteditems_edit_permissions_permissions").val();
+                itemsToUpload[index].copyright = $(newaddcontentSelectedItemsEditPermissionsContainer + " #newaddcontent_selecteditems_edit_permissions_copyright").val();
+            }
             $(this).parent().parent().hide();
             renderQueue();
         };
@@ -159,6 +174,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:pooled-content-file-name": linkObj.title,
                 "sakai:pooled-content-url": linkObj.url,
                 "sakai:description": linkObj.description,
+                "sakai:permissions": linkObj.permissions,
+                "sakai:copyright": linkObj.copyright,
                 "sakai:tags":linkObj.tags,
                 "_mimeType": "x-sakai/link"
             };
@@ -297,8 +314,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainerLHChoiceSubItem).unbind("click", navigateSubItem);
             $(newaddcontentContainerNewItemAddToList).unbind("click", constructItemToAdd);
             $(newaddcontentContainerStartUploadButton).unbind("click", doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).unbind("click", closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).unbind("click", saveEdit);
+            $(newaddcontentSelectedItemsEditDataClose).die("click", closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).die("click", saveEdit);
             $(newaddcontentSelectedItemsRemove).die("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).die("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).die("click", editData)
@@ -310,8 +327,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainerLHChoiceSubItem).bind("click", navigateSubItem);
             $(newaddcontentContainerNewItemAddToList).bind("click", constructItemToAdd);
             $(newaddcontentContainerStartUploadButton).bind("click", doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).bind("click", closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).bind("click", saveEdit);
+            $(newaddcontentSelectedItemsEditDataClose).live("click", closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).live("click", saveEdit);
             $(newaddcontentSelectedItemsRemove).live("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData)
