@@ -34,7 +34,8 @@ define(["jquery",
         "sakai/sakai.api.l10n",
         "/dev/configuration/config.js",
         "/dev/configuration/config_custom.js",
-        "/dev/lib/misc/trimpath.template.js"],
+        "/dev/lib/misc/trimpath.template.js",
+        "/dev/lib/jquery/plugins/jquery.ba-bbq.js"],
         function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
     
     var util = {
@@ -55,7 +56,6 @@ define(["jquery",
 
                 $("head")[0].appendChild(script);
               })();
-
               if (sakai_conf.enableChat) {
                   // scroll more on focus if the focused element is obscrured by the chat bar
                   $("input:not(.chat_with_txt), textarea, select, button:not(.chat_name_link), a:not(.chat_window_name)").live("focus", function(){
@@ -1289,8 +1289,8 @@ define(["jquery",
                 html4.ATTRIBS["video::src"] = 0;
                 html4.ATTRIBS["video::class"] = 0;
                 html4.ATTRIBS["video::autoplay"] = 0;
-                html4.ATTRIBS["li::sakai-ref"] = 0;
-                html4.ATTRIBS["li::sakai-path"] = 0;
+                html4.ATTRIBS["li::data-sakai-ref"] = 0;
+                html4.ATTRIBS["li::data-sakai-path"] = 0;
                 html4.ATTRIBS["span::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
@@ -1434,6 +1434,7 @@ define(["jquery",
                 }
             }
         },
+
         /**
         * Runs MathJax over an element replacing any math TeX with rendered 
         * formulas

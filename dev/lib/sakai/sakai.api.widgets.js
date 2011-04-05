@@ -74,7 +74,7 @@ define(["jquery",
              *  Function that needs to be executed when a widget notifies the container
              *  that its settings mode has been successfully completed.
              */
-            registerFinishFunction : function(callback){
+            registerFinishFunction : function(callback) {
                 if (callback){
                     this.toCallOnFinish = callback;
                 }
@@ -87,7 +87,7 @@ define(["jquery",
              *  Function that needs to be executed when a widget notifies the container
              *  that its settings mode has been cancelled.
              */
-            registerCancelFunction : function(callback){
+            registerCancelFunction : function(callback) {
                 if (callback){
                     this.toCallOnCancel = callback;
                 }
@@ -101,7 +101,7 @@ define(["jquery",
              * @param {Object} widgetname
              *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
              */
-            informFinish : function(tuid, widgetname){
+            informFinish : function(tuid, widgetname) {
                 if (this.toCallOnFinish){
                     this.toCallOnFinish(tuid, widgetname);
                 }
@@ -265,7 +265,8 @@ define(["jquery",
                                         }
                                     }
                                 }
-                                initfunction(widgets[widgetname][i].uid, settings, widgetData);
+                                var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
+                                initfunction(widgets[widgetname][i].uid, settings, widgetData, historyState);
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
@@ -714,9 +715,95 @@ define(["jquery",
             }
         },
 
+        oldState : false,
+
+        /**
+         * This binds to any links with a hash URL and handles the
+         * pushState for them
+         */
+        bindToHash : function() {
+            $("a[href^='#']").live("click", function(e) {
+                var args = $(e.target).attr("href") || $(e.target).parent().attr("href"),
+                    replace = $(e.target).data("reset-hash"),
+                    state = {},
+                    doReplace = 0;
+                state = $.deparam.fragment(args, true);
+                doReplace = replace === "true" ? 2 : 0;
+                $.bbq.pushState(state, doReplace);
+                return false;
+            });
+            oldState = $.bbq.getState();
+            $(window).bind("hashchange", sakaiWidgetsAPI.handleHashChange);
+            $(window).trigger("hashchange");
+        },
+
+        /**
+         * This function is used for creating href's to link to a
+         * hash change
+         * @param {Object} paramsObject The object containing key value pairs
+         *                              to add to the URL
+         */
+        createHashURL : function(paramsObject) {
+            return $.param.fragment(window.location.hash, paramsObject);
+        },
+
+        /**
+         * Handle the hash change and dispatch the hashchange event
+         * to each widget that has the changed parameter
+         * @param {Object} e The hashchange event object
+         */
+        handleHashChange : function(e) {
+            var widgetHashes = {};
+            // get the changed params
+            var currentState = $.bbq.getState();
+
+            /** 
+             * construct the changedParams object which contains a map like this:
+             * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
+             */
+            $.each(sakai_widgets_config, function(id, obj) {
+                if (obj.hasOwnProperty('hashParams')) {
+                    // iterate over each of the params that the widet watches
+                    $.each(obj.hashParams, function(i, val) {
+                        // If the current history state has this value
+                        if (currentState.hasOwnProperty(val)) {
+                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                            // and the oldState value exists and isn't the same as the new value
+                            // or the oldState didn't have the value
+                            if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
+                                !oldState.hasOwnProperty(val)) {
+
+                                widgetHashes[id].changed[val] = currentState[val];
+                            }
+                            widgetHashes[id].all[val] = currentState[val];
+
+                        // Check if the property was in the history state previously,
+                        // indicating that it was deleted from the currentState
+                        } else if (oldState.hasOwnProperty(val)) {
+                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                            widgetHashes[id].deleted[val] = oldState[val];
+                        }
+                    });
+                }
+            });
+            if (e.currentTarget) {
+                // Fire an event to each widget that has the hash params in it
+                $.each(widgetHashes, function(widgetID, hashObj) {
+                    $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                });
+
+                // Reset the oldState to the currentState
+                oldState = currentState;
+                return true;
+            } else {
+                return widgetHashes[e];
+            }
+        },
+
         initialLoad : function() {
-            this.Container.setReadyToLoad(true);
-            this.widgetLoader.insertWidgets(null, false);
+            sakaiWidgetsAPI.bindToHash();
+            sakaiWidgetsAPI.Container.setReadyToLoad(true);
+            sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
         }
     };
 
