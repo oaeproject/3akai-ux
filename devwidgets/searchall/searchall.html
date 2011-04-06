@@ -182,8 +182,8 @@
                     <button type="button" class="searchall_result_person_link link_add_to_contacts s3d-link-button s3d-action sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>__MSG__ADD_TO_CONTACTS__</button>
                     <span id="link_add_to_contacts_${i.userid}_divider" class="searchall_result_person_link searchall_result_person_divider sakai_addtocontacts_overlay" sakai-entityid="${i.userid}">|</span>
                     {elseif i.invited}
-                    <button type="button" class="searchall_result_person_link link_accept_invitation s3d-link-button s3d-action" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</button>
-                    <span id="link_add_to_contacts_${i.userid}_divider" class="searchall_result_person_link searchall_result_person_divider">|</span>
+                    <button type="button" class="searchall_result_person_link s3d-link-button s3d-action link_accept_invitation" sakai-entityid="${i.userid}">__MSG__ACCEPT_INVITATION__</button>
+                    <span class="searchall_result_person_link searchall_result_person_divider link_accept_invitation" sakai-entityid="${i.userid}">|</span>
                     {/if}
                     <button type="button" class="searchall_result_person_link searchall_result_person_link_message s3d-link-button s3d-action sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user">__MSG__MESSAGE__</button>
                     </div>
