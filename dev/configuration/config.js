@@ -746,7 +746,7 @@ define(function() {
                 URL: "/dev/images/mimetypes/html.png",
                 description: "URL_LINK"
             },
-            other: {
+            "other": {
                 cssClass: "icon-unknown-sprite",
                 URL: "/dev/images/mimetypes/unknown.png",
                 description: "OTHER_DOCUMENT"
@@ -924,7 +924,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
