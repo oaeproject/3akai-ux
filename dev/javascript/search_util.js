@@ -53,42 +53,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("sakai.search.util.finish");
         }
 
-        ////////////////////
-        // Faceted Search //
-        ////////////////////
-        
-        /**
-         * Adds the faceted panel to the page if a search is performed
-         */
-        sakai_global.data.search.addFacetedPanel = function(searchConfig) {
-            
-            //alert("Here");
-            
-            $(window).bind("ready.faceted.sakai", function(e){
-                $(window).trigger("render.faceted.sakai", searchConfig.facetedConfig);
-
-                var currentfacet = $.bbq.getState('facet');
-                if (currentfacet) {
-                    $("#" + currentfacet).addClass("faceted_category_selected");
-                } else {
-                    $(".faceted_category:first").addClass("faceted_category_selected");
-                }
-
-                // bind faceted search elements
-                // loop through each faceted category and bind the link to trigger a search
-
-                $(".faceted_category").bind("click", function(ev){
-                    var facet = $(this).attr("id");
-                    $.bbq.pushState({
-                        "page": 1,
-                        "facet": facet
-                    }, 0);
-                });
-
-            });
-
-        };
-
         ///////////////////////////
         // Prepare for rendering //
         ///////////////////////////
