@@ -361,6 +361,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 // if invited state set invited to true
                                 if(friend.details["sakai:state"] === "INVITED"){
                                     user.invited = true;
+                                } else if(friend.details["sakai:state"] === "NONE"){
+                                    user.connected = false;
                                 }
                             }
                         }
