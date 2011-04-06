@@ -30,35 +30,29 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchcontent = function(tuid, showSettings){
+    sakai_global.searchgroups = function(tuid, showSettings){
     
         //////////////////////
         // Config variables //
         //////////////////////
         
         var resultsToDisplay = 10;
-        
+
         // Search URL mapping
         var searchURLmap = {
-            allfiles: sakai.config.URL.SEARCH_ALL_FILES,
-            allfilesall: sakai.config.URL.SEARCH_ALL_FILES_ALL,
-            mybookmarks: sakai.config.URL.SEARCH_MY_BOOKMARKS,
-            mybookmarksall: sakai.config.URL.SEARCH_MY_BOOKMARKS_ALL,
-            mycontacts: sakai.config.URL.SEARCH_MY_CONTACTS,
-            myfiles: sakai.config.URL.SEARCH_MY_FILES,
-            myfilesall: sakai.config.URL.SEARCH_MY_FILES_ALL,
-            mysites: sakai.config.URL.SEARCH_MY_SITES,
-            pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
-            pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
-            pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,
-            pooledcontentviewerall: sakai.config.URL.POOLED_CONTENT_VIEWER_ALL
+            allgroups : sakai.config.URL.SEARCH_GROUPS,
+            allgroupsall : sakai.config.URL.SEARCH_GROUPS_ALL,
+            visiblegroups : sakai.config.URL.SEARCH_GROUPS,
+            visiblegroupsall : sakai.config.URL.SEARCH_GROUPS_ALL,
+            managergroups : sakai.config.URL.GROUPS_MANAGER,
+            membergroups : sakai.config.URL.GROUPS_MEMBER
         };
         
         // CSS IDs
-        var search = "#searchcontent";
+        var search = "#searchgroups";
         
         var searchConfig = {
-            search: "#searchcontent",
+            search: "#searchgroups",
             global: {
                 resultTemp: search + "_result_temp",
                 resultExceed: search + "_result_exceed",
@@ -67,19 +61,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 numberFound: search + '_numberFound',
                 searchTerm: search + "_mysearchterm",
                 tagTerm: search + "_mytagterm",
-                searchBarSelectedClass: "searchcontent_bar_selected",
+                searchBarSelectedClass: "searchgroups_bar_selected",
                 pagerClass: ".jq_pager",
-                matchingLabel: "#searchcontent_result_extended_matching"
+                matchingLabel: "#searchgroups_result_extended_matching"
             },
             filters: {
                 filter: search + "_filter",
                 sites: {
                     filterSites: search + "_filter_my_sites",
-                    filterSitesTemplate: "searchcontent_filter_my_sites_template",
+                    filterSitesTemplate: "searchgroups_filter_my_sites_template",
                     ids: {
-                        entireCommunity: '#searchcontent_filter_community',
-                        allMySites: '#searchcontent_filter_all_my_sites',
-                        specificSite: '#searchcontent_filter_my_sites_'
+                        entireCommunity: '#searchgroups_filter_community',
+                        allMySites: '#searchgroups_filter_all_my_sites',
+                        specificSite: '#searchgroups_filter_my_sites_'
                     },
                     values: {
                         entireCommunity: 'entire_community',
@@ -97,34 +91,34 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
-                resultsContainerAnonClass: 'searchcontent_results_anon',
+                resultsContainerAnonClass: 'searchgroups_results_anon',
                 header: search + '_results_header',
                 tagHeader: search + '_results_tag_header',
-                template: 'searchcontent_results_template'
+                template: 'searchgroups_results_template'
             },
-            facetedConfig: {
-                title: $("#searchcontent_result_title").html(),
-                value: "Content",
+            facetedConfig : {
+                title : "Refine your search",
+                value : "Groups",
                 facets: {
                     "all": {
-                        "category": $("#searchcontent_result_all_content").html(),
-                        "searchurl": searchURLmap.allfiles,
-                        "searchurlall": searchURLmap.allfilesall
+                        "category": "All groups",
+                        "searchurl": searchURLmap.allgroups,
+                        "searchurlall": searchURLmap.allgroupsall
                     }
                 }
             }
         };
-        
+
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.manage = {
-                "category": $("#searchcontent_result_content_I_manage").html(),
-                "searchurl": searchURLmap.pooledcontentmanager,
-                "searchurlall": searchURLmap.pooledcontentmanagerall
+               "category": "Groups I manage",
+               "searchurl": searchURLmap.managergroups,
+               "searchurlall": searchURLmap.managergroups
             };
             searchConfig.facetedConfig.facets.member = {
-                "category": $("#searchcontent_result_content_I_m_a_viewer_of").html(),
-                "searchurl": searchURLmap.pooledcontentviewer,
-                "searchurlall": searchURLmap.pooledcontentviewerall
+               "category": "Groups I'm a member of",
+               "searchurl": searchURLmap.membergroups,
+               "searchurlall": searchURLmap.membergroups
             };
         }
         
@@ -149,14 +143,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
                 if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
                     $(searchConfig.global.numberFound).text("" + results.total);
+                } else if (results.results.length <= 0) {
+                    $(searchConfig.global.numberFound).text(0);
+                } else {
+                    $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
                 }
-                else 
-                    if (results.results.length <= 0) {
-                        $(searchConfig.global.numberFound).text(0);
-                    }
-                    else {
-                        $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
-                    }
                 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass).pager({
@@ -164,23 +155,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                     buttonClickCallback: pager_click_handler
                 });
-                
+
                 // If we have results we add them to the object.
                 if (results && results.results) {
-                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
-                    for (var item in finaljson.items) {
-                        if (finaljson.items.hasOwnProperty(item)) {
-                            if (finaljson.items[item]["sakai:description"]) {
-                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt");
+                    finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
+                    for (var group in finaljson.items){
+                        if (finaljson.items.hasOwnProperty(group)) {
+                            if (finaljson.items[group]["sakai:group-title"]) {
+                                finaljson.items[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]), $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "s3d-bold");
                             }
-                            if (finaljson.items[item]["sakai:pooled-content-file-name"]) {
-                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "s3d-bold");
+                            if (finaljson.items[group]["sakai:group-description"]) {
+                                finaljson.items[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-description"]), $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
                             }
                         }
                     }
@@ -196,8 +181,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 results.total = Math.abs(results.total);
                 if (results.total <= resultsToDisplay) {
                     $(searchConfig.global.pagerClass).hide();
-                }
-                else {
+                } else {
                     $(searchConfig.global.pagerClass).show();
                 }
             }
@@ -207,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(".searchcontent_results_container").show();
+            $(".searchgroups_results_container").show();
         };
         
         /**
@@ -248,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     break;
                 }
             }
-            
+
             // Set all the input fields and paging correct.
             showSearchContent(params);
 
@@ -263,25 +247,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 url = facetedurlall;
                 $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
             } else {
-                url = facetedurl.replace(".json", ".infinity.json");
+                url = facetedurl;
                 $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
             }
             
             searchAjaxCall = $.ajax({
                 url: url,
                 data: requestParams,
-                success: function(data){
+                cache: false,
+                success: function(data) {
                     renderResults(data, true);
                     $(searchConfig.results.header).show();
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(status) {
                     var json = {};
                     renderResults(json, false);
                     $(searchConfig.results.header).show();
                 }
             });
         };
-        
+
         ///////////////////
         // Event binding //
         ///////////////////
@@ -315,8 +300,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         });
         
         $(window).bind("sakai.search.util.finish", function(ev){
-            sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
-                "98384013291": {
+            sakai.api.Widgets.widgetLoader.insertWidgets("searchgroups_widget", false, false, [{
+                "9493020598": {
                     "facetedConfig": searchConfig.facetedConfig
                 }
             }]);
@@ -328,6 +313,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
     };
     
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad("searchgroups");
     
 });
