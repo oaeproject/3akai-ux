@@ -42,7 +42,9 @@
 #newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float: left;width: 505px;margin-left: -2px;height: 419px;position:absolute; left:226px;-moz-border-radius: 0 5px 5px 5px;padding:12px;}
 #newaddcontent_container .newaddcontent_container_newitem_extraroundedborder {-moz-border-radius: 5px 5px 5px 5px !important;}
 #newaddcontent_container #newaddcontent_container_newitem #newaddcontent_container_newitem_raquo_right {background: url("/devwidgets/newaddcontent/images/newaddcontent_raquo_right.png") no-repeat scroll left top transparent;height: 34px;position: absolute;right: -10px;top: 200px;width: 25px;}
+#newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_raquo_right_documentsposition {top: 300px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;right:20px;top:206px;}
+#newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_documentsposition{top:306px;}
 
 /* Right selected items */
 #newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border:1px #a9a9a9 solid;}
@@ -78,9 +80,9 @@
 .MultiFile-list{display:none;}
 
 /* Add new Sakai Doc */
-#newaddcontent_add_document_description {width:145px;background-color:#cbd2d8;padding:10px;float:left;margin-right:15px;color:#424242;}
-#newaddcontent_add_document_description #newaddcontent_add_document_description_image {background:url("/devwidgets/newaddcontent/images/newaddcontent_sakaidoc_example.png") no-repeat top left transparent;width:143px;height:185px;margin-bottom: 10px;}
-#newaddcontent_add_document_description a {display: block;margin-top: 5px;}
+#newaddcontent_add_document_description_container {width:145px;background-color:#cbd2d8;padding:10px;float:left;margin-right:15px;color:#424242;}
+#newaddcontent_add_document_description_container #newaddcontent_add_document_description_image {background:url("/devwidgets/newaddcontent/images/newaddcontent_sakaidoc_example.png") no-repeat top left transparent;width:143px;height:185px;margin-bottom: 10px;}
+#newaddcontent_add_document_description_container a {display: block;margin-top: 5px;}
 #newaddcontent_add_document_form {float:left;}
-#newaddcontent_add_document_form input {width:320px;}
+#newaddcontent_add_document_form input, #newaddcontent_add_document_form textarea {width:300px;}
 #newaddcontent_add_document_form select {border: 1px solid #A9A9A9;height: 20px;}

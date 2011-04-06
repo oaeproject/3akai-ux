@@ -47,12 +47,12 @@
         <div id="newaddcontent_container_newitem_fields">
 
             <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
-                <label>__MSG__UPLOAD_A_FILE__:</label>
-                <form id="newaddcontent_upload_content_form" method="POST" enctype="multipart/form-data">
-                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
-                </form>
-
                 <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
+                    <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
+                    <form id="newaddcontent_upload_content_form" method="POST" enctype="multipart/form-data">
+                        <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
+                    </form>
+
                     <span class="newaddcontent_upload_content_originaltitle"></span>
                     <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
                     <input type="text" id="newaddcontent_upload_content_title"/>
@@ -73,15 +73,21 @@
             </div>
 
             <div id="newaddcontent_add_document_template" class="newaddcontent_newitem_container" style="display:none;">
-                <div id="newaddcontent_add_document_description">
+                <div id="newaddcontent_add_document_description_container">
                     <div id="newaddcontent_add_document_description_image"></div>
                     <div>__MSG__SAKAI_DOC_DESCRIPTION__</div>
                     <a href="#" class="s3d-regular-links s3d-bold">__MSG__LEARN_MORE__</a>
                 </div>
 
                 <form id="newaddcontent_add_document_form" class="newaddcontent_form">
-                    <label for="newaddcontent_add_document_url">__MSG__NAME_DOCUMENT__:</label>
-                    <input type="text" id="newaddcontent_add_document_url"/>
+                    <label for="newaddcontent_add_document_title">__MSG__NAME_DOCUMENT__:</label>
+                    <input type="text" id="newaddcontent_add_document_title"/>
+
+                    <label for="newaddcontent_add_document_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_add_document_description"></textarea>
+
+                    <label for="newaddcontent_add_document_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_add_document_tags"/>
 
                     <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                     <select id="newaddcontent_add_document_permissions">

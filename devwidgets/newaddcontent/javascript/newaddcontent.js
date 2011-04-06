@@ -73,12 +73,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentSelectedItemsEditDataClose = ".newaddcontent_selecteditems_edit_data_close";
         var newaddcontentContainerNewItemSaveChanges = ".newaddcontent_container_newitem_save_changes";
         var newaddcontentSelectedItemsEditIndex = ".newaddcontent_selecteditems_edit_index";
+        var newaddcontentContainerNewItemRaquoRight = "#newaddcontent_container_newitem_raquo_right"
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
         var newaddcontentContainerLHChoiceItemClass = "newaddcontent_container_lhchoice_item";
         var newaddcontentContainerNewItemExtraRoundedBorderClass = "newaddcontent_container_newitem_extraroundedborder";
         var newaddcontentContainerLHChoiceSelectedSubitemClass = "newaddcontent_container_lhchoice_selected_subitem";
+        var newaddcontentContainerNewItemRaquoRightDocumentsposition = "newaddcontent_container_newitem_raquo_right_documentsposition";
+        var newaddcontentContainerNewItemAddToListDocumentsposition = "newaddcontent_container_newitem_add_to_list_documentsposition";
 
         // List Variables
         var itemsToUpload = [];
@@ -173,7 +176,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     };
                     addContentToQueue(contentObj);
                     multifileQueueAddAllowed = true;
-                    $("#newaddcontent_upload_content_fields input, #newaddcontent_upload_content_fields textarea").val("");
+                    $contentForm.find("input, textarea").val("");
+                    break;
+                case "newaddcontent_add_document_form":
+                    var $documentForm = $(this).prev().children(":visible").find(".newaddcontent_form");
+                    var documentObj = {
+                        "structure0": "TBD",
+                        "title": $documentForm.find("#newaddcontent_add_document_title").val(),
+                        "permissions": $documentForm.find("#newaddcontent_add_document_permissions").val(),
+                        "description":$documentForm.find("#newaddcontent_add_document_description").val(),
+                        "tags":$documentForm.find("#newaddcontent_add_document_tags").val(),
+                        "copyright":"creativecommons",
+                        "type": "document"
+                    };
+                    addContentToQueue(documentObj);
+                    $documentForm.reset();
                     break;
             }
         };
@@ -230,6 +247,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////////////
         // UPLOADING ACTIONS //
         ///////////////////////
+
+        var createDocument = function(documentObj){
+            var document = {
+                "sakai:pooled-content-file-name": documentObj.title,
+                "sakai:description": documentObj.description,
+                "sakai:permissions": documentObj.permissions,
+                "sakai:copyright": documentObj.copyright,
+                "sakai:tags":documentObj.tags,
+                "structure0":documentObj["structure0"],
+                "sakai:custom-mimetype": "x-sakai/document"
+            };
+
+            $.ajax({
+                url: uploadPath,
+                data: document,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data){
+
+                },
+                error: function(err){
+
+                }
+            });
+        };
 
         /**
          * Upload a link
@@ -343,6 +385,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             contentUploaded = true;
                         }
                         break;
+                    case "document":
+                        createDocument(item);
+                        break;
                 }
             });
             $(newaddcontentContainer).jqmHide();
@@ -450,6 +495,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Add/remove some CSS classes to show/hide rounded borders etc.
          */
         var navigateMenu = function(){
+            $(newaddcontentContainerNewItemRaquoRight).removeClass(newaddcontentContainerNewItemRaquoRightDocumentsposition);
+            $(newaddcontentContainerNewItemAddToList).removeClass(newaddcontentContainerNewItemAddToListDocumentsposition);
             if ($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)) {
                 $(newaddcontentContainerNewItem).addClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
             }
@@ -465,6 +512,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     break;
                 case "newaddcontent_new_document":
                     renderNewDocument();
+                    $(newaddcontentContainerNewItemRaquoRight).addClass(newaddcontentContainerNewItemRaquoRightDocumentsposition);
+                    $(newaddcontentContainerNewItemAddToList).addClass(newaddcontentContainerNewItemAddToListDocumentsposition);
                     break;
                 case "newaddcontent_add_link":
                     renderAddLink();
