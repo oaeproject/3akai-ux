@@ -353,7 +353,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         /////////////////////////
 
         $(window).bind("hashchange", function(ev){
-            doSearch();
+            if ($.bbq.getState("l") === "all" || !$.bbq.getState("l")) {
+                doSearch();
+            }
         });
 
         $(window).bind("sakai.search.util.finish", function(ev){
