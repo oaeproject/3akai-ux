@@ -792,7 +792,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                     $("#inbox-invitation-ignore").show();
                                 }
                                 else {
-                                    $("#inbox-invitation-already").show();
+                                    $.ajax({
+                                        url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=100",
+                                        success: function(data){
+                                            var accepted = false;
+                                            for (var i = 0; i < data.results.length; i++) {
+                                                if (data.results[i].target === message["sakai:from"]) {
+                                                    accepted = true;
+                                                }
+                                            }
+                                            if(accepted){
+                                                $("#inbox-invitation-already").show();    
+                                            }
+                                            else {
+                                                $("#inbox-invitation-rejected").show();
+                                            }
+                                            
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -838,6 +855,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
                     $("#inbox-invitation-already").show();
+                    $("#inbox-invitation-rejected").hide();
                 }
             });
         });
@@ -852,7 +870,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
-                    $("#inbox-invitation-already").show();
+                    $("#inbox-invitation-already").hide();
+                    $("#inbox-invitation-rejected").show();
                 }
             });
         });
