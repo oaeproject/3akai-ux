@@ -104,6 +104,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainerSelectedItemsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload, "sakai":sakai}));
         };
 
+        var resetQueue = function(){
+            itemsToUpload = [];
+            $(newaddcontentContainerSelectedItemsContainer).html("");
+        }
+
         /**
          * Add an item to the queue
          * @param {Object} contentToAdd Object containing data about the object to be added to the queue
@@ -238,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:permissions": linkObj.permissions,
                 "sakai:copyright": linkObj.copyright,
                 "sakai:tags":linkObj.tags,
-                "_mimeType": "x-sakai/link"
+                "sakai:custom-mimetype": "x-sakai/link"
             };
 
             $.ajax({
@@ -289,7 +294,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
-                    debug.log(data);
+
                 }
             });
 
@@ -434,6 +439,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // NAVIGATION //
         ////////////////
 
+        var resetMenu = function(){
+            $(newaddcontentContainerNewItem).removeClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
+            $(newaddcontentContainerLHChoiceItem).removeClass(newaddcontentContainerLHChoiceSelectedItem);
+            $("#newaddcontent_upload_content").addClass(newaddcontentContainerLHChoiceSelectedItem);
+        };
+
         /**
          * Decide what to render when the menu is navigated
          * Add/remove some CSS classes to show/hide rounded borders etc.
@@ -506,7 +517,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Add binding to all elements
          */
         var addBinding = function(){
-            removeBinding();
             $(newaddcontentContainerLHChoiceItem).bind("click", navigateMenu);
             $(newaddcontentContainerLHChoiceSubItem).bind("click", navigateSubItem);
             $(newaddcontentContainerNewItemAddToList).bind("click", constructItemToAdd);
@@ -549,11 +559,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainer).jqmShow();
         };
 
+        var resetWidget = function(){
+            removeBinding();
+            resetQueue();
+            resetMenu();
+            multifileQueueAddAllowed = true;
+            contentUploaded = false;
+        };
+
         /**
          * Initialize the widget
          */
         var initialize = function(){
             initializeJQM();
+            resetWidget();
             addBinding();
             renderUploadNewContent();
         };
