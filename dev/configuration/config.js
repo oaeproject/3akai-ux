@@ -44,6 +44,7 @@ define(function() {
             SEARCH_SITES_URL: "/search/sites",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
+            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 

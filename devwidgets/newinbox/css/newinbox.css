@@ -6,6 +6,7 @@
 
 /* Inbox items*/
 .newinbox_items_container {color:#333;border-bottom:1px solid #DDDDDD;padding:2px 0px;}
+.newinbox_items_container.read .s3d-bold {font-weight:normal;}
 .newinbox_items_inner {-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;padding:5px 15px 0 5px;cursor:pointer;}
 .newinbox_items_inner img {float: left;padding: 0 10px 5px 0;width: 30px;}
 .newinbox_items_inner.hover {background-color:#C4E4FB;}
@@ -16,9 +17,9 @@
 .newinbox_delete_button span {padding-left:7px !important;}
 
 /* Hover */
-#newinbox_hover {box-shadow:0px 0px 10px 5px black; position:absolute; height:200px; padding:0px 5px;}
-#newinbox_hover_header {float:left;background-color:white;width:100%; height:50px;}
-#newinbox_hover_content {float:left; background-color:white; width:100%; height:150px;}
+#newinbox_hover {-moz-box-shadow:0px 0px 10px 5px black;-webkit-box-shadow:0px 0px 10px 5px black;box-shadow:0px 0px 10px 5px black; position:absolute; height:208px; padding:0px 5px;background-color:white;overflow:hidden;}
+#newinbox_hover_header {float:left;width:100%; height:50px;}
+#newinbox_hover_content {float:left; background-color:white; width:100%; height:158px;}
 
 /* Message Detail */
 #newinbox_show_message .newinbox_items_container {margin-bottom:10px;}

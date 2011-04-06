@@ -61,32 +61,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             },
-        	"267187828": {
-        		"page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
-        	},
-        	"1165301022": {
-        		"page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
-        	},
-        	"9867733100": {
-        		"page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
-        	},
-        	"4253485084": {
-        		"page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
-        	},
-        	"3915412565": {
-        		"page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
-        	},
+            "267187828": {
+                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            },
+            "1165301022": {
+                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+            },
+            "9867733100": {
+                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
+            },
+            "4253485084": {
+                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
+            },
+            "3915412565": {
+                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
+            },
             "2024634737": {
-                "box": "messages"
+                "box": "inbox",
+                "category": "messages"
             },
             "3679202964": {
-                "box": "invitations"
+                "box": "inbox",
+                "category": "invitations"
             },
             "66582410046": {
-                "box": "sent"
+                "box": "outbox",
+                "category": "*"
             },
             "3519294282": {
-                "box": "trash"
+                "box": "trash",
+                "category": "*"
             },
             "546341435": {
                 "layout": "threecolumn",
