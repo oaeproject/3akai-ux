@@ -9,7 +9,7 @@ require(["jquery", "/devwidgets/navigation/javascript/navigation.js"], function(
             var url = e.fragment;
             if (url != History.prev_url){ // should be checking individual params, not just the string composition
                 if (url){
-                    if (sakai_global.sitespages.openPageH) {
+                    if (sakai_global.sitespages && sakai_global.sitespages.openPageH) {
                         if ($.bbq.getState("page") === "") {
                             sakai_global.sitespages.openPageH(url);
                         } else {
@@ -21,7 +21,7 @@ require(["jquery", "/devwidgets/navigation/javascript/navigation.js"], function(
                             $(window).trigger('hashchange');
                         });
                     }
-                } else {
+                } else if (sakai_global.sitespages && sakai_global.sitespages.openPageH) {
                     sakai_global.sitespages.openPageH();
                     History.prev_url = url;
                 }
