@@ -85,7 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url = "/system/userManager/group/" + sakai_global.currentgroup.data.authprofile["sakai:group-id"] + ".managers.json";
             } else if (listType === "content") {
                 // get group content
-                url = "/var/search/pool/files?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
+                url = "/var/search/pool/files.json?group=" + sakai_global.currentgroup.data.authprofile["sakai:group-id"];
             }
 
             $(window).trigger(listType+tuid + ".render.listpeople.sakai", {"listType": listType, "pl_config": pl_config, "url": url, "id": sakai_global.currentgroup.data.authprofile["sakai:group-id"]});
