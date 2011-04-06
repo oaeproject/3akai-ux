@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
 
                   var videoWidth = rootel.width() - 6;
                   var videoHeight = videoWidth * 3 / 4; 
-                  var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth + "px", videoHeight + "px",'9','#ffffff');
+                  var so = new SWFObject('/devwidgets/video/jwplayer/player.swf','ply', videoWidth + "px", videoHeight + "px",'9','#ffffff');
                   so.addParam('allowfullscreen','true');
                   so.addParam('allowscriptaccess','always');
                   so.addParam('wmode','opaque');
@@ -157,10 +157,12 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
                 // Fill in video info
                 $(videoUrl, rootel).val(response.URL);
                 $(videoSource, rootel).val(response.source);
+                $(videoTitle, rootel).val(response.title);
             } else {
                 // Fill in video defaults
                 $(videoUrl, rootel).val("http://");
                 $(videoSource, rootel).val("");
+                $(videoTitle, rootel).val("");
             }
             $(videoOutput, rootel).hide();
             $(videoSettings, rootel).show();
@@ -172,10 +174,12 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
         var getVideoJson = function () {
             var URL = $.trim($(videoUrl, rootel).val());
             var source = $.trim($(videoSource, rootel).val());
+            var title = $.trim($(videoTitle, rootel).val());
 
             var video = {
                 "userid": sakai.data.me.user.userid,
                 "source": source,
+                "title": title,
                 "URL": URL
             };
 
@@ -271,6 +275,11 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
                 if (showSettings) {
                     showSettingsScreen(data, true);
                 } else {
+                    if ($.trim(data.title) !== "") {
+                        sakai.api.Widgets.changeWidgetTitle(tuid, data.title);
+                    } else {
+                        sakai.api.Widgets.changeWidgetTitle(tuid, sakai.widgets['video'].name);
+                    }
                     $(videoSettings, rootel).hide();
                     $(videoOutput, rootel).show();
                 }

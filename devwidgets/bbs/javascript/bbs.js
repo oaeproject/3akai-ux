@@ -203,18 +203,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             //2009-08-19 11:29:53+0100
             //2009-08-19T10:58:27
             if (dateInput !== null) {
-                /** Get the date with the use of regular expressions */
-                var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
-                var d = new Date();
-                if (match !== undefined) {
-                    d.setYear(match[1]);
-                    d.setMonth(match[2] - 1);
-                    d.setDate(match[3]);
-                    d.setHours(match[4]);
-                    d.setMinutes(match[5]);
-                    d.setSeconds(match[6]);
-                }
-                return d;
+                // Use the sakai API function to parse the date and convert to the users local time
+                return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
             }
             return null;
         };
@@ -232,6 +222,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             }else{
                 return quote;
             }
+        };
+
+        /**
+         * Callback function to sort replies based on created timestamp
+         */
+        var sortReplies = function(a, b){
+            return a.post._created - b.post._created;
         };
 
         var renderPosts = function(arrPosts){
@@ -264,7 +261,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                         arrPosts[i].replies[ii].post["sakai:body"] = arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1];
                     }
                 }
-                arrPosts[i].replies.reverse();
+                // Sort replies
+                arrPosts[i].replies.sort(sortReplies);
             }
 
             // Render formatted posts
@@ -472,7 +470,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 'sakai:initialpost': true,
                 'sakai:writeto': store,
                 'sakai:marker': tuid,
-                'sakai:messagebox': "outbox",
+                'sakai:messagebox': "pending",
                 'sakai:sendstate': "pending",
                 '_charset_': "utf-8"
             };
@@ -513,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
                 "sakai:replyon": id,
-                "sakai:messagebox": "outbox",
+                "sakai:messagebox": "pending",
                 "sakai:sendstate": "pending",
                 "sakai:to": "discussion:w-" + store,
                 "sakai:deleted": false,
@@ -529,6 +527,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message["sakai:from"], data.message.profile.picture);
                     data.message["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["sakai:created"]));
+                    data.message["sakai:createdOn"] = data.message["sakai:created"];
 
                     data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"]);
                     if (data.message["sakai:body"].split(["[/quote]"])[1]) {
@@ -560,20 +559,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var doAddReply = function(){
             var replyParent = $(this).parents(bbsTopicContainer);
             var topicId = replyParent[0].id.split("bbs_post_")[1];
-            var message = replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val();
+            var message = $.trim(replyParent.children(bbsTopicReplyContainer).children(bbsTopicReplyText).val());
 
-            if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
-                message = "[quote=\"" + $(bbsTopicReplyQuotedUser, $rootel).text() + "\"]" + replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val() + "[/quote]" + message;
+            if (message){
+                if(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).length && replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()){
+                    message = "[quote=\"" + $.trim($(bbsTopicReplyQuotedUser, $rootel).text()) + "\"]" + $.trim(replyParent.children(bbsTopicReplyContainer).children(bbsTopicQuotedText).val()) + "[/quote]" + message;
+                }
+
+                replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
+
+                var $repliesIcon = replyParent.find(bbsRepliesIcon);
+                if ($repliesIcon.hasClass(bbsShowRepliesIcon)) {
+                    // expand topic reply list
+                    $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
+                }
+                $(bbsTopicReplyQuotedUser, $rootel).text("");
             }
-
-            replyToTopic(topicId, message, $(this).parents(bbsTopicReplyContainer));
-
-            var $repliesIcon = replyParent.find(bbsRepliesIcon);
-            if ($repliesIcon.hasClass(bbsShowRepliesIcon)) {
-                // expand topic reply list
-                $("#bbs_post_" + topicId + " " + bbsShowTopicReplies, $rootel).click();
-            }
-            $(bbsTopicReplyQuotedUser, $rootel).text("");
         };
 
         /**
@@ -837,11 +838,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             $(bbsSaveEdit, $rootel).live("click", function(){
                 var editParent = $(this).parents(bbsEditContainer);
                 var id = $(this).parents(s3dHighlightBackgroundClass)[0].id;
-                var body = editParent.children(bbsTopicReplyText).val();
-                var quote = editParent.children(bbsTopicQuotedText).val();
+                var body = $.trim(editParent.children(bbsTopicReplyText).val());
+                var quote = $.trim(editParent.children(bbsTopicQuotedText).val());
                 var quoted = $(this).parents(s3dHighlightBackgroundClass).find(bbsReplyContentsTextQuoted).text();
                 var post = $(this).parents(s3dHighlightBackgroundClass);
-                updatePost(id, body, quote, quoted, post);
+
+                if (body) {
+                    updatePost(id, body, quote, quoted, post);
+                }
             });
         };
 
