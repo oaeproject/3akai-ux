@@ -97,11 +97,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback = renderStoredPreview;
             } else  if (mimeType.substring(0, 6) === "image/") {
                 callback = renderImagePreview;
-            } else if (sakai_global.content_profile.content_data.data["sakai:pagecount"]){				
-				callback = renderDocumentPreview; // document-viewer					
+            } else if (sakai_global.content_profile.content_data.data["sakai:pagecount"]){
+                callback = renderDocumentPreview; // document-viewer
             } else if (sakai_global.content_profile.content_data.data["sakai:needsprocessing"] === "false") { //TODO: with the documentviewer this is probably obsolete
                 callback = renderStoredPreview;
-			} else {
+            } else {
                 callback = renderDefaultPreview;
                 obj.type = "default";
             }
@@ -215,32 +215,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return so;
         };
 
-		//TODO: with the documentviewer this is probably obsolete
+        //TODO: with the documentviewer this is probably obsolete
         var renderStoredPreview = function(){
             renderImagePreview("/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".preview.jpg");
         };
-		
-		var renderDocumentPreview = function(){
-			var sakData = sakai_global.content_profile.content_data.data;
-            var pdfDoc = {
-                id: sakData['jcr:name'],
-                title: sakData['sakai:pooled-content-file-name'],
-                pages: sakData['sakai:pagecount'],
-                resources: {
-                    pdf: sakai_global.content_profile.content_data.url,
-                    page: {
-                        image: 'http://' + window.location.host + "/p/" + sakData['jcr:name'] + ".page{page}-{size}.jpg"
-                    }
-                }
+
+        var renderDocumentPreview = function(){
+            var sakData = {
+                data: sakai_global.content_profile.content_data.data,
+                url: sakai_global.content_profile.content_data.url
             };
-            DV.load(pdfDoc, {
-                container: '#contentpreview_document_preview',
-                width: 900,
-                height: 500,
-                sidebar: false,
-                text: false
-            }); 
-		};
+            var docContainer = $("#contentpreview_document_preview");
+            sakai.api.Util.TemplateRenderer($("#contentpreview_document_template"), {}, docContainer);
+            sakai.api.Widgets.widgetLoader.insertWidgets(docContainer, false, false, [{cpDocPreview:sakData}]);
+        };
 
         var renderDefaultPreview = function(){
             //Nothing really, it's all part of the template
