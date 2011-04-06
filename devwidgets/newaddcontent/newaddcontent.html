@@ -44,7 +44,75 @@
 
     <div id="newaddcontent_container_newitem">
         <div id="newaddcontent_container_newitem_raquo_right"></div>
-        <div id="newaddcontent_container_newitem_fields"></div>
+        <div id="newaddcontent_container_newitem_fields">
+
+            <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
+                <label>__MSG__UPLOAD_A_FILE__:</label>
+                <form id="newaddcontent_upload_content_form" method="POST" enctype="multipart/form-data">
+                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
+                </form>
+
+                <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
+                    <span class="newaddcontent_upload_content_originaltitle"></span>
+                    <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
+                    <input type="text" id="newaddcontent_upload_content_title"/>
+
+                    <label for="newaddcontent_upload_content_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_upload_content_description"></textarea>
+
+                    <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_upload_content_tags"/>
+
+                    <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
+                    <select id="newaddcontent_upload_content_permissions">
+                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="group">__MSG__PRIVATE__</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="newaddcontent_add_document_template" class="newaddcontent_newitem_container" style="display:none;">
+                <div id="newaddcontent_add_document_description">
+                    <div id="newaddcontent_add_document_description_image"></div>
+                    <div>__MSG__SAKAI_DOC_DESCRIPTION__</div>
+                    <a href="#" class="s3d-regular-links s3d-bold">__MSG__LEARN_MORE__</a>
+                </div>
+
+                <form id="newaddcontent_add_document_form" class="newaddcontent_form">
+                    <label for="newaddcontent_add_document_url">__MSG__NAME_DOCUMENT__:</label>
+                    <input type="text" id="newaddcontent_add_document_url"/>
+
+                    <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                    <select id="newaddcontent_add_document_permissions">
+                        <option value="public">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="group" selected="selected">__MSG__PRIVATE__</option>
+                    </select>
+                </form>
+            </div>
+
+            <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
+                Add from everything in the system
+            </div>
+
+            <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
+                <form id="newaddcontent_add_link_form" class="newaddcontent_form">
+                    <label for="newaddcontent_add_link_url">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
+                    <input type="text" id="newaddcontent_add_link_url"/>
+
+                    <label for="newaddcontent_add_link_title">__MSG__TITLE__:</label>
+                    <input type="text" id="newaddcontent_add_link_title"/>
+
+                    <label for="newaddcontent_add_link_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_add_link_description"></textarea>
+
+                    <label for="newaddcontent_add_link_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_add_link_tags"/>
+                </form>
+            </div>
+
+        </div>
         <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_add_to_list" title="__MSG__ADD__">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
         </button>
@@ -62,7 +130,7 @@
 </div>
 
 <div id="newaddcontent_selecteditems_edit_data_template" style="display:none;"><!--
-    <span style="display:none" id="${i}"></span>
+    <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
@@ -82,7 +150,7 @@
 --></div>
 
 <div id="newaddcontent_selecteditems_edit_permissions_template" style="display:none;"><!--
-    <span style="display:none" id="${i}"></span>
+    <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
@@ -105,65 +173,6 @@
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
         </button>
     </div>
---></div>
-
-<div id="newaddcontent_upload_content_template" style="display:none;"><!--
-    <label>__MSG__UPLOAD_A_FILE__:</label>
-    <form id="newaddcontent_upload_content_form" method="POST" enctype="multipart/form-data">
-        <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
-    </form>
-    
-    <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
-        <span class="newaddcontent_upload_content_originaltitle"></span>
-        <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
-        <input type="text" id="newaddcontent_upload_content_title"/>
-
-        <label for="newaddcontent_upload_content_description">__MSG__DESCRIPTION__:</label>
-        <textarea id="newaddcontent_upload_content_description"></textarea>
-
-        <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
-        <input type="text" id="newaddcontent_upload_content_tags"/>
-    </div>
---></div>
-
-<div id="newaddcontent_add_document_template" style="display:none;"><!--
-<div id="newaddcontent_add_document_description">
-    <div id="newaddcontent_add_document_description_image"></div>
-    <div>__MSG__SAKAI_DOC_DESCRIPTION__</div>
-    <a href="#" class="s3d-regular-links s3d-bold">__MSG__LEARN_MORE__</a>
-</div>
-
-<form id="newaddcontent_add_document_form" class="newaddcontent_form">
-    <label for="newaddcontent_add_document_url">__MSG__NAME_DOCUMENT__:</label>
-    <input type="text" id="newaddcontent_add_document_url"/>
-
-    <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-    <select id="newaddcontent_add_document_permissions">
-        <option value="public">__MSG__PUBLIC__</option>
-        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-        <option value="group" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_DOCUMENT__</option>
-    </select>
-</form>
---></div>
-
-<div id="newaddcontent_add_existing_template" style="display:none;"><!--
-    Add from everything in the system
---></div>
-
-<div id="newaddcontent_add_link_template" style="display:none;"><!--
-<form id="newaddcontent_add_link_form" class="newaddcontent_form">
-    <label for="newaddcontent_add_link_url">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
-    <input type="text" id="newaddcontent_add_link_url"/>
-
-    <label for="newaddcontent_add_link_title">__MSG__TITLE__:</label>
-    <input type="text" id="newaddcontent_add_link_title"/>
-
-    <label for="newaddcontent_add_link_description">__MSG__DESCRIPTION__:</label>
-    <textarea id="newaddcontent_add_link_description"></textarea>
-
-    <label for="newaddcontent_add_link_tags">__MSG__TAGS__:</label>
-    <input type="text" id="newaddcontent_add_link_tags"/>
-</form>
 --></div>
 
 <div id="newaddcontent_selecteditems_template"><!--

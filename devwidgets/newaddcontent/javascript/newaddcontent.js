@@ -47,17 +47,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Containers
         var newaddcontentContainer = "#newaddcontent_container";
         var newaddcontentContainerNewItem = "#newaddcontent_container_newitem";
-        var newaddcontentContainerNewItemFields = "#newaddcontent_container_newitem_fields";
         var newaddcontentContainerSelectedItemsContainer = "#newaddcontent_container_selecteditems_container";
         var newaddcontentSelecteditemsEditDataContainer = "#newaddcontent_selecteditems_edit_data_container";
         var newaddcontentSelectedItemsEditPermissionsContainer = "#newaddcontent_selecteditems_edit_permissions_container";
         var newaddcontentSelectedItemsEditDataContainer = "#newaddcontent_selecteditems_edit_data_container";
 
         // Templates
-        var newaddcontentUploadContentTemplate = "newaddcontent_upload_content_template";
-        var newaddcontentAddDocumentTemplate = "newaddcontent_add_document_template";
-        var newaddcontentAddExistingTemplate = "newaddcontent_add_existing_template";
-        var newaddcontentAddLinkTemplate = "newaddcontent_add_link_template";
+        var newaddcontentUploadContentTemplate = "#newaddcontent_upload_content_template";
+        var newaddcontentAddDocumentTemplate = "#newaddcontent_add_document_template";
+        var newaddcontentAddExistingTemplate = "#newaddcontent_add_existing_template";
+        var newaddcontentAddLinkTemplate = "#newaddcontent_add_link_template";
         var newaddcontentSelectedItemsTemplate = "newaddcontent_selecteditems_template";
         var newaddcontentSelectedItemsEditPermissionsTemplates = "newaddcontent_selecteditems_edit_permissions_template";
         var newaddcontentSelectedItemsEditDataTemplate = "newaddcontent_selecteditems_edit_data_template";
@@ -73,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentSelectedItemsActionsPermissions = ".newaddcontent_selecteditems_actions_permissions";
         var newaddcontentSelectedItemsEditDataClose = ".newaddcontent_selecteditems_edit_data_close";
         var newaddcontentContainerNewItemSaveChanges = ".newaddcontent_container_newitem_save_changes";
+        var newaddcontentSelectedItemsEditIndex = ".newaddcontent_selecteditems_edit_index";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -139,7 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Depending on the type of the item to add construct a different object
          */
         var constructItemToAdd = function(){
-            switch($(this).parent().find("form")[0].id){
+            switch($(this).prev().children(":visible").find("form")[0].id){
                 case "newaddcontent_add_link_form":
                     var $linkForm = $(this).parent().find("form");
                     var linkObj = {
@@ -153,15 +153,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "type":"link"
                     }
                     addContentToQueue(linkObj);
-                    $(this).parent().find("form").reset();
+                    $(this).parent().find("#newaddcontent_add_link_form").reset();
                     break;
                 case "newaddcontent_upload_content_form":
-                    var $contentForm = $(this).parent().find(".newaddcontent_form");
+                    var $contentForm = $(this).prev().children(":visible").find(".newaddcontent_form");
                     var contentObj = {
                         "originaltitle": $contentForm.find(".newaddcontent_upload_content_originaltitle")[0].id,
                         "title": $contentForm.find("#newaddcontent_upload_content_title").val(),
                         "description": $contentForm.find("#newaddcontent_upload_content_description").val(),
                         "tags": $contentForm.find("#newaddcontent_upload_content_tags").val(),
+                        "permissions":$contentForm.find("#newaddcontent_upload_content_permissions").val(),
+                        "copyright":"creativecommons",
                         "type":"content"
                     };
                     addContentToQueue(contentObj);
@@ -206,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Save the changes made to a file in the queue
          */
         var saveEdit = function(){
-            var index = $(newaddcontentSelecteditemsEditDataContainer + " > span")[0].id;
+            var index = $(newaddcontentSelectedItemsEditIndex)[0].id;
             if ($(newaddcontentSelecteditemsEditDataContainer).is(":visible")) {
                 itemsToUpload[index].title = $(newaddcontentSelecteditemsEditDataContainer + " #newaddcontent_selecteditems_edit_data_title").val();
                 itemsToUpload[index].description = $(newaddcontentSelecteditemsEditDataContainer + " #newaddcontent_selecteditems_edit_data_description").val();
@@ -253,11 +255,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        var setDataOnContent = function(data){
+            var objArr = [];
+            $.each(itemsToUpload, function(i,arrayItem){
+                if(arrayItem.type == "content"){
+                    $.each(data, function(ii, savedItem){
+                        if (savedItem.filename == arrayItem.originaltitle) {
+                            var obj = {
+                                "url": "/p/" + savedItem.hashpath,
+                                "method": "POST",
+                                "parameters": {
+                                    "sakai:description": arrayItem.description,
+                                    "sakai:fileextension": savedItem.filename.substring(savedItem.filename.lastIndexOf("."), savedItem.filename.length),
+                                    "sakai:pooled-content-file-name": arrayItem.title,
+                                    "sakai:permissions": arrayItem.permissions,
+                                    "sakai:copyright": arrayItem.copyright,
+                                    "sakai:allowcomments": "true",
+                                    "sakai:showcomments": "true"
+                                }
+                            };
+                            objArr.push(obj);
+                        }
+                    });
+                }
+            });
+
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(objArr)
+                },
+                success: function(data){
+                    debug.log(data);
+                }
+            });
+
+        };
+
         var uploadContent = function(){
             $(newaddcontentUploadContentForm).attr("action", uploadPath);
             $(newaddcontentUploadContentForm).ajaxForm({
                 success: function(data){
-                    debug.log("success");
+                    var responseData = {};
+                    if (jQuery.browser.webkit) {
+                        responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
+                    } else {
+                        responseData = $.parseJSON(data.replace(/<pre>/i, "").replace(/<\/pre>/i, ""));
+                    }
+                    var extractedData = [];
+                    for (var i in responseData) {
+                        if (responseData.hasOwnProperty(i)) {
+                            var obj = {};
+                            obj.filename = i;
+                            obj.hashpath = responseData[i];
+                            extractedData.push(obj);
+                        }
+                    }
+                    setDataOnContent(extractedData);
                 },
                 error: function(){
                     debug.log("error");
@@ -317,11 +374,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // RENDERING //
         ///////////////
 
+        var showSelectedItem = function($selected){
+            $(".newaddcontent_newitem_container").hide();
+            $selected.show();
+        }
+
         /**
          * Show the interface to upload new content
          */
         var renderUploadNewContent = function(){
-            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentUploadContentTemplate,{}));
+            showSelectedItem($(newaddcontentUploadContentTemplate));
             $("input[type=file].multi").MultiFile({
                 afterFileSelect: function(element, fileName, master_element){
                     var trashPrev = decideTrashPrev();
@@ -339,7 +401,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Show the interface to add a new document
          */
         var renderNewDocument = function(){
-            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddDocumentTemplate,{}));
+            showSelectedItem($(newaddcontentAddDocumentTemplate));
         };
 
         /**
@@ -349,13 +411,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var renderExistingContent = function(context){
             switch(context){
                 case "everything":
-                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    showSelectedItem($(newaddcontentAddExistingTemplate));
                     break;
                 case "my_content":
-                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    showSelectedItem($(newaddcontentAddExistingTemplate));
                     break;
                 case "shared_with_me":
-                    $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddExistingTemplate,{}));
+                    showSelectedItem($(newaddcontentAddExistingTemplate));
                     break;
             }
         };
@@ -364,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Show the interface to add a link
          */
         var renderAddLink = function(){
-            $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddLinkTemplate,{}));
+            showSelectedItem($(newaddcontentAddLinkTemplate));
         };
 
 
