@@ -75,7 +75,8 @@ if(Array.hasOwnProperty("indexOf") === false){
 require({
     baseUrl:"/dev/lib/",
     paths: {
-        "jquery": "jquery/jquery-1.5.2"
+        "jquery": "jquery/jquery-1.5.2",
+        "jquery-ui": "jquery/jquery-ui-1.8.11.custom"
     },
     priority: ["jquery"]
 });
@@ -87,7 +88,7 @@ require(
         "/dev/lib/sakai/sakai.jquery-extensions.js",
         "/dev/configuration/config.js",
         "/dev/configuration/config_custom.js",
-        "/dev/lib/jquery/jquery-ui.full.js",
+        "jquery-ui",
         "/dev/lib/jquery/plugins/jquery.validate.js",
         "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
         "/dev/lib/misc/l10n/globalization.js",
@@ -105,7 +106,8 @@ require(
         "/dev/lib/jquery/plugins/jquery.MultiFile.js",
         "/dev/lib/jquery/plugins/jquery.hoverIntent.sakai-edit.js",
         "/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
-        "/dev/lib/jquery/plugins/gritter/jquery.gritter.js"
+        "/dev/lib/jquery/plugins/gritter/jquery.gritter.js",
+        "/dev/lib/jquery/plugins/jquery.jcarousel.js"
     ],
     function($, sakai) {
         require.ready(function() {
