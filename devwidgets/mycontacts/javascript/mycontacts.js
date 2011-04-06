@@ -118,7 +118,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (contacts.results) {
                 // Run process each friend
                 for (var i = 0, j = contacts.results.length; i < j; i++) {
-                    if (i <= (numberFriends - 1)) {
+                    if (i < numberFriends) {
                         var friend = contacts.results[i];
 
                         // Set the id of the friend
