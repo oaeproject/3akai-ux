@@ -59,6 +59,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var sharecontentMessageLink = "#sharecontent_message_link";
         var sharecontentPermissionSettingsDontSave = "#sharecontent_permission_settings_dont_save";
         var sharecontentPermissionSettingsSave = "#sharecontent_permission_settings_save";
+        var sharecontentRemoveOwnAccessConfirm = "#sharecontent_remove_own_access_confirm";
 
         // Sharing & permissions
         var $sharecontent_i_want_to_share = $("#sharecontent_i_want_to_share", $rootel);
@@ -81,6 +82,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var sharecontentPermissionSettingsContainer = "#sharecontent_permission_settings_container";
         var sharecontentPermissionSettingsContainerContent = "#sharecontent_permission_settings_container_content";
         var sharecontentVisibilityHeader = "#sharecontent_visibility_header";
+        var sharecontentRemoveOwnAccessContainer = "#sharecontent_remove_own_access_container";
 
         // Templates
         var sharecontentBasicTemplate = "sharecontent_basic_template";
@@ -101,6 +103,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var callback = false;
         var memberAdded = false;
         var entityTypes = {};
+        var removeMemberData = {};
 
         var pickerData = {
           "selected": {},
@@ -206,9 +209,39 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             return false;
         };
 
+        var removeMembersRequest = function(removeData, removingSelf){
+            // Do the Batch request
+            $.ajax({
+                url: sakai.config.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                data: {
+                    requests: $.toJSON(removeData.itemArr)
+                },
+                success: function(data){
+                    if (removingSelf) {
+                        // redirect to GATEWAY_URL if the current user can no longer view content
+                        document.location = sakai.config.URL.GATEWAY_URL;
+                    } else if (!canCurrentUserEdit()) {
+                        // reload if the current user can no longer edit
+                        window.location.reload();
+                    } else {
+                        $(window).trigger("removeUser.sharecontent.sakai", {
+                            "user": removeData.userid,
+                            "access": removeData.permission
+                        });
+                        removeData.listItem.remove();
+                        createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
+                    }
+                }
+            });
+        };
+
         var removeMembers = function(selectedUserId, listItem){
             var permission = selectedUserId.split("-")[0];
             var removeAllowed = true;
+            var removingSelf = false;
+            var accessCount = 0;
             var itemArr = [];
             var item;
             var userid = selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length);
@@ -221,6 +254,34 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 };
             } else {
+                // get count of content access
+                for (var j = 0; j < sakai_global.content_profile.content_data.members.managers.length; j++) {
+                    if (sakai_global.content_profile.content_data.members.managers[j].userid && sakai_global.content_profile.content_data.members.managers[j].userid === sakai.data.me.user.userid){
+                        accessCount++;
+                    } else if (sakai_global.content_profile.content_data.members.managers[j]["sakai:group-id"]){
+                        for (var i = 0; i < sakai.data.me.groups.length; i++) {
+                            if (sakai.data.me.groups[i]["sakai:group-id"] === sakai_global.content_profile.content_data.members.managers[j]["sakai:group-id"]){
+                                accessCount++;
+                                removingSelf = true;
+                            }
+                        }
+                    }
+                }
+                for (var jj = 0; jj < sakai_global.content_profile.content_data.members.viewers.length; jj++) {
+                    if (sakai_global.content_profile.content_data.members.viewers[jj].userid && sakai_global.content_profile.content_data.members.viewers[jj].userid === sakai.data.me.user.userid){
+                        accessCount++;
+                    } else if (sakai_global.content_profile.content_data.members.viewers[jj]["sakai:group-id"]){
+                        for (var ii = 0; ii < sakai.data.me.groups.length; ii++) {
+                            if (sakai.data.me.groups[ii]["sakai:group-id"] === sakai_global.content_profile.content_data.members.viewers[jj]["sakai:group-id"]){
+                                accessCount++;
+                                removingSelf = true;
+                            }
+                        }
+                    }
+                }
+                if (userid === sakai.data.me.user.userid){
+                    removingSelf = true;
+                }
                 if (sakai_global.content_profile.content_data.members.managers.length <= 1) {
                     removeAllowed = false;
                 }
@@ -238,28 +299,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (removeAllowed) {
                 itemArr.push(item);
 
-                // Do the Batch request
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    traditional: true,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(itemArr)
-                    },
-                    success: function(data){
-                        $(window).trigger("removeUser.sharecontent.sakai", {
-                            "user": userid,
-                            "access": permission
-                        });
-                        listItem.remove();
-                        createActivity("__MSG__MEMBERS_REMOVED_FROM_CONTENT__");
+                var removeData = {
+                    "itemArr": itemArr,
+                    "userid": userid,
+                    "permission": permission,
+                    "listItem": listItem
+                };
 
-                        // reload if the current user can no longer edit
-                        if (!canCurrentUserEdit()) {
-                            window.location.reload();
-                        }
-                    }
-                });
+                // Check if user is removing their own manager access and if they have no alternative access and content is private, alert the user they will be removing their own access
+                if (sakai_global.content_profile.content_data.data["sakai:permissions"] === "private" && removingSelf && accessCount <= 1){
+                    removeMemberData = removeData;
+                    $(sharecontentRemoveOwnAccessContainer).jqmShow();
+                } else {
+                    removeMembersRequest(removeData, false);
+                }
             } else {
                 sakai.api.Util.notification.show($sharecontentManagerCouldNotBeRemoved.text(),
                     $sharecontentThereShouldBeAtLeastOneManager.text());
@@ -420,6 +473,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(".jqmClose").bind("click", function(){
                 // hide any tooltips if they are open
                 $(window).trigger("done.tooltip.sakai");
+            });
+
+            $(sharecontentRemoveOwnAccessContainer).jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                zIndex: 3200
+            });
+
+            $(sharecontentRemoveOwnAccessConfirm).bind("click", function(){
+                $(sharecontentRemoveOwnAccessContainer).jqmHide();
+                removeMembersRequest(removeMemberData, true);
             });
 
             $(sharecontentChangeGlobalPermissions).live("click", function(){
