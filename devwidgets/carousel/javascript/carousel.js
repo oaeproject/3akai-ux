@@ -46,13 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////////////
 
         var renderImagePreview = function(contentURL, lastModified){
-            var json = {
-                "contentURL": "/p/" + contentURL + "?_=" + lastModified,
-                "sakai": sakai,
-                "maxwidth": "350",
-                "height": "200px"
-            };
-            return "<img src=\"" + json.contentURL + "\" style=\"max-width:" + json.maxwidth + ";\"/>";
+            var url = "/p/" + contentURL + "?_=" + lastModified;
+            return "<img src=\"" + url + "\" style=\"max-width:350;\"/>";
         };
 
         var isJwPlayerSupportedVideo = function(mimeType){
