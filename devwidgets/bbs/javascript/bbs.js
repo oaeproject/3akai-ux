@@ -470,7 +470,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 'sakai:initialpost': true,
                 'sakai:writeto': store,
                 'sakai:marker': tuid,
-                'sakai:messagebox': "outbox",
+                'sakai:messagebox': "pending",
                 'sakai:sendstate': "pending",
                 '_charset_': "utf-8"
             };
@@ -511,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
                 "sakai:replyon": id,
-                "sakai:messagebox": "outbox",
+                "sakai:messagebox": "pending",
                 "sakai:sendstate": "pending",
                 "sakai:to": "discussion:w-" + store,
                 "sakai:deleted": false,
