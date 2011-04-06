@@ -394,7 +394,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#topnavigation_search_input").keyup(function(evt){
                 var val = $.trim($(this).val());
-                if (val && evt.keyCode != 16) {
+                if (evt.keyCode == 13) {
+                    document.location = "/dev/search2.html#q=" + val;
+                } else if (val && evt.keyCode != 16) {
                     doSearch(val);
                 }else if(!val){
                     $("#topnavigation_search_results").hide();
