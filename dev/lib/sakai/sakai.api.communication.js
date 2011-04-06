@@ -30,8 +30,8 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], function($, sakai_user, sakai_conf) {
-    return {
+define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_util, sakai_conf) {
+    var sakaiCommmunicationsAPI =  {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
          * message is sent to users that are members of that group.
@@ -314,6 +314,43 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
         },
 
         /**
+         * Processes the messages from the server, stripping out everything we don't need
+         */
+        processMessages : function(data) {
+            var messages = {};
+            $.each(data.results, function(i, msg) {
+                var newMsg = {};
+                // these need to be fixed to allow for multiple people from and to
+                newMsg.from = {};
+                newMsg.from.name = sakai_user.getDisplayName(msg.userFrom[0]);
+                if (msg.userFrom[0].basic.elements.picture) {
+                    var parsedPic = $.parseJSON(msg.userFrom[0].basic.elements.picture.value);
+                    newMsg.from.picture = parsedPic.url || sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                } else {
+                    newMsg.from.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                }
+                newMsg.to = {};
+                newMsg.to.name = sakai_user.getDisplayName(msg.userTo[0]);
+                if (msg.userTo[0].basic.elements.picture) {
+                    var parsedPic1 = $.parseJSON(msg.userTo[0].basic.elements.picture.value);
+                    newMsg.to.picture = parsedPic1.url || sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                } else {
+                    newMsg.to.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                }
+                newMsg.body = $.trim(msg["sakai:body"].replace(/\n/gi, "<br />"));
+                newMsg.excerpt = $.trim(sakai_util.shortenString(msg["sakai:body"], 1000).replace(/\n/gi, "<br />"));
+                newMsg.subject = msg["sakai:subject"];
+                //Jan 22, 2009 10:25 PM
+                newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
+                newMsg.id = msg.id;
+                newMsg.read = msg["sakai:read"];
+                messages[newMsg.id] = newMsg;
+            });
+            data.results = messages;
+            return data;
+        },
+
+        /**
         * Gets all messages from a box
         * 
         * @param {String} box The name of the box to get messages from
@@ -323,19 +360,23 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
         * @param {String} sortBy The name of the field to sort on
         * @param {String} sortOrder Sort messages asc or desc
         * @param {Function} callback The function that will be called on completion
+        * @param {Boolean} doProcessing process the messages after they come back to make them easier to deal with
+        *                               defaults to true
         */  
-        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback) {
+        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing) {
             var url = "";
             if (category) {
-                url = "http://localhost:8080/~Bert/message/inbox.infinity.json";
-                //url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
             } else {
                 url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
             }
             $.ajax({
                 url: url,
-                cache: false,
+                cache: true,
                 success: function(data){
+                    if (doProcessing !== false) {
+                        data = sakaiCommmunicationsAPI.processMessages(data);
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -430,4 +471,5 @@ define(["jquery", "sakai/sakai.api.user", "/dev/configuration/config.js"], funct
 
         }
     };
+    return sakaiCommmunicationsAPI;
 });

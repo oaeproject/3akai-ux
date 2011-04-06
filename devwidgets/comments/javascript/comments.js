@@ -426,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // If you're changing an comment-widget, then the saved values need to be filled in
             if (exists) {
-                $("input[name=" + commentsDirectionRbt + "][value=" + widgetSettings.direction + "]", rootel).attr("checked", true);
+                $("input[name='" + commentsDirectionRbt + "'][value='" + widgetSettings.direction + "']", rootel).attr("checked", true);
                 if (widgetSettings['sakai:allowanonymous'] && widgetSettings['sakai:allowanonymous'] === true) {
                     $("#comments_DontRequireLogInID", rootel).attr("checked", true);
                     $(commentsNameReqChk, rootel).attr("disabled", false);
