@@ -163,7 +163,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var createSWFObject = function(url, params, flashvars){
             if (!url){
-                url = "/devwidgets/video/jwplayer/player-licensed.swf";
+                url = "/devwidgets/video/jwplayer/player.swf";
             }
             var so = new SWFObject(url,'ply', '640', '390','9','#ffffff');
             so.addParam('allowfullscreen','true');

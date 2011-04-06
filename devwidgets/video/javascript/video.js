@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
 
                   var videoWidth = rootel.width() - 6;
                   var videoHeight = videoWidth * 3 / 4; 
-                  var so = new SWFObject('/devwidgets/video/jwplayer/player-licensed.swf','ply', videoWidth + "px", videoHeight + "px",'9','#ffffff');
+                  var so = new SWFObject('/devwidgets/video/jwplayer/player.swf','ply', videoWidth + "px", videoHeight + "px",'9','#ffffff');
                   so.addParam('allowfullscreen','true');
                   so.addParam('allowscriptaccess','always');
                   so.addParam('wmode','opaque');
