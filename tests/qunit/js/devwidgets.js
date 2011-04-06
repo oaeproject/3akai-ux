@@ -124,7 +124,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     widgetHTML = false;
                 $.ajax({
                     url: "/devwidgets/" + widgetName + "/config.json",
-                    async: false,
                     type: "json",
                     success: function(data) {
                         try {
