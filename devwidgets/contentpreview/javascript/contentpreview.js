@@ -221,10 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderDocumentPreview = function(){
-            var sakData = {
-                data: sakai_global.content_profile.content_data.data,
-                url: sakai_global.content_profile.content_data.url
-            };
+            var sakData = sakai_global.content_profile.content_data;
             var docContainer = $("#contentpreview_document_preview");
             sakai.api.Util.TemplateRenderer($("#contentpreview_document_template"), {}, docContainer);
             sakai.api.Widgets.widgetLoader.insertWidgets(docContainer, false, false, [{cpDocPreview:sakData}]);

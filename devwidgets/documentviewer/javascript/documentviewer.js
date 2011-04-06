@@ -49,13 +49,13 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 resources: {
                     pdf: widgetData.url,
                     page: {
-                        image: 'http://' + window.location.host + "/p/" + sakData['jcr:name'] + ".page{page}-{size}.jpg"
+                        image: window.location.protocol + '//' + window.location.host + "/p/" + sakData['jcr:name'] + ".page{page}-{size}.jpg"
                     }
                 }
             };
             DV.load(pdfDoc, {
-                container: '#documentviewer_document_preview',
-                width: 900,
+                container: '#' + tuid + ' #documentviewer_document_preview',
+                width: "100%",
                 height: 500,
                 sidebar: false,
                 text: false
