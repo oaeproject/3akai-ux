@@ -113,6 +113,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
+                if (item.target){
+                    item = results[i].profile;
+                }
                 if (item && item["rep:userId"] != "anonymous") {
                     var user = {};
                     user.userid = item["rep:userId"];
@@ -186,6 +189,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             return params;
         }
+
+        ////////////
+        // Events //
+        ////////////
+        
+        $(".link_accept_invitation").live("click", function(ev){
+            var userid = $(this).attr("sakai-entityid");
+            $.ajax({
+                url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+                type: "POST",
+                data : {"targetUserId": userid},
+                success: function(data) {
+                    sakai_global.data.search.getMyContacts();;
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
+                }
+            });
+            $('.link_accept_invitation').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userid){
+                    $(this).hide();
+                }
+            });
+        });
 
         /////////////////////////
         // Util initialisation //

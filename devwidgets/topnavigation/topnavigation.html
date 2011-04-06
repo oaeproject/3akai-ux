@@ -74,19 +74,20 @@
             <hr/>
         {/if}
 
-    {if files && files.length}
-        <span class="topnavigation_search_results_section_header">__MSG__FILES__</span>
-        <ul>
-           {for file in files}
-                <li>
-                    <div class="topnav_content_icon_container fl-force-left">
-                        <span class="topnav_content_icon ${file.css_class}"></span>
-                    </div>
-                    <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
-                </li>
-            {/for}
-        </ul>
-    {/if}
+        ${files.length}
+        {if files && files.length}
+            <span class="topnavigation_search_results_section_header">__MSG__CONTENT__</span>
+            <ul>
+               {for file in files}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="topnav_content_icon ${file.css_class}"></span>
+                        </div>
+                        <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
+                    </li>
+                {/for}
+            </ul>
+        {/if}
 --></div>
 
 <div id="search_bottom_template" style="display:none;"><!--

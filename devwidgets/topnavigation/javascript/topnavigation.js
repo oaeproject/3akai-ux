@@ -257,11 +257,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var files = [];
                     for(var i in data.results){
                         if(data.results.hasOwnProperty(i)){
+                            var mimeType = sakai.config.MimeTypes["other"].cssClass;
+                            if (sakai.config.MimeTypes[data.results[i]["_mimeType"]]){
+                                mimeType = sakai.config.MimeTypes[data.results[i]["_mimeType"]].cssClass;
+                            }
                             var tempFile = {
                                 "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                                 "name" : data.results[i]["sakai:pooled-content-file-name"],
                                 "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
-                                "css_class" : sakai.config.MimeTypes[data.results[i]["_mimeType"]].cssClass
+                                "css_class" : mimeType
                             };
                             files.push(tempFile);
                         }

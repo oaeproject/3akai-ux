@@ -237,11 +237,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             
             var facetedurl = "";
             var facetedurlall = "";
-            if (params["facet"]) {
+            if (params["facet"] && searchConfig.facetedConfig.facets[params["facet"]]) {
                 facetedurl = searchConfig.facetedConfig.facets[params["facet"]].searchurl;
                 facetedurlall = searchConfig.facetedConfig.facets[params["facet"]].searchurlall;
-            }
-            else {
+            } else {
                 for (var f in searchConfig.facetedConfig.facets) {
                     facetedurl = searchConfig.facetedConfig.facets[f].searchurl;
                     facetedurlall = searchConfig.facetedConfig.facets[f].searchurlall;
