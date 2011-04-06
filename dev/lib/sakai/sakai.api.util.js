@@ -1228,6 +1228,8 @@ define(["jquery",
              * @param {Object} message Message that user has entered.
              */
             replaceURL : function(message){
+                // if message is already in the <a> tag strip it first.
+                message = message.replace(/<\/*a[^>]*>/g,"");
                 // get the regex code from
                 // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
                 return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link s3d-regular-links s3d-bold" target="_blank">$&</a>');
