@@ -282,7 +282,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 type: "POST",
                 data : {"targetUserId": userid},
                 success: function(data) {
-                    fetchMyFriends();
+                    setTimeout(fetchMyFriends, 2000);
                 },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
@@ -439,9 +439,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} user The user object we get from the addcontact widget.
          */
         var removeAddContactLinks = function(user) {
-             fetchMyFriends();
-             $(searchConfig.addFriend.addToContacts.replace(/\{USERID\}/gi, user.uuid)).hide();
-             $(searchConfig.addFriend.addToContactsDivider.replace(/\{USERID\}/gi, user.uuid)).hide();
+            setTimeout(fetchMyFriends, 2000);
+            $(searchConfig.addFriend.addToContacts.replace(/\{USERID\}/gi, user.uuid)).hide();
+            $(searchConfig.addFriend.addToContactsDivider.replace(/\{USERID\}/gi, user.uuid)).hide();
         };
 
         /**
