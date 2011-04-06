@@ -43,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var rootel = $("#" + tuid);
-        var numberFriends = 5; // The number of contacts that will be shown
+        var numberFriends = 8; // The number of contacts that will be shown
 
         // - ID
         var mycontacts = "#mycontacts";
@@ -118,7 +118,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (contacts.results) {
                 // Run process each friend
                 for (var i = 0, j = contacts.results.length; i < j; i++) {
-                    if (i <= numberFriends) {
+                    if (i <= (numberFriends - 1)) {
                         var friend = contacts.results[i];
 
                         // Set the id of the friend
@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getFriends = function(){
             $.ajax({
-                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=8",
+                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=" + numberFriends,
                 cache: false,
                 success: function(data){
 
