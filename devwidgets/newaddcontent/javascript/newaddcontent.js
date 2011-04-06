@@ -86,28 +86,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Paths
         var uploadPath = "/system/pool/createfile";
 
+        // Forms
+        var newaddcontentUploadContentForm = "#newaddcontent_upload_content_form";
+
+        var multifileQueueAddAllowed = true;
+        var contentUploaded = false;
+
 
         /////////////////
         // ITEMS QUEUE //
         /////////////////
 
+        /**
+         * Render the queue
+         */
         var renderQueue = function(){
             $(newaddcontentContainerSelectedItemsContainer).html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload, "sakai":sakai}));
         };
 
+        /**
+         * Add an item to the queue
+         * @param {Object} contentToAdd Object containing data about the object to be added to the queue
+         */
         var addContentToQueue = function(contentToAdd){
             itemsToUpload.push(contentToAdd);
             renderQueue();
         };
 
+        /**
+         * Remove an item from the queue
+         */
         var removeItemToAdd = function(){
             $(newaddcontentSelectedItemsEditPermissionsContainer).hide();
             $(newaddcontentSelectedItemsEditDataContainer).hide();
-            itemsToUpload.splice($(this).parent()[0].id.split("newaddcontent_selecteditems_")[1],1);
+
+            var index = $(this).parent()[0].id.split("newaddcontent_selecteditems_")[1];
+            var obj = itemsToUpload[index];
+
+            if(obj.type == "content"){
+                var $found = $("*:contains(\"" + obj.originaltitle + "\")");
+                $found.last().prev("a").click();
+            }
+
+            itemsToUpload.splice(index,1);
+
             $(this).parent().remove();
             renderQueue();
         };
 
+        /**
+         * Construct an item to add to the queue
+         * Depending on the type of the item to add construct a different object
+         */
         var constructItemToAdd = function(){
             switch($(this).parent().find("form")[0].id){
                 case "newaddcontent_add_link_form":
@@ -123,11 +153,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "type":"link"
                     }
                     addContentToQueue(linkObj);
+                    $(this).parent().find("form").reset();
+                    break;
+                case "newaddcontent_upload_content_form":
+                    var $contentForm = $(this).parent().find(".newaddcontent_form");
+                    var contentObj = {
+                        "originaltitle": $contentForm.find(".newaddcontent_upload_content_originaltitle")[0].id,
+                        "title": $contentForm.find("#newaddcontent_upload_content_title").val(),
+                        "description": $contentForm.find("#newaddcontent_upload_content_description").val(),
+                        "tags": $contentForm.find("#newaddcontent_upload_content_tags").val(),
+                        "type":"content"
+                    };
+                    addContentToQueue(contentObj);
+                    multifileQueueAddAllowed = true;
+                    $("#newaddcontent_upload_content_fields input, #newaddcontent_upload_content_fields textarea").val("");
                     break;
             }
-            $(this).parent().find("form").reset();
         };
 
+        /**
+         * Show the popup to enable the user to edit the permissions of a file in queue (permissions and copyright)
+         */
         var changePermissions = function(){
             $(newaddcontentSelectedItemsEditDataContainer).hide();
             var index = $(this).parents("li")[0].id.split("_")[2];
@@ -137,6 +183,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelectedItemsEditPermissionsContainer).css("top", $(this).parents("li").position().top + 40 + "px");
         };
 
+        /**
+         * Show the popup to enable the user to edit the data of a file in queue (description, tags and title)
+         */
         var editData = function(){
             $(newaddcontentSelectedItemsEditPermissionsContainer).hide();
             var index = $(this).parents("li")[0].id.split("_")[2];
@@ -146,10 +195,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelecteditemsEditDataContainer).css("top", $(this).parents("li").position().top + 40 + "px");
         };
 
+        /**
+         * Close the edit popup
+         */
         var closeEditData = function(){
             $(this).parent().parent().hide();
         };
 
+        /**
+         * Save the changes made to a file in the queue
+         */
         var saveEdit = function(){
             var index = $(newaddcontentSelecteditemsEditDataContainer + " > span")[0].id;
             if ($(newaddcontentSelecteditemsEditDataContainer).is(":visible")) {
@@ -169,6 +224,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // UPLOADING ACTIONS //
         ///////////////////////
 
+        /**
+         * Upload a link
+         * @param {Object} linkObj object containing all information necessary to upload a link
+         */
         var uploadLink = function(linkObj){
             var link = {
                 "sakai:pooled-content-file-name": linkObj.title,
@@ -186,37 +245,107 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-                    
+
                 },
                 error: function(err){
-                    
+
                 }
             });
         };
 
+        var uploadContent = function(){
+            $(newaddcontentUploadContentForm).attr("action", uploadPath);
+            $(newaddcontentUploadContentForm).ajaxForm({
+                success: function(data){
+                    debug.log("success");
+                },
+                error: function(){
+                    debug.log("error");
+                }
+            });
+            $(newaddcontentUploadContentForm).submit();
+        };
+
+        /**
+         * Execute the upload of the files in the queue by calling the functions needed for the specific type of content
+         */
         var doUpload = function(){
             $.each(itemsToUpload, function(index,item){
                 switch(item.type){
                     case "link":
                         uploadLink(item);
                         break;
+                    case "content":
+                        if (!contentUploaded) {
+                            uploadContent();
+                            contentUploaded = true;
+                        }
+                        break;
                 }
             });
             $(newaddcontentContainer).jqmHide();
         };
 
+
+        ////////////////////////
+        // MULTIFILE SPECIFIC //
+        ////////////////////////
+
+        /**
+         * If the user selects another file after already selecting a first file
+         * and has not added that first file to the list of files to be uploaded
+         * the first file should be deleted from the multifile list as the user
+         * hasn't indicated it wants that first file to be uploaded. In this case
+         * it could be that the wrong file was selected, or the user changed his
+         * mind.
+         */
+        var decideTrashPrev = function(){
+            if (multifileQueueAddAllowed) {
+                return false;
+            } else {
+                return true;
+            }
+        };
+
+        var preFillContentFields = function(fileName){
+            $("#newaddcontent_upload_content_fields #newaddcontent_upload_content_title").val(fileName);
+            $("#newaddcontent_upload_content_fields .newaddcontent_upload_content_originaltitle")[0].id = fileName;
+        };
+
+
         ///////////////
         // RENDERING //
         ///////////////
 
+        /**
+         * Show the interface to upload new content
+         */
         var renderUploadNewContent = function(){
             $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentUploadContentTemplate,{}));
+            $("input[type=file].multi").MultiFile({
+                afterFileSelect: function(element, fileName, master_element){
+                    var trashPrev = decideTrashPrev();
+                    if (trashPrev){
+                        // Remove the previously added file
+                        $(".MultiFile-list").children().last().prev().find("a").click();
+                    }
+                    multifileQueueAddAllowed = false;
+                    preFillContentFields(fileName);
+                }
+            });
         };
 
+        /**
+         * Show the interface to add a new document
+         */
         var renderNewDocument = function(){
             $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddDocumentTemplate,{}));
         };
 
+        /**
+         * Decide what context to render to add existing content
+         * @param {Object} context The context that will help decide what to render
+         */
         var renderExistingContent = function(context){
             switch(context){
                 case "everything":
@@ -231,43 +360,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        /**
+         * Show the interface to add a link
+         */
         var renderAddLink = function(){
             $(newaddcontentContainerNewItemFields).html(sakai.api.Util.TemplateRenderer(newaddcontentAddLinkTemplate,{}));
         };
 
-        ////////////////////
-        // INITIALIZATION //
-        ////////////////////
 
-        var initializeJQM = function(){
-            var $newaddcontentContainer = $(newaddcontentContainer);
-            $(newaddcontentContainer).jqm({
-                modal: true,
-                overlay: 20,
-                toTop: true
-            });
+        ////////////////
+        // NAVIGATION //
+        ////////////////
 
-            // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $newaddcontentContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else if (docScrollPos > 0) {
-                    $newaddcontentContainer.css({
-                        "top": docScrollPos + 100 + "px"
-                    });
-                }
-
-            $(newaddcontentContainer).jqmShow();
-        };
-
-
-        /////////////
-        // BINDING //
-        /////////////
-
+        /**
+         * Decide what to render when the menu is navigated
+         * Add/remove some CSS classes to show/hide rounded borders etc.
+         */
         var navigateMenu = function(){
             if ($(this).prev().hasClass(newaddcontentContainerLHChoiceItemClass)) {
                 $(newaddcontentContainerNewItem).addClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
@@ -304,11 +412,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        /**
+         * Executed when a subitem in the navigation has been clicked
+         */
         var navigateSubItem = function(){
             $(newaddcontentContainerLHChoiceSelectedSubitem).removeClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
             $(this).addClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
         };
 
+
+        /////////////
+        // BINDING //
+        /////////////
+
+        /**
+         * Remove binding on all elements
+         */
         var removeBinding = function(){
             $(newaddcontentContainerLHChoiceItem).unbind("click", navigateMenu);
             $(newaddcontentContainerLHChoiceSubItem).unbind("click", navigateSubItem);
@@ -318,9 +437,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainerNewItemSaveChanges).die("click", saveEdit);
             $(newaddcontentSelectedItemsRemove).die("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).die("click", changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).die("click", editData)
+            $(newaddcontentSelectedItemsActionsEdit).die("click", editData);
         };
 
+        /**
+         * Add binding to all elements
+         */
         var addBinding = function(){
             removeBinding();
             $(newaddcontentContainerLHChoiceItem).bind("click", navigateMenu);
@@ -331,10 +453,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentContainerNewItemSaveChanges).live("click", saveEdit);
             $(newaddcontentSelectedItemsRemove).live("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).live("click", editData)
+            $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
         };
 
-        var initialize = function(data){
+
+        ////////////////////
+        // INITIALIZATION //
+        ////////////////////
+
+        /**
+         * Initialize the modal dialog
+         */
+        var initializeJQM = function(){
+            var $newaddcontentContainer = $(newaddcontentContainer);
+            $(newaddcontentContainer).jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true
+            });
+
+            // position dialog box at users scroll position
+            var htmlScrollPos = $("html").scrollTop();
+            var docScrollPos = $(document).scrollTop();
+            if (htmlScrollPos > 0) {
+                $newaddcontentContainer.css({
+                    "top": htmlScrollPos + 100 + "px"
+                });
+            } else if (docScrollPos > 0) {
+                $newaddcontentContainer.css({
+                    "top": docScrollPos + 100 + "px"
+                });
+            }
+            $(newaddcontentContainer).jqmShow();
+        };
+
+        /**
+         * Initialize the widget
+         */
+        var initialize = function(){
             initializeJQM();
             addBinding();
             renderUploadNewContent();
