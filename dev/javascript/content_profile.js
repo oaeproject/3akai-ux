@@ -234,12 +234,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var initEntityWidget = function(){
             var context = "content";
-            var type = "content_not_shared";
-            if (sakai_global.content_profile.content_data.isViewer){
-                type = "content_shared";
-            }
-            if (sakai_global.content_profile.content_data.isManager){
+            if (sakai.data.me.user.anon){
+                type = "content_anon";
+            } else if (sakai_global.content_profile.content_data.isManager){
                 type = "content_managed";
+            } else if (sakai_global.content_profile.content_data.isViewer){
+                type = "content_shared";
+            } else {
+                type = "content_not_shared";
             }
             $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data.data]);
         };
@@ -469,6 +471,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
+        $("#entity_content_add_to_library").live("click", function(){
+            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(){
+                $("#entity_content_add_to_library").hide();
+                sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
+            });
+        });
 
         ////////////////////
         // Initialisation //
