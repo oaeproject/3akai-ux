@@ -213,9 +213,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
+            $(addToContactsAdd).hide();
             // Show the form
             $(addToContactsDoneContainer).hide();
-            $(addToContactsAdd).show();
 
             hash.w.show();
         };
@@ -256,6 +256,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // We have the data, render it.
                         fillInUserInfo(friend);
+                        $(addToContactsAdd).show();
+
                     }
                 });
             }
@@ -263,8 +265,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 friend = user;
                 friend.uuid = user.preferences.uuid;
                 fillInUserInfo(friend);
+                
             }
-
             // Render the templates
             renderTemplates();
 
