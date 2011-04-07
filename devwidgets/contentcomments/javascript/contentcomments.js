@@ -158,9 +158,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var displayUserProfilePicture = function(){
             if (me.profile) {
                 var profile = me.profile;
-                var picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                if (profile.picture && $.parseJSON(profile.picture).name) {
-                    picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+                var picture = sakai.api.Util.constructProfilePicture(profile);
+                if (!picture) {
+                    picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
                 $("#comments_userProfileAvatarPicture").attr("src", picture);
             }
@@ -223,11 +223,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                     var profile = comment;
                     user.fullName = sakai.api.User.getDisplayName(profile);
-                    user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     user.uid = profile.userid;
+                    user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     // Check if the user has a picture
-                    if (profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
-                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
+                    var pictureUrl = sakai.api.Util.constructProfilePicture(profile);
+                    if (pictureUrl){
+                        user.pictureUrl = pictureUrl;
                     }
                     user.profile = "/~" + user.uid;
                 }
