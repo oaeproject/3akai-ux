@@ -683,8 +683,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     newVersion = true;
                     if (newVersionIsLink) {
                         uploadLink();
-                    }
-                    else {
+                    } else {
                         $multiFileForm.submit();
                     }
                 },
@@ -949,7 +948,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         });
 
         $("#fileupload_link_box form").bind("submit", function(e){
-            linkFormSubmit();
+            c();
             e.stopImmediatePropagation();
             return false;
         });

@@ -80,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             // set the mimetype and corresponding image
-            var type = result["_mimeType"];
+            var type = result["_mimeType"] || result["sakai:custom-mimetype"];
             if(sakai.config.MimeTypes[type]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);

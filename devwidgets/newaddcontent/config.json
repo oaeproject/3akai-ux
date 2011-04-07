@@ -1,0 +1,14 @@
+{
+    "ca":true,
+    "description":"Add Resource to a Site",
+    "name":"Add Resource",
+    "id":"newaddcontent",
+    "img":"/devwidgets/newaddcontent/images/newaddcontent.png",
+    "showinsakaigoodies":true,
+    "type":"core",
+    "enabled":true,
+    "i18n": {
+        "default": "/devwidgets/newaddcontent/bundles/default.properties"
+    },
+    "url":"/devwidgets/newaddcontent/newaddcontent.html"
+}
