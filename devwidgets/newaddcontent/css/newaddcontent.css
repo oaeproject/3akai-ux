@@ -45,13 +45,14 @@
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_raquo_right_documentsposition {top: 300px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;right:20px;top:206px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_documentsposition{top:306px;}
+#newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition{top:406px;}
 
 /* Right selected items */
 #newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border:1px #a9a9a9 solid;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;padding: 10px 12px;text-align:center;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header span{font-size:11px;font-weight:normal;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul {margin:0;}
-#newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;height: 28px;list-style: none outside none;padding: 6px 20px 6px 30px;}
+#newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;list-style: none outside none;padding: 6px 20px 6px 30px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title {display:block;padding-left:2px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_actions button {font-size:11px;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_container {height: 402px;overflow: auto;}
@@ -75,7 +76,7 @@
 
 /* Upload content */
 .newaddcontent_form label{display:block;margin:12px 0 7px 0;color:#424242;}
-.newaddcontent_form input, .newaddcontent_form textarea {width:330px;border:1px solid #A9A9A9;margin-top:3px;height:20px;}
+.newaddcontent_form input, .newaddcontent_form textarea, #newaddcontent_existingitems_search {width:330px;border:1px solid #A9A9A9;margin-top:3px;height:20px;}
 .newaddcontent_form textarea{height:60px;}
 .MultiFile-list{display:none;}
 
@@ -86,3 +87,13 @@
 #newaddcontent_add_document_form {float:left;}
 #newaddcontent_add_document_form input, #newaddcontent_add_document_form textarea {width:300px;}
 #newaddcontent_add_document_form select {border: 1px solid #A9A9A9;height: 20px;}
+
+#newaddcontent_existingitems_list_container{background-color:#fff;border: 1px solid #A9A9A9;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_actions {height:50px;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list {overflow:auto;height:300px;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list ul {margin:0;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list ul li {border-bottom: 1px solid #A9A9A9;color: #424242;list-style: none outside none;padding: 7px 12px;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list ul li input{width:auto;height:auto;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list ul li label{margin-left:7px;display:inline;}
+#newaddcontent_existingitems_list_container #newaddcontent_existingitems_list_container_list ul li#newaddcontent_existingitems_list_lastitem{border-bottom:none;}
+#newaddcontent_existingitems_search {margin-bottom: 7px;}

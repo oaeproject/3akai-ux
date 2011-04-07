@@ -47,12 +47,11 @@
         <div id="newaddcontent_container_newitem_fields">
 
             <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
+                <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
+                <form id="newaddcontent_upload_content_form" class="newaddcontent_form" method="POST" enctype="multipart/form-data">
+                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
+                </form>
                 <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
-                    <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
-                    <form id="newaddcontent_upload_content_form" method="POST" enctype="multipart/form-data">
-                        <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
-                    </form>
-
                     <span class="newaddcontent_upload_content_originaltitle"></span>
                     <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
                     <input type="text" id="newaddcontent_upload_content_title"/>
@@ -99,7 +98,7 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
-                Add from everything in the system
+
             </div>
 
             <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
@@ -188,14 +187,35 @@
             <div class="newaddcontent_selecteditems_remove"></div>
             <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
             <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
-            <span class="newaddcontent_selecteditems_actions">
-                <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
-                <span class="newaddcontent_selecteditems_split">|</span>
-                <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
-            </span>
+            {if item.type !== "existing"}
+                <span class="newaddcontent_selecteditems_actions">
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                    <span class="newaddcontent_selecteditems_split">|</span>
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
+                </span>
+            {/if}
         </li>
     {/for}
     </ul>
+--></div>
+
+<div id="newaddcontent_existingitems_template"><!--
+    <input type="test" id="newaddcontent_existingitems_search"/>
+    <div id="newaddcontent_existingitems_list_container">
+        <div id="newaddcontent_existingitems_list_container_actions"></div>
+        <div id="newaddcontent_existingitems_list_container_list">
+            <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
+                <ul>
+                    {for item in data.results}
+                        <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if}>
+                            <input type="checkbox" id="${item["jcr:path"]}"/>
+                            <label for="${item["jcr:path"]}">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["jcr:path"]}</label>
+                        </li>
+                    {/for}
+                </ul>
+            </form>
+        </div>
+    </div>
 --></div>
 
 <!-- JAVASCRIPT -->
