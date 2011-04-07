@@ -204,22 +204,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     showHideSubnav(par, true);
                 }
                 var ref = menuitem.attr("data-sakai-ref");
+                var savePath = menuitem.attr("data-sakai-savepath") || false;
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
                 // Render page
-                renderPage(ref);
+                renderPage(ref, savePath);
             }
 
         }
 
-        var renderPage = function(ref){
+        var renderPage = function(ref, savePath){
             $("#s3d-page-main-content > div").hide();
             if ($("#s3d-page-main-content #" + ref).length > 0){
                 $("#s3d-page-main-content #" + ref).show();
             } else {
                 var content = getPageContent(ref);
-                createPageToShow(ref, content);
+                createPageToShow(ref, content, savePath);
             }
         }
 
@@ -233,7 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         }
 
-        var createPageToShow = function(ref, content){
+        var createPageToShow = function(ref, content, savePath){
             // Create the new element
             var $el = $("<div>").attr("id", ref);
             // Add sanitized content
@@ -242,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Add element to the DOM
             $("#s3d-page-main-content").append($el);
             // Insert widgets
-            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,"",[privstructure.pages, pubstructure.pages]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath,[privstructure.pages, pubstructure.pages]);
         }
 
         /////////////
@@ -266,7 +267,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // INITIALISATION //
         ////////////////////
 
-        var renderNavigation = function(pubdata, privdata, cData){
+        var renderNavigation = function(pubdata, privdata, cData, puburl, privurl){
+            cData.puburl = puburl;
+            cData.privurl = privurl;
             contextData = cData;
             privstructure = processData(privdata);
             pubstructure = processData(pubdata);
@@ -279,8 +282,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectPage();
         });
 
-        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData){
-           renderNavigation(pubdata, privdata, cData);
+        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, puburl, privurl){
+           renderNavigation(pubdata, privdata, cData, puburl, privurl);
         });
 
         $(window).trigger("lhnav.ready");

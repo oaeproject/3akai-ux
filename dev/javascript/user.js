@@ -32,6 +32,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var privdata = false;
         var pubdata = false;
+        var privurl = false;
+        var puburl = false;
 
         var contextType = false;
         var contextData = false;
@@ -39,19 +41,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var loadSpaceData = function(){
                 var isMe = false;
-                var userid = "";
+                var userid = false;
                 if (!qs.get("id") || qs.get("id") == sakai.data.me.user.userid) {
                     isMe = true;
                     userid = sakai.data.me.user.userid;
                 } else {
                     userid = qs.get("id");
                 }
+                privurl = "/~" + userid + "/private/privspace/";
+                puburl = "/~" + userid + "/public/pubspace/";
                 
                 var publicToStore = false;
                 var privateToStore = false;
                 
                 // Load public data from /~userid/private/pubspace
-                sakai.api.Server.loadJSON("/~" + userid + "/public/pubspace", function(success, data){
+                sakai.api.Server.loadJSON(puburl, function(success, data){
                     if (!success){
                         publicToStore = sakai.config.defaultpubstructure;
                         pubdata = publicToStore;
@@ -60,20 +64,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata = sakai.api.Server.removeServerCreatedObjects(pubdata, ["_ref", "_title", "_altTitle"]);
                     }
                     if (isMe){
-                        sakai.api.Server.loadJSON("/~" + userid + "/private/privspace", function(success2, data2){
+                        sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
                                 privateToStore = sakai.config.defaultprivstructure;
                                 privdata = privateToStore;
                             } else {
                                 privdata = data2;
-                                privdata = sakai.api.Server.removeServerCreatedObjects(privdata, ["_ref", "_title", "_altTitle"]);
+                                privdata = sakai.api.Server.removeServerCreatedObjects(privdata, ["_ref", "_title", "_altTitle"]);   
                             }
                             generateNav();
                             if (publicToStore) {
-                                sakai.api.Server.saveJSON("/~" + userid + "/public/pubspace", publicToStore);
+                                sakai.api.Server.saveJSON(puburl, publicToStore);
                             }
                             if (privateToStore) {
-                                sakai.api.Server.saveJSON("/~" + userid + "/private/privspace", privateToStore);
+                                sakai.api.Server.saveJSON(privurl, privateToStore);
                             }
                         });
                     } else {
@@ -204,9 +208,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var generateNav = function(){
             if (contextType && contextData && pubdata) {
                 if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData]);
+                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
                 } else {
-                    $(window).trigger("lhnav.init", [pubdata, false, contextData]);
+                    $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
                 }
             }
         };

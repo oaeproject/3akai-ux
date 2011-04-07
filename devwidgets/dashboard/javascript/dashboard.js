@@ -991,8 +991,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             // by showing it here instead of by default
             $(".widget-content #widgetscontainer", $rootel).show();
 
-            if (widgetData && widgetData.layout) {
-                decideExists(true, widgetData);
+            if (widgetData && widgetData.dashboard) {
+                decideExists(true, widgetData.dashboard);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, decideExists);
             }

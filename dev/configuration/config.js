@@ -2008,29 +2008,25 @@ define(function(){
                 "category": "*"
             },
             "546341435": {
-                "layout": "threecolumn",
-                "columns": {
-                    "column1": [
-                        {
+                "dashboard": {
+                    "layout": "threecolumn",
+                    "columns": {
+                        "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
                             "name": "mycontent"
-                        }
-                    ],
-                    "column2": [
-                        {
+                        }],
+                        "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
                             "name": "mygroups"
-                        }
-                    ],
-                    "column3": [
-                        {
+                        }],
+                        "column3": [{
                             "uid": "id7360391172040",
                             "visible": "block",
                             "name": "mycontacts"
-                        }
-                    ]
+                        }]
+                    }
                 }
             }
         },
