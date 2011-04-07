@@ -55,8 +55,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Templates
         var newaddcontentUploadContentTemplate = "#newaddcontent_upload_content_template";
         var newaddcontentAddDocumentTemplate = "#newaddcontent_add_document_template";
-        var newaddcontentAddExistingTemplate = "#newaddcontent_add_existing_template";
+        var newaddcontentExistingItemsListContainerList = "#newaddcontent_existingitems_list_container_list";
         var newaddcontentAddLinkTemplate = "#newaddcontent_add_link_template";
+        var newaddcontentAddExistingTemplate = "#newaddcontent_add_existing_template";
         var newaddcontentSelectedItemsTemplate = "newaddcontent_selecteditems_template";
         var newaddcontentSelectedItemsEditPermissionsTemplates = "newaddcontent_selecteditems_edit_permissions_template";
         var newaddcontentSelectedItemsEditDataTemplate = "newaddcontent_selecteditems_edit_data_template";
@@ -74,6 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentContainerNewItemSaveChanges = ".newaddcontent_container_newitem_save_changes";
         var newaddcontentSelectedItemsEditIndex = ".newaddcontent_selecteditems_edit_index";
         var newaddcontentContainerNewItemRaquoRight = "#newaddcontent_container_newitem_raquo_right";
+        var newaddcontentExistingItemsSearch = ".newaddcontent_existingitems_search";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -95,6 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var multifileQueueAddAllowed = true;
         var contentUploaded = false;
+        var hideAfterContentUpload = false;
 
 
         /////////////////
@@ -199,7 +202,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         var contentObj = {
                             "title":$(item.nextElementSibling).text(),
                             "id":item.id,
-                            "type":"existing"
+                            "type":"existing",
+                            "css_class": $(item).next().children(".newaddcontent_existingitems_list_container_list_item_icon")[0].classList[0]
                         };
                         addContentToQueue(contentObj);
                     });
@@ -208,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         /**
-         * Show the popup to enable the user to edit the permissions of a file in queue (permissions and copyright)
+         * Show the pop up to enable the user to edit the permissions of a file in queue (permissions and copyright)
          */
         var changePermissions = function(){
             $(newaddcontentSelectedItemsEditDataContainer).hide();
@@ -220,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         /**
-         * Show the popup to enable the user to edit the data of a file in queue (description, tags and title)
+         * Show the pop up to enable the user to edit the data of a file in queue (description, tags and title)
          */
         var editData = function(){
             $(newaddcontentSelectedItemsEditPermissionsContainer).hide();
@@ -259,6 +263,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////////////
         // UPLOADING ACTIONS //
         ///////////////////////
+
+        var triggerFilesUploaded = function(){
+            $(window).trigger("complete.fileupload.sakai");
+        };
 
         var createDocument = function(documentObj){
             var document = {
@@ -352,7 +360,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
-
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
+                    triggerFilesUploaded();
+                    $(newaddcontentContainer).jqmHide();
+                }, error: function(){
+                    triggerFilesUploaded();
+                    $(newaddcontentContainer).jqmHide();
                 }
             });
 
@@ -413,7 +426,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         break;
                 }
             });
-            $(newaddcontentContainer).jqmHide();
+            if(contentUploaded){
+                hideAfterContentUpload = true;
+            }else{
+                triggerFilesUploaded();
+                $(newaddcontentContainer).jqmHide();
+            }
         };
 
 
@@ -477,17 +495,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             showSelectedItem($(newaddcontentAddDocumentTemplate));
         };
 
-        var searchAndRenderExistingContent = function(context, $container){
+        var searchAndRenderExistingContent = function(context, $container, q){
             var searchURL = "";
             switch(context){
                 case "everything":
-                    searchURL = sakai.config.URL.SEARCH_ALL_FILES_ALL + "?q=*";
+                    searchURL = "/var/search/pool/all.infinity.json?items=10&q=" + q;
                     break;
                 case "my_content":
-                    searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL + "q=*";
+                    searchURL = "/var/search/pool/me/manager.json?items=10&q=" + q;
                     break;
                 case "shared_with_me":
-                    searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER_ALL + "q=*";
+                    searchURL = "/var/search/pool/me/viewer.json?items=10&q=" + q;
                     break;
             }
 
@@ -507,19 +525,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Decide what context to render to add existing content
          * @param {Object} context The context that will help decide what to render
          */
-        var renderExistingContent = function(context){
+        var renderExistingContent = function(context, q){
+            if (!q) {
+                q = "*";
+            }
+            $(newaddcontentExistingItemsSearch)[0].id = "search_" + context;
             switch(context){
                 case "everything":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentAddExistingTemplate));
+                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
                     break;
                 case "my_content":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentAddExistingTemplate));
+                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
                     break;
                 case "shared_with_me":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentAddExistingTemplate));
+                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
                     break;
             }
         };
@@ -529,6 +551,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var renderAddLink = function(){
             showSelectedItem($(newaddcontentAddLinkTemplate));
+        };
+
+
+        ////////////////////
+        // CONTENT SEARCH //
+        ////////////////////
+
+        var prepareContentSearch = function(){
+            var query = $.trim($(this).val());
+            var context = $(this)[0].id.split("search_")[1];
+            renderExistingContent(context, query);
         };
 
 
@@ -631,6 +664,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelectedItemsRemove).live("click", removeItemToAdd);
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
+            $(newaddcontentExistingItemsSearch).keyup(prepareContentSearch);
         };
 
 
@@ -670,6 +704,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             resetMenu();
             multifileQueueAddAllowed = true;
             contentUploaded = false;
+            hideAfterContentUpload = false;
         };
 
         /**

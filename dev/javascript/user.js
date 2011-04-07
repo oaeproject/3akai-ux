@@ -238,6 +238,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav();
         });
 
+        $(window).bind("complete.fileupload.sakai", determineContext);
+
         determineContext();
         renderEntity();
         generateNav();
