@@ -149,11 +149,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     structure.items = data["structure0"];
                 }
                 for (var level in structure.items){
-                    structure.items[level] = includeChildCount(structure.items[level]);
+                    if (level.substring(0, 1) !== "_") {
+                        structure.items[level] = includeChildCount(structure.items[level]);
+                    }
                 }
             }
             for (var page in data){
-                if (page.substring(0,9) !== "structure"){
+                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
                     structure.pages[page] = data[page];
                 }
             }
