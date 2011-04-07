@@ -90,14 +90,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
 
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(batchRequests)
-                    },
-                    success: function(data){
-
+                sakai.api.Server.batch(batchRequests, function(success, data) {
+                    if (success) {
                         if (data.results.hasOwnProperty(0)) {
                             if (data.results[0].status === 404){
                                 sakai.api.Security.send404();
@@ -336,14 +330,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             if (reqData.length > 0) {
                 // batch request to update user access for the content
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    traditional: true,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(reqData)
-                    },
-                    success: function(data){
+                sakai.api.Server.batch(reqData, function(success, data) {
+                    if (success) {
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                             loadContentProfile(function(){
