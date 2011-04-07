@@ -194,7 +194,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // get group managers
                 url = "/system/userManager/group/" + groupid + "-managers.members.json";
             } else if (listType === 'content') {
-                url = "/var/search/pool/files?group=" + groupid;
+                url = "/var/search/pool/files.json?group=" + groupid;
             }
             $(window).trigger(listType + ".render.listpeople.sakai", {"listType": listType, "pl_config": pl_config, "url": url, "id": groupid});
         };

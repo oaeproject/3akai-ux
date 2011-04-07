@@ -202,7 +202,7 @@ define(["jquery",
         widgetLoader : {
 
             loaded : [],
-            widgets : [],
+            widgets : {},
 
             /**
              * Function that can be called by the container. This will looks for widget declarations
