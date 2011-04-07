@@ -176,6 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "tags": $contentForm.find("#newaddcontent_upload_content_tags").val(),
                         "permissions":$contentForm.find("#newaddcontent_upload_content_permissions").val(),
                         "copyright":"creativecommons",
+                        "css_class": "icon-unknown-sprite",
                         "type":"content"
                     };
                     addContentToQueue(contentObj);
@@ -191,6 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "description":$documentForm.find("#newaddcontent_add_document_description").val(),
                         "tags":$documentForm.find("#newaddcontent_add_document_tags").val(),
                         "copyright":"creativecommons",
+                        "css_class": "icon-sakaidoc-sprite",
                         "type": "document"
                     };
                     addContentToQueue(documentObj);
@@ -265,6 +267,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////////////
 
         var triggerFilesUploaded = function(){
+            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
             $(window).trigger("complete.fileupload.sakai");
         };
 
@@ -360,7 +363,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
                     triggerFilesUploaded();
                     $(newaddcontentContainer).jqmHide();
                 }, error: function(){

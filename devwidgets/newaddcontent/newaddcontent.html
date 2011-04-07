@@ -216,8 +216,8 @@
         <ul>
             {if data.results.length}
                 {for item in data.results}
-                    <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if} {if !$.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) || !$.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"])} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}>
-                        <input type="checkbox" id="${item["jcr:path"]}" {if !$.inArray(sakai.data.me.user.userid,  item["sakai:pooled-content-manager"]) || !$.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"])} disabled{/if}/>
+                    <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if} {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}>
+                        <input type="checkbox" id="${item["jcr:path"]}" {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0} disabled{/if}/>
                         <label for="${item["jcr:path"]}">
                             <span class="{if sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]]} ${sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
                             ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["jcr:path"]}
