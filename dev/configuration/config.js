@@ -15,8 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-define(function() {
+define(function(){
     var config = {
         URL: {
             // Static URLs
@@ -47,7 +46,7 @@ define(function() {
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
-
+            
             // Services
             ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
             ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
@@ -132,13 +131,13 @@ define(function() {
             USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
             USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-
+            
             // PREFIXES
             GROUP_PREFIX: "/_group",
             USER_PREFIX: "/_user"
-
+        
         },
-
+        
         PageTitles: {
             "prefix": "TITLE_PREFIX",
             "pages": {
@@ -200,7 +199,7 @@ define(function() {
                 /**  show.html  **/
             }
         },
-
+        
         Domain: {
             /*
              * These domain labels can be used anywhere on the site (i.e in the video
@@ -219,13 +218,13 @@ define(function() {
                 "video.google.com": "Google Video"
             }
         },
-
+        
         Search: {
             MAX_CORRECT_SEARCH_RESULT_COUNT: 100
         },
-
+        
         SakaiDomain: window.location.protocol + "//" + window.location.host,
-
+        
         Permissions: {
             /*
              * A collection of permission keys and range of values to be referenced
@@ -265,9 +264,9 @@ define(function() {
                 }
             }
         },
-
+        
         allowPasswordChange: true,
-
+        
         Profile: {
             /*
              * This is a collection of profile configuration functions and settings
@@ -281,9 +280,9 @@ define(function() {
              *
              */
             configuration: {
-
+            
                 defaultConfig: {
-
+                
                     "basic": {
                         "label": "__MSG__PROFILE_BASIC_LABEL__",
                         "required": true,
@@ -488,7 +487,7 @@ define(function() {
              * - values can be compound, like "firstName lastName" or singular like "displayName"
              */
             userNameDisplay: "firstName lastName",
-
+            
             /*
              * the default, if the user doesn't have the userNameDisplay property set in their
              * profile, use this one.
@@ -496,16 +495,16 @@ define(function() {
              *       If neither exists, nothing will show
              */
             userNameDefaultDisplay: "firstName lastName",
-
+            
             /*
              * Set the user's short description to appear underneath their name
              * in search results
              */
             userShortDescription: "${role} in ${department} at ${college}",
             groupShortDescription: "asdf"
-
+        
         },
-
+        
         Groups: {
             /*
              * Email message that will be sent to group managers when a user requests
@@ -518,7 +517,7 @@ define(function() {
                 body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
             }
         },
-
+        
         Relationships: {
             /*
              * Relationships used by the add contacts widget to define what relationship the contacts can have
@@ -561,7 +560,7 @@ define(function() {
                 "selected": false
             }]
         },
-
+        
         Site: {
             Styles: {
                 original: {
@@ -577,12 +576,12 @@ define(function() {
             },
             DefaultMember: "viewers"
         },
-
+        
         SystemTour: {
-            "enableReminders":true,
+            "enableReminders": true,
             "reminderIntervalHours": "168"
         },
-
+        
         Institution: {
             /*
              * Institution contact details are displayed in the footer
@@ -591,11 +590,11 @@ define(function() {
             helpLinkUrl: "http://www.sakaiproject.org/contact",
             helpPhone: "212-555-1212"
         },
-
+        
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
-
+        
         Messages: {
             Types: {
                 inbox: "inbox",
@@ -614,7 +613,7 @@ define(function() {
             To: "to",
             read: "read"
         },
-
+        
         MimeTypes: {
             "application/doc": {
                 cssClass: "icon-doc-sprite",
@@ -639,7 +638,7 @@ define(function() {
             "application/x-download": {
                 cssClass: "icon-pdf-sprite",
                 URL: "/dev/images/mimetypes/pdf.png",
-                description: "PDF_DOCUMENT" 
+                description: "PDF_DOCUMENT"
             },
             "application/x-pdf": {
                 cssClass: "icon-pdf-sprite",
@@ -731,7 +730,7 @@ define(function() {
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
-            "video/quicktime":{
+            "video/quicktime": {
                 cssClass: "icon-video-sprite",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
@@ -752,7 +751,7 @@ define(function() {
                 description: "OTHER_DOCUMENT"
             }
         },
-
+        
         Authentication: {
             "allowInternalAccountCreation": true,
             "internal": true,
@@ -765,7 +764,7 @@ define(function() {
             }],
             "hideLoginOn": ["/dev", "/dev/index.html", "/dev/create_new_account.html"]
         },
-
+        
         notification: {
             type: {
                 ERROR: {
@@ -778,123 +777,96 @@ define(function() {
                 }
             }
         },
-
-        Navigation: [
-            {
-                "url" : "/dev/user.html#",
-                "id" : "navigation_you_link",
-                "anonymous" : false,
-                "label" : "YOU",
-                "subnav": [
-                    {
-                        "url" : "/dev/user.html#",
-                        "id": "subnavigation_home_link",
-                        "label": "MY_HOME"
-                    },
-                    {
-                        "url" : "/dev/user.html#l=messages/inbox",
-                        "id": "subnavigation_messages_link",
-                        "label": "MY_MESSAGES"
-                    },
-                    {
-                        "id": "subnavigation_hr"
-                    },
-                    {
-                        "url" : "/dev/user.html#l=profile/basicinfo",
-                        "id": "subnavigation_profile_link",
-                        "label": "MY_PROFILE"
-                    },
-                    {
-                        "url" : "/dev/user.html#l=library",
-                        "id": "subnavigation_content_link",
-                        "label": "MY_CONTENT"
-                    },
-                    {
-                        "url" : "/dev/user.html#l=memberships",
-                        "id": "subnavigation_memberships_link",
-                        "label": "MY_MEMBERSHIPS"
-                    },
-                    {
-                        "url" : "/dev/user.html#l=contacts",
-                        "id": "subnavigation_contacts_link",
-                        "label": "MY_CONTACTS_CAP"
-                    }
-                ]
-            },
-            {
-                "url" : "/dev/user.html",
-                "id" : "navigation_create_and_add_link",
-                "anonymous" : false,
-                "label" : "CREATE_AND_ADD",
-                "subnav": [
-                    {
-                        "id": "subnavigation_add_content_link",
-                        "label": "ADD_CONTENT",
-                        "url": "#"
-                    },
-                    {
-                        "id": "subnavigation_add_contacts_link",
-                        "label": "ADD_CONTACTS",
-                        "url": "/search/people#q=*&filter=&facet=&page=1"
-                    },
-                    {
-                        "id": "subnavigation_hr"
-                    },
-                    {
-                        "id": "subnavigation_simple_group_link",
-                        "label": "CREATE_GROUP",
-                        "url": "#"
-                    }
-                ]
-            },
-            {
-                "url" : "/dev/directory2.html",
-                "id" : "navigation_explore_link",
-                "anonymous" : false,
-                "label" : "EXPLORE",
-                "subnav": [
-                    {
-                        "id": "subnavigation_explore_content_link",
-                        "label": "CONTENT"
-                    },
-                    {
-                        "id": "subnavigation_explore_groups_link",
-                        "label": "GROUPS"
-                    },
-                    {
-                        "id": "subnavigation_explore_people_link",
-                        "label": "PEOPLE"
-                    }
-                ]
-            },
-            {
-                "url" : "/dev/directory2.html",
-                "id" : "navigation_anon_explore_link",
-                "anonymous" : true,
-                "label" : "EXPLORE",
-                "subnav": [
-                    {
-                        "id": "subnavigation_explore_content_link",
-                        "label": "CONTENT"
-                    },
-                    {
-                        "id": "subnavigation_explore_groups_link",
-                        "label": "GROUPS"
-                    },
-                    {
-                        "id": "subnavigation_explore_people_link",
-                        "label": "PEOPLE"
-                    }
-                ]
-            },
-            {
-                "url" : "/dev/create_new_account2.html",
-                "id": "navigation_anon_signup_link",
-                "anonymous": true,
-                "label": "SIGN_UP"
-            }
-        ],
-
+        
+        Navigation: [{
+            "url": "/dev/user.html#",
+            "id": "navigation_you_link",
+            "anonymous": false,
+            "label": "YOU",
+            "subnav": [{
+                "url": "/dev/user.html#",
+                "id": "subnavigation_home_link",
+                "label": "MY_HOME"
+            }, {
+                "url": "/dev/user.html#l=messages/inbox",
+                "id": "subnavigation_messages_link",
+                "label": "MY_MESSAGES"
+            }, {
+                "id": "subnavigation_hr"
+            }, {
+                "url": "/dev/user.html#l=profile/basicinfo",
+                "id": "subnavigation_profile_link",
+                "label": "MY_PROFILE"
+            }, {
+                "url": "/dev/user.html#l=library",
+                "id": "subnavigation_content_link",
+                "label": "MY_CONTENT"
+            }, {
+                "url": "/dev/user.html#l=memberships",
+                "id": "subnavigation_memberships_link",
+                "label": "MY_MEMBERSHIPS"
+            }, {
+                "url": "/dev/user.html#l=contacts",
+                "id": "subnavigation_contacts_link",
+                "label": "MY_CONTACTS_CAP"
+            }]
+        }, {
+            "url": "/dev/user.html",
+            "id": "navigation_create_and_add_link",
+            "anonymous": false,
+            "label": "CREATE_AND_ADD",
+            "subnav": [{
+                "id": "subnavigation_add_content_link",
+                "label": "ADD_CONTENT",
+                "url": "#"
+            }, {
+                "id": "subnavigation_add_contacts_link",
+                "label": "ADD_CONTACTS",
+                "url": "/search/people#q=*&filter=&facet=&page=1"
+            }, {
+                "id": "subnavigation_hr"
+            }, {
+                "id": "subnavigation_simple_group_link",
+                "label": "CREATE_GROUP",
+                "url": "#"
+            }]
+        }, {
+            "url": "/dev/directory2.html",
+            "id": "navigation_explore_link",
+            "anonymous": false,
+            "label": "EXPLORE",
+            "subnav": [{
+                "id": "subnavigation_explore_content_link",
+                "label": "CONTENT"
+            }, {
+                "id": "subnavigation_explore_groups_link",
+                "label": "GROUPS"
+            }, {
+                "id": "subnavigation_explore_people_link",
+                "label": "PEOPLE"
+            }]
+        }, {
+            "url": "/dev/directory2.html",
+            "id": "navigation_anon_explore_link",
+            "anonymous": true,
+            "label": "EXPLORE",
+            "subnav": [{
+                "id": "subnavigation_explore_content_link",
+                "label": "CONTENT"
+            }, {
+                "id": "subnavigation_explore_groups_link",
+                "label": "GROUPS"
+            }, {
+                "id": "subnavigation_explore_people_link",
+                "label": "PEOPLE"
+            }]
+        }, {
+            "url": "/dev/create_new_account2.html",
+            "id": "navigation_anon_signup_link",
+            "anonymous": true,
+            "label": "SIGN_UP"
+        }],
+        
         /*
          * Are anonymous users allowed to browse/search
          */
@@ -903,11 +875,11 @@ define(function() {
          * List of pages that require a logged in user
          */
         requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
-
+        
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev",  "/index.html"],
+        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/index.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
@@ -925,12 +897,12 @@ define(function() {
          * themselves
          */
         requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
-
+        
         showSakai2: false,
         useLiveSakai2Feeds: false,
-
+        
         displayDebugInfo: true,
-
+        
         Directory: {
             "indianauniversity": {
                 title: "Indiana University",
@@ -1934,7 +1906,7 @@ define(function() {
         },
         // Array of css files to load in each page
         skinCSS: [],
-
+        
         Languages: [{
             "country": "CN",
             "language": "zh",
@@ -1964,53 +1936,240 @@ define(function() {
             "language": "ko",
             "displayName": "한국어"
         }],
-
+        
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
-
+        
         defaultUserTemplate: "defaultuser",
         defaultGroupTemplate: "defaultgroup",
-
+        
         enableChat: false,
-
+        
+        "defaultprivstructure": {
+            "structure0": {
+                "dashboard": {
+                    "_ref": "267187828",
+                    "_title": "My Dashboard",
+                    "main": {
+                        "_ref": "267187828",
+                        "_title": "Dashboard"
+                    }
+                },
+                "messages": {
+                    "_title": "My Messages",
+                    "_ref": "1165301022",
+                    "inbox": {
+                        "_ref": "1165301022",
+                        "_title": "Inbox"
+                    },
+                    "invitations": {
+                        "_ref": "9867733100",
+                        "_title": "Invitations"
+                    },
+                    "sent": {
+                        "_ref": "4253485084",
+                        "_title": "Sent"
+                    },
+                    "trash": {
+                        "_ref": "3915412565",
+                        "_title": "Trash"
+                    }
+                }
+            },
+            "267187828": {
+                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            },
+            "1165301022": {
+                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+            },
+            "9867733100": {
+                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
+            },
+            "4253485084": {
+                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
+            },
+            "3915412565": {
+                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
+            },
+            "2024634737": {
+                "box": "inbox",
+                "category": "message"
+            },
+            "3679202964": {
+                "box": "inbox",
+                "category": "invitation"
+            },
+            "66582410046": {
+                "box": "outbox",
+                "category": "*"
+            },
+            "3519294282": {
+                "box": "trash",
+                "category": "*"
+            },
+            "546341435": {
+                "layout": "threecolumn",
+                "columns": {
+                    "column1": [
+                        {
+                            "uid": "id6902437615810",
+                            "visible": "block",
+                            "name": "mycontent"
+                        }
+                    ],
+                    "column2": [
+                        {
+                            "uid": "id9495917029618",
+                            "visible": "block",
+                            "name": "mygroups"
+                        }
+                    ],
+                    "column3": [
+                        {
+                            "uid": "id7360391172040",
+                            "visible": "block",
+                            "name": "mycontacts"
+                        }
+                    ]
+                }
+            }
+        },
+        
+        "defaultpubstructure": {
+            "structure0": {
+                "profile": {
+                    "_ref": "533118849",
+                    "_title": "My Profile",
+                    "_altTitle": "${user}'s Profile",
+                    "basicinfo": {
+                        "_ref": "533118849",
+                        "_altTitle": "Basic Information",
+                        "_title": "Basic Information"
+                    },
+                    "aboutme": {
+                        "_ref": "657672090",
+                        "_altTitle": "About",
+                        "_title": "About Me"
+                    },
+                    "locations": {
+                        "_ref": "2967778497",
+                        "_title": "Locations",
+                        "_altTitle": "Locations"
+                    },
+                    "publications": {
+                        "_ref": "86312659",
+                        "_altTitle": "Publications",
+                        "_title": "Publications"
+                    }
+                },
+                "library": {
+                    "_ref": "9834611274",
+                    "_title": "My Library",
+                    "_altTitle": "${user}'s Library",
+                    "main": {
+                        "_ref": "9834611274",
+                        "_title": "Content"
+                    }
+                },
+                "memberships": {
+                    "_title": "My Memberships",
+                    "_ref": "213623673",
+                    "_altTitle": "${user}'s Memberships",
+                    "main": {
+                        "_ref": "213623673",
+                        "_title": "Memberships"
+                    }
+                },
+                "contacts": {
+                    "_title": "My Contacts",
+                    "_ref": "1193715035",
+                    "_altTitle": "${user}'s Contacts",
+                    "main": {
+                        "_ref": "1193715035",
+                        "_title": "Contacts"
+                    }
+                },
+                "website": {
+                    "_title": "My Portfolio",
+                    "_ref": "430939302",
+                    "_altTitle": "Portfolio",
+                    "main": {
+                        "_ref": "430939302",
+                        "_title": "Portfolio"
+                    }
+                }
+            },
+            "533118849": {
+                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
+            },
+            "657672090": {
+                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
+            },
+            "2967778497": {
+                "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
+            },
+            "86312659": {
+                "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
+            },
+            "9834611274": {
+                "page": "<div id='widget_content' class='widget_inline'/>"
+            },
+            "213623673": {
+                "page": "<div id='widget_mymemberships' class='widget_inline'/>"
+            },
+            "1193715035": {
+                "page": "<div id='widget_contacts' class='widget_inline'></div>"
+            },
+            "94551980": {
+                "sectionid": "basic"
+            },
+            "1924492668": {
+                "sectionid": "aboutme"
+            },
+            "73466539": {
+                "sectionid": "locations"
+            },
+            "5756708555": {
+                "sectionid": "publications"
+            },
+            "430939302": {
+                "page": "This is my website"
+            }
+        },
+        
         widgets: {
-            "groups":[
-                "Administrators",
-                "Lecturers & Supervisors",
-                "Researchers",
-                "Students"
-            ],
+            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
-                    "name":"One column",
-                    "widths":[100],
+                    "name": "One column",
+                    "widths": [100],
                     "siteportal": true
                 },
                 "dev": {
-                    "name":"Dev Layout",
-                    "widths":[50,50],
+                    "name": "Dev Layout",
+                    "widths": [50, 50],
                     "siteportal": true
                 },
                 "threecolumn": {
-                    "name":"Three equal columns",
-                    "widths":[33,33,33],
+                    "name": "Three equal columns",
+                    "widths": [33, 33, 33],
                     "siteportal": false
                 },
                 "fourcolumn": {
-                    "name":"Four equal columns",
-                    "widths":[25,25,25,25],
+                    "name": "Four equal columns",
+                    "widths": [25, 25, 25, 25],
                     "siteportal": false
                 },
                 "fivecolumn": {
-                    "name":"Five equal columns",
-                    "widths":[20,20,20,20,20],
+                    "name": "Five equal columns",
+                    "widths": [20, 20, 20, 20, 20],
                     "siteportal": false
                 }
             },
             "defaults": {
                 "personalportal": {
                     "layout": "dev",
-                    "columns": [["mygroups", "mycontacts"], ["mycontent","recentmessages"]]
+                    "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 },
                 "siteportal": {
                     "layout": "dev",
