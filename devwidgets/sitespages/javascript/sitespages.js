@@ -2742,14 +2742,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Bind Save as Template click event
         $("#save_as_page_template_button").bind("click", function(ev){
-            var name = $("#template_name").val();
-            var description = $("#template_description").val() || "";
+            var name = $.trim($("#template_name").val());
+            var description = $.trim($("#template_description").val() || "");
+            $("#template_name_error").hide();
+            $("#template_name").removeClass("error");
             $("#template_description_error").hide();
             $("#template_description").removeClass("error");
-            if (description.length > 250) {
-                $("#template_description").addClass("error");
-                $("#template_description_length").text(description.length);
-                $("#template_description_error").show();
+            if (description.length > 250 || name.length > 250) {
+                if (description.length > 250) {
+                    $("#template_description").addClass("error");
+                    $("#template_description_length").text(description.length);
+                    $("#template_description_error").show();
+                }
+                if (name.length > 250) {
+                    $("#template_name").addClass("error");
+                    $("#template_name_length").text(name.length);
+                    $("#template_name_error").show();
+                }
             } else if (name){
                 var newid = Math.round(Math.random() * 100000000);
 
