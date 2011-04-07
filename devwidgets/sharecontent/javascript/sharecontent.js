@@ -211,14 +211,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var removeMembersRequest = function(removeData, removingSelf){
             // Do the Batch request
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(removeData.itemArr)
-                },
-                success: function(data){
+            sakai.api.Server.batch(removeData.itemArr, function(success, data) {
+                if (success) {
                     if (removingSelf) {
                         // redirect to GATEWAY_URL if the current user can no longer view content
                         document.location = sakai.config.URL.GATEWAY_URL;

@@ -186,19 +186,21 @@
                 {/if}
             </span>
         </div>
-        <div>
-            <form id="entity_profile_status" method="POST" action="#">
-                <div>
-                    <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
-                    <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
-                    <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
-                    <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
-                    <span id="entity_profile_status_title" style="display:none;">__MSG__STATUS_CHANGED__</span>
-                    <span id="entity_profile_status_body" style="display:none;">__MSG__STATUS_CHANGED_SUCCESSFULLY__</span>
-                    <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
-                </div>
-            </form>
-        </div>
+        {if sakai.config.enableChat}
+            <div>
+                <form id="entity_profile_status" method="POST" action="#">
+                    <div>
+                        <input id="entity_profile_status_input" title="__MSG__WHAT_ARE_YOU_DOING_NOW__" maxlength="255" type="text" {if !data.profile.status}class="entity_profile_status_input_dummy" value="__MSG__WHAT_ARE_YOU_DOING_NOW__"{else}value="${data.profile.status}"{/if} />
+                        <span id="entity_profile_status_input_dummy" style="display:none;">__MSG__WHAT_ARE_YOU_DOING_NOW__</span>
+                        <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
+                        <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
+                        <span id="entity_profile_status_title" style="display:none;">__MSG__STATUS_CHANGED__</span>
+                        <span id="entity_profile_status_body" style="display:none;">__MSG__STATUS_CHANGED_SUCCESSFULLY__</span>
+                        <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
+                    </div>
+                </form>
+            </div>
+        {/if}
     </div>
     <div class="fl-col entity_container_right s3d-actions">
         {if data.profile && data.profile["sakai:tags"] && data.profile["sakai:tags"].length > 0}
@@ -251,9 +253,9 @@
                 <img id="entity_profile_picture" src="/dev/images/default_profile_picture_64.png" alt="__MSG__PLACEHOLDER_PICTURE_FOR__ ${sakai.api.User.getDisplayName(data.profile)}" />
             {/if}
             <div class="fl-text-align-center entity_status">
-                <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat">__MSG__ONLINE__</span></span>
-                <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy">__MSG__BUSY__</span></span>
-                <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline">__MSG__OFFLINE__</span></span>
+                <span id="entity_contact_online" style="display:none;"><span class="chat_available_status_online" id="entity_available_to_chat"></span>__MSG__ONLINE__</span>
+                <span id="entity_contact_busy" style="display:none;"><span class="chat_available_status_busy"></span>__MSG__BUSY__</span>
+                <span id="entity_contact_offline" style="display:none;"><span class="chat_available_status_offline"></span>__MSG__OFFLINE__</span>
             </div>
         </div>
 
