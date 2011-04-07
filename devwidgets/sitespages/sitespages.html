@@ -463,7 +463,11 @@
             <h1>__MSG__DESCRIPTION__</h1>
             <textarea id="template_description"></textarea>
 
-            <p><small>__MSG__MAX_250_CHARACTERS__!</small></p>
+            <p><small>__MSG__MAX_250_CHARACTERS__!
+                <span id="template_description_error" class="template_error_msg" style="display:none;">__MSG__YOU_HAVE_ENTERED__
+                    <span id="template_description_length"></span>
+                __MSG__CHARACTERS__</span>
+            </small></p>
 
             <div class="dialog_buttons">
                 <button type="button" class="s3d-button s3d-button-primary" id="save_as_page_template_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>

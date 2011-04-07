@@ -2744,8 +2744,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#save_as_page_template_button").bind("click", function(ev){
             var name = $("#template_name").val();
             var description = $("#template_description").val() || "";
-            if (name){
-
+            $("#template_description_error").hide();
+            $("#template_description").removeClass("error");
+            if (description.length > 250) {
+                $("#template_description").addClass("error");
+                $("#template_description_length").text(description.length);
+                $("#template_description_error").show();
+            } else if (name){
                 var newid = Math.round(Math.random() * 100000000);
 
                 var obj = {};

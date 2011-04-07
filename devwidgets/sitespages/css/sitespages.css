@@ -154,3 +154,6 @@
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -11px -235px transparent;}
+
+/* Template error text */
+#save_as_template_container .template_error_msg{color:#9f3333;font-weight:bold;}
