@@ -53,42 +53,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("sakai.search.util.finish");
         }
 
-        ////////////////////
-        // Faceted Search //
-        ////////////////////
-        
-        /**
-         * Adds the faceted panel to the page if a search is performed
-         */
-        sakai_global.data.search.addFacetedPanel = function(searchConfig) {
-            
-            //alert("Here");
-            
-            $(window).bind("ready.faceted.sakai", function(e){
-                $(window).trigger("render.faceted.sakai", searchConfig.facetedConfig);
-
-                var currentfacet = $.bbq.getState('facet');
-                if (currentfacet) {
-                    $("#" + currentfacet).addClass("faceted_category_selected");
-                } else {
-                    $(".faceted_category:first").addClass("faceted_category_selected");
-                }
-
-                // bind faceted search elements
-                // loop through each faceted category and bind the link to trigger a search
-
-                $(".faceted_category").bind("click", function(ev){
-                    var facet = $(this).attr("id");
-                    $.bbq.pushState({
-                        "page": 1,
-                        "facet": facet
-                    }, 0);
-                });
-
-            });
-
-        };
-
         ///////////////////////////
         // Prepare for rendering //
         ///////////////////////////
@@ -149,6 +113,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
+                if (item.target){
+                    item = results[i].profile;
+                }
                 if (item && item["rep:userId"] != "anonymous") {
                     var user = {};
                     user.userid = item["rep:userId"];
@@ -222,6 +189,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             return params;
         }
+
+        ////////////
+        // Events //
+        ////////////
+        
+        $(".link_accept_invitation").live("click", function(ev){
+            var userid = $(this).attr("sakai-entityid");
+            $.ajax({
+                url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+                type: "POST",
+                data : {"targetUserId": userid},
+                success: function(data) {
+                    sakai_global.data.search.getMyContacts();;
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
+                }
+            });
+            $('.link_accept_invitation').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userid){
+                    $(this).hide();
+                }
+            });
+        });
 
         /////////////////////////
         // Util initialisation //

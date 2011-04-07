@@ -59,7 +59,6 @@ require(
         var makeCleanJSTest = function(filename) {
             asyncTest(filename, function() {
                 $.ajax({
-                    async: false,
                     dataType: "text",
                     url: filename,
                     success: function(data) {

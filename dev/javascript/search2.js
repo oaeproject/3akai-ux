@@ -62,10 +62,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_searchcontent' class='widget_inline'></div>"
             },
             "87949372639": {
-                "page": "Search Groups"
+                "page": "<div id='widget_searchgroups' class='widget_inline'></div>"
             },
             "49294509202": {
-                "page": "Search People"
+                "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
             }
         };
 

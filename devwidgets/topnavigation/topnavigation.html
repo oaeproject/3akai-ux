@@ -43,16 +43,16 @@
 --></div>
 
 <div id="search_template" style="display:none"><!--
-        {if people && people.length}
+        {if files && files.length}
             <hr/>
-            <span class="topnavigation_search_results_section_header">__MSG__PEOPLE__</span>
+            <a href="/dev/search2.html#l=groups&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
             <ul>
-                {for person in people}
+               {for file in files}
                     <li>
                         <div class="topnav_content_icon_container fl-force-left">
-                            <span class="topnav_person_icon"></span>
+                            <span class="topnav_content_icon ${file.css_class}"></span>
                         </div>
-                        <a href="${person.url}" title="${person.name}">${person.dottedname}</a>
+                        <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
                     </li>
                 {/for}
             </ul>
@@ -60,7 +60,7 @@
         {/if}
 
         {if groups && groups.length}
-            <span class="topnavigation_search_results_section_header">__MSG__GROUPS__</span>
+            <a href="/dev/search2.html#l=groups&q=${query}" class="topnavigation_search_results_section_header">__MSG__GROUPS__</a>
             <ul>
                 {for group in groups}
                     <li>
@@ -73,20 +73,21 @@
             </ul>
             <hr/>
         {/if}
+        
+        {if people && people.length}
+            <a href="/dev/search2.html#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
+            <ul>
+                {for person in people}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="topnav_person_icon"></span>
+                        </div>
+                        <a href="${person.url}" title="${person.name}">${person.dottedname}</a>
+                    </li>
+                {/for}
+            </ul>        
+        {/if}
 
-    {if files && files.length}
-        <span class="topnavigation_search_results_section_header">__MSG__FILES__</span>
-        <ul>
-           {for file in files}
-                <li>
-                    <div class="topnav_content_icon_container fl-force-left">
-                        <span class="topnav_content_icon ${file.css_class}"></span>
-                    </div>
-                    <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
-                </li>
-            {/for}
-        </ul>
-    {/if}
 --></div>
 
 <div id="search_bottom_template" style="display:none;"><!--

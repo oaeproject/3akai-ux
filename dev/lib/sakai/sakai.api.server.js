@@ -297,14 +297,26 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          *
          * @param {Object} the object to clean
          */
-        removeServerCreatedObjects : function(obj) {
-            $.each(obj, function(key,val) {
+        removeServerCreatedObjects : function(obj, notToRemove) {
+            var newobj = $.extend(true, {}, obj);
+            notToRemove = notToRemove || [];
+            $.each(newobj, function(key,val) {
                 if (key && key.indexOf && key.indexOf("_") === 0) {
-                    delete obj[key];
-                } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
-                    sakaiServerAPI.removeServerCreatedObjects(obj[key]);
+                    var canRemove = true;
+                    for (var i = 0; i < notToRemove.length; i++){
+                        if (notToRemove[i] === key){
+                            canRemove = false;
+                            break;
+                        }
+                    }
+                    if (canRemove) {
+                        delete newobj[key];
+                    }
+                } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                    newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], notToRemove);
                 }
             });
+            return newobj;
         },
 
         /**
@@ -333,6 +345,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 return;
             }
 
+            // Remove the trailing slash if available
+            if (i_url.substring(i_url.length - 1, i_url.length) === "/"){
+                i_url = i_url.substring(0, i_url.length - 1);
+            }
             // append .infinity.json if .json isn't present in the url
             if (i_url.indexOf(".json") === -1) {
                 i_url += ".infinity.json";
@@ -350,7 +366,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
 
                     // Convert the special objects to arrays
                     data = sakaiServerAPI.convertObjectToArray(data, null, null);
-
+                    
                     // Call callback function if present
                     if ($.isFunction(callback)) {
                         callback(true, data);

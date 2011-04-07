@@ -14,7 +14,7 @@
         <div class="newinbox_main">
             <!-- Title -->
             <div class="newinbox_right">
-                <a href="#newmessage=true" class="s3d-button s3d-button-link-2-state newinbox_right" id="newinbox_create_new_message">
+                <a href="#newmessage=true" data-remove-params="message" class="s3d-button s3d-button-link-2-state newinbox_right" id="newinbox_create_new_message">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_NEW_MESSAGE__</span>
                 </a>
             </div>
@@ -36,103 +36,68 @@
                     <span>__MSG__SELECT_ALL_MESSAGES__</span>
                 </div>
                 <div id="newinbox_back_to_messages" style="display:none">
-                    <button type="button" class="s3d-button s3d-button-link-2-state">
+                    <button type="button" class="s3d-button s3d-button-link-2-state" data-reset-hash="true">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
                     </button>
                 </div>
             </div>
-            
-            <!-- Inbox Items -->
-            <div id="newinbox_message_list">
-                <!-- Each href inside of here should be window.location.hash + "#message=" + messageid -->
-                <div class="fl-container fl-fix newinbox_items_container">
-                    <div class="newinbox_items_inner">
-                        <div class="newinbox_right_div">
-                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
-                            </button>
-                        </div>
-                        <div class="newinbox_placeholder"><input type="checkbox" /></div>
-                        <a href="#message=123"><img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
-                        <div class="newinbox_name">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Frank Arnold</a></div>
-                            <span>12/04/2012</span>
-                        </div>
-                        <div class="newinbox_subject">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Search query Problem</a></div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="fl-container fl-fix newinbox_items_container">
-                    <div class="newinbox_items_inner">
-                        <div class="newinbox_right_div">
-                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
-                            </button>
-                        </div>
-                        <div class="newinbox_placeholder"><input type="checkbox" /></div>
-                        <a href="#message=123"><img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
-                        <div class="newinbox_name">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Frank Arnold</a></div>
-                            <span>12/04/2012</span>
-                        </div>
-                        <div class="newinbox_subject">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Search query Problem</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="newinbox_pager" class="jq_pager"></div>
-            </div>
+            <!-- Inbox Items -->
+            <div id="newinbox_message_list" style="display:none"></div>
 
             <!-- Inbox Item Template -->
             <div id="newinbox_message_list_item_template"><!--
-                <div class="fl-container fl-fix newinbox_items_container">
-                    <div class="newinbox_items_inner">
-                        <div class="newinbox_right_div">
-                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                            </button>
-                        </div>
-                        <div class="newinbox_placeholder"><input type="checkbox" /></div>
-                        <a href="#message=123"><img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png"/></a>
-                        <div class="newinbox_name">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Frank Arnold</a></div>
-                            <span>12/04/2012</span>
-                        </div>
-                        <div class="newinbox_subject">
-                            <div><a href="#message=123" class="s3d-regular-links s3d-bold">Search query Problem</a></div>
+                {for message in data.results}
+                    <div class="fl-container fl-fix newinbox_items_container{if message.read === "true"} read{/if}" id="${message.id}">
+                        <div class="newinbox_items_inner">
+                            <div class="newinbox_right_div">
+                                  <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                                </button>
+                            </div>
+                            <div class="newinbox_placeholder"><input type="checkbox" /></div>
+                            <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
+                            <div class="newinbox_name">
+                                <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
+                                <span>${message.date}</span>
+                            </div>
+                            <div class="newinbox_subject">
+                                <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a></div>
+                            </div>
                         </div>
                     </div>
+                {/for}
             --></div>
+            <div id="newinbox_pager" class="jq_pager"></div>
 
             <!-- Message show pane -->
-            <div id="newinbox_show_message" style="display:none">
+            <div id="newinbox_show_message" style="display:none"></div>
+            <div id="newinbox_show_message_template"><!--
                 <div id="newinbox_show_message_header">
                     <div class="fl-container fl-fix newinbox_items_container">
                         <div class="newinbox_items_inner">
                             <div class="newinbox_right_div">
                                 <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
+                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
                                 </button>
                             </div>
-                            <div class="newinbox_placeholder"></div>
-                            <img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png">
+                            <div class="newinbox_placeholder">&nbsp;</div>
+                            <img alt="person icon" src="${message.from.picture}"/>
                             <div class="newinbox_name">
-                                <div><a href="#" class="s3d-regular-links s3d-bold">Frank Arnold</a></div>
-                                <span>12/04/2012</span>
+                                <div><a href="#" class="s3d-regular-links">${message.from.name}</a></div>
+                                <span>${message.date}</span>
                             </div>
                             <div class="newinbox_subject">
-                                <div><a href="#" class="s3d-regular-links s3d-bold">Search query Problem</a></div>
+                                <div><a href="#" class="s3d-regular-links">${message.subject}</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="newinbox_show_message_body">
-                    Blah blah blah. BLAH.
+                    <p>${message.body}</p>
                 </div>
                 <div id="newinbox_show_message_reply"></div>
-            </div>
+            --></div>
 
             <!-- New Message -->
             <div id="newinbox_new_message" style="display:none"></div>
@@ -140,12 +105,38 @@
     </div>
 
     <!-- On hover of the inbox items, this will display -->
-    <div id="newinbox_hover" style="display:none">
+    <div id="newinbox_hover" style="display:none"></div>
+    <div id="newinbox_hover_template"><!--
         <div id="newinbox_hover_container">
-            <div id="newinbox_hover_header"></div>
-            <div id="newinbox_hover_content"></div>
+            <div id="newinbox_hover_header">
+                <div class="fl-container fl-fix newinbox_items_container{if message.read === "true"} read{/if}" id="${message.id}">
+                    <div class="newinbox_items_inner hover">
+                        <div class="newinbox_right_div">
+                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                            </button>
+                        </div>
+                        <div class="newinbox_placeholder"><input type="checkbox" /></div>
+                        <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
+                        <div class="newinbox_name">
+                            <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
+                            <span>${message.date}</span>
+                        </div>
+                        <div class="newinbox_subject">
+                            <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="newinbox_hover_content">
+                <p>${message.excerpt}</p>
+            </div>
+            <div id="newinbox_hover_footer">
+                <a href="#message=${message.id}">__MSG__VIEW__</a>
+                <a href="#message=${message.id}&reply=true">__MSG__REPLY__</a>
+            </div>
         </div>
-    </div>
+    --></div>
 
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner">

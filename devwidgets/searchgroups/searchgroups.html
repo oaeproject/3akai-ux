@@ -1,0 +1,86 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/searchgroups/css/searchgroups.css" />
+<div class="searchgroups_widget" id="searchgroups_widget">
+    <div class="searchgroups_content_main">
+        <!-- SEARCH BAR -->
+        <div class="fl-left fl-container fl-fix searchgroups_bar">
+            <span id="form"><input type="text" maxlength="255" id="searchgroups_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
+                <button id="button" class="s3d-search-button s3d-button s3d-button-primary">
+                    <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
+                </button>
+            </span>
+        </div>
+        <div class="fl-left fl-container searchgroups_result_title" id="results_header">
+            __MSG__FOUND__ <strong id="searchgroups_numberFound">0</strong> __MSG__RESULTS__
+            <span id="searchgroups_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="searchgroups_mysearchterm"></strong>"</span></span>
+        </div>
+        <!-- TEMPORARY SEARCH TEXT -->
+        <div id="result_temp" style="display:none;">
+            <div class="padded_content">
+                <b>__MSG__SEARCHING__ ...</b>
+            </div>
+        </div>
+        <div class="searchgroups_results_faceted">
+            <!-- FACETED WIDGET -->
+            <div id="widget_faceted_9493020598" class="widget_inline">
+            </div>
+        </div>
+        <div id="searchgroups_results" class="fl-container searchgroups_results">
+            <!-- SEARCH RESULTS -->
+            <div id="results_page1" class="results_container s3d-highlight_area_background results_container_sub">
+                <div class="s3d-highlight_area_background_tl">
+                    <div class="s3d-highlight_area_background_tinner">
+                    </div>
+                </div>
+                <!-- CONTENT -->
+                <div class="fl-container fl-fix results_part">
+                    <div id="result_results_tagged_under" style="display:none;">
+                        <span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span>
+                    </div>
+                    <div id="result_results_located_in" style="display:none;">
+                        <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
+                    </div>
+                    <!-- CONTAINER FOR THE RESULTS -->
+                    <div id="searchgroups_results_container" class="s3d-highlight_area_background">
+                    </div>
+                    <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
+                </div>
+                <div class="s3d-highlight_area_background_bl">
+                    <div class="s3d-highlight_area_background_binner">
+                    </div>
+                </div>
+                <!-- TEMPLATE CONTAINING THE RESULTS -->
+                <div id="searchgroups_results_template"><!--
+                    {for i in items}
+                    {if i['sakai:group-id']}
+                    {var groupsFound = true}
+                    <div class="fl-container fl-fix searchgroups_result">
+                    <a href="/~${i.pagepath}">
+                    {if i.picture}
+                    <img src="${i.picture.picPath}" alt="group name">
+                    {else}
+                    <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
+                    {/if}
+                    </a>
+                    <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
+                    <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.dottedpagepath}</a></div>
+                    <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
+                    </div>
+                    {/if}
+                    {/for}
+                    {if !groupsFound}
+                    <div class="searchgroups_no_groups">
+                    __MSG__NO_GROUPS_FOUND__
+                    </div>
+                    {/if}
+                --></div>
+            </div>
+        </div>
+        <!-- CONTAINER FOR THE PAGER -->
+        <div class="jq_pager">
+            <!-- -->
+        </div>
+    </div>
+</div>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/searchgroups/javascript/searchgroups.js"></script>
