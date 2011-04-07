@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Delete the template when the user clicks the delete link
          */
-        $createpageContainer.delegate("a.createpage_delete_template_link", "click",
+        $createpageContainer.delegate(".createpage_delete_template_link", "click",
         function () {
             var templateDeleted = this.id.split("_")[1];
             delete sakai_global.sitespages.mytemplates[templateDeleted];
