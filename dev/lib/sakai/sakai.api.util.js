@@ -138,6 +138,9 @@ define(["jquery",
          */
 
         convertToHumanReadableFileSize : function(filesize) {
+            if (! filesize){
+                filesize = 0;
+            }
             var i;
             if (filesize.indexOf && filesize.indexOf("binary-length:") > -1) {
                 filesize = filesize.replace("binary-length:", "");

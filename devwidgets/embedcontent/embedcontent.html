@@ -36,15 +36,7 @@
                         <a href="/content#content_path=${item.path}">
                             <img src="${thumbnail} alt="${mimeTypeDescription}" />
                         </a>
-                    {elseif item.filetype === "image"}
-                        <a href="/content#content_path=${item.path}">
-                            <img src="${item.link}" alt="${sakai.config.MimeTypes[mimeType].description}" />
-                        </a>
-                    {elseif item.filetype === "video"}
-                        <a href="/content#content_path=${item.path}">
-                            <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
-                        </a>
-                    {elseif thumbnail}
+                    {elseif sakai.api.Content.hasPreview(item.fullresult)}
                         <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
                     {elseif sakai.config.MimeTypes[mimeType]}
                         <a href="/content#content_path=${item.path}">
@@ -55,7 +47,7 @@
                             <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                         </a>
                     {/if}
-                    <div class="embedcontent_details">
+                    <div class="embedcontent_details fl-push">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
                         {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}

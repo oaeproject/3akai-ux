@@ -26,20 +26,12 @@
  .contentpreview_actions_container_default {float:right;}
  
  /* Non default type */
- #contentpreview_text_preview { font-family: 'Courier New'; padding: 5px; overflow: auto;}
- #contentpreview_image_preview { padding: 0px; display:none; }
  #contentpreview_other_preview_buttons { padding: 15px 20px 15px 10px; height: 25px; }
  
  /*Content Preview template*/
- #contentpreview_image_rendered { border: 1px solid #D4DADE; }
- #contentpreview_html_iframe { width: 920px; height: 560px; border: 2px solid #ccc; }
- #contentpreview_externalhtml_iframe { width: 920px; height: 560px; }
- #contentpreview_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
-
  /* Image formatting */
- .contentpreview_other_preview { width:920px; height: 560px; border: 1px solid #D4DADE; display:none; }
- .contentpreview_image_preview_width { width:920px;}
- .contentpreview_image_preview_height { height:560px;}
+ .contentpreview_other_preview { max-width:920px; max-height: 560px; border: 1px solid #D4DADE; float:left; display:none; }
  .contentpreview_noborder { border:none;}
  .contentpreview_overflowhidden { overflow: hidden}
- 
+
+ .contentpreview_fullsize_preview embed { width: 920px; }
