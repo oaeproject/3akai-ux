@@ -1993,11 +1993,11 @@ define(function(){
             },
             "2024634737": {
                 "box": "inbox",
-                "category": "messages"
+                "category": "message"
             },
             "3679202964": {
                 "box": "inbox",
-                "category": "invitations"
+                "category": "invitation"
             },
             "66582410046": {
                 "box": "outbox",

@@ -202,7 +202,7 @@ define(["jquery",
         widgetLoader : {
 
             loaded : [],
-            widgets : [],
+            widgets : {},
 
             /**
              * Function that can be called by the container. This will looks for widget declarations
@@ -232,7 +232,7 @@ define(["jquery",
                 var widgetSelector = ".widget_inline";
 
                 // Help variables
-                var widgets = {}, settings = false;
+                var widgetsInternal = {}, settings = false;
 
                 /**
                  * Inform the widget that is is loaded and execute the main JavaScript function
@@ -242,34 +242,33 @@ define(["jquery",
                 var informOnLoad = function(widgetname){
                     var doDelete;
                     // Check if the name of the widget is inside the widgets object.
-                    if (widgets[widgetname] && widgets[widgetname].length > 0){
+                    if (widgetsInternal[widgetname] && widgetsInternal[widgetname].length > 0){
 
                         // Run through all the widgets with a specific name
-                        for (var i = 0, j = widgets[widgetname].length; i<j; i++){
-                            widgets[widgetname][i].done++;
+                        for (var i = 0, j = widgetsInternal[widgetname].length; i<j; i++){
+                            widgetsInternal[widgetname][i].done++;
 
-                            if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
+                            if (widgetsInternal[widgetname][i].done === widgetsInternal[widgetname][i].todo){
                                 // Save the placement in the widgets variable
-                                sakaiWidgetsAPI.widgetLoader.widgets[widgets[widgetname][i].uid] = {
-                                    "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
+                                sakaiWidgetsAPI.widgetLoader.widgets[widgetsInternal[widgetname][i].uid] = {
+                                    "placement": widgetsInternal[widgetname][i].placement + widgetsInternal[widgetname][i].uid + "/" + widgetname,
                                     "name" : widgetname
                                 };
-
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
                                 var widgetData = {};
-                                if (widgets[widgetname][i].widgetData && widgets[widgetname][i].widgetData.length > 0){
-                                    for (var data in widgets[widgetname][i].widgetData){
-                                        if (widgets[widgetname][i].widgetData[data][widgets[widgetname][i].uid]){
-                                            widgetData = widgets[widgetname][i].widgetData[data][widgets[widgetname][i].uid];
+                                if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData.length > 0){
+                                    for (var data in widgetsInternal[widgetname][i].widgetData){
+                                        if (widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid]){
+                                            widgetData = widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid];
                                         }
                                     }
                                 }
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
-                                initfunction(widgets[widgetname][i].uid, settings, widgetData, historyState);
+                                initfunction(widgetsInternal[widgetname][i].uid, settings, widgetData, historyState);
 
                                 // Send out a "loaded" event for this widget
-                                $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
+                                $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
 
                                 doDelete = true;
                             }
@@ -277,7 +276,7 @@ define(["jquery",
 
                         // Remove the widget from the widgets object (clean up)
                         if (doDelete){
-                            delete widgets[widgetname];
+                            delete widgetsInternal[widgetname];
                         }
                     }
                 };
@@ -324,13 +323,13 @@ define(["jquery",
                     var JSTags = locateTagAndRemove(content, "script", "src");
                     content = JSTags.content;
 
-                    for (var widget = 0, k = widgets[widgetname].length; widget < k; widget++){
+                    for (var widget = 0, k = widgetsInternal[widgetname].length; widget < k; widget++){
                         var container = $("<div>");
                         container.html(content);
-                        $("#" + widgets[widgetname][widget].uid).append(container);
+                        $("#" + widgetsInternal[widgetname][widget].uid).append(container);
 
-                        widgets[widgetname][widget].todo = JSTags.URL.length;
-                        widgets[widgetname][widget].done = 0;
+                        widgetsInternal[widgetname][widget].todo = JSTags.URL.length;
+                        widgetsInternal[widgetname][widget].done = 0;
                     }
 
                     for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
@@ -346,7 +345,7 @@ define(["jquery",
                  * @param {Object} widgets
                  * @param {Object} batchWidgets A list of all the widgets that need to load
                  */
-                var loadWidgetFiles = function(widgets, batchWidgets){
+                var loadWidgetFiles = function(widgetsInternal2, batchWidgets){
                     var urls = [];
                     var requestedURLsResults = [];
                     var requestedBundlesResults = [];
@@ -464,7 +463,7 @@ define(["jquery",
                                     else {
                                         translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_user.data.me);
                                     }
-                                    var ss = sethtmlover(translated_content, widgets, widgetName);
+                                    var ss = sethtmlover(translated_content, widgetsInternal2, widgetName);
                                     for (var s = 0; s < ss.length; s++) {
                                         stylesheets.push(ss[s]);
                                     }
@@ -597,34 +596,35 @@ define(["jquery",
                             }
 
                             // Check if the widget exists
-                            if (!widgets[widgetname]){
-                                widgets[widgetname] = [];
+                            if (!widgetsInternal[widgetname]){
+                                widgetsInternal[widgetname] = [];
                             }
 
                             // Set the initial properties for the widget
-                            var index = widgets[widgetname].length;
-                            widgets[widgetname][index] = {
+                            var index = widgetsInternal[widgetname].length;
+                            widgetsInternal[widgetname][index] = {
                                 uid : widgetid,
                                 placement : placement,
                                 id : id,
                                 widgetData: widgetData
                             };
+
                             var floating = "inline_class_widget_nofloat";
 
                             if ($(divarray[i]).css("float") !== "none") {
                                 floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
                             }
-                            widgets[widgetname][index].floating = floating;
+                            widgetsInternal[widgetname][index].floating = floating;
                         }
                     }
 
-                    for (i in widgets){
-                        if (widgets.hasOwnProperty(i)) {
-                            for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
+                    for (i in widgetsInternal){
+                        if (widgetsInternal.hasOwnProperty(i)) {
+                            for (var ii = 0, jj = widgetsInternal[i].length; ii<jj; ii++) {
 
                                 // Replace all the widgets with id "widget_" to widgets with new id's
                                 // and add set the appropriate float class
-                                $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
+                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id="'+widgetsInternal[i][ii].uid+'" class="' + widgetsInternal[i][ii].floating + '"></div>'));
                             }
 
                             var url = sakai.widgets[i].url;
@@ -633,7 +633,7 @@ define(["jquery",
                     }
 
                     // Load the HTML files for the widgets
-                    loadWidgetFiles(widgets, batchWidgets);
+                    loadWidgetFiles(widgetsInternal, batchWidgets);
 
                 };
 
@@ -723,13 +723,36 @@ define(["jquery",
          */
         bindToHash : function() {
             $("a[href^='#']").live("click", function(e) {
-                var args = $(e.target).attr("href") || $(e.target).parent().attr("href"),
-                    replace = $(e.target).data("reset-hash"),
-                    state = {},
-                    doReplace = 0;
-                state = $.deparam.fragment(args, true);
-                doReplace = replace === true ? 2 : 0;
-                $.bbq.pushState(state, doReplace);
+                var $target = $(e.currentTarget),
+                    args = $target.attr("href"),
+                    replace = $target.data("reset-hash"),
+                    remove = $target.data("remove-params"),
+                    stateToAdd = {}, currentState = {}, newState = {};
+                // new state to push
+                stateToAdd = $.deparam.fragment(args, true);
+                // current window.location.hash
+                currentState = $.deparam.fragment();
+                // the link wants to remove params from the url
+                if (remove) {
+                    // data-remove-params is a comma-delimited attribute
+                    remove = remove.split(',');
+                    $.each(remove, function(i,val) {
+                        val = $.trim(val);
+                        if (currentState[val]) {
+                            delete currentState[val];
+                        }
+                    });
+                }
+                // replace means we should replace the state entirely with the new state from the link
+                if (replace) {
+                    newState = stateToAdd;
+                } else {
+                    // otherwise we merge the currentState with the stateToAdd
+                    // note that any params in stateToAdd will override those in currentState
+                    newState = $.extend({}, currentState, stateToAdd);
+                }
+                // Always push with the 2 argument as newState contains the entire state we want
+                $.bbq.pushState(newState, 2);
                 return false;
             });
             oldState = $.bbq.getState();
