@@ -1,0 +1,83 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/mylibrary/css/mylibrary.css" />
+
+<div class="mylibrary_widget">
+    <!-- Action bar -->
+    <div class="mylibrary_title_bar">
+        <div class="mylibrary_description mylibrary_noborder">
+            Sort by: <select id="mylibrary_sortby">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="atoz">A to Z</option>
+                <option value="ztoa">Z to A</option>
+            </select>
+        </div>
+        <div class="mylibrary_placeholder"><input id="mylibrary_check_all"
+            type="checkbox" /></div>
+        <button type="button" id="mylibrary_remove"
+            class="s3d-button s3d-button-link-2-state" disabled="disabled">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
+        </button>
+        <input type="text" />
+    </div>
+
+    <!-- Library Items -->
+    <div id="mylibrary_items"><!-- TEMPLATE HERE --></div>
+    <div id="mylibrary_items_template"><!--
+    {if items}
+        {for item in items}
+            <div class="fl-container fl-fix mylibrary_item">
+                <div class="mylibrary_placeholder">{if user_is_manager(item)}<input class="mylibrary_check"
+                    id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
+                <div class="mylibrary_description">
+                    <span class="mylibrary_detail_dark s3d-bold">${item.type}
+                        {if user_is_manager(item)}<span class="mylibrary_edit fl-fix"></span>{/if}</span>
+                    <span class="mylibrary_description_detail">added by:
+                        <a href="/~${item.ownerid}" class="s3d-bold s3d-regular-links mylibrary_added_by">${item.ownername}</a></span>
+                    <span class="mylibrary_description_detail">last updated:
+                        <span class="s3d-bold mylibrary_detail_dark">${item.last_updated}</span></span>
+                </div>
+                <img alt="item type icon" src="${item.type_src}"></a>
+                <div class="mylibrary_name_div s3d-regular-links">
+                    <div class="mylibrary_name s3d-bold"><a href="${item.link}"
+                        title="View this item">${item.filename}</a></div>
+                    {if item.tags && item.tags.length}
+                        <p class="mylibrary_description_detail">Tags:
+                        {for tag in item.tags}
+                            <a href="${tag.link}" title="View all items tagged with ${tag.name}">${tag.name}</a>{if tag_index != item.tags.length-1},{/if}
+                        {/for}
+                        </p>
+                    {/if}
+                    {if item.numPeopleUsing}
+                        <p class="mylibrary_description_detail">Used by
+                            <button class="s3d-link-button" title="See who is using this item">${item.numPeopleUsing}
+                                {if item.numPeopleUsing === 1}person{else}people{/if}</button>
+                            {if item.numGroupsUsing}and <button class="s3d-link-button"
+                                title="See who is using this item">${item.numGroupsUsing}
+                                group{if item.numGroupsUsing != 1}s{/if}</button>
+                            {/if}
+                        </p>
+                    {/if}
+                    {if item.numComments}
+                        <p class="mylibrary_description_detail"><a href="${item.link}"
+                            title="View comments">${item.numComments}
+                            comment{if item.numComments != 1}s{/if}</a>
+                        </p>
+                    {/if}
+                    {if user_is_manager(item)}
+                        <button type="button" class="s3d-button s3d-button-link-2-state" style="display:none;">
+                            <span class="s3d-button-inner s3d-button-link-2-state-inner">Edit</span>
+                       </button>
+                    {/if}
+                </div>
+            </div>
+        {/for}
+        <div id="mylibrary_pager" class="jq_pager"></div>
+    {else}
+        <p>no library items to show</p>
+    {/if}
+    --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/mylibrary/javascript/mylibrary.js"></script>

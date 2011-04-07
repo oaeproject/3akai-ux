@@ -305,6 +305,29 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             }
             return result;
+        },
+
+        /**
+         * Returns an object with data for the provided mimetype
+         *
+         * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
+         * @return if we have a match for the given mimetype, an Object with
+         *     the following params will be returned:
+         *      - cssClass: css class to assign a small (~16px) sprite image as the background
+         *            image for an element
+         *      - URL: path to an image (~128px) that represents this content type
+         *      - description: internationalizable bundle key for a short description
+         *            for this content type (i.e. "PDF document")
+         *     If there is no match, a general "Other document" object is returned
+         */
+        getMimeTypeData: function (mimetype) {
+            if (mimetype && typeof(mimetype) === "string") {
+                var mimetypeObj = sakai_conf.MimeTypes[mimetype];
+                if (mimetypeObj) {
+                    return mimetypeObj;
+                }
+            }
+            return sakai_conf.MimeTypes.other;
         }
     };
 });
