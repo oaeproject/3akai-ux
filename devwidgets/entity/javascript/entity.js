@@ -1127,6 +1127,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 } else if (sakai_global.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
                     groupCount++;
                 }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.viewers[i].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.viewers[i]);
             }
             for (var ii in sakai_global.content_profile.content_data.members.managers) {
                 if (sakai_global.content_profile.content_data.members.managers[ii]["rep:userId"]) {
@@ -1134,6 +1136,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 } else if (sakai_global.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
                     groupCount++;
                 }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.managers[ii].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.managers[ii]);
             }
             entityconfig.data.profile.usercount = userCount;
             entityconfig.data.profile.groupcount = groupCount;
@@ -1158,7 +1162,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                                     entityconfig.data.profile.activity.results[j].actorProfile = userList[jj];
                                     foundUser = true;
                                 } else if (!foundUser) {
-                                        entityconfig.data.profile.activity.results[j].actorProfile = entityconfig.data.profile.activity.results[j]["sakai:activity-actor"];
+                                    entityconfig.data.profile.activity.results[j].actorProfile = entityconfig.data.profile.activity.results[j]["sakai:activity-actor"];
                                 }
                             }
                         }
