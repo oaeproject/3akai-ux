@@ -118,6 +118,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} contentToAdd Object containing data about the object to be added to the queue
          */
         var addContentToQueue = function(contentToAdd){
+            debug.log(contentToAdd);
             itemsToUpload.push(contentToAdd);
             renderQueue();
         };
@@ -177,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     };
                     addContentToQueue(contentObj);
                     multifileQueueAddAllowed = true;
-                    $contentForm.find("input, textarea").val("");
+                    $contentForm.find("#newaddcontent_upload_content_title, #newaddcontent_upload_content_description, #newaddcontent_upload_content_tags").val("");
                     break;
                 case "newaddcontent_add_document_form":
                     var $documentForm = $(this).prev().children(":visible").find(".newaddcontent_form");
@@ -200,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "title":$(item.nextElementSibling).text(),
                             "id":item.id,
                             "type":"existing"
-                        }
+                        };
                         addContentToQueue(contentObj);
                     });
                     break;
@@ -320,6 +321,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if(arrayItem.type == "content"){
                     $.each(data, function(ii, savedItem){
                         if (savedItem.filename == arrayItem.originaltitle) {
+                            savedItem.permissions = arrayItem.permissions;
                             var obj = {
                                 "url": "/p/" + savedItem.hashpath,
                                 "method": "POST",
@@ -338,6 +340,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     });
                 }
             });
+
+            sakai.api.Content.setFilePermissions(data, false);
 
             $.ajax({
                 url: sakai.config.URL.BATCH,
@@ -384,7 +388,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var addToLibrary = function(item){
             sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, false);
-        }
+        };
 
         /**
          * Execute the upload of the files in the queue by calling the functions needed for the specific type of content
@@ -477,8 +481,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var searchURL = "";
             switch(context){
                 case "everything":
-                searchURL = sakai.config.URL.SEARCH_ALL_FILES_ALL + "?q=*";
-                break;
+                    searchURL = sakai.config.URL.SEARCH_ALL_FILES_ALL + "?q=*";
+                    break;
+                case "my_content":
+                    searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL + "q=*";
+                    break;
+                case "shared_with_me":
+                    searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER_ALL + "q=*";
+                    break;
             }
 
             $.ajax({
@@ -505,9 +515,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     break;
                 case "my_content":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
+                    searchAndRenderExistingContent(context, $(newaddcontentAddExistingTemplate));
                     break;
                 case "shared_with_me":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
+                    searchAndRenderExistingContent(context, $(newaddcontentAddExistingTemplate));
                     break;
             }
         };

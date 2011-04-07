@@ -16,19 +16,19 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Left Hand nav */
-#newaddcontent_container {width:1018px; height:490px; background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;left:31%;padding:12px;}
+#newaddcontent_container {width:1018px; height:490px; background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;left:31%;padding:12px;}
 #newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;margin:0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:212px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span {line-height:56px; color:#006E96;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul {margin:-10px 0 15px 30px;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li {-moz-border-radius: 5px 0 0 5px;clear: both;list-style: none outside none;margin-bottom: 0;padding: 5px 0 5px 7px;color:#424242;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li {-moz-border-radius: 5px 0 0 5px;border-radius:5px 0 0 5px;clear: both;list-style: none outside none;margin-bottom: 0;padding: 5px 0 5px 7px;color:#424242;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_shared_with_me_icon,
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_my_content_icon,
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_everything_icon {width:16px;height:16px;margin:0 12px 0 0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_shared_with_me_icon{background:url("/devwidgets/newaddcontent/images/newaddcontent_shared_icon.png") no-repeat top left transparent;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_my_content_icon{background:url("/devwidgets/newaddcontent/images/newaddcontent_my_content_icon.png") no-repeat top left transparent;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_everything_icon{background:url("/devwidgets/newaddcontent/images/newaddcontent_everything_icon.png") no-repeat top left transparent;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item {-moz-border-radius: 5px 0 0 5px;background-color: #E5EAED;border-color: #a9a9a9;border-style: solid none solid solid;border-width: 1px 0 1px 1px;padding:0;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item {-moz-border-radius: 5px 0 0 5px;border-radius:5px 0 0 5px;background-color: #E5EAED;border-color: #a9a9a9;border-style: solid none solid solid;border-width: 1px 0 1px 1px;padding:0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item span {color:#424242;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem {background: url("/devwidgets/newaddcontent/images/newaddcontent_selected_item_bg.png") repeat-x scroll 0 0 transparent;font-weight:bold;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem span{color:#fff;}
@@ -39,8 +39,8 @@
 #newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_add_link_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_add_link_icon.png") no-repeat scroll 0 0 transparent;}
 
 /* Middle item */
-#newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float: left;width: 505px;margin-left: -2px;height: 419px;position:absolute; left:226px;-moz-border-radius: 0 5px 5px 5px;padding:12px;}
-#newaddcontent_container .newaddcontent_container_newitem_extraroundedborder {-moz-border-radius: 5px 5px 5px 5px !important;}
+#newaddcontent_container #newaddcontent_container_newitem {background-color: #E5EAED;border: 1px solid #a9a9a9;float: left;width: 505px;margin-left: -2px;height: 419px;position:absolute; left:226px;-moz-border-radius: 0 5px 5px 5px;border-radius:0 5px 5px 5px;padding:12px;}
+#newaddcontent_container .newaddcontent_container_newitem_extraroundedborder {-moz-border-radius: 5px !important;border-radius:5px !important;}
 #newaddcontent_container #newaddcontent_container_newitem #newaddcontent_container_newitem_raquo_right {background: url("/devwidgets/newaddcontent/images/newaddcontent_raquo_right.png") no-repeat scroll left top transparent;height: 34px;position: absolute;right: -10px;top: 200px;width: 25px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_raquo_right_documentsposition {top: 300px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;right:20px;top:206px;}
@@ -48,8 +48,8 @@
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition{top:406px;}
 
 /* Right selected items */
-#newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border:1px #a9a9a9 solid;}
-#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;padding: 10px 12px;text-align:center;}
+#newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;border:1px #a9a9a9 solid;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;padding: 10px 12px;text-align:center;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header span{font-size:11px;font-weight:normal;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul {margin:0;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;list-style: none outside none;padding: 6px 20px 6px 30px;}
@@ -61,9 +61,9 @@
 #newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_selecteditems_split {color:#E5EAED;}
 
 /* Right selected items edit popup */
-#newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0px 1px 5px 0px;-moz-border-radius:5px 5px 5px;min-width:263px}
+#newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0 1px 5px 0;-webkit-box-shadow:0 1px 5px 0 #000;-moz-border-radius:5px;border-radius:5px;min-width:263px}
 #newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields{padding:10px;}
-#newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;}
+#newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;border-radius:0 0 5px 5px;}
 #newaddcontent_selecteditems_edit_data_actions button, #newaddcontent_selecteditems_edit_permissions_actions button {float: right;margin-top: 5px;}
 #newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input{width:237px;margin:0 0 2px;padding:2px;}
 #newaddcontent_selecteditems_edit_data_fields textarea {color: #424242;font-size: 11px;}
