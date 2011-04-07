@@ -317,8 +317,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * Processes the messages from the server, stripping out everything we don't need
          */
         processMessages : function(data) {
-            var messages = {};
-            $.each(data.results, function(i, msg) {
+            var messages = {},
+                ret = $.extend({}, data);
+            $.each(ret.results, function(i, msg) {
                 var newMsg = {};
                 // these need to be fixed to allow for multiple people from and to
                 newMsg.from = {};
@@ -346,8 +347,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 newMsg.read = msg["sakai:read"];
                 messages[newMsg.id] = newMsg;
             });
-            data.results = messages;
-            return data;
+            ret.results = messages;
+            return ret;
         },
 
         /**
@@ -372,7 +373,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             }
             $.ajax({
                 url: url,
-                cache: true,
+                cache: false,
                 success: function(data){
                     if (doProcessing !== false) {
                         data = sakaiCommmunicationsAPI.processMessages(data);

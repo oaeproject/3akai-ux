@@ -723,13 +723,36 @@ define(["jquery",
          */
         bindToHash : function() {
             $("a[href^='#']").live("click", function(e) {
-                var args = $(e.target).attr("href") || $(e.target).parent().attr("href"),
-                    replace = $(e.target).data("reset-hash"),
-                    state = {},
-                    doReplace = 0;
-                state = $.deparam.fragment(args, true);
-                doReplace = replace === true ? 2 : 0;
-                $.bbq.pushState(state, doReplace);
+                var $target = $(e.currentTarget),
+                    args = $target.attr("href"),
+                    replace = $target.data("reset-hash"),
+                    remove = $target.data("remove-params"),
+                    stateToAdd = {}, currentState = {}, newState = {};
+                // new state to push
+                stateToAdd = $.deparam.fragment(args, true);
+                // current window.location.hash
+                currentState = $.deparam.fragment();
+                // the link wants to remove params from the url
+                if (remove) {
+                    // data-remove-params is a comma-delimited attribute
+                    remove = remove.split(',');
+                    $.each(remove, function(i,val) {
+                        val = $.trim(val);
+                        if (currentState[val]) {
+                            delete currentState[val];
+                        }
+                    });
+                }
+                // replace means we should replace the state entirely with the new state from the link
+                if (replace) {
+                    newState = stateToAdd;
+                } else {
+                    // otherwise we merge the currentState with the stateToAdd
+                    // note that any params in stateToAdd will override those in currentState
+                    newState = $.extend({}, currentState, stateToAdd);
+                }
+                // Always push with the 2 argument as newState contains the entire state we want
+                $.bbq.pushState(newState, 2);
                 return false;
             });
             oldState = $.bbq.getState();
