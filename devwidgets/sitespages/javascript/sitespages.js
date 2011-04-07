@@ -144,11 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
                 if (success) {
                     // remove properties added by server
-                    for (var i in pref_data) {
-                        if (pref_data.hasOwnProperty(i) && i.indexOf("_") === 0) {
-                            delete pref_data[i];
-                        }
-                    }
+                    sakai.api.Server.removeServerCreatedObjects(pref_data);
                     sakai_global.sitespages.mytemplates = pref_data;
                 } else {
                     sakai_global.sitespages.mytemplates = {};
