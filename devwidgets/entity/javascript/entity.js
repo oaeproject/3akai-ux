@@ -239,16 +239,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 "url": "/system/userManager/group/" + groupid + "-managers.members.json",
                 "method": "GET"
             };
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                async: false,
-                success: function (data) {
+            sakai.api.Server.batch(requests, function(success, data) {
+                if (success) {
                     var groupMembers = $.parseJSON(data.results[0].body);
                     var groupManagers = $.parseJSON(data.results[1].body);
 
@@ -273,7 +265,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
                     }
                 }
-            });
+            }, null, null, false);
         };
 
 

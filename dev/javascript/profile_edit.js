@@ -371,30 +371,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Send the Ajax request to the batch servlet
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                complete: function() {
-                    $("#profile_footer_button_update").removeAttr("disabled");
-                },
-                success: function(data){
-
+            sakai.api.Server.batch(requests, function(success, data) {
+                $("#profile_footer_button_update").removeAttr("disabled");
+                if (success) {
                     // Show a successful notification to the user
                     sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
-
-                },
-                error: function(xhr, textStatus, thrownError){
-
+                } else {
                     // Show an error message to the user
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                     // Log an error message
                     debug.error("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
-
                 }
             });
 

@@ -264,16 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     data[data.length] = item;
                 }
             }
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(data)
-                }
-            });
+            sakai.api.Server.batch(data, null, false);
         };
 
         /**
