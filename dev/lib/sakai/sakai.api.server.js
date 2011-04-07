@@ -345,6 +345,10 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 return;
             }
 
+            // Remove the trailing slash if available
+            if (i_url.substring(i_url.length - 1, i_url.length) === "/"){
+                i_url = i_url.substring(0, i_url.length - 1);
+            }
             // append .infinity.json if .json isn't present in the url
             if (i_url.indexOf(".json") === -1) {
                 i_url += ".infinity.json";
