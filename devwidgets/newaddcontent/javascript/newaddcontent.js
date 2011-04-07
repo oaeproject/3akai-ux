@@ -118,7 +118,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} contentToAdd Object containing data about the object to be added to the queue
          */
         var addContentToQueue = function(contentToAdd){
-            debug.log(contentToAdd);
             itemsToUpload.push(contentToAdd);
             renderQueue();
         };
@@ -307,7 +306,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-
+                    linkObj.hashpath = data["_contentItem"];
+                    sakai.api.Content.setFilePermissions([linkObj], false);
                 },
                 error: function(err){
 
