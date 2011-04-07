@@ -52,7 +52,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 if (!req["_charset_"]) {
                     req["_charset_"] = "utf-8";
                 }
-                debug.log(req);
                 if (req["parameters"] && !req["parameters"]["_charset_"]) {
                     req["parameters"]["_charset_"] = "utf-8";
                 }
