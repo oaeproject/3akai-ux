@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Elements
         var $newaddcontentContainerLHChoiceItem = $(".newaddcontent_container_lhchoice_item");
-        var $newaddcontentContainerLHChoiceSelectedSubitem = $(".newaddcontent_container_lhchoice_selected_subitem");
         var newaddcontentContainerLHChoiceSelectedSubitem = ".newaddcontent_container_lhchoice_selected_subitem";
         var $newaddcontentContainerLHChoiceSubItem = $(".newaddcontent_container_lhchoice_subitem");
         var $newaddcontentContainerNewItemAddToList = $(".newaddcontent_container_newitem_add_to_list");
@@ -700,7 +699,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Executed when a subitem in the navigation has been clicked
          */
         var navigateSubItem = function(){
-            $newaddcontentContainerLHChoiceSelectedSubitem.removeClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
+            $(newaddcontentContainerLHChoiceSelectedSubitem).removeClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
             $(this).addClass(newaddcontentContainerLHChoiceSelectedSubitemClass);
         };
 
