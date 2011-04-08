@@ -1,47 +1,58 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mymemberships/css/mymemberships.css" />
 
-<div id="mymemberships_widget">
-        <!-- WIDGET HEADER -->
-        <div class="fl-widget-titlebar s3d-widget-titlebar mymemberships-widget-border" style="display:none">
-            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-                <h2 id="mymemberships_title" class="mymemberships_title widget_title" style="display:none">__MSG__MY_MEMBERSHIPS__</h2>
-            </div>
+<div class="mymemberships_widget">
+    <!-- Action bar -->
+    <div id="mymemberships_actionbar">
+        <p id="mymemberships_nodata" style="display:none;">Sorry, can't show
+            this person's memberships at this time. We're working on it, though!</p>
+        <p id="mymemberships_nogroups" style="display:none;">You are not a member
+            of any groups.
+            <button type="button" id="mymemberships_addgroup"
+                class="s3d-button s3d-button-link-2-state" style="display:none;">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_GROUP__</span>
+            </button>
+        </p>
+        <div id="mymemberships_sortarea" style="display:none;">__MSG__SORT_BY__:
+            <select id="mymemberships_sortby">
+                <option value="atoz">A-Z</option>
+                <option value="ztoa">Z-A</option>
+            </select>
         </div>
+    </div>
 
-        <!-- WIDGET BODY -->
-        <div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
-            <div id="mymemberships_main">
-                <div class="fl-container fl-fix mymemberships_items">
-                    <a href="/~test"><img alt="person icon" src="/dev/images/group_icon.png"></a>
-                    <div class="mymemberships_name"><a href="/~test" class="s3d-regular-links s3d-bold">Maths 101</a></div>
-                    <div class="mymemberships_participants"><a class="s3d-bold" href="/~test">234 participants</a></div>
+    <ul id="mymemberships_items"><!-- Template here --></ul>
+    <div id="mymemberships_items_template"><!--
+    {if groups && groups.length}
+        {for group in groups}
+            <li class="mymemberships_item fl-push">
+                <div class="mymemberships_imagearea">
+                    <a href="${group.url}" title="View this group"><img
+                        class="mymemberships_group_pic"
+                        src="${group.picsrc}" /></a>
+                    {if user_manages(group)}<a class="mymemberships_edit_link"
+                        href="${group.edit_url}"
+                        title="Edit this group"><img class="mymemberships_edit_icon"
+                        src="/dev/images/edit_icon.png" /></a>
+                    {/if}
                 </div>
-                <div class="fl-container fl-fix mymemberships_items">
-                    <a href="/~test"><img alt="person icon" src="/dev/images/group_icon.png"></a>
-                    <div class="mymemberships_name"><a href="/~test" class="s3d-regular-links s3d-bold">Google search 12</a></div>
-                    <div class="mymemberships_participants"><a class="s3d-bold" href="/~test">2 participants</a></div>
+                <div class="mymemberships_info">
+                    <p class="mymemberships_info_line">
+                        <a class="mymemberships_itemtitle" href="${group.url}"
+                            title="View this group">${group.title}</a>
+                    </p>
+                    {if group.desc}
+                        <p class="mymemberships_info_line mymemberships_item_desc">
+                            ${group.desc}
+                        </p>
+                    {/if}
                 </div>
-                <div class="fl-container fl-fix mymemberships_items">
-                    <a href="/~test"><img alt="person icon" src="/dev/images/group_icon.png"></a>
-                    <div class="mymemberships_name"><a href="/~test" class="s3d-regular-links s3d-bold">Equasions for search</a></div>
-                    <div class="mymemberships_participants"><a class="s3d-bold" href="/~test">12 participants</a></div>
-                </div>
-                <div class="fl-container fl-fix mymemberships_items">
-                    <a href="/~test"><img alt="person icon" src="/dev/images/group_icon.png"></a>
-                    <div class="mymemberships_name"><a href="/~test" class="s3d-regular-links s3d-bold">Main Search Proposal</a></div>
-                    <div class="mymemberships_participants"><a class="s3d-bold" href="/~test">12 participants</a></div>
-                </div>
-                <div class="fl-container fl-fix mymemberships_items">
-                    <a href="/~test"><img alt="person icon" src="/dev/images/group_icon.png"></a>
-                    <div class="mymemberships_name"><a href="/~test" class="s3d-regular-links s3d-bold">Maths for development</a></div>
-                    <div class="mymemberships_participants"><a class="s3d-bold" href="/~test">20 participants</a></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="s3d-widget-no-options">
-            <div class="s3d-widget-no-options-inner">
-            </div>
-        </div>
+                <div class="fl-push"></div>
+            </li>
+        {/for}
+    {/if}
+    --></div>
 </div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/mymemberships/javascript/mymemberships.js"></script>

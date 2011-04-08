@@ -1,6 +1,11 @@
-#mymemberships_main{margin:0 10px 0 15px;overflow:hidden;}
-.mymemberships_widget{overflow:hidden;}
-.mymemberships_items {color:#333;padding:10px 0 5px; border-bottom:2px dotted #878A8C}
-.mymemberships_items img {float: left;padding: 7px 10px 10px 3px;width: 35px;}
-.mymemberships_name {margin:0;font-size:0.9em;}
-.mymemberships_participants a {font-size:.8em;color:#878A8C;}
+#mymemberships_actionbar {height:13px;padding:5px 0 10px;}
+#mymemberships_actionbar, .mymemberships_item {border-bottom:1px solid #DDDDDD;}
+#mymemberships_sortarea {float:right;}
+#mymemberships_items {margin:0;}
+#mymemberships_items li.mymemberships_item {list-style:none outside none;
+    padding:10px 10px 0;}
+.mymemberships_imagearea {float:left;height:45px;width:50px;}
+.mymemberships_edit_link {position:relative;top:-13px;left:0;}
+.mymemberships_info {float:left;width:650px;}
+.mymemberships_info_line {margin:3px 0 0;}
+.mymemberships_itemtitle {font-weight:bold;color:#006E96;}
