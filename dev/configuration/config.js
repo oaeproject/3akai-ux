@@ -613,7 +613,36 @@ define(function(){
             To: "to",
             read: "read"
         },
-        
+        Extensions:{
+            "docx":"application/doc",
+            "doc":"application/doc",
+            "odt":"application/doc",
+            "ods":"application/vnd.ms-excel",
+            "xls":"application/vnd.ms-excel",
+            "xlsx":"application/vnd.ms-excel",
+            "odp":"application/vnd.ms-powerpoint",
+            "ppt":"application/vnd.ms-powerpoint",
+            "pptx":"application/vnd.ms-powerpoint",
+            "odg":"image/jpeg",
+            "png":"image/png",
+            "jpg":"image/jpeg",
+            "jpeg":"image/jpeg",
+            "bmp":"image/bmp",
+            "gif":"image/gif",
+            "pdf":"application/x-pdf",
+            "swf":"application/x-shockwave-flash",
+            "flv":"video/x-msvideo",
+            "mpg":"video/x-msvideo",
+            "mpeg":"video/x-msvideo",
+            "mp4":"video/x-msvideo",
+            "avi":"video/x-msvideo",
+            "mov":"video/x-msvideo",
+            "txt":"text/rtf",
+            "rtf":"text/rtf",
+            "htm":"text/html",
+            "html":"text/html",
+            "other":"other"
+        },
         MimeTypes: {
             "application/doc": {
                 cssClass: "icon-doc-sprite",

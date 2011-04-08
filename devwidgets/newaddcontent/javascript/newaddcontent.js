@@ -191,15 +191,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     break;
                 case "newaddcontent_upload_content_form":
                     var $contentForm = $(this).prev().children(":visible").find(".newaddcontent_form");
+                    var originalTitle = $contentForm.find(".newaddcontent_upload_content_originaltitle")[0].id;
                     var contentObj = {
-                        "originaltitle": $contentForm.find(".newaddcontent_upload_content_originaltitle")[0].id,
+                        "originaltitle": originalTitle,
                         "title": $contentForm.find("#newaddcontent_upload_content_title").val(),
                         "description": $contentForm.find("#newaddcontent_upload_content_description").val(),
                         "tags": $contentForm.find("#newaddcontent_upload_content_tags").val(),
-                        "permissions":$contentForm.find("#newaddcontent_upload_content_permissions").val(),
-                        "copyright":"creativecommons",
-                        "css_class": "icon-unknown-sprite",
-                        "type":"content"
+                        "permissions": $contentForm.find("#newaddcontent_upload_content_permissions").val(),
+                        "copyright": "creativecommons",
+                        "css_class": sakai.config.MimeTypes[sakai.config.Extensions[(originalTitle).slice(originalTitle.lastIndexOf(".") + 1, originalTitle.length).toLowerCase()] || "other"].cssClass || "icon-unknown-sprite",
+                        "type": "content"
                     };
                     addContentToQueue(contentObj);
                     multifileQueueAddAllowed = true;
@@ -211,9 +212,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "structure0": "TBD",
                         "title": $documentForm.find("#newaddcontent_add_document_title").val(),
                         "permissions": $documentForm.find("#newaddcontent_add_document_permissions").val(),
-                        "description":$documentForm.find("#newaddcontent_add_document_description").val(),
-                        "tags":$documentForm.find("#newaddcontent_add_document_tags").val(),
-                        "copyright":"creativecommons",
+                        "description": $documentForm.find("#newaddcontent_add_document_description").val(),
+                        "tags": $documentForm.find("#newaddcontent_add_document_tags").val(),
+                        "copyright": "creativecommons",
                         "css_class": "icon-sakaidoc-sprite",
                         "type": "document"
                     };
