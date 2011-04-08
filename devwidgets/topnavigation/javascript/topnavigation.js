@@ -39,7 +39,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.topnavigation = function(tuid, showSettings){
 
-
         ///////////////////
         // CONFIGURATION //
         ///////////////////

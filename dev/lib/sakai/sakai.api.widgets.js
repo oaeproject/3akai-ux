@@ -388,7 +388,7 @@ define(["jquery",
                         }
 
                         var urlsAndBundles = urls.concat(bundles);
-                        sakai_serv.batch($.toJSON(urlsAndBundles), function(success, data) {
+                        sakai_serv.batch(urlsAndBundles, function(success, data) {
                             if (success) {
                                 // sort widget html and bundles into separate arrays
                                 for (var h in data.results) {
@@ -665,10 +665,15 @@ define(["jquery",
         saveWidgetData : function(id, content, callback, removeTree) {
 
             // Get the URL from the widgetloader
-            var url = sakaiWidgetsAPI.widgetLoader.widgets[id].placement;
+            var url = sakaiWidgetsAPI.widgetLoader.widgets[id].placement,
+                widget = sakai_widgets_config[sakaiWidgetsAPI.widgetLoader.widgets[id].name],
+                indexFields = false;
 
+            if (widget && widget.indexFields) {
+                indexFields = widget.indexFields;
+            }
             // Send a POST request to update/save the data for the widget
-            sakai_serv.saveJSON(url, content, callback, removeTree);
+            sakai_serv.saveJSON(url, content, callback, removeTree, indexFields);
 
         },
 
