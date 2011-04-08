@@ -39,6 +39,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .s3d-header .fixed-container .decor_left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -10px transparent; float:left; height:5px; margin-left:-20px; width:5px;}
 .s3d-header .fixed-container .decor { background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -10px transparent; height: 5px; margin-right: -20px; }
 .grep {color:#666 !important;font-weight:bold;}
+.s3d-gray {color:#666;}
 
 
 /* GENERAL WIDGET CSS */
@@ -244,6 +245,10 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 .s3d-button-link-2-state-inner-secondary{font-size:9px;}
 .s3d-button:hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
 .s3d-button-link-2-state:hover{background-position:right -1357px;}
+.s3d-button-link-2-state[disabled] .s3d-button-link-2-state-inner {color:#bbb !important;}
+.s3d-button-link-2-state[disabled] {background-position:right -1277px;}
+.s3d-button-link-2-state:hover[disabled] .s3d-button-link-2-state-inner {background-position:-10px -1237px !important; color:#bbb !important;}
+.s3d-button-link-2-state:hover[disabled] {background-position:right -1277px;}
 .s3d-button-link-2-state-inner span {padding:0; margin:0; top:0;}
 .s3d-button-link-2-state-inner .s3d-button-arrow-down {height:15px;margin-top:5px;padding-right:15px;
     background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}

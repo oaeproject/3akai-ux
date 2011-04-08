@@ -2084,15 +2084,6 @@ define(function(){
                         "_ref": "1193715035",
                         "_title": "Contacts"
                     }
-                },
-                "website": {
-                    "_title": "My Portfolio",
-                    "_ref": "430939302",
-                    "_altTitle": "Portfolio",
-                    "main": {
-                        "_ref": "430939302",
-                        "_title": "Portfolio"
-                    }
                 }
             },
             "533118849": {
@@ -2108,7 +2099,7 @@ define(function(){
                 "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
             },
             "9834611274": {
-                "page": "<div id='widget_content' class='widget_inline'/>"
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
             "213623673": {
                 "page": "<div id='widget_mymemberships' class='widget_inline'/>"
@@ -2127,9 +2118,6 @@ define(function(){
             },
             "5756708555": {
                 "sectionid": "publications"
-            },
-            "430939302": {
-                "page": "This is my website"
             }
         },
         
