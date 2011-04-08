@@ -81,6 +81,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     }
                 }
             }
+            sakaiServerAPI.removeServerCreatedObjects(_requests);
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 type: method,
@@ -151,10 +152,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {Function} callback A callback function which is executed at the
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
+         * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -170,6 +172,28 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 // Make sure none of the other code in this function is executed
                 return;
             }
+
+            /**
+             * @param {Array} path The path to the data object, split out
+             * @param {Object} obj The data object to add the field to
+             */
+            var addIndexedFields = function(path, obj) {
+                if (path.length > 1) {
+                    obj = obj[path.shift()];
+                    addIndexedFields(path, obj);
+                } else {
+                    if (obj["sakai:indexed-fields"]) {
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
+                        obj["sakai:indexed-fields"].push(path[0]);
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
+                    } else {
+                        obj["sakai:indexed-fields"] = path[0];
+                    }
+                    if (!obj["sling:resourceType"]) {
+                        obj["sling:resourceType"] = "sakai/widget-data";
+                    }
+                }
+            };
 
             /**
              * <p>Convert all the arrays in an object to an object with a unique key.<br />
@@ -235,7 +259,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             var postData = {
                 ":operation": "import",
                 ":contentType": "json",
-                ":content": $.toJSON(i_data),
                 ":replace": true,
                 ":replaceProperties": true,
                 "_charset_":"utf-8"
@@ -243,7 +266,13 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             if (removeTree) {
                 postData[":removeTree"] = removeTree;
             }
-
+            if (indexFields) {
+                $.each(indexFields, function(i,val) {
+                    addIndexedFields(val.split("/"), i_data);
+                });
+            }
+            sakaiServerAPI.removeServerCreatedObjects(i_data);
+            postData[":content"] = $.toJSON(i_data);
             // Send request
             $.ajax({
                 url: i_url,
@@ -312,7 +341,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          */
         removeServerCreatedObjects : function(obj) {
             $.each(obj, function(key,val) {
-                if (key && key.indexOf && key.indexOf("_") === 0) {
+                if (key && key.indexOf && key.indexOf("_") === 0 && key.indexOf("__") !== 0) {
                     delete obj[key];
                 } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
                     sakaiServerAPI.removeServerCreatedObjects(obj[key]);
