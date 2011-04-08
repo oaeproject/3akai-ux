@@ -129,6 +129,7 @@ sakai.s23_site = function(){
                 var renderData = {
                     xid: page.xid,
                     columnTools: [[]],
+                    sakai: sakai
                 };
                 for (var i = 0; i < page.tools.length; i++) {
                     if (page.tools[i].layouthint) {
