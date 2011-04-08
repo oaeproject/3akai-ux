@@ -158,9 +158,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var displayUserProfilePicture = function(){
             if (me.profile) {
                 var profile = me.profile;
-                var picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                if (profile.picture && $.parseJSON(profile.picture).name) {
-                    picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+                var picture = sakai.api.Util.constructProfilePicture(profile);
+                if (!picture) {
+                    picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
                 $("#comments_userProfileAvatarPicture").attr("src", picture);
             }

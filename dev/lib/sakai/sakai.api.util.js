@@ -415,7 +415,7 @@ define(["jquery",
          * Check whether there is a valid picture for the user
          * @param {Object} profile The profile object that could contain the profile picture
          * @return {String}
-         * The complete URL of the profile picture
+         * The link of the profile picture
          * Will be an empty string if there is no picture
          */
         constructProfilePicture : function(profile){
@@ -423,11 +423,13 @@ define(["jquery",
             // if there is profile picture and userId
             // return the picture links
             var id = null, picture_name = null;
-            if (profile.picture && (profile["rep:userId"] || profile["sakai:group-id"])) {
+            if (profile.picture && (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"])) {
                 if (profile["rep:userId"]){
                     id = profile["rep:userId"];
                 } else if (profile["sakai:group-id"]){
                     id = profile["sakai:group-id"];
+                } else if (profile["uuid"]){
+                    id = profile["uuid"];
                 }
                 if (profile.picture.name) {
                     picture_name = profile.picture.name
@@ -436,11 +438,13 @@ define(["jquery",
                     picture_name = $.parseJSON(profile.picture).name;
                 }
                 return "/~" + id + "/public/profile/" + picture_name;
-            } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
+            } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value && (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"])) {
                 if (profile["rep:userId"]){
                     id = profile["rep:userId"];
                 } else if (profile["sakai:group-id"]){
                     id = profile["sakai:group-id"];
+                } else if (profile["uuid"]){
+                    id = profile["uuid"];
                 }
                 if (profile.basic.elements.picture.value.name) {
                     picture_name = profile.basic.elements.picture.value.name

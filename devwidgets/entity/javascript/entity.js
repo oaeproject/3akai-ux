@@ -173,29 +173,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-
-            // if (profile.basic.elements.picture && profile["rep:userId"]) {
-            // profile.basic.elements object does not have picture information
-            // if there is profile picture and userId
-            // return the picture links
-            if(profile.picture && (profile["rep:userId"] || profile["sakai:group-id"])) {
-
-                var id = null;
-                if (profile["rep:userId"]){
-                    id = profile["rep:userId"];
-                } else if (profile["sakai:group-id"]){
-                    id = profile["sakai:group-id"];
-                }
-                //change string to json object and get name from picture object
-                var picture_name = $.parseJSON(profile.picture).name;
-
-                //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-                return "/~" + id + "/public/profile/" + picture_name;
-            }
-            else {
-                return "";
-            }
-
+            return sakai.api.Util.constructProfilePicture(profile);
         };
 
         /**
@@ -880,6 +858,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var setProfileData = function(){
             // Set the profile picture for the user you are looking at
             // /~admin/public/profile/256x256_profilepicture
+
+            // The rep:userId seems to be missing when looking at another users profile
+            if (!entityconfig.data.profile["rep:userId"]){
+                entityconfig.data.profile["rep:userId"] = entityconfig.data.profile.homePath.substr(2, entityconfig.data.profile.homePath.length);
+            }
             entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
             // Set the status for the user you want the information from
