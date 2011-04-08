@@ -77,7 +77,7 @@
 /* Upload content */
 .newaddcontent_form label{display:block;margin:12px 0 7px 0;color:#424242;}
 .newaddcontent_form input, .newaddcontent_form textarea, .newaddcontent_existingitems_search {width:330px;border:1px solid #A9A9A9;margin-top:3px;height:20px;}
-.newaddcontent_form textarea{height:60px;}
+.newaddcontent_form textarea{height:60px;resize:none;}
 .MultiFile-list{display:none;}
 
 /* Add new Sakai Doc */

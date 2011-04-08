@@ -90,9 +90,9 @@
 
                     <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                     <select id="newaddcontent_add_document_permissions">
-                        <option value="public">__MSG__PUBLIC__</option>
+                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private" selected="selected">__MSG__PRIVATE__</option>
+                        <option value="private">__MSG__PRIVATE__</option>
                     </select>
                 </form>
             </div>
@@ -116,7 +116,7 @@
             <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
                 <form id="newaddcontent_add_link_form" class="newaddcontent_form">
                     <label for="newaddcontent_add_link_url">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
-                    <input type="text" id="newaddcontent_add_link_url"/>
+                    <input type="text" id="newaddcontent_add_link_url" class="appendhttp url required"/>
 
                     <label for="newaddcontent_add_link_title">__MSG__TITLE__:</label>
                     <input type="text" id="newaddcontent_add_link_title"/>
@@ -130,14 +130,14 @@
             </div>
 
         </div>
-        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_add_to_list" title="__MSG__ADD__">
+        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_add_to_list" title="__MSG__ADD__" disabled="disabled">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
         </button>
     </div>
 
     <div id="newaddcontent_container_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button title="Add" class="s3d-button s3d-button-link-2-state newaddcontent_container_start_upload" type="button">
+        <button title="Add" class="s3d-button s3d-button-link-2-state newaddcontent_container_start_upload" type="button" disabled="disabled">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DONE_ADD_COLLECTED__</span>
         </button>
     </div>

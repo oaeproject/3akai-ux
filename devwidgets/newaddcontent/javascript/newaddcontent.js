@@ -104,6 +104,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // ITEMS QUEUE //
         /////////////////
 
+        var enableAddToQueue = function(){
+            $(newaddcontentContainerNewItemAddToList).removeAttr("disabled");
+        };
+
+        var disableAddToQueue = function(){
+            $(newaddcontentContainerNewItemAddToList).attr("disabled","disabled");
+        };
+
+        var enableStartUpload = function(){
+            $(newaddcontentContainerStartUploadButton).removeAttr("disabled");
+        };
+
+        var disableStartUpload = function(){
+            $(newaddcontentContainerStartUploadButton).attr("disabled","disabled");
+        };
+
         /**
          * Render the queue
          */
@@ -113,6 +129,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var resetQueue = function(){
             itemsToUpload = [];
+            disableAddToQueue();
             $(newaddcontentContainerSelectedItemsContainer).html("");
         };
 
@@ -122,6 +139,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var addContentToQueue = function(contentToAdd){
             itemsToUpload.push(contentToAdd);
+            disableAddToQueue();
+            enableStartUpload();
             renderQueue();
         };
 
@@ -142,7 +161,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             itemsToUpload.splice(index,1);
 
-            $(this).parent().remove();
+            if (!itemsToUpload.length){
+                disableStartUpload();
+            }
+
             renderQueue();
         };
 
@@ -156,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     var $linkForm = $(this).parent().find("form");
                     var linkObj = {
                         "url": $linkForm.find("#newaddcontent_add_link_url").val(),
-                        "title": $linkForm.find("#newaddcontent_add_link_title").val(),
+                        "title": $linkForm.find("#newaddcontent_add_link_title").val() || $linkForm.find("#newaddcontent_add_link_url").val(),
                         "description": $linkForm.find("#newaddcontent_add_link_description").val(),
                         "tags":$linkForm.find("#newaddcontent_add_link_tags").val(),
                         "permissions":"public",
@@ -288,7 +310,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-
+                    document.hashpath = data["_contentItem"];
+                    document.permissions = document["sakai:permissions"];
+                    sakai.api.Content.setFilePermissions([document], false);
                 },
                 error: function(err){
 
@@ -319,9 +343,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     linkObj.hashpath = data["_contentItem"];
                     sakai.api.Content.setFilePermissions([linkObj], false);
-                },
-                error: function(err){
-
                 }
             });
         };
@@ -467,6 +488,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // RENDERING //
         ///////////////
 
+        var checkFieldValidToAdd = function(){
+            if ($(this).attr("type") == "text") {
+                var val = $.trim($(this).val());
+                if (val) {
+                    enableAddToQueue();
+                }
+                else {
+                    disableAddToQueue();
+                }
+            }else{
+                if ($("#newaddcontent_existing_content_form input[type=checkbox]:checked").length) {
+                    enableAddToQueue();
+                }else{
+                    disableAddToQueue();
+                }
+            }
+        };
+
         var showSelectedItem = function($selected){
             $(".newaddcontent_newitem_container").hide();
             $selected.show();
@@ -486,6 +525,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                     multifileQueueAddAllowed = false;
                     preFillContentFields(fileName);
+                    enableAddToQueue();
                 }
             });
         };
@@ -582,6 +622,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Add/remove some CSS classes to show/hide rounded borders etc.
          */
         var navigateMenu = function(){
+            disableAddToQueue();
             $(newaddcontentContainerNewItemRaquoRight).removeClass(newaddcontentContainerNewItemRaquoRightDocumentsposition);
             $(newaddcontentContainerNewItemAddToList).removeClass(newaddcontentContainerNewItemAddToListDocumentsposition);
             $(newaddcontentContainerNewItemAddToList).removeClass(newaddcontentContainerNewItemAddToListExistingContentposition);
@@ -667,6 +708,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $(newaddcontentExistingItemsSearch).keyup(prepareContentSearch);
+            $("#newaddcontent_add_document_form #newaddcontent_add_document_title").keyup(checkFieldValidToAdd);
+            $("#newaddcontent_existing_content_form input").live("click",checkFieldValidToAdd);
+
+            $("#newaddcontent_add_link_form").validate({
+                success: function(){
+                    enableAddToQueue();
+                }
+            });
+
+            $("#newaddcontent_add_link_form #newaddcontent_add_link_url").blur(function(){
+                $("#newaddcontent_add_link_form").submit(function(){
+                    return false;
+                });
+                if($("#newaddcontent_add_link_form").validate().errorList.length){
+                    disableAddToQueue();
+                }
+            });
         };
 
 
@@ -704,6 +762,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             removeBinding();
             resetQueue();
             resetMenu();
+            disableAddToQueue();
+            disableStartUpload();
             multifileQueueAddAllowed = true;
             contentUploaded = false;
             hideAfterContentUpload = false;
