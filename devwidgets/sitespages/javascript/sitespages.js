@@ -2760,8 +2760,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#template_name_error").show();
                 }
             } else if (name){
-                $("#template_name_count").text(0);
-                $("#template_description_count").text(0);
+                $("#template_name_count").text("0");
+                $("#template_description_count").text("0");
                 var newid = Math.round(Math.random() * 100000000);
 
                 var obj = {};
