@@ -81,37 +81,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $deletecontent_action_delete = $($deletecontent_action_delete.selector);
 
             // Add binding to the delete button
-            $deletecontent_action_delete.unbind("click").bind("click", function(){
-
+            $deletecontent_action_delete.unbind("click").bind("click", function () {
+                var batchRequests = [];
                 if (deletedata.path && typeof(deletedata.path) === "string") {
-                    $.ajax({
+                    batchRequests.push({
                         url: deletedata.path,
-                        success: function(){
-                            // Show message
-                            sakai.api.Util.notification.show($deletecontent_deleted.html(), $deletecontent_successfully_deleted.html());
-                            // Wait for 2 seconds
-                            setTimeout(function(){
-                                // Relocate to the my sakai page
-                                document.location = sakai.config.URL.MY_DASHBOARD_URL;
-                            }, 2000);
-                            if (callback && typeof(callback) === "function") {
-                                callback(true);
-                            }
-                        },
-                        error: function(){
-                            sakai.api.Util.notification.show($deletecontent_not_deleted.html(), $deletecontent_not_successfully_deleted.html());
-                            if (callback && typeof(callback) === "function") {
-                                callback(false);
-                            }
-                        },
-                        type: "POST",
-                        data: {
-                            ":operation" : "delete"
-                        }
+                        method: "POST",
+                        parameters: {":operation" : "delete"}
                     });
                 } else if (deletedata.path && typeof(deletedata.path) === "object"
                     && deletedata.path.length) {
-                    var batchRequests = [];
                     $.each(deletedata.path, function (i, url) {
                         batchRequests.push({
                             url: url,
@@ -119,32 +98,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             parameters: {":operation" : "delete"}
                         });
                     });
-                    sakai.api.Server.batch($.toJSON(batchRequests), function (success, data) {
-                        if (success) {
-                            if (deletedata.path.length === 1) {
-                                sakai.api.Util.notification.show($deletecontent_deleted.html(),
-                                    $deletecontent_successfully_deleted.html());
-                            } else {
-                                sakai.api.Util.notification.show($deletecontent_deleted.html(),
-                                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_SUCCESSFULLY_DELETED"));
-                            }
-                            if (callback && typeof(callback) === "function") {
-                                callback(true);
-                            }
-                        } else {
-                            if (deletedata.path.length === 1) {
-                                sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
-                                    $deletecontent_not_successfully_deleted.html());
-                            } else {
-                                sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
-                                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_NOT_SUCCESSFULLY_DELETED"));
-                            }
-                            if (callback && typeof(callback) === "function") {
-                                callback(false);
-                            }
-                        }
-                    });
                 }
+                sakai.api.Server.batch($.toJSON(batchRequests), function (success, data) {
+                    if (success) {
+                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
+                            sakai.api.Util.notification.show($deletecontent_deleted.html(),
+                                $deletecontent_successfully_deleted.html());
+                        } else {
+                            sakai.api.Util.notification.show($deletecontent_deleted.html(),
+                                sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_SUCCESSFULLY_DELETED"));
+                        }
+                        if (callback && typeof(callback) === "function") {
+                            callback(true);
+                        }
+                    } else {
+                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
+                            sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
+                                $deletecontent_not_successfully_deleted.html());
+                        } else {
+                            sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
+                                sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_NOT_SUCCESSFULLY_DELETED"));
+                        }
+                        if (callback && typeof(callback) === "function") {
+                            callback(false);
+                        }
+                    }
+                });
                 $deletecontent_dialog.jqmHide();
                 return false;
             });

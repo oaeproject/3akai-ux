@@ -257,7 +257,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Open the delete content pop-up
             $("#content_preview_delete").bind("click", function(){
                 window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', sakai_global.content_profile.content_data);
+                $(window).trigger('init.deletecontent.sakai', [sakai_global.content_profile.content_data,
+                    function (success) {
+                        if (success) {
+                            // Wait for 2 seconds
+                            setTimeout(function () {
+                                // Relocate to the my sakai page
+                                document.location = "/dev/user.html";  // TODO TEMPORARY REDIRECT!!!
+                            }, 2000);
+                        }
+                    }]
+                );
             });
             $("#upload_content").die("click");
             $("#upload_content").live("click", function() {
