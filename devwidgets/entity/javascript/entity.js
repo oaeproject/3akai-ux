@@ -239,16 +239,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 "url": "/system/userManager/group/" + groupid + "-managers.members.json",
                 "method": "GET"
             };
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                async: false,
-                success: function (data) {
+            sakai.api.Server.batch(requests, function(success, data) {
+                if (success) {
                     var groupMembers = $.parseJSON(data.results[0].body);
                     var groupManagers = $.parseJSON(data.results[1].body);
 
@@ -273,7 +265,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
                     }
                 }
-            });
+            }, null, null, false);
         };
 
 
@@ -501,7 +493,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 success: function(data){
                     var presence = $.parseJSON(data.results[3].body);
                     for (var l in presence.contacts){
-                        if (presence.contacts[l].user === userid){
+                        if (presence.contacts[l].user === userid && presence.contacts[l].profile && sakai.config.enableChat){
                             if (presence.contacts[l].profile.chatstatus && presence.contacts[l]["sakai:status"] === "online") {
                                 entityconfig.data.profile.chatstatus = presence.contacts[l].profile.chatstatus;
                             } else {

@@ -127,19 +127,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * String to test against: test :?=&;\/?@+$<>#%'"''{}|\\^[]'
          * @param {Object} input The string where the characters need to be replaced
          */
-        var replaceCharacters = function(input){
-
-            input = $.trim(input); // Remove the spaces at the beginning and end of the id
-
-            input = input.toLowerCase().replace(/ /g,"-");
-            input = input.toLowerCase().replace(/'/g,"");
-            input = input.toLowerCase().replace(/"/g,"");
-
-            var regexp = new RegExp("[^a-z0-9]", "gi");
-            input = input.replace(regexp,"-");
-
-            return input;
-        };
 
 
         ////////////////////
@@ -186,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Get the values from the input text and radio fields
             var grouptitle = $(createGroupAddName).val() || "";
             var groupdescription = $(createGroupAddDescription).val() || "";
-            var groupid = replaceCharacters($(createGroupAddId).val());
+            var groupid = sakai.api.Util.makeSafeURL($(createGroupAddId).val(), "-");
             var inputError = false;
 
             if($("#creategroup_form").valid()) {
@@ -228,7 +215,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the save button (create the group when you click on it)
          */
         $(createGroupAddSave).click(function(){
-            var entered = replaceCharacters($(createGroupAddId).val());
+            var entered = sakai.api.Util.makeSafeURL($(createGroupAddId).val(), "-");
             $(createGroupAddId).val(entered);
             saveGroup();
         });
@@ -239,7 +226,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $(createGroupAddName).bind("keyup change", function(ev){
             if (!changedURLManually) { // only change the url if the user hasn't changed it themselves
-                var entered = replaceCharacters($(this).val());
+                var entered = sakai.api.Util.makeSafeURL($(this).val(), "-");
                 $(createGroupAddId).val(entered);
                 resetErrorFields();
             }
@@ -247,7 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $(createGroupAddId).bind("keyup change", function(e) {
             changedURLManually = true;
-            var entered = replaceCharacters($(this).val());
+            var entered = sakai.api.Util.makeSafeURL($(this).val(), "-");
             $(createGroupAddId).val(entered);
             resetErrorFields();
         });

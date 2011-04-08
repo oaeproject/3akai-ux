@@ -238,14 +238,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 itemArr.push(item);
 
                 // Do the Batch request
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    traditional: true,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(itemArr)
-                    },
-                    success: function(data){
+                sakai.api.Server.batch(itemArr, function(success, data) {
+                    if (success) {
                         $(window).trigger("removeUser.sharecontent.sakai", {
                             "user": userid,
                             "access": permission

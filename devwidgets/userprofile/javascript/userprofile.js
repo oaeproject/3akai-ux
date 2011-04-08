@@ -341,37 +341,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Send the Ajax request to the batch servlet
             // depends on KERN-909
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function(data){
-
+            sakai.api.Server.batch(requests, function(success, data) {
+                if (success) {
                     // Show a successful notification to the user
                     sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
                     // Wait for 2 seconds
-                    setTimeout(
-                        function(){
-                            // Change the profile mode if the save was successful
-                            changeProfileMode("view");
-                        }, 2000);
-
-                },
-                error: function(xhr, textStatus, thrownError){
-
+                    setTimeout(function(){
+                        // Change the profile mode if the save was successful
+                        changeProfileMode("view");
+                    }, 2000);
+                } else {
                     // Show an error message to the user
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                     // Log an error message
                     debug.error("sakai_global.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
-
                 }
             });
-
         };
 
         /**
