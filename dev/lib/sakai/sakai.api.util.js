@@ -269,7 +269,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch(requests, function(success, data) {
                         if (success) {
                             doSetTags(tags, function(_success) {
                                 setTagsCallback(_success);
@@ -300,7 +300,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(setTagsRequests), function(success, data) {
+                    sakai_serv.batch(setTagsRequests, function(success, data) {
                         if (!success) {
                             debug.error(tagLocation + " failed to be tagged as " + val);
                         }
@@ -332,7 +332,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch(requests, function(success, data) {
                         if (!success) {
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
@@ -1450,7 +1450,17 @@ define(["jquery",
                 element = element[0];
             }
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
+        },
+
+        // :?=&;\/?@+$<>#%'"''{}|\\^[]'
+        makeSafeURL : function(url, replacement) {
+            url = $.trim(url); // Remove the spaces at the beginning and end of the id
+            url = url.replace(/['"]/gi,"");
+            url = url.replace(/[:;<>#^%{}|~`@%&!$,.=\+\/\?\(\)\*\s\\\\\\[\\]]*/gi, replacement);
+            url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
+            return url;
         }
+
     };
     
     return util;

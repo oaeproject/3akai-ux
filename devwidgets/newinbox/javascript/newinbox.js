@@ -20,6 +20,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.newinbox = function(tuid, showSettings, widgetData, state) {
         var hoveringHover = false,
             $hoveredElt = false,
+            totalMessages = 0,
             messages = {};
 
         var $rootel = $("#"+tuid),
@@ -35,7 +36,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $newinbox_back_to_messages = $("#newinbox_back_to_messages", $rootel),
             $newinbox_create_new_message = $("#newinbox_create_new_message", $rootel),
             $newinbox_new_message = $("#newinbox_new_message", $rootel),
-            $newinbox_message_list_item_template = $("#newinbox_message_list_item_template", $rootel); 
+            $newinbox_message_list_item_template = $("#newinbox_message_list_item_template", $rootel),
+            $newinbox_title_total = $("#newinbox_title_total", $rootel);
 
         /** Hover over the inbox list **/
         var hoverOver = function(e) {
@@ -90,12 +92,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $newinbox_back_to_messages.live("click", backToMessages);
 
-        var showMessage = function(messageid) {
+        var showMessage = function(message) {
             $newinbox_hover.hide();
             $newinbox_message_list.hide();
             $newinbox_select_all_messages.hide();
             $newinbox_back_to_messages.show();
-            sakai.api.Util.TemplateRenderer($newinbox_show_message_template, {message:messageid}, $newinbox_show_message);
+            sakai.api.Util.TemplateRenderer($newinbox_show_message_template, {message:message}, $newinbox_show_message);
+            if (!message.read) {
+                sakai.api.Communication.markMessagesAsRead(message.path);
+                $("#" + message.id, $rootel).addClass("read");
+            }
             $newinbox_show_message.show();
         };
 
@@ -148,6 +154,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentPage = 0;
             sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, 20, currentPage, sortBy, sortOrder, function(success, data){
                 messages = data;
+                if (data && data.total) {
+                    totalMessages = data.total;
+                    $newinbox_title_total.text(totalMessages).parent().show();
+                }
                 if ($.isFunction(callback)) {
                     callback();
                 }

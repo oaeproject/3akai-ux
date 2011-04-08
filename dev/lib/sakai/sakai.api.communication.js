@@ -345,6 +345,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
                 newMsg.id = msg.id;
                 newMsg.read = msg["sakai:read"];
+                newMsg.path = msg["jcr:path"];
                 messages[newMsg.id] = newMsg;
             });
             ret.results = messages;
@@ -367,9 +368,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing) {
             var url = "";
             if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
             }
             $.ajax({
                 url: url,
