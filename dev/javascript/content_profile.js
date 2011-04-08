@@ -20,12 +20,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.content_profile = function(){
 
+        var previous_content_path = false;
         var content_path = ""; // The current path of the content
         var ready_event_fired = 0;
         var list_event_fired = false;
         var tooltip_opened = false;
         var intervalId;
 
+        var showPreview = true;
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -112,6 +114,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
+                                if (contentInfo["sakai:custom-mimetype"] && contentInfo["sakai:custom-mimetype"] === "x-sakai/document"){
+                                    showPreview = false;
+                                } else {
+                                    switchToOneColumnLayout(false);
+                                }
                             }
                         }
 
@@ -224,6 +231,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
+                            content_path: content_path,
                             isManager: manager,
                             isViewer: viewer
                         };
@@ -234,6 +242,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             callback(true);
                         }
                         initEntityWidget();
+                        
+                        if (!showPreview){
+                            renderSakaiDoc();
+                        }
+                        
                     }
                 });
 
@@ -266,49 +279,60 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function() {
             content_path = $.bbq.getState("content_path") || "";
-            loadContentProfile(function() {
-                // The request was successful so initialise the entity widget
-                if (sakai_global.entity && sakai_global.entity.isReady) {
-                    $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                } else {
-                    $(window).bind("ready.entity.sakai", function(e){
+            if (content_path != previous_content_path) {
+                previous_content_path = content_path;
+                loadContentProfile(function(){
+                    // The request was successful so initialise the entity widget
+                    if (sakai_global.entity && sakai_global.entity.isReady) {
                         $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the relatedcontent widget
-                if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
-                    $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
-                } else {
-                    $(window).bind("ready.relatedcontent.sakai", function(e){
+                    }
+                    else {
+                        $(window).bind("ready.entity.sakai", function(e){
+                            $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
+                            ready_event_fired++;
+                        });
+                    }
+                    // The request was successful so initialise the relatedcontent widget
+                    if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
                         $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the relatedcontent widget
-                if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
-                    $(window).trigger("start.contentpreview.sakai");
-                } else {
-                    $(window).bind("ready.contentpreview.sakai", function(e){
-                        $(window).trigger("start.contentpreview.sakai");
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the metadata widget
-                if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
-                    $(window).trigger("render.contentmetadata.sakai");
-                } else {
-                    $(window).bind("ready.contentmetadata.sakai", function(e){
+                    }
+                    else {
+                        $(window).bind("ready.relatedcontent.sakai", function(e){
+                            $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
+                            ready_event_fired++;
+                        });
+                    }
+                    // The request was successful so initialise the relatedcontent widget
+                    if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
+                        if (showPreview) {
+                            $(window).trigger("start.contentpreview.sakai");
+                        }
+                    }
+                    else {
+                        $(window).bind("ready.contentpreview.sakai", function(e){
+                            if (showPreview) {
+                                $(window).trigger("start.contentpreview.sakai");
+                                ready_event_fired++;
+                            }
+                        });
+                    }
+                    // The request was successful so initialise the metadata widget
+                    if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
                         $(window).trigger("render.contentmetadata.sakai");
-                        ready_event_fired++;
-                    });
-                }
-
-                sakai.api.Security.showPage();
-
-                // rerender comments widget
-                $(window).trigger("content_profile_hash_change");
-            });
+                    }
+                    else {
+                        $(window).bind("ready.contentmetadata.sakai", function(e){
+                            $(window).trigger("render.contentmetadata.sakai");
+                            ready_event_fired++;
+                        });
+                    }
+                    
+                    sakai.api.Security.showPage();
+                    
+                    // rerender comments widget
+                    $(window).trigger("content_profile_hash_change");
+                });
+            }
         };
 
         /**
@@ -505,6 +529,96 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             checkShareContentTour();
         };
+        
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        
+        var pagestructure = {
+            "structure0": {
+                "page1": {
+                    "_ref": "9574379429432",
+                    "_title": "Page Title 1",
+                    "main": {
+                        "_ref": "9574379429432",
+                        "_title": "Page Title 1"
+                    }
+                },
+                "page2": {
+                    "_ref": "6573920372",
+                    "_title": "Page Title 2",
+                    "main": {
+                        "_ref": "6573920372",
+                        "_title": "Page Title 2"
+                    }
+                }
+            },
+            "9574379429432": {
+                "page": "This is the content of page 1"
+            },
+            "6573920372": {
+                "page": "This is the content of page 2"
+            }
+        }
+        
+        var generateNav = function(){
+            $(window).trigger("lhnav.init", [pagestructure, {}, {}]);
+            $(window).trigger("lhnav.addHashParam", [{"content_path": sakai_global.content_profile.content_data.content_path}]);
+        };
+
+        $(window).bind("lhnav.ready", function(){
+            generateNav();
+        });
+        
+        var renderSakaiDoc = function(){
+            generateNav();
+            switchToOneColumnLayout(true);
+            //switchToTwoColumnLayout(true);
+        }
+        
+        var switchToTwoColumnLayout = function(isSakaiDoc){
+            $("#content_profile_left_column").show();
+            $("#content_profile_main_container").addClass("s3d-twocolumn");
+            $("#content_profile_right_container").addClass("s3d-page-column-right");
+            $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_metacomments").removeClass("fl-container-650");
+            $("#content_profile_right_metacomments").addClass("fl-container-500");
+            if (isSakaiDoc){
+                $("#content_profile_preview_container").hide();
+                $("#content_profile_sakaidoc_container").show();
+            } else {
+                $("#content_profile_preview_container").show();
+                $("#content_profile_sakaidoc_container").hide();
+            }
+        }
+        
+        var switchToOneColumnLayout = function(isSakaiDoc){
+            $("#content_profile_left_column").hide();
+            $("#content_profile_main_container").removeClass("s3d-twocolumn");
+            $("#content_profile_right_container").removeClass("s3d-page-column-right");
+            $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_metacomments").addClass("fl-container-650");
+            $("#content_profile_right_metacomments").removeClass("fl-container-500");
+            if (isSakaiDoc){
+                $("#content_profile_preview_container").hide();
+                $("#content_profile_sakaidoc_container").show();
+            } else {
+                $("#content_profile_preview_container").show();
+                $("#content_profile_sakaidoc_container").hide();
+            }
+        }
+        
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
         // Initialise the content profile page
         init();

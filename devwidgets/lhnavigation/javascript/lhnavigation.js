@@ -234,7 +234,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         }
 
+        var currentPageShown = {};
+
         var createPageToShow = function(ref, content, savePath){
+            currentPageShown = {
+                "ref": ref,
+                "content": content,
+                "savePath": savePath
+            };
             // Create the new element
             var $el = $("<div>").attr("id", ref);
             // Add sanitized content
@@ -242,9 +249,193 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $el.html(sanitizedContent);
             // Add element to the DOM
             $("#s3d-page-main-content").append($el);
+            
             // Insert widgets
             sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath,[privstructure.pages, pubstructure.pages]);
         }
+        
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        
+        $("#lhnav_editpage").live("click", function(){
+            $("#lhnav_editmode").show();
+            $("#s3d-page-main-content").hide();
+            var content = currentPageShown.content || "";
+            tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+        });
+        
+        function init_tinyMCE(){
+        
+            // Init tinyMCE
+            if (window["tinyMCE"]) {
+                tinyMCE.init({
+                
+                    // General options
+                    mode: "exact",
+                    elements: "elm1",
+                    theme: "advanced",
+                    
+                    // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
+                    //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
+                    plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,autoresize",
+                    
+                    // Context Menu
+                    theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link",
+                    theme_advanced_buttons2: "",
+                    theme_advanced_buttons3: "",
+                    // set this to external|top|bottom
+                    theme_advanced_toolbar_location: "top",
+                    theme_advanced_toolbar_align: "left",
+                    theme_advanced_statusbar_location: "none",
+                    handle_node_change_callback: "sakai_global.sitespages.mySelectionEvent",
+                    //init_instance_callback: "sakai_global.sitespages.startEditPage",
+                    
+                    // Example content CSS (should be your site CSS)
+                    content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
+                    
+                    // Editor CSS - custom Sakai Styling
+                    editor_css: sakai.config.URL.TINY_MCE_EDITOR_CSS,
+                    
+                    // Drop lists for link/image/media/template dialogs
+                    template_external_list_url: "lists/template_list.js",
+                    external_link_list_url: "lists/link_list.js",
+                    external_image_list_url: "lists/image_list.js",
+                    media_external_list_url: "lists/media_list.js",
+                    
+                    // Use the native selects
+                    use_native_selects: true,
+                    
+                    // Replace tabs by spaces.
+                    nonbreaking_force_tab: true,
+                    
+                    // Determine classes to show to users (e.g. to mock up links). Format: "Header 1=header1;Header 2=header2;..."
+                    theme_advanced_styles: "Regular link=s3d-regular-links",
+                    
+                    // Security
+                    verify_html: true,
+                    cleanup: true,
+                    entity_encoding: "named",
+                    invalid_elements: "script",
+                    valid_elements: "" +
+                    "@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup]," +
+                    "a[href|rel|rev|target|title|type]," +
+                    "address[]," +
+                    "b[]," +
+                    "blink[]," +
+                    "blockquote[align|cite|clear|height|type|width]," +
+                    "br[clear]," +
+                    "caption[align|height|valign|width]," +
+                    "center[align|height|width]," +
+                    "col[align|bgcolor|char|charoff|span|valign|width]," +
+                    "colgroup[align|bgcolor|char|charoff|span|valign|width]," +
+                    "comment[]," +
+                    "em[]," +
+                    "embed[src|class|id|autostart]" +
+                    "font[color|face|font-weight|point-size|size]," +
+                    "h1[align|clear|height|width]," +
+                    "h2[align|clear|height|width]," +
+                    "h3[align|clear|height|width]," +
+                    "h4[align|clear|height|width]," +
+                    "h5[align|clear|height|width]," +
+                    "h6[align|clear|height|width]," +
+                    "hr[align|clear|color|noshade|size|width]," +
+                    "i[]," +
+                    "img[align|alt|border|height|hspace|src|vspace|width]," +
+                    "li[align|clear|height|type|value|width]," +
+                    "marquee[behavior|bgcolor|direction|height|hspace|loop|scrollamount|scrolldelay|vspace|width]," +
+                    "maction[]," +
+                    "maligngroup[]," +
+                    "malignmark[]," +
+                    "math[]," +
+                    "menclose[]," +
+                    "merror[]," +
+                    "mfenced[]," +
+                    "mfrac[]," +
+                    "mglyph[]," +
+                    "mi[]," +
+                    "mlabeledtr[]," +
+                    "mlongdiv[]," +
+                    "mmultiscripts[]," +
+                    "mn[]," +
+                    "mo[]," +
+                    "mover[]," +
+                    "mpadded[]," +
+                    "mphantom[]," +
+                    "mroot[]," +
+                    "mrow[]," +
+                    "ms[]," +
+                    "mscarries[]," +
+                    "mscarry[]," +
+                    "msgroup[]," +
+                    "msline[]," +
+                    "mspace[]," +
+                    "msqrt[]," +
+                    "msrow[]," +
+                    "mstack[]," +
+                    "mstyle[]," +
+                    "msub[]," +
+                    "msup[]," +
+                    "msubsup[]," +
+                    "mtable[]," +
+                    "mtd[]," +
+                    "mtext[]," +
+                    "mtr[]," +
+                    "munder[]," +
+                    "munderover[]," +
+                    "ol[align|clear|height|start|type|width]," +
+                    "p[align|clear|height|width]," +
+                    "pre[clear|width|wrap]," +
+                    "s[]," +
+                    "semantics[]," +
+                    "small[]," +
+                    "span[align]," +
+                    "strike[]," +
+                    "strong[]," +
+                    "sub[]," +
+                    "sup[]," +
+                    "table[align|background|bgcolor|border|bordercolor|bordercolordark|bordercolorlight|" +
+                    "bottompadding|cellpadding|cellspacing|clear|cols|height|hspace|leftpadding|" +
+                    "rightpadding|rules|summary|toppadding|vspace|width]," +
+                    "tbody[align|bgcolor|char|charoff|valign]," +
+                    "td[abbr|align|axis|background|bgcolor|bordercolor|" +
+                    "bordercolordark|bordercolorlight|char|charoff|headers|" +
+                    "height|nowrap|rowspan|scope|valign|width]," +
+                    "tfoot[align|bgcolor|char|charoff|valign]," +
+                    "th[abbr|align|axis|background|bgcolor|bordercolor|" +
+                    "bordercolordark|bordercolorlight|char|charoff|headers|" +
+                    "height|nowrap|rowspan|scope|valign|width]," +
+                    "thead[align|bgcolor|char|charoff|valign]," +
+                    "tr[align|background|bgcolor|bordercolor|" +
+                    "bordercolordark|bordercolorlight|char|charoff|" +
+                    "height|nowrap|valign]," +
+                    "tt[]," +
+                    "u[]," +
+                    "ul[align|clear|height|start|type|width]" +
+                    "video[src|class|autoplay|controls|height|width|preload|loop]"
+                });
+            }
+        }
+ 
+ 
+        // Add the actions bar if the user is a manager
+        if (true){
+            $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show());
+            $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
+            init_tinyMCE();
+        }
+        
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
         /////////////
         // BINDING //
@@ -283,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, puburl, privurl){
-           renderNavigation(pubdata, privdata, cData, puburl, privurl);
+            renderNavigation(pubdata, privdata, cData, puburl, privurl);
         });
 
         $(window).trigger("lhnav.ready");

@@ -1,0 +1,145 @@
+/** CONTAINER **/
+.mceContentBody{display:block!important;}
+.fl-col-fixed .content_container{margin-left:230px;padding-right:0;}
+
+/** TOP RIGHT MENU **/
+.sakai_site #content_page_options_container{height:25px;display:block;margin:5px 0 0;}
+.sakai_site .content_page_options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1624px transparent;height:25px;border:none;padding:0 10px 0 0;display:block;float:right;margin-top:3px;}
+.sakai_site .content_page_options_fixed_width {width:40px;}
+.sakai_site #content_edit_page_options.content_page_options{background:transparent url(/dev/images/edit_button_bg.png) right -27px no-repeat;}
+.sakai_site .content_page_options ul{padding:5px 0 0 12px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -1592px transparent;}
+.sakai_site #content_edit_page_options.content_page_options ul{background:#fff url(/dev/images/edit_button_bg.png) top left no-repeat;}
+.sakai_site .content_page_options ul li{display:block;float:left;height:20px;padding:0 6px 0 0;}
+.sakai_site .content_page_options #edit_page,.sakai_site .content_page_options #edit_page_revert{font-weight:bold;font-size:11px;}
+.sakai_site .content_page_options #edit_page {color:#333;}
+.sakai_site .content_page_options .print_page_admin{background:transparent url(/dev/images/printer_18.png) top left no-repeat;padding:2px 15px 0 20px;border-right:1px solid #888;}
+.sakai_site .content_page_options .print_page_view{background:transparent url(/dev/images/printer_18.png) top left no-repeat;padding:2px 0 0 20px;}
+.sakai_site .content_page_options #sitespages_accessibility_help{float:left;font-size:11px;margin-right:10px;margin-top:5px;}
+
+/** MAIN CONTENTS **/
+.sakai_site .main_container{padding:0;margin:0 0 20px;overflow:hidden;}
+.sakai_site .sakai_site_contents_main{margin:0;padding:10px;min-height:350px;}
+#revision_history_list{font-size:.95em;margin-left:5px;margin-right:15px;padding:2px;border:1px solid #ccc;}
+
+/* LEFT NAV */
+.sakai_site .page_nav{width:230px;padding:0;margin:0;}
+#page_nav_content{margin-top:30px;}
+
+/** REVISION HISTORY **/
+.sakai_site .revision_history{background:#EEE;margin-bottom:20px;padding:20px 10px;}
+.sakai_site .revision_history div{float:left;}
+.sakai_site .revision_history_viewing{color:#475358;font-weight:bold;}
+
+/* SITE MANAGEMENT NAV */
+.site_management{margin:0;padding:0;border:none;}
+.site_management .sm_titlebar{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -472px transparent;padding:0 10px 0 0;height:50px;}
+.site_management .sm_title{background:transparent url(/dev/images/site_management_icon.png) no-repeat scroll left top;color:#878A8C;font-size:1em;padding-left:25px;}
+.site_management .sm_content ul{margin:0;padding:0;}
+.site_management .sm_content ul li{list-style-type:none;padding:5px 0;}
+.site_management .sm_content ul li a{color:#058EC4;font-weight:bold;}
+.site_management .sm_content ul li p{color:#999;}
+.site_management .sm_bottom{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;height:5px;padding:0 0 0 10px;}
+.site_management .sm_bottom_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;height:5px;}
+
+/** SITE EDIT **/.content_page_options ul{padding:0;margin:0;}
+.content_page_options li{display:inline;list-style-type:none;}
+.content_page_options li a{padding:0 0 0 5px;font-size:.95em;}
+
+#page_options .s3d-sprites-buttons {width:116px;}
+
+/** Autosave message **/
+.edit_view .messageInformation{height:23px;line-height:23px;}
+
+/** Toolbar **/
+.edit_view .toolbar-placeholder{padding:0;margin:0;background:transparent;height:40px;border:none;}
+.edit_view .toolbar{border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;margin:0;padding:5px 3px 10px 8px;background:transparent;height:20px;vertical-align:middle;background-color:#fff;}
+
+/** Title **/
+.edit_view .title_input_container{padding:5px 0 10px;z-index:1234;}
+.edit_view .title-input{border:1px solid #999;width:882px!important;font-size:1.5em;font-weight:bold;padding:5px;z-index:1234;}
+
+/** Content editors **/
+.edit_view textarea{width:882px!important;}
+.edit_view #fl-tab-content-editor,.edit_view #html-editor-content,.edit_view #page_preview_content{margin:10px 0;border:1px solid #999;padding:5px;width:882px;}
+.edit_view #fl-tab-content-editor{padding:0;width:890px;}
+
+/** Move **/
+.edit_view .new_page_path{height:23px;line-height:23px;margin-bottom:20px;float:left;}
+
+/** Delete page **/
+.delete_page_buttons{text-align:right;}
+.delete_page_text{padding-top:15px;}
+
+/** Insert links **/
+#insert_links_availablelinks{height:250px;overflow:auto;}
+#insert_links_availablelinks li{display:block;font-size:11pt;color:#333;padding:5px;cursor:pointer;font-weight:normal;}
+#insert_links_availablelinks li.selected{color:#39C;font-weight:bold;}
+
+/** Insert Dropdown **/
+#sitepages_insert_dropdown_button{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner{background:transparent;}
+#sitepages_insert_dropdown_button .s3d-button-inner .s3d-button-icon-left{background:transparent;}
+#sitepages_insert_dropdown_button:hover{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -284px transparent;}
+#sitepages_insert_dropdown_button.clicked{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -342px transparent;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -255px transparent;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -313px transparent;color:#fff;}
+#sitepages_insert_dropdown_button:hover .s3d-button-inner .s3d-button-icon-left{background-position:-31px -235px;}
+#sitepages_insert_dropdown_button.clicked .s3d-button-inner .s3d-button-icon-left{background-position:-51px -235px;}
+#sitepages_insert_dropdown_button{width:90px;}
+#sitepages_insert_dropdown_button_inner {margin-left:15px;width:40px;}
+#sitepages_insert_dropdown{width:150px;border-width:1px;border-style:solid;border-color:#cbd0d4;padding-bottom:4px;z-index:70000}
+#sitepages_insert_dropdown ul{border:none;}
+#sitepages_insert_dropdown ul li{width:100%;}
+#sitepages_insert_dropdown ul li button{width:100%;color:#006e96;padding: 4px 12px;font-weight:bold;}
+#sitepages_insert_dropdown ul li button:hover{text-decoration:none;}
+.sitepages_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:0 !important;}
+.sitepages_insert_dropdown_header span{padding-left:12px;}
+
+/** TAB CONTENTS **/
+.edit_view .sitespages_add_button{background:url(/dev/images/add_button_bg.png) no-repeat top left;padding:5px;cursor:pointer;margin-top:-4px;}
+.sakai_site .content p a{text-decoration:underline;}
+.sakai_site .content .inline_class_widget_nofloat a{text-decoration:none;}
+.content_bottom_edit{float:left;width:916px;}
+
+/** FOOTER **/
+.sakai_site .sakai_footer{padding:15px 0 15px 15px;border-top:1px solid #ddd;font-size:.85em;color:#999;margin-top:35px;}
+.sakai_site .sakai_footer a{color:#39c;}
+.sakai_site .sakai_logo{float:left;}
+
+/** DASHBOARD PAGE **/
+/* OPTIONS */
+.dashboard_options{clear:none;text-align:right;}
+.dashboard_options .fixed-container{background-color:#fff;}
+.dashboard_options a{font-size:.9em;color:#454A4F;font-weight:bold;}
+.groupWrapper{overflow:hidden;}
+#dashboard_addpage_dialog #dashboard_addpage_title{width:98%;margin-top:10px;}
+
+/* SPECIFIC WIDGETS */
+.sitemembers .sitemembers_compact{width:auto;}
+.sitemembers #sitemembers_settings_data_container{width:100%;}
+.sitemembers .sitemembers_settings_data{width:auto;float:none;display:block;}
+.sitemembers.fl-widget .fl-widget-titlebar .widget_title{background:transparent url(/dev/images/myprofile_icon.png) no-repeat scroll 17px 18px;}
+
+/* TOOLS CONTAINER - RIGHT COLUMN */
+#toolscontainer{margin-left:20px;}
+
+/* Change layout */
+.layout_container{float:left;padding-left:25px;padding-right:13px;}
+.layout_picker_item{width:114px;height:62px;border:2px solid #39C;border-right:2px solid #39C;background-color:#EFF;}
+.layout_picker_item_column{border-right:1px solid #39C;}
+.layout_picker_item_radio{margin-left:50px;margin-top:10px;}
+.layout_container_unselected{float:left;padding-left:25px;padding-right:13px;}
+.layout_picker_item_unselected{width:114px;height:62px;border:2px solid #dddfe1;border-right:2px solid #dddfe1;background-color:#F8F8F8;}
+.layout_picker_item_column_unselected{border-right:1px solid #dddfe1;}
+.layout_picker_item_radio_unselected{margin-left:50px;margin-top:10px;}
+#layouts_list{display:block;}
+
+/* Full width pages */
+.sitepages_fullwidth{margin-left:0!important;}
+
+/* Widget context menu */
+#context_menu.s3d-sprites-buttons{width:160px;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline{cursor:default;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover{background:none;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner{background:none;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -11px -235px transparent;}

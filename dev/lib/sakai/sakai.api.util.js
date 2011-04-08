@@ -1175,7 +1175,7 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.error("TemplateRenderer:", e);
+                        throw "TemplateRenderer: rendering failed with the following error: '" + e;
                     }
                     
 
