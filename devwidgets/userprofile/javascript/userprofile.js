@@ -259,14 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-
-            if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-            }
-            else {
-                return "";
-            }
-
+            return sakai.api.Util.constructProfilePicture(profile);
         };
 
         /**
