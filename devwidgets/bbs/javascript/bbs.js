@@ -234,6 +234,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
+                // The first name and last name was encoded while creating the user account
+                // so decode it before showing it
+                arrPosts[i].post.profile[0].basic.elements.firstName.value = unescape(arrPosts[i].post.profile[0].basic.elements.firstName.value);
+                arrPosts[i].post.profile[0].basic.elements.lastName.value = unescape(arrPosts[i].post.profile[0].basic.elements.lastName.value);
+
                 if (arrPosts[i].post.profile[0].basic && arrPosts[i].post.profile[0].basic.elements && arrPosts[i].post.profile[0].basic.elements.picture && arrPosts[i].post.profile[0].basic.elements.picture.value) {
                     arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].basic.elements.picture.value);
                 } else {
