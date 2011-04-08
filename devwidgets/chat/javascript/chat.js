@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             batchRequests.push(acceptedContacts);
             batchRequests.push(contactsOnline);
-            sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {
+            sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success) {
                     // contact list
                     if (data.results.hasOwnProperty(0)) {
@@ -515,13 +515,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var sendBatchReadRequests = function(batchRequests) {
             // send the 'this message has been read' requests
             if (batchRequests && batchRequests.length > 0) {
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(batchRequests)
-                    }
-                });
+                sakai.api.Server.batch(batchRequests);
             }
         };
 
