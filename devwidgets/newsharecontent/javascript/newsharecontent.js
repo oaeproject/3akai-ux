@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $newsharecontentMessage = $("#newsharecontent_message");
         $newsharecontentSendButton = $("#sharecontent_send_button");
         var newsharecontentListItem = ".as-selection-item";
-        var newsharecontentShareListContainer = "#newsharecontent_sharelist_container"
+        var newsharecontentShareListContainer = "#newsharecontent_sharelist_container";
 
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
