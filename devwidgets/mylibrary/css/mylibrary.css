@@ -38,3 +38,7 @@
 .mylibrary_description_detail {color: #878A8C; font-size:0.9em; display:block; padding-top:2px; margin:0;}
 .mylibrary_detail_dark {color:#000000;}
 .mylibrary_noborder{border:none;}
+#mylibrary_livefilter{float:right; width:200px;}
+.mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
+.mylibrary_meta {color:#888;font-style:italic;}
+.mylibrary_center {text-align:center;margin-top:1em;}

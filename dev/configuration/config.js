@@ -2108,7 +2108,7 @@ define(function(){
                 "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
             },
             "9834611274": {
-                "page": "<div id='widget_content' class='widget_inline'/>"
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
             "213623673": {
                 "page": "<div id='widget_mymemberships' class='widget_inline'/>"

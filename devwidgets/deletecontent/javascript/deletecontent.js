@@ -112,15 +112,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (deletedata.path && typeof(deletedata.path) === "object"
                     && deletedata.path.length) {
                     var batchRequests = [];
-                    for (var i in deletedata.path) {
-                        if (deletedata.path.hasOwnProperty(i)) {
-                            batchRequests.push({
-                                url: deletedata.path[i],
-                                method: "POST",
-                                parameters: {":operation" : "delete"}
-                            });
-                        }
-                    }
+                    $.each(deletedata.path, function (i, url) {
+                        batchRequests.push({
+                            url: url,
+                            method: "POST",
+                            parameters: {":operation" : "delete"}
+                        });
+                    });
                     sakai.api.Server.batch($.toJSON(batchRequests), function (success, data) {
                         if (success) {
                             if (deletedata.path.length === 1) {
@@ -180,17 +178,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (deletedata.path && typeof(deletedata.path) === "object"
                 && deletedata.path.length > 1) {
                 $deletecontent_form_heading.html(
-                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ARE_YOU_SURE_YOU_WANT_TO_DELETE_THESE_ITEMS") + "?"
+                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","",
+                        "ARE_YOU_SURE_YOU_WANT_TO_DELETE_THESE_ITEMS") + "?"
                 );
                 $deletecontent_form_note.html(
-                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","DELETING_THESE_ITEMS_IS_PERMANENT")
+                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","",
+                        "DELETING_THESE_ITEMS_IS_PERMANENT")
                 );
             } else {
                 $deletecontent_form_heading.html(
-                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT") + "?"
+                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","",
+                        "ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT") + "?"
                 );
                 $deletecontent_form_note.html(
-                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","","DELETING_THIS_CONTENT_IS_PERMANENT")
+                    sakai.api.i18n.Widgets.getValueForKey("deletecontent","",
+                        "DELETING_THIS_CONTENT_IS_PERMANENT")
                 );
             }
             $deletecontent_dialog.jqmShow();

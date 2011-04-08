@@ -41,7 +41,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var mylibrary = {  // global data for mylibrary widget
             totalItems: 0,
             itemsPerPage: 8,
-            currentPagenum: 1
+            currentPagenum: 1,
+            sortBy: "lastModified",
+            sortOrder: "desc",
+            isOwnerViewing: false,
+            default_search_text: ""
         };
 
         // DOM jQuery Objects
@@ -50,6 +54,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_check = $(".mylibrary_check", $rootel);
         var $mylibrary_check_all = $("#mylibrary_check_all", $rootel);
         var $mylibrary_remove = $("#mylibrary_remove", $rootel);
+        var $mylibrary_sortby = $("#mylibrary_sortby", $rootel);
+        var $mylibrary_livefilter = $("#mylibrary_livefilter", $rootel);
+        var $mylibrary_sortarea = $("#mylibrary_sortarea", $rootel);
+        var $mylibrary_empty = $("#mylibrary_empty", $rootel);
+        var $mylibrary_empty_note = $("#mylibrary_empty_note", $rootel);
+        var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
+        var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
 
 
         ///////////////////////
@@ -58,12 +69,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Reset the current my library view
+         *
+         * @param {String} query  optional query string to limit search results
          */
-        var reset = function () {
+        var reset = function (query) {
             $mylibrary_items.html("");
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
-            getLibraryItems(sakai_global.profile.main.data.userid, renderLibraryItems);
+            getLibraryItems(sakai_global.profile.main.data.homePath.split("~")[1],
+                renderLibraryItems, query || false);
         };
 
         /**
@@ -93,6 +107,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        /**
+         * Get personalized text for the given message bundle key based on
+         * whether this library is owned by the viewer, or belongs to someone else.
+         * The message should contain a '${firstname}' variable to replace with
+         * and be located in this widget's properties files.
+         *
+         * @param {String} bundleKey The message bundle key
+         */
+        var getPersonalizedText = function (bundleKey) {
+            if (mylibrary.isOwnerViewing) {
+                return sakai.api.i18n.Widgets.getValueForKey(
+                    "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
+                        sakai.api.i18n.General.getValueForKey("YOUR").toLowerCase());
+            } else {
+                return sakai.api.i18n.Widgets.getValueForKey(
+                    "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
+                        sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
+            }
+        };
 
         ////////////////////
         // Event Handlers //
@@ -127,10 +160,56 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     path: paths
                 }, function (success) {
                     if (success) {
+                        mylibrary.currentPagenum = 1;
                         reset();
                     }
                 }]);
             }
+        });
+
+        $mylibrary_sortby.change(function (ev) {
+            var sortSelection = this.options[this.selectedIndex].value;
+            switch (sortSelection) {
+                case "lastModified_asc":
+                    mylibrary.sortBy = "lastModified";
+                    mylibrary.sortOrder = "asc";
+                    break;
+                default:
+                    mylibrary.sortBy = "lastModified";
+                    mylibrary.sortOrder = "desc";
+                    break;
+            }
+            reset();
+        });
+
+        $mylibrary_livefilter.keyup(function (ev) {
+            var q = $.trim(this.value);
+            if (q && ev.keyCode != 16) {
+                $mylibrary_livefilter.addClass("mylibrary_livefilter_working");
+                reset(q);
+            }
+            return false;
+        });
+
+        $mylibrary_livefilter.focus(function (ev) {
+            $input = $(this);
+            $input.removeClass("mylibrary_meta");
+            if ($.trim($input.val()) === mylibrary.default_search_text) {
+                $input.val("");
+            }
+        });
+
+        $mylibrary_livefilter.blur(function (ev) {
+            $input = $(this);
+            if ($.trim($input.val()) === "") {
+                $input.addClass("mylibrary_meta");
+                $input.val(mylibrary.default_search_text);
+            }
+        });
+
+        $mylibrary_addcontent.click(function (ev) {
+            $(window).trigger("init.newaddcontent.sakai");
+            return false;
         });
 
         ////////////////////////////////////////////
@@ -141,12 +220,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets the given user's library items and passes them to the callback
          * function
          *
-         * @param {String} userid  the user id for the user whose library items we want
-         * @return callback function called with the following args:
+         * @param {String} userid      the user id for the user whose library items we want
+         * @param {Function} callback  function called with the following args:
          *     {Boolean} success - whether or not the fetch succeeded
          *     {Object} items - an array of library items or null if no success
+         * @param {String} query       optional query string to limit search results
          */
-        var getLibraryItems = function (userid, callback) {
+        var getLibraryItems = function (userid, callback, query) {
 
             /**
              * Formats a tag list from the server for display in the UI
@@ -159,14 +239,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return null;
                 }
                 var formatted_tags = [];
-                for (var i in tags) {
-                    if (tags.hasOwnProperty(i)) {
-                        formatted_tags.push({
-                            name: tags[i],
-                            link: "/search#tag=/tags/" + tags[i]
-                        });
-                    }
-                }
+                $.each(tags, function (i, name) {
+                    formatted_tags.push({
+                        name: name,
+                        link: "/search#tag=/tags/" + name
+                    });
+                });
                 return formatted_tags;
             };
 
@@ -205,13 +283,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var id = item["jcr:path"];
                 var count = 0;
                 if (item[id + "/comments"]) {
-                    for (prop in item[id + "/comments"]) {
-                        if (item[id + "/comments"].hasOwnProperty(prop)) {
-                            if (prop.indexOf("/comments/") != -1) {
-                                count++;
-                            }
+                    $.each(item[id + "/comments"], function (param, value) {
+                        if (param.indexOf("/comments/") != -1) {
+                            count++;
                         }
-                    }
+                    });
                 }
                 return count;
             };
@@ -227,27 +303,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         callback(true, items);
                         return;
                     }
-                    for (var i in data.results) {
-                        if (data.results.hasOwnProperty(i)) {
-                            var mimetypeObj = sakai.api.Content.getMimeTypeData(data.results[i]["_mimeType"]);
-                            items.push({
-                                id: data.results[i]["jcr:path"],
-                                filename: data.results[i]["sakai:pooled-content-file-name"],
-                                link: "/content#content_path=/p/" + data.results[i]["jcr:path"],
-                                last_updated: $.timeago(new Date(data.results[i]["_lastModified"])),
-                                type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
-                                type_src: mimetypeObj.URL,
-                                ownerid: data.results[i]["sakai:pool-content-created-for"],
-                                ownername: sakai.data.me.user.userid === data.results[i]["sakai:pool-content-created-for"] ?
-                                    sakai.api.i18n.General.getValueForKey("YOU") :
-                                    data.results[i]["sakai:pool-content-created-for"],  // using id for now - need to get firstName lastName
-                                tags: formatTags(data.results[i]["sakai:tags"]),
-                                numPeopleUsing: getNumPeopleUsing(),
-                                numGroupsUsing: getNumGroupsUsing(),
-                                numComments: getNumComments(data.results[i])
-                            });
-                        }
-                    }
+                    $.each(data.results, function (i, result) {
+                        var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);
+                        items.push({
+                            id: result["jcr:path"],
+                            filename: result["sakai:pooled-content-file-name"],
+                            link: "/content#content_path=/p/" + result["jcr:path"],
+                            last_updated: $.timeago(new Date(result["_lastModified"])),
+                            type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
+                            type_src: mimetypeObj.URL,
+                            ownerid: result["sakai:pool-content-created-for"],
+                            ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ?
+                                sakai.api.i18n.General.getValueForKey("YOU") :
+                                result["sakai:pool-content-created-for"],  // using id for now - need to get firstName lastName
+                            tags: formatTags(result["sakai:tags"]),
+                            numPeopleUsing: getNumPeopleUsing(),
+                            numGroupsUsing: getNumGroupsUsing(),
+                            numComments: getNumComments(result)
+                        });
+                    });
                     if (callback && typeof(callback) === "function") {
                         callback(true, items);
                     }
@@ -265,8 +339,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     userid: userid,
                     page: mylibrary.currentPagenum - 1,
                     items: mylibrary.itemsPerPage,
-                    sortOn: "lastModified",
-                    sortOrder: "desc"
+                    sortOn: mylibrary.sortBy,
+                    sortOrder: mylibrary.sortOrder,
+                    q: query || "*"
                 }
             );
         };
@@ -278,18 +353,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Array} items - an array of library items or null if no success
          */
         var renderLibraryItems = function (success, items) {
-            // TODO will need to check if current user is looking at their own lib...
             if (success && items.length) {
                 var json = {
                     items: items,
+                    user_is_owner: function (item) {
+                        if (!item) return false;
+                        return sakai.data.me.user.userid === item.ownerid && mylibrary.isOwnerViewing;
+                    },
                     user_is_manager: function (item) {
+                        if (!item) return false;
                         return sakai.data.me.user.userid === item.ownerid;
                     }
                 };
+                if (mylibrary.isOwnerViewing) {
+                    $mylibrary_admin_actions.show();
+                }
+                $mylibrary_livefilter.show();
+                $mylibrary_sortarea.show();
+                $mylibrary_empty.hide();
                 $("#mylibrary_items", $rootel).html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
                 showPager(mylibrary.currentPagenum);
+                $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
             } else {
-                // show empty library
+                $mylibrary_admin_actions.hide();
+                $mylibrary_livefilter.hide();
+                $mylibrary_sortarea.hide();
+                $mylibrary_empty_note.html(getPersonalizedText("NO_ITEMS_IN_YOUR_LIBRARY"));
+                $mylibrary_empty.show();
+                if (mylibrary.isOwnerViewing) {
+                    $mylibrary_addcontent.show();
+                }
             }
         };
 
@@ -303,11 +396,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            if (sakai_global.profile.main.data.userid) {
+            var userid = sakai_global.profile.main.data.homePath.split("~")[1];
+            if (userid) {
+                if (userid === sakai.data.me.user.userid) {
+                    mylibrary.isOwnerViewing = true;
+                }
+                mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
+                $mylibrary_livefilter.val(mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
-                getLibraryItems(sakai_global.profile.main.data.userid, renderLibraryItems);
+                getLibraryItems(userid, renderLibraryItems);
             } else {
-                debug.warning("No user found for My Library");
+                debug.warn("No user found for My Library");
             }
         };
 
