@@ -800,7 +800,7 @@ define(function(){
             }, {
                 "url": "/dev/user.html#l=library",
                 "id": "subnavigation_content_link",
-                "label": "MY_CONTENT"
+                "label": "MY_LIBRARY"
             }, {
                 "url": "/dev/user.html#l=memberships",
                 "id": "subnavigation_memberships_link",

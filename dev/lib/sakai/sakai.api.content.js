@@ -19,7 +19,7 @@
  */
 
 define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],function($, sakai_conf) {
-    return {
+    var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
          * @param {String} permissionValue either 'public', 'everyone', 'group' or 'private'
@@ -312,11 +312,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                             if (!$(data).find("SlideShareServiceError").text()){
                                 var embed = $($(data).find("Embed").text());
                                 // resize to fit contentpreview
-                                embed.find('*[style*="width"]').css("width", "920px");
+                                embed.find('*[style*="width"]').css("width", "100%");
                                 embed.find('*[style*="height"]').css("height", "500px");
-                                embed.find('*[width="425"]').attr("width", "920");
+                                embed.find('*[width="425"]').attr("width", "100%");
                                 embed.find('*[height="355"]').attr("height", "500");
-    
+
                                 result.url = embed.html();
                                 result.type = "embed";
                             }
@@ -348,6 +348,54 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             }
             return sakai_conf.MimeTypes.other;
+        },
+
+        getMimeType : function(content){
+            var mimeType;
+            if (content['_mimeType']){
+                mimeType = content['_mimeType'];
+            } else if (content.file && content.file['_mimeType']){
+                mimeType = content.file['_mimeType'];
+            } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){
+                mimeType = content['jcr:content']['_mimeType'];
+            } else if (content['jcr:primaryType'] === "sling:Folder"){
+                mimeType = 'folder';
+            }
+            return mimeType;
+        },
+
+        getThumbnail : function(content){
+            var thumbnail = "";
+
+            if (content['_mimeType/page1-small']) {
+                thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
+            }
+            return thumbnail;
+        },
+
+        isJwPlayerSupportedVideo : function(mimeType) {
+            supported = false;
+            if (mimeType.substring(0, 6) === "video/" ){
+                var mimeSuffix = mimeType.substring(6);
+                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
+                    supported = true;
+                }
+            }
+            return supported;
+        },
+
+        hasPreview : function(content){
+            var result = false;
+            if (content["sakai:preview-url"] ||
+                    sakai_content.getThumbnail(content) ||
+                    content["_mimeType"].substring(0,6) === "image/" ||
+                    content["_mimeType"] === "text/html" ||
+                    sakai_content.isJwPlayerSupportedVideo(content["_mimeType"])) {
+                result = true;
+            }
+            return result;
         }
+
     };
+    return sakai_content;
 });
