@@ -162,7 +162,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             contextData.counts = {};
             var contactsURL = "/var/contacts/findstate.json?state=ACCEPTED&page=0&items=6";
-            var contentURL = "/var/search/pool/me/manager-all.1.json?sortOn=created&sortOrder=desc&page=0&items=5";
+            var contentURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&page=0&items=1";
             var batchRequests = [
                 {
                     "url": contentURL,

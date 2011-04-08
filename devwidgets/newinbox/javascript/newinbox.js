@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"], function($, sakai) {
 
     sakai_global.newinbox = function(tuid, showSettings, widgetData, state) {
         var hoveringHover = false,
@@ -43,6 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var hoverOver = function(e) {
             var $item = $(e.target);
             if (!hoveringHover) {
+
                 $item = $item.parents('.newinbox_items_container');
                 var messageID = $item.attr("id");
                 var message = messages.results[messageID];

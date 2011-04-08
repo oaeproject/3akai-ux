@@ -374,7 +374,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             }
             $.ajax({
                 url: url,
-                cache: false,
+                cache: true,
                 success: function(data){
                     if (doProcessing !== false) {
                         data = sakaiCommmunicationsAPI.processMessages(data);

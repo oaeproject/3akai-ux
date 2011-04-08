@@ -75,8 +75,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 path: "/p/" + result["jcr:name"],
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
-                css_class: sakai.config.MimeTypes.other.cssClass,
-                size: ""
+                size: "",
+                _mimeType: result["_mimeType"],
+                "_mimeType/page1-small": result["_mimeType/page1-small"],
+                "jcr:name": result["jcr:name"]
             };
 
             // set the mimetype and corresponding image
@@ -85,7 +87,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
                 item.type_img_url = sakai.config.MimeTypes[type].URL;
-                item.css_class = sakai.config.MimeTypes[type].cssClass;
             }
 
             // set file name without the extension
@@ -134,6 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                     // pass the array to HTML view
+                    contentjson.sakai = sakai;
                     $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
                     $(contentList, rootel).show();
                 }
@@ -167,14 +169,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             // get list of content items
-            sakai.api.Server.loadJSON("/var/search/pool/manager-viewer.json",
-                handleContentData, {
-                    "sortOn": "_created",
-                    "sortOrder": "desc",
-                    "page": "0",
-                    "items": "5"
+            $.ajax({
+                url: "/var/search/pool/manager-viewer.json",
+                cache: false,
+                data: {
+                    userid: sakai.data.me.user.userid,
+                    page: 0,
+                    items: 5,
+                    sortOn: "lastModified",
+                    sortOrder: "desc"
+                },
+                success: function(data){
+                    handleContentData(true, data);
+                },
+                error: function(data){
+                    handleContentData(false);
                 }
-            );
+            });
         };
 
         // run init() function when sakai.content object loads

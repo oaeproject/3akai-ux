@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
                 }
             }
-            $(relatedcontentContainer).html(sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
+            sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
             $(relatedcontentContainer).show();
         };
 

@@ -1,5 +1,5 @@
 require(["jquery"], function($){
-    
+
 /*!
  * jQuery JavaScript Library v1.5
  * http://jquery.com/
@@ -34,7 +34,7 @@ require(["jquery"], function($){
  * http://docs.jquery.com/UI/Widget
  */
 (function(a){var c=a.fn.remove;a.fn.remove=function(b,d){return this.each(function(){if(!d){if(!b||a.filter(b,[this]).length){a("*",this).add(this).each(function(){a(this).triggerHandler("remove")})}}return c.call(a(this),b,d)})};a.widget=function(b,j,i){var h=b.split(".")[0],g;b=b.split(".")[1];g=h+"-"+b;if(!i){i=j;j=a.Widget}a.expr[":"][g]=function(d){return !!a.data(d,b)};a[h]=a[h]||{};a[h][b]=function(d,e){arguments.length&&this._createWidget(d,e)};j=new j;j.options=a.extend({},j.options);a[h][b].prototype=a.extend(true,j,{namespace:h,widgetName:b,widgetEventPrefix:a[h][b].prototype.widgetEventPrefix||b,widgetBaseClass:g},i);a.widget.bridge(b,a[h][b])};a.widget.bridge=function(b,d){a.fn[b]=function(k){var j=typeof k==="string",i=Array.prototype.slice.call(arguments,1),g=this;k=!j&&i.length?a.extend.apply(null,[true,k].concat(i)):k;if(j&&k.substring(0,1)==="_"){return g}j?this.each(function(){var f=a.data(this,b),e=f&&a.isFunction(f[k])?f[k].apply(f,i):f;if(e!==f&&e!==undefined){g=e;return false}}):this.each(function(){var e=a.data(this,b);if(e){k&&e.option(k);e._init()}else{a.data(this,b,new d(k,this))}});return g}};a.Widget=function(b,d){arguments.length&&this._createWidget(b,d)};a.Widget.prototype={widgetName:"widget",widgetEventPrefix:"",options:{disabled:false},_createWidget:function(b,f){this.element=a(f).data(this.widgetName,this);this.options=a.extend(true,{},this.options,a.metadata&&a.metadata.get(f)[this.widgetName],b);var e=this;this.element.bind("remove."+this.widgetName,function(){e.destroy()});this._create();this._init()},_create:function(){},_init:function(){},destroy:function(){this.element.unbind("."+this.widgetName).removeData(this.widgetName);this.widget().unbind("."+this.widgetName).removeAttr("aria-disabled").removeClass(this.widgetBaseClass+"-disabled ui-state-disabled")},widget:function(){return this.element},option:function(b,h){var g=b,f=this;if(arguments.length===0){return a.extend({},f.options)}if(typeof b==="string"){if(h===undefined){return this.options[b]}g={};g[b]=h}a.each(g,function(e,d){f._setOption(e,d)});return f},_setOption:function(b,d){this.options[b]=d;if(b==="disabled"){this.widget()[d?"addClass":"removeClass"](this.widgetBaseClass+"-disabled ui-state-disabled").attr("aria-disabled",d)}return this},enable:function(){return this._setOption("disabled",false)},disable:function(){return this._setOption("disabled",true)},_trigger:function(b,j,i){var h=this.options[b];j=a.Event(j);j.type=(b===this.widgetEventPrefix?b:this.widgetEventPrefix+b).toLowerCase();i=i||{};if(j.originalEvent){b=a.event.props.length;for(var g;b;){g=a.event.props[--b];j[g]=j.originalEvent[g]}}this.element.trigger(j,i);return !(a.isFunction(h)&&h.call(this.element[0],j,i)===false||j.isDefaultPrevented())}}})(jQuery);
-    
+
 /*!
  * jQuery UI Mouse 1.8.1
  *

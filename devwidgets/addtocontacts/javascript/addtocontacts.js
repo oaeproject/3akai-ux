@@ -205,14 +205,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-<<<<<<< HEAD
             $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.username));
-=======
-            $(addToContactsAdd).hide();
-            // Show the form
-            $(addToContactsDoneContainer).hide();
-
->>>>>>> 37f0235ae1e10dc87bb6ec62db80cc3fc0847396
             hash.w.show();
         };
 
