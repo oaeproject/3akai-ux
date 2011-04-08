@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     });
                 }
-                sakai.api.Server.batch($.toJSON(batchRequests), function (success, data) {
+                sakai.api.Server.batch(batchRequests, function (success, data) {
                     if (success) {
                         if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
                             sakai.api.Util.notification.show($deletecontent_deleted.html(),

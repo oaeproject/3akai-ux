@@ -2084,15 +2084,6 @@ define(function(){
                         "_ref": "1193715035",
                         "_title": "Contacts"
                     }
-                },
-                "website": {
-                    "_title": "My Portfolio",
-                    "_ref": "430939302",
-                    "_altTitle": "Portfolio",
-                    "main": {
-                        "_ref": "430939302",
-                        "_title": "Portfolio"
-                    }
                 }
             },
             "533118849": {
@@ -2127,9 +2118,6 @@ define(function(){
             },
             "5756708555": {
                 "sectionid": "publications"
-            },
-            "430939302": {
-                "page": "This is my website"
             }
         },
         

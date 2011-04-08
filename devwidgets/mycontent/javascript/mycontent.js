@@ -167,14 +167,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             // get list of content items
-            sakai.api.Server.loadJSON("/var/search/pool/manager-viewer.json",
-                handleContentData, {
-                    "sortOn": "_created",
-                    "sortOrder": "desc",
-                    "page": "0",
-                    "items": "5"
+            $.ajax({
+                url: "/var/search/pool/manager-viewer.json",
+                cache: false,
+                data: {
+                    userid: sakai.data.me.user.userid,
+                    page: 0,
+                    items: 5,
+                    sortOn: "lastModified",
+                    sortOrder: "desc"
+                },
+                success: function(data){
+                    handleContentData(true, data);
+                },
+                error: function(data){
+                    handleContentData(false);
                 }
-            );
+            });
         };
 
         // run init() function when sakai.content object loads
