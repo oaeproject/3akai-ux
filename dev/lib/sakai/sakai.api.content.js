@@ -190,6 +190,26 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             return false;
         },
 
+        addToLibrary: function(contentId, userId, callBack){
+            $.ajax({
+                url: "/p/" + contentId + ".members.json",
+                type: "POST",
+                data: {
+                    ":viewer": userId
+                },
+                success: function () {
+                    if (callBack){
+                        callBack(contentId, userId);
+                    }
+                },
+                error: function (data) {
+                    debug.error("sharecontent failed to change content " +
+                        "permission to 'viewer' for member: " + userId);
+                    debug.error("xhr data returned: " + data);
+                }
+            });
+        },
+
         /**
          * Returns a preview URL for known services, empty string otherwise
          *

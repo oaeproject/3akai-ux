@@ -317,8 +317,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * Processes the messages from the server, stripping out everything we don't need
          */
         processMessages : function(data) {
-            var messages = {};
-            $.each(data.results, function(i, msg) {
+            var messages = {},
+                ret = $.extend({}, data);
+            $.each(ret.results, function(i, msg) {
                 var newMsg = {};
                 // these need to be fixed to allow for multiple people from and to
                 newMsg.from = {};
@@ -344,10 +345,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
                 newMsg.id = msg.id;
                 newMsg.read = msg["sakai:read"];
+                newMsg.path = msg["jcr:path"];
                 messages[newMsg.id] = newMsg;
             });
-            data.results = messages;
-            return data;
+            ret.results = messages;
+            return ret;
         },
 
         /**
@@ -366,9 +368,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing) {
             var url = "";
             if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
             }
             $.ajax({
                 url: url,

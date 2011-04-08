@@ -30,189 +30,61 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.user = function() {
 
-        var privdata = {
-            "structure0": {
-                "dashboard": {
-                    "_ref": "267187828",
-                    "_title": "My Dashboard",
-                    "main": {
-                        "_ref":"267187828",
-                        "_title":"Dashboard"
-                    }
-                },
-                "messages": {
-                    "_title": "My Messages",
-                    "_ref": "1165301022",
-                    "inbox": {
-                        "_ref": "1165301022",
-                        "_title": "Inbox"
-                    },
-                    "invitations": {
-                        "_ref": "9867733100",
-                        "_title": "Invitations"
-                    },
-                    "sent": {
-                        "_ref": "4253485084",
-                        "_title": "Sent"
-                    },
-                    "trash": {
-                        "_ref": "3915412565",
-                        "_title": "Trash"
-                    }
-                }
-            },
-            "267187828": {
-                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
-            },
-            "1165301022": {
-                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
-            },
-            "9867733100": {
-                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
-            },
-            "4253485084": {
-                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
-            },
-            "3915412565": {
-                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
-            },
-            "2024634737": {
-                "box": "inbox",
-                "category": "messages"
-            },
-            "3679202964": {
-                "box": "inbox",
-                "category": "invitations"
-            },
-            "66582410046": {
-                "box": "outbox",
-                "category": "*"
-            },
-            "3519294282": {
-                "box": "trash",
-                "category": "*"
-            },
-            "546341435": {
-                "layout": "threecolumn",
-                "columns": {
-                    "column1": {
-                        "__array__0__": {
-                            "uid": "id6902437615810",
-                            "visible": "block",
-                            "name": "mycontent"
-                        }
-                    },
-                    "column2": {
-                        "__array__0__": {
-                            "uid": "id9495917029618",
-                            "visible": "block",
-                            "name": "mygroups"
-                        }
-                    },
-                    "column3": {
-                        "__array__1__": {
-                            "uid": "id7360391172040",
-                            "visible": "block",
-                            "name": "mycontacts"
-                        }
-                    }
-                }
-            }
-        };
-
-        var pubdata = {
-            "structure0": {
-                "profile": {
-                    "_ref": "533118849",
-                    "_title": "My Profile",
-                    "_altTitle": "${user}'s Profile",
-                    "basicinfo": {
-                        "_ref": "533118849",
-                        "_altTitle": "Basic Information",
-                        "_title": "Basic Information"
-                    },
-                    "aboutme": {
-                        "_ref": "657672090",
-                        "_altTitle": "About",
-                        "_title": "About Me"
-                    },
-                    "locations": {
-                        "_ref": "2967778497",
-                        "_title": "Locations",
-                        "_altTitle": "Locations"
-                    },
-                    "publications": {
-                        "_ref": "86312659",
-                        "_altTitle": "Publications",
-                        "_title": "Publications"
-                    }
-                },
-                "library": {
-                    "_ref": "9834611274",
-                    "_title": "My Library",
-                    "_altTitle": "${user}'s Library",
-                    "main": {
-                        "_ref": "9834611274",
-                        "_title": "Content"
-                    }
-                },
-                "memberships": {
-                    "_title": "My Memberships",
-                    "_ref": "213623673",
-                    "_altTitle": "${user}'s Memberships",
-                    "main": {
-                        "_ref": "213623673",
-                        "_title": "Memberships"
-                    }
-                },
-                "contacts": {
-                    "_title": "My Contacts",
-                    "_ref": "1193715035",
-                    "_altTitle": "${user}'s Contacts",
-                    "main": {
-                        "_ref": "1193715035",
-                        "_title": "Contacts"
-                    }
-                }
-            },
-            "533118849": {
-                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-            },
-            "657672090": {
-                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
-            },
-            "2967778497": {
-              "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
-            },
-            "86312659": {
-              "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
-            },
-            "9834611274": {
-              "page": "<div id='widget_content' class='widget_inline'/>"
-            },
-            "213623673": {
-              "page": "<div id='widget_mymemberships' class='widget_inline'/>"
-            },
-            "1193715035": {
-              "page": "<div id='widget_contacts' class='widget_inline'></div>"
-            },
-            "94551980": {
-                "sectionid": "basic"
-            },
-            "1924492668": {
-                "sectionid": "aboutme"
-            },
-            "73466539": {
-                "sectionid": "locations"
-            },
-            "5756708555": {
-                "sectionid": "publications"
-            }
-        };
+        var privdata = false;
+        var pubdata = false;
+        var privurl = false;
+        var puburl = false;
 
         var contextType = false;
         var contextData = false;
         var qs = new Querystring();
+
+        var loadSpaceData = function(){
+                var isMe = false;
+                var userid = false;
+                if (!qs.get("id") || qs.get("id") == sakai.data.me.user.userid) {
+                    isMe = true;
+                    userid = sakai.data.me.user.userid;
+                } else {
+                    userid = qs.get("id");
+                }
+                privurl = "/~" + userid + "/private/privspace/";
+                puburl = "/~" + userid + "/public/pubspace/";
+                
+                var publicToStore = false;
+                var privateToStore = false;
+                
+                // Load public data from /~userid/private/pubspace
+                sakai.api.Server.loadJSON(puburl, function(success, data){
+                    if (!success){
+                        publicToStore = sakai.config.defaultpubstructure;
+                        pubdata = publicToStore;
+                    } else {
+                        pubdata = data;
+                        pubdata = sakai.api.Server.removeServerCreatedObjects(pubdata, ["_ref", "_title", "_altTitle"]);
+                    }
+                    if (isMe){
+                        sakai.api.Server.loadJSON(privurl, function(success2, data2){
+                            if (!success2){
+                                privateToStore = sakai.config.defaultprivstructure;
+                                privdata = privateToStore;
+                            } else {
+                                privdata = data2;
+                                privdata = sakai.api.Server.removeServerCreatedObjects(privdata, ["_ref", "_title", "_altTitle"]);   
+                            }
+                            generateNav();
+                            if (publicToStore) {
+                                sakai.api.Server.saveJSON(puburl, publicToStore);
+                            }
+                            if (privateToStore) {
+                                sakai.api.Server.saveJSON(privurl, privateToStore);
+                            }
+                        });
+                    } else {
+                        generateNav();
+                    }
+                });
+        }
 
         var determineContext = function(){
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
@@ -327,18 +199,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     contextData.counts["memberships"] = sakai.api.Groups.getMemberships(sakai.data.me.groups).entry.length;
 
                     renderEntity();
-                    generateNav();
+                    loadSpaceData();
 
                 }
             });
         };
 
         var generateNav = function(){
-            if (contextType && contextData) {
+            if (contextType && contextData && pubdata) {
                 if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData]);
+                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
                 } else {
-                    $(window).trigger("lhnav.init", [pubdata, false, contextData]);
+                    $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
                 }
             }
         };

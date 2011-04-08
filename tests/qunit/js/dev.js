@@ -45,7 +45,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "/dev/javascript/search.js",
         "/dev/javascript/search_content.js",
         "/dev/javascript/search_groups.js",
-        "/dev/javascript/search_main.js",
         "/dev/javascript/search_people.js",
         "/dev/javascript/show.js",
         "/dev/javascript/history/search_history.js",

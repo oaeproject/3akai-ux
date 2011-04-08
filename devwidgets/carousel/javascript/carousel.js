@@ -310,7 +310,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     $.each(data.results, function(index, group) {
                         $.ajax({
-                            url: "/system/userManager/group/" + group.groupid + ".members.detailed.json?items=1000",
+                            url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=1000",
                             cache: false,
                             async: false,
                             success: function(memberData){

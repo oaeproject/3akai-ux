@@ -187,16 +187,9 @@ require(
                 };
                 requests.push(req);
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                async: false,
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                complete: function(xhr, textStatus) {
-                    ok(textStatus === "success", "Deleted two users");
-                }
-            });
+            sakai.api.Server.batch(requests, function(success, data) {
+                ok(success, "Deleted two users");
+            }, null, null, false);
 
             // remove messages
             sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data){

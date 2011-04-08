@@ -287,18 +287,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 ajaxArray.push(ajaxObject);
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type : "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(ajaxArray),
-                    ":replace": true,
-                    ":replaceProperties": true
-                },
-                success: function(data){}
-            });
+            var data = {
+                requests: $.toJSON(ajaxArray),
+                ":replace": true,
+                ":replaceProperties": true
+            };
+            sakai.api.Server.batch(data, null, false);
         };
 
         ////////////////////
