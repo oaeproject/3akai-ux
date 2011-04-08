@@ -127,6 +127,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     sakai: sakai
                 };
                 sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
+                $contentmetadataUrlContainer.show();
             }
             addEditBinding(mode);
         };
