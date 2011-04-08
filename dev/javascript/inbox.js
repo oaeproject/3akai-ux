@@ -41,6 +41,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var openedBox = false;
 
+        var contactList = false;
+
         var filters = {filters : ["messages", "announcements", "invitations"]};
 
         /**
@@ -516,7 +518,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             switch (sortBy) {
                 case "date":
-                    sortBy = "sakai:created";
+                    sortBy = "_created";
                     break;
                 case "type":
                     sortBy = "sakai:category";
@@ -776,26 +778,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         });
                     }
                     else {
-                        // Check whether this request is still pending
-                        $.ajax({
-                            url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=INVITED&page=0&items=100",
-                            success: function(data){
-                                var pending = false;
-                                for (var i = 0; i < data.results.length; i++) {
-                                    if (data.results[i].target === message["sakai:from"]) {
-                                        // Still a pending invitation
-                                        pending = true;
-                                    }
-                                }
-                                if (pending) {
-                                    $("#inbox-invitation-accept").show();
-                                    $("#inbox-invitation-ignore").show();
-                                }
-                                else {
-                                    $("#inbox-invitation-already").show();
-                                }
+                        for (var i = 0; i < contactList.results.length; i++) {
+                            if (contactList.results[i].target === message["sakai:from"]) {
+                                showLink(contactList.results[i].details["sakai:state"]);
                             }
-                        });
+                        }
                     }
                 }
 
@@ -838,6 +825,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
                     $("#inbox-invitation-already").show();
+                    $("#inbox-invitation-rejected").hide();
+                    setContactList(selectedMessage["sakai:from"],"ACCEPTED");
                 }
             });
         });
@@ -852,7 +841,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
-                    $("#inbox-invitation-already").show();
+                    $("#inbox-invitation-already").hide();
+                    $("#inbox-invitation-rejected").show();
+                    setContactList(selectedMessage["sakai:from"],"NONE");
                 }
             });
         });
@@ -1220,6 +1211,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         });
 
+        /**
+         * 
+         *Get the list of contact and assign in gobal variable
+         * 
+         **/
+        var getContactList = function(){
+            $.ajax({
+                url: sakai.config.URL.CONTACTS_FIND_ALL,
+                success: function(data){
+                    contactList = data;
+                }
+            });
+        };
+
+        /**
+         * 
+         *Set the status of user with the value passed
+         * 
+         * @param {Object} userid : the id of the contact whose status has changed
+         * @param {Object} value : the status 
+         */
+        var setContactList = function(userid, value){
+            $.each(contactList.results, function(i, contact){
+                if(contact.profile.userid === userid) {
+                    contact.details["sakai:status"] = value;
+                }    
+            });        
+        };
+
+        /**
+         * Depending on the status passed show the links
+         * 
+         * @param {Object} status
+         */
+        var showLink = function(status){
+            if(status === "INVITED"){
+                $("#inbox-invitation-accept").show();
+                $("#inbox-invitation-ignore").show();
+            } else if(status === "ACCEPTED"){
+                $("#inbox-invitation-already").show();
+            } else if(status=== "NONE"){
+                $("#inbox-invitation-rejected").show();
+            }
+        };
 
         /**
          *
@@ -1227,7 +1262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         var doInit = function(){
-
+            getContactList();
             // Render the filter buttons
             filters.sakai = sakai;
             sakai.api.Util.TemplateRenderer($("#inbox_inbox_filters_template"), filters, $("#inbox_filters"));

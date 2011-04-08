@@ -388,7 +388,7 @@ define(["jquery",
                         }
 
                         var urlsAndBundles = urls.concat(bundles);
-                        sakai_serv.batch($.toJSON(urlsAndBundles), function(success, data) {
+                        sakai_serv.batch(urlsAndBundles, function(success, data) {
                             if (success) {
                                 // sort widget html and bundles into separate arrays
                                 for (var h in data.results) {

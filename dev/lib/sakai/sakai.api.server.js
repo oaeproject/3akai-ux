@@ -35,47 +35,60 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         /**
          * Perform a batch request to the server
          *
-         * @param {String} requests The JSON string of requests
+         * @param {Object} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
+         * @param {Boolean} async If we should do an async request or not
          */
-        batch : function(_requests, _callback, _cache, _forcePOST) {
-            var method = _forcePOST ? "POST" : "GET",
-                cache = _cache || true,
-                requestsJSON = $.parseJSON(_requests),
+        batch : function(_requests, _callback, _cache, _forcePOST, _async) {
+            var method = _forcePOST === true ? "POST" : "GET",
+                cache = _cache === false ? false : true,
+                async = _async === false ? false : true;
                 url = sakai_conf.URL.BATCH;
 
-                // ie7 and lower don't support GETs over 2032 chars,
-                // so lets check for that and POST if we need to
-                var hasIELongUrlBug = false;
-                // Long requests are overflowing the Jetty header cache
-                // so lets use POST for long requests on all browsers until that's fixed
-                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
-                    hasIELongUrlBug = true;
-                //}
+            // Append a charset to each request
+            $.each(_requests, function(i,req) {
+                if (!req["_charset_"]) {
+                    req["_charset_"] = "utf-8";
+                }
+                if (req["parameters"] && !req["parameters"]["_charset_"]) {
+                    req["parameters"]["_charset_"] = "utf-8";
+                }
+            });
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
-                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
-                    cache = false;
-                } else {
-                    // if any request contains a POST, we should be POSTing so the request isn't cached
-                    // maybe just GET with no cache? not sure
-                    for (var i=0; i<requestsJSON.length; i++) {
-                        if (requestsJSON[i].method === "POST") {
-                            method = "POST";
-                            break;
-                        }
+            // ie7 and lower don't support GETs over 2032 chars,
+            // so lets check for that and POST if we need to
+            var hasIELongUrlBug = false;
+            // Long requests are overflowing the Jetty header cache
+            // so lets use POST for long requests on all browsers until that's fixed
+            //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
+                hasIELongUrlBug = true;
+            //}
+
+            var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + $.toJSON(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
+            if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
+                method = "POST";
+            } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                cache = false;
+            } else {
+                // if any request contains a POST, we should be POSTing so the request isn't cached
+                // maybe just GET with no cache? not sure
+                for (var i=0; i<_requests.length; i++) {
+                    if (_requests[i].method === "POST") {
+                        method = "POST";
+                        break;
                     }
                 }
+            }
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 type: method,
                 cache: cache,
+                async: async,
                 data: {
-                    requests: _requests
+                    "_charset_":"utf-8",
+                    requests: $.toJSON(_requests)
                 },
                 success: function(data) {
                     if ($.isFunction(_callback)) {
@@ -115,7 +128,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             this.initialRequests[groupId].count++;
             var that = this;
             if (numRequests === this.initialRequests[groupId].count) {
-                this.batch($.toJSON(that.initialRequests[groupId].requests), function(success, data) {
+                this.batch(that.initialRequests[groupId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
                             "groupId": groupId,
