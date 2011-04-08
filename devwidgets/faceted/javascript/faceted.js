@@ -75,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $(".faceted_category:first", rootel).addClass("faceted_category_selected");
             }
-        }
+        };
 
         //////////////
         // Bindings //
