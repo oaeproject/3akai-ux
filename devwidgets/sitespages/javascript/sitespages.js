@@ -2794,7 +2794,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if ($(textarea).val().length > limit){
                 $(textarea).val($(textarea).val().substring(0, limit));
-            } else {
+            } else if (countfield) {
                 $(countfield).text($(textarea).val().length);
             }
         };
