@@ -2760,6 +2760,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#template_name_error").show();
                 }
             } else if (name){
+                $("#template_name_count").text(0);
+                $("#template_description_count").text(0);
                 var newid = Math.round(Math.random() * 100000000);
 
                 var obj = {};
@@ -2776,6 +2778,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
+        });
+
+        /**
+         * Check if the textarea is over its length and trim it
+         * @param {Element} textarea The textarea we're interested in
+         */
+        var trimTextarea = function(textarea){
+            var countfield = false, limit = 250;
+            if ($(textarea).attr("id") === "template_name"){
+                countfield = "#template_name_count";
+            } else if ($(textarea).attr("id") === "template_description"){
+                countfield = "#template_description_count";
+            }
+
+            if ($(textarea).val().length > limit){
+                $(textarea).val($(textarea).val().substring(0, limit));
+            } else {
+                $(countfield).text($(textarea).val().length);
+            }
+        };
+
+        // Bind Template textarea entry
+        $("#save_as_template_container #template_name, #save_as_template_container #template_description").bind("keyup", function(ev){
+            trimTextarea(this);
         });
 
         /**
