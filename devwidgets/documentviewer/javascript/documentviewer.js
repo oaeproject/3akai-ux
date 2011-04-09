@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             } else if (mimeType === "image/vnd.adobe.photoshop") {
                 renderStoredPreview(data);
             } else  if (mimeType.substring(0, 6) === "image/") {
-                renderImagePreview(getPath(data), data["_body:lastModified"]);
+                renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){
                 renderDocumentPreview(data);
             }

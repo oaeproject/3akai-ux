@@ -30,8 +30,13 @@
  
  /*Content Preview template*/
  /* Image formatting */
- .contentpreview_other_preview { max-width:920px; max-height: 560px; border: 1px solid #D4DADE; float:left; display:none; }
+ .contentpreview_other_preview { max-width:920px; max-height: 560px;  display:none; }
  .contentpreview_noborder { border:none;}
  .contentpreview_overflowhidden { overflow: hidden}
 
  .contentpreview_fullsize_preview embed { width: 920px; }
+
+ .contentpreview_fullsize_preview #documentviewer_preview img,
+ .contentpreview_fullsize_preview #documentviewer_preview div,
+ .contentpreview_fullsize_preview #documentviewer_preview embed,
+ .contentpreview_fullsize_preview #documentviewer_preview iframe { border: 1px solid #D4DADE; }
