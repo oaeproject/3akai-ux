@@ -4,11 +4,27 @@
 
 
 <div id="lhav_buttonbar" style="display:none">
-    <input type="button" value="Edit Page" id="lhnav_editpage"/>
+    <div style="float:left">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_editpage">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Edit Page</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_addpage">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Add Page</span>
+        </button>
+    </div>
+    <div style="float:right">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_revisions">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Page Revisions</span>
+        </button>
+        <!-- <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_commentsrelated">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">See comments and related</span>
+        </button> -->
+    </div>
+    <div style="clear:both;"><!-- --></div>
 </div>
 <div id="lhnav_editmode" style="display:none">
     <!-- WORK AREA -->
-    <div class="fl-fix edit_view" id="edit_view_container">
+    <div class="edit_view" id="edit_view_container">
 
         <div class="main_container content_container">
                                 <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
@@ -17,16 +33,6 @@
                     <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
                     <span class="messageInformation" id="messageInformation" style="display:none">__MSG__AUTO_SAVED_AT__ <span id="realtime"></span></span>
                 --></div>
-
-
-                <!-- TOP RIGHT MENU -->
-                <div id="content_page_options_container">
-                    <div class="content_page_options" id="content_edit_page_options">
-                        <ul class="fl-force-left">
-                            <li id="li_edit_page"><button type="button" id="edit_page_revert" class="s3d-link-button s3d-bold">__MSG__EDIT__</button></li>
-                        </ul>
-                    </div>
-                </div>
 
                 <!-- TAB CONTENT -->
                 <div class="fl-centered fl-container fl-tab-content edit_container">
@@ -62,7 +68,7 @@
                             <div id="placeholderforeditor" class="textarea">
 
                                 <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-                                <textarea id="elm1" name="elm1" style="width: 890px; height:430px">
+                                <textarea id="elm1" name="elm1" style="width: 100%; height:430px">
                                     &nbsp;
                                 </textarea>
                             </div>
@@ -74,10 +80,11 @@
 
                         <div class="content_container fl-fix" id="page_preview_content" style="display:none;"></div>
 
-                        <div id="page_save_options_bottom">
-                            <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                            <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                        <div id="page_save_options_bottom" class="fl-force-right">
+                            <button id="lhnav_edit_cancel_button" class="s3d-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                            <button id="lhnav_edit_save_button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
                         </div>
+                        <div style="clear:both"><!-- --></div>
 
                 </div> <!-- end TAB CONTENT -->
 

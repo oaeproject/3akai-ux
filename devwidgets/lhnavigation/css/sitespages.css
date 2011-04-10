@@ -60,8 +60,7 @@
 
 /** Content editors **/
 .edit_view textarea{width:882px!important;}
-.edit_view #fl-tab-content-editor,.edit_view #html-editor-content,.edit_view #page_preview_content{margin:10px 0;border:1px solid #999;padding:5px;width:882px;}
-.edit_view #fl-tab-content-editor{padding:0;width:890px;}
+.edit_view #fl-tab-content-editor,.edit_view #html-editor-content,.edit_view #page_preview_content{margin:10px 0;border:1px solid #999;}
 
 /** Move **/
 .edit_view .new_page_path{height:23px;line-height:23px;margin-bottom:20px;float:left;}
@@ -143,3 +142,5 @@
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -11px -235px transparent;}
+
+#lhnav-page-action-bar {margin-bottom:15px; padding-bottom:10px; border-bottom: 5px solid #e2e2e2;}

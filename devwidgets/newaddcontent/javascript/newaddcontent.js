@@ -329,7 +329,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
                 "sakai:tags":documentObj.tags,
-                "structure0":documentObj["structure0"],
+                "structure0": $.toJSON({
+                    "page1": {
+                        "_ref": "6573920372",
+                        "_title": "Page Title 1",
+                        "main": {
+                            "_ref": "6573920372",
+                            "_title": "Page Title 1"
+                        }
+                    } 
+                }),
                 "sakai:custom-mimetype": "x-sakai/document"
             };
 
@@ -337,8 +346,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 url: uploadPath,
                 data: document,
                 type: "POST",
-                dataType: "JSON",
+                dataType: "json",
                 success: function(data){
+                    $.ajax({
+                        url: "/p/" + data._contentItem + ".resource",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            ":operation": "import",
+                            ":contentType": "json",
+                            ":replace": true,
+                            ":replaceProperties": true,
+                            "_charset_":"utf-8",
+                            ":content": $.toJSON({
+                                "6573920372": {
+                                     "page": "This is the content of page 2<br/><img border='1' _mce_src='/devwidgets/googlemaps/images/googlemaps.png' src='/devwidgets/googlemaps/images/googlemaps.png' _mce_style='display: block; padding: 10px; margin: 4px;' style='margin: 4px; padding: 10px; display: block;' class='widget_inline' id='widget_googlemaps_9949382541'/>"
+                                },
+                                "9949382541": {
+                                    "mapinput": "Seattle",
+                                    "mapzoom": "8",
+                                    "mapsize": "LARGE",
+                                    "lng": "-122.3320708",
+                                    "maphtml": "Seattle, WA, USA",
+                                    "lat": "47.6062095"
+                                 }
+                            })
+                        }           
+                    });
                     document.hashpath = data["_contentItem"];
                     document.permissions = document["sakai:permissions"];
                     sakai.api.Content.setFilePermissions([document], false);

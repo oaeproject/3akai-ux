@@ -142,7 +142,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var structure = {};
             structure.items = {};
             structure.pages = {};
+            //alert("DATA IS " + $.toJSON(data));
             if (data["structure0"]){
+                //alert(data["structure0"]);
                 if (typeof data["structure0"] === "string") {
                     structure.items = $.parseJSON(data["structure0"]);
                 } else {
@@ -214,12 +216,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         }
 
-        var renderPage = function(ref, savePath){
+        var renderPage = function(ref, savePath, reload){
             $("#s3d-page-main-content > div").hide();
+            var content = getPageContent(ref);
             if ($("#s3d-page-main-content #" + ref).length > 0){
+                if (reload){
+                    createPageToShow(ref, content, savePath);
+                }
                 $("#s3d-page-main-content #" + ref).show();
             } else {
-                var content = getPageContent(ref);
                 createPageToShow(ref, content, savePath);
             }
         }
@@ -242,14 +247,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "content": content,
                 "savePath": savePath
             };
-            // Create the new element
-            var $el = $("<div>").attr("id", ref);
+            if ($("#" + ref).length === 0) {
+                // Create the new element
+                var $el = $("<div>").attr("id", ref);
+                // Add element to the DOM
+                $("#s3d-page-main-content").append($el);
+            } 
+            var $contentEl = $("#" + ref);
             // Add sanitized content
             var sanitizedContent = sakai.api.Security.saneHTML(content);
-            $el.html(sanitizedContent);
-            // Add element to the DOM
-            $("#s3d-page-main-content").append($el);
-            
+            $contentEl.html(sanitizedContent);
             // Insert widgets
             sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath,[privstructure.pages, pubstructure.pages]);
         }
@@ -262,6 +269,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         
+        /**
+         * Edit button
+         */
         $("#lhnav_editpage").live("click", function(){
             $("#lhnav_editmode").show();
             $("#s3d-page-main-content").hide();
@@ -269,7 +279,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
         });
         
-        function init_tinyMCE(){
+        /**
+         * Cancel button
+         */
+        $("#lhnav_edit_cancel_button").live("click", function(){
+            $("#lhnav_editmode").hide();
+            $("#s3d-page-main-content").show();
+        });
+        
+        /**
+         * Save button
+         */
+        $("#lhnav_edit_save_button").live("click", function(){
+            currentPageShown.content = getTinyMCEContent();
+            if (pubstructure.pages[currentPageShown.ref]){
+                pubstructure.pages[currentPageShown.ref].page = currentPageShown.content;
+            } else if (privstructure.pages[currentPageShown.ref]){
+                privstructure.pages[currentPageShown.ref].page = currentPageShown.content;
+            }
+            renderPage(currentPageShown.ref, currentPageShown.savePath, true);
+            $("#lhnav_editmode").hide();
+            $("#s3d-page-main-content").show();
+            
+            //Store the edited content
+            var toStore = {};
+            toStore[currentPageShown.ref] = {
+                "page": currentPageShown.content
+            }
+            $.ajax({
+                url: currentPageShown.savePath,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    ":operation": "import",
+                    ":contentType": "json",
+                    ":replace": true,
+                    ":replaceProperties": true,
+                    "_charset_":"utf-8",
+                    ":content": $.toJSON(toStore)
+                }           
+            });
+        });
+        
+        /**
+         * Get content out of tinyMCE editor
+         */
+        var getTinyMCEContent = function(){
+            var content = tinyMCE.get("elm1").getContent({format : 'raw'});
+            content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+            return content;
+        }
+        
+        var init_tinyMCE = function(){
         
             // Init tinyMCE
             if (window["tinyMCE"]) {
@@ -292,7 +353,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     theme_advanced_toolbar_location: "top",
                     theme_advanced_toolbar_align: "left",
                     theme_advanced_statusbar_location: "none",
-                    handle_node_change_callback: "sakai_global.sitespages.mySelectionEvent",
+                    //handle_node_change_callback: "sakai_global.sitespages.mySelectionEvent",
                     //init_instance_callback: "sakai_global.sitespages.startEditPage",
                     
                     // Example content CSS (should be your site CSS)
@@ -420,15 +481,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         }
- 
- 
-        // Add the actions bar if the user is a manager
-        if (true){
+        
+        var initSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show());
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
             init_tinyMCE();
         }
-        
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -467,6 +526,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderData();
             addBinding();
             selectPage();
+            if (cData.isEditMode){
+                initSakaiDocs();
+            }
         }
 
         $(window).bind("hashchange", function(e, data){

@@ -238,7 +238,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         initEntityWidget();
                         
                         if (!showPreview){
-                            renderSakaiDoc();
+                            renderSakaiDoc(contentInfo);
                         }
                         
                     }
@@ -275,6 +275,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             content_path = $.bbq.getState("content_path") || "";
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
+                globalPageStructure = false;
                 loadContentProfile(function(){
                     // The request was successful so initialise the entity widget
                     if (sakai_global.entity && sakai_global.entity.isReady) {
@@ -526,46 +527,52 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         
-        var pagestructure = {
-            "structure0": {
-                "page1": {
-                    "_ref": "9574379429432",
-                    "_title": "Page Title 1",
-                    "main": {
-                        "_ref": "9574379429432",
-                        "_title": "Page Title 1"
-                    }
-                },
-                "page2": {
-                    "_ref": "6573920372",
-                    "_title": "Page Title 2",
-                    "main": {
-                        "_ref": "6573920372",
-                        "_title": "Page Title 2"
-                    }
-                }
-            },
-            "9574379429432": {
-                "page": "This is the content of page 1"
-            },
-            "6573920372": {
-                "page": "This is the content of page 2"
-            }
-        }
+        var globalPageStructure = false;
         
-        var generateNav = function(){
-            $(window).trigger("lhnav.init", [pagestructure, {}, {}]);
-            $(window).trigger("lhnav.addHashParam", [{"content_path": sakai_global.content_profile.content_data.content_path}]);
+        var generateNav = function(pagestructure){
+            if (pagestructure) {
+                $(window).trigger("lhnav.init", [pagestructure, {}, {
+                    isEditMode: true
+                }, sakai_global.content_profile.content_data.content_path + ".resource"]);
+                $(window).trigger("lhnav.addHashParam", [{
+                    "content_path": sakai_global.content_profile.content_data.content_path
+                }]);
+            }
         };
 
         $(window).bind("lhnav.ready", function(){
-            generateNav();
+            generateNav(globalPageStructure);
         });
         
-        var renderSakaiDoc = function(){
-            generateNav();
-            switchToOneColumnLayout(true);
-            //switchToTwoColumnLayout(true);
+        var getPageCount = function(pagestructure){
+            var pageCount = 0;
+            for (var tl in pagestructure["structure0"]){
+                pageCount++;
+                if (pageCount >= 3){
+                    return 3;
+                }
+                for (var ll in pagestructure["structure0"][tl]){
+                    if (ll.substring(0,1) !== "_"){
+                        pageCount++;
+                        if (pageCount >= 3){
+                            return 3;
+                        }
+                    }
+                }
+            }
+            return pageCount;
+        }
+        
+        var renderSakaiDoc = function(pagestructure){
+            pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
+            //alert($.toJSON(pagestructure));
+            if (getPageCount(pagestructure) >= 3){
+                switchToTwoColumnLayout(true);
+            } else {
+                switchToOneColumnLayout(true);
+            }
+            globalPageStructure = pagestructure;
+            generateNav(pagestructure);
         }
         
         var switchToTwoColumnLayout = function(isSakaiDoc){

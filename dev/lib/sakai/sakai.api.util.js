@@ -1178,13 +1178,13 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        throw "TemplateRenderer: parsing failed with the following error: '" + e;
+                        debug.log("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    throw "TemplateRenderer: The template '" + templateName + "' could not be found";
+                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
 
@@ -1193,7 +1193,7 @@ define(["jquery",
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                throw "TemplateRenderer: rendering failed with the following error: '" + e;
+                debug.log("TemplateRenderer: rendering failed: " + err);
             }
             
 

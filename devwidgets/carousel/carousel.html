@@ -81,27 +81,29 @@
                                 {/if}
                             </div>
                         {elseif item.contentType == "group"}
-                            <div class="carousel_single_column_content_container">
-                                <div class="carousel_two_column_content_container carousel_content_text carousel_group_lh">
-                                    <div class="carousel_two_column_content_container_lh"></div>
-                                    <div class="carousel_two_column_content_container_rh">
-                                        <a href="/~${item.groupid}" title="${item.title}"><h2 class="carousel_header_no_bottom_margin">${item.title}</h2></a>
-                                        <div class="carousel_content_metadata">(<a href="#" class="s3d-regular-links">21</a>) __MSG__UPLOADS__ (<a href="#" class="s3d-regular-links">16</a>) __MSG__DISCUSSIONS__ (<a href="#" class="s3d-regular-links">36</a>) __MSG__PAGES__ (<a href="#" class="s3d-regular-links">7</a>) __MSG__SUBMISSIONS__</div>
-                                        {if item.description && item.description.length}
-                                            <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
-                                        {/if}
-                                        {if item.tags && item.tags.length}
-                                            <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
-                                        {/if}
+                            {if item && item.members}
+                                <div class="carousel_single_column_content_container">
+                                    <div class="carousel_two_column_content_container carousel_content_text carousel_group_lh">
+                                        <div class="carousel_two_column_content_container_lh"></div>
+                                        <div class="carousel_two_column_content_container_rh">
+                                            <a href="/~${item.groupid}" title="${item.title}"><h2 class="carousel_header_no_bottom_margin">${item.title}</h2></a>
+                                            <div class="carousel_content_metadata">(<a href="#" class="s3d-regular-links">21</a>) __MSG__UPLOADS__ (<a href="#" class="s3d-regular-links">16</a>) __MSG__DISCUSSIONS__ (<a href="#" class="s3d-regular-links">36</a>) __MSG__PAGES__ (<a href="#" class="s3d-regular-links">7</a>) __MSG__SUBMISSIONS__</div>
+                                            {if item.description && item.description.length}
+                                                <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
+                                            {/if}
+                                            {if item.tags && item.tags.length}
+                                                <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div class="carousel_two_column_content_container carousel_group_rh">
+                                        <h2>${item.members.length} __MSG__MEMBERS__</h2>
+                                        {for member in item.members}
+                                            <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div class="carousel_user_icon"></div></a>
+                                        {/for}
                                     </div>
                                 </div>
-                                <div class="carousel_two_column_content_container carousel_group_rh">
-                                    <h2>${item.members.length} __MSG__MEMBERS__</h2>
-                                    {for member in item.members}
-                                        <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div class="carousel_user_icon"></div></a>
-                                    {/for}
-                                </div>
-                            </div>
+                            {/if}
                         {/if}
                     {/if}
                 </li>

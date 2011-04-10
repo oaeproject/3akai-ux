@@ -355,9 +355,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         },
 
         getMimeType : function(content){
-            var mimeType;
+            var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
+            } else if (content['sakai:custom-mimetype']){
+                mimeType = content['sakai:custom-mimetype'];
             } else if (content.file && content.file['_mimeType']){
                 mimeType = content.file['_mimeType'];
             } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){
