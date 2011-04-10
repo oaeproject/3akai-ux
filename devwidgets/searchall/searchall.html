@@ -44,53 +44,57 @@
                 </div>
                 <div id="cm_searchall_result_template"><!--
                     {for i in items}
-                    {if i['sakai:pooled-content-file-name']}
-                    {var contentFound = true}
-                    <div class="fl-container fl-fix searchall_result">
-                    {if i['_mimeType']}
-                    {var mimeType = i['_mimeType']}
-                    {elseif i.file && i.file['_mimeType']}
-                    {var mimeType = i.file['_mimeType']}
-                    {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
-                    {var mimeType = i['jcr:content']['_mimeType']}
-                    {elseif i['jcr:primaryType'] === "sling:Folder"}
-                    {var mimeType = 'folder'}
-                    {/if}
-                    <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
-                    {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
-                    {elseif sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
-                    {else}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
-                    {/if}
-                    </a>
-                    <div class="searchall_result_right">
-                    <div class="searchall_result_content_title s3d-bold">
-                    <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
-                    {if i['sakai:pooled-content-file-name']}
-                    ${i['sakai:pooled-content-file-name']}
-                    {elseif i['jcr:name']}
-                    ${i['jcr:name']
-                    {/if}
-                    </a>
-                    </div>
-                    {if i["sakai:description"]}<div class="searchall_result_description">${i["sakai:description"]}</div>{/if}
-                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                    <div class="searchall_result_tags">__MSG__TAGS__:
-                    {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
-                    </div>
-                    {/if}
-                    {if mimeTypeDescription}<div class="searchall_result_type s3d-content-type-link"><a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
-                    </div>
-                    </div>
-                    {/if}
+                        {if i['sakai:pooled-content-file-name']}
+                            {var contentFound = true}
+                            <div class="fl-container fl-fix searchall_result">
+                                {if i['_mimeType']}
+                                    {var mimeType = i['_mimeType']}
+                                {elseif i.file && i.file['_mimeType']}
+                                    {var mimeType = i.file['_mimeType']}
+                                {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
+                                    {var mimeType = i['jcr:content']['_mimeType']}
+                                {elseif i['jcr:primaryType'] === "sling:Folder"}
+                                    {var mimeType = 'folder'}
+                                {/if}
+                                {var thumbnail = sakai.api.Content.getThumbnail(i)}
+                                <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                    {if thumbnail}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                        <img src="${thumbnail}" alt="${mimeTypeDescription}" />
+                                    {elseif mimeType.substring(0,6)==="image/"}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                        <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                    {elseif sakai.config.MimeTypes[mimeType]}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                        <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                    {else}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                                        <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                    {/if}
+                                </a>
+                                <div class="searchall_result_right">
+                                    <div class="searchall_result_content_title s3d-bold">
+                                        <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                            {if i['sakai:pooled-content-file-name']}
+                                                ${i['sakai:pooled-content-file-name']}
+                                            {elseif i['jcr:name']}
+                                                ${i['jcr:name']
+                                            {/if}
+                                        </a>
+                                    </div>
+                                    {if i["sakai:description"]}<div class="searchall_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                        <div class="searchall_result_tags">__MSG__TAGS__:
+                                            {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
+                                        </div>
+                                    {/if}
+                                    {if mimeTypeDescription}<div class="searchall_result_type s3d-content-type-link"><a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}{else}${i['jcr:path']}{/if}">${mimeTypeDescription}</a></div>{/if}
+                                </div>
+                            </div>
+                        {/if}
                     {/for}
                     {if !contentFound}
-                    __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
+                        __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
                     {/if}
                 --></div>
                 <div class="searchall_results_part_footer">

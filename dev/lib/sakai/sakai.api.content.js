@@ -327,6 +327,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         }
                     });
                 }
+            } else if (/maps\.google\.com$/.test(uri.host)) {
+                if (uri.path !== "") {
+                    result.url = uri.source;
+                    result.type = "googlemap";
+                }
             }
             return result;
         },
