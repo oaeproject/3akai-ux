@@ -451,21 +451,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             addRemoveUsers(peopleList.mode, peopleList, 'add');
         });
 
-        $("#entity_content_share, #entity_content_permissions").live("click", function(){
+        $("#entity_content_permissions").live("click", function(){
             var pl_config = {
-                "mode": "search",
-                "selectable": true,
-                "subNameInfo": "email",
-                "sortOn": "lastName",
-                "items": 50,
-                "type": "people",
-                "what": "Viewers",
-                "where": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "title": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
             };
 
-            $(window).trigger("init.sharecontent.sakai", pl_config, function(people){
-            });
+            $(window).trigger("init.contentpermissions.sakai", pl_config, function(people){});
+
+            return false;
+        });
+
+        $("#entity_content_share").live("click", function(){
+
+            $(window).trigger("init.sharecontent.sakai");
 
             // display help tooltip
             var tooltipData = {
