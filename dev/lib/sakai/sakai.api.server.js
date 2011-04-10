@@ -270,7 +270,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     addIndexedFields(val.split("/"), i_data);
                 });
             }
-            sakaiServerAPI.removeServerCreatedObjects(i_data);
+            sakaiServerAPI.removeServerCreatedObjects(i_data, ["_"]);
             postData[":content"] = $.toJSON(i_data);
             // Send request
             $.ajax({

@@ -22,6 +22,6 @@
 .relatedcontent .relatedcontent_list{padding:5px 0; border-bottom:5px solid #E1E1E1;}
 .relatedcontent_content_right{display:table-cell;vertical-align:middle;}
 .relatedcontent_list a{color:#39c;font-weight:bold;font-size:.9em;}
-.relatedcontent .relatedcontent_no_content{padding-top:10px;}
+.relatedcontent .relatedcontent_no_content{padding-top:10px; padding-bottom: 10px;}
 .relatedcontent .threedots_text{width:145px;}
 .relatedcontent .threedots_text{word-wrap:break-word;}
