@@ -1195,7 +1195,6 @@ define(["jquery",
             } catch (err) {
                 debug.log("TemplateRenderer: rendering failed: " + err);
             }
-            
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
