@@ -27,7 +27,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
          * @param {Function} callback Function to call when the permissions have been saved or failed to save.
          *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
          */
-        setFilePermissions : function(permissionValue, filesArray, callback, groupID){
+        setFilePermissions : function(filesArray, callback, groupID){
             // Check which value was selected and fill in the data object accordingly
             var data = [];
             var file;
@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 if (filesArray.hasOwnProperty(file)) {
                     var contentPath = "/p/" + filesArray[file].hashpath;
                     var item;
-                    switch (permissionValue) {
+                    switch (filesArray[file].permissions) {
                     // Logged in only
                     case "everyone":
                         item = {
@@ -137,10 +137,14 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                     requests: $.toJSON(data)
                 },
                 success: function(data){
-                    callback(true);
+                    if (callback) {
+                        callback(true);
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
-                    callback(false);
+                    if (callback) {
+                        callback(false);
+                    }
                 }
             });
         },
@@ -351,9 +355,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         },
 
         getMimeType : function(content){
-            var mimeType;
+            var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
+            } else if (content['sakai:custom-mimetype']){
+                mimeType = content['sakai:custom-mimetype'];
             } else if (content.file && content.file['_mimeType']){
                 mimeType = content.file['_mimeType'];
             } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){

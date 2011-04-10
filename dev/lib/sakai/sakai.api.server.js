@@ -302,62 +302,54 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         },
 
         /**
-         * Removes JCR or Sling properties from a JSON object
-         * @param {Object} i_object The JSON object you want to remove the JCR object from
-         * @returns void
-         */
-        removeJCRObjects : function(i_object) {
-
-            if (i_object["jcr:primaryType"]) {
-                delete i_object["jcr:primaryType"];
-            }
-
-            if (i_object["_created"]) {
-                delete i_object["_created"];
-            }
-
-            if (i_object["_createdBy"]) {
-                delete i_object["_createdBy"];
-            }
-
-            if (i_object["jcr:mixinTypes"]) {
-                delete i_object["jcr:mixinTypes"];
-            }
-
-            // Loop through keys and call itself recursively for the next level if an object is found
-            for (var i in i_object) {
-                if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-                  sakaiServerAPI.removeJCRObjects(i_object[i]);
-                }
-            }
-
-        },
-
-        /**
-         * Removes any object created by the server
+         * Removes any objects with a given namespace
          *
          * @param {Object} the object to clean
+         * @param {Array}  an array containing a string for each namespace to move
          */
-        removeServerCreatedObjects : function(obj, notToRemove) {
+        removeServerCreatedObjects : function(obj, namespace, notToRemove) {
             var newobj = $.extend(true, {}, obj);
             notToRemove = notToRemove || [];
             $.each(newobj, function(key,val) {
-                if (key && key.indexOf && key.indexOf("_") === 0 && key.indexOf("__") !== 0) {
-                    var canRemove = true;
-                    for (var i = 0; i < notToRemove.length; i++){
-                        if (notToRemove[i] === key){
-                            canRemove = false;
-                            break;
+                for (var ns = 0; ns < namespace.length; ns++) {
+                    if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
+                        var canRemove = true;
+                        for (var i = 0; i < notToRemove.length; i++) {
+                            if (notToRemove[i] === key) {
+                                canRemove = false;
+                                break;
+                            }
                         }
+                        if (canRemove) {
+                            delete newobj[key];
+                        }
+                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                        newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
                     }
-                    if (canRemove) {
-                        delete newobj[key];
-                    }
-                } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
-                    newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], notToRemove);
                 }
             });
             return newobj;
+        },
+
+
+        cleanUpSakaiDocObject: function(pagestructure){
+            var id = pagestructure["jcr:path"];
+            var toFilter = ["_", "jcr:", "sakai:", "sling:"];
+            var toExclude = ["_ref", "_title", "_altTitle"];
+            pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
+            if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
+                pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
+            }
+            if (id){
+                for (var i in pagestructure){
+                    if (i.indexOf(id + "/") === 0){
+                        var newid = i.substring((id + "/").length);
+                        pagestructure[newid] = pagestructure[i];
+                        delete pagestructure[i];
+                    }
+                }
+            }
+            return pagestructure;
         },
 
         /**
@@ -401,9 +393,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 dataType: "json",
                 data: data,
                 success: function(data) {
-
-                    // Remove keys which are created by JCR or Sling
-                    sakaiServerAPI.removeJCRObjects(data);
 
                     // Convert the special objects to arrays
                     data = sakaiServerAPI.convertObjectToArray(data, null, null);
