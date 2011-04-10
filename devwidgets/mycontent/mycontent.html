@@ -20,7 +20,23 @@
                 {eval} i++; {/eval}
                 <div class="mycontent_item{if i % 2 == 0} s3d-highlight_area_background{/if}">
                     <div class="mycontent_item_img fl-force-left">
-                        <span class="mycontent_item_mime ${item.css_class}"></span>
+                        {var mimeType = sakai.api.Content.getMimeType(item)}
+                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                        <a href="/content#content_path=/p/${item['jcr:name']}" title="${item['sakai:pooled-content-file-name']}">
+                            {if thumbnail}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                            {elseif (mimeType.substring(0,6)=="image/")}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${item.path}" alt="${mimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[mimeType]}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                            {else}
+                                {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                            {/if}
+                        </a>
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">

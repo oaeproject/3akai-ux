@@ -1,0 +1,43 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/documentviewer/css/documentviewer.css" />
+<!--[if (!IE)|(gte IE 8)]><!-->
+<link href="/devwidgets/documentviewer/lib/document-viewer/assets/viewer-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/devwidgets/documentviewer/lib/document-viewer/assets/plain-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<!--<![endif]-->
+<!--[if lte IE 7]>
+<link href="/devwidgets/documentviewer/lib/document-viewer/assets/viewer.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/devwidgets/documentviewer/lib/document-viewer/assets/plain.css" media="screen" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<div style="display:none;">__MSG__IE_PLACEHOLDER__</div>
+<div id="documentviewer_widget_main_container" class="documentviewer_widget">
+    <div class="documentviewer_preview" id="documentviewer_preview"><!-- rendered template data goes here --></div>
+</div>
+
+<div id="documentviewer_templates">
+    <div id="documentviewer_image_template"><!--
+        <img src="${contentURL}" id="documentviewer_image_rendered" />
+    --></div>
+    <div id="documentviewer_video_template"><!--
+        <div id="documentviewer_video_${tuid}" class="documentviewer_video_wrapper"></div>
+    --></div>
+
+    <div id="documentviewer_html_template"><!--
+        <iframe id="documentviewer_html_iframe"></iframe>
+    --></div>
+    <div id="documentviewer_externalhtml_template"><!--
+        <iframe id="documentviewer_externalhtml_iframe" width="920" height="500"></iframe>
+    --></div>
+    <div id="documentviewer_document_template"><!--
+        <div id="widget_documentviewer_cpDocPreview" class="widget_inline"></div>
+    --></div>
+</div>
+
+<div id="documentviewer_image_calculatesize_container">
+    <div id="documentviewer_image_calculatesize">
+        <!-- Image will be pre-loaded here -->
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/documentviewer/javascript/documentviewer.js"></script>

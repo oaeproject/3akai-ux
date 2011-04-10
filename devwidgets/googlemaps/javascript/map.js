@@ -99,7 +99,7 @@ function geocodeAddress(address) {
                 map.setCenter(position);
                 marker.setMap(map);
                 marker.setPosition(position);
-                var html = address;
+                var html = results[0].formatted_address;
                 updateInfoWindow(html);
             }
             else {

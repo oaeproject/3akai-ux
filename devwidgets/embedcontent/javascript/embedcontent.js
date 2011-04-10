@@ -127,8 +127,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderWidget = function() {
             widgetData.sakai = sakai;
+            var docData = {};
+            $.each(widgetData.items, function(index, value) {
+                var placement = "ecDocViewer" + tuid + value["jcr:name"] + index;
+                widgetData.items[index].placement = placement;
+                docData[placement] = {
+                    data : value.fullresult,
+                    url : window.location.protocol + '//' + window.location.host + "/p/" + docData['jrc:name']
+                };
+            });
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
-            sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid);
+            sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid, [docData]);
         };
 
         /**
@@ -157,34 +166,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Get the mimetype of a provided file
-         * @param {Object} file File provided to get mimetype of
-         */
-        var getMimeType = function(file) {
-            var mimetype = "";
-            mimetype = file["_mimeType"] || "";
-            return mimetype;
-        };
-
-        /**
          * Creates an object out of results provided
          * This object contains valuable information about the file like path, name, type,...
          * @param {Object} result results provided (eg through a search)
          * @param {Object} name optional name provided
          */
         var createDataObject = function(result, name) {
-            var mimetype = getMimeType(result);
+            var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
                 "value": name || result['jcr:name'],
                 "name": result['sakai:pooled-content-file-name'],
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
-                "mimetype": mimetype,
+                "_mimeType": mimetype,
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['jcr:name']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
                 "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
-                "extension": result['sakai:fileextension']
+                "extension": result['sakai:fileextension'],
+                "jcr:name": result['jcr:name'],
+                "_mimeType/page1-small": result["_mimeType/page1-small"],
+                "fullresult" : result
             };
 
             // if the type is application need to auto check the display name so set ispreviewexist false
@@ -380,28 +382,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     data[data.length] = item;
                 }
             }
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(data)
-                }
-            });
+            sakai.api.Server.batch(data, null, false, null, false);
         };
 
         var registerVideo = function(videoBatchData){
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(videoBatchData)
-                }
-            });
+            sakai.api.Server.batch(videoBatchData, null, false, null, false);
         };
 
         /**

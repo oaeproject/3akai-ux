@@ -226,8 +226,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var templateDeleted = this.id.split("_")[1];
             delete sakai_global.sitespages.mytemplates[templateDeleted];
             // Save updated template preferences
-            // -- this has a bug right now. The save is not overwriting the templates
-            // -- at /~userid/private/templates as expected - maybe a special jcr flag (i.e. :replace)?
             sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates",
                 sakai_global.sitespages.mytemplates, function(success, response) {
                 if (success) {
@@ -235,7 +233,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     debug.error("createpage.js: Failed to delete template with id="+templateDeleted);
                 }
-            });
+            }, true);
         });
 
         //////////////////////////////
