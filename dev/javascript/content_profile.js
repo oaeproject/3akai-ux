@@ -532,8 +532,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var generateNav = function(pagestructure){
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
-                    isEditMode: true
-                }, sakai_global.content_profile.content_data.content_path + ".resource"]);
+                    isEditMode: sakai_global.content_profile.content_data.isManager,
+                    parametersToCarryOver: {
+                        "content_path": sakai_global.content_profile.content_data.content_path
+                    }
+                }, sakai_global.content_profile.content_data.content_path]);
                 $(window).trigger("lhnav.addHashParam", [{
                     "content_path": sakai_global.content_profile.content_data.content_path
                 }]);
@@ -563,9 +566,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return pageCount;
         }
         
+        $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
+            switchToTwoColumnLayout(true);
+        });
+        
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            //alert($.toJSON(pagestructure));
             if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {

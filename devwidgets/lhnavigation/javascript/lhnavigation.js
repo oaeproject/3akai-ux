@@ -85,12 +85,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var p in params){
             	parametersToCarryOver[p] = params[p];
             }
+        });
+        
+        var rerenderNavigation = function(){
             $("#lhnavigation_container a").each(function(index){
                 var oldHref =  $(this).attr("href");
                 var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
                 $(this).attr("href", newHref);
             });
-        });
+        }
 
         /////////////////////
         // MENU NAVIGATION //
@@ -240,6 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
 
         var currentPageShown = {};
+        var isEditingNewPage = false;
 
         var createPageToShow = function(ref, content, savePath){
             currentPageShown = {
@@ -273,24 +277,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Edit button
          */
         $("#lhnav_editpage").live("click", function(){
+            editPage();
+        });
+        
+        var editPage = function(){
+            isEditingNewPage = false;
             $("#lhnav_editmode").show();
             $("#s3d-page-main-content").hide();
             var content = currentPageShown.content || "";
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-        });
+        }
         
         /**
          * Cancel button
          */
         $("#lhnav_edit_cancel_button").live("click", function(){
+            cancelEditPage();
+        });
+        
+        var cancelEditPage = function(){
             $("#lhnav_editmode").hide();
             $("#s3d-page-main-content").show();
-        });
+        }
         
         /**
          * Save button
          */
         $("#lhnav_edit_save_button").live("click", function(){
+            savePage();
+        });
+        
+        var savePage = function(){
             currentPageShown.content = getTinyMCEContent();
             if (pubstructure.pages[currentPageShown.ref]){
                 pubstructure.pages[currentPageShown.ref].page = currentPageShown.content;
@@ -307,7 +324,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "page": currentPageShown.content
             }
             $.ajax({
-                url: currentPageShown.savePath,
+                url: currentPageShown.savePath + ".resource",
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -319,7 +336,49 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":content": $.toJSON(toStore)
                 }           
             });
+            if (isEditingNewPage){
+                $.ajax({
+                    url: currentPageShown.savePath,
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "structure0": $.toJSON(pubstructure.items)
+                    }           
+                });
+            }
+        }
+        
+        /**
+         * Add a page to the document
+         */
+        $("#lhnav_addpage").live("click", function(ev){
+            addPage();
         });
+        
+        var addPage = function(){
+            var newpageid = Math.round(Math.random() * 1000000000);
+            pubstructure.pages[newpageid] = {};
+            pubstructure.pages[newpageid].page = "Default content";
+            pubstructure.items[newpageid] = {
+                "_ref": newpageid,
+                "_title": "Untitled Page",
+                "main":{
+                    "_ref": newpageid,
+                    "_title": "Untitled Page",
+                    "_childCount": 0
+                },
+                "_childCount":1
+            };
+            renderData();
+            $(window).trigger("sakai.contentauthoring.needsTwoColumns");
+            $.bbq.pushState({
+                "l": newpageid
+            }, 0);
+            selectPage();
+            editPage();
+            rerenderNavigation();
+            isEditingNewPage = true;
+        }
         
         /**
          * Get content out of tinyMCE editor
@@ -487,6 +546,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
             init_tinyMCE();
         }
+        
+        var hideSakaiDocs = function(){
+            $("#lhnav-page-action-bar").html($("#lhnav-page-action-bar").hide());
+        }
 
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -512,7 +575,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-
         ////////////////////
         // INITIALISATION //
         ////////////////////
@@ -528,6 +590,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectPage();
             if (cData.isEditMode){
                 initSakaiDocs();
+            } else {
+                hideSakaiDocs();
+            }
+            if (cData.parametersToCarryOver) {
+                parametersToCarryOver = cData.parametersToCarryOver;
+                rerenderNavigation();
             }
         }
 
