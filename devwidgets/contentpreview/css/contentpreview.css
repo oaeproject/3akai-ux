@@ -36,7 +36,7 @@
 
  .contentpreview_fullsize_preview embed { width: 920px; }
 
- .contentpreview_fullsize_preview #documentviewer_preview img,
- .contentpreview_fullsize_preview #documentviewer_preview div,
- .contentpreview_fullsize_preview #documentviewer_preview embed,
- .contentpreview_fullsize_preview #documentviewer_preview iframe { border: 1px solid #D4DADE; }
+ .contentpreview_fullsize_preview #documentviewer_preview>img,
+ .contentpreview_fullsize_preview #documentviewer_preview>div,
+ .contentpreview_fullsize_preview #documentviewer_preview>embed,
+ .contentpreview_fullsize_preview #documentviewer_preview>iframe { border: 1px solid #D4DADE; }
