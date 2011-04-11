@@ -544,7 +544,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
             currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
             // Trigger the profile section event, so we let the container know that the widget is loaded
-            $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+            if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.ready) {
+                $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+            } else {
+                $(window).bind("ready.profileedit.sakai", function() {
+                    $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+                });
+            }
 
             // Bind to the global save function
             $('.profile-section-save-button', $rootel).live("click", function(){

@@ -25,7 +25,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // CONFIGURATION VARIABLES //
         /////////////////////////////
-        sakai_global.profile.main = {
+        sakai_global.profile.main = sakai_global.profile.main || {};
+        $.extend(true, sakai_global.profile.main, {
             chatstatus: "",
             config: sakai.config.Profile.configuration.defaultConfig,
             data: {},
@@ -38,8 +39,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             acls: {},
             picture: "",
             status: "",
-            validation: {}
-        };
+            validation: {},
+            ready: false
+        });
 
         var userprofile;
         var querystring; // Variable that will contain the querystring object of the page
@@ -122,9 +124,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Check whether there is a user parameter in the querystring,
             // if so, check whether the userid is not the same as the user parameter
-            if (querystring.contains("user") && querystring.get("user") !== sakai.data.me.user.userid) {
+            if (querystring.contains("id") && querystring.get("id") !== sakai.data.me.user.userid) {
                 sakai_global.profile.main.isme = false;
-                sakai_global.profile.main.currentuser = querystring.get("user");
+                sakai_global.profile.main.currentuser = querystring.get("id");
             }
             else {
                 sakai_global.profile.main.isme = true;
@@ -267,7 +269,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.profile.main.data.activity) {
                     delete sakai_global.profile.main.data.activity;
                 }
-
+                sakai_global.profile.main.ready = true;
+                $(window).trigger("ready.profileedit.sakai");
                 // Execute the callback function
                 if ($.isFunction(callback)) {
                     callback();
@@ -287,12 +290,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if(userprofile.basic && userprofile.basic.elements.status){
                             sakai_global.profile.main.status = userprofile.basic.elements.status.value;
                         }
-
                         // Set the profile data object
                         sakai_global.profile.main.data = $.extend(true, {}, userprofile);
-
                         // Check user profile type
                         checkProfileType();
+                        sakai_global.profile.main.ready = true;
+                        $(window).trigger("ready.profileedit.sakai");
                     } else {
                         debug.error("setProfileData: Could not find the user's profile");
                     }
@@ -702,7 +705,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             querystring = new Querystring();
 
             // Get and set the profile mode
-            var profilemode = "edit";
+            var profilemode = querystring.contains("id") ? "view" : "edit";
             if (profilemode) {
                 setProfileMode(profilemode);
             }
@@ -737,10 +740,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 //renderTemplates();
 
                 // Insert the profile section widgets
-                insertProfileSectionWidgets();
+                //insertProfileSectionWidgets();
 
                 // Add binding to all the elements
-                addBinding();
+                //addBinding();
 
                 if (sakai_global.entity && sakai_global.entity.isRendered) {
                     // check for edit profile tour in progress

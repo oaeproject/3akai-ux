@@ -19,14 +19,15 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.profile = sakai_global.profile || {};
-    sakai_global.profile.main = {
+    sakai_global.profile.main = sakai_global.profile.main || {};
+    $.extend(true, sakai_global.profile.main, {
         config: sakai.config.Profile.configuration.defaultConfig,
         data: {},
         mode: {
             options: ["view", "edit"],
             value: "view"
         }
-    };
+    });
 
     sakai_global.user = function() {
 
