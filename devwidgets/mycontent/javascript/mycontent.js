@@ -49,11 +49,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var rootel = $("#" + tuid);
         var uploadLink = ".upload_link";
         var fileuploadContainer = "#fileupload_container";
-        var noContentMsg = "#mycontent_nocontent";
         var dataErrorMsg = "#mycontent_data_error";
         var contentList = "#mycontent_list";
         var listTemplate = "#mycontent_list_template";
         var ellipsisContainer = ".mycontent_ellipsis_container";
+        var $mycontent_addcontent = $(".add_content_button", rootel);
 
 
         ///////////////////////
@@ -119,26 +119,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handleContentData = function(success, data) {
             if(success) {
                 // parse & render data
-                if(data.total < 1) {
-                    // user manages no content
-                    $(noContentMsg, rootel).show();
-                } else {
-                    // user manages content
-                    $(noContentMsg, rootel).hide();
-                    // build array of up to five items; reverse chronological order
-                    var contentjson = {
-                        items: []
-                    };
-                    for(var i = 0; i < data.total && i < 5; i++) {
-                        if (data.results[i]){
-                            contentjson.items.push(parseDataResult(data.results[i]));
-                        }
+                // build array of up to five items; reverse chronological order
+                var contentjson = {
+                    items: []
+                };
+                for(var i = 0; i < data.total && i < 5; i++) {
+                    if (data.results[i]){
+                        contentjson.items.push(parseDataResult(data.results[i]));
                     }
-                    // pass the array to HTML view
-                    contentjson.sakai = sakai;
-                    $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
-                    $(contentList, rootel).show();
                 }
+                // pass the array to HTML view
+                contentjson.sakai = sakai;
+                $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
+                $(contentList, rootel).show();
             } else {
                 // display something useful to the user
                 $(dataErrorMsg, rootel).show();
@@ -168,6 +161,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+
+            $mycontent_addcontent.click(function (ev) {
+                $(window).trigger("init.newaddcontent.sakai");
+                return false;
+            });
+
             // get list of content items
             $.ajax({
                 url: "/var/search/pool/manager-viewer.json",
