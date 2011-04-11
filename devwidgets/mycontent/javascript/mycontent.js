@@ -53,7 +53,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var contentList = "#mycontent_list";
         var listTemplate = "#mycontent_list_template";
         var ellipsisContainer = ".mycontent_ellipsis_container";
-        var $mycontent_addcontent = $(".add_content_button", rootel);
 
 
         ///////////////////////
@@ -131,6 +130,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // pass the array to HTML view
                 contentjson.sakai = sakai;
                 $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
+
+                $(".add_content_button", rootel).click(function (ev) {
+                    $(window).trigger("init.newaddcontent.sakai");
+                    return false;
+                });
+
                 $(contentList, rootel).show();
             } else {
                 // display something useful to the user
@@ -161,11 +166,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
-
-            $mycontent_addcontent.click(function (ev) {
-                $(window).trigger("init.newaddcontent.sakai");
-                return false;
-            });
 
             // get list of content items
             $.ajax({
