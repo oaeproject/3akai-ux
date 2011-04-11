@@ -263,8 +263,8 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
-                asin = bookId[bookId.indexOf('dp')+1];
-                if (asin){
+                if (asin && asin[asin.indexOf('dp')] !== -1){
+                    asin = asin[asin.indexOf('dp')+1];
                     result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
                     result.type = "iframe";
                 }

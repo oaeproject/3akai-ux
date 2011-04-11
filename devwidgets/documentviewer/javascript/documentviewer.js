@@ -41,6 +41,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
         var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
         var $documentviewerPreview = $(documentviewerPreview);
+        var templateObject = {};
 
         var getPath = function(data) {
             return "/p/" + data["jcr:name"];
@@ -71,13 +72,11 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         var renderImagePreview = function(url, lastMod){
             $documentviewerPreview.html("");
-            var json = {};
-            json.contentURL = url;
+            templateObject.contentURL = url;
             if (lastMod){
-                json.contentURL += "?_=" + lastMod;
+                templateObject.contentURL += "?_=" + lastMod;
             }
-            json.sakai = sakai;
-            sakai.api.Util.TemplateRenderer("documentviewer_image_template", json, $("#" + tuid + " #documentviewer_image_calculatesize"));
+            sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#" + tuid + " #documentviewer_image_calculatesize"));
             var $imageRendered = $("#"+tuid+" #documentviewer_image_rendered");
             $imageRendered.bind('load', function(ev){
                 var width = $imageRendered.width();
@@ -99,17 +98,13 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         };
 
         var renderHTMLPreview = function(data){
-            json.sakai = sakai;
-            sakai.api.Util.TemplateRenderer("documentviewer_html_template", json, $documentviewerPreview);
+            sakai.api.Util.TemplateRenderer("documentviewer_html_template", templateObject, $documentviewerPreview);
             $("#documentviewer_html_iframe").attr("src", getPath(data));
-            $("#documentviewer_html_iframe").attr("width", "920px");
-            $("#documentviewer_html_iframe").attr("height", "560px");
             $("#documentviewer_html_iframe").attr("frameborder", "0");
         };
 
         var renderExternalHTMLPreview = function(url){
-            json.sakai = sakai;
-            sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", json, $documentviewerPreview);
+            sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
             $("#documentviewer_externalhtml_iframe").attr("src", url);
             $("#documentviewer_externalhtml_iframe").attr("frameborder", "0");
         };
