@@ -277,7 +277,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 url: i_url,
                 type: "POST",
                 data: postData,
-                dataType: "json",
+                dataType: "text",
 
                 success: function(data){
 

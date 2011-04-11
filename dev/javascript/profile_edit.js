@@ -57,8 +57,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $profile_actions_button_edit = $("#profile_actions_button_edit", profile_class);
         var $profile_actions_template = $("#profile_actions_template", profile_class);
         var $profile_error = $("#profile_error", profile_class);
-        var $profile_error_form_error_server = $("#profile_error_form_error_server", $profile_error);
-        var $profile_error_form_errors = $("#profile_error_form_errors", $profile_error);
+        var $profile_error_form_error_server = $("#profile_error_form_error_server");
+        var $profile_error_form_errors = $("#profile_error_form_errors");
         var $profile_field_default_template = $("#profile_field_default_template", profile_class);
         var $profile_form = $("#profile_form", profile_class);
         var $profile_footer = $("#profile_footer", profile_class);
@@ -68,7 +68,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $profile_heading = $("#profile_heading", profile_class);
         var $profile_heading_template = $("#profile_heading_template", profile_class);
         var $profile_message = $("#profile_message", profile_class);
-        var $profile_message_form_successful = $("#profile_message_form_successful", $profile_message);
+        var $profile_message_form_successful = $("#profile_message_form_successful");
         var $profile_sectionwidgets_container = $("#profile_sectionwidgets_container", profile_class);
         var $profile_sectionwidgets_container_template = $("#profile_sectionwidgets_container_template", profile_class);
 
@@ -325,7 +325,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /**
          * Save the Access control list for the profile
          */
-        var saveProfileACL = function(){
+        var saveProfileACL = function(sectionName){
 
             var requests = []; // Variable used to contain all the information we need to send to the batch post
 
@@ -340,39 +340,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
 
             // Run over all the elements in the config file
-            for (var i in sakai_global.profile.main.config) {
-                if (sakai_global.profile.main.config.hasOwnProperty(i) && $.isPlainObject(sakai_global.profile.main.config[i])) {
+            if (sakai_global.profile.main.config.hasOwnProperty(sectionName) && $.isPlainObject(sakai_global.profile.main.config[sectionName])) {
 
-                    // Create a sectionobject for caching purposes
-                    var sectionObject = sakai_global.profile.main.data[i];
+                // Create a sectionobject for caching purposes
+                var sectionObject = sakai_global.profile.main.data[sectionName];
 
-                    // Check whether it is also in the data object
-                    if (sakai_global.profile.main.data[i] && $.isPlainObject(sakai_global.profile.main.data[i])) {
+                // Check whether it is also in the data object
+                if (sakai_global.profile.main.data[sectionName] && $.isPlainObject(sakai_global.profile.main.data[sectionName])) {
 
-                        // Array containing the postparams for the specific access property
-                        var aclArray = sakai_global.profile.main.acls.options[sectionObject.access].postparams;
+                    // Array containing the postparams for the specific access property
+                    var aclArray = sakai_global.profile.main.acls.options[sectionObject.access].postparams;
 
-                        // Run over all the elements in the array
-                        for (var j = 0, jl = aclArray.length; j < jl; j++) {
+                    // Run over all the elements in the array
+                    for (var j = 0, jl = aclArray.length; j < jl; j++) {
 
-                            // Add the object to the requests array
-                            requests[requests.length] = {
-                                // Construct the right URL
-                                "url": authprofileURL + "/" + i + ".modifyAce.json", // Todo change to JSON
-                                "method": "POST",
-                                "parameters": aclArray[j]
-                            };
-
-                        }
+                        // Add the object to the requests array
+                        requests[requests.length] = {
+                            // Construct the right URL
+                            "url": authprofileURL + "/" + i + ".modifyAce.json", // Todo change to JSON
+                            "method": "POST",
+                            "parameters": aclArray[j]
+                        };
 
                     }
 
                 }
+
             }
 
             // Send the Ajax request to the batch servlet
             sakai.api.Server.batch(requests, function(success, data) {
-                $("#profile_footer_button_update").removeAttr("disabled");
+                $(".profile-section-save-button").removeAttr("disabled");
                 if (success) {
                     // Show a successful notification to the user
                     sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
@@ -415,20 +413,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("ready.data.profile.sakai", function(e, sectionName) {
 
-            // keep track of all the sections that are ready
-            if ($.inArray(sectionName, readySections) < 0) {
-                readySections.push(sectionName);
-            }
-
-            // if all sections are ready, we'll pass over this loop. otherwise, return and wait
-            for (var i in sakai_global.profile.main.config) {
-                if (sakai_global.profile.main.config.hasOwnProperty(i)) {
-                    if ($.inArray(i, readySections) < 0) {
-                        return;
-                    }
-                }
-            }
-
             // determine how much profile data has been entered
             var elementItemCount = 0;
             var dataItemCount = 0;
@@ -457,13 +441,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             filterTagsProperties(sakai_global.profile.main.data);
 
             // Save the profile properties
-            sakai.api.Server.saveJSON(authprofileURL, sakai_global.profile.main.data, function(success, data){
+            var obj = {};
+            obj[sectionName] = sakai_global.profile.main.data[sectionName];
+            sakai.api.Server.saveJSON(authprofileURL, obj, function(success, data){
 
                 // Check whether is was successful
                 if (success) {
 
                     // Save the profile acl
-                    saveProfileACL();
+                    //saveProfileACL(sectionName);
+                    $(".profile-section-save-button").removeAttr("disabled");
+                    // Show a successful notification to the user
+                    sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
 
                     // update entity widget
                     // clear tag in sakai.data.me
@@ -497,7 +486,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 else {
-                    $("#profile_footer_button_update").removeAttr("disabled");
+                    $(".profile-section-save-button").removeAttr("disabled");
                     // Show an error message to the user
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
@@ -506,7 +495,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 }
 
-            }, true);
+            }, false);
         });
 
 
@@ -571,7 +560,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Initialize the validate plug-in
             $profile_form.validate({
                 submitHandler: function(form, validator) {
-                    $("#profile_footer_button_update").attr("disabled", "disabled");
+                    $(".profile-section-save-button").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
                     $(window).trigger("save.profile.sakai");
                     return false;
@@ -620,14 +609,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateSiteHeading = function(){
 
             // Render the profile site heading
-            sakai.api.Util.TemplateRenderer($profile_heading_template, sakai_global.profile.main, $profile_heading);
+            //sakai.api.Util.TemplateRenderer($profile_heading_template, sakai_global.profile.main, $profile_heading);
 
         };
 
         var renderTemplateActions = function(){
 
             // Render the actions for the profile
-            sakai.api.Util.TemplateRenderer($profile_actions_template, sakai_global.profile.main, $profile_actions);
+            //sakai.api.Util.TemplateRenderer($profile_actions_template, sakai_global.profile.main, $profile_actions);
 
         };
 
@@ -644,8 +633,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
 
             // Construct the html for the widget
-            var toAppend = sakai.api.Util.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
-            $profile_sectionwidgets_container.append(toAppend);
+            // var toAppend = sakai.api.Util.TemplateRenderer($profile_sectionwidgets_container_template, sectionobject);
+            // $profile_sectionwidgets_container.append(toAppend);
 
             // Bind a global event that can be triggered by the profilesection widgets
             $(window).bind(sectionobject.sectionname + ".sakai", function(eventtype, callback){
@@ -680,7 +669,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var renderTemplateFooter = function(){
 
             // Render the profile footer
-            $profile_footer.html(sakai.api.Util.TemplateRenderer($profile_footer_template, sakai_global.profile.main));
+//            $profile_footer.html(sakai.api.Util.TemplateRenderer($profile_footer_template, sakai_global.profile.main));
 
         };
 
@@ -706,7 +695,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var doInit = function(){
-
             // Set the querystring object variable
             // We use the following parameters:
             //    mode -> mode of the profile
@@ -746,7 +734,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 });
 
                 // Render all the templates
-                renderTemplates();
+                //renderTemplates();
 
                 // Insert the profile section widgets
                 insertProfileSectionWidgets();
