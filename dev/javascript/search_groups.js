@@ -210,12 +210,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Adjust display global total
                 // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
-                if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                if (results.total >= 0) {
                     $(searchConfig.global.numberFound).text(""+results.total);
                 } else if (results.results.length <= 0) {
                     $(searchConfig.global.numberFound).text(0);
-                } else {
-                    $(searchConfig.global.numberFound).text("more than " + Math.abs(results.total));
                 }
 
                 // Reset the pager.
