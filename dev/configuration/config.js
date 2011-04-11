@@ -773,6 +773,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/html.png",
                 description: "URL_LINK"
             },
+            "x-sakai/document": {
+                cssClass: "icon-sakaidoc-sprite",
+                URL: "/dev/images/mimetypes/sakaidoc.png",
+                description: "DOCUMENT"
+            },
             "other": {
                 cssClass: "icon-unknown-sprite",
                 URL: "/dev/images/mimetypes/unknown.png",

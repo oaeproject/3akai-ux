@@ -388,6 +388,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} linkObj object containing all information necessary to upload a link
          */
         var uploadLink = function(linkObj){
+            var preview = sakai.api.Content.getPreviewUrl(linkObj.url);
             var link = {
                 "sakai:pooled-content-file-name": linkObj.title,
                 "sakai:pooled-content-url": linkObj.url,
@@ -395,7 +396,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:permissions": linkObj.permissions,
                 "sakai:copyright": linkObj.copyright,
                 "sakai:tags":linkObj.tags,
-                "sakai:custom-mimetype": "x-sakai/link"
+                "sakai:custom-mimetype": "x-sakai/link",
+                "sakai:preview-url": preview.url,
+                "sakai:preview-type": preview.type,
+                "sakai:preview-avatar": preview.avatar
             };
 
             $.ajax({

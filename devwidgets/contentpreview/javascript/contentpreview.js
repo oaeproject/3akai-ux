@@ -50,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             obj.buttons = "default";
             var callback = null;
-            var mimeType = sakai_global.content_profile.content_data.data["mimeType"] || sakai_global.content_profile.content_data.data["_mimeType"];
+            var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
             if (qs.get("nopreview") === "true"){
                 callback = renderDefaultPreview;
                 obj.type = "default";
@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#upload_content").live("click", function() {
                 $(window).trigger("init.fileupload.sakai", {
                     newVersion: true,
-                    isLink: sakai_global.content_profile.content_data.data["_mimeType"] === "x-sakai/link",
+                    isLink: sakai.api.Content.getMimeType(data["_mimeType"]) === "x-sakai/link",
                     contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
                 });
             });

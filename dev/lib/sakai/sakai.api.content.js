@@ -365,19 +365,12 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 mimeType = content['_mimeType'];
             } else if (content['sakai:custom-mimetype']){
                 mimeType = content['sakai:custom-mimetype'];
-            } else if (content.file && content.file['_mimeType']){
-                mimeType = content.file['_mimeType'];
-            } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){
-                mimeType = content['jcr:content']['_mimeType'];
-            } else if (content['jcr:primaryType'] === "sling:Folder"){
-                mimeType = 'folder';
             }
             return mimeType;
         },
 
         getThumbnail : function(content){
             var thumbnail = "";
-
             if (content['_mimeType/page1-small']) {
                 thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
             }
@@ -386,7 +379,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
 
         isJwPlayerSupportedVideo : function(mimeType) {
             supported = false;
-            if (mimeType.substring(0, 6) === "video/" ){
+            if (mimeType && mimeType.substring(0, 6) === "video/" ){
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
                     supported = true;
@@ -397,11 +390,13 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
 
         hasPreview : function(content){
             var result = false;
+            var mimeType = sakai_content.getMimeType(content);
+            debug.log(mimeType);
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
-                    content["_mimeType"].substring(0,6) === "image/" ||
-                    content["_mimeType"] === "text/html" ||
-                    sakai_content.isJwPlayerSupportedVideo(content["_mimeType"])) {
+                    mimeType.substring(0,6) === "image/" ||
+                    mimeType === "text/html" ||
+                    sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }
             return result;

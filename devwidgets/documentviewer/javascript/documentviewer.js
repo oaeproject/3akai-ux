@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
 
         if (sakai.api.Content.hasPreview(widgetData.data)){
             var data = widgetData.data;
-            var mimeType = data["_mimeType"];
+            var mimeType = sakai.api.Content.getMimeType(widgetData.data);
 
             if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){
                 renderVideoPlayer(getPath(data));

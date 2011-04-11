@@ -209,8 +209,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             return false;
                         });
 
-                        if (sakai.config.MimeTypes[contentInfo["_mimeType"]]){
-                            contentInfo.iconURL = sakai.config.MimeTypes[contentInfo["_mimeType"]].URL;
+                        var mimeType = sakai.api.Content.getMimeType(contentInfo);
+                        if (sakai.config.MimeTypes[mimeType]){
+                            contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
                         } else {
                             contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
                         }
