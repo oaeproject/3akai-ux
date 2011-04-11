@@ -85,6 +85,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
         }
+        
+        var getUserPicture = function(profile, userid){
+            var picture = "";
+            if (profile.picture) {
+                var picture_name = $.parseJSON(profile.picture).name;
+                picture = "/~" + userid + "/public/profile/" + picture_name;
+            }
+            return picture;
+        }
 
         var determineContext = function(){
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
@@ -98,7 +107,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 contextData = {
                     "profile": sakai.data.me.profile,
                     "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                    "userid": sakai.data.me.user.userid
+                    "userid": sakai.data.me.user.userid,
+                    "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid)
                 };
                 determineContentContactsMemberships();
             } else {
@@ -117,7 +127,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "profile": profile,
                     "displayName": sakai.api.User.getDisplayName(profile),
                     "userid": qs.get("id"),
-                    "altTitle": true
+                    "altTitle": true,
+                    "picture": getUserPicture(profile, qs.get("id"))
                 };
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";

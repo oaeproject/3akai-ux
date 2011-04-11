@@ -53,7 +53,15 @@
             {/if}
         {/if}
     </div>
-    <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
+    {if data.picture}
+        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
+            <img id="entity_profile_picture" src="${data.picture}"/>
+        </div>
+    {else}
+        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
+            <img id="entity_profile_picture" src=""/>
+        </div>
+    {/if}
     <div id="entity_name" class="s3d-bold">${data.displayName}</div>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
@@ -65,7 +73,7 @@
             <div class="entity_dropdown_tr"></div>
             <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
-                    <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a id="changepic_container_trigger" href="javascript:;">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
             <div class="entity_dropdown_bottom"></div>
