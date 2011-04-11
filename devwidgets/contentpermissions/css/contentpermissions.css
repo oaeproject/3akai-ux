@@ -1,0 +1,24 @@
+#contentpermissions_container #contentpermissions_global_permissions, #contentpermissions_container .contentpermissions_member_permissions, #contentpermissions_container #contentpermissions_newmember_all_permissions {border: 1px solid #A9A9A9;height: 20px;margin-top: -2px;}
+#contentpermissions_container #contentpermissions_global_permissions {position:absolute;right:100px;}
+#contentpermissions_container .contentpermissions_member_permissions {float:right;margin:8px 25px 0 0}
+#contentpermissions_container .contentpermissions_content_section {background-color: #E5EAED;border-radius:4px;padding:10px 12px;margin-bottom: 10px;}
+#contentpermissions_container .contentpermissions_content_section_no_bottom_borders{border-radius:4px 4px 0 0;}
+#contentpermissions_container .contentpermissions_content_section #contentpermissions_members_message {resize:none;padding:0;border:1px solid #A9A9A9;width:100%;}
+#contentpermissions_container .contentpermissions_content_section #contentpermissions_members_message:hover, #contentpermissions_container #contentpermissions_newmember_permissions {border: 1px solid #A9A9A9;}
+#contentpermission_members_container {border:1px solid #A9A9A9;margin-top:-10px;}
+#contentpermissions_container #contentpermissions_newmember_permissions {margin-top:10px;}
+#contentpermissions_container #contentpermissions_share_button{margin-top: 10px;}
+#contentpermissions_container #contentpermissions_members_list {height:168px;overflow:auto;}
+#contentpermissions_container #contentpermissions_members_actions {height: 25px;padding: 5px 10px 0;}
+#contentpermissions_container #contentpermissions_members_actions input[type="checkbox"] {margin-right:10px;}
+#contentpermissions_container #contentpermissions_newmember_all_permissions {float: right;margin-right: 25px;margin-top:0;}
+#contentpermissions_container #contentpermissions_members_list ul {margin:0;}
+#contentpermissions_container #contentpermissions_members_list ul li {list-style:none;padding:5px 10px;height:32px;}
+#contentpermissions_container #contentpermissions_members_list ul li:hover{background-color:#9cf;}
+#contentpermissions_container #contentpermissions_members_list ul li input[type="checkbox"] {display: block;float: left;margin-right: 15px;margin-top:11px;}
+#contentpermissions_container #contentpermissions_members_list ul li label img {float: left;margin-right:15px;cursor:pointer;}
+#contentpermissions_container #contentpermissions_members_list ul li label a {display:block;float:left;margin-top:9px;}
+#contentpermissions_container #contentpermissions_members_list ul li select {margin-top:7px;}
+#contentpermissions_container #contentpermissions_save_actions {float:right;margin-top:11px;}
+#contentpermissions_container #contentpermissions_save_actions #contentpermissions_cancel_button {margin-right: 12px;margin-top: 4px;}
+#contentpermissions_container .contentpermissions_content_section .as-selections {margin:8px 0;}

@@ -1,0 +1,12 @@
+#newsharecontent_container label {display:block;margin:12px 0 3px 0;}
+#newsharecontent_container label#newsharecontent_linkurl_label {margin-top: 4px;}
+#newsharecontent_container input, #newsharecontent_container textarea {color: #424242;width: 100%;border:1px solid #A9A9A9;height:20px;padding:0 !important;}
+#newsharecontent_container textarea {resize:none;height:100px;}
+#newsharecontent_container .as-selections input {border:none !important;background:none;}
+#newsharecontent_container #newsharecontent_actions {float:right;margin-top:10px;}
+#newsharecontent_container #newsharecontent_actions #newsharecontent_cancel {margin-right: 12px;margin-top: 3px;}
+#newsharecontent_container .newsharecontent_required {border:2px solid #FFC7BF !important;}
+#newsharecontent_container .newsharecontent_required ul.as-selections {border:none;}
+
+/* overrides */
+ul.as-selections{box-shadow:none;}
