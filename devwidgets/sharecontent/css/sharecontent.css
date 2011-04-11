@@ -81,3 +81,6 @@ img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 #permissions_settings_item_everyone{background:url(/dev/images/icons_sprite.png) no-repeat scroll -380px -16px transparent;padding:6px 0 6px 20px;margin-right:6px;}
 #permissions_settings_item_private{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -335px -390px transparent;padding:6px 0 6px 20px;margin-right:6px;}
 .sharecontent_permission_anon{display:block;padding-right:170px;}
+
+/* REMOVE SELF DIALOG */
+#sharecontent_remove_own_access_container .dialog_buttons{text-align:right;}
