@@ -21,7 +21,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], function($, sakai) {
 
     /**
      * @name sakai_global.profilesection
@@ -430,8 +430,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $($selected_element.val().split(",")).each(function(i, tag){
                             tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\s+/g, " ")));
                         });
-                        for (var i = 0; i < sakai_global.profile.main.directory.elements.length; i++){
-                            tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
+                        if (sakai_global.profile.main.directory) {
+                            for (var i = 0; i < sakai_global.profile.main.directory.elements.length; i++){
+                                tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
+                            }
                         }
                         var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
                         sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(success, newtags) {
@@ -492,6 +494,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 });
             // tell the profile that this section has finished saving its data
+            $(".profile-section-save-button").attr("disabled", "disabled");
             $(window).trigger("ready.data.profile.sakai", currentsection);
 
         };
@@ -541,10 +544,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
 
             // Trigger the profile section event, so we let the container know that the widget is loaded
-            $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+            if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.ready) {
+                $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+            } else {
+                $(window).bind("ready.profileedit.sakai", function() {
+                    $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
+                });
+            }
 
             // Bind to the global save function
-            $(window).bind("save.profile.sakai", function(){
+            $('.profile-section-save-button', $rootel).live("click", function(){
                 // Save the values to the global object
                 saveValues();
 
