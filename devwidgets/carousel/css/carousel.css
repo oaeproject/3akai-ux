@@ -50,3 +50,6 @@
 #carousel_container .carousel_two_column_content_container_lh {background:url('/devwidgets/carousel/images/carousel_group_icon.png') left top no-repeat transparent; width:50px; height:50px; float:left; margin-top: 5x;}
 #carousel_container .carousel_group_lh {width:458px !important;}
 #carousel_container .carousel_group_rh {width:238px !important;}
+
+/* User Specific */
+#carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}
