@@ -64,12 +64,112 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsNewMemberPermissions = "#contentpermissions_newmember_permissions";
         var contentpermissionsSaveAndCloseButton = "#contentpermissions_save_and_close_button";
         var contentpermissionsGlobalPermissions = "#contentpermissions_global_permissions";
+        var contentpermissionsRemoveButton = "#contentpermissions_remove_button";
+        var contentpermissionsNewMemberCheckAll = "#contentpermissions_newmember_checkall";
+        var contentpermissionsNewMemberAllPermissions = "#contentpermissions_newmember_all_permissions";
+        var contentpermissionsMembersContainerInputFields = "#contentpermission_members_container input[type=\"checkbox\"]";
+        var contentpermissionsMembersListInputFields = "#contentpermissions_members_list input[type=\"checkbox\"]";
+        var contentpermissionsMemberActions = "#contentpermissions_members_actions";
+        var contentpermissionsMembersList = "#contentpermissions_members_list";
+        var contentpermissionsMemberPermissions = ".contentpermissions_member_permissions";
 
 
         ////////////////////
         // UTIL FUNCTIONS //
         ////////////////////
 
+        /**
+         * Enable or disable buttons on top of the members list to allow or disallow actions
+         * @param {Boolean} disable True for disabling the list, false for enabling
+         */
+        var enableDisableButtons = function(disable){
+            // First check if event was fired from individual checkbox
+            if (disable.cancelable) {
+                if($(contentpermissionsMembersListInputFields + ":checked").length){
+                    $(contentpermissionsMemberActions).children("select, button").removeAttr("disabled");
+                }else{
+                    $(contentpermissionsMemberActions).children("select, button").attr("disabled", "disabled");
+                    $(contentpermissionsNewMemberCheckAll).removeAttr("checked");
+                }
+            }
+            else {
+                if (disable) {
+                    $(contentpermissionsMemberActions).children("select, button").attr("disabled", "disabled");
+                } else {
+                    $(contentpermissionsMemberActions).children("select, button").removeAttr("disabled");
+                }
+            }
+        };
+
+        /**
+         * Check/Uncheck all items in the members list and enable/disable buttons
+         */
+        var checkAll = function(){
+            if($(this).is(":checked")){
+                $(contentpermissionsMembersListInputFields).attr("checked","checked");
+                enableDisableButtons(false);
+            }else{
+                $(contentpermissionsMembersListInputFields).removeAttr("checked");
+                enableDisableButtons(true);
+            }
+        };
+
+        /**
+         * Change the permission values for the selected (checked) users in the members list
+         */
+        var changePermissionForSelected = function(){
+            var permissionValue = $(contentpermissionsNewMemberAllPermissions).val();
+            $(contentpermissionsMembersListInputFields + ":checked").each(function(index, item){
+                $(item).prev().val(permissionValue);
+            });
+        };
+
+        /**
+         * Remove the checked users in the list
+         * Does validation to make sure users can be deleted or not and gives a notification when necessary.
+         */
+        var doRemove = function(){
+            var usersToDelete = [];
+            var numberOfManagersToDelete = 0;
+            $(contentpermissionsMembersListInputFields + ":checked").each(function(index, item){
+                var manager = $(item).hasClass("managers");
+                var userid = item.id.split("_")[1];
+                var userToDelete = {};
+                if (manager) {
+                    userToDelete = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":manager@Delete": userid
+                        }
+                    };
+                    numberOfManagersToDelete++;
+                }else{
+                    userToDelete = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": userid
+                        }
+                    };
+                }
+                usersToDelete.push(userToDelete);
+            });
+
+            if (numberOfManagersToDelete < sakai_global.content_profile.content_data.members.managers.length) {
+                // Do the Batch request
+                sakai.api.Server.batch(usersToDelete, function(success, data){
+                    $(window).trigger("load.content_profile.sakai");
+                }, false);
+            } else {
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_DELETE_USERS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+            }
+        };
+
+        /**
+         * Get the list of selected users/groups from the autosuggest plugin
+         * @return {Object} returnValue An object containing a list of displayNames and an Array of userID's to be added to the members list
+         */
         var getSelectedList = function() {
             var list = $("#as-values-" + tuid).val();
             // this value is a comma-delimited list
@@ -95,11 +195,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             return returnValue;
         };
 
+        /**
+         * Close the JQModal overlay
+         */
         var closeOverlay = function(){
             $contentpermissionsContainer.jqmHide();
         };
 
-        var addedUserGroup = function(el){
+        /**
+         * Callback function used by the autosuggest plugin after an item is added to the autosuggest list
+         * Function renders and shows the default message that's being sent upon sharing
+         */
+        var addedUserGroup = function(){
             if (!$(contentpermissionsMembersMessageContainer).is(":visible")) {
                 $(contentpermissionsMembersMessage).html(sakai.api.Util.TemplateRenderer(contentpermissionsShareMessageTemplate, {
                     "filename": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
@@ -110,10 +217,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
         };
 
-        var removedUserGroup = function(el){
-            el.remove();
-        };
-
+        /**
+         * Share the piece of content with a user by adding the user to the list of members (editor or viewer)
+         */
         var doShare = function(){
             var userList = getSelectedList();
             $.each(userList.list, function(i, val){
@@ -141,57 +247,69 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(contentpermissionsMembersMessageContainer).hide();
         };
 
+        /**
+         * Save the settings of a widget
+         * This includes the gobal permissions settings but also the individual permission settings for users
+         */
         var doSave = function(){
             var dataObj = {
-                "sakai:permissions" : $(contentpermissionsGlobalPermissions).val()
+                "sakai:permissions": $(contentpermissionsGlobalPermissions).val()
             };
             $.ajax({
-                url: sakai_global.content_profile.content_data.path,
-                type:"POST",
+                url: sakai_global.content_profile.content_data.path + ".json",
+                type: "POST",
                 data: dataObj,
                 success: function(data){
                     sakai_global.content_profile.content_data.data["sakai:permissions"] = $(contentpermissionsGlobalPermissions).val();
+                    var permissionsBatch = [];
+                    var atLeastOneManager = false;
+                    $(contentpermissionsMembersList + " li").each(function(index, item){
+                        var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
+                        var userId = item.id.split("_")[1];
+                        var p = {};
+                        if (newPermission == "manager") {
+                            atLeastOneManager = true;
+                            p = {
+                                "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                                "method": "POST",
+                                "parameters": {
+                                    ":manager": userId,
+                                    ":viewer@Delete": userId
+                                }
+                            };
+                            permissionsBatch.push(p);
+                        } else {
+                            p = {
+                                "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                                "method": "POST",
+                                "parameters": {
+                                    ":viewer": userId,
+                                    ":manager@Delete": userId
+                                }
+                            };
+                            permissionsBatch.push(p);
+                        }
+                    });
+                    if (atLeastOneManager) {
+                        // Do the Batch request
+                        sakai.api.Server.batch(permissionsBatch, function(success, data){
+                            closeOverlay();
+                            $(window).trigger("load.content_profile.sakai");
+                        }, false);
+                    } else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+                    }
                 }
             });
-
-            var permissionsBatch = [];
-            $("#contentpermissions_members_list li").each(function(index, item){
-                var newPermission = $(item).children(".contentpermissions_member_permissions").val();
-                var userId = item.id.split("_")[1];
-                var p = {};
-                if (newPermission == "manager") {
-                    p = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":manager": userId,
-                            ":viewer@Delete": userId
-                        }
-                    };
-                    permissionsBatch.push(item);
-                } else {
-                    p = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer": userId,
-                            ":manager@Delete": userId
-                        }
-                    };
-                    permissionsBatch.push(item);
-                }
-            });
-            // Do the Batch request
-            sakai.api.Server.batch(permissionsBatch, function(success, data) {
-                closeOverlay();
-                $(window).trigger("load.content_profile.sakai");
-            }, false);
         };
 
         ////////////
         // SEARCH //
         ////////////
 
+        /**
+         * Fetch the users and groups used in the autocomplete functionality of the widget
+         */
         var fetchUsersGroups = function(){
             var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
 
@@ -216,8 +334,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         searchObjProps: "name",
                         startText: "Enter name here",
                         asHtmlID: tuid,
-                        selectionAdded: addedUserGroup,
-                        selectionRemoved: removedUserGroup
+                        selectionAdded: addedUserGroup
                     });
                 }
             });
@@ -228,15 +345,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // RENDERING //
         //////////////
 
+        /**
+         * Render the widget UI and fetch the data to go in the members list
+         */
         var renderPermissions = function(){
             $contentpermissionsContentContainer.html(sakai.api.Util.TemplateRenderer(contentpermissionsContentTemplate, {
                 "contentdata": sakai_global.content_profile.content_data,
                 "api": sakai.api
             }));
             fetchUsersGroups();
+            enableDisableButtons(true);
         };
 
-        var fillPermissionsData = function(){
+        /**
+         * Set the widget title to include the filename and call the render function
+         */
+        var setWidgetTitleAndRender = function(){
             $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.Widgets.getValueForKey("contentpermissions", "", "PERMISSIONS"));
             renderPermissions();
         };
@@ -251,18 +375,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 modal: true,
                 overlay: 20,
                 toTop: true,
-                zIndex: 3000//,
+                zIndex: 3000
             });
 
             $(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
                 $contentpermissionsContainer.jqmShow();
-                fillPermissionsData();
+                setWidgetTitleAndRender();
             });
 
             $(contentpermissionsCancelButton).live("click", closeOverlay);
             $(contentpermissionsShareButton).live("click", doShare);
             $(contentpermissionsSaveAndCloseButton).live("click", doSave);
-            $(window).bind("membersadded.content.sakai", renderPermissions);
+            $(contentpermissionsRemoveButton).live("click", doRemove);
+            $(contentpermissionsNewMemberCheckAll).live("click", checkAll);
+            $(contentpermissionsMembersContainerInputFields).live("click", enableDisableButtons);
+            $(contentpermissionsNewMemberAllPermissions).live("change", changePermissionForSelected);
+            $(window).bind("ready.contentprofile.sakai", renderPermissions);
 
         };
 

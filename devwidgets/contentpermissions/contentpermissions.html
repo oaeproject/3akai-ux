@@ -41,24 +41,39 @@
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>
-    <div id="contentpermissions_members_list">
-        <ul>
-            {for memberArr in contentdata.members}
-                {for member in memberArr}
-                    <li id="member_${member.userid}">
-                        <select class="contentpermissions_member_permissions">
-                            <option value="manager" {if memberArr_index == "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
-                            <option value="viewer" {if memberArr_index == "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
-                        </select>
-                        <input type="checkbox" id="select_${member.userid}">
-                        <label for="select_${member.userid}">
-                            <img src="/dev/images/default_profile_picture_32.png" alt="__MSG__USER_PICTURE__"/>
-                            <a href="/~${member.userid}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
-                        </label>
-                    </li>
+    <div id="contentpermission_members_container">
+        <div id="contentpermissions_members_actions">
+            <select id="contentpermissions_newmember_all_permissions">
+                <option value="manager">__MSG__CAN_EDIT__</option>
+                <option value="viewer">__MSG__CAN_VIEW__</option>
+            </select>
+            <input type="checkbox" id="contentpermissions_newmember_checkall"/>
+            <button id="contentpermissions_remove_button" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
+            </button>
+            <button id="contentpermissions_message_button" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+            </button>
+        </div>
+        <div id="contentpermissions_members_list">
+            <ul>
+                {for memberArr in contentdata.members}
+                    {for member in memberArr}
+                        <li id="member_${member.userid}">
+                            <select class="contentpermissions_member_permissions">
+                                <option value="manager" {if memberArr_index == "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+                                <option value="viewer" {if memberArr_index == "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
+                            </select>
+                            <input type="checkbox" id="select_${member.userid}" class="${memberArr_index}">
+                            <label for="select_${member.userid}">
+                                <img src="/dev/images/default_profile_picture_32.png" alt="__MSG__USER_PICTURE__"/>
+                                <a href="/~${member.userid}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
+                            </label>
+                        </li>
+                    {/for}
                 {/for}
-            {/for}
-        </ul>
+            </ul>
+        </div>
     </div>
     <div id="contentpermissions_save_actions">
         <button type="button" class="s3d-button fl-force-right" id="contentpermissions_save_and_close_button">
