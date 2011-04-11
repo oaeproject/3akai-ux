@@ -84,7 +84,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         generateNav();
                     }
                 });
-        }
+        };
         
         var getUserPicture = function(profile, userid){
             var picture = "";
@@ -93,7 +93,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 picture = "/~" + userid + "/public/profile/" + picture_name;
             }
             return picture;
-        }
+        };
 
         var determineContext = function(){
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
