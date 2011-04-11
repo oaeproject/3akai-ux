@@ -50,6 +50,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Containers
         var $contentpermissionsContainer = $("#contentpermissions_container");
         var $contentpermissionsContentContainer = $("#contentpermissions_content_container");
+        var contentpermissionsMembersMessageContainer = "#contentpermissions_members_message_container";
 
         // Templates
         var contentpermissionsContentTemplate = "contentpermissions_content_template";
@@ -59,6 +60,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsMembersAutosuggest = "#contentpermissions_members_autosuggest";
         var contentpermissionsCancelButton = "#contentpermissions_cancel_button";
         var contentpermissionsMembersMessage = "#contentpermissions_members_message";
+        var contentpermissionsShareButton = "#contentpermissions_share_button";
+        var contentpermissionsNewMemberPermissions = "#contentpermissions_newmember_permissions";
+        var contentpermissionsSaveAndCloseButton = "#contentpermissions_save_and_close_button";
+        var contentpermissionsGlobalPermissions = "#contentpermissions_global_permissions";
 
 
         ////////////////////
@@ -70,7 +75,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // this value is a comma-delimited list
             // split it and get rid of any empty values in the array
             list = list.split(",");
-            var removed = 0
+            var removed = 0;
             $(list).each(function(i, val) {
                if (val === "") {
                    list.splice(i - removed, 1);
@@ -95,12 +100,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         var addedUserGroup = function(el){
-            if (!$(contentpermissionsMembersMessage).is(":visible")) {
+            if (!$(contentpermissionsMembersMessageContainer).is(":visible")) {
                 $(contentpermissionsMembersMessage).html(sakai.api.Util.TemplateRenderer(contentpermissionsShareMessageTemplate, {
                     "filename": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                     "path": window.location,
                     "user": sakai.api.User.getDisplayName(sakai.data.me.profile)
                 }));
+                $(contentpermissionsMembersMessageContainer).show();
             }
         };
 
@@ -108,6 +114,79 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             el.remove();
         };
 
+        var doShare = function(){
+            var userList = getSelectedList();
+            $.each(userList.list, function(i, val){
+                userList.list[i] = val.split("/")[1];
+            });
+
+            var toAddList = userList.list.slice();
+
+            for (var i in toAddList) {
+                if (toAddList.hasOwnProperty(i) && toAddList[i]) {
+                    if (toAddList[i].substring(0, 5) === "user/") {
+                        toAddList[i] = toAddList[i].substring(5, toAddList[i].length);
+                    } else if (toAddList[i].substring(0, 6) === "group/") {
+                        toAddList[i] = toAddList[i].substring(6, toAddList[i].length);
+                    }
+                }
+            }
+
+            $(window).trigger("finished.sharecontent.sakai", {
+                "toAdd": toAddList,
+                "toAddNames": userList.toAddNames,
+                "mode": $(contentpermissionsNewMemberPermissions).val()
+            });
+
+            $(contentpermissionsMembersMessageContainer).hide();
+        };
+
+        var doSave = function(){
+            var dataObj = {
+                "sakai:permissions" : $(contentpermissionsGlobalPermissions).val()
+            };
+            $.ajax({
+                url: sakai_global.content_profile.content_data.path,
+                type:"POST",
+                data: dataObj,
+                success: function(data){
+                    sakai_global.content_profile.content_data.data["sakai:permissions"] = $(contentpermissionsGlobalPermissions).val();
+                }
+            });
+
+            var permissionsBatch = [];
+            $("#contentpermissions_members_list li").each(function(index, item){
+                var newPermission = $(item).children(".contentpermissions_member_permissions").val();
+                var userId = item.id.split("_")[1];
+                var p = {};
+                if (newPermission == "manager") {
+                    p = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":manager": userId,
+                            ":viewer@Delete": userId
+                        }
+                    };
+                    permissionsBatch.push(item);
+                } else {
+                    p = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": userId,
+                            ":manager@Delete": userId
+                        }
+                    };
+                    permissionsBatch.push(item);
+                }
+            });
+            // Do the Batch request
+            sakai.api.Server.batch(permissionsBatch, function(success, data) {
+                closeOverlay();
+                $(window).trigger("load.content_profile.sakai");
+            }, false);
+        };
 
         ////////////
         // SEARCH //
@@ -121,7 +200,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     var suggestions = [];
                     var name, value, type;
                     $.each(data.results, function(i){
-                        if (data.results[i]["rep:userId"]) {
+                        if (data.results[i]["rep:userId"] && sakai.data.me.user.userid != data.results[i]["rep:userId"]) {
                             name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
                             value = "user/" + data.results[i]["rep:userId"];
                             type = "user";
@@ -150,13 +229,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         //////////////
 
         var renderPermissions = function(){
-            debug.log(sakai_global.content_profile.content_data);
-            $contentpermissionsContentContainer.html(sakai.api.Util.TemplateRenderer(contentpermissionsContentTemplate, {"contentdata" : sakai_global.content_profile.content_data, "api":sakai.api}));
+            $contentpermissionsContentContainer.html(sakai.api.Util.TemplateRenderer(contentpermissionsContentTemplate, {
+                "contentdata": sakai_global.content_profile.content_data,
+                "api": sakai.api
+            }));
             fetchUsersGroups();
         };
 
-        var fillPermissionsData = function(title){
-            $(".dialog_header_inner h1:visible").text("\"" + title + "\" " + sakai.api.i18n.Widgets.getValueForKey("contentpermissions", "", "PERMISSIONS"));
+        var fillPermissionsData = function(){
+            $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.Widgets.getValueForKey("contentpermissions", "", "PERMISSIONS"));
             renderPermissions();
         };
 
@@ -171,15 +252,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 overlay: 20,
                 toTop: true,
                 zIndex: 3000//,
-                //onHide: resetWidget
             });
 
             $(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
                 $contentpermissionsContainer.jqmShow();
-                fillPermissionsData(config.title);
+                fillPermissionsData();
             });
 
             $(contentpermissionsCancelButton).live("click", closeOverlay);
+            $(contentpermissionsShareButton).live("click", doShare);
+            $(contentpermissionsSaveAndCloseButton).live("click", doSave);
+            $(window).bind("membersadded.content.sakai", renderPermissions);
 
         };
 

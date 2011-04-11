@@ -133,9 +133,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // this value is a comma-delimited list
             // split it and get rid of any empty values in the array
             list = list.split(",");
+            var removed = 0;
             $(list).each(function(i, val) {
                if (val === "") {
-                   list.splice(i, 1);
+                   list.splice(i - removed, 1);
+                   removed += 1;
                }
             });
 
@@ -168,11 +170,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             var userList = getSelectedList();
             $.each(userList.list, function(i, val){
-                if ($.trim(val)) {
-                    userList.list[i] = val.split("/")[1];
-                }else{
-                    userList.list.splice(i,1);
-                }
+                userList.list[i] = val.split("/")[1];
             });
 
             var messageText = $.trim($newsharecontentMessage.val());

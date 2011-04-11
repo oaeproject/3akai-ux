@@ -44,6 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "comments",
         "contentcomments",
         "contentmetadata",
+        "contentpermissions",
         "contentpicker",
         "contentpreview",
         "creategroup",
