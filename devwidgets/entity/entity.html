@@ -45,7 +45,7 @@
                     <button class="entity_user_contact_pending" type="button">
                         <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__</span>
                     </button>
-                    
+
                 {/if}
                 <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" type="button" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
@@ -123,12 +123,14 @@
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
-            <img src="${data['iconURL']}"/>
+            <img src="${data.data['iconURL']}"/>
     </div>
-    <div id="entity_name" class="s3d-bold">${data["sakai:pooled-content-file-name"]}</div>
+    <div id="entity_name" class="s3d-bold">${data.data["sakai:pooled-content-file-name"]}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">Used by (<a href="#" title="1 Person">1</a>)</span> <a href="#" title="1 Person">person</a> and 
-        <span class="entity_number">(<a href="#" title="0 Groups">0</a>)</span> <a href="#" title="0 Groups">groups</a>
+        {var peopleCount = data.members.counts.people}
+        <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
+        {var groupCount = data.members.counts.groups}
+        <span class="entity_number">(<a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">${groupCount}</a>)</span> <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">{if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}</a>
         <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
     </div>
 --></div>
