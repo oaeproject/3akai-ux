@@ -349,10 +349,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             user.extra = basic.unidepartment;
                         }
                     }
-                    user.connected = true;
+                    user.connected = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
-
                     if (getMyFriends().results) {
                         for (var ii = 0, jj = getMyFriends().results.length; ii<jj; ii++) {
                             var friend = getMyFriends().results[ii];
@@ -364,7 +363,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 // if user is not a connection show the add to contact  
                                 else if (friend.details["sakai:state"] === "NONE") {
                                     user.connected = false;
-                                } 
+                                } else {
+                                    user.connected = true;
+                                }
                             }
                         }
                     }
