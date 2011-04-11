@@ -49,7 +49,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var rootel = $("#" + tuid);
         var uploadLink = ".upload_link";
         var fileuploadContainer = "#fileupload_container";
-        var noContentMsg = "#mycontent_nocontent";
         var dataErrorMsg = "#mycontent_data_error";
         var contentList = "#mycontent_list";
         var listTemplate = "#mycontent_list_template";
@@ -76,24 +75,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
-                _mimeType: result["_mimeType"],
+                _mimeType: sakai.api.Content.getMimeType(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "jcr:name": result["jcr:name"]
             };
 
+            var mimetypeData = sakai.api.Content.getMimeTypeData(result);
             // set the mimetype and corresponding image
-            var type = result["_mimeType"];
-            if(sakai.config.MimeTypes[type]) {
+            if(item._mimeType) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[type].description);
-                item.type_img_url = sakai.config.MimeTypes[type].URL;
+                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
+                item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             }
 
             // set file name without the extension
             // be aware that links don't have an extension
             var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
             if(lastDotIndex !== -1) {
-                if (type !== "x-sakai/link") {
+                if (item.type !== "x-sakai/link") {
                     // extension found
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
@@ -119,26 +118,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handleContentData = function(success, data) {
             if(success) {
                 // parse & render data
-                if(data.total < 1) {
-                    // user manages no content
-                    $(noContentMsg, rootel).show();
-                } else {
-                    // user manages content
-                    $(noContentMsg, rootel).hide();
-                    // build array of up to five items; reverse chronological order
-                    var contentjson = {
-                        items: []
-                    };
-                    for(var i = 0; i < data.total && i < 5; i++) {
-                        if (data.results[i]){
-                            contentjson.items.push(parseDataResult(data.results[i]));
-                        }
+                // build array of up to five items; reverse chronological order
+                var contentjson = {
+                    items: []
+                };
+                for(var i = 0; i < data.total && i < 5; i++) {
+                    if (data.results[i]){
+                        contentjson.items.push(parseDataResult(data.results[i]));
                     }
-                    // pass the array to HTML view
-                    contentjson.sakai = sakai;
-                    $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
-                    $(contentList, rootel).show();
                 }
+                // pass the array to HTML view
+                contentjson.sakai = sakai;
+                $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
+
+                $(".add_content_button", rootel).click(function (ev) {
+                    $(window).trigger("init.newaddcontent.sakai");
+                    return false;
+                });
+
+                $(contentList, rootel).show();
             } else {
                 // display something useful to the user
                 $(dataErrorMsg, rootel).show();
@@ -168,6 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
+
             // get list of content items
             $.ajax({
                 url: "/var/search/pool/manager-viewer.json",

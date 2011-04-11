@@ -19,5 +19,6 @@
  .documentviewer_preview_width { width:920px;}
  .documentviewer_preview_height { height:560px;}
 
- #documentviewer_image_rendered { float: left; }
  #documentviewer_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
+
+ .DV-docViewer { z-index: 0; }

@@ -25,5 +25,11 @@
 .mygroup_item_img {display:inline;}
 .mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
 
+.my_groups_widget #mygroups_error_nosites{padding:0 20px;}
+.my_groups_widget .mygroups_create_new_group{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;}
+.my_groups_widget .mygroups_create_new_group span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
+.my_groups_widget .mygroups_create_new_group:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
+.my_groups_widget .mygroups_create_new_group:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
+
 /* Widget icon */
 .mygroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}
