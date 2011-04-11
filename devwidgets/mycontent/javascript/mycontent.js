@@ -92,7 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // be aware that links don't have an extension
             var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
             if(lastDotIndex !== -1) {
-                if (type !== "x-sakai/link") {
+                if (item.type !== "x-sakai/link") {
                     // extension found
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
