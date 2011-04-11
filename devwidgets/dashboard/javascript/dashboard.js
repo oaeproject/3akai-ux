@@ -825,7 +825,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
 
         var changeLayout = function(title) {
-            $("#paget_title_only", $rootel).html(" "+title);
+            if (title) {
+                $("#paget_title_only", $rootel).html(" " + title);
+            }
             $(changeLayoutDialog, $rootel).jqmShow();
         };
 
@@ -839,16 +841,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
          *     This is especially useful when there are multiple dashboard
          *     widgets on one page.
          */
-        $(window).bind("changeLayout.dashboard.sakai", function(e, title, dashboard_tuid) {
-            if (dashboard_tuid && dashboard_tuid === tuid) {
-                // for show.html, where multiple dashboards are on one page
-                changeLayout(title);
-                e.stopPropagation();
-            } else if (!dashboard_tuid) {
-                // when there is only one dashboard on the page
+        $(window).bind("changeLayout.dashboard.sakai", function(e, title, iTuid) {
+            showChangeLayoutDialog(title, iTuid);
+            e.stopPropagation();
+        });
+        
+        $(".dashboard_change_layout").live("click", function(){
+            var iTuid = "" + $(this).data("tuid");
+            showChangeLayoutDialog(false, iTuid);
+        });
+        
+        var showChangeLayoutDialog = function(title, iTuid){
+            if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                 changeLayout(title);
             }
-        });
+        }
 
         ///////////////////////
         // Add Sakai Goodies //
@@ -955,12 +962,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
 
         $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
+            showAddWidgetDialog(iTuid);
+            e.stopPropagation();
+        });
+        
+        $(".dashboard_global_add_widget").live("click", function(){
+            var iTuid = "" + $(this).data("tuid");
+            showAddWidgetDialog(iTuid);
+        });
+        
+        var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                 widgetDialogShown[tuid] = true;
                 $(addGoodiesDialog, $rootel).jqmShow();
-                e.stopPropagation();
             }
-        });
+        }
 
         /**
         * Initialize the Dashboard Widget

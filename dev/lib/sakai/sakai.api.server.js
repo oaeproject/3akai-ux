@@ -323,9 +323,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         if (canRemove) {
                             delete newobj[key];
                         }
-                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                    } else if ($.isPlainObject(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    }
+                    } /* else if ($.isArray(newobj[key])) {
+                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                    } */
                 }
             });
             return newobj;

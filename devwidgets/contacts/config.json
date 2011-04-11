@@ -5,7 +5,7 @@
     },
     "id": "contacts",
     "name": "contacts",
-    "personalportal":true,
+    "personalportal":false,
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/contacts/contacts.html",

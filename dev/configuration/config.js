@@ -2010,7 +2010,7 @@ define(function(){
                 }
             },
             "267187828": {
-                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
                 "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
