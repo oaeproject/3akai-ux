@@ -191,7 +191,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @returns void
          */
         var updateTotalHitCount = function(hitcount) {
-
+alert(hitcount);
             // Adjust total search result count
             if (hitcount > 0) {
                 totalItemsFound += hitcount;
@@ -244,7 +244,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             foundCM.total = foundCM.total || 0;
 
             // Adjust total search result count
-            updateTotalHitCount(foundCM.results.length);
+            updateTotalHitCount(foundCM.total);
 
             var querystring = buildQuerystring();
             $("#cm_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"/search/content" + querystring, "show_more":Math.abs(foundCM.total) > cmToSearch}));
@@ -275,7 +275,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Adjust total search result count
             if (foundSites.results) {
 
-                updateTotalHitCount(foundSites.results.length);
+                updateTotalHitCount(foundSites.total);
 
                 var querystring = buildQuerystring();
                 $("#sites_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("groups_results_header_template", {"query_href":"/search/groups" + querystring, "show_more":Math.abs(foundSites.total) > sitesToSearch}));
@@ -342,7 +342,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             results.total = results.total || 0;
 
             // Adjust total search result count
-            updateTotalHitCount(results.results.length);
+            updateTotalHitCount(results.total);
 
             var querystring = buildQuerystring();
             $("#people_header .search_results_part_header").html(sakai.api.Util.TemplateRenderer("people_results_header_template", {"query_href":"/search/people" + querystring, "show_more":Math.abs(results.total) > peopleToSearch}));
