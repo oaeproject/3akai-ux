@@ -239,7 +239,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 } else {
                     arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
                 }
-                arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:created"]));
+                arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["_created"]));
                 if(arrPosts[i].post["sakai:editedOn"]){
                     arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
                 }
@@ -249,7 +249,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     } else {
                         arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
                     }
-                    arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:created"]));
+                    arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["_created"]));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
                         arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
                     }
@@ -526,8 +526,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message["sakai:from"], data.message.profile.picture);
-                    data.message["sakai:created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["sakai:created"]));
-                    data.message["sakai:createdOn"] = data.message["sakai:created"];
+                    data.message["_created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["_created"]));
+                    data.message["sakai:createdOn"] = data.message["_created"];
 
                     data.message["sakai:quoted"] = parseQuote(data.message["sakai:body"]);
                     if (data.message["sakai:body"].split(["[/quote]"])[1]) {

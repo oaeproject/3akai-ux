@@ -429,7 +429,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doMarkUpOnPost = function(o){
             var post = o.post;
             var uid = post["sakai:from"];
-            post.date = sakai.api.l10n.transformDateTimeShort(parseDate(post["sakai:created"]));
+            post.date = sakai.api.l10n.transformDateTimeShort(parseDate(post["_created"]));
             post['sakai:body'] = (""+post['sakai:body']).replace(/\n/g, "<br />");
             post.showEdit = false;
             post.showDelete = false;
