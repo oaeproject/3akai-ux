@@ -551,21 +551,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure["structure0"]){
-                pageCount++;
-                if (pageCount >= 3){
-                    return 3;
-                }
-                for (var ll in pagestructure["structure0"][tl]){
-                    if (ll.substring(0,1) !== "_"){
-                        pageCount++;
-                        if (pageCount >= 3){
-                            return 3;
+                if (pagestructure["structure0"].hasOwnProperty(tl)){
+                    pageCount++;
+                    if (pageCount >= 3){
+                        return 3;
+                    }
+                    for (var ll in pagestructure["structure0"][tl]){
+                        if (ll.substring(0,1) !== "_"){
+                            pageCount++;
+                            if (pageCount >= 3){
+                                return 3;
+                            }
                         }
                     }
                 }
             }
             return pageCount;
-        }
+        };
         
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
@@ -580,7 +582,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             globalPageStructure = pagestructure;
             generateNav(pagestructure);
-        }
+        };
         
         var switchToTwoColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").show();
@@ -596,7 +598,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
+        };
         
         var switchToOneColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").hide();
@@ -612,7 +614,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
+        };
         
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
