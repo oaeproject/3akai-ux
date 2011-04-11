@@ -19,14 +19,15 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.profile = sakai_global.profile || {};
-    sakai_global.profile.main = {
+    sakai_global.profile.main = sakai_global.profile.main || {};
+    $.extend(true, sakai_global.profile.main, {
         config: sakai.config.Profile.configuration.defaultConfig,
         data: {},
         mode: {
             options: ["view", "edit"],
             value: "view"
         }
-    };
+    });
 
     sakai_global.user = function() {
 
@@ -61,7 +62,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata = publicToStore;
                     } else {
                         pubdata = data;
-                        pubdata = sakai.api.Server.removeServerCreatedObjects(pubdata, ["_ref", "_title", "_altTitle"]);
+                        pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                     }
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
@@ -70,7 +71,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 privdata = privateToStore;
                             } else {
                                 privdata = data2;
-                                privdata = sakai.api.Server.removeServerCreatedObjects(privdata, ["_ref", "_title", "_altTitle"]);   
+                                privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);   
                             }
                             generateNav();
                             if (publicToStore) {
@@ -85,6 +86,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
         }
+        
+        var getUserPicture = function(profile, userid){
+            var picture = "";
+            if (profile.picture) {
+                var picture_name = $.parseJSON(profile.picture).name;
+                picture = "/~" + userid + "/public/profile/" + picture_name;
+            }
+            return picture;
+        }
 
         var determineContext = function(){
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
@@ -98,7 +108,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 contextData = {
                     "profile": sakai.data.me.profile,
                     "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                    "userid": sakai.data.me.user.userid
+                    "userid": sakai.data.me.user.userid,
+                    "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid)
                 };
                 determineContentContactsMemberships();
             } else {
@@ -117,7 +128,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "profile": profile,
                     "displayName": sakai.api.User.getDisplayName(profile),
                     "userid": qs.get("id"),
-                    "altTitle": true
+                    "altTitle": true,
+                    "picture": getUserPicture(profile, qs.get("id"))
                 };
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
@@ -241,6 +253,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
+
+        $(window).bind("complete.fileupload.sakai", determineContext);
 
         determineContext();
         renderEntity();

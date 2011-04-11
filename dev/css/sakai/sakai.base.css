@@ -222,7 +222,7 @@ a.s3d-action-seeall{font-size:11px!important;}
 /*
  * BUTTONS
  */
-.s3d-button{display:inline-block;position:relative;border:none;margin:0 5px 5px 0;
+.s3d-button{display:inline-block;position:relative;border:none;margin:0 5px 0 0;
     padding:0 13px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */
     background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;zoom:1;}
 .s3d-button:hover,.s3d-button-hover{background-position:right -70px;}
@@ -463,4 +463,5 @@ ul li.s3d-list-item:hover{background-color:#9CF;}
 .icon-video-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1118px 0 transparent;}
 .icon-kmultiple-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -430px 0 transparent;}
 .icon-url-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -304px 0 transparent;}
+.icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1166px 0 transparent;}
 .icon-unknown-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -143px 0 transparent;}

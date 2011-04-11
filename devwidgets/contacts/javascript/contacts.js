@@ -89,10 +89,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getAccepted = function(dataObj){
             var url = "";
             if(sakai_global.profile.main.mode.value !== "view"){
-                url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=1000"
+                url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=1000";
                 data = {};
             }else{
-                url = "/var/contacts/findbyuser.json"
+                url = "/var/contacts/findbyuser.json";
                 data = {
                     "userid": sakai_global.profile.main.data.homePath.split("~")[1]
                 };
@@ -150,7 +150,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             else {
                 getAccepted(dataObj);
             }
-        }
+        };
 
         var doInit = function(){
             getContacts();

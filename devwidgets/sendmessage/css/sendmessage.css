@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#message_dialog{width:566px;}
+.message_dialog.dialog{width:566px;}
 .dialogue_box{background:#FFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0;margin-top:0;position:relative;top:0;width:100%;z-index:101;}
 .sendmessage_error_message{font-weight:bold;margin:10px;padding:10px;border:1px solid red;background-color:#f7d8d8;}
 .sendmessage_normal_message{margin:10px;padding:10px;border:1px solid #0f0;background-color:#d9f7d8;}

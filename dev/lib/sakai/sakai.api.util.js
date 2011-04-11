@@ -1178,24 +1178,23 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.error("TemplateRenderer:", e);
+                        debug.log("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    throw "TemplateRenderer: The template '" + templateName + "' could not be found";
+                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
 
             // Run the template and feed it the given JSON object
             var render = "";
             try {
-                render = this.templateCache[templateName].process(templateData);
+                render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.error("TemplateRenderer:", err);
+                debug.log("TemplateRenderer: rendering failed: " + err);
             }
-            
 
             // Run the rendered html through the sanitizer
             if (sanitize) {

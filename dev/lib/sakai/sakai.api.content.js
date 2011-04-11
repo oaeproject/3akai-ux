@@ -27,7 +27,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
          * @param {Function} callback Function to call when the permissions have been saved or failed to save.
          *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
          */
-        setFilePermissions : function(permissionValue, filesArray, callback, groupID){
+        setFilePermissions : function(filesArray, callback, groupID){
             // Check which value was selected and fill in the data object accordingly
             var data = [];
             var file;
@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 if (filesArray.hasOwnProperty(file)) {
                     var contentPath = "/p/" + filesArray[file].hashpath;
                     var item;
-                    switch (permissionValue) {
+                    switch (filesArray[file].permissions) {
                     // Logged in only
                     case "everyone":
                         item = {
@@ -137,10 +137,14 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                     requests: $.toJSON(data)
                 },
                 success: function(data){
-                    callback(true);
+                    if (callback) {
+                        callback(true);
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
-                    callback(false);
+                    if (callback) {
+                        callback(false);
+                    }
                 }
             });
         },
@@ -259,9 +263,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
-                asin = bookId[bookId.indexOf('dp')+1];
-                result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
-                result.type = "iframe";
+                if (asin && asin[asin.indexOf('dp')] !== -1){
+                    asin = asin[asin.indexOf('dp')+1];
+                    result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
+                    result.type = "iframe";
+                }
             } else if (/videolectures\.net$/.test(uri.host)) {
                 var lectureId = uri.path.split('/')[1];
                 if (lectureId) {
@@ -323,6 +329,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         }
                     });
                 }
+            } else if (/maps\.google\.com$/.test(uri.host)) {
+                if (uri.path !== "") {
+                    result.url = uri.source;
+                    result.type = "googlemap";
+                }
             }
             return result;
         },
@@ -351,22 +362,17 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         },
 
         getMimeType : function(content){
-            var mimeType;
+            var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
-            } else if (content.file && content.file['_mimeType']){
-                mimeType = content.file['_mimeType'];
-            } else if (content['jcr:content'] && content['jcr:content']['_mimeType']){
-                mimeType = content['jcr:content']['_mimeType'];
-            } else if (content['jcr:primaryType'] === "sling:Folder"){
-                mimeType = 'folder';
+            } else if (content['sakai:custom-mimetype']){
+                mimeType = content['sakai:custom-mimetype'];
             }
             return mimeType;
         },
 
         getThumbnail : function(content){
             var thumbnail = "";
-
             if (content['_mimeType/page1-small']) {
                 thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
             }
@@ -375,7 +381,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
 
         isJwPlayerSupportedVideo : function(mimeType) {
             supported = false;
-            if (mimeType.substring(0, 6) === "video/" ){
+            if (mimeType && mimeType.substring(0, 6) === "video/" ){
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
                     supported = true;
@@ -386,11 +392,13 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
 
         hasPreview : function(content){
             var result = false;
+            var mimeType = sakai_content.getMimeType(content);
+            debug.log(mimeType);
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
-                    content["_mimeType"].substring(0,6) === "image/" ||
-                    content["_mimeType"] === "text/html" ||
-                    sakai_content.isJwPlayerSupportedVideo(content["_mimeType"])) {
+                    mimeType.substring(0,6) === "image/" ||
+                    mimeType === "text/html" ||
+                    sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }
             return result;

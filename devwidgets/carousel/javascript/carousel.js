@@ -185,10 +185,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.content.results, function(index, item) {
                 var obj = {};
                 var thumbnail = sakai.api.Content.getThumbnail(item);
-
-                if (item["_mimeType"] && item["_mimeType"].substring(0, 6) === "image/") {
+                var mimeType = sakai.api.Content.getMimeType(item);
+                if (mimeType.substring(0, 6) === "image/") {
                     obj.preview = renderImagePreview(item["jcr:name"], item["_lastModified"]);
-                }else if (isJwPlayerSupportedVideo(item["_mimeType"] || "")) {
+                }else if (isJwPlayerSupportedVideo(mimeType || "")) {
                     obj.preview = renderVideoPlayer(item["jcr:name"]);
                 } else if (thumbnail) {
                     obj.preview = renderImagePreview(item["jcr:name"] + ".page1-small.jpg", item["_lastModified"]);
@@ -209,14 +209,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
                 }
-                if(sakai.config.MimeTypes[item["_mimeType"]]) {
-                    obj.icon = sakai.config.MimeTypes[item["_mimeType"]].URL;
+                if(sakai.config.MimeTypes[mimeType]) {
+                    obj.icon = sakai.config.MimeTypes[mimeType].URL;
                 }else{
                     obj.icon = sakai.config.MimeTypes.other.URL;
                 }
 
                 obj.title = item["sakai:pooled-content-file-name"];
-                obj.mimeType = item["_mimeType"] || "";
+                obj.mimeType = mimeType || "";
                 obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
@@ -253,23 +253,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var parseGroups = function(data, dataArr){
             $.each(data.groups.results, function (index, group){
-                var obj = {};
-
-                if(group.members && group.members.length){
-                    obj.members = group.members;
+                if (group.members) {
+                    var obj = {};
+                    
+                    if (group.members && group.members.length) {
+                        obj.members = group.members;
+                    }
+                    if (group["sakai:group-description"] && group["sakai:group-description"].length) {
+                        obj.description = group["sakai:group-description"];
+                    }
+                    if (group["sakai:tags"] && group["sakai:tags"].length) {
+                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                    }
+                    
+                    obj.contentType = "group";
+                    obj.groupid = group["sakai:group-id"];
+                    obj.title = group["sakai:group-title"];
+                    
+                    dataArr.push(obj);
                 }
-                if(group["sakai:group-description"] && group["sakai:group-description"].length){
-                    obj.description = group["sakai:group-description"];
-                }
-                if(group["sakai:tags"] && group["sakai:tags"].length){
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
-                }
-
-                obj.contentType = "group";
-                obj.groupid = group["sakai:group-id"];
-                obj.title = group["sakai:group-title"];
-
-                dataArr.push(obj);
             });
         };
 
@@ -309,14 +311,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 cache: false,
                 success: function(data){
                     $.each(data.results, function(index, group) {
-                        $.ajax({
-                            url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=1000",
-                            cache: false,
-                            async: false,
-                            success: function(memberData){
-                                data.results[group].members = memberData;
-                            }
-                        });
+                        data.results[group] = data.results[group] || false;
+                        if (data.results[group].groupid) {
+                            $.ajax({
+                                url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=1000",
+                                cache: false,
+                                async: false,
+                                success: function(memberData){
+                                    data.results[group].members = memberData;
+                                }
+                            });
+                        }
                     });
                     dataArr.groups = data;
                     checkDataParsable(dataArr);
