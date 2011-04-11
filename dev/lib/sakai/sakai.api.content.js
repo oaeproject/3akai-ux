@@ -264,8 +264,10 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
                 asin = bookId[bookId.indexOf('dp')+1];
-                result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
-                result.type = "iframe";
+                if (asin){
+                    result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
+                    result.type = "iframe";
+                }
             } else if (/videolectures\.net$/.test(uri.host)) {
                 var lectureId = uri.path.split('/')[1];
                 if (lectureId) {

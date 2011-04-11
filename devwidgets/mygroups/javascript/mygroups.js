@@ -47,8 +47,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // IDs
         var mygroupsList = "#mygroups_list";
-        var mygroupsListTemplate = "#mygroups_list_template";
-        var mygroupsErrorNoSites = "#mygroups_error_nosites";
         var mygroupsErrorNoSettings = "#mygroups_error_nosettings";
         var mygroupsCreateNewGroup = "#create_new_group_link";
         var ellipsisContainer = ".mygroups_ellipsis_container";
@@ -85,20 +83,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} newjson group list object
          */
         var doRender = function(newjson){
-            // If the user is not registered for any sites, show the no sites error.
-            if (newjson.entry.length === 0) {
-                $(mygroupsList, rootel).html(sakai.api.Security.saneHTML($(mygroupsErrorNoSites).html())).addClass(mygroups_error_class);
-            }
-            else {
-                // Sort the groups by their name
-                newjson.entry = newjson.entry.sort(doSort);
-                for (var group in newjson.entry) {
-                    if (newjson.entry.hasOwnProperty(group)) {
-                        newjson.entry[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
-                    }
+            // Sort the groups by their name
+            newjson.entry = newjson.entry.sort(doSort);
+            for (var group in newjson.entry) {
+                if (newjson.entry.hasOwnProperty(group)) {
+                    newjson.entry[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
                 }
-                $(mygroupsList, rootel).html(sakai.api.Util.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));
             }
+            sakai.api.Util.TemplateRenderer("mygroups_list_template", newjson, $(mygroupsList, rootel));
         };
 
         /**
