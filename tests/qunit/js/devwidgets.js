@@ -77,6 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "navigation",
         "nextleveldown",
         "newsharecontent",
+        "newaddcontent",
         "nodecontentarea",
         "pickeradvanced",
         "pickeruser",

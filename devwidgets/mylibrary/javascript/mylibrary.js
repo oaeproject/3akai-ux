@@ -319,7 +319,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tags: formatTags(result["sakai:tags"]),
                             numPeopleUsing: getNumPeopleUsing(),
                             numGroupsUsing: getNumGroupsUsing(),
-                            numComments: getNumComments(result)
+                            numComments: getNumComments(result),
+                            mimeType: result["_mimeType"],
+                            fullResult: result
                         });
                     });
                     if (callback && typeof(callback) === "function") {
@@ -365,6 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         return sakai.data.me.user.userid === item.ownerid;
                     }
                 };
+                json.sakai = sakai;
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_admin_actions.show();
                 }

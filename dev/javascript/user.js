@@ -61,7 +61,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata = publicToStore;
                     } else {
                         pubdata = data;
-                        pubdata = sakai.api.Server.removeServerCreatedObjects(pubdata, ["_ref", "_title", "_altTitle"]);
+                        pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                     }
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
@@ -70,7 +70,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 privdata = privateToStore;
                             } else {
                                 privdata = data2;
-                                privdata = sakai.api.Server.removeServerCreatedObjects(privdata, ["_ref", "_title", "_altTitle"]);   
+                                privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);   
                             }
                             generateNav();
                             if (publicToStore) {
@@ -241,6 +241,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
+
+        $(window).bind("complete.fileupload.sakai", determineContext);
 
         determineContext();
         renderEntity();

@@ -14,7 +14,7 @@
         <div class="newinbox_main">
             <!-- Title -->
             <div class="newinbox_right">
-                <a href="#newmessage=true" data-remove-params="message" class="s3d-button s3d-button-link-2-state newinbox_right" id="newinbox_create_new_message">
+                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state newinbox_right" id="newinbox_create_new_message">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
                 </a>
             </div>
@@ -25,19 +25,16 @@
             <div class="newinbox_title_bar">
                 <div class="newinbox_right_div">
                     <div class="newinbox_right">
-                    <span>__MSG__SHOW__:</span>
                     <span class="s3d-button s3d-button-primary">
                         <span class="s3d-button-inner">__MSG__ALL__</span>
                     </span>
-                    <span>__MSG__UNREAD__</span>
+                    <span class="s3d-button s3d-button-secondary">
+                        <span class="s3d-button-inner">__MSG__UNREAD__</span>
+                    </span>
                     </div>
                 </div>
-                <div id="newinbox_select_all_messages">
-                    <input type="checkbox" />
-                    <span>__MSG__SELECT_ALL_MESSAGES__</span>
-                </div>
                 <div id="newinbox_back_to_messages" style="display:none">
-                    <button type="button" class="s3d-button s3d-button-link-2-state" data-reset-hash="true">
+                    <button type="button" class="s3d-button s3d-button-link-2-state">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
                     </a>
                 </div>
@@ -56,7 +53,7 @@
                                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
                                 </button>
                             </div>
-                            <div class="newinbox_placeholder"><input type="checkbox" /></div>
+                            <div class="newinbox_placeholder">&nbsp;</div>
                             <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
                             <div class="newinbox_name">
                                 <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
@@ -67,6 +64,10 @@
                             </div>
                         </div>
                     </div>
+                {forelse}
+                    <div class="fl-container fl-fix">
+                        <p>__MSG__NO_MESSAGES__</p>
+                    </div>
                 {/for}
             --></div>
             <div id="newinbox_pager" class="jq_pager"></div>
@@ -75,7 +76,7 @@
             <div id="newinbox_show_message" style="display:none"></div>
             <div id="newinbox_show_message_template"><!--
                 <div id="newinbox_show_message_header">
-                    <div class="fl-container fl-fix newinbox_items_container">
+                    <div class="fl-container fl-fix newinbox_items_container" id="${message.id}">
                         <div class="newinbox_items_inner">
                             <div class="newinbox_right_div">
                                 <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
@@ -97,7 +98,11 @@
                 <div id="newinbox_show_message_body">
                     <p>${message.body}</p>
                 </div>
-                <div id="newinbox_show_message_reply"></div>
+                <div id="newinbox_show_message_reply">
+                    <a href="#reply=true">__MSG__REPLY__</a>
+                    <div class="newinbox_show_message_reply_fields"></div>
+                </div>
+                <div id="newinbox_show_message_replies"></div>
             --></div>
 
             <!-- New Message -->
@@ -106,7 +111,7 @@
     </div>
 
     <!-- On hover of the inbox items, this will display -->
-    <div id="newinbox_hover" style="display:none"></div>
+    <div id="newinbox_hover"></div>
     <div id="newinbox_hover_template"><!--
         <div id="newinbox_hover_container">
             <div id="newinbox_hover_header">
@@ -117,7 +122,7 @@
                                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
                             </button>
                         </div>
-                        <div class="newinbox_placeholder"><input type="checkbox" /></div>
+                        <div class="newinbox_placeholder">&nbsp;</div>
                         <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
                         <div class="newinbox_name">
                             <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
