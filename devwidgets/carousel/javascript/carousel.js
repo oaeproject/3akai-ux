@@ -297,6 +297,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        var parseInvitations = function(data, dataArr){
+            $.each(data.invitations.results, function (index, invitation){
+                var obj = {};
+
+                if (invitation["sakai:tags"] && invitation["sakai:tags"].length){
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(invitation["sakai:tags"]);
+                }
+                if (invitation.aboutme){
+                    obj.aboutme = invitation.aboutme.elements.aboutme.value;
+                }
+                if (invitation.profile.basic.elements.picture && invitation.profile.basic.elements.picture.value.length){
+                    obj.picture = $.parseJSON(invitation.profile.basic.elements.picture.value);
+                }
+
+                obj.contentType = "invitation";
+                obj.userid = invitation.profile.userid;
+                obj.displayName = sakai.api.User.getDisplayName(invitation.profile);
+
+                dataArr.push(obj);
+            });
+        };
+
         var parseData = function(data){
             var dataArr = [];
 
@@ -304,12 +326,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             parseGroups(data, dataArr);
             parseMessages(data, dataArr);
             parseUsers(data, dataArr);
+            parseInvitations(data, dataArr);
 
             renderCarousel(dataArr);
         };
 
         var checkDataParsable = function(data){
-            if (data.content && data.groups && data.messages && data.users) {
+            if (data.content && data.groups && data.messages && data.users && data.invitations) {
                 parseData(data);
             }
         };
@@ -318,14 +341,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var dataArr = {
                 "content": false,
                 "groups": false,
-                "messages":false,
-                "users":false
+                "messages": false,
+                "users": false,
+                "invitations": false
             };
             $.ajax({
                 url: "/var/search/pool/me/manager-all.1.json?sortOn=_created&sortOrder=desc&page=0&items=50",
                 cache: false,
                 success: function(data){
                     dataArr.content = data;
+                    checkDataParsable(dataArr);
+                }
+            });
+
+            $.ajax({
+                url: "/var/contacts/findstate.json?state=INVITED&page=0&items=1000",
+                cache: false,
+                success: function(data){
+                    dataArr.invitations = data;
                     checkDataParsable(dataArr);
                 }
             });

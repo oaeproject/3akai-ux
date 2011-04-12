@@ -38,13 +38,14 @@
 #carousel_container .carousel_view_toggle {margin-left:auto;margin-right:auto;text-align:center;margin-bottom:0;padding-top:2px;}
 #carousel_container .carousel_user_icon {width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;}
 #carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
+.jcarousel-item-horizontal{width:796px;}
 
-/* Single column specific */
+/* Single column */
 #carousel_container #carousel_single_column_content_preview{width:350px; height:197px; margin-right:12px; margin-top: -15px;float:left;text-align: center;overflow:hidden}
 #carousel_container #carousel_single_column_content_preview img{max-width:350px;}
-#carousel_container .carousel_single_column_content_container {width:696px;}
+#carousel_container .carousel_single_column_content_container {width:696px;clear:both;}
 
-/* Two column specific */
+/* Two column */
 #carousel_container .carousel_two_column_content_container {width:348px;float:left;}
 #carousel_container .carousel_two_column_content_container_rh {overflow:hidden;padding:0 7px;}
 #carousel_container .carousel_two_column_content_container_lh {background:url('/devwidgets/carousel/images/carousel_group_icon.png') left top no-repeat transparent; width:50px; height:50px; float:left; margin-top: 5x;}
@@ -53,3 +54,6 @@
 
 /* User Specific */
 #carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}
+
+/* Contact Invitations */
+#carousel_container .carousel_add_to_contacts {}
