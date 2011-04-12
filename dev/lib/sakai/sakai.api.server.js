@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         /**
          * Perform a batch request to the server
          *
-         * @param {Object} requests The JSON object of requests
+         * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
@@ -323,9 +323,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         if (canRemove) {
                             delete newobj[key];
                         }
-                    } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
+                    } else if ($.isPlainObject(newobj[key])) {
                         newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
-                    }
+                    } /* else if ($.isArray(newobj[key])) {
+                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                    } */
                 }
             });
             return newobj;

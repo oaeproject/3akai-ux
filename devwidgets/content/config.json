@@ -5,7 +5,7 @@
     },
     "id": "content",
     "name": "content",
-    "personalportal":true,
+    "personalportal":false,
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/content/content.html",

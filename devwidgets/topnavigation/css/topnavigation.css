@@ -37,13 +37,14 @@
 .topnavigation_search #topnavigation_search_input{background:none repeat scroll 0 0 transparent;border: medium none;margin: 3px 0 0 7px;width: 145px;}
 .topnavigation_search #topnavigation_search_results {position: absolute; width:241px; margin-top:6px; z-index: 10000;}
 .topnavigation_search #topnavigation_search_results_top {background:url("/devwidgets/topnavigation/images/topnav_search_results_top.png") no-repeat scroll 0 0 transparent;height:5px;}
-.topnavigation_search #topnavigation_search_results_container{background:url("/devwidgets/topnavigation/images/topnav_search_results_border.png") repeat-y scroll 0 0 transparent;padding:5px 0;}
+.topnavigation_search #topnavigation_search_results_container{background:url("/devwidgets/topnavigation/images/topnav_search_results_border.png") repeat-y scroll 0 0 transparent;padding:5px 3px;}
 .topnavigation_search #topnavigation_search_results_bottom{background:url("/devwidgets/topnavigation/images/topnav_search_results_bottom.png") no-repeat scroll 0 0 transparent;height:8px;}
 .topnavigation_search #topnavigation_search_results_bottom_container {background:url("/devwidgets/topnavigation/images/topnav_search_results_bottom_border.png") repeat-y scroll 0 0 transparent;height:28px;padding:4px 3px 0 12px;}
 .topnavigation_search #topnavigation_search_results_container hr {background-color: #D4D4D4;border: medium none;height: 1px; margin:5px 12px 4px;}
 .topnavigation_search #topnavigation_search_results_container .topnavigation_search_results_section_header{color:#636363;padding:0 12px;}
 .topnavigation_search #topnavigation_search_results_container ul {margin:5px 0 15px;}
 .topnavigation_search #topnavigation_search_results_container ul li {padding:2px 12px;}
+.topnavigation_search #topnavigation_search_results_container ul li.selected {background-color:#D3EDF5;}
 .topnavigation_search #topnavigation_search_results_container ul li a{text-decoration:none;color: #424242;}
 .topnavigation_search #topnavigation_search_results_container #topnavigation_search_results_no_results{padding:0 12px;}
 .topnavigation_search #topnavigation_search_results_container .topnav_content_icon, .topnavigation_search #topnavigation_search_results_container .topnav_person_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {width:16px; height:16px; display:block;}

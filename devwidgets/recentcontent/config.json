@@ -5,7 +5,7 @@
     },
     "id": "recentcontent",
     "name": "My Recent Content",
-    "personalportal":true,
+    "personalportal":false,
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/recentcontent/recentcontent.html",

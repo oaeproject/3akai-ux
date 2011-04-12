@@ -393,7 +393,6 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         hasPreview : function(content){
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
-            debug.log(mimeType);
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
                     mimeType.substring(0,6) === "image/" ||
