@@ -100,10 +100,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
-                            if (data.results[0].status === 404){
+                            if (data.results[0]["status"] === 404){
                                 sakai.api.Security.send404();
                                 return;
-                            } else if (data.results[0].stats === 403){
+                            } else if (data.results[0]["status"] === 403){
                                 sakai.api.Security.send403();
                                 return;
                             } else {
@@ -124,7 +124,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
                                     contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
                                     contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                    contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
+                                        contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
                                 }
                             });
                             contentMembers.managers = contentMembers.managers || {};
@@ -133,7 +133,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.managers[index].basic.hasOwnProperty("elements") &&
                                     contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
                                     contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                    contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
+                                        contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
                                 }
                             });
                         }
@@ -209,6 +209,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             return false;
                         });
 
+                        contentMembers.counts = { people: 0, groups: 0};
+                        $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
+                            if (member.hasOwnProperty("userid")) {
+                                contentMembers.counts.people++;
+                            } else {
+                                contentMembers.counts.groups++;
+                            }
+                        });
+
                         var mimeType = sakai.api.Content.getMimeType(contentInfo);
                         if (sakai.config.MimeTypes[mimeType]){
                             contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
@@ -237,11 +246,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             callback(true);
                         }
                         initEntityWidget();
-                        
+
                         if (!showPreview){
                             renderSakaiDoc(contentInfo);
                         }
-                        
+
                     }
                 });
 
@@ -261,7 +270,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 type = "content_not_shared";
             }
-            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data.data]);
+            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data]);
         };
 
         $(window).bind("sakai.entity.ready", function(){
@@ -322,9 +331,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             ready_event_fired++;
                         });
                     }
-                    
+
                     sakai.api.Security.showPage();
-                    
+
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");
                 });
@@ -519,7 +528,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             checkShareContentTour();
         };
-        
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -527,9 +536,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
-        
+
         var globalPageStructure = false;
-        
+
         var generateNav = function(pagestructure){
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
@@ -547,30 +556,32 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.ready", function(){
             generateNav(globalPageStructure);
         });
-        
+
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure["structure0"]){
-                pageCount++;
-                if (pageCount >= 3){
-                    return 3;
-                }
-                for (var ll in pagestructure["structure0"][tl]){
-                    if (ll.substring(0,1) !== "_"){
-                        pageCount++;
-                        if (pageCount >= 3){
-                            return 3;
+                if (pagestructure["structure0"].hasOwnProperty(tl)){
+                    pageCount++;
+                    if (pageCount >= 3){
+                        return 3;
+                    }
+                    for (var ll in pagestructure["structure0"][tl]){
+                        if (ll.substring(0,1) !== "_"){
+                            pageCount++;
+                            if (pageCount >= 3){
+                                return 3;
+                            }
                         }
                     }
                 }
             }
             return pageCount;
-        }
-        
+        };
+
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
-        
+
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
             if (getPageCount(pagestructure) >= 3){
@@ -580,8 +591,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             globalPageStructure = pagestructure;
             generateNav(pagestructure);
-        }
-        
+        };
+
         var switchToTwoColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").show();
             $("#content_profile_main_container").addClass("s3d-twocolumn");
@@ -596,8 +607,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
-        
+        };
+
         var switchToOneColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").hide();
             $("#content_profile_main_container").removeClass("s3d-twocolumn");
@@ -612,8 +623,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
-        
+        };
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////

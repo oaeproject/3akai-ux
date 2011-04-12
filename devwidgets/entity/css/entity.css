@@ -49,3 +49,5 @@
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
 #entity_content_image img{height:50px; margin-top:5px;}
+#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -5px;}
+#entity_name_edit input {padding:3px; border:1px solid #DDDDDD; background:none;}
