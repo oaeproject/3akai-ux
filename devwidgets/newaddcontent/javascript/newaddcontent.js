@@ -263,7 +263,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "title":$(item.nextElementSibling).text(),
                             "id":item.id,
                             "type":"existing",
-                            "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].classList[0]
+                            "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                         };
                         addContentToQueue(contentObj);
                     });
