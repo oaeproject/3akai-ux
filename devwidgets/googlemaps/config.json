@@ -19,5 +19,6 @@
     "defaultLat":52.2025441,
     "defaultLng":0.1312368,
     "defaultZoom":8,
-    "url":"/devwidgets/googlemaps/googlemaps.html"
+    "url":"/devwidgets/googlemaps/googlemaps.html",
+    "indexFields": ["mapinput", "maphtml"]
 }
