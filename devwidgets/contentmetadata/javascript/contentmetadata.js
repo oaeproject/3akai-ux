@@ -136,32 +136,32 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var renderName = function(mode){
             if (mode === "edit") {
-                $("#contentmetadata_name_name").hide();
-                $("#contentmetadata_name_text").val($.trim($("#contentmetadata_name_name").text()));
-                $("#contentmetadata_name_edit").show();
-                $("#contentmetadata_name_text").focus();
+                $("#entity_name").hide();
+                $("#entity_name_text").val($.trim($("#entity_name").text()));
+                $("#entity_name_edit").show();
+                $("#entity_name_text").focus();
             }
-            $("#contentmetadata_name_text").unbind("blur");
-            $("#contentmetadata_name_text").bind("blur", function(){
-                $("#contentmetadata_name_edit").hide();
-                if ($.trim($("#contentmetadata_name_text").val())) {
-                    $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
-                    $("#contentmetadata_name_name").show();
+            $("#entity_name_text").unbind("blur");
+            $("#entity_name_text").bind("blur", function(){
+                $("#entity_name_edit").hide();
+                if ($.trim($("#entity_name_text").val())) {
+                    $("#entity_name").text($("#entity_name_text").val());
+                    $("#entity_name").show();
                     $.ajax({
                         url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                         type: "POST",
                         cache: false,
                         data: {
-                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
+                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#entity_name_text").val())
                         },
                         success: function(){
-                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#entity_name_text").val());
                         }
                     });
                 }
                 else {
-                    $("#contentmetadata_name_name").show();
-                    $(".contentmetadata_editable").live("click", editData);
+                    $("#entity_name").show();
+                    $(".entity_editable").live("click", editData);
                 }
             });
         };

@@ -125,7 +125,10 @@
     <div id="entity_content_image" class="entity_content_image">
             <img src="${data.data['iconURL']}"/>
     </div>
-    <div id="entity_name" class="s3d-bold">${data.data["sakai:pooled-content-file-name"]}</div>
+    <span id="entity_name" class="s3d-bold contentmetadata_editable">${data.data["sakai:pooled-content-file-name"]}</span>
+    <span id="entity_name_edit" style="display:none">
+        <input id="entity_name_text" type="text" size="50" />
+    </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
         <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
