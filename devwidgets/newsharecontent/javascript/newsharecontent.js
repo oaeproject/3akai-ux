@@ -169,38 +169,47 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
 
             var userList = getSelectedList();
-            $.each(userList.list, function(i, val){
-                userList.list[i] = val.split("/")[1];
-            });
 
             var messageText = $.trim($newsharecontentMessage.val());
             if (userList.list.length && messageText) {
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
 
                 var toAddList = userList.list.slice();
-
+                var removed = 0;
                 for (var i in toAddList) {
                     if (toAddList.hasOwnProperty(i) && toAddList[i]) {
                         if (toAddList[i].substring(0, 5) === "user/") {
-                            toAddList[i] = toAddList[i].substring(5, toAddList[i].length);
+                            var user = toAddList[i].substring(5, toAddList[i].length);
+                            if(!sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, user) && !sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, user)){
+                                toAddList[i - removed] = user;
+                            } else {
+                                toAddList.splice(i - removed, 1);
+                                removed++;
+                            }
                         }
                         else if (toAddList[i].substring(0, 6) === "group/") {
-                            toAddList[i] = toAddList[i].substring(6, toAddList[i].length);
+                            var group = toAddList[i].substring(6, toAddList[i].length);
+                            if(!sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, group) && !sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, group)){
+                                toAddList[i - removed] = group
+                            } else {
+                                toAddList.splice(i - removed, 1);
+                                removed++;
+                            }
                         }
                     }
                 }
 
-                $(window).trigger("finished.sharecontent.sakai", {
-                    "toAdd": toAddList,
-                    "toAddNames": userList.toAddNames,
-                    "mode": "viewer"
-                });
+                userList.list = toAddList;
 
-                // Used to update entity, not yet implemented in the entity widget
-                //$(window).trigger("addUser.sharecontent.sakai", {
-                //    "user": userList,
-                //    "access": mode
-                //});
+                if (toAddList.length) {
+                    $(window).trigger("finished.sharecontent.sakai", {
+                        "toAdd": toAddList,
+                        "toAddNames": userList.toAddNames,
+                        "mode": "viewer"
+                    });
+                }else {
+                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + userList.toAddNames.toString().replace(/,/g, ", "));
+                }
 
                 createActivity("__MSG__ADDED_A_MEMBER__");
 
