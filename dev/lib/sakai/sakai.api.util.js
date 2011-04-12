@@ -266,7 +266,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch(requests, function(success, data) {
                         if (success) {
                             doSetTags(tags, function(_success) {
                                 setTagsCallback(_success);
@@ -297,7 +297,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(setTagsRequests), function(success, data) {
+                    sakai_serv.batch(setTagsRequests, function(success, data) {
                         if (!success) {
                             debug.error(tagLocation + " failed to be tagged as " + val);
                         }
@@ -329,7 +329,7 @@ define(["jquery",
                             }
                         });
                     });
-                    sakai_serv.batch($.toJSON(requests), function(success, data) {
+                    sakai_serv.batch(requests, function(success, data) {
                         if (!success) {
                             debug.error(val + " tag failed to be removed from " + tagLocation);
                         }
@@ -1228,9 +1228,11 @@ define(["jquery",
              * @param {Object} message Message that user has entered.
              */
             replaceURL : function(message){
-                // get the regex code from
-                // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
-                return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link s3d-regular-links s3d-bold" target="_blank">$&</a>');
+                // link is already wrap in anchor tag do nothing
+                // but if it is not wrap in the anchor tag, wrap in the anchor tag.
+                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+(\b|$))/g, function($0,$1){
+                    return $1?$0:"<a href='"+$0+"' class='my_link s3d-regular-links s3d-bold' target='_blank'>"+$0+"</a>";
+                });
             },
 
             /**
@@ -1436,7 +1438,17 @@ define(["jquery",
                 element = element[0];
             }
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
+        },
+
+        // :?=&;\/?@+$<>#%'"''{}|\\^[]'
+        makeSafeURL : function(url, replacement) {
+            url = $.trim(url); // Remove the spaces at the beginning and end of the id
+            url = url.replace(/['"]/gi,"");
+            url = url.replace(/[:;<>#^%{}|~`@%&!$,.=\+\/\?\(\)\*\s\\\\\\[\\]]*/gi, replacement);
+            url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
+            return url;
         }
+
     };
     
     return util;

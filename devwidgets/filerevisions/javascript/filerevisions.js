@@ -79,7 +79,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     reqs.push({url: "/~" + i + "/public/authprofile.infinity.json", "method":"GET", "cache":false});
             });
 
-            sakai.api.Server.batch($.toJSON(reqs), function(success, data) {
+            sakai.api.Server.batch(reqs, function(success, data) {
                 if (success){
                     $.each(data.results, function(i, val) {
                         var profile = $.parseJSON(val.body);

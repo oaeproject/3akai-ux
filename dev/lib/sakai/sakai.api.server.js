@@ -35,47 +35,61 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         /**
          * Perform a batch request to the server
          *
-         * @param {String} requests The JSON string of requests
+         * @param {Object} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
+         * @param {Boolean} async If we should do an async request or not
          */
-        batch : function(_requests, _callback, _cache, _forcePOST) {
-            var method = _forcePOST ? "POST" : "GET",
-                cache = _cache || true,
-                requestsJSON = $.parseJSON(_requests),
+        batch : function(_requests, _callback, _cache, _forcePOST, _async) {
+            var method = _forcePOST === true ? "POST" : "GET",
+                cache = _cache === false ? false : true,
+                async = _async === false ? false : true;
                 url = sakai_conf.URL.BATCH;
 
-                // ie7 and lower don't support GETs over 2032 chars,
-                // so lets check for that and POST if we need to
-                var hasIELongUrlBug = false;
-                // Long requests are overflowing the Jetty header cache
-                // so lets use POST for long requests on all browsers until that's fixed
-                //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
-                    hasIELongUrlBug = true;
-                //}
+            // Append a charset to each request
+            $.each(_requests, function(i,req) {
+                if (!req["_charset_"]) {
+                    req["_charset_"] = "utf-8";
+                }
+                if (req["parameters"] && !req["parameters"]["_charset_"]) {
+                    req["parameters"]["_charset_"] = "utf-8";
+                }
+            });
 
-                var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + _requests.replace(/[^A-Za-z0-9._]/g, "%XX")).length;
-                if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
-                    method = "POST";
-                } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
-                    cache = false;
-                } else {
-                    // if any request contains a POST, we should be POSTing so the request isn't cached
-                    // maybe just GET with no cache? not sure
-                    for (var i=0; i<requestsJSON.length; i++) {
-                        if (requestsJSON[i].method === "POST") {
-                            method = "POST";
-                            break;
-                        }
+            // ie7 and lower don't support GETs over 2032 chars,
+            // so lets check for that and POST if we need to
+            var hasIELongUrlBug = false;
+            // Long requests are overflowing the Jetty header cache
+            // so lets use POST for long requests on all browsers until that's fixed
+            //if($.browser.msie && $.browser.version.substr(0,1)<="7"){
+                hasIELongUrlBug = true;
+            //}
+
+            var urlLength = (document.location.protocol + "://" + document.location.host + sakai_conf.URL.BATCH + "?requests=" + $.toJSON(_requests).replace(/[^A-Za-z0-9._]/g, "%XX")).length;
+            if (!_forcePOST && hasIELongUrlBug && urlLength > 2000) {
+                method = "POST";
+            } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
+                cache = false;
+            } else {
+                // if any request contains a POST, we should be POSTing so the request isn't cached
+                // maybe just GET with no cache? not sure
+                for (var i=0; i<_requests.length; i++) {
+                    if (_requests[i].method === "POST") {
+                        method = "POST";
+                        break;
                     }
                 }
+            }
+            sakaiServerAPI.removeServerCreatedObjects(_requests);
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 type: method,
                 cache: cache,
+                async: async,
                 data: {
-                    requests: _requests
+                    "_charset_":"utf-8",
+                    requests: $.toJSON(_requests)
                 },
                 success: function(data) {
                     if ($.isFunction(_callback)) {
@@ -115,7 +129,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             this.initialRequests[groupId].count++;
             var that = this;
             if (numRequests === this.initialRequests[groupId].count) {
-                this.batch($.toJSON(that.initialRequests[groupId].requests), function(success, data) {
+                this.batch(that.initialRequests[groupId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
                             "groupId": groupId,
@@ -138,10 +152,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {Function} callback A callback function which is executed at the
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
+         * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -157,6 +172,28 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 // Make sure none of the other code in this function is executed
                 return;
             }
+
+            /**
+             * @param {Array} path The path to the data object, split out
+             * @param {Object} obj The data object to add the field to
+             */
+            var addIndexedFields = function(path, obj) {
+                if (path.length > 1) {
+                    obj = obj[path.shift()];
+                    addIndexedFields(path, obj);
+                } else {
+                    if (obj["sakai:indexed-fields"]) {
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
+                        obj["sakai:indexed-fields"].push(path[0]);
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
+                    } else {
+                        obj["sakai:indexed-fields"] = path[0];
+                    }
+                    if (!obj["sling:resourceType"]) {
+                        obj["sling:resourceType"] = "sakai/widget-data";
+                    }
+                }
+            };
 
             /**
              * <p>Convert all the arrays in an object to an object with a unique key.<br />
@@ -222,7 +259,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             var postData = {
                 ":operation": "import",
                 ":contentType": "json",
-                ":content": $.toJSON(i_data),
                 ":replace": true,
                 ":replaceProperties": true,
                 "_charset_":"utf-8"
@@ -230,7 +266,13 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             if (removeTree) {
                 postData[":removeTree"] = removeTree;
             }
-
+            if (indexFields) {
+                $.each(indexFields, function(i,val) {
+                    addIndexedFields(val.split("/"), i_data);
+                });
+            }
+            sakaiServerAPI.removeServerCreatedObjects(i_data);
+            postData[":content"] = $.toJSON(i_data);
             // Send request
             $.ajax({
                 url: i_url,
@@ -299,7 +341,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          */
         removeServerCreatedObjects : function(obj) {
             $.each(obj, function(key,val) {
-                if (key && key.indexOf && key.indexOf("_") === 0) {
+                if (key && key.indexOf && key.indexOf("_") === 0 && key.indexOf("__") !== 0) {
                     delete obj[key];
                 } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
                     sakaiServerAPI.removeServerCreatedObjects(obj[key]);
