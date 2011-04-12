@@ -201,8 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var files = [];
             for(var i in data.results){
                 if(data.results.hasOwnProperty(i)){
-                    var mimeType = sakai.config.MimeTypes["other"].cssClass;
-                    mimeType = sakai.config.MimeTypes[sakai.api.Content.getMimeType(data.results[i])].cssClass;
+                    var mimeType = sakai.api.Content.getMimeTypeData(data.results[i]).cssClass;
                     var tempFile = {
                         "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                         "name" : data.results[i]["sakai:pooled-content-file-name"],
@@ -371,7 +370,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($(topnavSearchResultsContainer).find("li.selected").length) {
                 document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
             } else {
-                document.location = "/dev/search2.html#q=" + val;
+                document.location = "/dev/search2.html#q=" + $.trim($("#topnavigation_search_input").val());
             }
         };
 
