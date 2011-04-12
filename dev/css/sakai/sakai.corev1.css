@@ -3,6 +3,7 @@
 .s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
 .s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;}
 .s3d-page-content-padding{padding: 10px 15px 20px;}
+.s3d-page-content-lowpadding{padding: 0px 15px 20px;}
 .s3d-page-full{height:100px;}
 .s3d-navigation-container{height:43px;margin-left: auto;margin-right: auto;}
 .s3d-page-header{height:45px;width:930px;border-bottom:solid #b3b3b4 1px; background: url("/dev/images/pageHeader_bg.png") repeat-x scroll 0 0 transparent;padding:20px 15px 7px;}
@@ -17,3 +18,6 @@
 .s3d-header .s3d-fixed-container .s3d-decor {margin-right:0;}
 .s3d-header .s3d-fixed-container .s3d-decor-left {background: url("/dev/images/pageHeader_tl.png") no-repeat scroll 0 0 transparent;}
 .s3d-header .s3d-fixed-container .s3d-decor {background: url("/dev/images/pageHeader_tr.png") no-repeat scroll 0 0 transparent;}
+
+/* Page titles */
+.s3d-contentpage-title {border-bottom:5px solid #E1E1E1; color:#333333; font-size:1.25em; padding:8px 0; margin-bottom: 15px;}
