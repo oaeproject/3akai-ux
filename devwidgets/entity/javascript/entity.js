@@ -1367,8 +1367,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 renderTemplate();
             });
 
+            $(window).unbind("updateContentActivity.entity.sakai");
             $(window).bind("updateContentActivity.entity.sakai", function(e, activityMessage) {
                 var num = parseInt($("#entity_content_activity_count").text()) + 1;
+                sakai_global.content_profile.content_data.activity.total++;
                 $("#entity_content_activity_count").text(num);
                 if (num === 1) {
                     $("#entity_content_activity_count_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "THING_HAS_HAPPENED"));
