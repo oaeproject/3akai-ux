@@ -19,7 +19,7 @@
 .sites_error{font-size:.95em;padding:10px 20px!important;}
 #creategroupcontainer,creategroupcontainer>div{width:100%;}
 .my_groups_widget .fl-widget-content .mygroups_list_item{padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
-.mygroups_left_padding{padding-left:15px;}
+.mygroups_left_padding{padding-left:13px;}
 .my_groups_widget .fl-widget-content .mygroup_item{padding:5px 5px 5px 15px;margin:0;border-bottom:1px solid #CCC;list-style-type:none;}
 .my_groups_widget .fl-widget-content .mygroup_item .group_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -242px -21px transparent;display:block;height:16px;width:18px;margin-right:5px;}
 .mygroup_item_img {display:inline;}
