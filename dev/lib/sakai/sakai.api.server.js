@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         /**
          * Perform a batch request to the server
          *
-         * @param {Object} requests The JSON object of requests
+         * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
