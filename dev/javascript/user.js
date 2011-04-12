@@ -172,46 +172,40 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (!contextData){
                 contextData = {};
             }
-            contextData.counts = {};
-            var contactsURL = "/var/contacts/findstate.json?state=ACCEPTED&page=0&items=6";
-            var contentURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&page=0&items=1";
+            contextData.counts = {};url = "";
+                data = {
+                    "userid": sakai_global.profile.main.data.homePath.split("~")[1]
+                };
+            var contentURL = "/var/search/pool/manager-viewer.json?userid=" + contextData.userid + "&page=0&items=1";
+            var contactsURL = "/var/contacts/findbyuser.json?userid=" + contextData.userid + "&page=0&items=1";
             var batchRequests = [
                 {
                     "url": contentURL,
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
+                    "method":"GET"
                 },
                 {
                     "url": contactsURL,
-                    "method":"GET",
-                    "cache":false,
-                    "dataType":"json"
+                    "method":"GET"
                 }
             ];
 
             $.ajax({
-                url: sakai.config.URL.BATCH,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(batchRequests)
-                },
+                url: contentURL,
+                type: "GET",
+                cache: false,
                 success: function(data){
-
-                    if (data.results.hasOwnProperty(0)) {
-                        var cont = $.parseJSON(data.results[0].body);
-                        contextData.counts["content"] = cont.total;
-                    }
-
-                    if (data.results.hasOwnProperty(1)) {
-                        var contacts = $.parseJSON(data.results[1].body);
-                        contextData.counts["contacts"] = contacts.total;
-                    }
-
-                    contextData.counts["memberships"] = sakai.api.Groups.getMemberships(sakai.data.me.groups).entry.length;
-
-                    renderEntity();
-                    loadSpaceData();
+                    contextData.counts["content"] = data.total;
+                     $.ajax({
+                        url: contactsURL,
+                        type: "GET",
+                        cache: false,
+                        success: function(data){
+                            contextData.counts["contacts"] = data.total;
+                            contextData.counts["memberships"] = sakai.api.Groups.getMemberships(sakai.data.me.groups).entry.length;
+                            renderEntity();
+                            loadSpaceData();
+                        }
+                    });
 
                 }
             });
