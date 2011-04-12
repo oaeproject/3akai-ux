@@ -14,5 +14,6 @@
     "url":"/devwidgets/video/video.html",
     "i18n": {
         "default": "/devwidgets/video/bundles/default.properties"
-    }
+    },
+    "indexFields": ["source", "title", "url"]
 }
