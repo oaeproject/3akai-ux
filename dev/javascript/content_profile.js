@@ -343,6 +343,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
             var reqData = [];
             $.each(users.toAdd, function(index, user){
+                user = user.split("/")[1] || user;
                 // set the default data value to tuid=='viewer' and task=='add'
                 var data = {
                     ":viewer": user
