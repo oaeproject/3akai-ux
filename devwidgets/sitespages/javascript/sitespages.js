@@ -2800,7 +2800,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // Bind Template textarea entry
-        $("#save_as_template_container #template_name, #save_as_template_container #template_description").bind("keyup", function(ev){
+        $("#save_as_template_container #template_name, #save_as_template_container #template_description").bind("keydown", function(ev){
             trimTextarea(this);
         });
 
