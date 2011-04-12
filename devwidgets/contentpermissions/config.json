@@ -1,0 +1,12 @@
+{
+    "description":"Content permissions widget",
+    "hasSettings": false,
+    "id": "contentpermissions",
+    "i18n": {
+        "default": "/devwidgets/contentpermissions/bundles/default.properties"
+    },
+    "name": "Content Permissions",
+    "type":"core",
+    "enabled":true,
+    "url": "/devwidgets/contentpermissions/contentpermissions.html"
+}

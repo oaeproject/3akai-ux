@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.groups.results, function (index, group){
                 if (group.members) {
                     var obj = {};
-                    
+
                     if (group.members && group.members.length) {
                         obj.members = group.members;
                     }
@@ -265,13 +265,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (group["sakai:tags"] && group["sakai:tags"].length) {
                         obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                     }
-                    
+
                     obj.contentType = "group";
                     obj.groupid = group["sakai:group-id"];
                     obj.title = group["sakai:group-title"];
-                    
+
                     dataArr.push(obj);
                 }
+            });
+        };
+
+        var parseUsers = function(data, dataArr){
+            $.each(data.users.results, function (index, user){
+                var obj = {};
+
+                if (user["sakai:tags"] && user["sakai:tags"].length){
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"]);
+                }
+                if (user.aboutme){
+                    obj.aboutme = user.aboutme.elements.aboutme.value;
+                }
+                if (user.picture && user.picture.length){
+                    obj.picture = $.parseJSON(user.picture);
+                }
+
+                obj.contentType = "user";
+                obj.userid = user.userid;
+                obj.displayName = sakai.api.User.getDisplayName(user);
+
+                dataArr.push(obj);
             });
         };
 
@@ -281,12 +303,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             parseContent(data, dataArr);
             parseGroups(data, dataArr);
             parseMessages(data, dataArr);
+            parseUsers(data, dataArr);
 
             renderCarousel(dataArr);
         };
 
         var checkDataParsable = function(data){
-            if (data.content && data.groups && data.messages) {
+            if (data.content && data.groups && data.messages && data.users) {
                 parseData(data);
             }
         };
@@ -295,13 +318,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var dataArr = {
                 "content": false,
                 "groups": false,
-                "messages":false
+                "messages":false,
+                "users":false
             };
             $.ajax({
                 url: "/var/search/pool/me/manager-all.1.json?sortOn=_created&sortOrder=desc&page=0&items=50",
                 cache: false,
                 success: function(data){
                     dataArr.content = data;
+                    checkDataParsable(dataArr);
+                }
+            });
+
+            $.ajax({
+                url: "/var/search/users-all.json?page=0&items=50&q=*&sortOn=lastName&sortOrder=asc",
+                cache: false,
+                success: function(data){
+                    dataArr.users = data;
                     checkDataParsable(dataArr);
                 }
             });
@@ -314,7 +347,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         data.results[group] = data.results[group] || false;
                         if (data.results[group].groupid) {
                             $.ajax({
-                                url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=1000",
+                                url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=50",
                                 cache: false,
                                 async: false,
                                 success: function(memberData){

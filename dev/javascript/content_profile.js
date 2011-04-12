@@ -237,11 +237,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             callback(true);
                         }
                         initEntityWidget();
-                        
+
                         if (!showPreview){
                             renderSakaiDoc(contentInfo);
                         }
-                        
+
                     }
                 });
 
@@ -322,9 +322,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             ready_event_fired++;
                         });
                     }
-                    
+
                     sakai.api.Security.showPage();
-                    
+
                     // rerender comments widget
                     $(window).trigger("content_profile_hash_change");
                 });
@@ -408,6 +408,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                             loadContentProfile(function(){
+                                $(window).trigger("membersadded.content.sakai");
                                 $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                             });
                             // record that user shared content
@@ -465,21 +466,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             addRemoveUsers(peopleList.mode, peopleList, 'add');
         });
 
-        $("#entity_content_share, #entity_content_permissions").live("click", function(){
+        $("#entity_content_permissions").live("click", function(){
             var pl_config = {
-                "mode": "search",
-                "selectable": true,
-                "subNameInfo": "email",
-                "sortOn": "lastName",
-                "items": 50,
-                "type": "people",
-                "what": "Viewers",
-                "where": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "title": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
             };
 
-            $(window).trigger("init.sharecontent.sakai", pl_config, function(people){
-            });
+            $(window).trigger("init.contentpermissions.sakai", pl_config, function(people){});
+
+            return false;
+        });
+
+        $("#entity_content_share").live("click", function(){
+
+            $(window).trigger("init.sharecontent.sakai");
 
             // display help tooltip
             var tooltipData = {
@@ -519,7 +519,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             checkShareContentTour();
         };
-        
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -527,9 +527,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
-        
+
         var globalPageStructure = false;
-        
+
         var generateNav = function(pagestructure){
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
@@ -547,7 +547,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.ready", function(){
             generateNav(globalPageStructure);
         });
-        
+
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure["structure0"]){
@@ -565,12 +565,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             return pageCount;
-        }
-        
+        };
+
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
-        
+
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
             if (getPageCount(pagestructure) >= 3){
@@ -580,8 +580,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             globalPageStructure = pagestructure;
             generateNav(pagestructure);
-        }
-        
+        };
+
         var switchToTwoColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").show();
             $("#content_profile_main_container").addClass("s3d-twocolumn");
@@ -596,8 +596,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
-        
+        };
+
         var switchToOneColumnLayout = function(isSakaiDoc){
             $("#content_profile_left_column").hide();
             $("#content_profile_main_container").removeClass("s3d-twocolumn");
@@ -612,8 +612,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_preview_container").show();
                 $("#content_profile_sakaidoc_container").hide();
             }
-        }
-        
+        };
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
