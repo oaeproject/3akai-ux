@@ -624,7 +624,7 @@ define(["jquery",
 
                 // Take timezone offset into account
                 if (zones[dateElements[5]]) {
-                    dateOutput.setHours(dateElementsTime[0] + zones[dateElements[5]]);
+                    dateOutput.setHours(Number(dateElementsTime[0]) + zones[dateElements[5]]);
                 } else if (!isNaN(parseInt(dateElements[5], 10))) {
                     var zoneTimeHour = Number(dateElements[5].substring(0,2));
                     dateOutput.setHours(Number(dateElementsTime[0]) + zoneTimeHour);
