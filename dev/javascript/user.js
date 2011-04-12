@@ -178,16 +178,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
             var contentURL = "/var/search/pool/manager-viewer.json?userid=" + contextData.userid + "&page=0&items=1";
             var contactsURL = "/var/contacts/findbyuser.json?userid=" + contextData.userid + "&page=0&items=1";
-            var batchRequests = [
-                {
-                    "url": contentURL,
-                    "method":"GET"
-                },
-                {
-                    "url": contactsURL,
-                    "method":"GET"
-                }
-            ];
 
             $.ajax({
                 url: contentURL,

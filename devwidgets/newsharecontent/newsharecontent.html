@@ -1,0 +1,43 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/newsharecontent/css/newsharecontent.css" />
+
+<div id="newsharecontent_container" style="display:none" class="dialog">
+    <div id="newsharecontent_container_header" class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__SHARE_CONTENT__</h1>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+
+    <div id="newsharecontent_content_container" class="dialog_content">
+        <label for="newsharecontent_linkurl" id="newsharecontent_linkurl_label">__MSG__LINK__:</label>
+        <input type="text" id="newsharecontent_linkurl" readonly="true" dir="rtl"/>
+        <label for="newsharecontent_sharelist">__MSG__WHO_DO_YOU_WANT_TO_SHARE_WITH__</label>
+        <div id="newsharecontent_sharelist_container"><input type="text" id="newsharecontent_sharelist"/></div>
+        <label for="newsharecontent_message">__MSG__MESSAGE__:</label>
+        <textarea id="newsharecontent_message"></textarea>
+        <div id="newsharecontent_actions">
+            <button type="button" class="s3d-button fl-force-right" id="sharecontent_send_button">
+                <span class="s3d-button-inner">__MSG__SEND__</span>
+            </button>
+            <button type="button" class="s3d-link-button jqmClose s3d-bold" id="newsharecontent_cancel">__MSG__DONT_SEND__</button>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<div id="newsharecontent_share_message_template" style="display:none;"><!-- __MSG__HI__
+
+ __MSG__I_WOULD_LIKE_TO_SHARE_FILENAME_WITH_YOU__
+ __MSG__YOU_CAN_FIND_IT_ON__
+
+ __MSG__REGARDS__,
+ __MSG__USER__
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/newsharecontent/javascript/newsharecontent.js"></script>

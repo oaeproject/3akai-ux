@@ -111,6 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // List Variables
         var itemsToUpload = [];
+        var itemsUploaded = 0;
 
         // Paths
         var uploadPath = "/system/pool/createfile";
@@ -132,6 +133,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // ITEMS QUEUE //
         /////////////////
 
+        /**
+         * Following 4 functions enable or disable the buttons that
+         *  - add items to the queue
+         *  - upload items to the repository
+         */
         var enableAddToQueue = function(){
             $newaddcontentContainerNewItemAddToList.removeAttr("disabled");
         };
@@ -157,6 +163,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var resetQueue = function(){
             itemsToUpload = [];
+            itemsUploaded = 0;
             disableAddToQueue();
             $newaddcontentContainerSelectedItemsContainer.html("");
         };
@@ -317,11 +324,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // UPLOADING ACTIONS //
         ///////////////////////
 
-        var triggerFilesUploaded = function(){
-            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
-            $(window).trigger("complete.fileupload.sakai");
+        /**
+         * Check if all items have been uploaded
+         */
+        var checkUploadCompleted = function(files){
+            if (files) {
+                $.each(itemsToUpload, function(index, item){
+                    if (item.type == "content") {
+                        itemsUploaded++;
+                    }
+                });
+            }else{
+                itemsUploaded++;
+            }
+            if(itemsToUpload.length == itemsUploaded){
+                $newaddcontentContainer.jqmHide();
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
+                window.setTimeout("$(window).trigger(\"complete.fileupload.sakai\")", 1000);
+            }
         };
 
+        /**
+         * Creates a sakaidocument
+         * @param {Object} documentObj Object containing data needed to create a sakai document
+         */
         var createDocument = function(documentObj){
             var document = {
                 "sakai:pooled-content-file-name": documentObj.title,
@@ -371,14 +397,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                     "lat": "47.6062095"
                                  }
                             })
-                        }           
+                        },success:function(){
+                            checkUploadCompleted();
+                        },error:function(){
+                            checkUploadCompleted();
+                        }
                     });
                     document.hashpath = data["_contentItem"];
                     document.permissions = document["sakai:permissions"];
                     sakai.api.Content.setFilePermissions([document], false);
                 },
                 error: function(err){
-
+                    checkUploadCompleted();
                 }
             });
         };
@@ -409,11 +439,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 dataType: "JSON",
                 success: function(data){
                     linkObj.hashpath = data["_contentItem"];
-                    sakai.api.Content.setFilePermissions([linkObj], false);
+                    sakai.api.Content.setFilePermissions([linkObj], checkUploadCompleted);
+                },error:function(){
+                    checkUploadCompleted();
                 }
             });
         };
 
+        /**
+         * Set extra data (title, description,...) on a piece of uploaded content
+         * @param {Object} data Contains ID's returned from the server to construct the POST URL and title with
+         */
         var setDataOnContent = function(data){
             var objArr = [];
             $.each(itemsToUpload, function(i,arrayItem){
@@ -451,16 +487,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
-                    triggerFilesUploaded();
-                    $newaddcontentContainer.jqmHide();
+                    checkUploadCompleted(true);
                 }, error: function(){
-                    triggerFilesUploaded();
-                    $newaddcontentContainer.jqmHide();
+                    checkUploadCompleted(true);
                 }
             });
 
         };
 
+        /**
+         * Execute the multifile upload
+         */
         var uploadContent = function(){
             $newaddcontentUploadContentForm.attr("action", uploadPath);
             $newaddcontentUploadContentForm.ajaxForm({
@@ -483,14 +520,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     setDataOnContent(extractedData);
                 },
                 error: function(){
-                    debug.log("error");
+                    checkUploadCompleted();
                 }
             });
             $newaddcontentUploadContentForm.submit();
         };
 
+        /**
+         * Add an already existing item to your own library
+         * @param {Object} item Item to be added to your own library
+         */
         var addToLibrary = function(item){
-            sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, false);
+            sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, checkUploadCompleted);
         };
 
         /**
@@ -516,12 +557,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         break;
                 }
             });
-            if(contentUploaded){
-                hideAfterContentUpload = true;
-            }else{
-                triggerFilesUploaded();
-                $newaddcontentContainer.jqmHide();
-            }
         };
 
 
@@ -545,6 +580,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        /**
+         * Prefill some of the extra data a file can have
+         * @param {String} fileName Name of the selected file
+         */
         var preFillContentFields = function(fileName){
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentTitle).val(fileName);
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentOriginalTitle)[0].id = fileName;
@@ -555,6 +594,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // RENDERING //
         ///////////////
 
+        /**
+         * Check if a field is valid and the button to add to the list should be enabled
+         */
         var checkFieldValidToAdd = function(){
             if ($(this).attr("type") == "text") {
                 var val = $.trim($(this).val());
@@ -573,6 +615,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        /**
+         * Show a selected navigation item
+         * @param {Object} $selected Selected navigation item
+         */
         var showSelectedItem = function($selected){
             $newaddcontentNewItemContainer.hide();
             $selected.show();
@@ -667,6 +713,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // CONTENT SEARCH //
         ////////////////////
 
+        /**
+         * Prepare and call the function to render existing content in a list
+         */
         var prepareContentSearch = function(){
             var query = $.trim($(this).val());
             var context = $(this)[0].id.split("search_")[1];
@@ -678,6 +727,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // NAVIGATION //
         ////////////////
 
+        /**
+         * Reset the menu to its original state
+         */
         var resetMenu = function(){
             $newaddcontentContainerNewItem.removeClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
             $newaddcontentContainerLHChoiceItem.removeClass(newaddcontentContainerLHChoiceSelectedItem);
@@ -824,6 +876,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newaddcontentContainer.jqmShow();
         };
 
+        /**
+         * Call all functions and reset all variables needed to get the widget
+         * into the original startup state
+         */
         var resetWidget = function(){
             removeBinding();
             resetQueue();

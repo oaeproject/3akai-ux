@@ -352,6 +352,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
             var reqData = [];
             $.each(users.toAdd, function(index, user){
+                user = user.split("/")[1] || user;
                 // set the default data value to tuid=='viewer' and task=='add'
                 var data = {
                     ":viewer": user
@@ -417,6 +418,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                             loadContentProfile(function(){
+                                $(window).trigger("membersadded.content.sakai");
                                 $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                             });
                             // record that user shared content
@@ -474,21 +476,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             addRemoveUsers(peopleList.mode, peopleList, 'add');
         });
 
-        $("#entity_content_share, #entity_content_permissions").live("click", function(){
+        $("#entity_content_permissions").live("click", function(){
             var pl_config = {
-                "mode": "search",
-                "selectable": true,
-                "subNameInfo": "email",
-                "sortOn": "lastName",
-                "items": 50,
-                "type": "people",
-                "what": "Viewers",
-                "where": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "title": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
                 "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
             };
 
-            $(window).trigger("init.sharecontent.sakai", pl_config, function(people){
-            });
+            $(window).trigger("init.contentpermissions.sakai", pl_config, function(people){});
+
+            return false;
+        });
+
+        $("#entity_content_share").live("click", function(){
+
+            $(window).trigger("init.sharecontent.sakai");
 
             // display help tooltip
             var tooltipData = {
