@@ -327,8 +327,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /**
          * Check if all items have been uploaded
          */
-        var checkUploadCompleted = function(){
-            itemsUploaded++;
+        var checkUploadCompleted = function(files){
+            if (files) {
+                $.each(itemsToUpload, function(index, item){
+                    if (item.type == "content") {
+                        itemsUploaded++;
+                    }
+                });
+            }else{
+                itemsUploaded++;
+            }
             if(itemsToUpload.length == itemsUploaded){
                 $newaddcontentContainer.jqmHide();
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
@@ -479,9 +487,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
-                    checkUploadCompleted();
+                    checkUploadCompleted(true);
                 }, error: function(){
-                    checkUploadCompleted();
+                    checkUploadCompleted(true);
                 }
             });
 
