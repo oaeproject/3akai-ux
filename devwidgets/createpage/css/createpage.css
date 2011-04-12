@@ -23,7 +23,7 @@
 #createpage_container input#createpage_title{width:370px;padding:0;}
 #createpage_form label.createpage_form_label{width:130px;margin:3px 10px 0 0;float:left;text-align:right;font-weight:bold;}
 #createpage_form .dialog_buttons{text-align:right;}
-#createpage_templates{overflow:hidden;word-wrap:break-word;}
+#createpage_templates{margin-left:170px;overflow:hidden;word-wrap:break-word;}
 #createpage_templates_list{margin:1em;}
 #createpage_templates_list li{list-style:none outside none;margin-bottom:1em;}
 #createpage_templates_list li label{cursor:pointer;}
