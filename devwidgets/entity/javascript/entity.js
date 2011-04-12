@@ -94,6 +94,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderEntity = function(context){
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
+            $("#entity_message").click(function(){
+                var to = {type: context.context};
+                switch (to.type) {
+                    case "group":
+                        to.uuid = context.data.authprofile["sakai:group-id"];
+                        to.username = context.data.authprofile["sakai:group-title"];
+                        break;
+                }
+                $(window).trigger("initialize.sendmessage.sakai", to);
+            });
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
