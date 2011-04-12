@@ -43,7 +43,7 @@
                     <div class="embedcontent_details">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
-                        {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
+                        {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a></span>{/if}
                     </div>
                 </div>
             {/if}
