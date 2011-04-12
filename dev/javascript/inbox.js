@@ -518,7 +518,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             switch (sortBy) {
                 case "date":
-                    sortBy = "sakai:created";
+                    sortBy = "_created";
                     break;
                 case "type":
                     sortBy = "sakai:category";
