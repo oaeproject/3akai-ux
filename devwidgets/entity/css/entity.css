@@ -21,7 +21,7 @@
 #entity_container .entity_user_dropdown .entity_dropdown_bottom{background: url("/devwidgets/entity/images/entity_list_bottom_border.png") no-repeat scroll -1px 0 transparent;height: 7px;}
 #entity_container .entity_user_dropdown .entity_dropdown_tr{background: url("/devwidgets/entity/images/entity_list_top_border.png") no-repeat scroll right top transparent;height: 5px;}
 #entity_container .entity_user_dropdown .entity_dropdown_content{background: url("/devwidgets/entity/images/entity_list_border.png") repeat-y scroll right top transparent;}
-#entity_container #entity_name {font-size: 18px;margin-bottom:5px; padding-left: 0px !important;}
+#entity_container #entity_name {font-size: 18px;margin-bottom:5px;padding:5px 0 !important;}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container .entity_permissions_label {margin-left:30px;}
 #entity_container #entity_actions button{float:right; margin-top: 5px;}
@@ -56,5 +56,5 @@
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
 #entity_content_image img{height:50px; margin-top:5px;}
-#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -5px;}
-#entity_name_edit input {padding:3px; border:1px solid #DDDDDD; background:none;}
+#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -7px;}
+#entity_name_edit input {padding:3px 0; border:1px solid #DDDDDD; background:none;}
