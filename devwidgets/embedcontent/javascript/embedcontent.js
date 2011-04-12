@@ -127,6 +127,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderWidget = function() {
             widgetData.sakai = sakai;
+            // boolean are return as string from ajax call so change back to boolean value
+            widgetData.download = widgetData.download === "true";
+            widgetData.name = widgetData.name === "true";
+            widgetData.details = widgetData.details === "true";
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
             sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid);
         };
