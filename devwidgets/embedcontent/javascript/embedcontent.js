@@ -317,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $embedcontent_display_form.find("input[name='style'][value='" + widgetData.embedmethod + "']").attr("checked", true);
             var checkboxes = ["name", "download", "details"];
             $.each(checkboxes, function(i,val) {
-                if (widgetData[val]) {
+                if (widgetData[val] === "true") {
                     $embedcontent_display_form.find("input[name='" + val + "']").attr("checked", "checked");
                     $(".embedcontent_include_" + val, $rootel).show();
                 }
