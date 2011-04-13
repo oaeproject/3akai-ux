@@ -307,6 +307,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization          //
         /////////////////////////////
 
+        /**
+         * Initializes and renders the joinrequest buttons.  The following params
+         * should be sent while triggering the event:
+         *  {String} groupid      the id of the group for which buttons need to be rendered
+         *  {String} joinability  the group's joinability setting
+         *  {int} managerCount    optional number of managers in the group, defaults to 1
+         *  {Function} onShow     optional callback function called when the buttons are rendered
+         *  {Function} requestCallback  optional callback function called when the 'Request to join' button is clicked
+         *  {Function} joinCallback     optional callback function called when the 'Join' button is clicked
+         *  {Function} leaveCallback    optional callback function called when the 'Leave' button is clicked
+         *  {Object} joinrequests  optional joinrequest data from the server. If not provided, this
+         *      widget will issue a server request to get the data if needed.
+         */
         $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupid,
             joinability, managerCount, onShow, requestCallback, joinCallback, leaveCallback,
             joinrequests) {
