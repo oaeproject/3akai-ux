@@ -101,7 +101,7 @@ ul.as-selections li.as-original {
 }
 
 ul.as-selections li.as-original input {
-	border: none;
+	border: 0; /** sakai addition fix IE7 border style SAKIII-2833 **/
 	outline: none;
 	font-size: 13px;
 	width: 120px;
