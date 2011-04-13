@@ -316,7 +316,7 @@ textarea:hover { border-width:1px; }
 /*
  * AUTOSUGGEST
  */ul.as-selections.loading{background:#fff url(../../../dev/images/ajax_load.gif) center center no-repeat;}
-
+ul.as-selections li.as-original input {border: 0;}
 
 /*
  * VALIDATION
