@@ -2,8 +2,8 @@
 
 .mycontent_widget #mycontent_no_content_wrap{padding:0 20px;}
 
-div.mycontent_item{padding:10px 10px 10px 0;}
-div.mycontent_item:first-child{padding:0 10px 10px 0;}
+div.mycontent_item{padding:10px 10px 10px 10px;}
+div.mycontent_item:first-child{padding:5px 10px 10px 10px;}
 .mycontent_item_mime{display:block;}
 div.mycontent_item_img{margin-left:3px;}
 div.mycontent_item_info{margin-left:40px;}

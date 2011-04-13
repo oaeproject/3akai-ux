@@ -1,5 +1,5 @@
 {
-    "description":"A list of my recently updated content",
+    "description":"My recent content",
     "name":"My recent content",
     "id":"mycontent",
     "i18n": {
@@ -10,5 +10,5 @@
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/mycontent/mycontent.html",
-    "deletable":false
+    "deletable":true
 }

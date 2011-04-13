@@ -77,6 +77,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var searchBottomTemplate = "search_bottom_template";
         var topnavUserTemplate = "topnavigation_user_template";
 
+        var renderObj = {
+            "people":"",
+            "groups":"",
+            "files":"",
+            "peopletotal":0,
+            "groupstotal":0,
+            "filestotal":0
+        };
+
+        var lastSearchVal = "",
+            searchTimeout = false;
 
         ////////////////////////
         ///// USER ACTIONS /////
@@ -141,26 +152,83 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
+        var renderPeople = function(data) {
+            var people = [];
+            for(var i in data.results){
+                if(data.results.hasOwnProperty(i)){
+                    var tempPerson = {
+                        "dottedname" : sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data.results[i]), 100),
+                        "name" : sakai.api.User.getDisplayName(data.results[i]),
+                        "url" : data.results[i].homePath
+                    };
+                    people.push(tempPerson);
+                }
+            }
+            renderObj.people = people;
+            renderObj.peopletotal = data.total;
+
+            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+            $("#topnavigation_search_results").show();
+        };
+
+        var renderGroups = function(data) {
+            var groups = [];
+            for(var i in data.results){
+                if(data.results.hasOwnProperty(i)){
+                    var tempGroup = {
+                        "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], 100),
+                        "name" : data.results[i]["sakai:group-title"],
+                        "url" : data.results[i].homePath
+                    };
+                    if(data.results[i]["sakai:group-visible"] == "members-only" || data.results[i]["sakai:group-visible"] == "logged-in-only"){
+                        tempGroup["css_class"] = "topnavigation_group_private_icon";
+                    }else{
+                        tempGroup["css_class"] = "topnavigation_group_public_icon";
+                    }
+                    groups.push(tempGroup);
+                }
+            }
+            renderObj.groups = groups;
+            renderObj.groupstotal = data.total;
+
+            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+            $("#topnavigation_search_results").show();
+        };
+
+        var renderContent = function(data) {
+            var files = [];
+            for(var i in data.results){
+                if(data.results.hasOwnProperty(i)){
+                    var mimeType = sakai.api.Content.getMimeTypeData(data.results[i]).cssClass;
+                    var tempFile = {
+                        "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
+                        "name" : data.results[i]["sakai:pooled-content-file-name"],
+                        "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
+                        "css_class" : mimeType
+                    };
+                    files.push(tempFile);
+                }
+            }
+            renderObj.files = files;
+            renderObj.filestotal = data.total;
+
+            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+            $("#topnavigation_search_results").show();
+        };
+
+
         ////////////////////////
         //////// SEARCH ////////
         ////////////////////////
 
         /**
          * Execute the live search and render the results
-         * @param {Object} searchText Trimmed query put in by the user
          */
-        var doSearch = function(searchText){
-
-            var renderObj = {
-                "people":"",
-                "groups":"",
-                "files":"",
-                "peopletotal":0,
-                "groupstotal":0,
-                "filestotal":0,
-                "query":searchText
-            };
-
+        var doSearch = function(){
+            var searchText = $.trim($("#topnavigation_search_input").val());
             var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             var usersUrl = sakai.config.URL.SEARCH_USERS;
             var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
@@ -170,115 +238,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
             }
 
-            // People Search
-            $.ajax({
-                cache: false,
-                url: usersUrl,
-                data: {
-                    page: 0,
-                    items: 4,
-                    q: searchText,
-                    sortOn: "lastName",
-                    sortOrder: "asc"
-                },
-                success: function(data){
-                    var people = [];
-                    for(var i in data.results){
-                        if(data.results.hasOwnProperty(i)){
-                            var tempPerson = {
-                                "dottedname" : sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data.results[i]), 100),
-                                "name" : sakai.api.User.getDisplayName(data.results[i]),
-                                "url" : data.results[i].homePath
-                            };
-                            people.push(tempPerson);
-                        }
-                    }
-                    renderObj.people = people;
-                    renderObj.peopletotal = data.total;
+            renderObj.query = searchText;
+            var requests = [];
+            requests.push({
+                "url": usersUrl,
+                "method": "GET",
+                "parameters": {
+                    "page": 0,
+                    "items": 4,
+                    "sortOn": "lastName",
+                    "sortOrder": "asc",
+                    "q": searchText
+            }});
+            requests.push({
+                "url": groupsUrl,
+                "method": "GET",
+                "parameters": {
+                    "page": 0,
+                    "items": 4,
+                    "q": searchText
+            }});
+            requests.push({
+                "url": filesUrl,
+                "method": "GET",
+                "parameters": {
+                    "page": 0,
+                    "items": 4,
+                    "q": searchText
+            }});
 
-                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-                    $("#topnavigation_search_results").show();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.log(xhr, textStatus, thrownError);
-                }
-            });
-
-            // Groups Search
-            $.ajax({
-                cache: false,
-                url: groupsUrl,
-                data: {
-                    page: 0,
-                    items: 4,
-                    q: searchText
-                },
-                success: function(data){
-                    var groups = [];
-                    for(var i in data.results){
-                        if(data.results.hasOwnProperty(i)){
-                            var tempGroup = {
-                                "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:group-title"], 100),
-                                "name" : data.results[i]["sakai:group-title"],
-                                "url" : data.results[i].homePath
-                            };
-                            if(data.results[i]["sakai:group-visible"] == "members-only" || data.results[i]["sakai:group-visible"] == "logged-in-only"){
-                                tempGroup["css_class"] = "topnavigation_group_private_icon";
-                            }else{
-                                tempGroup["css_class"] = "topnavigation_group_public_icon";
-                            }
-                            groups.push(tempGroup);
-                        }
-                    }
-                    renderObj.groups = groups;
-                    renderObj.groupstotal = data.total;
-
-                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-                    $("#topnavigation_search_results").show();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.log(xhr, textStatus, thrownError);
-                }
-            });
-
-            // Files Search
-            $.ajax({
-                cache: false,
-                url: filesUrl,
-                data: {
-                    page: 0,
-                    items: 4,
-                    q: searchText
-                },
-                success: function(data){
-                    var files = [];
-                    for(var i in data.results){
-                        if(data.results.hasOwnProperty(i)){
-                            var mimeType = sakai.config.MimeTypes["other"].cssClass;
-                            if (sakai.config.MimeTypes[data.results[i]["_mimeType"]]){
-                                mimeType = sakai.config.MimeTypes[data.results[i]["_mimeType"]].cssClass;
-                            }
-                            var tempFile = {
-                                "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
-                                "name" : data.results[i]["sakai:pooled-content-file-name"],
-                                "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
-                                "css_class" : mimeType
-                            };
-                            files.push(tempFile);
-                        }
-                    }
-                    renderObj.files = files;
-                    renderObj.filestotal = data.total;
-
-                    $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-                    $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-                    $("#topnavigation_search_results").show();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.log(xhr, textStatus, thrownError);
-                }
+            sakai.api.Server.batch(requests, function(success, data) {
+                renderPeople($.parseJSON(data.results[0].body));
+                renderGroups($.parseJSON(data.results[1].body));
+                renderContent($.parseJSON(data.results[2].body));
             });
         };
 
@@ -359,6 +351,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///// BIND ELEMENTS /////
         /////////////////////////
 
+        var handleArrowKeyInSearch = function(up) {
+            if ($(topnavSearchResultsContainer).find("li").length) {
+                var currentIndex = next = 0;
+                if ($(topnavSearchResultsContainer).find("li.selected").length) {
+                    currentIndex = $(topnavSearchResultsContainer).find("li").index($(topnavSearchResultsContainer).find("li.selected")[0]);
+                    next = up ? (currentIndex - 1 >= 0 ? currentIndex-1 : -1) : (currentIndex + 1 >= $(topnavSearchResultsContainer).find("li").length ? $(topnavSearchResultsContainer).find("li").length-1 : currentIndex +1);
+                    $(topnavSearchResultsContainer).find("li.selected").removeClass("selected");
+                }
+                if (next !== -1) {
+                    $(topnavSearchResultsContainer).find("li:eq(" + next + ")").addClass("selected");
+                }
+                return false;
+            }
+        };
+
+        var handleEnterKeyInSearch = function() {
+            if ($(topnavSearchResultsContainer).find("li.selected").length) {
+                document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
+            } else {
+                document.location = "/dev/search2.html#q=" + $.trim($("#topnavigation_search_input").val());
+            }
+        };
+
         /**
          * Add binding to the elements
          */
@@ -393,12 +408,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#topnavigation_search_input").keyup(function(evt){
                 var val = $.trim($(this).val());
-                if (evt.keyCode == 13) {
-                    document.location = "/dev/search2.html#q=" + val;
-                } else if (val && evt.keyCode != 16) {
-                    doSearch(val);
-                }else if(!val){
+                if (val !== "" && evt.keyCode !== 16 && val !== lastSearchVal) {
+                    if (searchTimeout) {
+                        clearTimeout(searchTimeout);
+                    }
+                    searchTimeout = setTimeout(function() {
+                        doSearch();
+                        lastSearchVal = val;
+                    }, 200);
+                } else if (val === "") {
+                    lastSearchVal = val;
                     $("#topnavigation_search_results").hide();
+                }
+            });
+
+            $("#topnavigation_search_input").keydown(function(evt){
+                var val = $.trim($(this).val());
+                // 40 is down, 38 is up, 13 is enter
+                if (evt.keyCode === 40 || evt.keyCode === 38) {
+                    handleArrowKeyInSearch(evt.keyCode === 38);
+                    evt.preventDefault();
+                } else if (evt.keyCode === 13) {
+                    handleEnterKeyInSearch();
+                    evt.preventDefault();
                 }
             });
 

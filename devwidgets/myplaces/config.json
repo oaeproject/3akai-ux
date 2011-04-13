@@ -5,7 +5,7 @@
     },
     "id": "myplaces",
     "name": "myplaces",
-    "personalportal":true,
+    "personalportal":false,
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/myplaces/myplaces.html",
