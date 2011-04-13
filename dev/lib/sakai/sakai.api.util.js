@@ -424,16 +424,16 @@ define(["jquery",
             // return the picture links
             var id = null, picture_name = null;
             if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
+                if (profile["rep:userId"]){
+                    id = profile["rep:userId"];
+                } else if (profile["sakai:group-id"]){
+                    id = profile["sakai:group-id"];
+                } else if (profile["uuid"]){
+                    id = profile["uuid"];
+                } else if (profile["userid"]){
+                    id = profile["userid"];
+                }
                 if (profile.picture) {
-                    if (profile["rep:userId"]){
-                        id = profile["rep:userId"];
-                    } else if (profile["sakai:group-id"]){
-                        id = profile["sakai:group-id"];
-                    } else if (profile["uuid"]){
-                        id = profile["uuid"];
-                    } else if (profile["userid"]){
-                        id = profile["userid"];
-                    }
                     if (profile.picture.name) {
                         picture_name = profile.picture.name
                     } else {
@@ -442,15 +442,6 @@ define(["jquery",
                     }
                     return "/~" + id + "/public/profile/" + picture_name;
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
-                    if (profile["rep:userId"]){
-                        id = profile["rep:userId"];
-                    } else if (profile["sakai:group-id"]){
-                        id = profile["sakai:group-id"];
-                    } else if (profile["uuid"]){
-                        id = profile["uuid"];
-                    } else if (profile["userid"]){
-                        id = profile["userid"];
-                    }
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name
                     } else {
