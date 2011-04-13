@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var comment = json.results[i].post;
                 // Checks if the date is already parsed to a date object
                 // TODO: Get jcr:created
-                var tempDate = comment["sakai:created"];
+                var tempDate = comment["_created"];
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = parseDate(tempDate);
@@ -277,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets the comments from the service.
          */
         var getComments = function(){
-            var sortOn = "sakai:created";
+            var sortOn = "_created";
             var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
