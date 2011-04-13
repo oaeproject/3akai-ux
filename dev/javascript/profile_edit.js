@@ -47,6 +47,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var readySections = []; // Profile sections that have saved their data to profile.main
         var currentTags = [];
         var editProfileTour = false;
+        var tooltip_opened = false;
+        var intervalId;
 
         ///////////////////
         // CSS SELECTORS //
@@ -392,23 +394,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var checkEditProfileTour = function(){
             var querystring = new Querystring();
-            if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
-                editProfileTour = true;
-                // display tooltip
-                var tooltipData = {
-                    "tooltipSelector":"#entity_container",
-                    "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
-                    "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
-                    "tooltipArrow":"",
-                    "tooltipTop":0,
-                    "tooltipLeft":700
-                };
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("ready.tooltip.sakai", function() {
+            if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true" && !tooltip_opened) {
+                if ($(".entity_header").length) {
+                    tooltip_opened = true;
+                    editProfileTour = true;
+                    // display tooltip
+                    var tooltipData = {
+                        "tooltipSelector":"#entity_container",
+                        "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                        "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
+                        "tooltipArrow":"",
+                        "tooltipTop":0,
+                        "tooltipLeft":700
+                    };
+                    if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
+                        $(window).bind("ready.tooltip.sakai", function() {
+                            $(window).trigger("init.tooltip.sakai", tooltipData);
+                        });
+                    } else {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
-                    });
+                    }
+                    if (intervalId){
+                        clearInterval(intervalId);
+                    }
                 } else {
-                    $(window).trigger("init.tooltip.sakai", tooltipData);
+                    intervalId = setInterval(checkEditProfileTour, 2000);
                 }
             }
         };
@@ -754,15 +764,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Add binding to all the elements
                 addBinding();
 
-                if (sakai_global.entity && sakai_global.entity.isRendered) {
-                    // check for edit profile tour in progress
-                    checkEditProfileTour();
-                } else {
-                    $(window).bind("rendered.entity.sakai", function(){
-                        // check for edit profile tour in progress
-                        checkEditProfileTour();
-                    });
-                }
+                // check for edit profile tour in progress
+                checkEditProfileTour();
             });
         };
 
