@@ -570,7 +570,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "parameters": {
                     "sakai:groupresource": true,
                     "sakai:directory": "default",
-                    "sakai:permissions": "group"
+                    "sakai:permissions": "private"
                 }
             };
             data[data.length] = properties;
