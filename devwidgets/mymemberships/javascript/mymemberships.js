@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM jQuery Objects
         var $rootel = $("#" + tuid);  // unique container for each widget instance
+        var $mymemberships_items = $("#mymemberships_items", $rootel);
         var $mymemberships_nodata = $("#mymemberships_nodata", $rootel);
         var $mymemberships_nogroups = $("#mymemberships_nogroups", $rootel);
         var $mymemberships_actionbar = $("#mymemberships_actionbar", $rootel);
@@ -412,11 +413,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mymemberships_nodata.hide();
                 $mymemberships_nogroups.hide();
                 $mymemberships_actionbar.show();
+                $mymemberships_items.show();
                 $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                     $("#mymemberships_items_template", $rootel), json));
             } else {
                 $mymemberships_nodata.hide();
                 $mymemberships_actionbar.hide();
+                $mymemberships_items.hide();
                 $mymemberships_nogroups.show();
                 if (mymemberships.isOwnerViewing) {
                     $mymemberships_addgroup.show();
