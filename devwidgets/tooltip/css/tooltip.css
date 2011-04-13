@@ -1,7 +1,15 @@
-#tooltip_widget{margin-left:-450px;width:200px!important;}
+#tooltip_widget{color: #333333;position:absolute;display:none;left:10px;
+    top:10px;}
+.tooltip_content {background-color:#fff; border: 1px solid #EAEBEC;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */
+    box-shadow: 2px 2px 3px #A9A9A9;
+    -moz-box-shadow: 2px 2px 3px #A9A9A9; /* Firefox 3.6 and earlier */
+    -webkit-box-shadow: 2px 2px 3px #A9A9A9; /* Safari and Chrome */
+}
 
 /* Tooltips */
-.tooltip_dialog{width:200px;}
 .tooltip_bold{font-weight:bold;}
 #tooltip_widget #tooltip_description{margin-bottom:0;padding-bottom:10px;}
 #tooltip_close{background:url(/dev/images/tour_sprite.png) no-repeat scroll -389px -79px transparent;height:16px;width:16px;}

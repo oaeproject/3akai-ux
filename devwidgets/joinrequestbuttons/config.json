@@ -1,0 +1,13 @@
+{
+    "description":"Display join/leave/pending buttons to match the context",
+    "name":"Join Request Buttons",
+    "id":"joinrequestbuttons",
+    "i18n": {
+        "default": "/devwidgets/joinrequestbuttons/bundles/default.properties"
+    },
+    "personalportal":false,
+    "hasSettings":false,
+    "type":"core",
+    "enabled":true,
+    "url":"/devwidgets/joinrequestbuttons/joinrequestbuttons.html"
+}

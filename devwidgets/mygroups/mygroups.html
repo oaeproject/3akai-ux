@@ -16,7 +16,10 @@
         <ul class="mygroup_items_list">
             {for group in entry}
                 <li class="mygroup_item"><div class="mygroup_item_img fl-force-left group_icon">&nbsp;</div>
-                    <a class="s3d-widget-links s3d-bold" href="/~${group.groupid}"><div class="mygroups_ellipsis_container"><span class="mygroups_ellipsis_text">${group["sakai:group-title"]}</span></div></a>
+                    <a class="s3d-widget-links s3d-bold"
+                        href="/~${group.groupid}"><div class="mygroups_ellipsis_container">
+                            <span class="mygroups_ellipsis_text">${group["sakai:group-title-threedots"]}</span>
+                        </div></a>
                 </li>
             {/for}
         </ul>

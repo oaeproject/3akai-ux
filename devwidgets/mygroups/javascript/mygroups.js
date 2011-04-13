@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 newjson.entry = newjson.entry.sort(doSort);
                 for (var group in newjson.entry) {
                     if (newjson.entry.hasOwnProperty(group)) {
-                        newjson.entry[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        newjson.entry[group]["sakai:group-title-threedots"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                 }
                 $(mygroupsList, rootel).html(sakai.api.Util.TemplateRenderer(mygroupsListTemplate.replace(/#/, ''), newjson));

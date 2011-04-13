@@ -2,44 +2,45 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/mymemberships/css/mymemberships.css" />
 
 <div class="mymemberships_widget">
+    <!-- Empty/Error messages -->
+    <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
+    <p id="mymemberships_nogroups" style="display:none;">__MSG__YOU_ARE_NOT_A_MEMBER__
+        <button type="button" id="mymemberships_addgroup"
+            class="s3d-button s3d-button-link-2-state" style="display:none;">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
+        </button>
+    </p>
+
     <!-- Action bar -->
-    <div id="mymemberships_actionbar">
-        <p id="mymemberships_nodata" style="display:none;">Sorry, can't show
-            this person's memberships at this time. We're working on it, though!</p>
-        <p id="mymemberships_nogroups" style="display:none;">You are not a member
-            of any groups.
-            <button type="button" id="mymemberships_addgroup"
-                class="s3d-button s3d-button-link-2-state" style="display:none;">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_GROUP__</span>
-            </button>
-        </p>
-        <div id="mymemberships_sortarea" style="display:none;">__MSG__SORT_BY__:
+    <div id="mymemberships_actionbar" style="display:none;">
+        <div id="mymemberships_sortarea">__MSG__SORT_BY__:
             <select id="mymemberships_sortby">
-                <option value="atoz">A-Z</option>
-                <option value="ztoa">Z-A</option>
+                <option value="asc">__MSG__A_Z__</option>
+                <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
     </div>
 
+    <!-- Items -->
     <ul id="mymemberships_items"><!-- Template here --></ul>
     <div id="mymemberships_items_template"><!--
     {if groups && groups.length}
         {for group in groups}
-            <li class="mymemberships_item fl-push">
+            <li id="mymemberships_item_${group.id}" class="mymemberships_item fl-push">
                 <div class="mymemberships_imagearea">
-                    <a href="${group.url}" title="View this group"><img
+                    <a href="${group.url}" title="__MSG__VIEW_GROUP__"><img
                         class="mymemberships_group_pic"
                         src="${group.picsrc}" /></a>
                     {if user_manages(group)}<a class="mymemberships_edit_link"
                         href="${group.edit_url}"
-                        title="Edit this group"><img class="mymemberships_edit_icon"
+                        title="__MSG__EDIT_GROUP__"><img class="mymemberships_edit_icon"
                         src="/dev/images/edit_icon.png" /></a>
                     {/if}
                 </div>
                 <div class="mymemberships_info">
                     <p class="mymemberships_info_line">
                         <a class="mymemberships_itemtitle" href="${group.url}"
-                            title="View this group">${group.title}</a>
+                            title="__MSG__VIEW_GROUP__">${group.title}</a>
                     </p>
                     {if group.desc}
                         <p class="mymemberships_info_line mymemberships_item_desc">
@@ -51,6 +52,40 @@
             </li>
         {/for}
     {/if}
+    --></div>
+
+    <div id="mymemberships_hover_template" style="display:none;"><!--
+        <div class="mymemberships_hover_top">
+            <p><span class="s3d-bold">${title}</span>
+                <span class="mymemberships_hover_details">${totalParticipants}
+                    {if totalParticipants !== 1}__MSG__PARTICIPANTS__{else}__MSG__PARTICIPANT__{/if}</span>
+            </p>
+            <p>
+                <div id="mymemberships_joinrequestbuttons"></div>
+                <button type="button" id="mymemberships_msggroup_${id}"
+                    class="s3d-button s3d-button-link-2-state mymemberships_message_btn">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+                </button>
+            </p>
+            <div class="fl-push"></div>
+        </div>
+        <table class="mymemberships_group_participants">
+            {for p in participants}
+                <tr><td class="mymemberships_userimg"><a href="${p.link}" title="__MSG__VIEW_PROFILE__"><img
+                    alt="__MSG__USER_PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
+                    <td class="mymemberships_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
+                        class="mymemberships_itemtitle">${p.displayname}</a></p>
+                        {if p.manager}<p>__MSG__GROUP_MANAGER__</p>{/if}
+                    </td>
+                </tr>
+            {/for}
+        </table>
+        {if seeAll}
+            <div class="mymemberships_people_footer">
+                <a class="mymemberships_see_all mymemberships_itemtitle" href="/~${id}"
+                    title="__MSG__VIEW_ALL_GROUP_MEMBERS__">__MSG__SEE_ALL_PARTICIPANTS__</a>
+            </div>
+        {/if}
     --></div>
 </div>
 
