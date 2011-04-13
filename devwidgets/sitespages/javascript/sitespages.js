@@ -1851,7 +1851,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // Bind Widget Context Settings click event
-        $("#context_settings").bind("click", function(ev){
+        // change to mousedown based on following link
+        // http://tinymce.moxiecode.com/forum/viewtopic.php?pid=74422
+        $("#context_settings").mousedown(function(ev){
             var ed = tinyMCE.get('elm1');
             var selected = ed.selection.getNode();
             $("#dialog_content").hide();
