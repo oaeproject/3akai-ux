@@ -191,7 +191,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @returns void
          */
         var updateTotalHitCount = function(hitcount) {
-alert(hitcount);
             // Adjust total search result count
             if (hitcount > 0) {
                 totalItemsFound += hitcount;
