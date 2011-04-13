@@ -11,6 +11,7 @@
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.content_profile.css" />
 
     </head>
     <body class="fl-centered show i18nable">
@@ -30,18 +31,28 @@
 
         <!-- HEADER -->
         <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div class="s3d-page-fullcolumn-padding">
-                    <div id="widget_contentpreview" class="widget_inline"></div>
-                    <div class="fl-container-650 fl-force-left content_profile_left_column;" style="overflow: auto;">
+            <div id="content_profile_main_container" class="fl-fix fl-centered fixed-container s3d-main-container">
+                <div class="s3d-page-column-left" id="content_profile_left_column" style="display:none;">
+                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                </div>
+                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding">
+                    <div id="content_profile_sakaidoc_container" style="display:none">
+                        <div id="lhnav-page-action-bar"></div>
+                        <div id="s3d-page-main-content" style="padding-left: 10px;"></div>
+                        <div id="lhnav-page-edit-mode"></div>
+                    </div>
+                    <div id="content_profile_preview_contaner">
+                        <div id="widget_contentpreview" class="widget_inline"></div>
+                    </div>
+                    <div id="content_profile_right_metacomments" class="fl-container-650 fl-force-left content_profile_left_column;" style="padding-left: 5px;">
                         <div id="widget_contentmetadata" class="widget_inline"></div>
                         <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
                     </div>
-                    <div class="fl-container-250 fl-force-right">
+                    <div class="fl-container-250 fl-force-right" style="width:245px;">
                         <div id="widget_relatedcontent" class="widget_inline"></div>
                     </div>
                     <div class="fl-push fl-widget"><!-- --></div>
-                </div>
+                </div>    
             </div>
         </div>
 
@@ -56,7 +67,8 @@
 
         <div id="content_profile_listpeople_container" class="testing fl-fix fl-centered fixed-container s3d-main-container" style="display:none;">
             <!-- PICKERUSER WIDGET -->
-            <div id="widget_sharecontent" class="widget_inline"></div>
+            <div id="widget_newsharecontent" class="widget_inline"></div>
+            <div id="widget_contentpermissions" class="widget_inline"></div>
 
             <span style="display:none;" id="content_profile_text">__MSG__CONTENT_PROFILE__</span>
             <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FILE_HAS_BEEN_SUCCESSFULLY_SHARED_WITH__</span>
@@ -76,13 +88,13 @@
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
 
+        <script type="text/javascript" src="/dev/lib/tinymce/tiny_mce.js"></script>
+
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- Page JS -->
-        <script>require(["/dev/javascript/content_profile.js", "/devwidgets/video/jwplayer/swfobject.js", "/devwidgets/contentpreview/lib/document-viewer/assets/viewer.js"]);</script>
+        <script>require(["/dev/javascript/content_profile.js"]);</script>
 		
-		<!-- document-viewer related -->
-		<!-- <script type="text/javascript" src='/devwidgets/contentpreview/lib/document-viewer/assets/viewer.js'></script>    -->
 	</body>
 </html>

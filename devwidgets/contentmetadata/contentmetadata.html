@@ -2,16 +2,15 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentmetadata/css/contentmetadata.css" />
 
 
-<div id="contentmetadata_container" class="s3d-highlight_area_background_darker1">
-    <div class='s3d-highlight_area_background_darker1_tl'><div class='s3d-highlight_area_background_darker1_tinner'></div></div>
-    <h1>__MSG__DETAILS__</h1>
+<div id="contentmetadata_container">
+    <div class="contentmetadata_title">__MSG__DETAILS__</div>
     <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers">
         <!-- -->
     </div>
     <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers">
         <!-- -->
     </div>
-    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers">
+    <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers" style="display:none;">
         <!-- -->
     </div>
     <div id="contentmetadata_copyright_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
@@ -24,25 +23,21 @@
         <!-- -->
     </div>
     <button type="button" id="contentmetadata_show_more" class="s3d-link-button s3d-action">
-        <div id="contentmetadata_see_more" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
-        <div id="contentmetadata_see_less" style="display:none;" class="s3d-dropdownlisttwo-text"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
+        <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
+        <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
     </button>
     <hr class="fl-hidden fl-push">
-    <div class='s3d-highlight_area_background_darker1_bl'><div class='s3d-highlight_area_background_darker1_binner'></div></div>
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
     {if data.mode === "edit"}
         <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data.data["sakai:description"]}</textarea>
     {else}
         <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data.data["sakai:description"]) != ""}${sakai.api.Security.escapeHTML(data.data["sakai:description"])}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if data.mode === "edit"}
             <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data.data["sakai:tags"] != "undefined"}{for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},&nbsp;{/if}${tag}{/if}{/for}{/if}</textarea>
         {else}
@@ -61,22 +56,18 @@
                 </span>
             {/if}
         {/if}
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_url_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
     {if data.mode === "edit"}
         <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
         <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}">${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
     {/if}
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
                 {for copyrightLabel in sakai.config.Permissions.Copyright}
@@ -93,11 +84,9 @@
                 {/if}
             {/for}
         {/if}
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_locations_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
         <span class="contentmetadata_first_column">__MSG__DIRECTORY_LOCATIONS__:</span>
         {if directorylocations.length != 0}
             <ul>
@@ -112,32 +101,29 @@
         {else}
             {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_LOCATIONS__</span>{else}__MSG__NO_LOCATIONS__{/if}
         {/if}
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
 --></div>
 
 <div id="contentmetadata_details_template" style="display:none;"><!--
-    <div class='s3d-highlight_area_background_darker1_white_content_tl'><div class='s3d-highlight_area_background_darker1_white_content_tinner'></div></div>
-        <span class="contentmetadata_content_row">
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
             <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"]) || sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
-        </span>
-        <span class="contentmetadata_content_row">
+        </div>
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
             <span>${data.data["_mimeType"]}</span>
-        </span>
-        <span class="contentmetadata_content_row">
+        </div>
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>
-        </span>
-        <span class="contentmetadata_content_row">
+        </div>
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_lastModified"]), sakai.data.me)}</span>
-        </span>
-        <span class="contentmetadata_content_row">
+        </div>
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
             <span>{if data.versions.total <= 0}__MSG__NO_REVISIONS__{else}<button type="button" id="contentmetadata_view_revisions" class="{if data.data["_mimeType"] === "x-sakai/link"}link_revision {/if}s3d-link-button s3d-action s3d-bold">${data.versions.total} __MSG__VERSIONS__</button> __MSG__AVAILABLE__{/if}</span>
-        </span>
-    <div class='s3d-highlight_area_background_darker1_white_content_bl'><div class='s3d-highlight_area_background_darker1_white_content_binner'></div></div>
+        </div>
 --></div>
 
 <!-- JAVASCRIPT -->

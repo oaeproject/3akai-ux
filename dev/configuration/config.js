@@ -46,7 +46,7 @@ define(function(){
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
-            
+
             // Services
             ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
             ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
@@ -131,13 +131,13 @@ define(function(){
             USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
             USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-            
+
             // PREFIXES
             GROUP_PREFIX: "/_group",
             USER_PREFIX: "/_user"
-        
+
         },
-        
+
         PageTitles: {
             "prefix": "TITLE_PREFIX",
             "pages": {
@@ -199,7 +199,7 @@ define(function(){
                 /**  show.html  **/
             }
         },
-        
+
         Domain: {
             /*
              * These domain labels can be used anywhere on the site (i.e in the video
@@ -218,13 +218,13 @@ define(function(){
                 "video.google.com": "Google Video"
             }
         },
-        
+
         Search: {
             MAX_CORRECT_SEARCH_RESULT_COUNT: 100
         },
-        
+
         SakaiDomain: window.location.protocol + "//" + window.location.host,
-        
+
         Permissions: {
             /*
              * A collection of permission keys and range of values to be referenced
@@ -264,9 +264,9 @@ define(function(){
                 }
             }
         },
-        
+
         allowPasswordChange: true,
-        
+
         Profile: {
             /*
              * This is a collection of profile configuration functions and settings
@@ -487,7 +487,7 @@ define(function(){
              * - values can be compound, like "firstName lastName" or singular like "displayName"
              */
             userNameDisplay: "firstName lastName",
-            
+
             /*
              * the default, if the user doesn't have the userNameDisplay property set in their
              * profile, use this one.
@@ -495,16 +495,15 @@ define(function(){
              *       If neither exists, nothing will show
              */
             userNameDefaultDisplay: "firstName lastName",
-            
+
             /*
              * Set the user's short description to appear underneath their name
              * in search results
              */
             userShortDescription: "${role} in ${department} at ${college}",
             groupShortDescription: "asdf"
-        
         },
-        
+
         Groups: {
             /*
              * Email message that will be sent to group managers when a user requests
@@ -517,7 +516,7 @@ define(function(){
                 body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
             }
         },
-        
+
         Relationships: {
             /*
              * Relationships used by the add contacts widget to define what relationship the contacts can have
@@ -560,7 +559,7 @@ define(function(){
                 "selected": false
             }]
         },
-        
+
         Site: {
             Styles: {
                 original: {
@@ -576,12 +575,12 @@ define(function(){
             },
             DefaultMember: "viewers"
         },
-        
+
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
         },
-        
+
         Institution: {
             /*
              * Institution contact details are displayed in the footer
@@ -590,11 +589,11 @@ define(function(){
             helpLinkUrl: "http://www.sakaiproject.org/contact",
             helpPhone: "212-555-1212"
         },
-        
+
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
-        
+
         Messages: {
             Types: {
                 inbox: "inbox",
@@ -613,7 +612,36 @@ define(function(){
             To: "to",
             read: "read"
         },
-        
+        Extensions:{
+            "docx":"application/doc",
+            "doc":"application/doc",
+            "odt":"application/doc",
+            "ods":"application/vnd.ms-excel",
+            "xls":"application/vnd.ms-excel",
+            "xlsx":"application/vnd.ms-excel",
+            "odp":"application/vnd.ms-powerpoint",
+            "ppt":"application/vnd.ms-powerpoint",
+            "pptx":"application/vnd.ms-powerpoint",
+            "odg":"image/jpeg",
+            "png":"image/png",
+            "jpg":"image/jpeg",
+            "jpeg":"image/jpeg",
+            "bmp":"image/bmp",
+            "gif":"image/gif",
+            "pdf":"application/x-pdf",
+            "swf":"application/x-shockwave-flash",
+            "flv":"video/x-msvideo",
+            "mpg":"video/x-msvideo",
+            "mpeg":"video/x-msvideo",
+            "mp4":"video/x-msvideo",
+            "avi":"video/x-msvideo",
+            "mov":"video/x-msvideo",
+            "txt":"text/rtf",
+            "rtf":"text/rtf",
+            "htm":"text/html",
+            "html":"text/html",
+            "other":"other"
+        },
         MimeTypes: {
             "application/doc": {
                 cssClass: "icon-doc-sprite",
@@ -745,13 +773,18 @@ define(function(){
                 URL: "/dev/images/mimetypes/html.png",
                 description: "URL_LINK"
             },
+            "x-sakai/document": {
+                cssClass: "icon-sakaidoc-sprite",
+                URL: "/dev/images/mimetypes/sakaidoc.png",
+                description: "DOCUMENT"
+            },
             "other": {
                 cssClass: "icon-unknown-sprite",
                 URL: "/dev/images/mimetypes/unknown.png",
                 description: "OTHER_DOCUMENT"
             }
         },
-        
+
         Authentication: {
             "allowInternalAccountCreation": true,
             "internal": true,
@@ -777,7 +810,7 @@ define(function(){
                 }
             }
         },
-        
+
         Navigation: [{
             "url": "/dev/user.html#",
             "id": "navigation_you_link",
@@ -800,7 +833,7 @@ define(function(){
             }, {
                 "url": "/dev/user.html#l=library",
                 "id": "subnavigation_content_link",
-                "label": "MY_CONTENT"
+                "label": "MY_LIBRARY"
             }, {
                 "url": "/dev/user.html#l=memberships",
                 "id": "subnavigation_memberships_link",
@@ -866,7 +899,7 @@ define(function(){
             "anonymous": true,
             "label": "SIGN_UP"
         }],
-        
+
         /*
          * Are anonymous users allowed to browse/search
          */
@@ -875,7 +908,7 @@ define(function(){
          * List of pages that require a logged in user
          */
         requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
-        
+
         /*
          * List of pages that require an anonymous user
          */
@@ -897,12 +930,12 @@ define(function(){
          * themselves
          */
         requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
-        
+
         showSakai2: false,
         useLiveSakai2Feeds: false,
-        
+
         displayDebugInfo: true,
-        
+
         Directory: {
             "indianauniversity": {
                 title: "Indiana University",
@@ -1906,7 +1939,7 @@ define(function(){
         },
         // Array of css files to load in each page
         skinCSS: [],
-        
+
         Languages: [{
             "country": "CN",
             "language": "zh",
@@ -1936,15 +1969,15 @@ define(function(){
             "language": "ko",
             "displayName": "한국어"
         }],
-        
+
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above
         defaultLanguage: "en_US",
-        
+
         defaultUserTemplate: "defaultuser",
         defaultGroupTemplate: "defaultgroup",
-        
+
         enableChat: false,
-        
+
         "defaultprivstructure": {
             "structure0": {
                 "dashboard": {
@@ -1977,7 +2010,7 @@ define(function(){
                 }
             },
             "267187828": {
-                "page": "<div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
                 "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
@@ -2030,7 +2063,7 @@ define(function(){
                 }
             }
         },
-        
+
         "defaultpubstructure": {
             "structure0": {
                 "profile": {
@@ -2084,15 +2117,6 @@ define(function(){
                         "_ref": "1193715035",
                         "_title": "Contacts"
                     }
-                },
-                "website": {
-                    "_title": "My Portfolio",
-                    "_ref": "430939302",
-                    "_altTitle": "Portfolio",
-                    "main": {
-                        "_ref": "430939302",
-                        "_title": "Portfolio"
-                    }
                 }
             },
             "533118849": {
@@ -2108,7 +2132,7 @@ define(function(){
                 "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
             },
             "9834611274": {
-                "page": "<div id='widget_content' class='widget_inline'/>"
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
             "213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
@@ -2129,12 +2153,9 @@ define(function(){
             },
             "5756708555": {
                 "sectionid": "publications"
-            },
-            "430939302": {
-                "page": "This is my website"
             }
         },
-        
+
         widgets: {
             "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {

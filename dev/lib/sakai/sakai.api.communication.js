@@ -252,6 +252,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             } else {
                 params = {"sakai:messagebox": "trash"};
             }
+            if (typeof messagePaths === 'string'){
+                messagePaths = [messagePaths];
+            }
             $.each(messagePaths, function(i, val){
                 var req = {
                     "url": val,
@@ -316,7 +319,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         /**
          * Processes the messages from the server, stripping out everything we don't need
          */
-        processMessages : function(data) {
+        processMessages : function(data, doFlip) {
             var messages = {},
                 ret = $.extend({}, data);
             $.each(ret.results, function(i, msg) {
@@ -330,6 +333,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 } else {
                     newMsg.from.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
                 }
+                newMsg.from.userObj = {
+                    uuid: msg.userFrom[0].userid,
+                    username: sakai_user.getDisplayName(msg.userFrom[0]),
+                    type: "user"
+                };
                 newMsg.to = {};
                 newMsg.to.name = sakai_user.getDisplayName(msg.userTo[0]);
                 if (msg.userTo[0].basic.elements.picture) {
@@ -338,6 +346,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 } else {
                     newMsg.to.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
                 }
+                newMsg.to.userObj = {
+                    uuid: msg.userTo[0].userid,
+                    username: sakai_user.getDisplayName(msg.userTo[0]),
+                    type: "user"
+                };
                 newMsg.body = $.trim(msg["sakai:body"].replace(/\n/gi, "<br />"));
                 newMsg.excerpt = $.trim(sakai_util.shortenString(msg["sakai:body"], 1000).replace(/\n/gi, "<br />"));
                 newMsg.subject = msg["sakai:subject"];
@@ -346,7 +359,13 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 newMsg.id = msg.id;
                 newMsg.read = msg["sakai:read"];
                 newMsg.path = msg["jcr:path"];
+                if (doFlip) {
+                    var tmp = newMsg.to;
+                    newMsg.to = newMsg.from;
+                    newMsg.from = tmp;
+                }
                 messages[newMsg.id] = newMsg;
+
             });
             ret.results = messages;
             return ret;
@@ -364,8 +383,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         * @param {Function} callback The function that will be called on completion
         * @param {Boolean} doProcessing process the messages after they come back to make them easier to deal with
         *                               defaults to true
+        * @param {Boolean} doFlip Flip the to and from
         */  
-        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing) {
+        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing, doFlip) {
             var url = "";
             if (category) {
                 url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
@@ -374,10 +394,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             }
             $.ajax({
                 url: url,
-                cache: false,
+                cache: true,
                 success: function(data){
                     if (doProcessing !== false) {
-                        data = sakaiCommmunicationsAPI.processMessages(data);
+                        data = sakaiCommmunicationsAPI.processMessages(data, doFlip);
                     }
                     if ($.isFunction(callback)) {
                         callback(true, data);

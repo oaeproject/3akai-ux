@@ -12,5 +12,6 @@
     "type":"core",
     "enabled":true,
     "url":"/devwidgets/embedcontent/embedcontent.html",
-    "settingsWidth": 785
+    "settingsWidth": 785,
+    "indexFields": ["title", "description"]
 }

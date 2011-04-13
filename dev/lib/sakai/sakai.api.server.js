@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         /**
          * Perform a batch request to the server
          *
-         * @param {Object} requests The JSON object of requests
+         * @param {Array} requests The JSON object of requests
          * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          * @param {Boolean} cache If we should cache this request or not
          * @param {Boolean} forcePOST if we need to force a POST
@@ -151,10 +151,11 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {Function} callback A callback function which is executed at the
          * end of the operation
          * @param {Boolean} removeTree If we should replace the entire tree of saved data or just update it
+         * @param {Array} indexFields Fields to index in the data (used for widgets, and is optional)
          *
          * @returns {Void}
          */
-        saveJSON : function(i_url, i_data, callback, removeTree) {
+        saveJSON : function(i_url, i_data, callback, removeTree, indexFields) {
 
             // Argument check
             if (!i_url || !i_data) {
@@ -170,6 +171,28 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 // Make sure none of the other code in this function is executed
                 return;
             }
+
+            /**
+             * @param {Array} path The path to the data object, split out
+             * @param {Object} obj The data object to add the field to
+             */
+            var addIndexedFields = function(path, obj) {
+                if (path.length > 1) {
+                    obj = obj[path.shift()];
+                    addIndexedFields(path, obj);
+                } else {
+                    if (obj["sakai:indexed-fields"]) {
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].split(",");
+                        obj["sakai:indexed-fields"].push(path[0]);
+                        obj["sakai:indexed-fields"] = obj["sakai:indexed-fields"].join(",");
+                    } else {
+                        obj["sakai:indexed-fields"] = path[0];
+                    }
+                    if (!obj["sling:resourceType"]) {
+                        obj["sling:resourceType"] = "sakai/widget-data";
+                    }
+                }
+            };
 
             /**
              * <p>Convert all the arrays in an object to an object with a unique key.<br />
@@ -235,7 +258,6 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             var postData = {
                 ":operation": "import",
                 ":contentType": "json",
-                ":content": $.toJSON(i_data),
                 ":replace": true,
                 ":replaceProperties": true,
                 "_charset_":"utf-8"
@@ -243,13 +265,19 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             if (removeTree) {
                 postData[":removeTree"] = removeTree;
             }
-
+            if (indexFields) {
+                $.each(indexFields, function(i,val) {
+                    addIndexedFields(val.split("/"), i_data);
+                });
+            }
+            sakaiServerAPI.removeServerCreatedObjects(i_data, ["_"]);
+            postData[":content"] = $.toJSON(i_data);
             // Send request
             $.ajax({
                 url: i_url,
                 type: "POST",
                 data: postData,
-                dataType: "json",
+                dataType: "text",
 
                 success: function(data){
 
@@ -274,62 +302,56 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         },
 
         /**
-         * Removes JCR or Sling properties from a JSON object
-         * @param {Object} i_object The JSON object you want to remove the JCR object from
-         * @returns void
-         */
-        removeJCRObjects : function(i_object) {
-
-            if (i_object["jcr:primaryType"]) {
-                delete i_object["jcr:primaryType"];
-            }
-
-            if (i_object["_created"]) {
-                delete i_object["_created"];
-            }
-
-            if (i_object["_createdBy"]) {
-                delete i_object["_createdBy"];
-            }
-
-            if (i_object["jcr:mixinTypes"]) {
-                delete i_object["jcr:mixinTypes"];
-            }
-
-            // Loop through keys and call itself recursively for the next level if an object is found
-            for (var i in i_object) {
-                if (i_object.hasOwnProperty(i) && $.isPlainObject(i_object[i])) {
-                  sakaiServerAPI.removeJCRObjects(i_object[i]);
-                }
-            }
-
-        },
-
-        /**
-         * Removes any object created by the server
+         * Removes any objects with a given namespace
          *
          * @param {Object} the object to clean
+         * @param {Array}  an array containing a string for each namespace to move
          */
-        removeServerCreatedObjects : function(obj, notToRemove) {
+        removeServerCreatedObjects : function(obj, namespace, notToRemove) {
             var newobj = $.extend(true, {}, obj);
             notToRemove = notToRemove || [];
             $.each(newobj, function(key,val) {
-                if (key && key.indexOf && key.indexOf("_") === 0) {
-                    var canRemove = true;
-                    for (var i = 0; i < notToRemove.length; i++){
-                        if (notToRemove[i] === key){
-                            canRemove = false;
-                            break;
+                for (var ns = 0; ns < namespace.length; ns++) {
+                    if (key && key.indexOf && key.indexOf(namespace[ns]) === 0) {
+                        var canRemove = true;
+                        for (var i = 0; i < notToRemove.length; i++) {
+                            if (notToRemove[i] === key) {
+                                canRemove = false;
+                                break;
+                            }
                         }
-                    }
-                    if (canRemove) {
-                        delete newobj[key];
-                    }
-                } else if ($.isPlainObject(newobj[key]) || $.isArray(newobj[key])) {
-                    newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], notToRemove);
+                        if (canRemove) {
+                            delete newobj[key];
+                        }
+                    } else if ($.isPlainObject(newobj[key])) {
+                        newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                    } /* else if ($.isArray(newobj[key])) {
+                        //newobj[key] = sakaiServerAPI.removeServerCreatedObjects(newobj[key], namespace, notToRemove);
+                    } */
                 }
             });
             return newobj;
+        },
+
+
+        cleanUpSakaiDocObject: function(pagestructure){
+            var id = pagestructure["jcr:path"];
+            var toFilter = ["_", "jcr:", "sakai:", "sling:"];
+            var toExclude = ["_ref", "_title", "_altTitle"];
+            pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
+            if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
+                pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
+            }
+            if (id){
+                for (var i in pagestructure){
+                    if (i.indexOf(id + "/") === 0){
+                        var newid = i.substring((id + "/").length);
+                        pagestructure[newid] = pagestructure[i];
+                        delete pagestructure[i];
+                    }
+                }
+            }
+            return pagestructure;
         },
 
         /**
@@ -374,12 +396,9 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 data: data,
                 success: function(data) {
 
-                    // Remove keys which are created by JCR or Sling
-                    sakaiServerAPI.removeJCRObjects(data);
-
                     // Convert the special objects to arrays
                     data = sakaiServerAPI.convertObjectToArray(data, null, null);
-                    
+
                     // Call callback function if present
                     if ($.isFunction(callback)) {
                         callback(true, data);

@@ -29,18 +29,25 @@
                 </div>
             {else}
                 <div class="${embedClass} ${layout}">
-                    <a href="/content#content_path=${item.path}">
-                    {if item.filetype === "image"}
-                        <img src="${item.link}" alt="${sakai.config.MimeTypes[item.mimetype].description}" />
-                    {elseif item.filetype === "video"}
-                        <img border="1" style="display: block; padding: 10px; margin: 4px;" class="widget_inline" id="widget_video_id${item.uId}" src="/devwidgets/video/images/video.png">
-                    {elseif sakai.config.MimeTypes[item.mimetype]}
-                        <img src="${sakai.config.MimeTypes[item.mimetype].URL}" alt="${sakai.config.MimeTypes[item.mimetype].description}"/>
+                    {var mimeType = sakai.api.Content.getMimeType(item)}
+                    {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                    {if embedmethod === "thumbnail" && thumbnail}
+                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                        <a href="/content#content_path=${item.path}">
+                            <img src="${thumbnail} alt="${mimeTypeDescription}" />
+                        </a>
+                    {elseif sakai.api.Content.hasPreview(item.fullresult)}
+                        <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
+                    {elseif sakai.config.MimeTypes[mimeType]}
+                        <a href="/content#content_path=${item.path}">
+                            <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
+                        </a>
                     {else}
-                        <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
+                        <a href="/content#content_path=${item.path}">
+                            <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
+                        </a>
                     {/if}
-                    </a>
-                    <div class="embedcontent_details">
+                    <div class="embedcontent_details fl-push">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
                         {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
@@ -199,6 +206,7 @@
     <div id="embedcontent_page_name_template" style="display:none"><!--
         __MSG__LEFT_QUOTE__${name}__MSG__RIGHT_QUOTE__
     --></div>
+
     <div id="embedcontent_item_unavailable_text" style="display:none">__MSG__ITEM_UNAVAILABLE__</div>
 
     <div id="widget_fileupload" class="widget_inline"></div>

@@ -1,5 +1,100 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/lhnavigation.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/sitespages.css"></link>
+
+
+<div id="lhav_buttonbar" style="display:none">
+    <div style="float:left">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_editpage">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Edit Page</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_addpage">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Add Page</span>
+        </button>
+    </div>
+    <div style="float:right">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_revisions">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Page Revisions</span>
+        </button>
+        <!-- <button type="button" class="s3d-button s3d-button-link-2-state" id="lhnav_commentsrelated">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">See comments and related</span>
+        </button> -->
+    </div>
+    <div style="clear:both;"><!-- --></div>
+</div>
+<div id="lhnav_editmode" style="display:none">
+    <!-- WORK AREA -->
+    <div class="edit_view" id="edit_view_container">
+
+        <div class="main_container content_container">
+                                <!--//desNote: row of buttons need to coexist horizontally with tabs,hence the //-->
+                <div id="edit_page_action_buttons_template"><!--
+                    <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+                    <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                    <span class="messageInformation" id="messageInformation" style="display:none">__MSG__AUTO_SAVED_AT__ <span id="realtime"></span></span>
+                --></div>
+
+                <!-- TAB CONTENT -->
+                <div class="fl-centered fl-container fl-tab-content edit_container">
+
+                    <!-- TOP BORDER -->
+                    <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
+
+                    <div class="s3d-primary-tabs">
+                        <ul class="fl-tabs fl-tabs-left">
+
+                            <!-- INSERT DROPDOWN MENU -->
+                            <span class="s3d-button s3d-button-inline" id="sitepages_insert_dropdown_button">
+                                <span class="s3d-button-inner">
+                                    <span class=""></span>
+                                    <span class="s3d-button-inner-text" id="sitepages_insert_dropdown_button_inner">__MSG__INSERT__</span>
+                                    <span class="s3d-button-icon-right"></span>
+                                </span>
+                            </span>
+                            <div id="sitepages_insert_dropdown_container"></div>
+
+                        </ul>
+                        <ul class="fl-tabs fl-tabs-right">
+                            <li id="tab_text_editor"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__TEXT_EDITOR__</span></button></li>
+                            <li id="tab_html"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__HTML__</span></button></li>
+                            <li id="tab_preview"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PREVIEW__</span></button></li>
+                        </ul>
+                    </div>
+
+                    <!-- EDIT CONTENTS -->
+                    <div class="edit_contents_main">
+
+                        <div id="fl-tab-content-editor">
+                            <div id="placeholderforeditor" class="textarea">
+
+                                <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
+                                <textarea id="elm1" name="elm1" style="width: 100%; height:430px">
+                                    &nbsp;
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div id="html-editor" style="display:none;">
+                            <textarea id="html-editor-content" rows="20" wrap="hard"></textarea>
+                        </div>
+
+                        <div class="content_container fl-fix" id="page_preview_content" style="display:none;"></div>
+
+                        <div id="page_save_options_bottom" class="fl-force-right">
+                            <button id="lhnav_edit_cancel_button" class="s3d-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                            <button id="lhnav_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
+                        </div>
+                        <div style="clear:both"><!-- --></div>
+
+                </div> <!-- end TAB CONTENT -->
+
+            </div> <!-- end main_container content_container -->
+
+        </div> <!-- end WORK AREA -->
+        </div>
+</div>
+
+
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">

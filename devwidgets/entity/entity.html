@@ -45,7 +45,7 @@
                     <button class="entity_user_contact_pending" type="button">
                         <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__</span>
                     </button>
-                    
+
                 {/if}
                 <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" type="button" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
@@ -53,7 +53,15 @@
             {/if}
         {/if}
     </div>
-    <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} "></div>
+    {if data.picture}
+        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
+            <img id="entity_profile_picture" src="${data.picture}"/>
+        </div>
+    {else}
+        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
+            <img id="entity_profile_picture" src=""/>
+        </div>
+    {/if}
     <div id="entity_name" class="s3d-bold">${data.displayName}</div>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
@@ -65,7 +73,7 @@
             <div class="entity_dropdown_tr"></div>
             <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
-                    <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a id="changepic_container_trigger" href="javascript:;">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
             <div class="entity_dropdown_bottom"></div>
@@ -115,12 +123,17 @@
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
-            <img src="${data['iconURL']}"/>
+            <img src="${data.data['iconURL']}"/>
     </div>
-    <div id="entity_name" class="s3d-bold">${data["sakai:pooled-content-file-name"]}</div>
+    <span id="entity_name" class="s3d-bold contentmetadata_editable">${data.data["sakai:pooled-content-file-name"]}</span>
+    <span id="entity_name_edit" style="display:none">
+        <input id="entity_name_text" type="text" size="50" />
+    </span>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">Used by (<a href="#" title="1 Person">1</a>)</span> <a href="#" title="1 Person">person</a> and 
-        <span class="entity_number">(<a href="#" title="0 Groups">0</a>)</span> <a href="#" title="0 Groups">groups</a>
+        {var peopleCount = data.members.counts.people}
+        <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
+        {var groupCount = data.members.counts.groups}
+        <span class="entity_number">(<a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">${groupCount}</a>)</span> <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">{if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}</a>
         <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
     </div>
 --></div>

@@ -5,7 +5,7 @@
     },
     "id": "mymemberships",
     "name": "My Memberships",
-    "personalportal":true,
+    "personalportal":false,
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/mymemberships/mymemberships.html",

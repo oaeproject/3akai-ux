@@ -19,7 +19,7 @@
  */
 
 define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],function($, sakai_conf) {
-    return {
+    var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
          * @param {String} permissionValue either 'public', 'everyone', 'group' or 'private'
@@ -27,7 +27,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
          * @param {Function} callback Function to call when the permissions have been saved or failed to save.
          *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
          */
-        setFilePermissions : function(permissionValue, filesArray, callback, groupID){
+        setFilePermissions : function(filesArray, callback, groupID){
             // Check which value was selected and fill in the data object accordingly
             var data = [];
             var file;
@@ -35,7 +35,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 if (filesArray.hasOwnProperty(file)) {
                     var contentPath = "/p/" + filesArray[file].hashpath;
                     var item;
-                    switch (permissionValue) {
+                    switch (filesArray[file].permissions) {
                     // Logged in only
                     case "everyone":
                         item = {
@@ -137,10 +137,14 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                     requests: $.toJSON(data)
                 },
                 success: function(data){
-                    callback(true);
+                    if (callback) {
+                        callback(true);
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
-                    callback(false);
+                    if (callback) {
+                        callback(false);
+                    }
                 }
             });
         },
@@ -259,9 +263,11 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split("/");
-                asin = bookId[bookId.indexOf('dp')+1];
-                result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
-                result.type = "iframe";
+                if (asin && asin[asin.indexOf('dp')] !== -1){
+                    asin = asin[asin.indexOf('dp')+1];
+                    result.url = "http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=" + asin + "&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0";
+                    result.type = "iframe";
+                }
             } else if (/videolectures\.net$/.test(uri.host)) {
                 var lectureId = uri.path.split('/')[1];
                 if (lectureId) {
@@ -312,19 +318,91 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                             if (!$(data).find("SlideShareServiceError").text()){
                                 var embed = $($(data).find("Embed").text());
                                 // resize to fit contentpreview
-                                embed.find('*[style*="width"]').css("width", "920px");
+                                embed.find('*[style*="width"]').css("width", "100%");
                                 embed.find('*[style*="height"]').css("height", "500px");
-                                embed.find('*[width="425"]').attr("width", "920");
+                                embed.find('*[width="425"]').attr("width", "100%");
                                 embed.find('*[height="355"]').attr("height", "500");
-    
+
                                 result.url = embed.html();
                                 result.type = "embed";
                             }
                         }
                     });
                 }
+            } else if (/maps\.google\.com$/.test(uri.host)) {
+                if (uri.path !== "") {
+                    result.url = uri.source;
+                    result.type = "googlemap";
+                }
+            }
+            return result;
+        },
+
+        /**
+         * Returns an object with data for the provided mimetype
+         *
+         * @param mimetype  standard mimetype string (i.e. "image/png", "application/pdf", etc.)
+         * @return if we have a match for the given mimetype, an Object with
+         *     the following params will be returned:
+         *      - cssClass: css class to assign a small (~16px) sprite image as the background
+         *            image for an element
+         *      - URL: path to an image (~128px) that represents this content type
+         *      - description: internationalizable bundle key for a short description
+         *            for this content type (i.e. "PDF document")
+         *     If there is no match, a general "Other document" object is returned
+         */
+        getMimeTypeData: function (mimetype) {
+            if (mimetype && typeof(mimetype) === "string") {
+                var mimetypeObj = sakai_conf.MimeTypes[mimetype];
+                if (mimetypeObj) {
+                    return mimetypeObj;
+                }
+            }
+            return sakai_conf.MimeTypes.other;
+        },
+
+        getMimeType : function(content){
+            var mimeType = "other";
+            if (content['_mimeType']){
+                mimeType = content['_mimeType'];
+            } else if (content['sakai:custom-mimetype']){
+                mimeType = content['sakai:custom-mimetype'];
+            }
+            return mimeType;
+        },
+
+        getThumbnail : function(content){
+            var thumbnail = "";
+            if (content['_mimeType/page1-small']) {
+                thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
+            }
+            return thumbnail;
+        },
+
+        isJwPlayerSupportedVideo : function(mimeType) {
+            supported = false;
+            if (mimeType && mimeType.substring(0, 6) === "video/" ){
+                var mimeSuffix = mimeType.substring(6);
+                if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
+                    supported = true;
+                }
+            }
+            return supported;
+        },
+
+        hasPreview : function(content){
+            var result = false;
+            var mimeType = sakai_content.getMimeType(content);
+            if (content["sakai:preview-url"] ||
+                    sakai_content.getThumbnail(content) ||
+                    mimeType.substring(0,6) === "image/" ||
+                    mimeType === "text/html" ||
+                    sakai_content.isJwPlayerSupportedVideo(mimeType)) {
+                result = true;
             }
             return result;
         }
+
     };
+    return sakai_content;
 });

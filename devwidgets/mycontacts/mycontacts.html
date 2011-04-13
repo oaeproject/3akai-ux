@@ -36,7 +36,7 @@
             <div class="fl-container fl-fix mycontacts_items">
                 <a href="/~${i.id}"><img alt="__MSG__PERSON_ICON__" src="${i.photo}"></a>
                 <div class="mycontacts_name"><a href="/~${i.id}" class="s3d-widget-links s3d-bold">${i.name}</a></div>
-                <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">Researcher</a></div>
+                <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">${i.type.join(", ")}</a></div>
             </div>
         {forelse}
             <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
@@ -44,7 +44,6 @@
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
                 </button>
             </a>
-            <br/>
             <span class="mycontacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
         {/for}
     --></div>

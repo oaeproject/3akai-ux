@@ -11,13 +11,13 @@
 .newinbox_items_inner img {float: left;padding: 0 10px 5px 0;width: 30px;}
 .newinbox_items_inner.hover {background-color:#C4E4FB;}
 
-.newinbox_name {width:30%; overflow:hidden;display:inline-block;}
-.newinbox_subject {width:30%;display:inline-block;vertical-align:top;}
+.newinbox_name {width:25%; overflow:hidden;display:inline-block;}
+.newinbox_subject {width:60%;display:inline-block;vertical-align:top;}
 .newinbox_delete_button {padding-right: 5px; float:right}
 .newinbox_delete_button span {padding-left:7px !important;}
 
 /* Hover */
-#newinbox_hover {-moz-box-shadow:0px 0px 10px 5px black;-webkit-box-shadow:0px 0px 10px 5px black;box-shadow:0px 0px 10px 5px black; position:absolute; height:228px; padding:0px 5px;background-color:white;overflow:hidden;}
+#newinbox_hover {-moz-box-shadow:0px 0px 10px 5px #ccc;-webkit-box-shadow:0px 0px 10px 5px #ccc;box-shadow:0px 0px 10px 5px #ccc; position:absolute; height:228px; padding:0px 5px;background-color:white;overflow:hidden;display:none;}
 #newinbox_hover_header {float:left;width:100%; height:50px;}
 #newinbox_hover_content {float:left;width:100%; height:158px;}
 #newinbox_hover_footer {float:left;width:100%;height:18px;padding-top:2px;font-size:10px;border-top:1px solid #ccc;background-color:#fff;}
@@ -25,7 +25,11 @@
 
 /* Message Detail */
 #newinbox_show_message .newinbox_items_container {margin-bottom:10px;}
-#newinbox_show_message_body {padding:10px;border-bottom:1px solid #ddd;} 
+#newinbox_show_message_body {padding:10px;border-bottom:1px solid #ddd;}
+#newinbox_show_message_reply {padding:10px;}
+#newinbox_show_message_reply a {margin:7px 10px 0px 0px; float:left; }
+#newinbox_show_message_reply textarea {width:100%;}
+#newinbox_show_message_reply .message_dialog {width:80%; float:left;}
 
 /* General */
 .newinbox_right_div {float:right;padding-left:5px;}

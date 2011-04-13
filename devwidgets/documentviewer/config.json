@@ -1,0 +1,12 @@
+{
+    "description":"Document Viewer",
+    "name":"Document Viewer",
+    "id":"documentviewer",
+    "hasSettings":false,
+    "type":"core",
+    "enabled":true,
+    "i18n": {
+        "default": "/devwidgets/documentviewer/bundles/default.properties"
+    },
+    "url":"/devwidgets/documentviewer/documentviewer.html"
+}

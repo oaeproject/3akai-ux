@@ -16,12 +16,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/* Main container */
-#content_profile_basic_info_container,#content_profile_file_details_container,#content_profile_listpeople_container{}
-
 /* Listpeople widget headings */
 .content_profile_list_header{border-bottom:1px solid #ebebeb;color:#5a6a7c;font-size:16px;font-weight:normal;margin-top:20px;margin-right:0;margin-bottom:20px;margin-left:0;padding-top:0;padding-right:0;padding-bottom:5px;padding-left:5px;}
 
 /* Listpeople widget save or cancel buttons */
 .content_profile_list_buttons{padding:20px 0;}
 .content_profile_left_column{margin-left:10px;margin-bottom:15px;}
+
+/* Sakai docs */
+#content_profile_sakaidoc_container{min-height: 300px; padding-bottom: 20px; border-bottom: 5px solid #E2E2E2; margin-bottom: 20px;}
+.s3d-page-column-right #content_profile_sakaidoc_container {padding-left: 10px; padding-right: 10px;}
