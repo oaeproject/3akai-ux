@@ -134,24 +134,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var parseDate = function(dateInput){
             /** Get the date with the use of regular expressions */
             if (dateInput !== null) {
-                if (/^\d+$/.test(dateInput)) {
-                    //1302736568747
-                    return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
-                } else {
-                    /** Get the date with the use of regular expressions */
-                    var match = /([0-9]{4})\-([0-9]{2})\-([0-9]{2}).([0-9]{2}):([0-9]{2}):([0-9]{2})/.exec(dateInput); // 2009-08-14T12:18:50
-                    var d = new Date();
-                    d.setYear(match[1]);
-                    d.setMonth(match[2] - 1);
-                    d.setDate(match[3]);
-                    d.setHours(match[4]);
-                    d.setMinutes(match[5]);
-                    d.setSeconds(match[6]);
-                    return d;
-                }
+                return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
+            } else {
+                return null;
             }
-            return null;
-
         };
 
         /**

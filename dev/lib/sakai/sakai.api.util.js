@@ -1100,8 +1100,6 @@ define(["jquery",
             },
             getTimeAgo : function(date){
                 if (date !== null) {
-                    // convert date input to GMT time
-                    date = this.toGMT(date);
 
                     var currentDate = new Date();
                     // convert current date to GMT time
