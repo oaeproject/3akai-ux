@@ -69,7 +69,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var getGroupId = function(){
             if (querystring.contains("id")) {
-                return querystring.get("id");
+                return decodeURIComponent(escape(querystring.get("id")));
             }
             sakai.api.Security.send404();
             return false;

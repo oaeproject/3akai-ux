@@ -183,12 +183,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
 
         /**
          * Parse the picture for a user
-         * @param {String} profile The profile for a user
-         * @param {String} uuid Uuid of the user
+         * @param {Object} profile The profile for a user
          */
-        var parsePicture = function(uuid, pictureData){
-            if (pictureData && $.parseJSON(pictureData).name) {
-                return "/~" + uuid + "/public/profile/" + $.parseJSON(pictureData).name;
+        var parsePicture = function(profile){
+            var picture = sakai.api.Util.constructProfilePicture(profile);
+            if (picture) {
+                return picture;
             } else {
                 return "/dev/images/user_avatar_icon_32x32.png";
             }
@@ -200,11 +200,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
          * @returns {Date}
          */
         var parseDate = function(dateInput){
-            //2009-08-19 11:29:53+0100
-            //2009-08-19T10:58:27
             if (dateInput !== null) {
                 // Use the sakai API function to parse the date and convert to the users local time
-                return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
+                if (/^\d+$/.test(dateInput)) {
+                    //1302736568747
+                    return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
+                } else {
+                    //2009-08-19 11:29:53+0100
+                    //2009-08-19T10:58:27
+                    return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
+                }
             }
             return null;
         };
@@ -234,21 +239,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var renderPosts = function(arrPosts){
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
-                if (arrPosts[i].post.profile[0].basic && arrPosts[i].post.profile[0].basic.elements && arrPosts[i].post.profile[0].basic.elements.picture && arrPosts[i].post.profile[0].basic.elements.picture.value) {
-                    arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].basic.elements.picture.value);
-                } else {
-                    arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post["sakai:from"], arrPosts[i].post.profile[0].picture);
-                }
+                arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post.profile[0]);
                 arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["_created"]));
                 if(arrPosts[i].post["sakai:editedOn"]){
                     arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
                 }
                 for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
-                    if (arrPosts[i].replies[ii].post.profile[0].basic && arrPosts[i].replies[ii].post.profile[0].basic.elements && arrPosts[i].replies[ii].post.profile[0].basic.elements.picture && arrPosts[i].replies[ii].post.profile[0].basic.elements.picture.value) {
-                        arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].basic.elements.picture.value);
-                    } else {
-                        arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post["sakai:from"], arrPosts[i].replies[ii].post.profile[0].picture);
-                    }
+                    arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post.profile[0]);
                     arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["_created"]));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
                         arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
@@ -326,7 +323,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(bbsTabContentSettingsTemplate, {
-                "settings":widgetSettings
+                "settings":widgetSettings,
+                "type":sakai_global.show.type
             }, $(bbsTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $bbsMainContainer.hide();
@@ -349,6 +347,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         };
 
         var parseSettings = function(data){
+            var contact = false;
+            if (sakai_global.show.type === "user" && sakai_global.show.id !== sakai.data.me.user.userid){
+                // determine if user is a contact of the profile user
+                if (sakai.api.User.checkIfConnected(sakai_global.show.id)){
+                    contact = true;
+                }
+            }
             parsedSettings["ismanager"] = false;
             if (sakai._isAnonymous) {
                 parsedSettings["addtopic"] = false;
@@ -357,8 +362,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             } else {
                 parsedSettings["anon"] = false;
                 parsedSettings["userid"] = sakai.data.me.user.userid;
-                if (data["sakai:whocanaddtopic"] == "managers_only") {
-                    if (sakai_global.currentgroup.manager) {
+                if (sakai_global.show.type === "user" && sakai_global.show.id === sakai.data.me.user.userid) {
+                    // User is on their own profile page, grant all permissions
+                    parsedSettings["addtopic"] = true;
+                    parsedSettings["ismanager"] = true;
+                } else if (data["sakai:whocanaddtopic"] == "managers_only") {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
                         parsedSettings["ismanager"] = true;
@@ -368,7 +377,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     }
                 }
                 else {
-                    if (sakai_global.currentgroup.manager) {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
                         parsedSettings["ismanager"] = true;
@@ -376,7 +385,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     else {
                         // Check if the user is a member
                         parsedSettings["addtopic"] = false;
-                        if (sakai_global.currentgroup.member) {
+                        if (sakai_global.currentgroup.member || contact) {
                             parsedSettings["addtopic"] = true;
                         }
                     }
@@ -385,7 +394,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     parsedSettings["canreply"] = true;
                 }
                 else {
-                    if (sakai_global.currentgroup.manager) {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["canreply"] = true;
                         parsedSettings["ismanager"] = true;
@@ -393,7 +402,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     else {
                         // Check if the user is a member
                         parsedSettings["canreply"] = false;
-                        if (sakai_global.currentgroup.member) {
+                        if (sakai_global.currentgroup.member || contact) {
                             parsedSettings["canreply"] = true;
                         }
                     }
@@ -525,7 +534,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     $parentDiv.hide();
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
-                    data.message.profile.pictureImg = parsePicture(data.message["sakai:from"], data.message.profile.picture);
+                    data.message.profile.pictureImg = parsePicture(data.message.profile);
                     data.message["_created"] = sakai.api.l10n.transformDateTimeShort(parseDate(data.message["_created"]));
                     data.message["sakai:createdOn"] = data.message["_created"];
 

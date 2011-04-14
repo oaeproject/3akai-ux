@@ -210,12 +210,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // Adjust display global total
                 // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
-                if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                if (results.total >= 0) {
                     $(searchConfig.global.numberFound).text(""+results.total);
                 } else if (results.results.length <= 0) {
                     $(searchConfig.global.numberFound).text(0);
-                } else {
-                    $(searchConfig.global.numberFound).text("more than " + Math.abs(results.total));
                 }
 
                 // Reset the pager.
@@ -259,9 +257,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         finaljson.items[i]["pagepath"] = page_path;
                         finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".search_results").width() - $("#faceted_container").width() - 115, {max_rows: 1,whole_word: false}, "search_result_course_site_url");
 
-                        if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
-                            finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
-                            finaljson.items[i].picture.picPath = "/~"+finaljson.items[i]["sakai:group-id"]+"/public/profile/"+finaljson.items[i].picture.name;
+                        var picture = sakai.api.Util.constructProfilePicture(finaljson.items[i]);
+                        if (picture) {
+                            finaljson.items[i].picPath = picture;
                         }
                     }
                 }

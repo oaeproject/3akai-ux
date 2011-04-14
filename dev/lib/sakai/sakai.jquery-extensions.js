@@ -83,6 +83,29 @@
 
 })(jQuery);
 
+/**
+ * Append charset to each ajax request that doesn't already have it
+ */
+(function($) {
+    var _ajax = $.ajax;
+    $.extend({
+        ajax: function(o) {
+            if (o.data) {
+                if (!o.data["_charset_"]) {
+                    o.data["_charset_"] = "utf-8";
+                }
+            } else if (o.url.indexOf("_charset_") === -1) {
+                if (o.url.indexOf("?") === -1) {
+                    o.url += "?";
+                } else {
+                    o.url += "&";
+                }
+                o.url += "_charset_=utf-8";
+            }
+            return _ajax.call(this, o);
+        }
+    });
+})(jQuery);
 
 /**
  * Extend jQuery to include a serializeObject function
