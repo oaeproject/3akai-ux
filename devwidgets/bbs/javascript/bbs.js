@@ -323,7 +323,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(bbsTabContentSettingsTemplate, {
-                "settings":widgetSettings
+                "settings":widgetSettings,
+                "type":sakai_global.show.type
             }, $(bbsTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $bbsMainContainer.hide();
@@ -346,6 +347,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         };
 
         var parseSettings = function(data){
+            var contact = false;
+            if (sakai_global.show.type === "user" && sakai_global.show.id !== sakai.data.me.user.userid){
+                // determine if user is a contact of the profile user
+                if (sakai.api.User.checkIfConnected(sakai_global.show.id)){
+                    contact = true;
+                }
+            }
             parsedSettings["ismanager"] = false;
             if (sakai._isAnonymous) {
                 parsedSettings["addtopic"] = false;
@@ -354,8 +362,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             } else {
                 parsedSettings["anon"] = false;
                 parsedSettings["userid"] = sakai.data.me.user.userid;
-                if (data["sakai:whocanaddtopic"] == "managers_only") {
-                    if (sakai_global.currentgroup.manager) {
+                if (sakai_global.show.type === "user" && sakai_global.show.id === sakai.data.me.user.userid) {
+                    // User is on their own profile page, grant all permissions
+                    parsedSettings["addtopic"] = true;
+                    parsedSettings["ismanager"] = true;
+                } else if (data["sakai:whocanaddtopic"] == "managers_only") {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
                         parsedSettings["ismanager"] = true;
@@ -365,7 +377,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     }
                 }
                 else {
-                    if (sakai_global.currentgroup.manager) {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["addtopic"] = true;
                         parsedSettings["ismanager"] = true;
@@ -373,7 +385,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     else {
                         // Check if the user is a member
                         parsedSettings["addtopic"] = false;
-                        if (sakai_global.currentgroup.member) {
+                        if (sakai_global.currentgroup.member || contact) {
                             parsedSettings["addtopic"] = true;
                         }
                     }
@@ -382,7 +394,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     parsedSettings["canreply"] = true;
                 }
                 else {
-                    if (sakai_global.currentgroup.manager) {
+                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
                         // Grant all permissions
                         parsedSettings["canreply"] = true;
                         parsedSettings["ismanager"] = true;
@@ -390,7 +402,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     else {
                         // Check if the user is a member
                         parsedSettings["canreply"] = false;
-                        if (sakai_global.currentgroup.member) {
+                        if (sakai_global.currentgroup.member || contact) {
                             parsedSettings["canreply"] = true;
                         }
                     }
