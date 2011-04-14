@@ -108,6 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var newaddcontentContainerNewItemRaquoRightDocumentsposition = "newaddcontent_container_newitem_raquo_right_documentsposition";
         var newaddcontentContainerNewItemAddToListDocumentsposition = "newaddcontent_container_newitem_add_to_list_documentsposition";
         var newaddcontentContainerNewItemAddToListExistingContentposition = "newaddcontent_container_newitem_add_to_list_existingcontentposition";
+        var newaddcontentExistingItemsListContainerDisabledListItem = "newaddcontent_existingitems_list_container_disabled_list_item";
 
         // List Variables
         var itemsToUpload = [];
@@ -189,9 +190,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var index = $(this).parent()[0].id.split("newaddcontent_selecteditems_")[1];
             var obj = itemsToUpload[index];
 
-            if(obj.type == "content"){
-                var $found = $("*:contains(\"" + obj.originaltitle + "\")");
-                $found.last().prev("a").click();
+            switch (obj.type){
+                case "content":
+                    var $found = $("*:contains(\"" + obj.originaltitle + "\")");
+                    $found.last().prev("a").click();
+                    break;
+                case "existing":
+                    var $existing = $("input#" + obj.id);
+                    $existing.removeAttr("disabled");
+                    $existing.removeAttr("checked");
+                    $existing.parent().removeClass(newaddcontentExistingItemsListContainerDisabledListItem);
+                    break;
             }
 
             itemsToUpload.splice(index,1);
@@ -259,13 +268,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 case "newaddcontent_existing_content_form":
                     var $existingContentForm = $(this).prev().children(":visible").find(newAddContentForm);
                     $.each($existingContentForm.find(":checked"), function(index, item){
-                        var contentObj = {
-                            "title":$(item.nextElementSibling).text(),
-                            "id":item.id,
-                            "type":"existing",
-                            "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
-                        };
-                        addContentToQueue(contentObj);
+                        if (!$(item).is(":disabled")) {
+                            var contentObj = {
+                                "title": $(item).next().text(),
+                                "id": item.id,
+                                "type": "existing",
+                                "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
+                            };
+                            addContentToQueue(contentObj);
+                            $(item).attr("disabled", "disabled");
+                            $(item).parent().addClass(newaddcontentExistingItemsListContainerDisabledListItem);
+                        }
                     });
                     break;
             }
@@ -531,7 +544,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} item Item to be added to your own library
          */
         var addToLibrary = function(item){
-            sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, checkUploadCompleted);
+            sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, function(){
+                checkUploadCompleted();
+            });
         };
 
         /**
@@ -668,7 +683,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 url: searchURL,
                 type: "GET",
                 success: function(data){
-                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai}));
+                    var existingIDs = [];
+                    $.each(itemsToUpload, function(index, item){
+                        if(item.type == "existing"){
+                            existingIDs.push(item.id);
+                        }
+                    });
+                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs}));
                 },
                 error: function(err){
 
@@ -769,15 +790,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 case "": // No ID found on class -> subnav present
                     switch ($(this).children("ul").children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {
                         case "newaddcontent_existing_content_everything":
-                            renderExistingContent("everything");
+                            renderExistingContent("everything", $newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                         case "newaddcontent_existing_content_my_content":
-                            renderExistingContent("my_content");
+                            renderExistingContent("my_content", $newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                         case "newaddcontent_existing_content_shared_with_me":
-                            renderExistingContent("shared_with_me");
+                            renderExistingContent("shared_with_me", $newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                     }

@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         else if (toAddList[i].substring(0, 6) === "group/") {
                             var group = toAddList[i].substring(6, toAddList[i].length);
                             if(!sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, group) && !sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, group)){
-                                toAddList[i - removed] = group
+                                toAddList[i - removed] = group;
                             } else {
                                 toAddList.splice(i - removed, 1);
                                 removed++;
