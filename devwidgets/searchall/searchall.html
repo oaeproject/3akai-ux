@@ -47,15 +47,7 @@
                         {if i['sakai:pooled-content-file-name']}
                             {var contentFound = true}
                             <div class="fl-container fl-fix searchall_result">
-                                {if i['_mimeType']}
-                                    {var mimeType = i['_mimeType']}
-                                {elseif i.file && i.file['_mimeType']}
-                                    {var mimeType = i.file['_mimeType']}
-                                {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
-                                    {var mimeType = i['jcr:content']['_mimeType']}
-                                {elseif i['jcr:primaryType'] === "sling:Folder"}
-                                    {var mimeType = 'folder'}
-                                {/if}
+                                {var mimeType = sakai.api.Content.getMimeType(i)}
                                 {var thumbnail = sakai.api.Content.getThumbnail(i)}
                                 <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                     {if thumbnail}
