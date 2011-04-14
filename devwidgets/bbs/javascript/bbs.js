@@ -200,11 +200,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
          * @returns {Date}
          */
         var parseDate = function(dateInput){
-            //2009-08-19 11:29:53+0100
-            //2009-08-19T10:58:27
             if (dateInput !== null) {
                 // Use the sakai API function to parse the date and convert to the users local time
-                return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
+                if (/^\d+$/.test(dateInput)) {
+                    //1302736568747
+                    return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
+                } else {
+                    //2009-08-19 11:29:53+0100
+                    //2009-08-19T10:58:27
+                    return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
+                }
             }
             return null;
         };
