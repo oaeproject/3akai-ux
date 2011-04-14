@@ -18,6 +18,10 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
+    sakai_global.show = sakai_global.show || {};
+    sakai_global.show.type = sakai_global.show.type || {};
+    sakai_global.show.id = sakai_global.show.id || {};
+
     sakai_global.currentgroup = sakai_global.currentgroup || {};
     sakai_global.currentgroup.id = sakai_global.currentgroup.id || {};
     sakai_global.currentgroup.data = sakai_global.currentgroup.data || {};
@@ -86,6 +90,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         entityType = "user";
                     }
+                    sakai_global.show.type = entityType;
+                    sakai_global.show.id = entityID;
                     entityData = data;
                     switch (entityType) {
                         case "user":
