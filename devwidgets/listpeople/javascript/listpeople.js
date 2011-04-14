@@ -400,9 +400,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         } else {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject.userid;
                         }
-                        if (resultObject.basic.elements.picture && resultObject.basic.elements.picture.value && typeof(resultObject.basic.elements.picture.value) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.basic.elements.picture.value);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject.userid]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
@@ -410,9 +408,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get group details
                         sakai_global.data.listpeople[listType].userList[resultObject.groupid] = resultObject;
                         sakai_global.data.listpeople[listType].total += 1;
-                        if (resultObject.basic.elements.picture && resultObject.basic.elements.picture.value && typeof(resultObject.basic.elements.picture.value) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject.groupid]["picture"] = $.parseJSON(resultObject.basic.elements.picture.value);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject.groupid]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
@@ -420,9 +416,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get group details
                         sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']] = resultObject;
                         sakai_global.data.listpeople[listType].total += 1;
-                        if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["picture"] = $.parseJSON(resultObject.picture);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
@@ -430,9 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get user details
                         sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']] = resultObject;
                         sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
-                        if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["picture"] = $.parseJSON(resultObject.picture);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }

@@ -209,7 +209,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // weird json bug.
                 comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
 
-
                 var user = {};
                 // User
                 // Puts the userinformation in a better structure for trimpath
@@ -217,12 +216,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (comment.profile) {
                     var profile = comment.profile[0];
                     user.fullName = sakai.api.User.getDisplayName(profile);
-                    user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                    // Check if the user has a picture
-                    if (profile.picture && $.parseJSON(profile.picture).name) {
-                        user.picture = "/~" + profile["userid"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-                    }
                     user.uid = profile["userid"];
+                    user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                    // Check if the user has a picture
+                    var pictureUrl = sakai.api.Util.constructProfilePicture(profile);
+                    if (pictureUrl){
+                        user.pictureUrl = pictureUrl;
+                    }
                     user.profile = "/~" + user.uid;
                 }
                 else {

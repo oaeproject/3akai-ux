@@ -412,6 +412,53 @@ define(["jquery",
         },
 
         /**
+         * Check whether there is a valid picture for the user
+         * @param {Object} profile The profile object that could contain the profile picture
+         * @return {String}
+         * The link of the profile picture
+         * Will be an empty string if there is no picture
+         */
+        constructProfilePicture : function(profile){
+            // profile.basic.elements object should not have picture information
+            // if there is profile picture and userId
+            // return the picture links
+            var id = null, picture_name = null;
+            if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
+                if (profile["rep:userId"]){
+                    id = profile["rep:userId"];
+                } else if (profile["sakai:group-id"]){
+                    id = profile["sakai:group-id"];
+                } else if (profile["uuid"]){
+                    id = profile["uuid"];
+                } else if (profile["userid"]){
+                    id = profile["userid"];
+                }
+                if (profile.picture) {
+                    if (profile.picture.name) {
+                        picture_name = profile.picture.name
+                    } else {
+                        //change string to json object and get name from picture object
+                        picture_name = $.parseJSON(profile.picture).name;
+                    }
+                    return "/~" + id + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
+                    if (profile.basic.elements.picture.value.name) {
+                        picture_name = profile.basic.elements.picture.value.name
+                    } else {
+                        //change string to json object and get name from picture object
+                        picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
+                    }
+                    //change string to json object and get name from picture object
+                    return "/~" + id + "/public/profile/" + picture_name;
+                } else {
+                    return "";
+                }
+            } else {
+                return "";
+            }
+        },
+
+        /**
          * @class notification
          *
          * @description
