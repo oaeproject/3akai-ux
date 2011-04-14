@@ -97,6 +97,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var lastSlashIndex = result["sakai:pooled-content-file-name"].lastIndexOf("\\")+1;
                     item.name = result["sakai:pooled-content-file-name"].slice(lastSlashIndex, lastDotIndex);
                 }
+                // if it is link remove last .lnk
+                else {
+                    var lastLnkIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".lnk");
+                    if(lastLnkIndex > -1){
+                        item.name = result["sakai:pooled-content-file-name"].slice(0, lastLnkIndex);
+                    }
+                        
+                }
             }
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycontent_widget .s3d-widget-content").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
