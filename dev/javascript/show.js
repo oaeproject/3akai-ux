@@ -67,7 +67,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var setEntityInfo = function(){
             if (window.location.pathname.substring(0, 2) === "/~") {
-                entityID = window.location.pathname.substring(2);
+                entityID = decodeURIComponent(window.location.pathname.substring(2));
                 if (entityID.indexOf("/") != -1){
                     entityID = entity.substring(0, entity.indexOf("/"));
                 }
