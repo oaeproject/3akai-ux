@@ -766,7 +766,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.currentgroup && !$.isEmptyObject(sakai_global.currentgroup.id)) {
                 currentSite = sakai_global.currentgroup.id;
             } else {
-                currentSite = sakai.profile.main.data["rep:userId"];
+                currentSite = sakai_global.profile.main.data["userid"];
             }
             if (!showSettings) {
                 // Show the main view.
