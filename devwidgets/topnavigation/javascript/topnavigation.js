@@ -39,16 +39,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.topnavigation = function(tuid, showSettings){
 
+
         ///////////////////
         // CONFIGURATION //
         ///////////////////
 
-        // Classes
-        var subnavtrClass = "hassubnav_tr";
-
         // Elements
         var subnavtl = ".hassubnav_tl";
-        var navLinkDropdown = ".navigation_link_dropdown";
+        var navLinkDropdown = ".s3d-dropdown-container";
         var hasSubnav = ".hassubnav";
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
@@ -88,6 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var lastSearchVal = "",
             searchTimeout = false;
+
 
         ////////////////////////
         ///// USER ACTIONS /////
@@ -140,6 +139,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {"anon" : sakai.data.me.user.anon}));
         };
 
+
         ////////////////////////
         /////// MESSAGES ///////
         ////////////////////////
@@ -148,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the number of unread messages
          */
         var setCountUnreadMessages = function(){
-            $(topnavUserInboxMessages).text(sakai.data.me.messages.unread);
+            $(topnavUserInboxMessages).text("(" + sakai.data.me.messages.unread + ")");
         };
 
 
@@ -342,6 +342,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             obj.links = menulinks;
+            obj.selectedpage = true;
             // Get navigation and render menu template
             $(topnavExplore).html(sakai.api.Util.TemplateRenderer(navTemplate, obj));
         };
@@ -381,18 +382,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Navigation hover binding
             $(hasSubnav).hover(function(){
                 var $li = $(this);
-                $li.addClass(subnavtrClass);
                 $li.children(subnavtl).show();
                 var $subnav = $li.children(navLinkDropdown);
 
                 var pos = $li.position();
-                $subnav.css("left", pos.left - 8);
-                $subnav.css("margin-top", "7px");
+                $subnav.css("left", pos.left - 2);
+                $subnav.css("margin-top", "10px");
                 $subnav.show();
             }, function(){
                 var $li = $(this);
                 $li.children(subnavtl).hide();
-                $li.removeClass(subnavtrClass);
                 $li.children(navLinkDropdown).hide();
             });
 
@@ -440,8 +439,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginButtonSigningIn).show();
                 $(topnavUserOptionsLoginButtonCancel).hide();
                 $(topnavuserOptionsLoginButtonLogin).hide();
-                $(topnavUserOptionsLoginError).hide();
-                $(this).removeClass("topnavigation_user_options_login_sign_in_error_margin");
                 sakai.api.User.login({
                     "username": $(topnavUseroptionsLoginFieldsUsername).val(),
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
@@ -465,6 +462,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             });
         };
+
 
         //////////////
         // OVERLAYS //
@@ -521,6 +519,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
             }
         });
+
 
         /////////////////////////
         /////// INITIALISE //////
