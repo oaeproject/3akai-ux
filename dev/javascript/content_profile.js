@@ -167,7 +167,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + contentInfo["sakai:originalfilename"];
+                        var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
                         //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
                         //    fullPath += contentInfo["sakai:fileextension"];
                         //}
