@@ -525,18 +525,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns {String} URL safe title
          */
         sakai_global.sitespages.createURLSafeTitle = function(title) {
-            var url_safe_title = title.toLowerCase();
-            url_safe_title = url_safe_title.replace(/ /g,"-");
-            url_safe_title = url_safe_title.replace(/'/g,"");
-            url_safe_title = url_safe_title.replace(/"/g,"");
-            url_safe_title = url_safe_title.replace(/[:]/g,"");
-            url_safe_title = url_safe_title.replace(/[?]/g,"");
-            url_safe_title = url_safe_title.replace(/[=]/g,"");
-
-            var regexp = new RegExp("[^a-z0-9_-]", "gi");
-            url_safe_title = url_safe_title.replace(regexp,"-");
-
-            return url_safe_title;
+            return sakai.api.Util.makeSafeURL(title);
         };
 
         $(window).bind("ready.dashboard.sakai", function(e, tuid) {
