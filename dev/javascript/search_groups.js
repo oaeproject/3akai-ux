@@ -318,7 +318,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             facetedurl = mainSearch.getFacetedUrl();
 
             if (facet && searchConfig.facetedConfig.facets[facet]){
-                if ((searchterm === '*' || searchterm === '**') && searchConfig.facetedConfig.facets[facet].searchurlall) {
+                if ((searchquery === '*' || searchquery === '**') && searchConfig.facetedConfig.facets[facet].searchurlall) {
                     facetedurl = searchConfig.facetedConfig.facets[facet].searchurlall;
                 } else {
                     facetedurl = searchConfig.facetedConfig.facets[facet].searchurl;
@@ -344,7 +344,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             mainSearch.fillInElements(page, searchquery, searchwhere);
 
             // Rebind everything
-            mainSearch.addEventListeners(searchterm, searchwhere);
+            mainSearch.addEventListeners(searchquery, searchwhere);
 
             searchterm = $(searchConfig.global.text).val();
             var title = $(searchConfig.global.text).attr("title");
