@@ -1007,6 +1007,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          {String} contentPath The path to the existing content to add a new version to
          */
         $(window).bind("init.fileupload.sakai", function(ev, data){
+            type = "file";
             var contentPath = "";
             if (data) {
                 uploadingNewVersion = data.newVersion || false;
