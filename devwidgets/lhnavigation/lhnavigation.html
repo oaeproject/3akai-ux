@@ -97,6 +97,14 @@
 
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
+    <div id="lhnavigation_actions">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DELETE_PAGE__</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PAGE__</span>
+        </button>
+    </div>
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         {for level in private.items}
             {if level._childCount > 1}
@@ -107,11 +115,14 @@
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>
             <ul class="lhnavigation_subnav" style="display:none;">
+                {var index = 0;}
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}/${sublevel_index}">
                             <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
+                        {var index = index + 1}
                     {/if}
                 {/for}
             </ul>
@@ -133,11 +144,14 @@
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>
             <ul class="lhnavigation_subnav" style="display:none;">
+                {var index = 0}
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}/${sublevel_index}">
                             <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
+                        {var index = index + 1}
                     {/if}
                 {/for}
             </ul>

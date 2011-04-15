@@ -128,7 +128,7 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .s3d-dropdown-menu ul li a {text-decoration:none;display:block;}
 .s3d-dropdown-menu ul li:hover a {color:#f3f3f3;}
 .s3d-dropdown-menu ul li a {color:#2683bc;font-size:11px;}
-.s3d-dropdown-menu .s3d-dropdown-container {background:url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bg.png") repeat-x scroll left top #0c4e79;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;-moz-box-shadow:0 10px 10px -3px #333333; -webkit-box-shadow:0 10px 10px -3px #333333; box-shadow:0 10px 10px -3px #333333;position:absolute;z-index:999;min-width:120px;padding:5px;-moz-border-radius:0 2px 2px 2px; border-radius:0 2px 2px 2px; -webkit-border-radius:0 2px 2px 2px;cursor:auto;}
+.s3d-dropdown-menu .s3d-dropdown-container {background:url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bg.png") repeat-x scroll left top #0c4e79;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;-moz-box-shadow:0 10px 10px -3px #333333; -webkit-box-shadow:0 10px 10px -3px #333333; box-shadow:0 10px 10px -3px #333333;position:absolute;z-index:999;min-width:140px;padding:5px;-moz-border-radius:0 2px 2px 2px; border-radius:0 2px 2px 2px; -webkit-border-radius:0 2px 2px 2px;cursor:auto;}
 .s3d-split-line {background-color:none;border:medium none;border-top:1px dotted #d4d4d4;height: 1px;margin: 3px 9px;}
 
 /* 
@@ -194,7 +194,7 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
  */
 .s3d-header .s3d-fixed-container .s3d-decor-left{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll 0 -10px transparent;float:left;height:5px;margin-left:-20px;overflow:visible;width:5px;}
 .s3d-header .s3d-fixed-container .s3d-decor{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -10px transparent;float:right;height:5px;margin-right:-20px;width:5px;position:relative;*right:-15px;}
-.s3d-main-container{background:#fff;padding-bottom:20px;}
+.s3d-main-container{background:#fff;}
 
 
 /*
@@ -226,12 +226,12 @@ a.s3d-action-seeall{font-size:11px!important;}
 /*
  * BUTTONS
  */
-.s3d-button{display:inline-block;position:relative;border:none;margin:0 5px 0 0;
-    padding:0 13px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */
+.s3d-button{display:inline-block;position:relative;border:none;margin:0;
+    padding:0 7px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */
     background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;zoom:1;}
 .s3d-button:hover,.s3d-button-hover{background-position:right -70px;}
 .s3d-button::-moz-focus-inner{border:none;/* overrides extra padding in Firefox */}
-.s3d-button .s3d-button-inner{position:relative;display:block;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -30px transparent;margin:0;height:23px;line-height:23px;white-space:nowrap!important;padding:0 0 0 15px;color:#fff;}
+.s3d-button .s3d-button-inner{position:relative;display:block;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -30px transparent;margin:0;height:23px;line-height:23px;white-space:nowrap!important;padding:0 0 0 9px;color:#fff;}
 .s3d-button:hover .s3d-button-inner,.s3d-button-hover .s3d-button-inner{background-position:left -70px;color:#FFF;}
 .s3d-button[disabled],.s3d-disabled{background-position:right -150px;cursor:default;}
 .s3d-button:hover[disabled],.s3d-disabled.s3d-button-hover{background-position:right -150px;cursor:default;}
