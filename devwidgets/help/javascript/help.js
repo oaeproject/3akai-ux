@@ -140,6 +140,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.ajax({
                         url: authprofileURL + ".profile.json",
                         dataType: "json",
+                        cache:false,
                         success: function(profile){
                             profileData = $.extend(true, {}, profile);
                             showHelp();

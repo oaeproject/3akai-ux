@@ -73,7 +73,7 @@ require(
         });
 
         asyncTest("Get the messages in a user's inbox", 1, function() {
-            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "_created", "asc", function(success, data) {
                 if (data.results && data.results.length) {
                     equals(data.results.length, 1, "Got one message from inbox");
                 } else {
@@ -84,7 +84,7 @@ require(
         });
 
         asyncTest("Mark Message Read", 1, function() {
-            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "_created", "asc", function(success, data) {
                 if (data.results && data.results[0]) {
                     var messagePath = data.results[0]["jcr:path"];
                     sakai.api.Communication.markMessagesAsRead([messagePath], function(success, data) {
@@ -99,7 +99,7 @@ require(
         });
 
         asyncTest("Move Message to Trash", 1, function() {
-            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "sakai:created", "asc", function(success, data) {
+            sakai.api.Communication.getAllMessages("inbox", "message", 13, 0, "_created", "asc", function(success, data) {
                 if (data.results && data.results[0]) {
                     var messagePath = data.results[0]["jcr:path"];
                     sakai.api.Communication.deleteMessages([messagePath], false, function(success, data) {
@@ -187,16 +187,9 @@ require(
                 };
                 requests.push(req);
             });
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                async: false,
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                complete: function(xhr, textStatus) {
-                    ok(textStatus === "success", "Deleted two users");
-                }
-            });
+            sakai.api.Server.batch(requests, function(success, data) {
+                ok(success, "Deleted two users");
+            }, null, null, false);
 
             // remove messages
             sakai.api.Communication.deleteMessages(pathToMessages, true, function(success, data){

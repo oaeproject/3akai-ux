@@ -47,6 +47,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var readySections = []; // Profile sections that have saved their data to profile.main
         var currentTags = [];
         var editProfileTour = false;
+        var tooltip_opened = false;
+        var intervalId;
 
         ///////////////////
         // CSS SELECTORS //
@@ -221,14 +223,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-
-            if (profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-            }
-            else {
-                return "";
-            }
-
+            return sakai.api.Util.constructProfilePicture(profile);
         };
 
         /**
@@ -371,30 +366,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Send the Ajax request to the batch servlet
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                complete: function() {
-                    $("#profile_footer_button_update").removeAttr("disabled");
-                },
-                success: function(data){
-
+            sakai.api.Server.batch(requests, function(success, data) {
+                $("#profile_footer_button_update").removeAttr("disabled");
+                if (success) {
                     // Show a successful notification to the user
                     sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
-
-                },
-                error: function(xhr, textStatus, thrownError){
-
+                } else {
                     // Show an error message to the user
                     sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
 
                     // Log an error message
                     debug.error("sakai.profile - saveProfileACL - the profile ACL's couldn't be saved successfully");
-
                 }
             });
 
@@ -405,23 +387,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var checkEditProfileTour = function(){
             var querystring = new Querystring();
-            if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true") {
-                editProfileTour = true;
-                // display tooltip
-                var tooltipData = {
-                    "tooltipSelector":"#entity_container",
-                    "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
-                    "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
-                    "tooltipArrow":"",
-                    "tooltipTop":0,
-                    "tooltipLeft":700
-                };
-                if (!sakai.tooltip || !sakai.tooltip.isReady) {
-                    $(window).bind("ready.tooltip.sakai", function() {
+            if (querystring.contains("editprofiletour") && querystring.get("editprofiletour") === "true" && !tooltip_opened) {
+                if ($(".entity_header").length) {
+                    tooltip_opened = true;
+                    editProfileTour = true;
+                    // display tooltip
+                    var tooltipData = {
+                        "tooltipSelector":"#entity_container",
+                        "tooltipTitle":"TOOLTIP_EDIT_MY_PROFILE",
+                        "tooltipDescription":"TOOLTIP_EDIT_MY_PROFILE_P2",
+                        "tooltipArrow":"",
+                        "tooltipTop":0,
+                        "tooltipLeft":700
+                    };
+                    if (!sakai_global.tooltip || !sakai_global.tooltip.isReady) {
+                        $(window).bind("ready.tooltip.sakai", function() {
+                            $(window).trigger("init.tooltip.sakai", tooltipData);
+                        });
+                    } else {
                         $(window).trigger("init.tooltip.sakai", tooltipData);
-                    });
+                    }
+                    if (intervalId){
+                        clearInterval(intervalId);
+                    }
                 } else {
-                    $(window).trigger("init.tooltip.sakai", tooltipData);
+                    intervalId = setInterval(checkEditProfileTour, 2000);
                 }
             }
         };
@@ -767,15 +757,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Add binding to all the elements
                 addBinding();
 
-                if (sakai_global.entity && sakai_global.entity.isRendered) {
-                    // check for edit profile tour in progress
-                    checkEditProfileTour();
-                } else {
-                    $(window).bind("rendered.entity.sakai", function(){
-                        // check for edit profile tour in progress
-                        checkEditProfileTour();
-                    });
-                }
+                // check for edit profile tour in progress
+                checkEditProfileTour();
             });
         };
 

@@ -269,6 +269,7 @@
                                             <span id="inbox-invitation-accept" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_accept_invitation">__MSG__ACCEPT_INVITATION__</button> |</span>
                                             <span id="inbox-invitation-ignore" style="display:none"><button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_ignore_invitation">__MSG__IGNORE_INVITATION__</button> |</span>
                                             <span id="inbox-invitation-already" style="display:none; color: #666">__MSG__YOU_HAVE_ACCEPTED_THIS_PERSON_AS_A_CONTACT__ |</span>
+                                            <span id="inbox-invitation-rejected" style="display:none; color: #666">__MSG__YOU_HAVE_IGNORED_THIS_PERSON_REQUEST__ |</span>
                                             <button type="button" class="s3d-link-button s3d-action s3d-bold" id="inbox_message_option_reply">__MSG__REPLY__</button>
                                         </div>
 
@@ -284,8 +285,8 @@
                             <div class="sender_details">
                                 <div class="sender_picture_container">
                                     <a href="/~${r.userFrom[0]["userid"]}" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                                    {if r.userFrom[0].picture}
-                                        <img src="/~${r.userFrom[0]["userid"]}/public/profile/${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
+                                    {if r.userFrom[0].photo}
+                                        <img src="${r.userFrom[0].photo}" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" class="sender-picture" id="inbox_message_picture" />
                                     {else}
                                         <img src="/dev/images/person_icon.jpg" class="sender-picture" alt="__MSG__TO_SEE_THE_USERS_PROFILE_INFORMATION__" id="inbox_message_picture" />
                                     {/if}

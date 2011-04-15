@@ -43,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var rootel = $("#" + tuid);
-        var numberFriends = 5; // The number of contacts that will be shown
+        var numberFriends = 8; // The number of contacts that will be shown
 
         // - ID
         var mycontacts = "#mycontacts";
@@ -85,19 +85,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parse the picture for a user
-         * @param {String} picture The picture path for a user
-         * @param {String} userStoragePrefix The user's storage prefix
+         * @param {Object} profile The users profile
          */
-        var parsePicture = function(profile, uuid){
-            // Check if the picture is undefined or not
-            // The picture will be undefined if the other user is in process of
-            // changing his/her picture
-            if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-            } else if (profile && profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
+        var parsePicture = function(profile){
+            var picture = sakai.api.Util.constructProfilePicture(profile);
+            if (picture) {
+                return picture;
+            } else {
+                return sakai.config.URL.USER_DEFAULT_ICON_URL;
             }
-            return sakai.config.URL.USER_DEFAULT_ICON_URL;
         };
 
 
@@ -118,7 +114,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (contacts.results) {
                 // Run process each friend
                 for (var i = 0, j = contacts.results.length; i < j; i++) {
-                    if (i <= numberFriends) {
+                    if (i < numberFriends) {
                         var friend = contacts.results[i];
 
                         // Set the id of the friend
@@ -128,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         friend.name = parseName(friend.target, friend.profile);
 
                         // Parse the picture of the friend
-                        friend.photo = parsePicture(friend.profile, friend.target);
+                        friend.photo = parsePicture(friend.profile);
 
                         // Add the friend to the array
                         jsonFriends.items.push(friend);
@@ -147,7 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getFriends = function(){
             $.ajax({
-                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=8",
+                url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=ACCEPTED&page=0&items=" + numberFriends,
                 cache: false,
                 success: function(data){
 

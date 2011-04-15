@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             batchRequests.push(acceptedContacts);
             batchRequests.push(contactsOnline);
-            sakai.api.Server.batch($.toJSON(batchRequests), function(success, data) {
+            sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success) {
                     // contact list
                     if (data.results.hasOwnProperty(0)) {
@@ -515,13 +515,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var sendBatchReadRequests = function(batchRequests) {
             // send the 'this message has been read' requests
             if (batchRequests && batchRequests.length > 0) {
-                $.ajax({
-                    url: sakai.config.URL.BATCH,
-                    type: "POST",
-                    data: {
-                        requests: $.toJSON(batchRequests)
-                    }
-                });
+                sakai.api.Server.batch(batchRequests);
             }
         };
 
@@ -651,7 +645,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "_from": "*",
                                 "items": 1000,
                                 "t": resp1.pulltime,
-                                "sortOn": "sakai:created",
+                                "sortOn": "_created",
                                 "sortOrder": "desc"
                             },
                             cache: false,
@@ -693,7 +687,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (from.userid !== sakai.data.me.user.userid){
                         // Check whether there is already a chatwindow for it
                         var chatWindow = getChatWindow(from.userid);
-                        var sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
+                        var sentDate = sakai.api.l10n.parseDateString(message["_created"], sakai.data.me);
                         var messageText = message["sakai:body"];
                         if (!chatWindow) {
                             // If not, create a new chat window
@@ -747,8 +741,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 var chatWindow = getChatWindow(from.userid);
                 var sentDate;
-                if (message["sakai:created"]) {
-                    sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
+                if (message["_created"]) {
+                    sentDate = sakai.api.l10n.parseDateString(message["_created"], sakai.data.me);
                 } else if (message["sentDate"]) {
                     sentDate = new Date(message["sentDate"]);
                 }

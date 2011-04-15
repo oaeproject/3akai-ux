@@ -104,9 +104,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
 
+                user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+
                 // Check for picture
-                if (user.picture && $.parseJSON(user.picture).name) {
-                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="/~' + user.uuid + "/public/profile/" + $.parseJSON(user.picture).name + '" width="60" height="60" />');
+                if (user.pictureLink) {
+                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.pictureLink + '" width="60" height="60" />');
                 }
                 else {
                     $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
@@ -213,9 +215,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
+            $(addToContactsAdd).hide();
             // Show the form
             $(addToContactsDoneContainer).hide();
-            $(addToContactsAdd).show();
 
             hash.w.show();
         };
@@ -256,6 +258,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // We have the data, render it.
                         fillInUserInfo(friend);
+                        $(addToContactsAdd).show();
+
                     }
                 });
             }
@@ -263,8 +267,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 friend = user;
                 friend.uuid = user.preferences.uuid;
                 fillInUserInfo(friend);
+                
             }
-
             // Render the templates
             renderTemplates();
 

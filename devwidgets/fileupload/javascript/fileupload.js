@@ -541,18 +541,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             dataResponse = batchDescriptionData;
             // Do the Batch request
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(batchDescriptionData)
-                },
-                success: function(data){
+            sakai.api.Server.batch(batchDescriptionData, function(success, data) {
+                if (success) {
                     resetFields();
                 }
-            });
+            }, false);
         };
 
         /**
@@ -577,26 +570,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "parameters": {
                     "sakai:groupresource": true,
                     "sakai:directory": "default",
-                    "sakai:permissions": "group"
+                    "sakai:permissions": "private"
                 }
             };
             data[data.length] = properties;
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(data)
-                },
-                success: function(data){
+            sakai.api.Server.batch(data, function(success, data) {
+                if (success) {
                     batchSetDescriptionAndName(results);
-                },
-                error: function(){
+                } else {
                     sakai.api.Util.notification.show("Not linked", "Link could not be added to the group");
                 }
-            });
+            }, false);
         };
 
         /**

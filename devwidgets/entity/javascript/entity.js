@@ -173,29 +173,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-
-            // if (profile.basic.elements.picture && profile["rep:userId"]) {
-            // profile.basic.elements object does not have picture information
-            // if there is profile picture and userId
-            // return the picture links
-            if(profile.picture && (profile["rep:userId"] || profile["sakai:group-id"])) {
-
-                var id = null;
-                if (profile["rep:userId"]){
-                    id = profile["rep:userId"];
-                } else if (profile["sakai:group-id"]){
-                    id = profile["sakai:group-id"];
-                }
-                //change string to json object and get name from picture object
-                var picture_name = $.parseJSON(profile.picture).name;
-
-                //return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-                return "/~" + id + "/public/profile/" + picture_name;
-            }
-            else {
-                return "";
-            }
-
+            return sakai.api.Util.constructProfilePicture(profile);
         };
 
         /**
@@ -239,16 +217,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 "url": "/system/userManager/group/" + groupid + "-managers.members.json",
                 "method": "GET"
             };
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                async: false,
-                success: function (data) {
+            sakai.api.Server.batch(requests, function(success, data) {
+                if (success) {
                     var groupMembers = $.parseJSON(data.results[0].body);
                     var groupManagers = $.parseJSON(data.results[1].body);
 
@@ -273,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                         }
                     }
                 }
-            });
+            }, null, null, false);
         };
 
 
@@ -501,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 success: function(data){
                     var presence = $.parseJSON(data.results[3].body);
                     for (var l in presence.contacts){
-                        if (presence.contacts[l].user === userid){
+                        if (presence.contacts[l].user === userid && presence.contacts[l].profile && sakai.config.enableChat){
                             if (presence.contacts[l].profile.chatstatus && presence.contacts[l]["sakai:status"] === "online") {
                                 entityconfig.data.profile.chatstatus = presence.contacts[l].profile.chatstatus;
                             } else {
@@ -888,6 +858,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         var setProfileData = function(){
             // Set the profile picture for the user you are looking at
             // /~admin/public/profile/256x256_profilepicture
+
+            // The rep:userId seems to be missing when looking at another users profile
+            if (!entityconfig.data.profile["rep:userId"]){
+                entityconfig.data.profile["rep:userId"] = entityconfig.data.profile.homePath.substr(2, entityconfig.data.profile.homePath.length);
+            }
             entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
             // Set the status for the user you want the information from
@@ -1127,6 +1102,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 } else if (sakai_global.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
                     groupCount++;
                 }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.viewers[i].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.viewers[i]);
             }
             for (var ii in sakai_global.content_profile.content_data.members.managers) {
                 if (sakai_global.content_profile.content_data.members.managers[ii]["rep:userId"]) {
@@ -1134,6 +1111,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 } else if (sakai_global.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
                     groupCount++;
                 }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.managers[ii].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.managers[ii]);
             }
             entityconfig.data.profile.usercount = userCount;
             entityconfig.data.profile.groupcount = groupCount;
@@ -1158,7 +1137,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                                     entityconfig.data.profile.activity.results[j].actorProfile = userList[jj];
                                     foundUser = true;
                                 } else if (!foundUser) {
-                                        entityconfig.data.profile.activity.results[j].actorProfile = entityconfig.data.profile.activity.results[j]["sakai:activity-actor"];
+                                    entityconfig.data.profile.activity.results[j].actorProfile = entityconfig.data.profile.activity.results[j]["sakai:activity-actor"];
                                 }
                             }
                         }
