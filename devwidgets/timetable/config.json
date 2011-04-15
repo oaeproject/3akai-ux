@@ -1,0 +1,18 @@
+{
+    "description":        "Timetable Widget",
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         true,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/timetable/bundles/default.properties"
+    },
+    "id":                 "timetable",
+    "name":               "Timetable",
+    "personalportal":     false,
+    "showinsakaigoodies": true,
+    "type":               "sakai",
+    "url":                "/devwidgets/timetable/timetable.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

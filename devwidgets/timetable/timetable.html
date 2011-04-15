@@ -1,0 +1,122 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/timetable/css/timetable.css" />
+
+<div class="timetable_widget">
+    <!-- WIDGET CONTENT CONTAINER -->
+    <div class="s3d-widget-content">
+        <!-- MAIN VIEW -->
+		<div id="timetable_main" style="display:none;">
+			<div id="timetable_main_template" style="display:none;"><!--
+			{if !data.isManager || data.events.length}
+            <div id='event_entries'>
+                <div class='event_entries_heading'>
+                    <h1>__MSG__TIMETABLE__</h1>
+					{if data.isManager}
+                    <a class='add_event_link'>__MSG__ADD_ANOTHER_EVENT__</a>
+					{/if}
+					{if data.events}
+                    <div class='sort_events_container'>
+                        <em>__MSG__SORT_BY__:</em>
+                        <select>
+							<option>__MSG__ID__</option>
+                            <option>__MSG__MOST_RECENT__</option>
+                        </select>
+                    </div>
+					{/if}
+                </div>
+				{if data.events}
+                <ol id='event_entries_list'>
+					{for event in data.events}
+                    <li data-id="${event.id}">
+                        <div class='event_container'>
+                            <div class='event_cal'>
+                                <strong>12</strong>
+                                <span>days</span>
+                            </div>
+                            <div class='event_info'>
+                                <h2>Seminar by Dr. Ian Stuart</h2>
+                                <h3>Mathematics 101</h3>
+                                <h4>${event.readableTime}</h4>
+                            </div>
+                        </div>
+                        <hr/>
+                    </li>
+                    {/for}
+                </ol>
+                <div id='event_entry_info'>
+                    <div id='event_entry_info_details'>
+                        <h3></h3>
+                        <p>
+                            <em>__MSG__TIME__:</em>
+                            <strong></strong>
+                        </p>
+                    </div>
+                    <div id='event_entry_info_notes'>
+                        <h3>__MSG__NOTES__:</h3>
+                        <p>
+                        </p>
+                    </div>
+                </div>
+				{/if}
+            </div>
+			{else}
+            <div id="no_event_entries">
+                <h1>__MSG__TIMETABLE__</h1>
+                <div class="call-to-action">
+                    <h2>__MSG__YOU_DONT_HAVE_ANY_TIMETABLE_ENTRIES_YET__</h2>
+                    <a class='add_event_link'>__MSG__ADD_AN_EVENT__</a>
+                </div>
+            </div>						
+			{/if}
+			--></div>
+            <div id="new_event_entry" class="dialog" style="display:none;">
+                <h2>__MSG__ENTER_A_TIMETABLE_EVENT__</h2>
+                <form action="#">
+                    <fieldset>
+                        <div class="new_event_entry_row">
+                            <label for="n_e_title">__MSG__TITLE__</label>
+                            <input type="text" id="n_e_title" name="n_e_title" class="required">
+                        </div>
+                        <div class="new_event_entry_row" id="event_datetime">
+                            <div id="new_event_starts">
+                                <label for="n_e_startsdate">__MSG__STARTS__</label>
+                                <input id="n_e_startsdate" class="n_e_date required date timeComparison" name="n_e_startsdate" placeholder="e.g. 02/15/2011" type="text"/>
+								<input id="n_e_startstime" class="n_e_time timeComparison" name="n_e_startstime" type="text" value="12:00"/>
+                            </div>
+                            <div id="new_event_ends">
+                                <label for="n_e_endsdate">__MSG__ENDS__</label>
+                                <input id="n_e_endsdate" class="n_e_date required date timeComparison" name="n_e_endsdate" placeholder="e.g. 02/15/2011" type="text" />
+								<input class="n_e_time timeComparison" id="n_e_endstime" name="n_e_endstime" type="text" value="12:00" />
+                            </div>
+                        </div>
+                        <div class="new_event_entry_row">
+                            <label for="n_e_description">__MSG__DESCRIPTION__</label>
+                            <textarea type="text" id="n_e_description" name="n_e_description" class="required" rows="5" cols="20"></textarea>
+                        </div>
+                        <div class="new_event_entry_row" id="event_types">
+                            <label for="n_e_type">__MSG__EVENT_TYPE__</label>
+                            <select id="n_e_type"></select>
+                        </div>
+                        <div class="call-to-action">
+                            <a class="close_add_event_form jqmClose">__MSG__CANCEL__</a>
+                            <button>__MSG__ADD_EVENT__</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+		</div>
+        <!-- SETTINGS VIEW -->
+        <div id="timetable_settings" style="display:none;">
+            <form id="timetable_settings_form" action="#">
+                <p><button type="submit">__MSG__SAVE__</button></p>
+            </form>
+        </div>		
+    </div>
+    <!-- WIDGET FOOTER WITH NO OPTIONS -->
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/timetable/javascript/timetable.js"></script>
