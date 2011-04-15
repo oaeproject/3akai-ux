@@ -29,9 +29,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * a multi-purpose tooltip dialog box
      */
     sakai_global.tooltip = function(tuid, showSettings) {
-        var tooltipSelector = false,
-            tooltipTitle = null,
-            tooltipDescription = null,
+        var tooltipOnShow = false,
             tooltipAutoClose = null,
             tooltipArrow = null,
             tooltipTop = null,
@@ -59,45 +57,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $tooltip_widget.jqmHide();
             $(window).trigger("closed.tooltip.sakai");
             $(window).unbind("update.tooltip.sakai");
+            $(document).unbind("click.tooltip_close");
         };
 
         /**
          * toggleTooltip sets tooltip configuration and displays the tooltip
          */
         var toggleTooltip = function() {
-            $tooltip_title.html(sakai.api.i18n.General.getValueForKey(tooltipTitle));
-            $tooltip_description.html(sakai.api.i18n.General.getValueForKey(tooltipDescription));
+            // bind auto close of tooltip on outside mouse click
+            if (tooltipAutoClose) {
+                $(document).unbind("click.tooltip_close").bind("click.tooltip_close", function (e) {
+                    var $clicked = $(e.target);
+                    // Check if one of the parents is the tooltip
+                    if (!$clicked.parents().is("#tooltip") && $tooltip_widget.is(":visible")) {
+                        hideTooltip();
+                    }
+                });
+            }
+
             // position tooltip and display directional arrow
-            var topOffset = 20;
-            var leftOffset = 430;
-            if (tooltipTop){
-                topOffset = topOffset + tooltipTop;
-            }
-            if (tooltipLeft){
-                leftOffset = leftOffset + tooltipLeft;
-            }
+            var topOffset = tooltipTop - 3;
+            var leftOffset = tooltipLeft - 42;
             $tooltip_header_arrow.hide();
             $tooltip_footer_arrow.hide();
-            $tooltip_widget.jqmShow();
 
             if (tooltipArrow === "bottom"){
-                topOffset = ($(".tooltip_dialog").height() + topOffset) * -1;
+                topOffset = "auto";
                 $tooltip_footer_arrow.show();
             } else if (tooltipArrow === "top"){
                 $tooltip_header_arrow.show();
             }
-
-            if (tooltipSelector) {
-                var eleOffset = $(tooltipSelector).offset();
-                if (eleOffset.top){
-                    topOffset += eleOffset.top;
-                }
-                if (eleOffset.left){
-                    leftOffset += eleOffset.left;
-                }
-                $tooltip_widget.css("top", topOffset);
-                $tooltip_widget.css("left", leftOffset);
+            $tooltip_widget.css({
+                top: topOffset,
+                left: leftOffset
+            });
+            $tooltip_content.html(tooltipHTML);
+            $tooltip_widget.jqmShow();
+            if (tooltipOnShow && typeof(tooltipOnShow) === "function") {
+                tooltipOnShow();
             }
+
             // bind tooltip movement
             $(window).unbind("update.tooltip.sakai");
             $(window).bind("update.tooltip.sakai", function(e, tooltipData) {
@@ -115,41 +114,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideTooltip();
                 return false;
             });
-            // bind auto close of tooltip on outside mouse click
-            if (tooltipAutoClose) {
-                $(document).click(function(e){
-                    var $clicked = $(e.target);
-                    // Check if one of the parents is the help_tooltip
-                    if (!$clicked.parents().is("#tooltip") && tooltipAutoClose) {
-                        hideTooltip();
-                    }
-                });
-            }
         };
 
         $tooltip_close.bind("click", function() {
             hideTooltip();
         });
 
-        /* helpObj should contain
-         * {String} tooltipSelector JQuery selector for where to place the tooltip
-         * {String} tooltipTitle Title for the tooltip
-         * {String} tooltipDescription Description for the tooltip
-         * {Boolean} tooltipAutoClose If we close the tooltip on an outside click
-         * {String} tooltipArrow Direction for where the tooltip arrow is placed
-         * {Integer} tooltipTop Value added to the top offset used when placing the tooltip
-         * {Integer} tooltipLeft Value added to the left offset used when placing the tooltip
+        /* Renders a tooltip.  The tooltipConfig param should contain:
+         * {String} tooltipHTML  a <div> containing all the HTML you want to display in the tool tip
+         * {Boolean} tooltipAutoClose  If we close the tooltip on an outside click
+         * {String} tooltipArrow  Direction for where the tooltip arrow is placed ("top" or "bottom")
+         * {Integer} tooltipLeft  absolute position of where the tooltip should spawn: X value (jQuery.Event.pageX)
+         * {Integer} tooltipTop   absolute position of where the tooltip should spawn: Y value (jQuery.Event.pageY)
+         * {Function} onShow      callback called when the tooltip is shown
          */
         $(window).unbind("init.tooltip.sakai");
-        $(window).bind("init.tooltip.sakai", function(e, helpObj) {
-            if (helpObj) {
-                tooltipSelector = helpObj.tooltipSelector || false;
-                tooltipTitle = helpObj.tooltipTitle || false;
-                tooltipDescription = helpObj.tooltipDescription || false;
-                tooltipAutoClose = helpObj.tooltipAutoClose || false;
-                tooltipArrow = helpObj.tooltipArrow || false;
-                tooltipTop = helpObj.tooltipTop || false;
-                tooltipLeft = helpObj.tooltipLeft || false;
+        $(window).bind("init.tooltip.sakai", function(e, tooltipConfig) {
+            if (tooltipConfig) {
+                tooltipHTML = tooltipConfig.tooltipHTML || false;
+                tooltipAutoClose = tooltipConfig.tooltipAutoClose || false;
+                tooltipArrow = tooltipConfig.tooltipArrow || false;
+                tooltipTop = tooltipConfig.tooltipTop || false;
+                tooltipLeft = tooltipConfig.tooltipLeft || false;
+                tooltipOnShow = tooltipConfig.onShow || false;
                 toggleTooltip();
             } else {
                 debug.error("No tooltip mode specifed");
