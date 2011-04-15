@@ -475,7 +475,7 @@ define(["jquery",
             this.getContacts(function() {
                 for (var i in sakaiUserAPI.data.me.mycontacts) {
                     if (i && sakaiUserAPI.data.me.mycontacts.hasOwnProperty(i)) {
-                        if (sakaiUserAPI.data.me.mycontacts[i].user === userid) {
+                        if (sakaiUserAPI.data.me.mycontacts[i].target === userid) {
                             ret = true;
                         }
                     }

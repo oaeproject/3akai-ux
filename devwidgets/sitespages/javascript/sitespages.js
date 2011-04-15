@@ -143,6 +143,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Load template configuration file
             sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
                 if (success) {
+                    // remove properties added by server
+                    sakai.api.Server.removeServerCreatedObjects(pref_data);
                     sakai_global.sitespages.mytemplates = pref_data;
                 } else {
                     sakai_global.sitespages.mytemplates = {};
@@ -1294,7 +1296,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // save the cursor position in the editor
-            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(2);
         };
 
         // hide the context menu when it is shown and a click happens elsewhere on the document

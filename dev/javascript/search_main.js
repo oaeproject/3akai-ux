@@ -304,28 +304,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = "/~" + user.userid + "/public/";
                     var person = item;
-                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
-                        person.picture = person.basic.elements.picture.value;
-                    }
-                    if (person.picture) {
-                        var picture;
-                        // if picture is string
-                        if (typeof person.picture === "string") {
-                            picture = $.parseJSON(person.picture);
-                        // if picuture is json object
-                        } else {
-                            picture = person.picture;
-                        }
-                        if (picture.name) {
-                            user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
-                        } else {
-                            user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                        }
-                        if (picture.name) {
-                            user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
-                        } else {
-                            user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                        }
+                    var picture = sakai.api.Util.constructProfilePicture(person);
+                    if (picture) {
+                        user.picture = picture;
                     } else {
                         user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }
