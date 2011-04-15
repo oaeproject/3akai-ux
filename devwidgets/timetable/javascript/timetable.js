@@ -97,6 +97,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                     else {
                         //TODO delete the event
                     }
+                    
+                    
                 }
             }
             
@@ -108,8 +110,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             if (!$mainContainer.is(':visible')) {
                 $mainContainer.show();
             }
-            $eventInfo.height($eventList.height() - 63);
+            if ($eventInfo.height() < $eventList.height() - 63) {
+                $eventInfo.height($eventList.height() - 63);
+            }
             $(".sort_events_container select", $mainContainer).change(sortEventsChangeEvent).change();
+            
+            
+            $addEventLinks = $('a.add_event_link', $mainContainer);
+            $addEventLinks.click(function(){
+                $addEventContainer.jqmShow();
+            });
+            
+            $eventList.find('li').live('click', eventListClickEvent);
         }
         
         /**
@@ -188,7 +200,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             if ($(this).hasClass('selected')) {
                 return;
             }
-            $eventList.find('li.selected').removeClass('selected');
+            $('li.selected', $eventList).removeClass('selected');
             $(this).addClass('selected');
             $eventInfo.removeClass(); //removes all the classes.
             $eventInfo.addClass('selected_index_' + $(this).index());
@@ -315,11 +327,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 var $timeinput = $(this);
                 
                 // add UI elements
-                $timeinput.after('<div class="ayrton_nud"><a class="ayrton_nud_u">up</a><a class="ayrton_nud_d">down</a></div>');
+                $timeinput.after('<div class="ayrton_nud"><a class="ayrton_nud_u ayrton_nud_a">up</a><a class="ayrton_nud_d ayrton_nud_a">down</a></div>');
                 
                 // clickhandler
                 var mininterval = 15;
-                $timeinput.parent().find('a').click(function(){
+                $timeinput.parent().find('.ayrton_nud_a').click(function(){
                     var tval = $timeinput.val();
                     
                     var th = parseInt(tval.split(':')[0], 10);
@@ -394,17 +406,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                         onShow: showAddEventEntry
                     });
                     
-                    doFillInEventTypes();
                     data.isManager = sakai_global.currentgroup.manager;
                     hideAndRemoveOldEventsAndRenderTemplate(success, loadedData);
                     
-                    $addEventLinks = $('a.add_event_link', $mainContainer);
-                    $addEventLinks.click(function(){
-                        $addEventContainer.jqmShow();
-                    });
-                    
-                    $eventList.find('li').live('click', eventListClickEvent);
-                    
+                    // add event stuff
+                    doFillInEventTypes();
                     doSetupDateAndTimePicker();
                     doValidateAddEventForm();
                 });

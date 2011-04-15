@@ -19,7 +19,7 @@
 
 /* no entries */
 
-#no_event_entries{display:block}
+.timetable_widget #no_event_entries{display:block}
 #no_event_entries h1{font:17px / 17px Arial, Helvetica, sans-serif;margin:0 0 33px 11px}
 #no_event_entries .call-to-action{border:1px solid #a9a9a9;clear:both;overflow:hidden;width:464px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;padding:14px 17px 17px}
 #no_event_entries .call-to-action h2{float:left;font:bold 16px / 21px Arial, Helvetica, sans-serif;letter-spacing:.03em;width:200px;word-wrap:break-word;margin:3px 0 0}
