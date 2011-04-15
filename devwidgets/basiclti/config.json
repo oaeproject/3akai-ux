@@ -1,5 +1,6 @@
 {
     "ca":true,
+    "hasSettings": "true",
     "description":"Basic LTI Widget",
     "id":"basiclti",
     "i18n": {
@@ -9,5 +10,10 @@
     "name":"Basic LTI",
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/basiclti/basiclti.html"
+    "url":"/devwidgets/basiclti/basiclti.html",
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
+    "showinsakaigoodies":true
 }

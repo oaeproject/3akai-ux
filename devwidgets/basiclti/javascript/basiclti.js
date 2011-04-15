@@ -144,7 +144,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Called when the data has been saved to the JCR.
          */
-        var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
+        var savedDataToJCR = function(success, data){
+            displayRemoteContent(data);
             sakai.api.Widgets.Container.informFinish(tuid, "basiclti");
         };
 
@@ -172,11 +173,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframe = function(){
             if (json) {
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+                //json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
                 // SAKIII-542 Basic LTI no longer renders IFRAME content (workaround)
-                $("#" + json.tuidFrame).attr("src", json.launchDataUrl);
+                $("#" + json.tuidFrame).attr("src", json.ltiurl);
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
                 if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
                     $(basicltiSettingsPreviewFrame).load(function() {
@@ -259,13 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 json.tuidFrame = ""; // does not need to be persisted
                 json.defined = ""; // what the heck is this? Where does it come from?
                 json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
-                var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
-                $.ajax({
-                    type: 'POST',
-                    url: saveUrl,
-                    data: json,
-                    success: savedDataToJCR
-                });
+                sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             }
             else {
                 sakai.api.Util.notification.show("", sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_URL"),
@@ -439,22 +434,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function(){
-            var settingsUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
-            $.ajax({
-                url: settingsUrl,
-                cache: false,
-                success: function(data){
-
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (success && data) {
                     if (showSettings) {
                         displaySettings(data, true); // Fill in the settings page.
                     }
                     else {
                         displayRemoteContent(data); // Show the frame
                     }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    // When the request isn't successful, it means that  there was no existing basiclti
-                    // so we show the basic settings.
+                } else {
                     displaySettings(null, false);
                 }
             });
