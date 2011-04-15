@@ -1285,7 +1285,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // save the cursor position in the editor
-            bookmark = tinyMCE.get("elm1").selection.getBookmark(2);
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
         };
 
         // hide the context menu when it is shown and a click happens elsewhere on the document
