@@ -216,7 +216,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * renderList
          * Renders the list of objects the user can select from
          * @pageNumber {Int} The page we want to load
-         * @objects {Object} The data we want to list
          * @objects {Object} An object containing the elements to list
          * @returns void
          */
