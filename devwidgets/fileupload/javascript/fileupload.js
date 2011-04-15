@@ -526,6 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "method": "POST",
                             "parameters": {
                                 "sakai:description": $fileUploadAddDescription.val(),
+                                "sakai:originalfilename": uploadedFiles[i].filename,
                                 "sakai:fileextension": uploadedFiles[i].filename.substring(uploadedFiles[i].filename.lastIndexOf("."), uploadedFiles[i].filename.length),
                                 "sakai:pooled-content-file-name": uploadedFiles[i].name,
                                 "sakai:directory": "default",
