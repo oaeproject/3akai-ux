@@ -875,6 +875,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        $("#fileupload_form_submit").die("click");
         $("#fileupload_form_submit").live("click", function(){
             if (type === "link") {
                 linkFormSubmit();
