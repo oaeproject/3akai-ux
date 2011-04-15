@@ -336,6 +336,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // always appear in upload file mode
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
+            $fileUploadLinkBoxInput.removeAttr("disabled");
 
             if (groupContext) {
                 renderGroupUpload();
