@@ -2135,7 +2135,9 @@ define(function(){
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
             "213623673": {
-                "page": "<div id='widget_mymemberships' class='widget_inline'/>"
+                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
+                    "<div id='widget_tooltip' class='widget_inline'></div> " +
+                    "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
             "1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
