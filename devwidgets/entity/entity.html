@@ -219,7 +219,7 @@
                             {if t.split("/")[0] !== "directory"}
                                 {if count > 0},{/if}
                                 {var count = count +1}
-                                <a href="/search#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>
+                                <a href="/search#tag=/tags/${encodeURIComponent(t)}" class="s3d-action">${unescape(t)}</a>
                             {/if}
                         {/for}
                     </div>
