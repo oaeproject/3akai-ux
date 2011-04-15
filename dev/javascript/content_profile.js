@@ -188,6 +188,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             mode: "content",
                             url: sakai.config.SakaiDomain + fullPath,
                             path: fullPath,
+                            smallPath: content_path,
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
