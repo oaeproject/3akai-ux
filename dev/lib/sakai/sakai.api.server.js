@@ -571,7 +571,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             if (advancedSearchRegex.test(searchString)) {
                 ret = searchString;
             } else {
-                ret = $.trim(searchString).split(" ").join("* AND ") + "*";
+                ret = $.trim(searchString).split(" ").join(" AND ");
             }
 
             return ret;
