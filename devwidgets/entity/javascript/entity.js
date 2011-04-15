@@ -89,6 +89,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Place message functionality
                     });
                     break;
+                case "content_anon": //fallthrough
+                case "content_not_shared": //fallthrough
+                case "content_managed":
+                    var $entityContentUsersDialog = $("#entity_content_users_dialog");
+                    var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");
+                    var entityContentUsersDialogTemplate = "#entity_content_users_dialog_list_template";
+
+                    $entityContentUsersDialog.jqm({
+                        modal: true,
+                        overlay: 20,
+                        toTop: true
+                    });
+
+                    $(".entity_content_people").live("click", function(){
+                        $entityContentUsersDialog.jqmShow();
+
+                        var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                        var json = {
+                            "userList": userList,
+                            "type": "people",
+                            sakai: sakai
+                        };
+
+                        // render dialog template
+                        sakai.api.Util.TemplateRenderer(entityContentUsersDialogTemplate, json, $entityContentUsersDialogContainer);
+                        $("#entity_content_users_dialog_heading").html($("#entity_content_people").html());
+
+                        return false;
+                    });
+
+                    $(".entity_content_group").live("click", function(){
+                        var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+                        $entityContentUsersDialog.jqmShow();
+
+                        var json = {
+                            "userList": userList,
+                            "type": "groups",
+                            sakai: sakai
+                        };
+
+                        // render users dialog template
+                        sakai.api.Util.TemplateRenderer(entityContentUsersDialogTemplate, json, $entityContentUsersDialogContainer);
+                        $entityContentUsersDialogContainer.show();
+                        $("#entity_content_users_dialog_heading").html($("#entity_content_groups").html());
+
+                        return false;
+                    });
+                    break;
             }
        };
 
