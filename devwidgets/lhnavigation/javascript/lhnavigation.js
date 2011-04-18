@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $el.next().hide();
                 }
             }
-            $(".s3d-page-column-right").height($(".s3d-page-column-left").height());
+            $(".s3d-page-column-right").attr("min-height", $(".s3d-page-column-left").height());
         }
 
         ////////////
@@ -124,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             showHideSubnav($clickedItem);
 
-            $(".s3d-page-column-right").height($(".s3d-page-column-left").height());
+            $(".s3d-page-column-right").attr("min-height", $(".s3d-page-column-left").height());
         };
         
         var hideSubMenu = function(){
