@@ -3,6 +3,7 @@
     "grouppages": true,
     "userpages": true,
     "hasSettings": true,
+    "sakaidocs": true,
     "id":"embedcontent",
     "i18n": {
         "default": "/devwidgets/embedcontent/bundles/default.properties"

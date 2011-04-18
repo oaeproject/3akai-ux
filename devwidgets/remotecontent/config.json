@@ -3,6 +3,7 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
+    "sakaidocs": true,
     "description":"Remote Content",
     "i18n": {
         "default": "/devwidgets/remotecontent/bundles/default.properties",
