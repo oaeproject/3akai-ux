@@ -435,28 +435,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             resultObject["jcr:name"] = resultObject["content_id"];
                         }
 
-                        var content_path = '/p/' + resultObject["jcr:name"];
-
-                        $.ajax({
-                            url: sakai.config.SakaiDomain + content_path + ".2.json",
-                            async: false,
-                            success: function(data){
-
-                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = data;
-                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
-                                sakai_global.data.listpeople[listType].total += 1;
-                                if (sakai.config.MimeTypes[data["_mimeType"]]) {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["_mimeType"]].URL;
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["_mimeType"]].description);
-                                } else {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
-                                }
-                                if (!sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
-                                }
-                            }
-                        });
+                        sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = resultObject;
+                        sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
+                        sakai_global.data.listpeople[listType].total += 1;
+                        if (sakai.config.MimeTypes[resultObject["jcr:mimeType"]]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[resultObject["jcr:mimeType"]].URL;
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[resultObject["jcr:mimeType"]].description);
+                        } else {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
+                        }
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = resultObject[iSubNameInfoContent];
+                        }
                     }
                 });
             }
@@ -506,6 +497,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "anon": false
                 };
                 render(tuid, data.pl_config, data.url, data.id);
+            });
+            $(window).unbind(tuid + ".add.listpeople.sakai");
+            $(window).bind(tuid + ".add.listpeople.sakai", function(e, data) {
+                list = {
+                    "results": data.list
+                };
+                addToList(list);
+                var newData = {
+                    "results": sakai_global.data.listpeople[listType].userList,
+                    "length": sakai_global.data.listpeople[listType].userList.length
+                };
+                sakai_global.data.listpeople[listType].userList = null;
+                renderList(0, newData);
             });
             $(window).trigger(tuid + ".ready.listpeople.sakai", tuid);
             $(window).trigger("ready.listpeople.sakai", tuid);

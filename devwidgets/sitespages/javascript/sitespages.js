@@ -525,18 +525,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns {String} URL safe title
          */
         sakai_global.sitespages.createURLSafeTitle = function(title) {
-            var url_safe_title = title.toLowerCase();
-            url_safe_title = url_safe_title.replace(/ /g,"-");
-            url_safe_title = url_safe_title.replace(/'/g,"");
-            url_safe_title = url_safe_title.replace(/"/g,"");
-            url_safe_title = url_safe_title.replace(/[:]/g,"");
-            url_safe_title = url_safe_title.replace(/[?]/g,"");
-            url_safe_title = url_safe_title.replace(/[=]/g,"");
-
-            var regexp = new RegExp("[^a-z0-9_-]", "gi");
-            url_safe_title = url_safe_title.replace(regexp,"-");
-
-            return url_safe_title;
+            return sakai.api.Util.makeSafeURL(title);
         };
 
         $(window).bind("ready.dashboard.sakai", function(e, tuid) {
@@ -1296,7 +1285,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             // save the cursor position in the editor
-            bookmark = tinyMCE.get("elm1").selection.getBookmark(2);
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
         };
 
         // hide the context menu when it is shown and a click happens elsewhere on the document
@@ -1862,7 +1851,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // Bind Widget Context Settings click event
-        $("#context_settings").bind("click", function(ev){
+        // change to mousedown based on following link
+        // http://tinymce.moxiecode.com/forum/viewtopic.php?pid=74422
+        $("#context_settings").mousedown(function(ev){
             var ed = tinyMCE.get('elm1');
             var selected = ed.selection.getNode();
             $("#dialog_content").hide();

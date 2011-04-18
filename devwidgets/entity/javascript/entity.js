@@ -1087,37 +1087,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
         };
 
         /**
-         * Set the data for the content2 object information
-         * @param {Object} data The data we need to parse
+         * Set acitivity data for the contact ready to be rendered
          */
-        var setContent2Data = function(data){
-            setContentData(data);
-
-            // get the count of users and groups who have access to the content
-            var userCount = 0;
-            var groupCount = 0;
-            for (var i in sakai_global.content_profile.content_data.members.viewers) {
-                if (sakai_global.content_profile.content_data.members.viewers[i]["rep:userId"]) {
-                    userCount++;
-                } else if (sakai_global.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
-                    groupCount++;
-                }
-                // get profile picture URL
-                sakai_global.content_profile.content_data.members.viewers[i].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.viewers[i]);
-            }
-            for (var ii in sakai_global.content_profile.content_data.members.managers) {
-                if (sakai_global.content_profile.content_data.members.managers[ii]["rep:userId"]) {
-                    userCount++;
-                } else if (sakai_global.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
-                    groupCount++;
-                }
-                // get profile picture URL
-                sakai_global.content_profile.content_data.members.managers[ii].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.managers[ii]);
-            }
-            entityconfig.data.profile.usercount = userCount;
-            entityconfig.data.profile.groupcount = groupCount;
-
-            // Set the recent activity for the file
+        var setContentActivityData = function(){
             if (sakai_global.content_profile.content_data.activity) {
                 entityconfig.data.profile.activity = sakai_global.content_profile.content_data.activity;
                 entityconfig.data.profile.activity.results.sort(sortActivity);
@@ -1166,6 +1138,41 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                     }
                 }
             }
+        };
+
+        /**
+         * Set the data for the content2 object information
+         * @param {Object} data The data we need to parse
+         */
+        var setContent2Data = function(data){
+            setContentData(data);
+
+            // get the count of users and groups who have access to the content
+            var userCount = 0;
+            var groupCount = 0;
+            for (var i in sakai_global.content_profile.content_data.members.viewers) {
+                if (sakai_global.content_profile.content_data.members.viewers[i]["rep:userId"]) {
+                    userCount++;
+                } else if (sakai_global.content_profile.content_data.members.viewers[i]['sakai:group-id']) {
+                    groupCount++;
+                }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.viewers[i].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.viewers[i]);
+            }
+            for (var ii in sakai_global.content_profile.content_data.members.managers) {
+                if (sakai_global.content_profile.content_data.members.managers[ii]["rep:userId"]) {
+                    userCount++;
+                } else if (sakai_global.content_profile.content_data.members.managers[ii]['sakai:group-id']) {
+                    groupCount++;
+                }
+                // get profile picture URL
+                sakai_global.content_profile.content_data.members.managers[ii].pictureUrl = sakai.api.Util.constructProfilePicture(sakai_global.content_profile.content_data.members.managers[ii]);
+            }
+            entityconfig.data.profile.usercount = userCount;
+            entityconfig.data.profile.groupcount = groupCount;
+
+            // Set the recent activity for the file
+            setContentActivityData();
         };
 
         /**
@@ -1345,6 +1352,36 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
                 // update content permission and render template
                 entityconfig.data.profile.permissions = sakai_global.content_profile.content_data.data["sakai:permissions"];
                 renderTemplate();
+            });
+
+            $(window).unbind("updateContentActivity.entity.sakai");
+            $(window).bind("updateContentActivity.entity.sakai", function(e, activityMessage) {
+                var num = parseInt($("#entity_content_activity_count").text()) + 1;
+                sakai_global.content_profile.content_data.activity.total++;
+                $("#entity_content_activity_count").text(num);
+                if (num === 1) {
+                    $("#entity_content_activity_count_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "THING_HAS_HAPPENED"));
+                } else if (num === 2) {
+                    $("#entity_content_activity_count_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "THINGS_HAVE_HAPPENED"));
+                }
+
+                var date = new Date();
+                var timestamp = date.getTime();
+
+                var activityObject = {
+                    "_created": timestamp,
+                    "actorProfile": sakai.data.me.profile,
+                    "sakai:activity-actor": sakai.data.me.user.userid,
+                    "sakai:activityMessage": activityMessage
+                };
+
+                if (!sakai_global.content_profile.content_data.activity) {
+                    sakai_global.content_profile.content_data.activity = {
+                        "results": []
+                    };
+                }
+                sakai_global.content_profile.content_data.activity.results.push(activityObject);
+                setContentActivityData();
             });
         };
 

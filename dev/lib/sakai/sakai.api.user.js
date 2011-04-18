@@ -509,7 +509,7 @@ define(["jquery",
                 url: "/~" + inviteTo + "/contacts.ignore.html",
                 type: "POST",
                 data: {
-                    "targetUserId": accepting
+                    "targetUserId": inviteFrom
                 },
                 success: function(data){
                     $.ajax({

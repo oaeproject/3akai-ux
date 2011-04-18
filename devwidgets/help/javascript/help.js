@@ -88,6 +88,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var toggleShow = function(dontShow) {
             if (profileFlag) {
                 profileData[profileFlag] = dontShow;
+                delete profileData["sakai:tags"];
+                delete profileData["sakai:tag-uuid"];
                 sakai.api.Server.saveJSON(authprofileURL, 
                     profileData, 
                     function(success, data){

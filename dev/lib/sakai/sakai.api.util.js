@@ -1487,7 +1487,10 @@ define(["jquery",
 
         // :?=&;\/?@+$<>#%'"''{}|\\^[]'
         makeSafeURL : function(url, replacement) {
-            url = $.trim(url); // Remove the spaces at the beginning and end of the id
+            if (!replacement) {
+                replacement = "-";
+            }
+            url = $.trim(url);
             url = url.replace(/['"]/gi,"");
             url = url.replace(/[:;<>#^%{}|~`@%&!$,.=\+\/\?\(\)\*\s\\\\\\[\\]]*/gi, replacement);
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
