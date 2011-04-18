@@ -30,8 +30,12 @@
                     <li data-id="${event.id}">
                         <div class='event_container'>
                             <div class='event_cal'>
-                                <strong>12</strong>
-                                <span>days</span>
+                                <strong>${event.days_left}</strong>
+                                {if event.days_left == '1'}
+								<span>day</span>
+								{else}
+								<span>days</span>
+								{/if}
                             </div>
                             <div class='event_info'>
                                 <h2>Seminar by Dr. Ian Stuart</h2>

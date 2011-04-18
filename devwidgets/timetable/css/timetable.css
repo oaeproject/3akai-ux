@@ -73,14 +73,13 @@ table.ui-datepicker-calendar td.ui-datepicker-today a{color:#fff}
 
 /* event entries */
 
-#event_entries{width:757px}
-#event_entries .event_entries_heading{height:25px;margin-bottom:9px;margin-right:15px;width:522px}
+#event_entries .event_entries_heading{height:25px;margin-bottom:9px;width:522px}
 #event_entries h1{float:left;font:17px / 25px Arial, Helvetica, sans-serif;margin:0 8px 0 0}
 #event_entries a.add_event_link{background:#fff;border:1px solid #c9ced1;color:#38393e;cursor:pointer;display:inline-block;float:left;font:bold 11px / 21px Arial, Helvetica, sans-serif;height:21px;margin-top:2px;vertical-align:middle;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:0 4px}
 #event_entries .sort_events_container{height:25px;float:right;line-height:25px}
 #event_entries .sort_events_container em{color:#38393e;font:11px / 25px Arial, Helvetica, sans-serif}
 #event_entries .sort_events_container select{color:#63636c;height:23px}
-#event_entries_list{clear:both;float:left;width:535px;margin:0}
+#event_entries_list{clear:both;float:left;margin:0 0 0 12px}
 #event_entries_list li{clear:both;cursor:pointer;list-style:none;margin-top:15px}
 #event_entries_list li .event_container{margin-left:-12px;-webkit-border-top-left-radius:10px;-webkit-border-bottom-left-radius:10px;-moz-border-radius-topleft:10px;-moz-border-radius-bottomleft:10px;border-top-left-radius:10px;border-bottom-left-radius:10px;padding:6px 0 12px 12px}
 #event_entries_list li.selected .event_container{background:#c8e6fe}

@@ -79,12 +79,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             hash.w.hide();
         };
         
+        var countDaysLeft = function(event_start_day){
+            var today = new Date();
+            var one_day = 1000 * 60 * 60 * 24;
+            return Math.ceil((event_start_day.getTime() - today.getTime()) / (one_day)) - 1;
+        };
+        
         /**
          *
          * @param {Object} success
          * @param {Object} loadedData
          */
-        function hideAndRemoveOldEventsAndRenderTemplate(success, loadedData){
+        var hideAndRemoveOldEventsAndRenderTemplate = function(success, loadedData){
             data.events = [];
             if (success) {
                 for (var i = 0; i < loadedData.events.length; i++) {
@@ -97,8 +103,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                     else {
                         //TODO delete the event
                     }
-                    
-                    
                 }
             }
             
@@ -122,14 +126,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             });
             
             $eventList.find('li').live('click', eventListClickEvent);
-        }
+        };
         
         /**
          *
          * @param {Time} start
          * @param {Time} end
          */
-        function convertTwoTimeObjectToAReadableString(start, end){
+        var convertTwoTimeObjectToAReadableString = function(start, end){
             // date
             var start_date = start.getDate();
             var start_month = start.getMonth();
@@ -175,15 +179,29 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
          *
          * @param {String} date
          */
-        function fromDateToHourInAMorPM(date){
+        var fromDateToHourInAMorPM = function(date){
             date = new Date(date);
             var hour = date.getHours();
-            var AMorPM = "AM";
-            if (hour > 12) {
-                hour - 12;
-                AMorPM = "PM";
+            
+            var ap = "AM";
+            if (hour > 11) {
+                ap = "PM";
             }
-            return hour + AMorPM;
+            
+            if (hour > 12) {
+                hour = hour - 12;
+            }
+            else 
+                if (hour == 0) {
+                    hour = 12;
+                }
+                
+                else 
+                    if (hour >= 1 && hour < 10) {
+                        hour = '0' + hour.toString();
+                    }
+            
+            return hour + ap;
         }
         
         ////////////////////
@@ -265,6 +283,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 'title': $.trim($('#n_e_title', $addEventForm).val()),
                 'start': startDate,
                 'end': endDate,
+                'days_left': countDaysLeft(startDate),
                 'description': $.trim($('#n_e_description', $addEventForm).val())
             };
             event.readableTime = convertTwoTimeObjectToAReadableString(event.start, event.end);
@@ -272,7 +291,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             
             sakai.api.Widgets.saveWidgetData(tuid, data, function(success){
                 if (success) {
-                    sakai.api.Widgets.Container.informFinish(tuid, "timetable");
                     sakai.api.Widgets.loadWidgetData(tuid, function(success, loadedData){
                         hideAndRemoveOldEventsAndRenderTemplate(success, loadedData);
                     });
@@ -282,6 +300,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 }
             });
             $addEventContainer.jqmHide();
+            $('input, textarea', $addEventContainer).not('.n_e_time').val('');
+        };
+        
+        var doApplyWidthToList = function(){
+            var fullWidth = $('#timetable_main', $rootel).width();
+            var detailsWidth = $('#event_entry_info', $rootel).outerWidth();
+            var listWidth = fullWidth - detailsWidth - 12;
+            
+            $('#event_entries_list, .event_entries_heading', $rootel).width(listWidth);
+            $('#event_entries hr', $rootel).width(listWidth - 16);
         };
         
         var initialiseStartAndEndDate = function(){
@@ -292,7 +320,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
         var doValidateAddEventForm = function(){
             $.validator.addMethod("n_e_time", function(value, element){
                 return this.optional(element) || /^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/.test(value);
-            }, "Invalit format, use only 'hh:mm' please.");
+            }, "Invalid format, use only 'hh:mm' please.");
+            
+            
+            $.validator.addMethod("n_e_date", function(value, element){
+                initialiseStartAndEndDate();
+                var now = new Date();
+                return startDate > now;
+            }, "Invalid start date.");
             
             $.validator.addMethod("timeComparison", function(value, element){
                 initialiseStartAndEndDate();
@@ -310,8 +345,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 errorPlacement: function(){
                 }
             });
-            
-            //SUGGESTION add a validation start date >= Time.now
         }
         
         var doSetupDateAndTimePicker = function(){
@@ -408,6 +441,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                     
                     data.isManager = sakai_global.currentgroup.manager;
                     hideAndRemoveOldEventsAndRenderTemplate(success, loadedData);
+                    
+                    doApplyWidthToList();
                     
                     // add event stuff
                     doFillInEventTypes();
