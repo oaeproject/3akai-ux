@@ -33,8 +33,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Load the content profile for the current content path
+         * @param {Boolean} ignoreActivity Flag to also update activity data or not
          */
-        var loadContentProfile = function(callback){
+        var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
 
             // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
@@ -64,7 +65,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "dataType":"json"
                     },
                     {
-                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path,
+                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
@@ -76,7 +77,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var contentActivity = false;
                 var versionInfo = false;
 
-                // temporary request that returns data
+                // temporary request that returns data KERN-1768
                 $.ajax({
                     url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
                     type: "GET",
@@ -167,10 +168,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + contentInfo["sakai:pooled-content-file-name"];
-                        if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                            fullPath += contentInfo["sakai:fileextension"];
-                        }
+                        var fullPath = content_path + "/" + encodeURIComponent(contentInfo["sakai:pooled-content-file-name"]);
+                        //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
+                        //    fullPath += contentInfo["sakai:fileextension"];
+                        //}
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
@@ -181,6 +182,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             return false;
                         });
 
+                        if (ignoreActivity && sakai_global.content_profile && sakai_global.content_profile.content_data){
+                            contentActivity = sakai_global.content_profile.content_data.activity;
+                        }
+
                         json = {
                             data: contentInfo,
                             members: contentMembers,
@@ -188,6 +193,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             mode: "content",
                             url: sakai.config.SakaiDomain + fullPath,
                             path: fullPath,
+                            smallPath: content_path,
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
@@ -336,7 +342,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                             loadContentProfile(function(){
                                 $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                            });
+                            }, true);
                             // record that user shared content
                             sakai.api.User.addUserProgress("sharedContent");
                         }

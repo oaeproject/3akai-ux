@@ -158,9 +158,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var displayUserProfilePicture = function(){
             if (me.profile) {
                 var profile = me.profile;
-                var picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                if (profile.picture && $.parseJSON(profile.picture).name) {
-                    picture = "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
+                var picture = sakai.api.Util.constructProfilePicture(profile);
+                if (!picture) {
+                    picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
                 $("#comments_userProfileAvatarPicture").attr("src", picture);
             }
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Callback function to sort comments based on created date
          */
         var sortComments = function(a, b){
-            return a.created < b.created ? 1 : -1;
+            return a._created < b._created ? 1 : -1;
         };
 
         ///////////////////
@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
                 // Checks if the date is already parsed to a date object
-                var tempDate = comment.created;
+                var tempDate = comment._created;
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = sakai.api.l10n.fromEpoch(tempDate, sakai.data.me);
@@ -223,11 +223,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                     var profile = comment;
                     user.fullName = sakai.api.User.getDisplayName(profile);
-                    user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     user.uid = profile.userid;
+                    user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     // Check if the user has a picture
-                    if (profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
-                        user.picture = "/~" + user.uid + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
+                    var pictureUrl = sakai.api.Util.constructProfilePicture(profile);
+                    if (pictureUrl){
+                        user.pictureUrl = pictureUrl;
                     }
                     user.profile = "/~" + user.uid;
                 }
@@ -289,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Gets the comments from the service.
          */
         var getComments = function(){
-            var sortOn = "sakai:created";
+            var sortOn = "_created";
             var sortOrder = "desc";
             var items = 10;
             if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
@@ -386,7 +387,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
                         // Add an acitivty
-                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"});
+                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "__MSG__CONTENT_ADDED_COMMENT__"}, function(responseData, success){
+                            if (success) {
+                                // update the entity widget with the new activity
+                                $(window).trigger("updateContentActivity.entity.sakai", "__MSG__CONTENT_ADDED_COMMENT__");
+                            }
+                        });
                         // Get the comments.
                         getComments();
                     },

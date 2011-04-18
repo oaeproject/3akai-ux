@@ -150,7 +150,7 @@
 
 /* Widget context menu */
 #context_menu.s3d-sprites-buttons{width:160px;}
-#context_menu.s3d-sprites-buttons .s3d-button-inline{cursor:default;}
+#context_menu.s3d-sprites-buttons .s3d-button-inline{cursor:default; width:150px;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner{background:none;}
 #context_menu.s3d-sprites-buttons .s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -11px -235px transparent;}

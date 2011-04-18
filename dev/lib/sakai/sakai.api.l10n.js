@@ -101,17 +101,18 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
         },
 
         /**
-         * Determines date from an epoch string and returns a date object and adjust that date to the timezone
+         * Determines date from an epoch string in UTC and returns a date object and adjust that date to the timezone
          * set by the current user.
          * @param {Object} dateString    date epoch
          * @param {Object} meData the data from sakai.api.User.data.me
          */
         fromEpoch : function(dateString, meData){
             var d = new Date(parseInt(dateString,10));
+            var UTCDate = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDay(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
             if (meData && meData.user.locale) {
-                d.setTime(d.getTime() + meData.user.locale.timezone.GMT * 60 * 60 * 1000);
+                UTCDate.setHours(UTCDate.getUTCHours() + meData.user.locale.timezone.GMT);
             }
-            return d;
+            return UTCDate;
         },
 
         /**

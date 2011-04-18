@@ -5,14 +5,13 @@
 
 <div id="embedcontent_main_container" style="display:none">
     <div class="fl-widget-content s3d-widget-content">
+        <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
         <div id="embedcontent_content" class="clearfix"><!-- --></div>
         <div id="embedcontent_content_html_template"><!--
         {if embedmethod === "original"}
             {var embedClass="embedcontent_large_content clearfix"}
-            {var alt="__MSG__LARGE_IMAGE__"}
-        {elseif embedmethod ==="thumbnail"}
+        {else}
             {var embedClass="embedcontent_thumbnail_content clearfix"}
-            {var alt="__MSG__THUMBNAIL_IMAGE__"}
         {/if}
         {if title || description}
             <div class="s3d-highlight_area_background">
@@ -43,7 +42,7 @@
                     <div class="embedcontent_details">
                         {if name}<span><a href="/content#content_path=${item.path}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                         {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
-                        {if download}<span><a href="${item.link}" class="s3d-action embedcontent_include_download">__MSG__DOWNLOAD__</a></span>{/if}
+                        {if download}<span><a href={if item.extension}"${item.link}"{else}"${item.name}"{/if} class="s3d-action embedcontent_include_download" target="_blank">{if item.extension}__MSG__DOWNLOAD__{else}__MSG__OPEN_LINK__{/if}</a></span>{/if}
                     </div>
                 </div>
             {/if}

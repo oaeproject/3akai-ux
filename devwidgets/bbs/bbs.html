@@ -330,13 +330,21 @@
             <li>
                 <input type="radio" id="bbs_settings_permissions_add_new_managers_only" name="bbs_settings_permissions_add_new" value="managers_only" {if settings["sakai:whocanaddtopic"] == "managers_only"}checked{/if}/>
                 <label for="bbs_settings_permissions_add_new_managers_only">
-                    __MSG__MANAGERS_ONLY__
+                    {if type === "user"}
+                        __MSG__MYSELF_ONLY__
+                    {else}
+                        __MSG__MANAGERS_ONLY__
+                    {/if}
                 </label>
             </li>
             <li>
                 <input type="radio" id="bbs_settings_permissions_add_new_managers_and_members" name="bbs_settings_permissions_add_new" value="managers_and_members" {if settings["sakai:whocanaddtopic"] == "managers_and_members" || settings["sakai:whocanaddtopic"] == undefined}checked{/if}/>
                 <label for="bbs_settings_permissions_add_new_managers_and_members">
-                    __MSG__MANAGERS_AND_MEMBERS__
+                    {if type === "user"}
+                        __MSG__MYSELF_AND_CONTACTS__
+                    {else}
+                        __MSG__MANAGERS_AND_MEMBERS__
+                    {/if}
                 </label>
             </li>
         </ul>
@@ -345,7 +353,11 @@
             <li>
                 <input type="radio" id="bbs_settings_permissions_who_can_reply_managers_and_members" name="bbs_settings_permissions_who_can_reply" value="managers_and_members" {if settings["sakai:whocanreply"] == "managers_and_members"}checked{/if}/>
                 <label for="bbs_settings_permissions_who_can_reply_managers_and_members">
-                    __MSG__MANAGERS_AND_MEMBERS_ONLY__
+                    {if type === "user"}
+                        __MSG__MYSELF_AND_CONTACTS__
+                    {else}
+                        __MSG__MANAGERS_AND_MEMBERS_ONLY__
+                    {/if}
                 </label>
             </li>
             <li>

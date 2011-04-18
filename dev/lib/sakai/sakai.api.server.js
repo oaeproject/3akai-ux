@@ -52,7 +52,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 if (!req["_charset_"]) {
                     req["_charset_"] = "utf-8";
                 }
-                if (req["parameters"] && !req["parameters"]["_charset_"]) {
+                if (req["parameters"] && !req["parameters"].hasOwnProperty("_charset_")) {
                     req["parameters"]["_charset_"] = "utf-8";
                 }
             });
@@ -341,7 +341,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          */
         removeServerCreatedObjects : function(obj) {
             $.each(obj, function(key,val) {
-                if (key && key.indexOf && key.indexOf("_") === 0 && key.indexOf("__") !== 0) {
+                if (key && key.indexOf && key.indexOf("_") === 0 && key.indexOf("__") !== 0 && key.indexOf("_charset_") === -1) {
                     delete obj[key];
                 } else if ($.isPlainObject(obj[key]) || $.isArray(obj[key])) {
                     sakaiServerAPI.removeServerCreatedObjects(obj[key]);
@@ -571,7 +571,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             if (advancedSearchRegex.test(searchString)) {
                 ret = searchString;
             } else {
-                ret = $.trim(searchString).split(" ").join("* AND ") + "*";
+                ret = $.trim(searchString).split(" ").join(" AND ");
             }
 
             return ret;
