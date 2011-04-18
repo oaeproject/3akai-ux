@@ -555,6 +555,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success){
                     if (data.results) {
                         toggleLoading();
+                        // get the contact list again to solve
+                        // SAKIII-2868 problem
+                        getContactList();
                         // Render the messages
                         renderMessages(data);
                         showUnreadMessages();
@@ -1232,6 +1235,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getContactList = function(){
             $.ajax({
                 url: sakai.config.URL.CONTACTS_FIND_ALL,
+                cache:false,
                 success: function(data){
                     contactList = data;
                 }
