@@ -645,7 +645,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "_from": "*",
                                 "items": 1000,
                                 "t": resp1.pulltime,
-                                "sortOn": "sakai:created",
+                                "sortOn": "_created",
                                 "sortOrder": "desc"
                             },
                             cache: false,
@@ -687,7 +687,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (from.userid !== sakai.data.me.user.userid){
                         // Check whether there is already a chatwindow for it
                         var chatWindow = getChatWindow(from.userid);
-                        var sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
+                        var sentDate = sakai.api.l10n.parseDateString(message["_created"], sakai.data.me);
                         var messageText = message["sakai:body"];
                         if (!chatWindow) {
                             // If not, create a new chat window
@@ -741,8 +741,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 var chatWindow = getChatWindow(from.userid);
                 var sentDate;
-                if (message["sakai:created"]) {
-                    sentDate = sakai.api.l10n.parseDateString(message["sakai:created"], sakai.data.me);
+                if (message["_created"]) {
+                    sentDate = sakai.api.l10n.parseDateString(message["_created"], sakai.data.me);
                 } else if (message["sentDate"]) {
                     sentDate = new Date(message["sentDate"]);
                 }

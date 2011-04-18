@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var params = $.param({
                 box: "inbox",
                 items: 4,
-                sortOn: "sakai:created",
+                sortOn: "_created",
                 sortOrder: "desc",
                 page: 0
             });

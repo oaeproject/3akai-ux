@@ -412,6 +412,53 @@ define(["jquery",
         },
 
         /**
+         * Check whether there is a valid picture for the user
+         * @param {Object} profile The profile object that could contain the profile picture
+         * @return {String}
+         * The link of the profile picture
+         * Will be an empty string if there is no picture
+         */
+        constructProfilePicture : function(profile){
+            // profile.basic.elements object should not have picture information
+            // if there is profile picture and userId
+            // return the picture links
+            var id = null, picture_name = null;
+            if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
+                if (profile["rep:userId"]){
+                    id = profile["rep:userId"];
+                } else if (profile["sakai:group-id"]){
+                    id = profile["sakai:group-id"];
+                } else if (profile["uuid"]){
+                    id = profile["uuid"];
+                } else if (profile["userid"]){
+                    id = profile["userid"];
+                }
+                if (profile.picture) {
+                    if (profile.picture.name) {
+                        picture_name = profile.picture.name
+                    } else {
+                        //change string to json object and get name from picture object
+                        picture_name = $.parseJSON(profile.picture).name;
+                    }
+                    return "/~" + id + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
+                    if (profile.basic.elements.picture.value.name) {
+                        picture_name = profile.basic.elements.picture.value.name
+                    } else {
+                        //change string to json object and get name from picture object
+                        picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
+                    }
+                    //change string to json object and get name from picture object
+                    return "/~" + id + "/public/profile/" + picture_name;
+                } else {
+                    return "";
+                }
+            } else {
+                return "";
+            }
+        },
+
+        /**
          * @class notification
          *
          * @description
@@ -624,7 +671,7 @@ define(["jquery",
 
                 // Take timezone offset into account
                 if (zones[dateElements[5]]) {
-                    dateOutput.setHours(dateElementsTime[0] + zones[dateElements[5]]);
+                    dateOutput.setHours(Number(dateElementsTime[0]) + zones[dateElements[5]]);
                 } else if (!isNaN(parseInt(dateElements[5], 10))) {
                     var zoneTimeHour = Number(dateElements[5].substring(0,2));
                     dateOutput.setHours(Number(dateElementsTime[0]) + zoneTimeHour);
@@ -1053,8 +1100,6 @@ define(["jquery",
             },
             getTimeAgo : function(date){
                 if (date !== null) {
-                    // convert date input to GMT time
-                    date = this.toGMT(date);
 
                     var currentDate = new Date();
                     // convert current date to GMT time
@@ -1228,9 +1273,11 @@ define(["jquery",
              * @param {Object} message Message that user has entered.
              */
             replaceURL : function(message){
-                // get the regex code from
-                // http://www.codeproject.com/KB/scripting/replace_url_in_ajax_chat.aspx
-                return message.replace(/(\w+):\/\/[\S]+(\b|$)/gim,'<a href="$&" class="my_link s3d-regular-links s3d-bold" target="_blank">$&</a>');
+                // link is already wrap in anchor tag do nothing
+                // but if it is not wrap in the anchor tag, wrap in the anchor tag.
+                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+(\b|$))/g, function($0,$1){
+                    return $1?$0:"<a href='"+$0+"' class='my_link s3d-regular-links s3d-bold' target='_blank'>"+$0+"</a>";
+                });
             },
 
             /**
@@ -1440,7 +1487,10 @@ define(["jquery",
 
         // :?=&;\/?@+$<>#%'"''{}|\\^[]'
         makeSafeURL : function(url, replacement) {
-            url = $.trim(url); // Remove the spaces at the beginning and end of the id
+            if (!replacement) {
+                replacement = "-";
+            }
+            url = $.trim(url);
             url = url.replace(/['"]/gi,"");
             url = url.replace(/[:;<>#^%{}|~`@%&!$,.=\+\/\?\(\)\*\s\\\\\\[\\]]*/gi, replacement);
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
