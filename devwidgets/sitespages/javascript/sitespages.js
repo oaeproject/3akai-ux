@@ -2787,12 +2787,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if ($(textarea).val().length > limit){
                 $(textarea).val($(textarea).val().substring(0, limit));
-            } else if (countfield) {
+            }
+            if (countfield) {
                 $(countfield).text($(textarea).val().length);
             }
         };
 
         // Bind Template textarea entry
+        $("#save_as_template_container #template_name, #save_as_template_container #template_description").bind("change", function(ev){
+            trimTextarea(this);
+        });
         $("#save_as_template_container #template_name, #save_as_template_container #template_description").bind("keydown", function(ev){
             trimTextarea(this);
         });
