@@ -582,6 +582,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
+        
+        $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
+            switchToOneColumnLayout(true);
+        });
 
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);

@@ -2,6 +2,7 @@
     "userpages": true,
     "userdashboard": true,
     "grouppages": true,
+    "sakaidocs": true,
     "groupdashboard": true,
     "description":"RSS Feed Reader",
     "hasSettings":true,

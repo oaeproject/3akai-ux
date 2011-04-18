@@ -24,6 +24,7 @@
 #lhnavigation_container ul{margin:6px 0 0;}
 #lhnavigation_container ul li{display:block; list-style:none;padding:8px 12px 11px 28px;}
 #lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;}
+#lhnavigation_container ul li .lhnavigation_selected_submenu {margin-left:136px;margin-top:-14px;position:absolute;cursor:pointer;cursor:hand;}
 #lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-16px;position:absolute;width:11px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top: 3px;position: absolute;width: 12px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
@@ -41,3 +42,11 @@
 #lhnavigation_container ul li ul {margin:0;}
 #lhnavigation_container .lhnavigation_subnav{margin:5px 0px;}
 #lhnavigation_container .lhnavigation_subnav li{padding-left:40px;}
+
+#lhnavigation_submenu {position:absolute; background-color: #fff; border: 1px solid #aaa; width: 100px;}
+#lhnavigation_submenu ul {margin: 0em; padding: 5px 0px;}
+#lhnavigation_submenu ul li {list-style:none;}
+#lhnavigation_submenu ul li a {padding: 2px 5px; width: 90px; display: block;}
+#lhnavigation_submenu ul li a:hover {background-color: #afe1ff; text-decoration: none;}
+
+#lhnav_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}
