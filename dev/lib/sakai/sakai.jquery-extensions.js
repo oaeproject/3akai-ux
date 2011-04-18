@@ -97,7 +97,7 @@
             } else if (o.url.indexOf("_charset_") === -1) {
                 if (o.url.indexOf("?") === -1) {
                     o.url += "?";
-                } else {
+                } else if (o.url.lastIndexOf("&") !== o.url.length-1){
                     o.url += "&";
                 }
                 o.url += "_charset_=utf-8";
