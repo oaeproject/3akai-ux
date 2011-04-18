@@ -861,7 +861,7 @@ define(function(){
             }, {
                 "id": "subnavigation_simple_group_link",
                 "label": "CREATE_GROUP",
-                "url": "#"
+                "url": "/dev/createnew.html"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -907,7 +907,7 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
+        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
