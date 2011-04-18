@@ -73,6 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $el.next().hide();
                 }
             }
+            $(".s3d-page-column-right").height($(".s3d-page-column-left").height());
         }
 
         ////////////
@@ -122,6 +123,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $clickedItem.children(navSelectedItemArrow).css("visibility","visible");
 
             showHideSubnav($clickedItem);
+
+            $(".s3d-page-column-right").height($(".s3d-page-column-left").height());
         };
         
         var hideSubMenu = function(){
