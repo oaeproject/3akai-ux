@@ -7,7 +7,7 @@
 .sakai_site .content_page_options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1624px transparent;height:25px;border:none;padding:0 10px 0 0;display:block;float:right;margin-top:3px;}
 .sakai_site .content_page_options_fixed_width {width:40px;}
 .sakai_site #content_edit_page_options.content_page_options{background:transparent url(/dev/images/edit_button_bg.png) right -27px no-repeat;}
-.sakai_site .content_page_options ul{padding:5px 0 0 12px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -1592px transparent;}
+.sakai_site .content_page_options ul{padding:5px 0 0 15px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -1592px transparent;}
 .sakai_site #content_edit_page_options.content_page_options ul{background:#fff url(/dev/images/edit_button_bg.png) top left no-repeat;}
 .sakai_site .content_page_options ul li{display:block;float:left;height:20px;padding:0 6px 0 0;}
 .sakai_site .content_page_options #edit_page,.sakai_site .content_page_options #edit_page_revert{font-weight:bold;font-size:11px;}
