@@ -452,7 +452,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 dataType: "JSON",
                 success: function(data){
                     linkObj.hashpath = data["_contentItem"];
-                    sakai.api.Content.setFilePermissions([linkObj], checkUploadCompleted);
+                    sakai.api.Content.setFilePermissions([linkObj], function(){
+                        checkUploadCompleted();
+                    });
                 },error:function(){
                     checkUploadCompleted();
                 }
