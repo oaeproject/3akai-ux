@@ -10,11 +10,11 @@ require(
     require.ready(function() {
         module("Searches");
         var simpleSearch = "Abe Lincoln",
-            simpleSearchTransformed = "Abe* AND Lincoln*",
+            simpleSearchTransformed = "Abe AND Lincoln",
             simpleSearch1 = "Abe and Lincoln",
-            simpleSearchTransformed1 = "Abe* AND and* AND Lincoln*",
+            simpleSearchTransformed1 = "Abe AND and AND Lincoln",
             simpleSearch2 = "Abe or Lincoln",
-            simpleSearchTransformed2 = "Abe* AND or* AND Lincoln*",
+            simpleSearchTransformed2 = "Abe AND or AND Lincoln",
             advancedSearch = "sakai AND project",
             advancedSearch1 = 'sakai "project"',
             advancedSearch2 = "sakai _project_",
