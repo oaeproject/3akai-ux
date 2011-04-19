@@ -26,7 +26,7 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
-			var t = this;
+			var t = this, oldSize = 0;
 
 			if (ed.getParam('fullscreen_is_enabled'))
 				return;
@@ -40,12 +40,18 @@
 				// Get height differently depending on the browser used
 				myHeight = tinymce.isIE ? b.scrollHeight : de.offsetHeight;
 
+				// Bottom margin
+				myHeight = t.bottom_margin + myHeight;
+
 				// Don't make it smaller than the minimum height
 				if (myHeight > t.autoresize_min_height)
 					resizeHeight = myHeight;
 
 				// Resize content element
-				DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
+				if ( resizeHeight !== oldSize ) {
+					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
+					oldSize = resizeHeight;
+				}
 
 				// if we're throbbing, we'll re-throb to match the new size
 				if (t.throbbing) {
@@ -57,16 +63,20 @@
 			t.editor = ed;
 
 			// Define minimum height
-			if (ed.getElement().offsetHeight > 0) {
-			    t.autoresize_min_height = ed.getElement().offsetHeight;
-			} else if (ed.getElement().style.height) {
-		        t.autoresize_min_height = ed.getElement().style.height;
-		        if (typeof t.autoresize_min_height === "string") {
-		            t.autoresize_min_height = t.autoresize_min_height.replace("px", "");
+			// see sakai-readme.txt
+            if (ed.getElement().offsetHeight > 0) {
+                t.autoresize_min_height = ed.getElement().offsetHeight;
+            } else if (ed.getElement().style.height) {
+                t.autoresize_min_height = ed.getElement().style.height;
+                if (typeof t.autoresize_min_height === "string") {
+                    t.autoresize_min_height = t.autoresize_min_height.replace("px", "");
                 }
-			} else {
-			    t.autoresize_min_height = 0;
-			}
+            } else {
+                t.autoresize_min_height = 0;
+            }
+
+			// Add margin at the bottom for better UX
+			t.bottom_margin = parseInt( ed.getParam('autoresize_bottom_margin', 50) );
 
 			// Add appropriate listeners for resizing content area
 			ed.onChange.add(resize);
