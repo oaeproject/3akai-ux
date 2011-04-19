@@ -593,7 +593,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $toolbarplaceholder = $("#toolbarplaceholder");
         var $toolbarcontainer = $("#toolbarcontainer");
         var $placeholderforeditor = $("#placeholderforeditor");
-        var $context_menu = $("#context_menu");
+        var $context_menu = $("#sitepages_context_menu");
         var $context_settings = $("#context_settings");
         var $title_input_container = $("#title-input-container");
         var $fl_tab_content_editor = $("#fl-tab-content-editor");
@@ -1005,7 +1005,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
                 //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
-                plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,autoresize",
+                plugins: "advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table",
 
                 // Context Menu
                 //theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link,insertmore",
