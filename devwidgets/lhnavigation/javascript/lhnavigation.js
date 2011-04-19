@@ -73,6 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $el.next().hide();
                 }
             }
+            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         }
 
         ////////////
@@ -115,13 +116,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $prevItem.removeClass(navSelectedItemClass);
             $prevItem.addClass(navHoverableItemClass);
-            //$prevItem.children(navSelectedItemArrow).css("visibility","hidden");
+            $prevItem.children(navSelectedItemArrow).css("visibility","hidden");
 
             $clickedItem.removeClass(navHoverableItemClass);
             $clickedItem.addClass(navSelectedItemClass);
-            //$clickedItem.children(navSelectedItemArrow).css("visibility","visible");
+            $clickedItem.children(navSelectedItemArrow).css("visibility","visible");
 
             showHideSubnav($clickedItem);
+
+            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
         
         var hideSubMenu = function(){
