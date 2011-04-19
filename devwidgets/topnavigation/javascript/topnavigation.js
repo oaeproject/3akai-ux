@@ -480,10 +480,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("init.creategroup.sakai");
         });
 
-        $("#subnavigation_simple_group_link, .sakai_create_group_overlay").live("click", function(){
-            $(window).trigger("sakai.overlays.createGroup");
-        });
-
         // Add content
 
         $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {

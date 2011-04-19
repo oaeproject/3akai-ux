@@ -37,19 +37,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "_ref": "1234567890",
                         "_title": "Courses"
                     },
-					"reseach": {
-                    	"_title": "Research",
-                    	"_ref": "87949372639"
-                	},
-					"other": {
-                    	"_title": "Other",
-                    	"_ref": "49294509202"
-                	}
+                    "reseach": {
+                        "_title": "Research",
+                        "_ref": "87949372639"
+                    },
+                    "other": {
+                        "_title": "Other",
+                        "_ref": "49294509202"
+                    }
                 }
             },
-			"9574379429432": {
-				"page": "Group"
-			},
+            "9574379429432": {
+                "page": "<div id='widget_newcreategroup_2024634737' class='widget_inline'/>"
+            },
             "1234567890": {
                 "page": "Categories Overview"
             },
@@ -68,19 +68,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         };
 
-        //var renderEntity = function(){
-        //    $(window).trigger("sakai.entity.init", ["search"]);
-        //};
-
-        //$(window).bind("sakai.entity.ready", function(){
-        //    renderEntity();
-        //});
+        var renderCreateGroup = function(){
+            $(window).trigger("sakai.newcreategroup.init");
+        };
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
 
-        //renderEntity();
+        $(window).bind("newcreategroup.ready", function(){
+            renderCreateGroup();
+        });
+
         generateNav();
         
     };

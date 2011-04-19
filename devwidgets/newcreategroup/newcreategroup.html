@@ -1,0 +1,57 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/newcreategroup/css/newcreategroup.css" />
+
+<!-- CONTAINER -->
+<div id="newcreategroup_container" style="display:none;">
+    <h1>__MSG__CREATE_SIMPLE_GROUP__</h1>
+    <hr/>
+
+    <div id="newcreategroup_group_members_container">
+        <button title="Add" class="s3d-button s3d-button-link-2-state newcreategroup_add_people" type="button">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PEOPLE__</span>
+        </button>
+        __MSG__NO_MEMBERS_ADDED__
+        <span class="newcreategroup_small_text">__MSG__YOU_CAN_ADD_OR_EDIT_MEMBERS__</span>
+    </div>
+
+    <div id="newcreategroup_group_data_container">
+        <form id="newcreategroup_group_form">
+            <label for="newcreategroup_title">__MSG__GROUP_TITLE__</label>
+            <input type="text" id="newcreategroup_title" class="required"/>
+            <label for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__</label>
+            <span id="newcreategroup_suggested_url_base"></span><input type="text" id="newcreategroup_suggested_url" class="required"/>
+            <label for="newcreategroup_description">__MSG__DESCRIPTION__</label>
+            <textarea id="newcreategroup_description"></textarea>
+            <label for="newcreategroup_tags">__MSG__TAGS__</label>
+            <textarea id="newcreategroup_tags"></textarea>
+
+            <div class="newcreategroup_section">
+                <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_IN__</label>
+                <select id="newcreategroup_can_be_found_in">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="logged-in-only">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="members-only">__MSG__MANAGERS_AND_MEMBERS__</option>
+                </select>
+            </div>
+
+            <div class="newcreategroup_section">
+                <label for="newcreategroup_membership">__MSG__MEMBERSHIP__</label>
+                <select id="newcreategroup_membership">
+                    <option value="yes">__MSG__JOIN_USER_DIRECT__</option>
+                    <option value="withauth">__MSG__JOIN_USER_REQUEST__</option>
+                    <option value="no">__MSG__JOIN_MANAGER_ADD__</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div id="newcreategroup_group_actions">
+        <button type="button" class="s3d-link-button s3d-bold">__MSG__CANCEL__</button>
+        <button title="__MSG__CREATE_SIMPLE_GROUP__" class="s3d-button s3d-button-link-2-state newcreategroup_create_simple_group" type="button">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_SIMPLE_GROUP__</span>
+        </button>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/newcreategroup/javascript/newcreategroup.js"></script>
