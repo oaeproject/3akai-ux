@@ -22,7 +22,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function($, sakai, sakaiWidgetsAPI) {
 
     /**
      * @name sakai_global.basiclti
@@ -159,8 +159,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete){
-            if (complete) {
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            if (complete) { 
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';               
                 $(basicltiSettingsPreview).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             }
             else {
@@ -173,11 +173,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframe = function(){
             if (json) {
-                //json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
                 // SAKIII-542 Basic LTI no longer renders IFRAME content (workaround)
-                $("#" + json.tuidFrame).attr("src", json.ltiurl);
+                //json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, "Myrandadofmeguid" + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+//alert(json.launchDataUrl);
+                // SWG $("#" + json.tuidFrame).attr("src", json.ltiurl);
+                $("#" + json.tuidFrame).attr("src", json.launchDataUrl); 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
                 if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
                     $(basicltiSettingsPreviewFrame).load(function() {
@@ -433,7 +436,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the URL and other parameters from the JCR and according to which
          * view we are in, fill in the settings or display an iframe.
          */
-        var getRemoteContent = function(){
+        var getRemoteContent = function() {
+
+// SWG Major Hacks
+if (!showSettings) {
+            // Hack until I can figure out why .infinity.json isn't working
+            var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
+            //alert(url + " For the Win!");
+            $.getJSON(url, function(data) { 
+                if (showSettings) {
+                    displaySettings(data,true);
+                }
+                else {
+                    displayRemoteContent(data);
+                }
+            });
+} else {
+
             sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                 if (success && data) {
                     if (showSettings) {
@@ -446,6 +465,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     displaySettings(null, false);
                 }
             });
+} 
         };
 
         getRemoteContent();
