@@ -345,7 +345,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (message.previousMessage) {
                 message.previousMessage = formatMessage(message.previousMessage);
             }
-
+            var picture = null;
             // pictures
             if (message.userFrom && $.isArray(message.userFrom)) {
                 for (var i = 0, il = message.userFrom.length; i < il; i++) {
@@ -353,7 +353,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (!message.userFrom[i]["userid"]){
                         message.userFrom[i]["userid"] = message.userFrom[i].homePath.substr(2, message.userFrom[i].homePath.length);
                     }
-                    var picture = sakai.api.Util.constructProfilePicture(message.userFrom[i]);
+                    picture = sakai.api.Util.constructProfilePicture(message.userFrom[i]);
                     if (picture) {
                         message.userFrom[i].photo = picture;
                     } else {
@@ -368,7 +368,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (!message.userFrom[j]["userid"]){
                         message.userFrom[j]["userid"] = message.userFrom[j].homePath.substr(2, message.userFrom[j].homePath.length);
                     }
-                    var picture = sakai.api.Util.constructProfilePicture(message.userFrom[j]);
+                    picture = sakai.api.Util.constructProfilePicture(message.userFrom[j]);
                     if (picture) {
                         message.userFrom[j].photo = picture;
                     } else {
@@ -794,9 +794,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         });
                     }
                     else {
-                        for (var i = 0; i < contactList.results.length; i++) {
-                            if (contactList.results[i].target === message["sakai:from"]) {
-                                showLink(contactList.results[i].details["sakai:state"]);
+                        for (var k = 0; k < contactList.results.length; k++) {
+                            if (contactList.results[k].target === message["sakai:from"]) {
+                                showLink(contactList.results[k].details["sakai:state"]);
                             }
                         }
                     }

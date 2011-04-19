@@ -96,6 +96,13 @@ sakai_global.s23_site = function(){
         return false;
     };
 
+    // The 'reset' tool <a> link, is overridden with the below event to reload the
+    // sites iframe with the fresh tool state URL generated in the template.
+    var handleResetClick = function(ev) {
+        ev.preventDefault();
+        $("#"+this.target).attr("src", this.href);
+    };
+
     /**
      * Load the tools for a certain page
      * @param {Object} pageid The id of the page you want the tools loaded for
@@ -202,10 +209,7 @@ sakai_global.s23_site = function(){
                     }
                     // The 'reset' tool <a> link, is overridden with the below event to reload the 
                     // sites iframe with the fresh tool state URL generated in the template. 
-                    $("#reset-Main" + page.tools[tool].xid).click(function(ev){
-                        ev.preventDefault();
-                        $("#"+this.target).attr("src", this.href);
-                    }); 
+                    $("#reset-Main" + page.tools[tool].xid).click(handleResetClick);
                 } 
                 firstFrame.load(function() { 
                     for (var j = 0; j < otherframes.length; j++) {

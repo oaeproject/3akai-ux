@@ -1356,7 +1356,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.timea
 
             $(window).unbind("updateContentActivity.entity.sakai");
             $(window).bind("updateContentActivity.entity.sakai", function(e, activityMessage) {
-                var num = parseInt($("#entity_content_activity_count").text()) + 1;
+                var num = parseInt($("#entity_content_activity_count").text(), 10) + 1;
                 sakai_global.content_profile.content_data.activity.total++;
                 $("#entity_content_activity_count").text(num);
                 if (num === 1) {
