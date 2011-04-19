@@ -24,7 +24,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai, widgetData) {
 
     /**
      * @name sakai_global.embedcontent
@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.embedcontent = function(tuid, showSettings) {
+    sakai_global.embedcontent = function(tuid, showSettings, widgetData) {
 
         var $rootel = $("#" + tuid);
 
@@ -83,13 +83,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         var selectedItems = [];
-        var firstTime = true,
-            firstLoad = true;
-        var widgetData = false;
+        var firstTime = true;
+        var firstLoad = true;
+        var wData = false;
         var isPreviewExist = true;
-        var active_content_class = "tab_content_active",
-            tab_id_prefix = "embedcontent_tab_",
-            active_tab_class = "fl-tabs-active";
+        var active_content_class = "tab_content_active";
+        var tab_id_prefix = "embedcontent_tab_";
+        var active_tab_class = "fl-tabs-active";
 
         var embedConfig = {
             "name": "Page",
@@ -120,27 +120,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $("#as-values-" + tuid).val("");
             $(".as-selection-item").remove();
-            if (widgetData && widgetData.items && widgetData.items.length) {
+            if (wData && wData.items && wData.items.length) {
                 setCurrentFiles();
             }
         };
 
         var renderWidget = function() {
-            widgetData.sakai = sakai;
+            wData.sakai = sakai;
             var docData = {};
-            $.each(widgetData.items, function(index, value) {
+            $.each(wData.items, function(index, value) {
                 var placement = "ecDocViewer" + tuid + value["jcr:name"] + index;
-                widgetData.items[index].placement = placement;
+                wData.items[index].placement = placement;
                 docData[placement] = {
                     data : value.fullresult,
                     url : window.location.protocol + '//' + window.location.host + "/p/" + docData['jrc:name']
                 };
             });
             // boolean are return as string from ajax call so change back to boolean value
-            widgetData.download = widgetData.download === "true";
-            widgetData.name = widgetData.name === "true";
-            widgetData.details = widgetData.details === "true";
-            sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, widgetData, $embedcontent_content);
+            wData.download = wData.download === "true";
+            wData.name = wData.name === "true";
+            wData.details = wData.details === "true";
+            sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
             sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid, [docData]);
         };
 
@@ -286,7 +286,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var setCurrentFiles = function() {
-            $.each(widgetData.items, function(i,val) {
+            $.each(wData.items, function(i,val) {
                 autosuggestSelectionAdded(val);
                 if (val.value) {
                     $embedcontent_content_input.autoSuggest.add_selected_item(val, val.value);
@@ -295,31 +295,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             $(".as-original input.as-input").val('').focus();
-            if (widgetData.title || widgetData.description) {
+            if (wData.title || wData.description) {
                 toggleAddTitleAndDescription(true);
-                $embedcontent_title.val(widgetData.title);
-                $embedcontent_description.val(widgetData.description);
+                $embedcontent_title.val(wData.title);
+                $embedcontent_description.val(wData.description);
             }
-            if (widgetData.layout !== "single") {
+            if (wData.layout !== "single") {
                 $embedcontent_display_form.find("img.selected").removeClass('selected');
                 $embedcontent_display_form
-                    .find("input[name='layout'][value='" + widgetData.layout + "']")
+                    .find("input[name='layout'][value='" + wData.layout + "']")
                     .siblings("img")
                     .addClass('selected');
                 $embedcontent_display_form
-                    .find("input[name='layout'][value='" + widgetData.layout + "']")
+                    .find("input[name='layout'][value='" + wData.layout + "']")
                     .attr("checked", true);
             }
             $embedcontent_display_form
-                .find("input[name='style'][value='" + widgetData.embedmethod + "']")
+                .find("input[name='style'][value='" + wData.embedmethod + "']")
                 .parent("div")
                 .siblings("div")
                 .children("img")
                 .addClass('selected');
-            $embedcontent_display_form.find("input[name='style'][value='" + widgetData.embedmethod + "']").attr("checked", true);
+            $embedcontent_display_form.find("input[name='style'][value='" + wData.embedmethod + "']").attr("checked", true);
             var checkboxes = ["name", "download", "details"];
             $.each(checkboxes, function(i,val) {
-                if (widgetData[val] === "true") {
+                if (wData[val] === "true") {
                     $embedcontent_display_form.find("input[name='" + val + "']").attr("checked", "checked");
                     $(".embedcontent_include_" + val, $rootel).show();
                 }
@@ -472,7 +472,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (item.notfound) {
                 newItems.push({type:"notfound"});
                 if (newItems.length === items.length) {
-                    widgetData.items = newItems;
+                    wData.items = newItems;
                     ret = true;
                 }
             } else {
@@ -490,7 +490,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     complete: function() {
                         if (newItems.length === items.length) {
-                            widgetData.items = newItems;
+                            wData.items = newItems;
                             ret = true;
                         }
                     }
@@ -500,25 +500,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var getWidgetData = function(callback) {
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
-                if (success) {
-                    widgetData = data;
-                    firstLoad = false;
-                    newItems = [];
-                    // get the item profile data
-                    for (var i=0, j=data.items.length; i<j; i++) {
-                        if (processWidget(data.items[i], data.items)) {
-                            if ($.isFunction(callback)) {
-                                callback();
-                            }
+            if (widgetData.embedcontent) {
+                processWidgetData(true, widgetData.embedcontent, callback);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                    processWidgetData(success, data, callback)
+                });
+            }
+        };
+        
+        var processWidgetData = function(success, data, callback){
+            if (success) {
+                wData = data;
+                firstLoad = false;
+                newItems = [];
+                // get the item profile data
+                for (var i = 0, j = data.items.length; i < j; i++) {
+                    if (processWidget(data.items[i], data.items)) {
+                        if ($.isFunction(callback)) {
+                            callback();
                         }
                     }
-                } else {
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
                 }
-            });
+            } else {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
         };
 
         // Bind Events

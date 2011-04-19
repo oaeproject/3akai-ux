@@ -128,7 +128,7 @@
             <li><button id="link" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__PAGE_LINK__</button></li>
             <li><button id="hr" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__HORIZONTAL_LINE__</button></li>
             <li class="sitepages_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
-            <li id="sitespages_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__FILES_AND_DOCUMENTS__</button></li>
+            <li id="sitespages_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action" id="embedcontent">__MSG__FILES_AND_DOCUMENTS__</button></li>
             {for i in media.items}
                 <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${i.name}</button></li>
             {/for}
@@ -221,6 +221,25 @@
         <li><a href="javascript:;">Change Name</a></li>
         <li><a href="javascript:;" id="lhavigation_submenu_deletepage">Delete Page</a></li>
     </ul>
+</div>
+
+<div class="s3d-sprites-buttons" id="context_menu" style="display:none">
+    <button class="s3d-button s3d-button-inline" id="more_link">
+        <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">__MSG__WIDGET_OPTIONS__</span><span class="s3d-button-icon-right"></span></span>
+    </button>
+    <div class="context_more">
+        <ul>
+            <li id="context_settings" class="more_option">
+                <button type="button" class="s3d-action s3d-link-button">__MSG__SETTINGS__</button>
+            </li>
+            <li id="context_remove" class="more_option">
+                <button type="button" class="s3d-action s3d-link-button">__MSG__REMOVE__</button>
+            </li>
+            <li id="context_appearance_trigger" class="more_option option_last">
+                <button type="button" class="s3d-action s3d-link-button">__MSG__WRAPPING__</button>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
