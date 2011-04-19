@@ -23,7 +23,7 @@
         <select id="contentpermissions_global_permissions">
             <option value="public" {if contentdata.data["sakai:permissions"] == "public"} selected="selected"{/if}}>__MSG__PUBLIC__</option>
             <option value="everyone" {if contentdata.data["sakai:permissions"] == "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-            <option value="private" {if contentdata.data["sakai:permissions"] == "private"} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+            <option value="private" {if contentdata.data["sakai:permissions"] == "private"} selected="selected"{/if}>__MSG__SELECTED_PEOPLE_GROUPS__</option>
         </select>
     </div>
     <div class="contentpermissions_content_section contentpermissions_content_section_no_bottom_borders">

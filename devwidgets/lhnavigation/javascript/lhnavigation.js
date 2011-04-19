@@ -661,6 +661,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
         };
+        
+        /**
+         * Hide selected widget
+         * @param {Object} hash
+         * @return void
+         */
+        var hideSelectedWidget = function(hash){
+            hash.w.hide();
+            hash.o.remove();
+            sakai_global.sitespages.newwidget_id = false;
+            sakai_global.sitespages.newwidget_uid = false;
+            $("#dialog_content").html("").hide();
+        };
 
         // add bindings
         $("#sitepages_insert_dropdown_button").live("click", function(){
@@ -706,21 +719,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "top": y + 28 + "px",
                         "left": x + "px"
                     }).show();
-                    insertDropdownPositionSet = true;
                 }
-                el.show();
             }
+        };
+        
+        var currentlySelectedWidget = false;
+        
+        /**
+         * Render selected widget
+         * @param {Object} hash
+         * @return void
+         */
+        var renderSelectedWidget = function(widgetid) {
+            var $dialog_content = $("#dialog_content");
+            //var widgetSettingsWidth = 650;
+            $dialog_content.hide();
+            if (sakai.widgets[widgetid]){
+                var tuid = Math.round(Math.random() * 1000000000);
+                var id = "widget_" + widgetid + "_" + tuid;
+                currentlySelectedWidget = {
+                    "widgetname": widgetid,
+                    "uid": id
+                }
+                $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                $("#dialog_title").html(sakai.widgets[widgetid].name);
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,currentPageShown.savePath + "/");
+                //if (sakai.widgets[widgetid].settingsWidth) {
+                //    widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                //}
+                $dialog_content.show();
+                window.scrollTo(0,0);
+            } else if (!widgetid){
+                window.scrollTo(0,0);
+            }
+            //$('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+            $('#insert_dialog').jqmShow();
         };
         
         var initSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show()).show();
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
+            $("#lhnavigation_actions").show();
             init_tinyMCE();
             renderInsertDropdown("sakaidocs");
         }
         
         var hideSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").hide()).hide();
+            $("#lhnavigation_actions").hide();
         }
 
         ///////////////////////////////////////////////////

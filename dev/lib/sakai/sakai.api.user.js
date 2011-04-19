@@ -172,7 +172,7 @@ define(["jquery",
          * Log-in to Sakai3
          *
          * @example
-         * sakai.api.user.login({
+         * sakai.api.User.login({
          *     "username": "user1",
          *     "password": "test"
          * });
