@@ -71,12 +71,24 @@
 
         <div id="s23_site_iframe_container_template"><!--
             <div id="s23_site_page_container_${xid}" class="s23_site_page_container">
-                {for tool in tools}
-                    <div class="s23_site_iframe_title">
-                        <a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" href="${sakai.config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
-                    </div>
-                    <iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" frameborder="0" src="${sakai.config.SakaiDomain}/portal/tool/${tool.url}?panel=Main" title="${tool.title}"></iframe>
-                {/for}
+                {for col in columnTools}
+                    {if columnTools.length == 1}
+                        <div>
+                    {elseif col_index == 0}
+                        <div class="col1of2">
+                    {elseif col_index == 1}
+                        <div class="col2of2">
+                    {else}
+                        <div> 
+                    {/if}
+                    {for tool in col}
+                        <div class="s23_site_iframe_title">
+                            <a class="s23_site_iframe_title_reset" title="Reset" target="Main${tool.xid}" id="reset-Main${tool.xid}" href="${sakai.config.SakaiDomain}/portal/tool-reset/${tool.url}?panel=Main"><span>Reset</span></a><h2>${tool.title}</h2>
+                        </div>
+                        <iframe name="Main${tool.xid}" id="Main${tool.xid}" class="s23_site_iframe" scrolling="auto" width="100%" frameborder="0" title="${tool.title}"></iframe>
+                    {/for}
+                        </div>
+                {/for} 
             </div>
         --></div>
 

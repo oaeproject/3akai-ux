@@ -349,14 +349,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // pictures
             if (message.userFrom && $.isArray(message.userFrom)) {
                 for (var i = 0, il = message.userFrom.length; i < il; i++) {
-                    if (message.userFrom[i].picture && $.parseJSON(message.userFrom[i].picture).name) {
-                        message.userFrom[i].photo = $.parseJSON(message.userFrom[i].picture).name;
+                    // The userid seems to be missing
+                    if (!message.userFrom[i]["userid"]){
+                        message.userFrom[i]["userid"] = message.userFrom[i].homePath.substr(2, message.userFrom[i].homePath.length);
+                    }
+                    var picture = sakai.api.Util.constructProfilePicture(message.userFrom[i]);
+                    if (picture) {
+                        message.userFrom[i].photo = picture;
+                    } else {
+                        message.userFrom[i].photo = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }
                 }
             }
 
             if (message.userTo && $.isArray(message.To)) {
                 for (var j = 0, jl = message.userTo.length; j < jl; j++) {
+                    // The userid seems to be missing
+                    if (!message.userFrom[j]["userid"]){
+                        message.userFrom[j]["userid"] = message.userFrom[j].homePath.substr(2, message.userFrom[j].homePath.length);
+                    }
+                    var picture = sakai.api.Util.constructProfilePicture(message.userFrom[j]);
+                    if (picture) {
+                        message.userFrom[j].photo = picture;
+                    } else {
+                        message.userFrom[j].photo = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                    }
                     if (message.userTo[j].picture && $.parseJSON(message.userTo[j].picture).name) {
                         message.userTo[j].photo = $.parseJSON(message.userTo[j].picture).name;
                     }
@@ -538,6 +555,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success){
                     if (data.results) {
                         toggleLoading();
+                        // get the contact list again to solve
+                        // SAKIII-2868 problem
+                        getContactList();
                         // Render the messages
                         renderMessages(data);
                         showUnreadMessages();
@@ -741,11 +761,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "from_name" : sakai.api.User.getDisplayName(message.userFrom[i]),
                             "message_date" : sakai.api.Security.saneHTML(message.date)
                         };
-                        if (message.userFrom[i].photo) {
-                            obj["picture"] = "/~" + message.userFrom[i]["userid"] + "/public/profile/" + message.userFrom[i].photo;
-                        } else {
-                            obj["picture"] = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                        }
+                        obj["picture"] = message.userFrom[i].photo;
                         $(".sender_details").html(sakai.api.Util.TemplateRenderer("sender_details_template",obj));
                     }
                 }
@@ -1219,6 +1235,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getContactList = function(){
             $.ajax({
                 url: sakai.config.URL.CONTACTS_FIND_ALL,
+                cache:false,
                 success: function(data){
                     contactList = data;
                 }
