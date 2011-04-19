@@ -3,6 +3,7 @@
     "groupdashboard": true,
     "userdashboard": true,
     "userpages": true,
+    "sakaidocs": true,
     "description":"Embed Google Gadgets in your page or dashboard",
     "id":"ggadget",
     "i18n": {

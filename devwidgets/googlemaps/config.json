@@ -3,6 +3,7 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
+    "sakaidocs": true,
     "hasSettings": true,
     "description":"Google maps",
     "i18n": {

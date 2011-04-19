@@ -2,16 +2,13 @@
 
 <div id="topnavigation_container">
     <ul class="topnavigation_explore"><!----></ul>
-    <div class="topnavigation_user_container">
-
-    </div>
+    <div class="topnavigation_user_container"></div>
+    <div class="topnavigation_usersection_splitter">|</div>
     <div class="topnavigation_search">
         <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
         <div id="topnavigation_search_results" style="display:none;">
-            <div id="topnavigation_search_results_top"></div>
             <div id="topnavigation_search_results_container"><!----></div>
             <div id="topnavigation_search_results_bottom_container"><!----></div>
-            <div id="topnavigation_search_results_bottom"></div>
         </div>
     </div>
 </div>
@@ -19,23 +16,20 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-        <div class="hassubnav_tl" style="display:none;"></div>
             <a class="s3d-bold" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
-            <div id="${i.id}_dropdown" class="navigation_link_dropdown" style="display:none;">
-            <div class="navigation_link_dropdown_tr"></div>
+            <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul>
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}">${subnav.label}</a>
+                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
                             </li>
                             {else}
-                                <hr class="subnav_split"/>
+                                <hr class="s3d-split-line"/>
                             {/if}
                         {/for}
                     </ul>
-                    <div class="navigation_link_dropdown_bottom"></div>
                 {/if}
             </div>
         </li>
@@ -44,7 +38,6 @@
 
 <div id="search_template" style="display:none"><!--
         {if files && files.length}
-            <hr/>
             <a href="/dev/search2.html#l=groups&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
             <ul>
                {for file in files}
@@ -52,11 +45,11 @@
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="topnav_content_icon ${file.css_class}"></span>
                         </div>
-                        <a href="${file.url}" title="${file.name}">${file.dottedname}</a>
+                        <a href="${file.url}" title="${file.name}" class="s3d-bold">${file.dottedname}</a>
                     </li>
+                    {if file_index != files.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
             </ul>
-            <hr/>
         {/if}
 
         {if groups && groups.length}
@@ -67,13 +60,13 @@
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="${group.css_class}"></span>
                         </div>
-                        <a href="${group.url}" title="${group.name}">${group.dottedname}</a>
+                        <a href="${group.url}" title="${group.name}" class="s3d-bold">${group.dottedname}</a>
                     </li>
+                    {if group_index != groups.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
             </ul>
-            <hr/>
         {/if}
-        
+
         {if people && people.length}
             <a href="/dev/search2.html#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
             <ul>
@@ -82,16 +75,16 @@
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="topnav_person_icon"></span>
                         </div>
-                        <a href="${person.url}" title="${person.name}">${person.dottedname}</a>
+                        <a href="${person.url}" title="${person.name}" class="s3d-bold">${person.dottedname}</a>
                     </li>
+                    {if person_index != people.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
-            </ul>        
+            </ul>
         {/if}
 
 --></div>
 
 <div id="search_bottom_template" style="display:none;"><!--
-    <div id="topnavigation_search_results_bottom_top_border"></div>
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
         <a href="/search#q=${query}&filter=&facet=&page=1">
             <button id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state" type="button">
@@ -99,9 +92,9 @@
             </button>
         </a>
     {/if}
-    <span id="topnavigation_search_results_bottom_content" class="s3d-bold">
+    <span id="topnavigation_search_results_bottom_content">
         {if people.length || groups.length || files.length}
-            ${people.length + groups.length + files.length} __MSG__OF__ ${peopletotal + groupstotal + filestotal} __MSG__SEARCH_RESULTS__
+            ${peopletotal + groupstotal + filestotal} __MSG__RESULTS__
         {else}
             __MSG__NO_RESULTS__
         {/if}
@@ -110,55 +103,47 @@
 
 <div id="topnavigation_user_template"><!--
     {if anon}
-        <div class="topnavigation_user_options_login_left" id="topnavigation_user_options_login"><div class="topnavigation_user_options topnavigation_user_options_login_right"><p id="topnavigation_user_options_login" class="s3d-bold">__MSG__SIGN_IN__</p></div></div>
-        <div id="topnavigation_user_options_login_fields" style="display:none;">
-            <div id="topnavigation_user_options_login_fields_top"> </div>
-            <form id="topnavigation_user_options_login_form" method="POST">
-                <div id="topnavigation_user_options_login_fields_container">
-                    <div id="topnavigation_user_options_login_error" style="display:none;">
-                        <div id="topnavigation_user_options_login_error_top"></div>
-                        <div id="topnavigation_user_options_login_error_content">
+        <div class="s3d-dropdown-menu" id="topnavigation_user_options_login">
+            <span class="s3d-bold" id="topnavigation_user_options_login">__MSG__SIGN_IN__</span>
+            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
+                <form id="topnavigation_user_options_login_form" method="POST">
+                    <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container">
+                        <div id="topnavigation_user_options_login_error" style="display:none;">
                             <div id="topnavigation_user_options_login_error_icon"></div>
                             <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
                         </div>
-                        <div id="topnavigation_user_options_login_error_bottom"></div>
-                    </div>
-                    <div class="topnavigation_user_options_login_fields_section">
-                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" tabindex="1"/>
                         <label for="topnavigation_user_options_login_fields_username">__MSG__USERNAME__</label>
-                    </div>
-                    <div class="topnavigation_user_options_login_fields_section">
-                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" tabindex="2" />
+                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" tabindex="1"/>
                         <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
-                    </div>
-                    <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
-                    <hr class="fl-hidden fl-push topnavigation_user_options_login_fields_section_push"/>
-                </div>
-                <div id="topnavigation_user_options_login_fields_bottom_container">
-                    <div id="topnavigation_user_options_login_fields_bottom_top_border"></div>
-                    <div id="topnavigation_user_options_login_button">
+                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" tabindex="2" />
+                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                        <hr class="s3d-split-line fl-push"/>
                         <button id="topnavigation_user_options_login_button_login" type="submit" class="s3d-button s3d-button-light-gray-square" tabindex="3">
                             <span class="s3d-button-inner">__MSG__SIGN_IN__</span>
                         </button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
+                        <hr class="fl-push fl-hidden"/>
                     </div>
-                </div>
-                <div id="topnavigation_user_options_login_fields_bottom"> </div>
-            </form>
+                </form>
+            </div>
         </div>
     {else}
-        <a href="/dev/user.html#l=messages/inbox" title="__MSG__INBOX__"><div class="topnavigation_user_inbox"><p id="topnavigation_user_inbox_messages" class="s3d-bold"></p></div></a>
-        <div class="topnavigation_user_options"><p id="topnavigation_user_options_name" class="s3d-bold"></p></div>
-        <div class="topnavigation_user_dropdown" style="display:none;">
-            <div class="topnavigation_user_dropdown_tr"></div>
-            <div class="topnavigation_user_dropdown_content">
-                <ul>
-                    <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
-                    <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
-                </ul>
-            </div>
-            <div class="topnavigation_user_dropdown_bottom"></div>
-        </div>
+        <a href="/dev/user.html#l=messages/inbox" title="__MSG__INBOX__" id="topnavigation_user_inbox_container">
+            <div id="topnavigation_user_inbox_icon"></div>
+            <div id="topnavigation_user_inbox_messages"></div>
+        </a>
+        <ul id="topnavigation_user_options_list">
+            <li class="s3d-bold s3d-dropdown-menu hassubnav">
+                <a href="#" id="topnavigation_user_options_name" class="s3d-bold"></a>
+                <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
+                    <ul>
+                        <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                        <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="topnavigation_usersection_splitter">|</div>
     {/if}
 --></div>
 

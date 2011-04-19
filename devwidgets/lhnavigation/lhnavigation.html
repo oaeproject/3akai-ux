@@ -40,8 +40,14 @@
                     <!-- TOP BORDER -->
                     <div class="content_top"><div class="content_top_inner"><!-- --></div></div>
 
-                    <div class="s3d-primary-tabs">
-                        <ul class="fl-tabs fl-tabs-left">
+                    <div class="">
+                        
+                        <div id="page_save_options_bottom" class="fl-force-right">
+                            <button id="lhnav_edit_cancel_button" class="s3d-link-button">__MSG__DONT_SAVE__</button>
+                            <button id="lhnav_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
+                        </div>
+                        
+                        <!-- <ul class="fl-tabs fl-tabs-left"> -->
 
                             <!-- INSERT DROPDOWN MENU -->
                             <span class="s3d-button s3d-button-inline" id="sitepages_insert_dropdown_button">
@@ -53,12 +59,16 @@
                             </span>
                             <div id="sitepages_insert_dropdown_container"></div>
 
-                        </ul>
-                        <ul class="fl-tabs fl-tabs-right">
+                        <!-- </ul> -->
+                        
+                        
+                        <div style="clear:both"><!-- --></div>
+                        
+                        <!--<ul class="fl-tabs fl-tabs-right">
                             <li id="tab_text_editor"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__TEXT_EDITOR__</span></button></li>
                             <li id="tab_html"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__HTML__</span></button></li>
                             <li id="tab_preview"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PREVIEW__</span></button></li>
-                        </ul>
+                        </ul> -->
                     </div>
 
                     <!-- EDIT CONTENTS -->
@@ -81,7 +91,7 @@
                         <div class="content_container fl-fix" id="page_preview_content" style="display:none;"></div>
 
                         <div id="page_save_options_bottom" class="fl-force-right">
-                            <button id="lhnav_edit_cancel_button" class="s3d-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+                            <button id="lhnav_edit_cancel_button" class="s3d-link-button">__MSG__DONT_SAVE__</button>
                             <button id="lhnav_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
                         </div>
                         <div style="clear:both"><!-- --></div>
@@ -94,9 +104,53 @@
         </div>
 </div>
 
+<!-- INSERT DIALOG -->
+<div id="insert_dialog" class="dialog">
+    <!-- DIALOG HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1 id="dialog_title"></h1>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+    <!-- DIALOG CONTENT -->
+    <div id="dialog_content" class="dialog_content"></div>
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- INSERT MORE DROPDOWN MENU -->
+<div id="sitepages_insert_dropdown_template" style="display:none"><!--
+    <div class="s3d-sprites-buttons" id="sitepages_insert_dropdown" style="display:none;">
+        <ul>
+            <li><button id="link" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__PAGE_LINK__</button></li>
+            <li><button id="hr" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__HORIZONTAL_LINE__</button></li>
+            <li class="sitepages_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
+            <li id="sitespages_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__FILES_AND_DOCUMENTS__</button></li>
+            {for i in media.items}
+                <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${i.name}</button></li>
+            {/for}
+            <li class="sitepages_insert_dropdown_header"><span>__MSG__SAKAI_GOODIES__:</span></li>
+            {for ii in goodies.items}
+                <li><button id="${ii.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${ii.name}</button></li>
+            {/for}
+            <li class="sitepages_insert_dropdown_header"><span>(__MSG__MORE_COMING_SOON__)</span></li>
+        </ul>
+    </div>
+--></div>
 
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
+    <div id="lhnavigation_actions" style="display:none">
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DELETE_PAGE__</span>
+        </button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PAGE__</span>
+        </button>
+    </div>
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         {for level in private.items}
             {if level._childCount > 1}
@@ -107,11 +161,14 @@
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>
             <ul class="lhnavigation_subnav" style="display:none;">
+                {var index = 0;}
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}/${sublevel_index}">
                             <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
+                        {var index = index + 1}
                     {/if}
                 {/for}
             </ul>
@@ -130,26 +187,41 @@
                 <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level_index}">
             <div class="lhnavigation_has_subnav"></div>
                 <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
+            <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>
             <ul class="lhnavigation_subnav" style="display:none;">
+                {var index = 0}
                 {for sublevel in level}
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
+                        {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}/${sublevel_index}">
-                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
+                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a>
+                            <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
+                            <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
+                        {var index = index + 1}
                     {/if}
                 {/for}
             </ul>
             {else}
                 <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}">
                     <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</a>
+                    <input class="lhnavigation_change_title" type="text" style="display:none;"/>
+                    <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                 </li>
             {/if}
         {/for}
     </ul>
 --></div>
+
+<div style="display:none;" id="lhnavigation_submenu">
+    <ul>
+        <li><a href="javascript:;">Change Name</a></li>
+        <li><a href="javascript:;" id="lhavigation_submenu_deletepage">Delete Page</a></li>
+    </ul>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/lhnavigation/javascript/lhnavigation.js"></script>

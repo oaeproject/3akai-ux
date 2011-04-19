@@ -812,12 +812,12 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/dev/user.html#",
+            "url": "/dev/user.html",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/dev/user.html#",
+                "url": "/dev/user.html",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {
@@ -844,7 +844,7 @@ define(function(){
                 "label": "MY_CONTACTS_CAP"
             }]
         }, {
-            "url": "/dev/user.html",
+            "url": "/dev/user.html#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
@@ -861,7 +861,7 @@ define(function(){
             }, {
                 "id": "subnavigation_simple_group_link",
                 "label": "CREATE_GROUP",
-                "url": "#"
+                "url": "/dev/createnew.html"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -907,7 +907,7 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
+        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
@@ -1983,28 +1983,35 @@ define(function(){
                 "dashboard": {
                     "_ref": "267187828",
                     "_title": "My Dashboard",
+                    "_order": 0,
                     "main": {
                         "_ref": "267187828",
+                        "_order": 0,
                         "_title": "Dashboard"
                     }
                 },
                 "messages": {
                     "_title": "My Messages",
                     "_ref": "1165301022",
+                    "_order": 1,
                     "inbox": {
                         "_ref": "1165301022",
+                        "_order": 0,
                         "_title": "Inbox"
                     },
                     "invitations": {
                         "_ref": "9867733100",
+                        "_order": 1,
                         "_title": "Invitations"
                     },
                     "sent": {
                         "_ref": "4253485084",
+                        "_order": 2,
                         "_title": "Sent"
                     },
                     "trash": {
                         "_ref": "3915412565",
+                        "_order": 3,
                         "_title": "Trash"
                     }
                 }
@@ -2070,33 +2077,40 @@ define(function(){
                     "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
+                    "_order": 0,
                     "basicinfo": {
                         "_ref": "533118849",
                         "_altTitle": "Basic Information",
-                        "_title": "Basic Information"
+                        "_title": "Basic Information",
+                        "_order": 0
                     },
                     "aboutme": {
                         "_ref": "657672090",
                         "_altTitle": "About",
-                        "_title": "About Me"
+                        "_title": "About Me",
+                        "_order": 1
                     },
                     "locations": {
                         "_ref": "2967778497",
                         "_title": "Locations",
-                        "_altTitle": "Locations"
+                        "_altTitle": "Locations",
+                        "_order": 2
                     },
                     "publications": {
                         "_ref": "86312659",
                         "_altTitle": "Publications",
-                        "_title": "Publications"
+                        "_title": "Publications",
+                        "_order": 3
                     }
                 },
                 "library": {
                     "_ref": "9834611274",
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_order": 1,
                     "main": {
                         "_ref": "9834611274",
+                        "_order": 0,
                         "_title": "Content"
                     }
                 },
@@ -2104,18 +2118,22 @@ define(function(){
                     "_title": "My Memberships",
                     "_ref": "213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_order": 2,
                     "main": {
                         "_ref": "213623673",
-                        "_title": "Memberships"
+                        "_title": "Memberships",
+                        "_order": 0
                     }
                 },
                 "contacts": {
                     "_title": "My Contacts",
                     "_ref": "1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_order": 3,
                     "main": {
                         "_ref": "1193715035",
-                        "_title": "Contacts"
+                        "_title": "Contacts",
+                        "_order": 0
                     }
                 }
             },
@@ -2135,7 +2153,9 @@ define(function(){
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
             "213623673": {
-                "page": "<div id='widget_mymemberships' class='widget_inline'/>"
+                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
+                    "<div id='widget_tooltip' class='widget_inline'></div> " +
+                    "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
             "1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
@@ -2195,5 +2215,6 @@ define(function(){
             }
         }
     };
+    
     return config;
 });
