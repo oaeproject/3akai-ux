@@ -184,7 +184,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var searchUrl = pickerData['searchIn'];
             if ((searchQuery === '*' || searchQuery === '**') && pickerData['searchInAll']) {
                 searchUrl = pickerData['searchInAll'];
-                searchQuery = "?q=*"; // TODO remove this, the q param shouldn't be needed
+                if (searchUrl.indexOf("?") === -1) {
+                    searchQuery = "?q=*";
+                } else {
+                    searchQuery = "&q=*";
+                }
             }
             var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
             renderSearch(pl_query);
@@ -252,7 +256,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sq += e + "=" + searchQuery[e] + "&";
                 }
             }
-
             // Display empty new container with loading anim
             $(pickeradvanced_content_search).append($pl_pageContainer);
 
@@ -526,10 +529,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
            }
            if (!searchingInGroup) {
                pickerData["searchIn"] = searchURL + "?page=0&items=12&_=&q=";
+               pickerData['searchInAll'] = searchURLAll;
            } else {
                pickerData["searchIn"] = searchURL + "?group=" + searchType.split("groups_")[1] + "&q=";
+               pickerData['searchInAll'] = searchURLAll + "?group=" + searchType.split("groups_")[1];
            }
-           pickerData['searchInAll'] = searchURLAll;
            submitSearch();
         });
 

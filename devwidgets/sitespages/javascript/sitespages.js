@@ -771,18 +771,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global.sitespages.updatePageContent = function(url, content, callback) {
 
-            var jsonString = $.toJSON({
-                "pageContent": { "sling:resourceType": "sakai/pagecontent", "sakai:pagecontent": content }});
-
             $.ajax({
-                url: url,
+                url: url + "/pageContent",
                 type: "POST",
                 data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":content": jsonString,
-                    ":replace": false,
-                    ":replaceProperties": true,
+                    "sling:resourceType": "sakai/pagecontent",
+                    "sakai:pagecontent": content,
                     "_charset_": "utf-8"
                 },
                 success: function(data) {
@@ -2553,7 +2547,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Populate the select box
                     var select = $("#revision_history_list").get(0);
                     $(select).unbind("change",changeVersionPreview);
-
+                    $(select).bind("change", changeVersionPreview);
                     select.options.length = 0;
                     for (var ver in data.versions){
 
@@ -2573,8 +2567,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var id = ver;
                             var option = new Option(name, id);
                             select.options[select.options.length] = option;
-
-                            $(select).bind("change", changeVersionPreview);
 
                             // Signal that a page reload will be needed when we go back
                             sakai_global.sitespages.versionHistoryNeedsReset = true;
