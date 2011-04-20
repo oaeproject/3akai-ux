@@ -24,7 +24,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai, widgetData) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
      * @name sakai_global.embedcontent
