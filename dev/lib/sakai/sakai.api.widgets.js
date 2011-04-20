@@ -720,6 +720,20 @@ define(["jquery",
             }
         },
 
+        /**
+         * Notify widgets when they have been shown or hidden, given a root element
+         *
+         * @param {String} selector the root selector ("#theid") for the page which could house the widgets to nofity
+         * @param {Boolean} showing true if we are showing the widget, false if it is about to be hidden
+         */
+        nofityWidgetShown : function(selector, showing) {
+            var elts = $(selector).find("div[class^='inline_class_widget']");
+            $.each(elts, function(i,elt) {
+                var tuid = $(elt).attr("id");
+                $(window).trigger(tuid + ".shown.sakai", [showing]);
+            });
+        },
+
         oldState : false,
 
         /**
