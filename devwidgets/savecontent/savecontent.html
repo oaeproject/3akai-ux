@@ -1,0 +1,37 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/savecontent/css/savecontent.css" />
+
+<div id="savecontent_widget" style="display:none">
+    <!-- SAVECONTENT DIALOG -->
+    <div id="savecontent" class="savecontent_dialog">
+        <!-- SAVECONTENT HEADER -->
+        <div class="dialog_savecontent_header_arrow"></div>
+
+        <!-- SAVECONTENT CONTENT -->
+        <div class="savecontent_outer clearfix">
+            <h2 id="savecontent_title">__MSG__SAVE_TO__</h2>
+            <div class="savecontent_inner">
+                <div id="savecontent_container"></div>
+            </div>
+            <button class="dialog_savecontent_close savecontent_close s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CANCEL__</span>
+            </button>
+            <button id="savecontent_save" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="savecontent_template" style="display:none"><!--
+    __MSG__YOU_ARE_SAVING__ "${content.data["sakai:pooled-content-file-name"]}" __MSG__TO__
+    <select name="savecontent_select" id="savecontent_select">
+        <option value="mylibrary"{if sakai.api.Content.isUserAViewer(content, me.user.userid) || sakai.api.Content.isUserAManager(content, me.user.userid)} disabled="disabled"{/if}>__MSG__MY_LIBRARY__</option>
+        {for g in me.groups}
+            <option value="${g["sakai:group-id"]}"{if sakai.api.Content.isUserAViewer(content, g.groupid) || sakai.api.Content.isUserAManager(content, g.groupid)} disabled="disabled"{/if}>${g["sakai:group-title"]}</option>
+        {/for}
+    </select>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/savecontent/javascript/savecontent.js"></script>

@@ -162,7 +162,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 content.members.hasOwnProperty("viewers")) {
                 for (var i in content.members.viewers) {
                     if (content.members.viewers.hasOwnProperty(i)) {
-                        if (userid === content.members.viewers[i].userid) {
+                        if (userid === content.members.viewers[i].userid || userid === content.members.viewers[i].groupid) {
                             return true;
                         }
                     }
@@ -185,7 +185,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 content.members.hasOwnProperty("managers")) {
                 for (var i in content.members.managers) {
                     if (content.members.managers.hasOwnProperty(i)) {
-                        if (userid === content.members.managers[i].userid) {
+                        if (userid === content.members.managers[i].userid || userid === content.members.managers[i].groupid) {
                             return true;
                         }
                     }
