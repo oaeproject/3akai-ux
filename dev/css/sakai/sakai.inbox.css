@@ -85,7 +85,7 @@
 .inbox_detail .sender-timestamp{color:#999;font-size:11px;}
 .inbox_detail .sender-body{position:relative;}
 .inbox_detail .sender-message{display:inline;height:auto;width:100%;}
-.inbox_detail .message-body{padding:20px 37px 30px;color:#333;font-size:13px;}
+.inbox_detail .message-body{padding:20px 37px 30px;color:#333;font-size:13px;word-wrap: break-word;}
 .inbox_detail .message-header{font-weight:bold;font-size:15px;padding-bottom:5px;}
 .inbox_detail .message-options{padding:15px 15px 0 0;}
 .inbox_detail .pipe-divider{color:#d2d2d2;padding:0 10px;}

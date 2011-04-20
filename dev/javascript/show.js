@@ -18,6 +18,10 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
+    sakai_global.show = sakai_global.show || {};
+    sakai_global.show.type = sakai_global.show.type || {};
+    sakai_global.show.id = sakai_global.show.id || {};
+
     sakai_global.currentgroup = sakai_global.currentgroup || {};
     sakai_global.currentgroup.id = sakai_global.currentgroup.id || {};
     sakai_global.currentgroup.data = sakai_global.currentgroup.data || {};
@@ -63,7 +67,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var setEntityInfo = function(){
             if (window.location.pathname.substring(0, 2) === "/~") {
-                entityID = window.location.pathname.substring(2);
+                entityID = decodeURIComponent(window.location.pathname.substring(2));
                 if (entityID.indexOf("/") != -1){
                     entityID = entity.substring(0, entity.indexOf("/"));
                 }
@@ -90,13 +94,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         entityType = "user";
                         if (entityID === sakai.data.me.user.userid) {
-                            document.location = "/dev/user.html";
+                            document.location = "/dev/me.html";
                             return;
                         } else {
                             document.location = "/dev/user.html?id=" + entityID;
                             return;
                         }
                     }
+                    sakai_global.show.type = entityType;
+                    sakai_global.show.id = entityID;
                     entityData = data;
                     switch (entityType) {
                         case "user":
@@ -133,11 +139,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Will be an empty string if there is no picture
          */
         var constructProfilePicture = function(profile){
-            if (profile.basic && profile.basic.elements.picture && profile.basic.elements.picture.value && profile["rep:userId"]) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + profile.basic.elements.picture.value.name;
-            } else {
-                return "";
-            }
+            return sakai.api.Util.constructProfilePicture(profile);
         };
 
         /**

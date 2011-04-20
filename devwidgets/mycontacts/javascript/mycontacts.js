@@ -85,19 +85,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parse the picture for a user
-         * @param {String} picture The picture path for a user
-         * @param {String} userStoragePrefix The user's storage prefix
+         * @param {Object} profile The users profile
          */
-        var parsePicture = function(profile, uuid){
-            // Check if the picture is undefined or not
-            // The picture will be undefined if the other user is in process of
-            // changing his/her picture
-            if (profile && profile.picture && $.parseJSON(profile.picture).name) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.picture).name;
-            } else if (profile && profile.basic.elements.picture && $.parseJSON(profile.basic.elements.picture.value).name) {
-                return "/~" + profile["rep:userId"] + "/public/profile/" + $.parseJSON(profile.basic.elements.picture.value).name;
+        var parsePicture = function(profile){
+            var picture = sakai.api.Util.constructProfilePicture(profile);
+            if (picture) {
+                return picture;
+            } else {
+                return sakai.config.URL.USER_DEFAULT_ICON_URL;
             }
-            return sakai.config.URL.USER_DEFAULT_ICON_URL;
         };
 
 
@@ -128,7 +124,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         friend.name = parseName(friend.target, friend.profile);
 
                         // Parse the picture of the friend
-                        friend.photo = parsePicture(friend.profile, friend.target);
+                        friend.photo = parsePicture(friend.profile);
                         
                         // Contact type
                         friend.type = friend.details["sakai:types"];

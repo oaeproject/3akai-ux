@@ -812,39 +812,39 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/dev/user.html",
+            "url": "/dev/me.html",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/dev/user.html",
+                "url": "/dev/me.html",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {
-                "url": "/dev/user.html#l=messages/inbox",
+                "url": "/dev/me.html#l=messages/inbox",
                 "id": "subnavigation_messages_link",
                 "label": "MY_MESSAGES"
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/user.html#l=profile/basicinfo",
+                "url": "/dev/me.html#l=profile/basicinfo",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
-                "url": "/dev/user.html#l=library",
+                "url": "/dev/me.html#l=library",
                 "id": "subnavigation_content_link",
                 "label": "MY_LIBRARY"
             }, {
-                "url": "/dev/user.html#l=memberships",
+                "url": "/dev/me.html#l=memberships",
                 "id": "subnavigation_memberships_link",
                 "label": "MY_MEMBERSHIPS"
             }, {
-                "url": "/dev/user.html#l=contacts",
+                "url": "/dev/me.html#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
             }]
         }, {
-            "url": "/dev/user.html#",
+            "url": "/dev/createnew.html",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
@@ -870,13 +870,16 @@ define(function(){
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_content_link",
-                "label": "CONTENT"
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
             }, {
                 "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS"
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
-                "label": "PEOPLE"
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -885,13 +888,16 @@ define(function(){
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_content_link",
-                "label": "CONTENT"
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
             }, {
                 "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS"
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
-                "label": "PEOPLE"
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
             }]
         }, {
             "url": "/dev/create_new_account2.html",
@@ -929,7 +935,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
+        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
@@ -2017,7 +2023,7 @@ define(function(){
                 }
             },
             "267187828": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
                 "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"

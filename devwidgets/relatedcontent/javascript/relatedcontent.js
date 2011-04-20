@@ -84,12 +84,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             term = term.replace(/http:\/\//ig, "");
             // taken this from search_main until a backend service can get related content
             var urlterm = "";
-            var splitted = $.trim(term).split(/\s/);
-            if (splitted.length > 1) {
-                for (var i = 0; i < splitted.length; i++) {
-                    if (splitted[i]) {
-                        urlterm += "*" + splitted[i] + "* ";
-                        if (i < splitted.length - 1) {
+            var split = $.trim(term).split(/\s/);
+            if (split.length > 1) {
+                for (var i = 0; i < split.length; i++) {
+                    if (split[i]) {
+                        urlterm += split[i] + " ";
+                        if (i < split.length - 1) {
                             urlterm += "OR ";
                         }
                     }

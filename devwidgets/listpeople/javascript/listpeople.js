@@ -400,9 +400,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         } else {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject.userid;
                         }
-                        if (resultObject.basic.elements.picture && resultObject.basic.elements.picture.value && typeof(resultObject.basic.elements.picture.value) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["picture"] = $.parseJSON(resultObject.basic.elements.picture.value);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject.userid]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
@@ -410,9 +408,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get group details
                         sakai_global.data.listpeople[listType].userList[resultObject.groupid] = resultObject;
                         sakai_global.data.listpeople[listType].total += 1;
-                        if (resultObject.basic.elements.picture && resultObject.basic.elements.picture.value && typeof(resultObject.basic.elements.picture.value) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject.groupid]["picture"] = $.parseJSON(resultObject.basic.elements.picture.value);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject.groupid]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject.groupid]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
@@ -420,9 +416,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get group details
                         sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']] = resultObject;
                         sakai_global.data.listpeople[listType].total += 1;
-                        if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["picture"] = $.parseJSON(resultObject.picture);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject['sakai:group-id']]["subNameInfo"] = resultObject[iSubNameInfoGroup];
                         }
@@ -430,9 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // get user details
                         sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']] = resultObject;
                         sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["displayName"] = sakai.api.User.getDisplayName(resultObject);
-                        if (resultObject.picture && typeof(resultObject.picture) === 'string') {
-                            sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["picture"] = $.parseJSON(resultObject.picture);
-                        }
+                        sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["pictureUrl"] = sakai.api.Util.constructProfilePicture(resultObject);
                         if (!sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject['rep:userId']]["subNameInfo"] = resultObject[iSubNameInfoUser];
                         }
@@ -443,28 +435,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             resultObject["jcr:name"] = resultObject["content_id"];
                         }
 
-                        var content_path = '/p/' + resultObject["jcr:name"];
-
-                        $.ajax({
-                            url: sakai.config.SakaiDomain + content_path + ".2.json",
-                            async: false,
-                            success: function(data){
-
-                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = data;
-                                sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
-                                sakai_global.data.listpeople[listType].total += 1;
-                                if (sakai.config.MimeTypes[data["_mimeType"]]) {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[data["_mimeType"]].URL;
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[data["_mimeType"]].description);
-                                } else {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
-                                }
-                                if (!sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
-                                    sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = data[iSubNameInfoContent];
-                                }
-                            }
-                        });
+                        sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]] = resultObject;
+                        sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['content_id'] = resultObject["jcr:name"];
+                        sakai_global.data.listpeople[listType].total += 1;
+                        if (sakai.config.MimeTypes[resultObject["jcr:mimeType"]]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = sakai.config.MimeTypes[resultObject["jcr:mimeType"]].URL;
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[resultObject["jcr:mimeType"]].description);
+                        } else {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['avatar'] = "/dev/images/mimetypes/empty.png";
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
+                        }
+                        if (!sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"]) {
+                            sakai_global.data.listpeople[listType].userList[resultObject["jcr:name"]]["subNameInfo"] = resultObject[iSubNameInfoContent];
+                        }
                     }
                 });
             }
@@ -514,6 +497,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "anon": false
                 };
                 render(tuid, data.pl_config, data.url, data.id);
+            });
+            $(window).unbind(tuid + ".add.listpeople.sakai");
+            $(window).bind(tuid + ".add.listpeople.sakai", function(e, data) {
+                list = {
+                    "results": data.list
+                };
+                addToList(list);
+                var newData = {
+                    "results": sakai_global.data.listpeople[listType].userList,
+                    "length": sakai_global.data.listpeople[listType].userList.length
+                };
+                sakai_global.data.listpeople[listType].userList = null;
+                renderList(0, newData);
             });
             $(window).trigger(tuid + ".ready.listpeople.sakai", tuid);
             $(window).trigger("ready.listpeople.sakai", tuid);
