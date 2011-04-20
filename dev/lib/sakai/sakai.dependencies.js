@@ -92,6 +92,7 @@ require(
         "/dev/lib/jquery/plugins/jquery.validate.js",
         "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
         "/dev/lib/misc/l10n/globalization.js",
+        "/dev/lib/misc/underscore.js",
         "/dev/lib/jquery/plugins/jquery.json.js",
         "/dev/lib/misc/google/html-sanitizer.js",
         "/dev/lib/misc/querystring.js",

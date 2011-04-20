@@ -321,8 +321,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          */
         processMessages : function(data, doFlip) {
             var messages = {},
-                ret = $.extend({}, data);
-            $.each(ret.results, function(i, msg) {
+                ret = $.extend(true, {}, data);
+            $.each(ret, function(i, msg) {
                 var newMsg = {};
                 // these need to be fixed to allow for multiple people from and to
                 newMsg.from = {};
@@ -352,7 +352,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     type: "user"
                 };
                 newMsg.body = $.trim(msg["sakai:body"].replace(/\n/gi, "<br />"));
-                newMsg.excerpt = $.trim(sakai_util.shortenString(msg["sakai:body"], 1000).replace(/\n/gi, "<br />"));
+                newMsg.excerpt = $.trim(sakai_util.shortenString(msg["sakai:body"].replace(/\n/gi, " "), 1000));
                 newMsg.subject = msg["sakai:subject"];
                 //Jan 22, 2009 10:25 PM
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
@@ -364,10 +364,16 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.to = newMsg.from;
                     newMsg.from = tmp;
                 }
+                if (msg.previousMessage) {
+                    newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
+                    $.each(newMsg.previousMessage, function(i,val){
+                        newMsg.previousMessage = val;
+                    });
+                }
                 messages[newMsg.id] = newMsg;
 
             });
-            ret.results = messages;
+            ret = messages;
             return ret;
         },
 
@@ -397,7 +403,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 cache: true,
                 success: function(data){
                     if (doProcessing !== false) {
-                        data = sakaiCommmunicationsAPI.processMessages(data, doFlip);
+                        data.results = sakaiCommmunicationsAPI.processMessages(data.results, doFlip);
                     }
                     if ($.isFunction(callback)) {
                         callback(true, data);

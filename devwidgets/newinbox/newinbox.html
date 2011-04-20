@@ -2,42 +2,21 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/newinbox/css/newinbox.css" />
 
 <div id="newinbox_widget">
-    <!-- WIDGET HEADER -->
-    <div class="fl-widget-titlebar s3d-widget-titlebar newinbox-widget-border" style="display:none">
-        <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-            <h2 id="newinbox_title" class="newinbox_title widget_title" style="display:none">__MSG__RECENT_newinbox__</h2>
-        </div>
-    </div>
 
     <!-- WIDGET BODY -->
     <div class="fl-widget-newinbox s3d-widget-newinbox s3d-widget-small-newinbox">
         <div class="newinbox_main">
             <!-- Title -->
-            <div class="newinbox_right">
-                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state newinbox_right" id="newinbox_create_new_message">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
-                </a>
-            </div>
             <span class="newinbox_title s3d-bold">__MSG__MESSAGES__</span>
             <span ud="newinbox_title_total_wrapper" style="display:none">(<span id="newinbox_title_total"></span>)</span>
-
             <!-- Title Bar -->
             <div class="newinbox_title_bar">
-                <div class="newinbox_right_div">
-                    <div class="newinbox_right">
-                    <span class="s3d-button s3d-button-primary">
-                        <span class="s3d-button-inner">__MSG__ALL__</span>
-                    </span>
-                    <span class="s3d-button s3d-button-secondary">
-                        <span class="s3d-button-inner">__MSG__UNREAD__</span>
-                    </span>
-                    </div>
-                </div>
-                <div id="newinbox_back_to_messages" style="display:none">
-                    <button type="button" class="s3d-button s3d-button-link-2-state">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
-                    </a>
-                </div>
+                <button type="button" id="newinbox_back_to_messages" class="s3d-button s3d-button-link-2-state" style="display:none">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
+                </button>
+                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right" id="newinbox_create_new_message">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
+                </a>
             </div>
 
             <!-- Inbox Items -->
@@ -46,26 +25,31 @@
             <!-- Inbox Item Template -->
             <div id="newinbox_message_list_item_template"><!--
                 {for message in data.results}
-                    <div class="fl-container fl-fix newinbox_items_container{if message.read === "true"} read{/if}" id="${message.id}">
+                    <div class="fl-container fl-fix newinbox_items_container{if message.read !== "true"} unread{/if}" id="${message.id}">
                         <div class="newinbox_items_inner">
-                            <div class="newinbox_right_div">
-                                  <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                                </button>
+                            <div class="newinbox_delete">
+                              <button type="button" class="s3d-link-button newinbox_delete_button">__MSG__X__</button>
                             </div>
-                            <div class="newinbox_placeholder">&nbsp;</div>
-                            <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
-                            <div class="newinbox_name">
-                                <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
+                            <div class="newinbox_placeholder"><input type="checkbox"/></div>
+                            <div class="newinbox_message_data">
+                              <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
+                              <div class="newinbox_name">
+                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                              </div>
+                              <div class="newinbox_date">
                                 <span>${message.date}</span>
-                            </div>
-                            <div class="newinbox_subject">
-                                <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a></div>
+                              </div>
+                              <div class="newinbox_subject">
+                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                              </div>
+                              <div class="newinbox_excerpt">
+                                <p>${message.excerpt}<p>
+                              </div>
                             </div>
                         </div>
                     </div>
                 {forelse}
-                    <div class="fl-container fl-fix">
+                    <div class="fl-container fl-fix" id="newinbox_no_messages">
                         <p>__MSG__NO_MESSAGES__</p>
                     </div>
                 {/for}
@@ -75,74 +59,62 @@
             <!-- Message show pane -->
             <div id="newinbox_show_message" style="display:none"></div>
             <div id="newinbox_show_message_template"><!--
-                <div id="newinbox_show_message_header">
-                    <div class="fl-container fl-fix newinbox_items_container" id="${message.id}">
-                        <div class="newinbox_items_inner">
-                            <div class="newinbox_right_div">
-                                <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                                </button>
-                            </div>
-                            <div class="newinbox_placeholder">&nbsp;</div>
-                            <img alt="person icon" src="${message.from.picture}"/>
-                            <div class="newinbox_name">
-                                <div><a href="#" class="s3d-regular-links">${message.from.name}</a></div>
-                                <span>${message.date}</span>
-                            </div>
-                            <div class="newinbox_subject">
-                                <div><a href="#" class="s3d-regular-links">${message.subject}</a></div>
+                {macro showMessage(message, reply)}
+                  <div class="newinbox_message_container{if reply} reply{/if}">
+                    <div class="newinbox_show_message_header">
+                        <div class="fl-container fl-fix newinbox_items_container" id="${message.id}">
+                            <div class="newinbox_items_inner">
+                                {if !reply}
+                                <div class="fl-force-right">
+                                    <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                                    </button>
+                                </div>
+                                {/if}
+                                <div class="newinbox_placeholder">&nbsp;</div>
+                                <img alt="person icon" src="${message.from.picture}"/>
+                                <div class="newinbox_name">
+                                  <a href="#" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                                </div>
+                                <div class="newinbox_date">
+                                  <span>${message.date}</span>
+                                </div>
+                                <div class="newinbox_subject">
+                                  <a href="#" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="newinbox_show_message_body">
+                        <p>${message.body}</p>
+                    </div>
+                  </div>
+                  {if !reply}
+                    <div id="newinbox_show_message_reply">
+                      <a href="#reply=true">__MSG__REPLY__</a>
+                        <div class="newinbox_show_message_reply_fields"></div>
+                    </div>
+                  {/if}
+                  {if reply && message.previousMessage}
+                      ${showMessage(message.previousMessage, true)}
+                  {/if}
+                {/macro}
+
+                <div id="newinbox_show_message_main">
+                  ${showMessage(message)}
                 </div>
-                <div id="newinbox_show_message_body">
-                    <p>${message.body}</p>
+                {if message.previousMessage}
+                <h2>__MSG__PREVIOUS_MESSAGES__</h2>
+                <div id="newinbox_show_message_replies">
+                      ${showMessage(message.previousMessage, true)}
                 </div>
-                <div id="newinbox_show_message_reply">
-                    <a href="#reply=true">__MSG__REPLY__</a>
-                    <div class="newinbox_show_message_reply_fields"></div>
-                </div>
-                <div id="newinbox_show_message_replies"></div>
+                {/if}
             --></div>
 
             <!-- New Message -->
             <div id="newinbox_new_message" style="display:none"></div>
         </div>
     </div>
-
-    <!-- On hover of the inbox items, this will display -->
-    <div id="newinbox_hover"></div>
-    <div id="newinbox_hover_template"><!--
-        <div id="newinbox_hover_container">
-            <div id="newinbox_hover_header">
-                <div class="fl-container fl-fix newinbox_items_container{if message.read === "true"} read{/if}" id="${message.id}">
-                    <div class="newinbox_items_inner hover">
-                        <div class="newinbox_right_div">
-                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                            </button>
-                        </div>
-                        <div class="newinbox_placeholder">&nbsp;</div>
-                        <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
-                        <div class="newinbox_name">
-                            <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a></div>
-                            <span>${message.date}</span>
-                        </div>
-                        <div class="newinbox_subject">
-                            <div><a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="newinbox_hover_content">
-                <p>${message.excerpt}</p>
-            </div>
-            <div id="newinbox_hover_footer">
-                <a href="#message=${message.id}">__MSG__VIEW__</a>
-                <a href="#message=${message.id}&reply=true">__MSG__REPLY__</a>
-            </div>
-        </div>
-    --></div>
 
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner">
