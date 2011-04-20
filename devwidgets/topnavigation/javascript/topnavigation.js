@@ -446,7 +446,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         // Go to You when you're on explore page
                         if (window.location.pathname === "/dev/directory2.html" || window.location.pathname === "/dev/create_new_account2.html") {
-                            window.location = "/dev/user.html";
+                            window.location = "/dev/me.html";
                         } else {
                             // Just reload the page
                             location.reload(true);

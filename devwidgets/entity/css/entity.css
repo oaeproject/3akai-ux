@@ -36,12 +36,19 @@
 
 /* User */
 #entity_container .entity_user_image {width:63px;height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-left: 5px;margin-right:5px;margin-top:-8px;}
-#entity_container .entity_user_image_pointer {cursor:pointer;width:93px;}
-#entity_container .entity_user_image_clicked {width:93px; height:50px; background:url("/devwidgets/entity/images/entity_user_icon_clicked.png") no-repeat transparent;float:left;margin-left: 5px;margin-right:5px;margin-top:-8px;}
+#entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
+#entity_container .entity_user_image_clicked {}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
 #entity_container .entity_user_contact_pending {background:#fff; border:1px solid #ccc; display:inline-block; font-size:0.9em;margin:0 5px 5px 0;overflow:visible;padding:0 15px;position:relative;top: -1px; height: 23px; line-height: 23px;}
 #entity_container .entity_user_contact_pending_inner {color:#333333 !important;font-size:11px;margin:0 !important;}
-#entity_container #entity_user_image img {width: 50px; height: 50px;}
+#entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
+#entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
+#entity_container .entity_profilepic_internal {height: 50px; width: 50px; padding: 1px; background-color: #fff; box-shadow: 0 0 1px 2px #aaa;}
+
+/* Me */
+#entity_container .entity_name_me {clear:both; font-size: 14px; padding: 5px 5px 0px 20px; color: #666;}
+#entity_container .entity_my_profilepic {width:70px; height: 54px; background-color:#fff; margin-left: 20px; padding: 2px 2px 2px 1px;}
+#entity_container .entity_changepic_arrow {float: right; margin-top: 40px;}
 
 /* Group */
 #entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}

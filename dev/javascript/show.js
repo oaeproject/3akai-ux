@@ -94,7 +94,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         entityType = "user";
                         if (entityID === sakai.data.me.user.userid) {
-                            document.location = "/dev/user.html";
+                            document.location = "/dev/me.html";
                             return;
                         } else {
                             document.location = "/dev/user.html?id=" + entityID;

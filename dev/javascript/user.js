@@ -100,6 +100,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
                 sakai.api.User.getUser(qs.get("id"), getProfileData);
             } else if (!sakai.data.me.user.anon){
+                if (document.location.pathname === "/dev/user.html"){
+                    document.location = "/dev/me.html";
+                    return false;
+                }
                 sakai.api.Security.showPage();
                 contextType = "user_me";
                 // Set the profile data object
