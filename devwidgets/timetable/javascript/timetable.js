@@ -54,7 +54,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
         var $addEventFormSelect = $("select#n_e_type", $addEventForm);
         
         var $mainContainer = $("#timetable_main", $rootel);
-        var $addEventLinks, $sortEventsList, $eventList, $eventInfo;
+        var $sortEventsList, $addEventLinks, $eventList, $eventInfo;
         
         var data = {};
         var startDate, endDate;
@@ -82,7 +82,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
          */
         var countDaysLeft = function(event_start_day){
             var today = new Date();
-            var one_day = 1000 * 60 * 60 * 24;
+			today.setHours(0, 0, 0, 0);
+            var one_day = 1000 * 60 * 60 * 24;        
+            
             return Math.ceil((event_start_day.getTime() - today.getTime()) / (one_day)) - 1;
         };
         
@@ -120,6 +122,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             if ($eventInfo.height() < $eventList.height() - 63) {
                 $eventInfo.height($eventList.height() - 63);
             }
+            $sortEventsList = $(".sort_events_container select", $mainContainer);
             $sortEventsList.change(sortEventsChangeEvent).change();
             
             
@@ -128,6 +131,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 $addEventContainer.jqmShow();
             });
             
+            doApplyWidthToList();
             $eventList.find('li').live('click', eventListClickEvent);
         };
         
@@ -390,7 +394,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             });
             
             // Timepicker part.
-            var $timeInputFields = $('.n_e_time', $rootel);
+            var $timeInputFields = $('.hasTimeNUD', $addEventForm);
             $timeInputFields.each(function(){
                 var $timeinput = $(this);
                 
@@ -480,7 +484,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                     
                     data.isManager = sakai_global.currentgroup.manager;
                     hideAndRemoveOldEventsAndRenderTemplate(success, loadedData);
-                    doApplyWidthToList();
                     
                     // Setup everything to add events properly.
                     doFillInEventTypes();
