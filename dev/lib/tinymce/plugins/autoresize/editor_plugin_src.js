@@ -63,7 +63,17 @@
 			t.editor = ed;
 
 			// Define minimum height
-			t.autoresize_min_height = ed.getElement().offsetHeight;
+			// see sakai-readme.txt
+            if (ed.getElement().offsetHeight > 0) {
+                t.autoresize_min_height = ed.getElement().offsetHeight;
+            } else if (ed.getElement().style.height) {
+                t.autoresize_min_height = ed.getElement().style.height;
+                if (typeof t.autoresize_min_height === "string") {
+                    t.autoresize_min_height = t.autoresize_min_height.replace("px", "");
+                }
+            } else {
+                t.autoresize_min_height = 0;
+            }
 
 			// Add margin at the bottom for better UX
 			t.bottom_margin = parseInt( ed.getParam('autoresize_bottom_margin', 50) );
