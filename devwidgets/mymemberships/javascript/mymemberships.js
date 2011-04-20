@@ -406,7 +406,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var json = {
                     groups: groupData,
                     user_manages: function (group) {
-                        if (!group) return false;
+                        if (!group) { return false; }
                         return sakai.api.Groups.isCurrentUserAManager(group.id, sakai.data.me);
                     }
                 };
@@ -420,10 +420,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mymemberships_nodata.hide();
                 $mymemberships_actionbar.hide();
                 $mymemberships_items.hide();
+                sakai.api.Util.TemplateRenderer("mymemberships_nogroups_template", {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
                 $mymemberships_nogroups.show();
-                if (mymemberships.isOwnerViewing) {
-                    $mymemberships_addgroup.show();
-                }
             }
         };
 
@@ -438,12 +436,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            if (sakai_global.profile.main.data.homePath.split("~")[1] ===
+            if (sakai_global.profile.main.data.userid ===
                 sakai.data.me.user.userid) {
                 mymemberships.isOwnerViewing = true;
                 render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
             } else {
-                render(false);
+                sakai.api.Server.loadJSON("/system/me", function(success, data){
+                    mymemberships.isOwnerViewing = false;
+                    render(sakai.api.Groups.getMemberships(data.groups));
+                }, { uid: sakai_global.profile.main.data.userid });
             }
         };
 

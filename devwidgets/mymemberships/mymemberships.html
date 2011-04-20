@@ -4,12 +4,19 @@
 <div class="mymemberships_widget">
     <!-- Empty/Error messages -->
     <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
-    <p id="mymemberships_nogroups" style="display:none;">__MSG__YOU_ARE_NOT_A_MEMBER__
-        <button type="button" id="mymemberships_addgroup"
-            class="s3d-button s3d-button-link-2-state" style="display:none;">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
-        </button>
-    </p>
+    <p id="mymemberships_nogroups" style="display:none;"><!-- No groups message renders here --></p>
+
+    <div id="mymemberships_nogroups_template" style="display:none"><!--
+        {if isMe}
+            __MSG__YOU_ARE_NOT_A_MEMBER__
+            <button type="button" id="mymemberships_addgroup"
+            class="s3d-button s3d-button-link-2-state">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
+            </button>
+        {else}
+            __MSG__THIS_USER_IS_NOT_A_MEMBER__
+        {/if}
+    --></div>
 
     <!-- Action bar -->
     <div id="mymemberships_actionbar" style="display:none;">
