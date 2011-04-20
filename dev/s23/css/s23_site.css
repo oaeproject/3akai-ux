@@ -97,6 +97,13 @@
 .s23_site_menu_item .icon-sakai-poll,.s23_site_menu_item .icon-sakai-sitestats{background-image:url(/library/image/silk/chart_bar.png)}
 .s23_site_menu_item .icon-sakai-siteinfo,.s23_site_menu_item .icon-sakai-sitesetup{background-image:url(/library/image/silk/application_lightning.png)}
 
+/* Tool Columns */
+.col1of2 
+{ width: 49%; float: left; }
+
+.col2of2
+{ width: 50%; float: right; }
+
 /* Iframe container */
 .s23_site #s23_site_iframe_container
 { margin: 1.6em 0 0 12.3em }

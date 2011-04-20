@@ -31,8 +31,8 @@
                         {if userlist_places_index%2} <li id="${i['sakai:group-id']}">
                         {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
-                        {if i.picture}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/~${i['sakai:group-id']}/public/profile/${i.picture.name}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                        {if i.pictureUrl}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
                         {else}
                             <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
                         {/if}
@@ -49,8 +49,8 @@
                         {if userlist_people_index%2} <li id="${i["rep:userId"]}">
                         {else} <li id="${i["rep:userId"]}" class="entity_content_even">
                         {/if}
-                        {if i.picture}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/~${i["rep:userId"]}/public/profile/${i.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                        {if i.pictureUrl}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                         {else}
                             <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                         {/if}
@@ -104,8 +104,8 @@
                         {var displayName = i["sakai:activity-actor"]}
                     {/if}
                     <li id="${i["jcr:name"]}">
-                    {if i.actorProfile && i.actorProfile.picture}
-                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/~${i.actorProfile["rep:userId"]}/public/profile/${i.actorProfile.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                    {if i.actorProfile && i.actorProfile.pictureUrl}
+                        <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="${i.actorProfile.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                     {elseif i.actorProfile && i.actorProfile["rep:userId"]}
                         <a href="/~${i.actorProfile["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
                     {else}
@@ -219,7 +219,7 @@
                             {if t.split("/")[0] !== "directory"}
                                 {if count > 0},{/if}
                                 {var count = count +1}
-                                <a href="/search#tag=/tags/${escape(t)}" class="s3d-action">${unescape(t)}</a>
+                                <a href="/search#tag=/tags/${encodeURIComponent(t)}" class="s3d-action">${unescape(t)}</a>
                             {/if}
                         {/for}
                     </div>
@@ -337,15 +337,17 @@
                                 {if data.profile.activity.total < 0}
                                     More than ${Math.abs(data.profile.activity.total)}
                                 {else}
-                                ${data.profile.activity.total}
+                                    <span id="entity_content_activity_count">${data.profile.activity.total}</span>
                                 {/if}
-                                {if data.profile.activity.total === 1}
-                                    __MSG__THING_HAS_HAPPENED__
-                                {else}
-                                    __MSG__THINGS_HAVE_HAPPENED__
-                                {/if}
+                                 <span id="entity_content_activity_count_text">
+                                    {if data.profile.activity.total === 1}
+                                        __MSG__THING_HAS_HAPPENED__
+                                    {else}
+                                        __MSG__THINGS_HAVE_HAPPENED__
+                                    {/if}
+                                </span>
                             {else}
-                            0 __MSG__THINGS_HAVE_HAPPENED__
+                            <span id="entity_content_activity_count">0</span> <span id="entity_content_activity_count_text">__MSG__THINGS_HAVE_HAPPENED__</span>
                             {/if}
                         </button>
                     </div>

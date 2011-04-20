@@ -68,7 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (url.match(/\\/)) {
                 slash = "\\";
             }
-            return url.substring(url.lastIndexOf(slash) + 1);
+            return decodeURIComponent(url.substring(url.lastIndexOf(slash) + 1));
         };
 
         /**

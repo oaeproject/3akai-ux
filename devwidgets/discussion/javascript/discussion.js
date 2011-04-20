@@ -203,18 +203,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parse the picture for a user
-         * @param {String} profile The profile for a user
-         * @param {String} uuid Uuid of the user
+         * @param {Object} profile The profile for a user
          */
-        var parsePicture = function(uuid, profile){
-            // Check if the picture is undefined or not
-            // The picture name will be undefined if the other user is in process of
-            // changing his/her picture
-            if (profile.picture && $.parseJSON(profile.picture).name) {
-                var picture = $.parseJSON(profile.picture);
-                return "/~" + uuid + "/public/profile/" + picture.name;
-            }
-            else {
+        var parsePicture = function(profile){
+            var picture = sakai.api.Util.constructProfilePicture(profile);
+            if (picture) {
+                return picture;
+            } else {
                 return "/dev/images/user_avatar_icon_32x32.png";
             }
         };
@@ -443,7 +438,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Get the user's firstName, lastName and picture if it's in the database
             var profile = post.profile[0];
             post.profile.fullName = parseName(uid, profile);
-            post.profile.picture = parsePicture(uid, profile);
+            post.profile.picture = parsePicture(profile);
 
             // Check if someone edited the post
             // post.sakai:editedbyprofiles is an array of objects that contain all the editers for this post.

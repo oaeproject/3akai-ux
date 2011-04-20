@@ -219,8 +219,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var item = $(this);
                     var pubDate = "";
                     var pubDateObj = new Date();
-                    if ($("pubDate",item).length > 0){
-                        pubDateObj = sakai.api.Util.parseRFC822Date($("pubDate",item).text());
+                    var dateText = $("pubDate",item).text().replace("  ", " ");
+                    if (dateText.length > 0){
+                        pubDateObj = sakai.api.Util.parseRFC822Date(dateText);
                         if (pubDateObj.valueOf()) {
                             // we have a valid date
                             pubDate = sakai.api.l10n.transformDateTimeShort(pubDateObj);
