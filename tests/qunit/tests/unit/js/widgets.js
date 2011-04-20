@@ -102,6 +102,9 @@ require(
         }, {
             "name": "defaultZoom",
             "type": "number"
+        }, {
+            "name": "indexFields",
+            "type": "object"
         }];
 
 
