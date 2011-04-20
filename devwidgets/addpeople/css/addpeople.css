@@ -1,0 +1,31 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/* General */
+#addpeople_container {width:750px; background-color:#f8f8f8; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;left:31%;padding:12px;left:41%;}
+#addpeople_container h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
+
+/* Containers */
+#addpeople_container #addpeople_my_contacts,#addpeople_container #addpeople_members_container {border: 1px solid #E7E7E7;float: left;height: 400px;margin-top: 30px;width: 49%;background-color:#fff;-moz-border-radius:0 2px 2px;-webkit-border-radius:0 2px 2px;border-radius:0 2px 2px;}
+#addpeople_container #addpeople_members_container {float:right;}
+
+/* Top tabs */
+#addpeople_container .addpeople_tab{background: url("/devwidgets/addpeople/images/addpeople_tab_bg.png") repeat-x scroll left top transparent;border: 1px solid #E7E7E7;border-bottom:none;display: inline;margin-left: -1px;margin-top:-29px;padding: 6px 17px 7px;position: absolute;}
+
+/* Actions */
+#addpeople_container #addpeople_actions {float:right;margin:12px 0 0;}
+#addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}

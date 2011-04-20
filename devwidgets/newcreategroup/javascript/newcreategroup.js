@@ -55,6 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupSuggestedURLBase = $("#newcreategroup_suggested_url_base");
     var $newcreategroupCanBeFoundIn = $("#newcreategroup_can_be_found_in");
     var $newcreategroupGroupMembership = $("#newcreategroup_membership");
+    var $newcreategroupAddPeople = $(".newcreategroup_add_people");
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form");
@@ -107,6 +108,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupSuggestedURL.bind("blur", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
+        });
+
+        $newcreategroupAddPeople.bind("click", function(){
+            $(window).trigger("init.addpeople.sakai");
         });
     };
 
