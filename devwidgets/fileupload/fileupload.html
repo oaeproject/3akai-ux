@@ -20,9 +20,7 @@
                     <p class="fileupload_main_option">__MSG__SELECT_ONE_OR_MORE_FILES__</p>
                     <div id="fileupload_limit_container"></div>
                 </form>
-                <p id="fileupload_add_link_option">__MSG__OR_LOWER__
-                    <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_add_link">__MSG__ADD_A_NEW_LINK__</button>
-                </p>
+                <p id="fileupload_add_link_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_add_link">__MSG__ADD_A_NEW_LINK__</button></p>
             </div>
             <div id="fileupload_rendered_tagging"></div>
         </div>
@@ -34,9 +32,7 @@
                     <p id="fileupload_link_input_container">
                         <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
                     </p>
-                    <p id="fileupload_upload_option">__MSG__OR_LOWER__
-                        <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_upload_file">__MSG__UPLOAD_A_NEW_FILE__</button>
-                    </p>
+                    <p id="fileupload_upload_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_upload_file">__MSG__UPLOAD_A_NEW_FILE__</button></p>
                 </div>
                 <div id="fileupload_rendered_tagging_link"></div>
             </form>
@@ -87,7 +83,7 @@
                     <select id="fileupload_permissions_select">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="group" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_GROUP__</option>
+                        <option value="private" selected="selected">__MSG__MANAGERS_AND_MEMBERS_OF_GROUP__</option>
                     </select>
                     {else}
                     <select id="fileupload_permissions_select">
@@ -97,11 +93,6 @@
                     </select>
                     {/if}
                 </div>
-                {else}
-                    <label for="fileupload_add_version_description" id="fileupload_add_version_description_label">
-                        __MSG__MESSAGE_OTHER_MANAGERS_REASON__
-                    </label>
-                    <textarea cols="50" rows="3" id="fileupload_add_version_description" value="" />
                 {/if}
             </div>
             <div class="dialog_buttons">

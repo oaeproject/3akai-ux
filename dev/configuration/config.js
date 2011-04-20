@@ -870,13 +870,16 @@ define(function(){
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_content_link",
-                "label": "CONTENT"
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
             }, {
                 "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS"
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
-                "label": "PEOPLE"
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -885,13 +888,16 @@ define(function(){
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_content_link",
-                "label": "CONTENT"
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
             }, {
                 "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS"
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
-                "label": "PEOPLE"
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
             }]
         }, {
             "url": "/dev/create_new_account2.html",

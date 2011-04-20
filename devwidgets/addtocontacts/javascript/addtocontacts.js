@@ -97,12 +97,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} user The JSON object containing the user info. This follows the /rest/me format.
          */
         var fillInUserInfo = function(user){
-            $(addToContactsInfoDisplayName).text(user.username);
-            // Check for picture
-            if (user.picture) {
-                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.picture + '" width="60" height="60" />');
-            } else {
-                $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
+            if (user) {
+                $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
+                user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+                // Check for picture
+                if (user.pictureLink) {
+                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.pictureLink + '" width="60" height="60" />');
+                } else {
+                    $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" width="60" height="60" />');
+                }
             }
         };
 

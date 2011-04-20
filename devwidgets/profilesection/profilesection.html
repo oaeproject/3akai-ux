@@ -120,7 +120,7 @@
     {var mode = sakai_global.profile.main.mode}
     {var stringtypes = ["string", "date", "email", "oldDate"]}
     {if mode.value === "edit"}
-        {if data}
+        {if data && config}
             <div class="profilesection_generalinfo_subcontainer">
                 {if !config.nolabel}
                     <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_${path.replace(/\./g,"_")}">${config.label}:</label>

@@ -148,8 +148,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getFromJCR = function() {
 
-            if (widgetData) {
-                renderMap(true, widgetData);
+            if (widgetData && widgetData.googlemaps) {
+                renderMap(true, widgetData.googlemaps);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                     renderMap(success, data);

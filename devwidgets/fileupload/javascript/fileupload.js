@@ -336,6 +336,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // always appear in upload file mode
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
+            $fileUploadLinkBoxInput.removeAttr("disabled");
 
             if (groupContext) {
                 renderGroupUpload();
@@ -520,6 +521,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "method": "POST",
                             "parameters": {
                                 "sakai:description": $fileUploadAddDescription.val(),
+                                "sakai:originalfilename": uploadedFiles[i].filename,
                                 "sakai:fileextension": uploadedFiles[i].filename.substring(uploadedFiles[i].filename.lastIndexOf("."), uploadedFiles[i].filename.length),
                                 "sakai:pooled-content-file-name": uploadedFiles[i].name,
                                 "sakai:directory": "default",
@@ -564,7 +566,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "parameters": {
                     "sakai:groupresource": true,
                     "sakai:directory": "default",
-                    "sakai:permissions": "group"
+                    "sakai:permissions": "private"
                 }
             };
             data[data.length] = properties;
@@ -805,7 +807,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         for (var file in uploadedFiles) {
                             if (uploadedFiles.hasOwnProperty(file)) {
                                 sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
-                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData);
+                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData, function(responseData, success){
+                                    if (success) {
+                                        // update the entity widget with the new activity
+                                        $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+                                    }
+                                });
                             }
                         }
 
@@ -863,6 +870,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        $("#fileupload_form_submit").die("click");
         $("#fileupload_form_submit").live("click", function(){
             if (type === "link") {
                 linkFormSubmit();
@@ -995,6 +1003,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          {String} contentPath The path to the existing content to add a new version to
          */
         $(window).bind("init.fileupload.sakai", function(ev, data){
+            type = "file";
             var contentPath = "";
             if (data) {
                 uploadingNewVersion = data.newVersion || false;

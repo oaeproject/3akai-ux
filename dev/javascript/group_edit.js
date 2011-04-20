@@ -69,7 +69,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var getGroupId = function(){
             if (querystring.contains("id")) {
-                return querystring.get("id");
+                return decodeURIComponent(escape(querystring.get("id")));
             }
             sakai.api.Security.send404();
             return false;
@@ -289,8 +289,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var addContent = function() {
-            renderItemLists('content');
+        var addContent = function(fileList) {
+            // set object properties to match those expected in the listpeople widget
+            for (var i in fileList.items) {
+                if (fileList.items.hasOwnProperty(i)) {
+                    fileList.items[i]["sling:resourceType"] = "sakai/pooled-content";
+                    fileList.items[i]["jcr:name"] = fileList.items[i].value;
+                    fileList.items[i]["jcr:mimeType"] = fileList.items[i].mimetype;
+                    fileList.items[i]["sakai:pooled-content-file-name"] = fileList.items[i].name;
+                }
+            }
+            // add new files to content lister
+            $(window).trigger("content.add.listpeople.sakai", {"list": fileList.items});
             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_content_text").text()),
                                              sakai.api.Security.saneHTML($("#group_edit_content_added_text").text()),
                                              sakai.api.Util.notification.type.INFORMATION);
@@ -518,7 +528,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(window).unbind("finished.contentpicker.sakai");
                     $(window).bind("finished.contentpicker.sakai", function(e, fileList) {
                         if (fileList.items.length) {
-                            addContent();
+                            addContent(fileList);
                         }
                     });
                 });

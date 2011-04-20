@@ -20,7 +20,7 @@
 
         {for i in comments}
             <div class="comments_topCommentBar">
-                <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.picture}" />
+                <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.pictureUrl}" />
                 <div class="comments_posterData">
                     <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
                     ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
@@ -131,7 +131,7 @@
             </ul>
 
         </div>
-        <div class="comments_settingsPart">
+        <div class="comments_settingsPart" style="display:none;">
             <h3>__MSG__PERMISSIONS__:</h3>
             <ul>
                 <li><input type="radio" name="comments_ChoosePermissionComments" value="comments_RequireLogIn" id="comments_RequireLogInID" Name="comments_RequireLogIn">
