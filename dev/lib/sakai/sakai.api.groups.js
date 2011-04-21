@@ -598,19 +598,24 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          */
         addUsersToGroup : function(groupID, list, users, callback) {
             var reqData = [];
-
-            if (list === 'managers') {
-                groupID = groupID + '-managers';
-            }
+            var managerGroupID = groupID + '-managers';
 
             // Construct the batch requests
             $.each(users, function(index, user) {
-                if (user) {
+                if (user.permission == "manager" || list == "managers") {
+                    reqData.push({
+                        "url": "/system/userManager/group/" + managerGroupID + ".update.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":member": user.user
+                        }
+                    });
+                } else {
                     reqData.push({
                         "url": "/system/userManager/group/" + groupID + ".update.json",
                         "method": "POST",
                         "parameters": {
-                            ":member": user
+                            ":member": user.user
                         }
                     });
                 }

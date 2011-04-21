@@ -24,8 +24,22 @@
 #addpeople_container #addpeople_members_container {float:right;}
 
 /* Top tabs */
-#addpeople_container .addpeople_tab{background: url("/devwidgets/addpeople/images/addpeople_tab_bg.png") repeat-x scroll left top transparent;border: 1px solid #E7E7E7;border-bottom:none;display: inline;margin-left: -1px;margin-top:-29px;padding: 6px 17px 7px;position: absolute;}
+#addpeople_container .addpeople_tab {background: url("/devwidgets/addpeople/images/addpeople_tab_bg.png") repeat-x scroll left top transparent;border: 1px solid #E7E7E7;border-bottom:none;display: inline;margin-left: -1px;margin-top:-29px;padding: 6px 17px 7px;position: absolute;}
+#addpeople_container #addpeople_members_container .addpeople_tab {width:333px;border-bottom:1px solid #E7E7E7;}
+
+/* Contacts list */
+#addpeople_container #addpeople_contacts_container, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin:7px 12px 0 0;overflow:auto;height:90%;}
+#addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {margin:7px 12px 0 10px;}
+#addpeople_container #addpeople_select_all_contacts {margin-bottom: 6px;}
+#addpeople_container .addpeople_checkbox, #addpeople_container .addpeople_selected_checkbox {float:left;margin-right:12px;margin-top:10px;}
+#addpeople_container ul {margin:5px 0 0;}
+#addpeople_container ul hr {border:none;border-top:1px solid #E7E7E7;background:none;}
+#addpeople_container .s3d-list-entity-picture {cursor:pointer;}
+
+/* Selected contacts list */
+#addpeople_container select {border:1px solid #e7e7e7;float:right;margin:5px 20px 0 0;}
 
 /* Actions */
+#addpeople_container .addpeople_top_actions {margin-top:7px;}
 #addpeople_container #addpeople_actions {float:right;margin:12px 0 0;}
 #addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}

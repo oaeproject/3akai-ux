@@ -43,7 +43,109 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        // Containers
         var $addpeopleContainer = $("#addpeople_container");
+        var $addpeopleContactsContainer = $("#addpeople_contacts_container");
+        var $addpeopleSelectedContactsContainer = $("#addpeople_selected_contacts_container");
+
+        // Templates
+        var addpeopleContactsTemplate = "addpeople_contacts_template";
+        var addpeopleSelectedContactsTemplate = "addpeople_selected_contacts_template";
+
+        // Elements
+        var $addpeopleSelectAllContacts = $("#addpeople_select_all_contacts");
+        var addpeopleCheckbox = ".addpeople_checkbox";
+        var addpeopleSelectedCheckbox = ".addpeople_selected_checkbox";
+        var addpeopleSelectedPermissions = ".addpeople_selected_permissions";
+        var $addpeopleSelectedAllPermissions = $("#addpeople_selected_all_permissions");
+        var $addpeopleSelectAllSelectedContacts = $("#addpeople_select_all_selected_contacts");
+        var $addpeopleFinishAdding = $(".addpeople_finish_adding");
+
+        var selectedUsers = {};
+
+
+        ///////////////
+        // RENDERING //
+        ///////////////
+
+        var renderContacts = function(){
+            $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {"contacts":sakai.data.me.mycontacts, "sakai":sakai}));
+        };
+
+        var renderSelectedContacts = function(){
+            $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {"contacts":selectedUsers}));
+        };
+
+
+        /////////////
+        // UTILITY //
+        /////////////
+
+        var finishAdding = function(){
+            $(window).trigger("sakai.addpeople.usersselected", selectedUsers);
+            $addpeopleContainer.jqmHide();
+        }
+
+        /**
+         * Check/Uncheck all items in the list and enable/disable buttons
+         */
+        var checkAll = function(el, peopleContainer){
+            if($(el).is(":checked")){
+                $(peopleContainer).attr("checked","checked");
+                $(peopleContainer).change();
+                if (peopleContainer != addpeopleSelectedCheckbox) {
+                    renderSelectedContacts();
+                }
+            }else{
+                $(peopleContainer).removeAttr("checked");
+                if (peopleContainer != addpeopleSelectedCheckbox) {
+                    selectedUsers = {};
+                    renderSelectedContacts();
+                    $addpeopleSelectAllSelectedContacts.removeAttr("checked");
+                }
+            }
+        };
+
+        var constructSelecteduser = function(){
+            $addpeopleSelectAllSelectedContacts.removeAttr("checked");
+            if ($(this).is(":checked")) {
+                if (!selectedUsers[$(this)[0].id.split("_")[0]]) {
+                    var userObj = {
+                        userid: $(this)[0].id.split("_")[0],
+                        name: $(this).nextAll(".s3d-entity-displayname").text(),
+                        permission: "viewer",
+                        picture: $(this).next().children("img").attr("src")
+                    }
+                    selectedUsers[userObj.userid] = userObj;
+                    renderSelectedContacts();
+                }
+            }else{
+                delete selectedUsers[$(this)[0].id.split("_")[0]];
+                renderSelectedContacts();
+                $addpeopleSelectAllSelectedContacts.removeAttr("checked");
+                $addpeopleSelectAllContacts.removeAttr("checked");
+            }
+        };
+
+        /**
+         * Batch change the permission setting for a specific selection of users
+         */
+        var changeSelectedPermission = function(){
+            var selectedPermission = $(this).val();
+            $.each($addpeopleSelectedContactsContainer.find("input:checked"), function(index, item){
+                $(item).nextAll("select").val(selectedPermission);
+                selectedUsers[$(item)[0].id.split("_")[0]].permission = selectedPermission;
+            });
+            debug.log(selectedUsers);
+        };
+
+        /**
+         * Change the permission setting for a specific user
+         */
+        var changePermission = function(){
+            var userid = $(this)[0].id.split("_")[0];
+            selectedUsers[userid].permission = $(this).val();
+        };
 
 
         ////////////////////
@@ -68,16 +170,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "top": htmlScrollPos + 100 + "px"
                 });
             } else if (docScrollPos > 0) {
-                    $addpeopleContainer.css({
-                        "top": docScrollPos + 100 + "px"
-                    });
-                }
+                $addpeopleContainer.css({
+                    "top": docScrollPos + 100 + "px"
+                });
+            }
             $addpeopleContainer.jqmShow();
         };
 
-        var initialize = function(){
-            initializeJQM();
-        }
+        var addBinding = function(){
+            // Unbind all
+            $(addpeopleCheckbox).die("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions).die("change", changePermission);
+            $addpeopleFinishAdding.unbind("click", finishAdding);
+
+            // Bind all
+            $addpeopleSelectAllContacts.bind("click", function(){
+                checkAll(this, addpeopleCheckbox);
+            });
+            $addpeopleSelectAllSelectedContacts.bind("click", function(){
+                checkAll(this, addpeopleSelectedCheckbox);
+            });
+            $addpeopleSelectedAllPermissions.bind("change", changeSelectedPermission)
+            $(addpeopleCheckbox).live("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions).live("change", changePermission);
+            $addpeopleFinishAdding.bind("click", finishAdding);
+        };
 
 
         ////////////
@@ -85,7 +202,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         $(window).bind("init.addpeople.sakai", function(e, data){
-            initialize();
+            addBinding();
+            initializeJQM();
+            sakai.api.User.getContacts(renderContacts);
         });
     };
 
