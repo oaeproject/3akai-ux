@@ -25,7 +25,7 @@
 .mylibrary_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0 10px;height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
-.mylibrary_item {color:#333;}
+.mylibrary_item {color:#333;padding:10px 0; border-bottom:1px solid #DDDDDD;}
 .mylibrary_item img {float: left;padding: 0 10px 5px 0;width: 40px;}
 .mylibrary_name_div {color:#878A8C; width:50%; overflow:hidden;}
 .mylibrary_details {font-size:0.9em;}
