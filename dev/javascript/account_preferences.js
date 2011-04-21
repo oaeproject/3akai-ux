@@ -181,7 +181,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {String} languageCode: ISO3 code of the language
          */
         var selectLanguage= function(countrycode, languageCode){
-            $(languagesContainer + " option[value=" + languageCode + "_" + countrycode + "]").attr("selected", true);
+            $(languagesContainer + " option[value='" + languageCode + "_" + countrycode + "']").attr("selected", true);
         };
 
         /**
@@ -189,7 +189,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {String} timezone: timezone
          */
         var selectTimezone= function(timezone){
-            $(timezonesContainer + " option[value=" + timezone.name + "]").attr("selected", true);
+            $(timezonesContainer + " option[value='" + timezone.name + "']").attr("selected", true);
         };
 
         /**

@@ -223,7 +223,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function(){
             var id = $.bbq.getState("location");
             renderDirectories(id);
+//<<<<<<< HEAD
+//            $(window).trigger("hashchange", initiallySelect);
+//=======
             $(window).trigger("hashchange", id);
+//>>>>>>> 0608cce984c3eb4d1781d218b2196771b5cba4bd
         };
 
         doInit();

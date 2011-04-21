@@ -1,0 +1,12 @@
+{
+    "description": "My Content",
+    "i18n": {
+        "default": "/devwidgets/content/bundles/default.properties"
+    },
+    "id": "content",
+    "name": "content",
+    "personalportal":false,
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/content/content.html",
+}

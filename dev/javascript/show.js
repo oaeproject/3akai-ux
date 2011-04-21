@@ -87,8 +87,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         newdata["authprofile"] = data;
                         data = newdata;
                         entityType = "group";
+                        if (document.location.pathname.substring(0, 2) === "/~"){
+                            document.location = "/dev/group.html?id=" + document.location.pathname.substring(2);
+                            return;
+                        }
                     } else {
                         entityType = "user";
+                        if (entityID === sakai.data.me.user.userid) {
+                            document.location = "/dev/me.html";
+                            return;
+                        } else {
+                            document.location = "/dev/user.html?id=" + entityID;
+                            return;
+                        }
                     }
                     sakai_global.show.type = entityType;
                     sakai_global.show.id = entityID;
@@ -282,10 +293,29 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(window).trigger("render.entity.sakai", [whichprofile, data]);
                     break;
                 case "group":
-                    $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
+
+                    loadGroupEntityWidget();
                     break;
+
             }
         };
+
+        var loadGroupEntityWidget = function(){
+            var context = "group";
+            var type = "group";
+            if (sakai_global.show.canEdit()){
+                type = "group_managed";
+            }
+            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);
+        };
+
+        $(window).bind("sakai.entity.ready", function(){
+            loadGroupEntityWidget();
+        });
+
+        $("#entity_manage_group").live("click", function(){
+            document.location = "/dev/group_edit2.html?id=" + entityID;
+        });
 
         var loadPagesWidget = function(){
             renderedPagesWidget = true;

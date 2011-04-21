@@ -20,12 +20,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.content_profile = function(){
 
+        var previous_content_path = false;
         var content_path = ""; // The current path of the content
         var ready_event_fired = 0;
         var list_event_fired = false;
         var tooltip_opened = false;
         var intervalId;
 
+        var showPreview = true;
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -41,6 +43,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
             // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
+
+            if (content_path && document.location.pathname === "/content"){
+                document.location = "/dev/content_profile2.html#content_path=" + content_path;
+                return;
+            }
 
             if (content_path) {
 
@@ -94,14 +101,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
-                            if (data.results[0].status === 404){
+                            if (data.results[0]["status"] === 404){
                                 sakai.api.Security.send404();
                                 return;
-                            } else if (data.results[0].stats === 403){
+                            } else if (data.results[0]["status"] === 403){
                                 sakai.api.Security.send403();
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
+                                debug.log("1 => " + contentInfo.structure0);
+                                if (contentInfo["sakai:custom-mimetype"] && contentInfo["sakai:custom-mimetype"] === "x-sakai/document"){
+                                    showPreview = false;
+                                } else {
+                                    switchToOneColumnLayout(false);
+                                }
                             }
                         }
 
@@ -113,7 +126,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.viewers[index].basic.hasOwnProperty("elements") &&
                                     contentMembers.viewers[index].basic.elements.hasOwnProperty("picture") &&
                                     contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                    contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
+                                        contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
                                 }
                             });
                             contentMembers.managers = contentMembers.managers || {};
@@ -122,7 +135,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.managers[index].basic.hasOwnProperty("elements") &&
                                     contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
                                     contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
-                                    contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
+                                        contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
                                 }
                             });
                         }
@@ -141,6 +154,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         var manager = false;
+                        var viewer = false;
                         var anon = true;
                         var groups = [];
                         if (!sakai.data.me.user.anon){
@@ -159,6 +173,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     }
                                 }
                             }
+                            for (var jj in contentMembers.viewers) {
+                                if (contentMembers.viewers.hasOwnProperty(jj)) {
+                                    if (contentMembers.viewers[jj].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.viewers[jj]["rep:userId"] === sakai.data.me.user.userid) {
+                                            viewer = true;
+                                        }
+                                    } else if (contentMembers.viewers[jj].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.viewers[jj]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            viewer = true;
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         var directory = [];
@@ -169,9 +198,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         var fullPath = content_path + "/" + encodeURIComponent(contentInfo["sakai:pooled-content-file-name"]);
-                        //if (contentInfo["sakai:pooled-content-file-name"].substring(contentInfo["sakai:pooled-content-file-name"].lastIndexOf("."), contentInfo["sakai:pooled-content-file-name"].length) !== contentInfo["sakai:fileextension"]) {
-                        //    fullPath += contentInfo["sakai:fileextension"];
-                        //}
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
@@ -181,6 +207,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                             return false;
                         });
+
+                        contentMembers.counts = { people: 0, groups: 0};
+                        $.each(contentMembers.viewers.concat(contentMembers.managers), function(i, member) {
+                            if (member.hasOwnProperty("userid")) {
+                                contentMembers.counts.people++;
+                            } else {
+                                contentMembers.counts.groups++;
+                            }
+                        });
+
+                        var mimeType = sakai.api.Content.getMimeType(contentInfo);
+                        if (sakai.config.MimeTypes[mimeType]) {
+                            contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
+                        } else {
+                            contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
+                        }
 
                         if (ignoreActivity && sakai_global.content_profile && sakai_global.content_profile.content_data){
                             contentActivity = sakai_global.content_profile.content_data.activity;
@@ -197,7 +239,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
-                            isManager: manager
+                            content_path: content_path,
+                            isManager: manager,
+                            isViewer: viewer
                         };
 
                         sakai_global.content_profile.content_data = json;
@@ -205,6 +249,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
+                        initEntityWidget();
+
+                        if (!showPreview){
+                            renderSakaiDoc(contentInfo);
+                        }
+
                     }
                 });
 
@@ -213,55 +263,85 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var initEntityWidget = function(){
+            var context = "content";
+            if (sakai.data.me.user.anon){
+                type = "content_anon";
+            } else if (sakai_global.content_profile.content_data.isManager){
+                type = "content_managed";
+            } else if (sakai_global.content_profile.content_data.isViewer){
+                type = "content_shared";
+            } else {
+                type = "content_not_shared";
+            }
+            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data]);
+        };
+
+        $(window).bind("sakai.entity.ready", function(){
+            initEntityWidget();
+        });
+
         $(window).bind("load.content_profile.sakai", function(e, callback) {
             loadContentProfile(callback);
         });
 
         var handleHashChange = function() {
             content_path = $.bbq.getState("content_path") || "";
-            loadContentProfile(function() {
-                // The request was successful so initialise the entity widget
-                if (sakai_global.entity && sakai_global.entity.isReady) {
-                    $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                } else {
-                    $(window).bind("ready.entity.sakai", function(e){
+            if (content_path != previous_content_path) {
+                previous_content_path = content_path;
+                globalPageStructure = false;
+                loadContentProfile(function(){
+                    // The request was successful so initialise the entity widget
+                    if (sakai_global.entity && sakai_global.entity.isReady) {
                         $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the relatedcontent widget
-                if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
-                    $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
-                } else {
-                    $(window).bind("ready.relatedcontent.sakai", function(e){
+                    }
+                    else {
+                        $(window).bind("ready.entity.sakai", function(e){
+                            $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
+                            ready_event_fired++;
+                        });
+                    }
+                    // The request was successful so initialise the relatedcontent widget
+                    if (sakai_global.relatedcontent && sakai_global.relatedcontent.isReady) {
                         $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the relatedcontent widget
-                if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
-                    $(window).trigger("start.contentpreview.sakai");
-                } else {
-                    $(window).bind("ready.contentpreview.sakai", function(e){
-                        $(window).trigger("start.contentpreview.sakai");
-                        ready_event_fired++;
-                    });
-                }
-                // The request was successful so initialise the metadata widget
-                if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
-                    $(window).trigger("render.contentmetadata.sakai");
-                } else {
-                    $(window).bind("ready.contentmetadata.sakai", function(e){
+                    }
+                    else {
+                        $(window).bind("ready.relatedcontent.sakai", function(e){
+                            $(window).trigger("render.relatedcontent.sakai", sakai_global.content_profile.content_data);
+                            ready_event_fired++;
+                        });
+                    }
+                    // The request was successful so initialise the relatedcontent widget
+                    if (sakai_global.contentpreview && sakai_global.contentpreview.isReady) {
+                        if (showPreview) {
+                            $(window).trigger("start.contentpreview.sakai");
+                        }
+                    }
+                    else {
+                        $(window).bind("ready.contentpreview.sakai", function(e){
+                            if (showPreview) {
+                                $(window).trigger("start.contentpreview.sakai");
+                                ready_event_fired++;
+                            }
+                        });
+                    }
+                    // The request was successful so initialise the metadata widget
+                    if (sakai_global.contentmetadata && sakai_global.contentmetadata.isReady) {
                         $(window).trigger("render.contentmetadata.sakai");
-                        ready_event_fired++;
-                    });
-                }
+                    }
+                    else {
+                        $(window).bind("ready.contentmetadata.sakai", function(e){
+                            $(window).trigger("render.contentmetadata.sakai");
+                            ready_event_fired++;
+                        });
+                    }
 
-                sakai.api.Security.showPage();
+                    sakai.api.Security.showPage();
 
-                // rerender comments widget
-                $(window).trigger("content_profile_hash_change");
-            });
+                    // rerender comments widget
+                    $(window).trigger("content_profile_hash_change");
+                });
+            }
         };
 
         /**
@@ -276,6 +356,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var notificationType = sakai.api.Security.saneHTML($("#content_profile_viewers_text").text());
             var reqData = [];
             $.each(users.toAdd, function(index, user){
+                user = user.split("/")[1] || user;
                 // set the default data value to tuid=='viewer' and task=='add'
                 var data = {
                     ":viewer": user
@@ -341,6 +422,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (task === 'add') {
                             sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + users.toAddNames.toString().replace(/,/g, ", "));
                             loadContentProfile(function(){
+                                $(window).trigger("membersadded.content.sakai");
                                 $(window).trigger("render.entity.sakai", ["content", sakai_global.content_profile.content_data]);
                             }, true);
                             // record that user shared content
@@ -398,6 +480,41 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             addRemoveUsers(peopleList.mode, peopleList, 'add');
         });
 
+        $("#entity_content_permissions").live("click", function(){
+            var pl_config = {
+                "title": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
+                "URL": sakai_global.content_profile.content_data.url + "/" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
+            };
+
+            $(window).trigger("init.contentpermissions.sakai", pl_config, function(people){});
+
+            return false;
+        });
+
+        $("#entity_content_share").live("click", function(){
+
+            $(window).trigger("init.sharecontent.sakai");
+
+            // display help tooltip
+            var tooltipData = {
+                "tooltipSelector":"#sharecontent_add_people",
+                "tooltipTitle":"TOOLTIP_SHARE_CONTENT",
+                "tooltipDescription":"TOOLTIP_SHARE_CONTENT_P4",
+                "tooltipArrow":"bottom",
+                "tooltipTop":3,
+                "tooltipLeft":120
+            };
+            $(window).trigger("update.tooltip.sakai", tooltipData);
+
+            return false;
+        });
+
+        $("#entity_content_add_to_library").live("click", function(){
+            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(){
+                $("#entity_content_add_to_library").hide();
+                sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
+            });
+        });
 
         ////////////////////
         // Initialisation //
@@ -416,6 +533,114 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             checkShareContentTour();
         };
+
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+
+        var globalPageStructure = false;
+
+        var generateNav = function(pagestructure){
+            if (pagestructure) {
+                $(window).trigger("lhnav.init", [pagestructure, {}, {
+                    isEditMode: sakai_global.content_profile.content_data.isManager,
+                    parametersToCarryOver: {
+                        "content_path": sakai_global.content_profile.content_data.content_path
+                    }
+                }, sakai_global.content_profile.content_data.content_path]);
+                $(window).trigger("lhnav.addHashParam", [{
+                    "content_path": sakai_global.content_profile.content_data.content_path
+                }]);
+            }
+        };
+
+        $(window).bind("lhnav.ready", function(){
+            generateNav(globalPageStructure);
+        });
+
+        var getPageCount = function(pagestructure){
+            var pageCount = 0;
+            for (var tl in pagestructure["structure0"]){
+                if (pagestructure["structure0"].hasOwnProperty(tl)){
+                    pageCount++;
+                    if (pageCount >= 3){
+                        return 3;
+                    }
+                    for (var ll in pagestructure["structure0"][tl]){
+                        if (ll.substring(0,1) !== "_"){
+                            pageCount++;
+                            if (pageCount >= 3){
+                                return 3;
+                            }
+                        }
+                    }
+                }
+            }
+            return pageCount;
+        };
+
+        $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
+            switchToTwoColumnLayout(true);
+        });
+        
+        $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
+            switchToOneColumnLayout(true);
+        });
+
+        var renderSakaiDoc = function(pagestructure){
+            pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
+            if (getPageCount(pagestructure) >= 3){
+                switchToTwoColumnLayout(true);
+            } else {
+                switchToOneColumnLayout(true);
+            }
+            globalPageStructure = pagestructure;
+            generateNav(pagestructure);
+        };
+
+        var switchToTwoColumnLayout = function(isSakaiDoc){
+            $("#content_profile_left_column").show();
+            $("#content_profile_main_container").addClass("s3d-twocolumn");
+            $("#content_profile_right_container").addClass("s3d-page-column-right");
+            $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_metacomments").removeClass("fl-container-650");
+            $("#content_profile_right_metacomments").addClass("fl-container-500");
+            if (isSakaiDoc){
+                $("#content_profile_preview_container").hide();
+                $("#content_profile_sakaidoc_container").show();
+            } else {
+                $("#content_profile_preview_container").show();
+                $("#content_profile_sakaidoc_container").hide();
+            }
+        };
+
+        var switchToOneColumnLayout = function(isSakaiDoc){
+            $("#content_profile_left_column").hide();
+            $("#content_profile_main_container").removeClass("s3d-twocolumn");
+            $("#content_profile_right_container").removeClass("s3d-page-column-right");
+            $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
+            $("#content_profile_right_metacomments").addClass("fl-container-650");
+            $("#content_profile_right_metacomments").removeClass("fl-container-500");
+            if (isSakaiDoc){
+                $("#content_profile_preview_container").hide();
+                $("#content_profile_sakaidoc_container").show();
+            } else {
+                $("#content_profile_preview_container").show();
+                $("#content_profile_sakaidoc_container").hide();
+            }
+        };
+
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        // Temporarily deal with pages as documents here //
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
 
         // Initialise the content profile page
         init();

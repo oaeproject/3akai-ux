@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
                 }
             }
-            $(relatedcontentContainer).html(sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData));
+            sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
             $(relatedcontentContainer).show();
         };
 
@@ -80,6 +80,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} term The search term that needs to be converted.
          */
         var prepSearchTermForURL = function(term) {
+            // Filter out http:// as it causes the search feed to break
+            term = term.replace(/http:\/\//ig, "");
             // taken this from search_main until a backend service can get related content
             var urlterm = "";
             var split = $.trim(term).split(/\s/);
@@ -150,6 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: ajaxSuccess,
                 error: ajaxError
             });
+            
         };
 
 

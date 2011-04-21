@@ -25,17 +25,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     $(window).bind("ready.login.sakai", function(e) {
         $(window).trigger("render.login.sakai", true);
     });
-
-    //////////
-    // Chat //
-    //////////
-
-    /*
-     * The chat bar keeps a cookie during your session that remembers which
-     * chat windows were open or active, so that state can be restored across
-     * all of the pages. When we have reached this page, it means that our
-     * session has ended and we can remove this cookie.
-     */
-    $.cookie('sakai_chat','');
+    
+    window.location = "/dev/directory2.html";
 
 });

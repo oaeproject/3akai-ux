@@ -1,0 +1,100 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/contentpermissions/css/contentpermissions.css" />
+<div id="contentpermissions_container" style="display:none" class="dialog">
+    <div id="contentpermissions_container_header" class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>__MSG__CONTENT_PERMISSIONS__</h1>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">
+                __MSG__CLOSE_DIALOG__
+            </button>
+        </div>
+    </div>
+    <div id="contentpermissions_content_container" class="dialog_content"><!----></div>
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner">
+            <!-- -->
+        </div>
+    </div>
+</div>
+
+<div id="contentpermissions_content_template"><!--
+    <div class="contentpermissions_content_section">
+        <label class="s3d-bold" for="contentpermissions_global_permissions">__MSG__CAN_BE_FOUND_BY__</label>
+        <select id="contentpermissions_global_permissions">
+            <option value="public" {if contentdata.data["sakai:permissions"] == "public"} selected="selected"{/if}}>__MSG__PUBLIC__</option>
+            <option value="everyone" {if contentdata.data["sakai:permissions"] == "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+            <option value="private" {if contentdata.data["sakai:permissions"] == "private"} selected="selected"{/if}>__MSG__SELECTED_PEOPLE_GROUPS__</option>
+        </select>
+    </div>
+    <div class="contentpermissions_content_section contentpermissions_content_section_no_bottom_borders">
+        <label class="s3d-bold">__MSG__CAN_SEE_OR_EDIT__</label>
+        <input id="contentpermissions_members_autosuggest"/>
+        <div id="contentpermissions_members_message_container" style="display:none;">
+            <textarea id="contentpermissions_members_message"></textarea>
+            <select id="contentpermissions_newmember_permissions">
+                <option value="managers">__MSG__CAN_EDIT__</option>
+                <option value="viewers">__MSG__CAN_VIEW__</option>
+            </select>
+            <button type="button" class="s3d-button fl-force-right" id="contentpermissions_share_button">
+                <span class="s3d-button-inner">__MSG__SHARE__</span>
+            </button>
+            <hr class="fl-push fl-hidden"/>
+        </div>
+    </div>
+    <div id="contentpermission_members_container">
+        <div id="contentpermissions_members_actions">
+            <select id="contentpermissions_newmember_all_permissions">
+                <option value="manager">__MSG__CAN_EDIT__</option>
+                <option value="viewer">__MSG__CAN_VIEW__</option>
+            </select>
+            <input type="checkbox" id="contentpermissions_newmember_checkall"/>
+            <button id="contentpermissions_remove_button" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
+            </button>
+            <button id="contentpermissions_message_button" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+            </button>
+        </div>
+        <div id="contentpermissions_members_list">
+            <ul>
+                {for memberArr in contentdata.members}
+                    {if memberArr_index == "managers" || memberArr_index == "viewers"}
+                        {for member in memberArr}
+                            <li id="member_${member.userid}">
+                                <select class="contentpermissions_member_permissions">
+                                    <option value="manager" {if memberArr_index == "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+                                    <option value="viewer" {if memberArr_index == "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
+                                </select>
+                                <input type="checkbox" id="select_${member.userid}" class="${memberArr_index}">
+                                <label for="select_${member.userid}">
+                                    <img src="/dev/images/default_profile_picture_32.png" alt="__MSG__USER_PICTURE__"/>
+                                    <a href="/~${member.userid}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
+                                </label>
+                            </li>
+                        {/for}
+                    {/if}
+                {/for}
+            </ul>
+        </div>
+    </div>
+    <div id="contentpermissions_save_actions">
+        <button type="button" class="s3d-button fl-force-right" id="contentpermissions_save_and_close_button">
+            <span class="s3d-button-inner">__MSG__SAVE_AND_CLOSE__</span>
+        </button>
+        <button type="button" class="s3d-link-button s3d-bold" id="contentpermissions_cancel_button">__MSG__CANCEL__</button>
+    </div>
+    <hr class="fl-push fl-hidden"/>
+--></div>
+
+<div id="contentpermissions_share_message_template" style="display:none;"><!--
+ __MSG__HI__
+
+ __MSG__I_WOULD_LIKE_TO_SHARE_FILENAME_WITH_YOU__
+ __MSG__YOU_CAN_FIND_IT_ON__
+
+ __MSG__REGARDS__,
+ __MSG__USER__
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/contentpermissions/javascript/contentpermissions.js"/>

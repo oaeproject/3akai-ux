@@ -125,6 +125,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // Parse the picture of the friend
                         friend.photo = parsePicture(friend.profile);
+                        
+                        // Contact type
+                        friend.type = friend.details["sakai:types"];
 
                         // Add the friend to the array
                         jsonFriends.items.push(friend);

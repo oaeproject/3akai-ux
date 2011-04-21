@@ -836,7 +836,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_accept_invitation").live("click", function(ev){
-            sakai.api.User.acceptContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+            sakai.api.User.acceptContactInvite(selectedMessage["sakai:from"], function(success) {
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
@@ -853,7 +853,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_ignore_invitation").live("click", function(ev){
-            sakai.api.User.ignoreContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+            sakai.api.User.ignoreContactInvite(selectedMessage["sakai:from"], function(success) {
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();

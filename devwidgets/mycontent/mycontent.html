@@ -4,9 +4,6 @@
 <div class="mycontent_widget">
     <div class="fl-widget-content s3d-widget-content">
         <!-- ERRORS -->
-        <div id="mycontent_nocontent" style="display:none;">
-            <p class="mycontent_error_msg">__MSG__NO_CONTENT__ | <a href="" class="s3d-regular-links s3d-bold upload_link">__MSG__ADD_CONTENT__</a></p>
-        </div>
         <div id="mycontent_data_error" style="display:none;">
             <p class="mycontent_error_msg">__MSG__DATA_ERROR__</p>
         </div>
@@ -15,28 +12,47 @@
         <div id="mycontent_list" style="display:none;"><!-- TEMPLATE GOES HERE --></div>
 
         <div id="mycontent_list_template"><!--
-            {var i = 0}
             {for item in items}
-                {eval} i++; {/eval}
-                <div class="mycontent_item{if i % 2 == 0} s3d-highlight_area_background{/if}">
+                <div class="mycontent_item{if item_index % 2 == 1} s3d-highlight_area_background{/if}">
                     <div class="mycontent_item_img fl-force-left">
-                        <span class="mycontent_item_mime ${item.css_class}"></span>
+                        {var mimeType = sakai.api.Content.getMimeType(item)}
+                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                        <a href="/content#content_path=/p/${item['jcr:name']}" title="${item['sakai:pooled-content-file-name']}">
+                            {if thumbnail}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                            {elseif (mimeType.substring(0,6)=="image/")}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${item.path}" alt="${mimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[mimeType]}
+                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                            {else}
+                                {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                            {/if}
+                        </a>
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
-                            <a class="mycontent_item_link s3d-regular-links" href="/content#content_path=${item.path}">
+                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}">
                                 ${item.name}
                             </a>
                         </p>
                         <p class="mycontent_item_meta">${item.type}{if item.type !== "URL Link"}{if item.size} ${item.size}{/if}{/if}</p>
                     </div>
                 </div>
+            {forelse}
+                <div id="mycontent_no_content_wrap">
+                    <button class="s3d-button s3d-button-link-2-state add_content_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
+                    <span class="mycontent_no_content">__MSG__ADD_CONTENT_INSTRUCTIONS__</span>
+                </div>
             {/for}
         --></div>
     </div>
 
     <!-- WIDGET FOOTER -->
-    <div class="fl-widget-options fl-fix">
+    <!-- <div class="fl-widget-options fl-fix">
         <div class="fl-widget-options-footer-top">
             <div class="fl-widget-options-top-right"></div>
         </div>
@@ -55,12 +71,11 @@
             <div class="s3d-widget-options-footer-right">
             </div>
         </div>
+    </div> -->
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
     </div>
 
-    <!-- Upload Content Widget Container -->
-    <div id="fileupload_container" style="display:none;">
-        <div id="widget_fileupload" class="widget_inline"></div>
-    </div>
 </div>
 
 <!-- JAVASCRIPT -->

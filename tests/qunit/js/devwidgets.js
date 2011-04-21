@@ -44,6 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "comments",
         "contentcomments",
         "contentmetadata",
+        "contentpermissions",
         "contentpicker",
         "contentpreview",
         "creategroup",
@@ -76,6 +77,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "mysakai2",
         "navigation",
         "nextleveldown",
+        "newcreategroup",
+        "newsharecontent",
+        "newaddcontent",
         "nodecontentarea",
         "pickeradvanced",
         "pickeruser",
@@ -124,7 +128,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     widgetHTML = false;
                 $.ajax({
                     url: "/devwidgets/" + widgetName + "/config.json",
-                    async: false,
                     type: "json",
                     success: function(data) {
                         try {

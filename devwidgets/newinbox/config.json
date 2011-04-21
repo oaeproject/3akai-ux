@@ -1,0 +1,13 @@
+{
+    "description": "Inbox",
+    "i18n": {
+        "default": "/devwidgets/newinbox/bundles/default.properties"
+    },
+    "id": "newinbox",
+    "name": "newinbox",
+    "personalportal":false,
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/newinbox/newinbox.html",
+    "hashParams": ["message", "newmessage", "reply"]
+}

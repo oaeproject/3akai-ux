@@ -1,0 +1,29 @@
+#mymemberships_actionbar {height:13px;padding:5px 0 10px;}
+#mymemberships_actionbar, .mymemberships_item {border-bottom:1px solid #DDDDDD;}
+#mymemberships_sortarea {float:right;}
+#mymemberships_items {margin:0;}
+#mymemberships_items li.mymemberships_item {list-style:none outside none;
+    padding:10px 10px 0;}
+.mymemberships_imagearea {float:left;height:45px;width:50px;}
+.mymemberships_edit_link {position:relative;top:-13px;left:0;}
+.mymemberships_info {float:left;width:650px;}
+.mymemberships_info_line {margin:3px 0 0;}
+.mymemberships_itemtitle {font-weight:bold;color:#006E96;}
+.mymemberships_item_desc {margin-bottom:5px;}
+#mymemberships_nogroups {text-align:center;font-style:italic;color:#aaa;}
+#mymemberships_joinrequestbuttons {float:right;}
+.mymemberships_message_btn {float:left;margin-bottom:10px;}
+.mymemberships_hover_details {color:#888888;font-weight:bold;}
+.mymemberships_hover_top {padding:10px 10px 0;border-bottom:1px solid #EAEBEC;}
+.mymemberships_group_participants {padding:0 10px;width:225px;}
+.mymemberships_group_participants td {padding-top:10px;}
+.mymemberships_userimg {width:32px;vertical-align:top;}
+.mymemberships_userinfo {vertical-align:top;padding-left:10px;}
+.mymemberships_userinfo p {margin:0 0 3px 0;}
+.mymemberships_people_footer {background-color:#E6EAEE;height:26px;}
+.mymemberships_see_all {float:right;margin:6px 6px 0 0;}
+.mymemberships_item_hovered {background-color:#C3E7FD;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */
+}

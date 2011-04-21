@@ -557,7 +557,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("initialize.addToContacts.sakai", { user: contactclicked, callback: mainSearch.removeAddContactLinks });
         });
 
-
         /////////////////////////
         // Initialise Function //
         /////////////////////////

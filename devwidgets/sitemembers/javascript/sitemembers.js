@@ -564,7 +564,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(sitemembers_settings_dataClass + " input", rootel).attr('checked', false);
             // Place correct checks
             for (var i = 0; i < widgetSettings.data.length; i++) {
-                $(sitemembers_settings_dataClass + " input[value=" + widgetSettings.data[i] + "]").attr('checked', true);
+                $(sitemembers_settings_dataClass + " input[value='" + widgetSettings.data[i] + "']").attr('checked', true);
             }
 
         };

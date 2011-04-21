@@ -197,7 +197,6 @@ require(
         var makePropertiesTest = function(propertyURL, propertyName, last, callback) {
             $.ajax({
                 url: propertyURL,
-                async: false,
                 complete: function(xhr, status) {
                     ok(status === "success", propertyURL + " on the " + propertyName);
                     if ($.isFunction(callback)) {

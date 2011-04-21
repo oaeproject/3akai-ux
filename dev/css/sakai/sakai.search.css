@@ -1,21 +1,18 @@
 strong{color:#000;}
 
 /* SEARCH BAR */
-.search_bar{width:640px;padding:20px 0;}
 .skinned_select{float:left;width:190px;height:23px;border:1px solid #ddd;padding-top:3px;}
-.search_bar input{border:1px solid #ddd;float:left;margin:0 5px;height:19px;width:350px;font-size:1em;color:#666;font-size:1.1em;padding-left:5px;display:block;padding-top:2px;font-style:italic;}
-.search_bar_selected{font-style:normal!important;color:#000!important;}
+.search_bar input{border:1px solid #ddd;float:left;margin:0 5px;height:19px;width:200px;font-size:1em;padding-left:5px;display:block;padding-top:2px;}
 .search_button{top:3px;}
 
 /* SEARCH RESULTS TITLE */
 .search_result_title{width:80%;text-align:center;font-size:1.1em;color:#999;padding:0;}
-.keyword{background-color:#ff0;}
 
 /* SEARCH RESULTS */
-.search_results_container{margin:15px;}
-.search_results_part{padding-bottom:20px;}
+.search_results_container{margin:15px 15px 15px 5px;}
+.search_results_part{padding-bottom:10px;}
 .search_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
-.search_results_part_title{font-size:1.1em;font-weight:bold;color:#333;float:left;}
+.search_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
 .search_result{color:#333;padding:5px 0 10px;}
 .search_result img{float:left;padding:0 10px 10px 0;width:50px;}

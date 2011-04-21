@@ -9,7 +9,7 @@
     <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
 
     <!-- FOOTER LINKS -->
-    <div class="fl-widget-options fl-fix" style="overflow:hidden;">
+    <!-- <div class="fl-widget-options fl-fix" style="overflow:hidden;">
         <div class="fl-widget-options-footer-top">
             <div class="fl-widget-options-top-right"></div>
         </div>
@@ -18,7 +18,7 @@
                 <li><a href="/people">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
                 <li><a id="mycontacts_footer_search" href="/search/people#q=*&page=1">__MSG__SEARCH_PEOPLE__</a></li>
-                <li><a href="/people" class="mycontacts_requests" id="mycontacts_requests"><!-- --></a></li>
+                <li><a href="/people" class="mycontacts_requests" id="mycontacts_requests"></a></li>
             </ul>
 
         </div>
@@ -26,16 +26,25 @@
             <div class="s3d-widget-options-footer-right">
             </div>
         </div>
+    </div> -->
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
     </div>
     
     <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
-            <div class="mycontacts_list_contact">
-                <a href="/~${i.id}" class="mycontacts_list_contact_picture"><img src="${i.photo}" alt="__MSG__PERSON_ICON__"/></a>
-                <a href="/~${i.id}" class="mycontacts_list_contact_name s3d-regular-links s3d-bold">${i.name}</a>
+            <div class="fl-container fl-fix mycontacts_items">
+                <a href="/~${i.id}"><img alt="__MSG__PERSON_ICON__" src="${i.photo}"></a>
+                <div class="mycontacts_name"><a href="/~${i.id}" class="s3d-widget-links s3d-bold">${i.name}</a></div>
+                <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">${i.type.join(", ")}</a></div>
             </div>
         {forelse}
-            <span id="mycontacts_nocontacts">__MSG__YOU_CURRENTLY_HAVE_NO_CONTACTS__ | <a href="/search/people#q=*&amp;facet=all" class="s3d-regular-links s3d-bold">__MSG__SEARCH_FOR_CONTACTS__</a></span>
+            <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
+                <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
+                </button>
+            </a>
+            <span class="mycontacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
         {/for}
     --></div>
 

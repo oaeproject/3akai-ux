@@ -1,114 +1,182 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/topnavigation/css/topnavigation.css"/>
 
-<!-- EXPLORE NAV CONTAINER -->
-<div id="explore_nav_container" style="display:none">
-    <div class="fl-container explore_nav">
-        <ul class="explore">
-
-        </ul>
-
-        <!-- NAVIGATION TEMPLATE -->
-        <div id="navigation_template" style="display:none"><!--
-            {for i in links}
-                {if i.cleanurl === window.location.pathname}
-                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if} explore_nav_selected">
-                        <span class="navigation_normal_link" title="${i.label}">${i.label}</a>
-                    </li>
-                {else}
-                    <li class="{if i.firstlink}navigation_first_link{else}navigation_link{/if}">
-                        <a class="{if i.url === "javascript:;"}navigation_grey_link{else}navigation_normal_link{/if}" {if i.id}id="${i.id}" {/if}href="${i.url}" title="${i.label}">${i.label}</a>
-                    </li>
-                {/if}
-            {/for}
-        --></div>
-
-        <!-- SEARCH -->
-        <div id="general_search_container">
-            <form class="fl-force-right" method="post">
-                <div class="search_box">
-                    <div class="search_left search_type"><div class="search_links">__MSG__GLOBAL__</div><div class="search_drop"></div></div><input type="text" id="general_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" class="general_search_input search_string" /><div class="search_right search_type" id="general_search_submit_button"><div class="search_text">__MSG__SEARCH__</div><div class="search_icon"></div></div>
-                </div>
-                <div id="search_more_menu" style="display:none" class="s3d-sprites-buttons">
-                    <ul>
-                        <li id="search_global" class="more_option"><button type="button" class="s3d-link-button"><span id="search_global_text">__MSG__GLOBAL__</span></button></li>
-                        <li id="search_content" class="more_option"><button type="button" class="s3d-link-button"><span id="search_content_text">__MSG__CONTENT__</span></button></li>
-                        <li id="search_people" class="more_option"><button type="button" class="s3d-link-button"><span id="search_people_text">__MSG__PEOPLE__</span></button></li>
-                        <li id="search_group" class="more_option option_last"><button type="button" class="s3d-link-button"><span id="search_group_text">__MSG__GROUP__</span></button></li>
-                    </ul>
-                </div>
-                <span style="display:none" id="general_search_default_value">__MSG__SEARCH_FOR__</span>
-            </form>
+<div id="topnavigation_container">
+    <ul class="topnavigation_explore"><!----></ul>
+    <div class="topnavigation_user_container"></div>
+    <div class="topnavigation_usersection_splitter">|</div>
+    <div class="topnavigation_search">
+        <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
+        <div id="topnavigation_search_results" style="display:none;">
+            <div id="topnavigation_search_results_container"><!----></div>
+            <div id="topnavigation_search_results_bottom_container"><!----></div>
         </div>
     </div>
 </div>
 
-<div class="explore-bg" style="display:none">
-</div>
+<div id="navigation_template" style="display:none"><!--
+    {for i in links}
+        <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
+            <a class="s3d-bold" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
+            <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
+                {if i.subnav}
+                    <ul>
+                        {for subnav in i.subnav}
+                            {if subnav !== "hr"}
+                            <li>
+                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
+                            </li>
+                            {else}
+                                <hr class="s3d-split-line"/>
+                            {/if}
+                        {/for}
+                    </ul>
+                {/if}
+            </div>
+        </li>
+    {/for}
+--></div>
 
-<!-- PERSONAL CONTAINER -->
-<div id="explore_nav_container" class="personal_container">
-
-    <div class="fl-container explore_nav">
-        <div class="personal">
-            <ul id="top_navigation">
-                <li id="login_button_container" style="display: none;"><a class="log_in" href="/index" title="__MSG__LOGGING_IN_ALLOWS__">__MSG__LOGIN__</a></li>
-                <li id="register_button_container" style="display: none;"><a class="register" href="/register">__MSG__REGISTER__</a></li>
-
-                <!-- CHAT STATUS DROPDOWN -->
-                <li id="user_link_container">
-                    <button type="button" id="user_link" class="s3d-dropdownlistone-text s3d-link-button">
-                        <span id="topnavigation_chat_status">&nbsp;</span><span id="userid" class="user_link_chat_status"></span><span class="dropdownlistone_arrow">&nbsp;</span>
-                    </button>
-                </li>
-
-                <li><a class="mail" href="/inbox"><span id="topnavigation_mail_icon"></span> (<span id="chat_unreadMessages"></span>)</a></li>
-                <li><a class="help" href="/preferences">__MSG__MY_ACCOUNT__</a></li>
-                <li><a class="sign_out" href="/logout">__MSG__SIGN_OUT__</a></li>
+<div id="search_template" style="display:none"><!--
+        {if files && files.length}
+            <a href="/dev/search2.html#l=groups&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
+            <ul>
+               {for file in files}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="topnav_content_icon ${file.css_class}"></span>
+                        </div>
+                        <a href="${file.url}" title="${file.name}" class="s3d-bold">${file.dottedname}</a>
+                    </li>
+                    {if file_index != files.length -1}<hr class="s3d-split-line"/>{/if}
+                {/for}
             </ul>
+        {/if}
 
-            <div id="login_container" style="display: none;">
-                <form id="login_form" method="POST">
-                    <label for="login_username">__MSG__USERNAME__</label>
-                    <br/>
-                    <input type="text" alt="__MSG__USERNAME__" id="login_username" name="login_username" />
-                    <br />
-                    <label for="login_password">__MSG__PASSWORD__</label>
-                    <br />
-                    <input type="password" alt="__MSG__PASSWORD__" id="login_password" name="login_password" />
+        {if groups && groups.length}
+            <a href="/dev/search2.html#l=groups&q=${query}" class="topnavigation_search_results_section_header">__MSG__GROUPS__</a>
+            <ul>
+                {for group in groups}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="${group.css_class}"></span>
+                        </div>
+                        <a href="${group.url}" title="${group.name}" class="s3d-bold">${group.dottedname}</a>
+                    </li>
+                    {if group_index != groups.length -1}<hr class="s3d-split-line"/>{/if}
+                {/for}
+            </ul>
+        {/if}
 
-                    <div id="login_error_message" style="display: none;">__MSG__LOGIN_FAILED__!</div>
-                    <div id="login_busy" class="fl-force-right" style="display:none;"></div>
+        {if people && people.length}
+            <a href="/dev/search2.html#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
+            <ul>
+                {for person in people}
+                    <li>
+                        <div class="topnav_content_icon_container fl-force-left">
+                            <span class="topnav_person_icon"></span>
+                        </div>
+                        <a href="${person.url}" title="${person.name}" class="s3d-bold">${person.dottedname}</a>
+                    </li>
+                    {if person_index != people.length -1}<hr class="s3d-split-line"/>{/if}
+                {/for}
+            </ul>
+        {/if}
 
-                    <div class="login-container-button fl-force-right">
-                        <button id="login_cancel_button" type="button" class="s3d-button s3d-button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                        <button id="login_submit_button" type="button" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__SIGN_IN__</span></button>
+--></div>
+
+<div id="search_bottom_template" style="display:none;"><!--
+    {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
+        <a href="/search#q=${query}&filter=&facet=&page=1">
+            <button id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
+            </button>
+        </a>
+    {/if}
+    <span id="topnavigation_search_results_bottom_content">
+        {if people.length || groups.length || files.length}
+            ${peopletotal + groupstotal + filestotal} __MSG__RESULTS__
+        {else}
+            __MSG__NO_RESULTS__
+        {/if}
+    </span>
+--></div>
+
+<div id="topnavigation_user_template"><!--
+    {if anon}
+        <div class="s3d-dropdown-menu" id="topnavigation_user_options_login">
+            <span class="s3d-bold" id="topnavigation_user_options_login">__MSG__SIGN_IN__</span>
+            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
+                <form id="topnavigation_user_options_login_form" method="POST">
+                    <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container">
+                        <div id="topnavigation_user_options_login_error" style="display:none;">
+                            <div id="topnavigation_user_options_login_error_icon"></div>
+                            <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
+                        </div>
+                        <label for="topnavigation_user_options_login_fields_username">__MSG__USERNAME__</label>
+                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" tabindex="1"/>
+                        <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
+                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" tabindex="2" />
+                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                        <hr class="s3d-split-line fl-push"/>
+                        <button id="topnavigation_user_options_login_button_login" type="submit" class="s3d-button s3d-button-light-gray-square" tabindex="3">
+                            <span class="s3d-button-inner">__MSG__SIGN_IN__</span>
+                        </button>
+                        <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
+                        <hr class="fl-push fl-hidden"/>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- USER LINK MENU -->
-<div id="user_link_menu" class="s3d-dropdownlistone-menu" style="display:none">
-    <div class="s3d-dropdownlistone-menu-border" id="topnavigation_chat_status_menu">
-        <ul>
-            <li class="s3d-dropdownlistone-link-inactive">__MSG__CHAT_STATUS__</li>
-            <li><button type="button" id="user_link_chat_status_online" class="user_link_chat_status_link s3d-link-button">__MSG__AVAILABLE__</button></li>
-            <li><button type="button" id="user_link_chat_status_busy" class="user_link_chat_status_link s3d-link-button">__MSG__BUSY__</button></li>
-            <li><button type="button" id="user_link_chat_status_offline" class="user_link_chat_status_link s3d-link-button">__MSG__OFFLINE__</button></li>
+    {else}
+        <a href="/dev/me.html#l=messages/inbox" title="__MSG__INBOX__" id="topnavigation_user_inbox_container">
+            <div id="topnavigation_user_inbox_icon"></div>
+            <div id="topnavigation_user_inbox_messages"></div>
+        </a>
+        <ul id="topnavigation_user_options_list">
+            <li class="s3d-bold s3d-dropdown-menu hassubnav">
+                <a href="#" id="topnavigation_user_options_name" class="s3d-bold"></a>
+                <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
+                    <ul>
+                        <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
+                        <li><a href="/logout" class="s3d-regular-links s3d-bold">__MSG__SIGN_OUT__</a></li>
+                    </ul>
+                </div>
+            </li>
         </ul>
-    </div>
-    <div>
-        <ul>
-            <li id="topnavigation_my_profile_container"></li>
-        </ul>
-    </div>
-</div>
-
-<div id="topnavigation_my_profile_template"><!--
-    <a href="${href}" id="topnavigation_my_profile">__MSG__MY_PROFILE__</a>
+        <div class="topnavigation_usersection_splitter">|</div>
+    {/if}
 --></div>
+
+<!-- OVERLAYS -->
+
+<!-- Create Group Widget Container -->
+<div id="creategroupcontainer" style="display:none;">
+    <!-- We need this container to show the pop-up where you can add a group -->
+    <div id="widget_creategroup" class="widget_inline">
+    </div>
+</div>
+
+<!-- Upload Content Widget Container -->
+<div id="fileupload_container" style="display:none;">
+	<div id="widget_fileupload" class="widget_inline"></div>
+</div>
+
+<!-- Upload Content Widget Container -->
+<div id="newaddcontentcontainer" style="display:none;">
+    <div id="widget_newaddcontent" class="widget_inline"></div>
+</div>
+
+<!-- Send Message Widget Container -->
+<div id="widget_sendmessage" class="widget_inline"></div>
+
+<!-- Add To Contacts Widget Container -->
+<div id="widget_addtocontacts" class="widget_inline"></div>
+
+<!-- My Preferences Widget Container -->
+<div id="widget_accountpreferences" class="widget_inline"></div>
+
+<!-- Change Picture Widget Container -->
+<div id="widget_changepic" class="widget_inline"></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/topnavigation/javascript/topnavigation.js"></script>

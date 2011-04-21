@@ -37,7 +37,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.remotecontent = function(tuid, showSettings){
+    sakai_global.remotecontent = function(tuid, showSettings, widgetData){
 
 
         /////////////////////////////
@@ -407,34 +407,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function(){
+            if (widgetData.remotecontent){
+                processRemoteContent(true, widgetData.remotecontent);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, processRemoteContent);
+            }
+        };
+  
+        var processRemoteContent = function(success, data){
+            if (success) {
+                // Get a JSON string that contains the necessary information.
+                var parameters = data;
 
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-
-                if (success) {
-                    // Get a JSON string that contains the necessary information.
-                    var parameters = data;
-
-                    if (showSettings) {
-                        displaySettings(parameters, true); // Fill in the settings page.
-                    }
-                    else {
-                        displayRemoteContent(parameters); // Show the frame
-                    }
+                if (showSettings) {
+                    displaySettings(parameters, true); // Fill in the settings page.
+                } else {
+                    displayRemoteContent(parameters); // Show the frame
                 }
-                else {
-                    // When the request isn't successful, it means that  there was no existing remotecontent
-                    // so we show the basic settings.
-                    if (showSettings) {
-                        displaySettings(null, false);
-                    } else {
-                        $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($noRemoteContentSet, {}));
-                        $(remotecontentMainContainer, rootel).show();
-                    }
+            } else {
+                // When the request isn't successful, it means that  there was no existing remotecontent
+                // so we show the basic settings.
+                if (showSettings) {
+                    displaySettings(null, false);
+                } else {
+                    $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($noRemoteContentSet, {}));
+                    $(remotecontentMainContainer, rootel).show();
                 }
-            });
+            }
         };
 
         getRemoteContent();
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("remotecontent");

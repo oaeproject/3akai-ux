@@ -1,14 +1,14 @@
 {
-    "description":"A list of the groups I'm a member of",
+    "description":"My memberships",
     "i18n": {
         "default": "/devwidgets/mygroups/bundles/default.properties",
         "en_US": "/devwidgets/mygroups/bundles/en_US.properties",
         "zh_CN": "/devwidgets/mygroups/bundles/zh_CN.properties"
     },
     "id":"mygroups",
-    "name":"My groups",
+    "name":"My memberships",
     "personalportal":true,
-    "deletable": false,
+    "deletable": true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/mygroups/mygroups.html"

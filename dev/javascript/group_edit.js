@@ -86,12 +86,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * available
          * @param {Object} e    Event that caused this function
          */
-        $(window).bind("ready.entity.sakai", function(e){
-            readyToRender = true;
-            if (sakai_global.currentgroup.data) {
-                $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
-                hasRendered = true;
-            }
+        $(window).bind("sakai.entity.ready", function(e){
+            renderEntityWidget();
+        });
+
+        var renderEntityWidget = function(){
+            var context = "group";
+            var type = "group_managemode";
+            $(window).trigger("sakai.entity.init", [context, type, sakai_global.currentgroup.data]);
+        };
+
+        $("#entity_group_back").live("click", function(){
+            document.location = "/dev/group.html?id=" + getGroupId();
         });
 
         /**
@@ -107,15 +113,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
                         triggerEditable(true);
                     }
-                    if (readyToRender && !hasRendered) {
-                        $(window).trigger("render.entity.sakai", ["group", sakai_global.currentgroup.data]);
-                    }
                     renderGroupBasicInfo();
                     // per section permissions to be fully implemented later; hiding
                     // the "Who can view or search this?" dropdowns for now
                     // renderTemplates();
                     addPickUserBinding();
                     // Show the page content
+                    renderEntityWidget();
                     sakai.api.Security.showPage();
                 } else if (data && (data.status === 401 || data.status === 403)) {
                         sakai.api.Security.send403();

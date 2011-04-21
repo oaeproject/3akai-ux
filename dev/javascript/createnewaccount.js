@@ -129,8 +129,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     // Wait for 2 seconds
                     setTimeout(function(){
-                        // Relocate to the my log in page
-                        document.location = sakai.config.URL.GATEWAY_URL;
+                        sakai.api.User.login({
+         	                "username": values.username,
+                            "password": values.password
+                        }, function(){
+                            // Relocate to the user home space
+                            document.location = "/dev/me.html";
+                        });
                     }, 2000);
                 } else {
                     $("button").removeAttr("disabled");
@@ -322,7 +327,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             initCaptcha();
             doBinding();
         };
+        
+        var renderEntity = function(){
+            $(window).trigger("sakai.entity.init", ["newaccount"]);
+        };
 
+        $(window).bind("sakai.entity.ready", function(){
+            renderEntity(); 
+        });
+        
+        renderEntity();
         doInit();
 
     };

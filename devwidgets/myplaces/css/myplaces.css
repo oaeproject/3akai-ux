@@ -1,0 +1,12 @@
+.myplaces_main{margin:0 10px 10px 15px;overflow:hidden; }
+.myplaces_title {border-bottom:1px solid #DDDDDD; padding:5px 0;}
+.myplaces_title span{ color: #666666; font-size:1.1em;}
+.myplaces_widget{overflow:hidden;}
+.myplaces_items {color:#333;padding:10px 0 0; border-bottom:1px solid #DDDDDD;}
+.myplaces_items img {float: left;padding: 0 10px 5px 0;width: 35px;}
+.myplaces_list {margin:0;font-size:1em;}
+.myplaces_name {color:#878A8C; width:250px; display:inline-block;}
+.myplaces_highlight {background:#C4E6FD;}
+.myplaces_post {font-size:.8em;color:#878A8C;}
+.myplaces_edit {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent;heght:18px;margin:15px 8px 0 0;position:relative;}
+.myplaces_share_button {float:right; display:none;}
