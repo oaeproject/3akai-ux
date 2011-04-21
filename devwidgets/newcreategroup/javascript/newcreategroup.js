@@ -66,6 +66,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var newcreategroupMembersSelectedTemplate = "newcreategroup_group_members_selected_template";
 
     var selectedUsers = {};
+    var creationComplete = {
+        "tags": false,
+        "permissions": false,
+        "members": false,
+        "groupid": false
+    };
+
+    var checkCreationComplete = function(){
+        if(creationComplete.tags && creationComplete.permissions && creationComplete.members){
+            debug.log("Go!");
+            window.location = "/~" + creationComplete.groupid
+        } else {
+            debug.log("Not yet.", creationComplete);
+        }
+    };
 
     /**
      * Create a simple group and execute the tagging and membership functions
@@ -77,14 +92,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var grouptags = $newcreategroupGroupTags.val().split(",");
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, function(success, nameTaken){
             if (success) {
+                creationComplete.groupid = groupid;
+
                 // Tag group
                 var groupProfileURL = "/~" + groupid + "/public/authprofile";
-                sakai.api.Util.tagEntity(groupProfileURL, grouptags, [], false);
+                sakai.api.Util.tagEntity(groupProfileURL, grouptags, [], function(){
+                    creationComplete.tags = true;
+                    checkCreationComplete();
+                });
 
                 // Set permissions on group
                 var joinable = $newcreategroupGroupMembership.val();
                 var visible = $newcreategroupCanBeFoundIn.val();
-                sakai.api.Groups.setPermissions(groupid, joinable, visible);
+                sakai.api.Groups.setPermissions(groupid, joinable, visible, function(){
+                    creationComplete.permissions = true;
+                    checkCreationComplete();
+                });
 
                 // Set members and managers on group
                 var users = [];
@@ -94,7 +117,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "permission": item.permission
                     });
                 });
-                sakai.api.Groups.addUsersToGroup(groupid, false, users, false);
+                sakai.api.Groups.addUsersToGroup(groupid, false, users, function(){
+                    creationComplete.members = true;
+                    checkCreationComplete();
+                });
             } else {
                 if(nameTaken){
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","GROUP_TAKEN"), sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","THIS_GROUP_HAS_BEEN_TAKEN"));

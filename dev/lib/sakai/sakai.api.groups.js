@@ -631,6 +631,10 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         callback(success);
                     }
                 });
+            } else {
+                if ($.isFunction(callback)) {
+                    callback(true);
+                }
             }
         },
 
