@@ -1,12 +1,14 @@
 {
-    "description": "My Content",
+    "description":"Content",
+    "name":"Content",
+    "id":"content",
     "i18n": {
         "default": "/devwidgets/content/bundles/default.properties"
     },
-    "id": "content",
-    "name": "content",
-    "personalportal":false,
-    "type": "sakai",
-    "enabled": true,
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
     "url":"/devwidgets/content/content.html",
+    "deletable":true
 }

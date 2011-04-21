@@ -1,164 +1,85 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/content/css/content.css" />
 
-<div id="content_widget">
-        <!-- WIDGET HEADER -->
-        <div class="fl-widget-titlebar s3d-widget-titlebar content-widget-border" style="display:none">
-            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-                <h2 id="content_title" class="content_title widget_title" style="display:none">__MSG__RECENT_content__</h2>
+<div class="content_widget">
+    <div class="fl-widget-content s3d-widget-content">
+       <!-- MAIN CONTENT -->
+        <div class="content_main content_background">
+            <div class="content_add_container">
+                <button class="s3d-button s3d-button-link-2-state add_content_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
+                <span>__MSG__ADD_CONTENT_TO_LIBRARY__</span>
             </div>
+            <div class="content_item"></div>
+            <div id="content_item_template"><!--
+            <span class="s3d-bold content_title">__MSG__MY_RECENT_CONTENT__</span>
+            {for item in items}
+                <div class="content_item_img fl-force-left">
+                    {var mimeType = sakai.api.Content.getMimeType(item)}
+                    {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                    <a href="/content#content_path=/p/${item['jcr:name']}" title="${item['sakai:pooled-content-file-name']}">
+                        {if thumbnail}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                        {elseif (mimeType.substring(0,6)=="image/")}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${item.path}" alt="${mimeTypeDescription}" />
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {else}
+                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                        {/if}
+                    </a>
+                </div>
+                <div class="content_item_info">
+                    <p class="content_item_title">
+                        <a class="content_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}">
+                            ${item.name}
+                        </a>
+                    </p>
+                    <p class="content_item_meta">${item.type} </p>
+                    <p class="content_item_meta">__MSG__USED_IN__ 4 places </p>
+                    <p class="content_item_meta">16 __MSG__COMMENTS__ </p>
+                </div>
+
+                
+                <div class="content_item_related_info">
+                    <p class="content_item_meta_data">Testing</p>
+                    <div class="content_item_img fl-force-left">
+                    <a href="#">
+                        <img class="s3d-icon-32" src="/dev/images/accept.png" />
+                    </a>
+                    </div>
+                    <div class="content_background" style="margin-left:40px;">
+
+                        <a class="content_item_link s3d-widget-links s3d-bold" href="/content#content_path">
+                            Talk at Young Research
+                        </a>
+                        <p> This is a great blog, nice find, let's see if author want to use our study group content</p>
+                    </div>
+                </div>
+                <div class="content_item_border"></div>
+            {/for}
+            <div class="content_button">
+                <button class="s3d-button s3d-disabled s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">
+                        __MSG__LOAD_MORE__
+                    </span>
+                </button>
+                <a class="content_item_link s3d-widget-links s3d-bold" href="/dev/user.html#l=library">
+                    __MSG__SEE_ALL_MY_CONTENT__
+                </a>
+            </div>
+            --></div>
         </div>
+    </div>
 
-        <!-- WIDGET BODY -->
-        <div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
-            <div class="content_main">
-                <!-- Title -->
-                <span class="content_title s3d-bold">My Content</span>
-                <div class="fl-container fl-fix s3d-highlight_area_background content_information">
-                    <div class="s3d-highlight_area_background_tl">
-                        <div class="s3d-highlight_area_background_tinner">
-                        </div>
-                    </div>
-                    <div class="content_information_detail">
-                     <span class="content_information_fliter">Filtered by:</span>
-                     <span>Used in:</span>
-                     <a href="/~test" class="s3d-bold s3d-regular-links">Mathematics 101</a>
-                     <span>(45)</span>
-                     </div>
-                    <div class="s3d-highlight_area_background_bl">
-                        <div class="s3d-highlight_area_background_binner">
-                        </div>
-                    </div>
-                </div>
-                <div class="content_title_bar">
-                    <div class="content_description content_noborder">
-                        Sort by:<select><option>Newest</option></select>
-                    </div>
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <button type="button" class="s3d-button s3d-button-link-2-state">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">Remove</span>
-                    </button>
-                    <input type="text" />
-                </div>
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
 
-                <!-- Contents -->
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">PPT <span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pps.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">FeynmanLectures.ppt</a></div>
-                        <button type="button" class="s3d-button s3d-button-link-2-state">
-                            <span class="s3d-button-inner s3d-button-link-2-state-inner">Edit</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">Pages <span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pps.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Physics Applied</a></div>
-                        <button type="button" class="s3d-button s3d-button-link-2-state">
-                            <span class="s3d-button-inner s3d-button-link-2-state-inner">Edit</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">AVI<span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/video.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Web search algorithms</a></div>
-                        <span>Tags:</span> <a href="/~test" class="s3d-regular-links">Mathematics, Equations,Internet Algoriths</a>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">PDF<span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pdf.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Cambridge Magazine</a></div>
-                        <span>Tags:</span> <a href="/~test" class="s3d-regular-links">Mathematics, Equations,Internet Algoriths</a>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">Pages <span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pps.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Guitar for dummies</a></div>
-                        <button type="button" class="s3d-button s3d-button-link-2-state">
-                            <span class="s3d-button-inner s3d-button-link-2-state-inner">Edit</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">PDF<span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pdf.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Another one bites the dust</a></div>
-                        <span>Tags:</span> <a href="/~test" class="s3d-regular-links">Mathematics, Equations,Internet Algoriths</a>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">Pages <span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pps.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Nirvana.mp3</a></div>
-                        <button type="button" class="s3d-button s3d-button-link-2-state">
-                            <span class="s3d-button-inner s3d-button-link-2-state-inner">Edit</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="fl-container fl-fix content_items">
-                    <div class="content_placeholder"><input type="checkbox" /></div>
-                    <div class="content_description">
-                        <span class="content_detail_dark s3d-bold">PDF<span class="content_edit">&nbsp;</span></span>
-                        <span class="content_description_detail">Added by: <a href="/~test" class="s3d-bold s3d-regular-links content_added_by">test</a></span>
-                        <span class="content_description_detail">on:<span class="s3d-bold content_detail_dark">12/4/1012</span></span>
-                    </div>
-                    <img alt="person icon" src="/dev/images/mimetypes/pdf.png"></a>
-                    <div class="content_name_div s3d-bold s3d-regular-links">
-                        <div class="content_name"><a href="/~test">Attributes of equations within web search algorithms</a></div>
-                        <span>Tags:</span> <a href="/~test" class="s3d-regular-links">Mathematics, Equations,Internet Algoriths</a>
-                    </div>
-                </div>
-            </div>
-       </div>
-
-        <div class="s3d-widget-no-options">
-            <div class="s3d-widget-no-options-inner">
-            </div>
-        </div>
 </div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/content/javascript/content.js"></script>
