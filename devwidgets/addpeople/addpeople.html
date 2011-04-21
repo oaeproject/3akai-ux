@@ -5,6 +5,11 @@
 <div id="addpeople_container" class="dialog">
     <h1>__MSG__ADD_PEOPLE__</h1>
     <div id="addpeople_members_container">
+        <div id="addpeople_members_autosuggest" style="display:none;">
+            <div id="addpeople_members_autosuggest_search_icon"><!----></div>
+            <label>__MSG__SEARCH__</label>
+            <input id="addpeople_members_autosuggest_field"/>
+        </div>
         <div class="addpeople_tab">__MSG__MEMBERS__</div>
         <div class="addpeople_top_actions">
             <input type="checkbox" id="addpeople_select_all_selected_contacts">
@@ -12,7 +17,7 @@
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE_SELECTED__</span>
             </button>
             <select id="addpeople_selected_all_permissions">
-                <option value="viewer">__MSG__VIEWER__</option>
+                <option value="viewer">__MSG__MEMBER__</option>
                 <option value="manager">__MSG__MANAGER__</option>
             </select>
         </div>
@@ -47,7 +52,7 @@
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
                 <a href="~${contact.userid}" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.name}</a>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
-                    <option value="viewer" {if contact.permission == "viewer"} selected="selected"{/if}>__MSG__VIEWER__</option>
+                    <option value="viewer" {if contact.permission == "viewer"} selected="selected"{/if}>__MSG__MEMBER__</option>
                     <option value="manager" {if contact.permission == "manager"} selected="selected"{/if}>__MSG__MANAGER__</option>
                 </select>
             </li>

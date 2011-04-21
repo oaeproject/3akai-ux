@@ -27,6 +27,12 @@
 #addpeople_container .addpeople_tab {background: url("/devwidgets/addpeople/images/addpeople_tab_bg.png") repeat-x scroll left top transparent;border: 1px solid #E7E7E7;border-bottom:none;display: inline;margin-left: -1px;margin-top:-29px;padding: 6px 17px 7px;position: absolute;}
 #addpeople_container #addpeople_members_container .addpeople_tab {width:333px;border-bottom:1px solid #E7E7E7;}
 
+/* Autosuggest */
+#addpeople_container #addpeople_members_autosuggest {margin-top:-70px;position:absolute;width:367px;}
+#addpeople_container #addpeople_members_autosuggest label {float: left;margin:10px 12px 0 7px;color:#7C7C7C;}
+#addpeople_container #addpeople_members_autosuggest ul.as-selections {border: 1px solid #E7E7E7;padding: 0;box-shadow:none;}
+#addpeople_container #addpeople_members_autosuggest #addpeople_members_autosuggest_search_icon {background:url("/dev/images/search_icon.png") no-repeat scroll right center transparent;width:16px;height:16px;float:right;margin:10px 3px 0 5px;}
+
 /* Contacts list */
 #addpeople_container #addpeople_contacts_container, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin:7px 12px 0 0;overflow:auto;height:90%;}
 #addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {margin:7px 12px 0 10px;}

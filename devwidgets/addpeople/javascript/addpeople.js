@@ -47,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $addpeopleContainer = $("#addpeople_container");
         var $addpeopleContactsContainer = $("#addpeople_contacts_container");
         var $addpeopleSelectedContactsContainer = $("#addpeople_selected_contacts_container");
+        var $addpeopleMembersAutoSuggest = $("#addpeople_members_autosuggest");
 
         // Templates
         var addpeopleContactsTemplate = "addpeople_contacts_template";
@@ -61,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $addpeopleSelectAllSelectedContacts = $("#addpeople_select_all_selected_contacts");
         var $addpeopleFinishAdding = $(".addpeople_finish_adding");
         var $addpeopleRemoveSelected = $(".addpeople_remove_selected");
+        var $addpeopleMembersAutoSuggestField = $("#addpeople_members_autosuggest_field");
 
         var selectedUsers = {};
 
@@ -102,6 +104,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        /**
+         * Fire an event that indicates the addpeople widget is done adding users.
+         * The object containing this userdata is giving to the event
+         * Also hide the overlay
+         */
         var finishAdding = function(){
             $(window).trigger("sakai.addpeople.usersselected", selectedUsers);
             $addpeopleContainer.jqmHide();
@@ -128,6 +135,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             enableDisableControls();
         };
 
+        /**
+         * Construct a user object when adding a user to the list of selected users
+         */
         var constructSelecteduser = function(){
             $addpeopleSelectAllSelectedContacts.removeAttr("checked");
             if ($(this).is(":checked")) {
@@ -180,12 +190,81 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(item).parent().next().remove();
                 $(item).parent().remove();
             });
+            $addpeopleSelectAllSelectedContacts.removeAttr("checked");
             enableDisableControls();
         };
 
         ////////////////////
         // INITIALIZATION //
         ////////////////////
+
+        /**
+         * Get the list of selected users/groups from the autosuggest plugin
+         * @return {Object} returnValue An object containing a list of displayNames and an Array of userID's to be added to the members list
+         */
+        var createAutoSuggestedUser = function(userData) {
+            var pictureURL = "";
+            var userid = userData.attributes.value.split("/");
+            if(userData.attributes.picture){
+                pictureURL = "/~" + userid[1] + "/public/profile/" + userData.attributes.picture
+            } else{
+                if(userid[0] == "group"){
+                    pictureURL = "/dev/images/group_avatar_icon_32x32.png";
+                }else{
+                    pictureURL = "/dev/images/default_profile_picture_32.png";
+                }
+            }
+            var userObj = {
+                userid: userid[1],
+                name: userData.attributes.name,
+                permission: "viewer",
+                picture: pictureURL
+            };
+            selectedUsers[userObj.userid] = userObj;
+            renderSelectedContacts();
+            enableDisableControls();
+            $(".as-close").click();
+        };
+
+        /**
+         * Fetch the users and groups used in the autocomplete functionality of the widget
+         */
+        var fetchUsersGroups = function(){
+            var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
+
+            sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                if (success) {
+                    var suggestions = [];
+                    var name, value, type, picture;
+                    $.each(data.results, function(i){
+                        if (data.results[i]["rep:userId"] && sakai.data.me.user.userid != data.results[i]["rep:userId"]) {
+                            name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
+                            value = "user/" + data.results[i]["rep:userId"];
+                            type = "user";
+                            if (data.results[i].picture){
+                                picture = $.parseJSON(data.results[i].picture).name;
+                            }
+                        } else if (data.results[i]["sakai:group-id"]) {
+                            name = data.results[i]["sakai:group-title"];
+                            value = "group/" + data.results[i]["sakai:group-id"];
+                            type = "group";
+                            if (data.results[i].picture){
+                                picture = $.parseJSON(data.results[i].picture).name;
+                            }
+                        }
+                        suggestions.push({"value": value, "name": name, "type": type, "picture": picture});
+                    });
+                    $addpeopleMembersAutoSuggestField.autoSuggest(suggestions, {
+                        selectedItemProp: "name",
+                        searchObjProps: "name",
+                        startText: "",
+                        asHtmlID: tuid,
+                        resultClick: createAutoSuggestedUser
+                    });
+                    $addpeopleMembersAutoSuggest.show();
+                }
+            });
+        };
 
         /**
          * Initialize the modal dialog
@@ -241,6 +320,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("init.addpeople.sakai", function(e, data){
             addBinding();
             initializeJQM();
+            fetchUsersGroups();
             sakai.api.User.getContacts(renderContacts);
             enableDisableControls();
         });
