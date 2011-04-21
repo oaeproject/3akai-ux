@@ -60,6 +60,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $addpeopleSelectedAllPermissions = $("#addpeople_selected_all_permissions");
         var $addpeopleSelectAllSelectedContacts = $("#addpeople_select_all_selected_contacts");
         var $addpeopleFinishAdding = $(".addpeople_finish_adding");
+        var $addpeopleRemoveSelected = $(".addpeople_remove_selected");
 
         var selectedUsers = {};
 
@@ -69,7 +70,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////
 
         var renderContacts = function(){
-            $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {"contacts":sakai.data.me.mycontacts, "sakai":sakai}));
+            if ($addpeopleContactsContainer.text() == "") {
+                $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
+                    "contacts": sakai.data.me.mycontacts,
+                    "sakai": sakai
+                }));
+            }
         };
 
         var renderSelectedContacts = function(){
@@ -81,10 +87,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // UTILITY //
         /////////////
 
+        var enableDisableControls = function(){
+            var count = 0;
+            for (var item in selectedUsers) {count++;}
+            if(count == 0){
+                $addpeopleRemoveSelected.attr("disabled","disabled");
+                $addpeopleSelectAllSelectedContacts.attr("disabled","disabled");
+                $addpeopleSelectAllSelectedContacts.removeAttr("checked");
+                $addpeopleSelectedAllPermissions.attr("disabled","disabled");
+            } else {
+                $addpeopleRemoveSelected.removeAttr("disabled");
+                $addpeopleSelectAllSelectedContacts.removeAttr("disabled");
+                $addpeopleSelectedAllPermissions.removeAttr("disabled");
+            }
+        };
+
         var finishAdding = function(){
             $(window).trigger("sakai.addpeople.usersselected", selectedUsers);
             $addpeopleContainer.jqmHide();
-        }
+        };
 
         /**
          * Check/Uncheck all items in the list and enable/disable buttons
@@ -104,6 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $addpeopleSelectAllSelectedContacts.removeAttr("checked");
                 }
             }
+            enableDisableControls();
         };
 
         var constructSelecteduser = function(){
@@ -125,6 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $addpeopleSelectAllSelectedContacts.removeAttr("checked");
                 $addpeopleSelectAllContacts.removeAttr("checked");
             }
+            enableDisableControls();
         };
 
         /**
@@ -136,7 +159,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(item).nextAll("select").val(selectedPermission);
                 selectedUsers[$(item)[0].id.split("_")[0]].permission = selectedPermission;
             });
-            debug.log(selectedUsers);
         };
 
         /**
@@ -147,6 +169,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers[userid].permission = $(this).val();
         };
 
+        /**
+         * Removes all users that are selected from the list of users to be added as a member (manager or viewer)
+         */
+        var removeSelected = function(){
+            $.each($addpeopleSelectedContactsContainer.find("input:checked"), function(index, item){
+                delete selectedUsers[$(item)[0].id.split("_")[0]];
+                $("#" + $(item)[0].id.split("_")[0] + "_chk").removeAttr("checked");
+                $addpeopleSelectAllContacts.removeAttr("checked");
+                $(item).parent().next().remove();
+                $(item).parent().remove();
+            });
+            enableDisableControls();
+        };
 
         ////////////////////
         // INITIALIZATION //
@@ -182,6 +217,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addpeopleCheckbox).die("change", constructSelecteduser);
             $(addpeopleSelectedPermissions).die("change", changePermission);
             $addpeopleFinishAdding.unbind("click", finishAdding);
+            $addpeopleRemoveSelected.unbind("click", removeSelected);
 
             // Bind all
             $addpeopleSelectAllContacts.bind("click", function(){
@@ -194,6 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(addpeopleCheckbox).live("change", constructSelecteduser);
             $(addpeopleSelectedPermissions).live("change", changePermission);
             $addpeopleFinishAdding.bind("click", finishAdding);
+            $addpeopleRemoveSelected.bind("click", removeSelected);
         };
 
 
@@ -205,6 +242,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding();
             initializeJQM();
             sakai.api.User.getContacts(renderContacts);
+            enableDisableControls();
         });
     };
 

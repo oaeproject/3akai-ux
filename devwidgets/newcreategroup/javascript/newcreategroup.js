@@ -151,8 +151,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
             "users": selectedUsers
         }));
-        $newcreategroupGroupMembersNoneAddedContainer.hide();
-        $newcreategroupMembersAddedContainer.show();
+        var count = 0;
+        for (var item in selectedUsers) {count++;}
+        if (count) {
+            $newcreategroupGroupMembersNoneAddedContainer.hide();
+            $newcreategroupMembersAddedContainer.show();
+        } else{
+            $newcreategroupGroupMembersNoneAddedContainer.show();
+            $newcreategroupMembersAddedContainer.hide();
+        }
     });
 
     $(window).trigger("newcreategroup.ready");
