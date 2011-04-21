@@ -75,10 +75,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     var checkCreationComplete = function(){
         if(creationComplete.tags && creationComplete.permissions && creationComplete.members){
-            debug.log("Go!");
             window.location = "/~" + creationComplete.groupid
-        } else {
-            debug.log("Not yet.", creationComplete);
         }
     };
 
