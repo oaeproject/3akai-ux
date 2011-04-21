@@ -610,11 +610,17 @@ define(["jquery",
                             };
 
                             var floating = "inline_class_widget_nofloat";
-
-                            if ($(divarray[i]).css("float") !== "none") {
-                                floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                            if ($(divarray[i]).hasClass("block_image_left")){
+                                floating = "inline_class_widget_leftfloat";
+                            } else if ($(divarray[i]).hasClass("block_image_right")){
+                                floating = "inline_class_widget_rightfloat";
                             }
+                            
+                            /*if ($(divarray[i]).css("float") !== "none") {
+                                floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                            } */
                             widgetsInternal[widgetname][index].floating = floating;
+                            
                         }
                     }
 
