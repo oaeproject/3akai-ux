@@ -473,7 +473,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        $(window).bind("finished.sharecontent.sakai", function(e, peopleList){
+        $(window).bind("finished.sharecontent.sakai finished.savecontent.sakai", function(e, peopleList){
             if(!peopleList.mode || peopleList.mode === undefined){
                 peopleList.mode = "viewers";
             }
@@ -507,6 +507,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("update.tooltip.sakai", tooltipData);
 
             return false;
+        });
+
+        $("#entity_content_save").live("click", function(){
+            $(window).trigger("init.savecontent.sakai");
         });
 
         $("#entity_content_add_to_library").live("click", function(){
