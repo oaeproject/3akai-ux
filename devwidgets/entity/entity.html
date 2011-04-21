@@ -104,15 +104,15 @@
     <div id="entity_content_image" class="entity_content_image">
             <img src="${data.data['iconURL']}"/>
     </div>
-    <span id="entity_name" class="s3d-bold contentmetadata_editable">${data.data["sakai:pooled-content-file-name"]}</span>
+    <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]}</span>
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" size="50" />
     </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
-        <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
+        <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}" class="entity_content_people">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}" class="entity_content_people">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
         {var groupCount = data.members.counts.groups}
-        <span class="entity_number">(<a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">${groupCount}</a>)</span> <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}">{if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}</a>
+        <span class="entity_number">(<a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}" class="entity_content_group">${groupCount}</a>)</span> <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}" class="entity_content_group">{if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}</a>
         <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
     </div>
 --></div>
@@ -154,6 +154,85 @@
         </div>
     {/if}
 --></div>
+
+<!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
+<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+        <!-- CONTAINER -->
+        <div id="entity_content_users_dialog_list_container"><!-- --></div>
+
+        <!-- TEMPLATE -->
+        <div id="entity_content_users_dialog_list_template" style="display:none;"><!--
+            <ul class="entity_content_users_dialog_list">
+                {var userlist_groups_index = 0}
+                {var userlist_people_index = 0}
+                {for i in userList}
+                    {if i['sakai:group-id'] && type === "groups"}
+                        ${userlist_groups_index++|eat}
+                        {if userlist_groups_index%2} <li id="${i['sakai:group-id']}">
+                        {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
+                        {/if}
+                        {if i.pictureUrl}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
+                        </span>
+                        </li>
+                    {elseif i["rep:userId"] && type === "people"}
+                        ${userlist_people_index++|eat}
+                        {var displayName = unescape(sakai.api.User.getDisplayName(i))}
+                        {if !displayName}
+                            {var displayName = i.displayName}
+                        {/if}
+                        {if userlist_people_index%2} <li id="${i["rep:userId"]}">
+                        {else} <li id="${i["rep:userId"]}" class="entity_content_even">
+                        {/if}
+                        {if i.pictureUrl}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                        {else}
+                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="entity_content_picture"/></a>
+                        {/if}
+                        <span class="entity_content_name">
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
+                        </span>
+                        </li>
+                    {/if}
+                {/for}
+                {if type === "groups" && userlist_groups_index === 0}
+                    <div class="entity_content_list_empty">
+                        __MSG__NO_GROUPS_USING_CONTENT__
+                    </div>
+                {/if}
+            </ul>
+            --></div>
+
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden">
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
+</div>
+
+<!-- i18n MESSAGES -->
+<div id="entity_notifications" style="display:none">
+    <span id="entity_content_groups">__MSG__THE_FOLLOWING_GROUPS_USING_CONTENT__</span>
+    <span id="entity_content_people">__MSG__THE_FOLLOWING_PEOPLE_USING_CONTENT__</span>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/entity/javascript/entity.js"></script>
