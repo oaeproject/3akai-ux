@@ -412,7 +412,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $mymemberships_nodata.hide();
                 $mymemberships_nogroups.hide();
-                $mymemberships_actionbar.show();
+                $("#mymemberships_sortarea", $rootel).show();
                 $mymemberships_items.show();
                 $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                     $("#mymemberships_items_template", $rootel), json));
@@ -446,6 +446,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     render(sakai.api.Groups.getMemberships(data.groups));
                 }, { uid: sakai_global.profile.main.data.userid });
             }
+            sakai.api.Util.TemplateRenderer("mymemberships_title_template", {
+                isMe: mymemberships.isOwnerViewing, 
+                firstName: sakai_global.profile.main.data.basic.elements.firstName.value
+            }, $("#mymemberships_title_container", $rootel));
         };
 
         // run the initialization function when the widget object loads

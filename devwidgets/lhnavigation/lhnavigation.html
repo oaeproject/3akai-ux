@@ -166,7 +166,10 @@
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}/${sublevel_index}">
-                            <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
+                            <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
+                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                {if sublevel._count} (${sublevel._count}){/if}
+                            </a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                         {var index = index + 1}
                     {/if}
@@ -174,7 +177,10 @@
             </ul>
             {else}
                 <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}">
-                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</a>
+                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                        {if level._count} (${level._count}){/if}
+                    </a>
                     <div class="lhnavigation_private"></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                 </li>
@@ -196,7 +202,10 @@
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}/${sublevel_index}">
-                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a>
+                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">
+                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                {if sublevel._count} (${sublevel._count}){/if}
+                            </a>
                             <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
                             <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
@@ -206,7 +215,10 @@
             </ul>
             {else}
                 <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}">
-                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</a>
+                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                        {if level._count} (${level._count}){/if}
+                    </a>
                     <input class="lhnavigation_change_title" type="text" style="display:none;"/>
                     <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>

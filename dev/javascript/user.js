@@ -64,9 +64,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata = data;
                         pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                     }
-                    addCount(pubdata, "library", contextData.counts["content"]);
-                    addCount(pubdata, "contacts", contextData.counts["contacts"]);
-                    addCount(pubdata, "memberships", contextData.counts["memberships"]);
+                    if (!isMe){
+                        addCounts();
+                    }
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
@@ -83,6 +83,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             if (privateToStore) {
                                 sakai.api.Server.saveJSON(privurl, privateToStore);
                             }
+                            addCounts();
                         });
                     } else {
                         generateNav();
@@ -90,14 +91,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 });
         };
         
+        var addCounts = function(){
+            addCount(pubdata, "library", contextData.counts["content"]);
+            addCount(pubdata, "contacts", contextData.counts["contacts"]);
+            addCount(pubdata, "memberships", contextData.counts["memberships"]);        
+        }
+        
         var addCount = function(pubdata, pageid, count){
             if (pubdata.structure0) {
                 for (var i in pubdata.structure0) {
                     if (i === pageid){
-                        pubdata.structure0[i]._title += " (" + count + ")";
-                        if (pubdata.structure0[i]._altTitle){
-                            pubdata.structure0[i]._altTitle += " (" + count + ")";
-                        }
+                        pubdata.structure0[i]._count = count;
                     }
                 }
             }
@@ -153,7 +157,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
-                    determineContentContactsMemberships
+                    determineContentContactsMemberships();
                 } else {
                     sakai.api.User.getContacts(checkContact);
                 }
@@ -189,15 +193,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var determineContentContactsMemberships = function(){
-            if (!contextData){
-                contextData = {};
-            }
-            contextData.counts = {};url = "";
-                data = {
-                    "userid": sakai_global.profile.main.data.homePath.split("~")[1]
-                };
+            contextData.counts = {};
             var contentURL = "/var/search/pool/manager-viewer.json?userid=" + contextData.userid + "&page=0&items=1";
             var contactsURL = "/var/contacts/findbyuser.json?userid=" + contextData.userid + "&page=0&items=1";
+            var membershipsURL = "/system/me.infinity.json?uid=" + contextData.userid;
 
             $.ajax({
                 url: contentURL,
@@ -205,13 +204,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 success: function(data){
                     contextData.counts["content"] = data.total;
-                     $.ajax({
+                    $.ajax({
                         url: contactsURL,
                         type: "GET",
                         cache: false,
                         success: function(data){
                             contextData.counts["contacts"] = data.total;
-                            contextData.counts["memberships"] = sakai.api.Groups.getMemberships(sakai.data.me.groups).entry.length;
+                            $.ajax({
+                                url: membershipsURL,
+                                type: "GET",
+                                cache: false,
+                                success: function(data){
+                                    contextData.counts["memberships"] = sakai.api.Groups.getMemberships(data.groups).entry.length;
+                                    renderEntity();
+                                    loadSpaceData();
+                                }
+                            });
+                            
                             renderEntity();
                             loadSpaceData();
                         }
