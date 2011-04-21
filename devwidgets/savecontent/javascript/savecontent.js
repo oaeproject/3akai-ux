@@ -42,7 +42,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $savecontent_widget = $("#savecontent_widget", $rootel),
             $savecontent_container = $("#savecontent_container", $rootel),
             $savecontent_template = $("#savecontent_template", $rootel),
-            $savecontent_close = $(".savecontent_close", $rootel);
+            $savecontent_close = $(".savecontent_close", $rootel),
+            $savecontent_save = $("#savecontent_save", $rootel),
             $savecontent_buttons = $("#savecontent_widget button", $rootel);
 
         $savecontent_widget.jqm({
@@ -65,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Displays the widget
          */
         var toggleSavecontent = function() {
-            var savecontentTop = $("#entity_content_save").offset().top + $("#entity_content_save").height() + 5;
+            var savecontentTop = $("#entity_content_save").offset().top + $("#entity_content_save").height();
             var savecontentLeft = $("#entity_content_save").offset().left + $("#entity_content_save").width() - 150;
 
             $savecontent_widget.css({
@@ -134,9 +135,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // bind savecontent save button
-            $("#savecontent_save").unbind("click");
-            $("#savecontent_save").bind("click", function () {
-                saveContent($("#savecontent_select option:selected").val());
+            $savecontent_save.unbind("click");
+            $savecontent_save.bind("click", function () {
+                saveContent($("#savecontent_select option:selected", $rootel).val());
             });
         };
 

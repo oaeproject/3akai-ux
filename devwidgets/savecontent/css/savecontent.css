@@ -1,5 +1,7 @@
 #savecontent_widget{color: #333333;position:absolute;display:none;width:250px;}
-.savecontent_outer {background-color:#e4e3e3; border: 1px solid #EAEBEC;
+.savecontent_outer {background-color:#e4e3e3;
+    border: 1px solid #EAEBEC;
+    border-top: none;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
@@ -7,11 +9,18 @@
     -moz-box-shadow: 2px 2px 3px #A9A9A9; /* Firefox 3.6 and earlier */
     -webkit-box-shadow: 2px 2px 3px #A9A9A9; /* Safari and Chrome */
 }
-.savecontent_inner {margin: 0 5px/* 0 5px*/; padding: 10px; background-color:#ffffff;
+.savecontent_inner {margin: 0 5px; padding: 10px; background-color:#ffffff;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
-#savecontent_title{margin: 10px 10px 10px 20px;}
-#savecontent_select {margin-top:10px;width:220px;}
+#savecontent_title {margin: 10px 10px 10px 20px;}
+#savecontent_select {margin-top:10px;width:220px;/*color:#336699;font-weight:bold;*/}
 #savecontent_widget button{margin:10px;}
+#savecontent_widget .savecontent_close{padding-top:3px;}
+#savecontent_widget .savecontent_header_arrow{margin-left: 120px;font-size: 0px; line-height: 0%; width: 0px;
+    border-top: 0;
+    border-bottom: 15px solid #e4e3e3;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
