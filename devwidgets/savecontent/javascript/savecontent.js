@@ -45,6 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_close = $(".savecontent_close", $rootel),
             $savecontent_save = $("#savecontent_save", $rootel),
             $savecontent_buttons = $("#savecontent_widget button", $rootel);
+            
+        var currentSelected = false;
 
         $savecontent_widget.jqm({
             modal: false,
@@ -58,6 +60,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hides the widget
          */
         var hideSavecontent = function() {
+            currentSelected = false;
             $savecontent_widget.jqmHide();
         };
 
@@ -65,21 +68,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * toggleSavecontent
          * Displays the widget
          */
-        var toggleSavecontent = function() {
-            var savecontentTop = $("#entity_content_save").offset().top + $("#entity_content_save").height();
-            var savecontentLeft = $("#entity_content_save").offset().left + $("#entity_content_save").width() - 150;
-
+        var toggleSavecontent = function(clickedEl) {
+            
+            var savecontentTop = clickedEl.offset().top + clickedEl.height();
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() - 150;
+                
             $savecontent_widget.css({
                 top: savecontentTop,
                 left: savecontentLeft
             });
-
+                
             var json = {
                 "content": sakai_global.content_profile.content_data,
                 "me": sakai.data.me,
                 "sakai": sakai
             };
-
+                
             $($savecontent_container).html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
             $savecontent_widget.jqmShow();
         };
@@ -124,29 +128,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        /**
-         * addBinding
-         */
-        var addBinding = function(){
-            // bind savecontent cancel
-            $savecontent_close.unbind("click");
-            $savecontent_close.bind("click", function(){
-                hideSavecontent();
-            });
-
-            // bind savecontent save button
-            $savecontent_save.unbind("click");
-            $savecontent_save.bind("click", function () {
-                saveContent($("#savecontent_select option:selected", $rootel).val());
-            });
-        };
-
-        $(window).unbind("init.savecontent.sakai");
-        $(window).bind("init.savecontent.sakai", function() {
-            $savecontent_buttons.removeAttr("disabled", "disabled");
-            addBinding();
-            toggleSavecontent();
+        // bind savecontent cancel
+        $savecontent_close.live("click", function(){
+            hideSavecontent();
         });
+
+        // bind savecontent save button
+        $savecontent_save.live("click", function () {
+            saveContent($("#savecontent_select option:selected", $rootel).val());
+        });
+
+        $(".savecontent_trigger").live("click", function(){
+            hideSavecontent();
+            currentSelected = false;
+            toggleSavecontent($(this));
+        });
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("savecontent");

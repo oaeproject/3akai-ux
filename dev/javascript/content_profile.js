@@ -509,10 +509,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
-        $("#entity_content_save").live("click", function(){
-            $(window).trigger("init.savecontent.sakai");
-        });
-
         $("#entity_content_add_to_library").live("click", function(){
             sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(){
                 $("#entity_content_add_to_library").hide();

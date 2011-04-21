@@ -14,7 +14,7 @@
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
-#savecontent_title {margin: 10px 10px 10px 20px;}
+#savecontent_title {font-size: 13px; margin: 10px 10px 5px;}
 #savecontent_select {margin-top:10px;width:220px;/*color:#336699;font-weight:bold;*/}
 #savecontent_widget button{margin:10px;}
 #savecontent_widget .savecontent_close{padding-top:3px;}

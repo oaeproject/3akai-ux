@@ -28,10 +28,14 @@
     <select name="savecontent_select" id="savecontent_select">
         {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
             <option value="mylibrary">__MSG__MY_LIBRARY__</option>
+        {else}
+            <option value="mylibrary" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
         {for g in me.groups}
             {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
-                <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}</option>
+                <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}'s Library</option>
+            {else}
+                <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]}'s Library (got it)</option>
             {/if}>
         {/for}
     </select>
