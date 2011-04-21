@@ -312,6 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         var cancelEditPage = function(){
             $("#lhnav_editmode").hide();
+            $("#context_menu").hide();
             $("#s3d-page-main-content").show();
         }
         
@@ -323,6 +324,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         var savePage = function(){
+            $("#context_menu").hide();
             currentPageShown.content = getTinyMCEContent();
             if (pubstructure.pages[currentPageShown.ref]){
                 pubstructure.pages[currentPageShown.ref].page = currentPageShown.content;
@@ -705,6 +707,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $("#context_menu").hide();
 
+        });
+        
+        /**
+         * Show wrapping dialog
+         * @param {Object} hash
+         * @return void
+         */
+        var showWrappingDialog = function(hash){
+            $("#context_menu").hide();
+            window.scrollTo(0,0);
+            hash.w.show();
+        };
+        
+        // Init wrapping modal
+        $('#wrapping_dialog').jqm({
+            modal: true,
+            trigger: $('#context_appearance_trigger'),
+            overlay: 20,
+            toTop: true,
+            onShow: showWrappingDialog
+        });
+        
+        var setNewStyleClass = function(classToAdd) {
+            var ed = tinyMCE.get('elm1');
+            var $selected = $(ed.selection.getNode());
+            $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
+            $selected.addClass(classToAdd);
+        };
+
+        // Bind wrapping_no click event
+        $("#wrapping_no").bind("click",function(ev){
+            setNewStyleClass("block_image");
+            $('#wrapping_dialog').jqmHide();
+        });
+
+        // Bind wrapping left click event
+        $("#wrapping_left").bind("click",function(ev){
+            setNewStyleClass("block_image_left");
+            $('#wrapping_dialog').jqmHide();
+        });
+
+        // Bind wrapping right click event
+        $("#wrapping_right").bind("click",function(ev){
+            setNewStyleClass("block_image_right");
+            $('#wrapping_dialog').jqmHide();
         });
         
         var initSakaiDocs = function(){
