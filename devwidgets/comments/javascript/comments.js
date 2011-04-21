@@ -128,11 +128,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Parse a json string to a valid date
-         * @param {String} dateInput String of a date that needs to be parsed
+         * @param {Number} dateInput String of a date that needs to be parsed
          * @returns {Date}
          */
         var parseDate = function(dateInput){
-            /** Get the date with the use of regular expressions */
             if (dateInput !== null) {
                 return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
             } else {
@@ -176,16 +175,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jsonDisplay.comments[i] = {};
                 var comment = json.results[i].post;
                 // Checks if the date is already parsed to a date object
-                // TODO: Get jcr:created
                 var tempDate = comment["_created"];
                 try {
                     // if the date is not a string this should generate en exception
                     comment.date = parseDate(tempDate);
-                }
-                catch (ex) {
+                } catch (ex) {
                     comment.date = tempDate;
                 }
-
                 comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
                 // Use the sakai API function to parse the date and convert to the users local time
                 comment.date = parseDate(tempDate, sakai.data.me);

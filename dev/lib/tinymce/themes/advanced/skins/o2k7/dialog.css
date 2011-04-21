@@ -50,12 +50,12 @@ float:left;
 
 /* Browse */
 a.pickcolor, a.browse {text-decoration:none}
-a.browse span {display:block; width:20px; height:18px; background:url(../../img/icons.png) -860px 0; border:1px solid #FFF; margin-left:1px;}
+a.browse span {display:block; width:20px; height:18px; background:url(../../img/icons.gif) -860px 0; border:1px solid #FFF; margin-left:1px;}
 .mceOldBoxModel a.browse span {width:22px; height:20px;}
 a.browse:hover span {border:1px solid #0A246A; background-color:#B2BBD0;}
 a.browse span.disabled {border:1px solid white; opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 a.browse:hover span.disabled {border:1px solid white; background-color:transparent;}
-a.pickcolor span {display:block; width:20px; height:16px; background:url(../../img/icons.png) -840px 0; margin-left:2px;}
+a.pickcolor span {display:block; width:20px; height:16px; background:url(../../img/icons.gif) -840px 0; margin-left:2px;}
 .mceOldBoxModel a.pickcolor span {width:21px; height:17px;}
 a.pickcolor:hover span {background-color:#B2BBD0;}
 a.pickcolor:hover span.disabled {}
@@ -73,12 +73,12 @@ td.charmap, #charmap a {width:18px; height:18px; color:#000; border:1px solid #A
 .mceActionPanel {margin-top:5px;}
 
 /* Tabs classes */
-.tabs {width:100%; height:18px; line-height:normal; background:url(../default/img/tabs.png) repeat-x 0 -72px;}
+.tabs {width:100%; height:18px; line-height:normal; background:url(../default/img/tabs.gif) repeat-x 0 -72px;}
 .tabs ul {margin:0; padding:0; list-style:none;}
-.tabs li {float:left; background:url(../default/img/tabs.png) no-repeat 0 0; margin:0 2px 0 0; padding:0 0 0 10px; line-height:17px; height:18px; display:block;}
-.tabs li.current {background:url(../default/img/tabs.png) no-repeat 0 -18px; margin-right:2px;}
-.tabs span {float:left; display:block; background:url(../default/img/tabs.png) no-repeat right -36px; padding:0px 10px 0 0;}
-.tabs .current span {background:url(../default/img/tabs.png) no-repeat right -54px;}
+.tabs li {float:left; background:url(../default/img/tabs.gif) no-repeat 0 0; margin:0 2px 0 0; padding:0 0 0 10px; line-height:17px; height:18px; display:block;}
+.tabs li.current {background:url(../default/img/tabs.gif) no-repeat 0 -18px; margin-right:2px;}
+.tabs span {float:left; display:block; background:url(../default/img/tabs.gif) no-repeat right -36px; padding:0px 10px 0 0;}
+.tabs .current span {background:url(../default/img/tabs.gif) no-repeat right -54px;}
 .tabs a {text-decoration:none; font-family:Verdana, Arial; font-size:10px;}
 .tabs a:link, .tabs a:visited, .tabs a:hover {color:black;}
 
@@ -114,3 +114,4 @@ h3 {font-size:14px;}
 #colorpicker #namedcolors {width:150px;}
 #colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}
 #colorpicker #colornamecontainer {margin-top:5px;}
+#colorpicker #picker_panel fieldset {margin:auto;width:325px;}
