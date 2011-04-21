@@ -73,6 +73,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         "groupid": false
     };
 
+    /**
+     * If the group has been fully created the user is redirected to the group.
+     * Checking for tags, permissions and members before redirecting.
+     */
     var checkCreationComplete = function(){
         if(creationComplete.tags && creationComplete.permissions && creationComplete.members){
             window.location = "/~" + creationComplete.groupid

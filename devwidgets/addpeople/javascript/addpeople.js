@@ -145,6 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var userObj = {
                         userid: $(this)[0].id.split("_")[0],
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
+                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
                         permission: "viewer",
                         picture: $(this).next().children("img").attr("src")
                     }
@@ -217,6 +218,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userObj = {
                 userid: userid[1],
                 name: userData.attributes.name,
+                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
                 permission: "viewer",
                 picture: pictureURL
             };

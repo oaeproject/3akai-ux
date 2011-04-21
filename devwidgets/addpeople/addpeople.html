@@ -25,6 +25,7 @@
     </div>
 
     <div id="addpeople_my_contacts">
+        <div id="addpeople_my_contacts_raquo_container"><!----></div>
         <div class="addpeople_tab">__MSG__MY_PEOPLE_AND_GROUPS__</div>
         <div class="addpeople_top_actions">
             <input type="checkbox" id="addpeople_select_all_contacts">
@@ -50,7 +51,7 @@
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid}_chkselected"/>
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="~${contact.userid}" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.name}</a>
+                <a href="~${contact.userid}" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
                     <option value="viewer" {if contact.permission == "viewer"} selected="selected"{/if}>__MSG__MEMBER__</option>
                     <option value="manager" {if contact.permission == "manager"} selected="selected"{/if}>__MSG__MANAGER__</option>
@@ -67,7 +68,7 @@
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
                 <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="~${contact.profile.userid}" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.User.getDisplayName(contact.profile)}</a>
+                <a href="~${contact.profile.userid}" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
             </li>
             {if contact_index != contacts.length -1}
                 <hr/>
