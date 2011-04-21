@@ -77,6 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "mysakai2",
         "navigation",
         "nextleveldown",
+        "newcreategroup",
         "newsharecontent",
         "newaddcontent",
         "nodecontentarea",

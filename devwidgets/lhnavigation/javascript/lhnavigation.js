@@ -73,6 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $el.next().hide();
                 }
             }
+            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         }
 
         ////////////
@@ -122,6 +123,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             //$clickedItem.children(navSelectedItemArrow).css("visibility","visible");
 
             showHideSubnav($clickedItem);
+
+            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
         
         var hideSubMenu = function(){
@@ -274,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var sanitizedContent = sakai.api.Security.saneHTML(content);
             $contentEl.html(sanitizedContent);
             // Insert widgets
-            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath,[privstructure.pages, pubstructure.pages]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath + "/",[privstructure.pages, pubstructure.pages]);
         }
         
         ///////////////////////////////////////////////////
@@ -468,6 +471,263 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return content;
         }
         
+        /**
+         * Renders the insert dropdown menu
+         */
+        var renderInsertDropdown = function(pageEmbedProperty){
+            // Vars for media and goodies
+            var media = {}; media.items = [];
+            var goodies = {}; goodies.items = [];
+            
+            // Fill in media and goodies
+            for (var i in sakai.widgets){
+                if (i) {
+                    var widget = sakai.widgets[i];
+                    if (widget[pageEmbedProperty] && widget.showinmedia) {
+                        media.items.push(widget);
+                    }
+                    if (widget[pageEmbedProperty] && widget.showinsakaigoodies) {
+                        goodies.items.push(widget);
+                    }
+                }
+            }
+
+            var jsonData = {
+                "media": media,
+                "goodies": goodies
+            };
+
+            // Renderer dropdown list
+            sakai.api.Util.TemplateRenderer($("#sitepages_insert_dropdown_template"), jsonData, $("#sitepages_insert_dropdown_container"));
+
+            // Event handler
+            $('#insert_dialog').jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                onHide: hideSelectedWidget
+            });
+
+        };
+        
+        /**
+         * Hide selected widget
+         * @param {Object} hash
+         * @return void
+         */
+        var hideSelectedWidget = function(hash){
+            hash.w.hide();
+            hash.o.remove();
+            currentlySelectedWidget = false;
+            $("#dialog_content").html("").hide();
+        };
+
+        // add bindings
+        $("#sitepages_insert_dropdown_button").live("click", function(){
+            // hide dropdown
+            showHideInsertDropdown();
+        });
+
+        $(".insert_dropdown_widget_link").live("click", function(){
+            // hide dropdown
+            showHideInsertDropdown(true);
+
+            // restore the cursor position in the editor
+            if (bookmark) {
+                tinyMCE.get("elm1").focus();
+                tinyMCE.get("elm1").selection.moveToBookmark(bookmark);
+            }
+            bookmark = false;
+
+            var id = $(this).attr("id");
+            if (id==="link") {
+                $('#link_dialog').jqmShow();
+            } else if (id==="hr") {
+                tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
+            } else {
+                renderSelectedWidget(id);
+            }
+        });
+        
+        /**
+         * Shows or hides the insert dropdown menu
+         */
+        var showHideInsertDropdown = function(hideOnly){
+            var el = $("#sitepages_insert_dropdown");
+            if (el) {
+                if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
+                    $("#sitepages_insert_dropdown_button").removeClass("clicked");
+                    el.hide();
+                } else if (el.css("display")) {
+                    $("#sitepages_insert_dropdown_button").addClass("clicked");
+                    var x = $("#sitepages_insert_dropdown_button").position().left;
+                    var y = $("#sitepages_insert_dropdown_button").position().top;
+                    el.css({
+                        "top": y + 28 + "px",
+                        "left": x + "px"
+                    }).show();
+                }
+            }
+        };
+        
+        var currentlySelectedWidget = false;
+        
+        /**
+         * Render selected widget
+         * @param {Object} hash
+         * @return void
+         */
+        var renderSelectedWidget = function(widgetid) {
+            var $dialog_content = $("#dialog_content");
+            var widgetSettingsWidth = 650;
+            $dialog_content.hide();
+            if (sakai.widgets[widgetid]){
+                var tuid = Math.round(Math.random() * 1000000000);
+                var id = "widget_" + widgetid + "_" + tuid;
+                currentlySelectedWidget = {
+                    "widgetname": widgetid,
+                    "uid": id
+                }
+                $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                $("#dialog_title").html(sakai.widgets[widgetid].name);
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,currentPageShown.savePath + "/");
+                if (sakai.widgets[widgetid].settingsWidth) {
+                    widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                }
+                $dialog_content.show();
+                window.scrollTo(0,0);
+            } else if (!widgetid){
+                window.scrollTo(0,0);
+            }
+            $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+        };
+        
+        var updatingExistingWidget = false;
+        
+        /**
+         * Insert widget modal Cancel button - hide modal
+         * @param {Object} tuid
+         * @retuen void
+         */
+        sakai_global.lhnavigation.widgetCancel = function(tuid){
+            $('#insert_dialog').jqmHide();
+        };
+
+        /**
+         * Widget finish - add widget to editor, hide modal
+         * @param {Object} tuid
+         * @return void
+         */
+        sakai_global.lhnavigation.widgetFinish = function(tuid){
+            // Add widget to the editor
+            if (!updatingExistingWidget) {
+                tinyMCE.get("elm1").execCommand('mceInsertContent', false, '<img src="' + sakai.widgets[currentlySelectedWidget.widgetname].img + '" id="' + currentlySelectedWidget.uid + '" class="widget_inline" style="display:block; padding: 10px; margin: 4px" border="1"/>');
+            }
+            updatingExistingWidget = false;
+            $('#insert_dialog').jqmHide();
+        };
+        
+        /**
+         * Register the appropriate widget cancel and save functions
+         */
+        sakai.api.Widgets.Container.registerFinishFunction(sakai_global.lhnavigation.widgetFinish);
+        sakai.api.Widgets.Container.registerCancelFunction(sakai_global.lhnavigation.widgetCancel);
+        
+        $(document.body).append($("#context_menu"));
+        
+        /**
+         * tinyMCE selection event handler
+         * @retun void
+         */
+        var mySelectionEvent = function(){
+            var $context_menu = $("#context_menu");
+            var $context_settings = $("#context_settings");
+            var ed = tinyMCE.get('elm1');
+            $context_menu.hide();
+            var selected = ed.selection.getNode();
+            if (selected && selected.nodeName.toLowerCase() === "img") {
+                if ($(selected).hasClass("widget_inline")){
+                    $context_settings.show();
+                } else {
+                    $context_settings.hide();
+                }
+                var pos = tinymce.DOM.getPos(selected);
+                $context_menu.css({"top": pos.y + $("#elm1_ifr").position().top + 15 + "px", "left": pos.x + $("#elm1_ifr").position().left + 15 + "px", "position": "absolute"}).show();
+            }
+
+            // save the cursor position in the editor
+            bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
+        };
+        
+        // Bind Widget Context Remove click event
+        $("#context_remove").bind("mousedown", function(ev){
+            tinyMCE.get("elm1").execCommand('mceInsertContent', false, '');
+        });
+        
+        // Bind Widget Context Settings click event
+        // change to mousedown based on following link
+        // http://tinymce.moxiecode.com/forum/viewtopic.php?pid=74422
+        $("#context_settings").mousedown(function(ev){
+            var ed = tinyMCE.get('elm1');
+            var selected = ed.selection.getNode();
+            $("#dialog_content").hide();
+            if (selected && selected.nodeName.toLowerCase() === "img" && $(selected).hasClass("widget_inline")) {
+                updatingExistingWidget = true;
+                $("#context_settings").show();
+                var id = selected.getAttribute("id");
+                var split = id.split("_");
+                var type = split[1];
+                var uid = split[2];
+                var length = split[0].length + 1 + split[1].length + 1 + split[2].length + 1;
+                var placement = id.substring(length);
+                var widgetSettingsWidth = 650;
+                currentlySelectedWidget = false;
+                $("#dialog_content").hide();
+                if (sakai.widgets[type]) {
+                    if (sakai.widgets[type].settingsWidth) {
+                        widgetSettingsWidth = sakai.widgets[type].settingsWidth;
+                    }
+                    var nuid = "widget_" + type + "_" + uid;
+                    if (placement){
+                        nuid += "_" + placement;
+                    }
+                    currentlySelectedWidget = {
+                        "widgetname": type,
+                        "uid": nuid
+                    }
+                    $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
+                    $("#dialog_title").html(sakai.widgets[type].name);
+                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.savePath + "/");
+                    $("#dialog_content").show();
+                    $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+                }
+            }
+
+            $("#context_menu").hide();
+
+        });
+        
+        var initSakaiDocs = function(){
+            $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show()).show();
+            $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
+            $("#lhnavigation_actions").show();
+            init_tinyMCE();
+            renderInsertDropdown("sakaidocs");
+        }
+        
+        var hideSakaiDocs = function(){
+            $("#lhnav-page-action-bar").html($("#lhav_buttonbar").hide()).hide();
+            $("#lhnavigation_actions").hide();
+        }
+        
+        //////////////////
+        //////////////////
+        //////////////////
+        // TinyMCE Init //
+        //////////////////
+        //////////////////
+        //////////////////
+        
         var init_tinyMCE = function(){
         
             // Init tinyMCE
@@ -491,7 +751,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     theme_advanced_toolbar_location: "top",
                     theme_advanced_toolbar_align: "left",
                     theme_advanced_statusbar_location: "none",
-                    //handle_node_change_callback: "sakai_global.sitespages.mySelectionEvent",
+                    handle_node_change_callback: mySelectionEvent,
                     //init_instance_callback: "sakai_global.sitespages.startEditPage",
                     
                     // Example content CSS (should be your site CSS)
@@ -618,152 +878,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "video[src|class|autoplay|controls|height|width|preload|loop]"
                 });
             }
-        }
-        
-        /**
-         * Renders the insert dropdown menu
-         */
-        var renderInsertDropdown = function(pageEmbedProperty){
-            // Vars for media and goodies
-            var media = {}; media.items = [];
-            var goodies = {}; goodies.items = [];
-            
-            // Fill in media and goodies
-            for (var i in sakai.widgets){
-                if (i) {
-                    var widget = sakai.widgets[i];
-                    if (widget[pageEmbedProperty] && widget.showinmedia) {
-                        media.items.push(widget);
-                    }
-                    if (widget[pageEmbedProperty] && widget.showinsakaigoodies) {
-                        goodies.items.push(widget);
-                    }
-                }
-            }
-
-            var jsonData = {
-                "media": media,
-                "goodies": goodies
-            };
-
-            // Renderer dropdown list
-            sakai.api.Util.TemplateRenderer($("#sitepages_insert_dropdown_template"), jsonData, $("#sitepages_insert_dropdown_container"));
-
-            // Event handler
-            $('#insert_dialog').jqm({
-                modal: true,
-                overlay: 20,
-                toTop: true,
-                onHide: hideSelectedWidget
-            });
-
-        };
-        
-        /**
-         * Hide selected widget
-         * @param {Object} hash
-         * @return void
-         */
-        var hideSelectedWidget = function(hash){
-            hash.w.hide();
-            hash.o.remove();
-            sakai_global.sitespages.newwidget_id = false;
-            sakai_global.sitespages.newwidget_uid = false;
-            $("#dialog_content").html("").hide();
-        };
-
-        // add bindings
-        $("#sitepages_insert_dropdown_button").live("click", function(){
-            // hide dropdown
-            showHideInsertDropdown();
-        });
-
-        $(".insert_dropdown_widget_link").live("click", function(){
-            // hide dropdown
-            showHideInsertDropdown(true);
-
-            // restore the cursor position in the editor
-            if (bookmark) {
-                tinyMCE.get("elm1").focus();
-                tinyMCE.get("elm1").selection.moveToBookmark(bookmark);
-            }
-            bookmark = false;
-
-            var id = $(this).attr("id");
-            if (id==="link") {
-                $('#link_dialog').jqmShow();
-            } else if (id==="hr") {
-                tinyMCE.get("elm1").execCommand('InsertHorizontalRule');
-            } else {
-                renderSelectedWidget(id);
-            }
-        });
-        
-        /**
-         * Shows or hides the insert dropdown menu
-         */
-        var showHideInsertDropdown = function(hideOnly){
-            var el = $("#sitepages_insert_dropdown");
-            if (el) {
-                if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
-                    $("#sitepages_insert_dropdown_button").removeClass("clicked");
-                    el.hide();
-                } else if (el.css("display")) {
-                    $("#sitepages_insert_dropdown_button").addClass("clicked");
-                    var x = $("#sitepages_insert_dropdown_button").position().left;
-                    var y = $("#sitepages_insert_dropdown_button").position().top;
-                    el.css({
-                        "top": y + 28 + "px",
-                        "left": x + "px"
-                    }).show();
-                }
-            }
-        };
-        
-        var currentlySelectedWidget = false;
-        
-        /**
-         * Render selected widget
-         * @param {Object} hash
-         * @return void
-         */
-        var renderSelectedWidget = function(widgetid) {
-            var $dialog_content = $("#dialog_content");
-            //var widgetSettingsWidth = 650;
-            $dialog_content.hide();
-            if (sakai.widgets[widgetid]){
-                var tuid = Math.round(Math.random() * 1000000000);
-                var id = "widget_" + widgetid + "_" + tuid;
-                currentlySelectedWidget = {
-                    "widgetname": widgetid,
-                    "uid": id
-                }
-                $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                $("#dialog_title").html(sakai.widgets[widgetid].name);
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,currentPageShown.savePath + "/");
-                //if (sakai.widgets[widgetid].settingsWidth) {
-                //    widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
-                //}
-                $dialog_content.show();
-                window.scrollTo(0,0);
-            } else if (!widgetid){
-                window.scrollTo(0,0);
-            }
-            //$('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
-            $('#insert_dialog').jqmShow();
-        };
-        
-        var initSakaiDocs = function(){
-            $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show()).show();
-            $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
-            $("#lhnavigation_actions").show();
-            init_tinyMCE();
-            renderInsertDropdown("sakaidocs");
-        }
-        
-        var hideSakaiDocs = function(){
-            $("#lhnav-page-action-bar").html($("#lhav_buttonbar").hide()).hide();
-            $("#lhnavigation_actions").hide();
         }
 
         ///////////////////////////////////////////////////

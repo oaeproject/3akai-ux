@@ -16,7 +16,11 @@
 #pickeradvanced_container #pickeradvanced_footer_options{margin-top:15px;}
 
 /* CONTENT */
-#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:auto;width:700px;}
+#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:hidden;width:700px;}
+
+/* SEARCH */
+#pickeradvanced_content_search_form {vertical-align:middle;}
+#pickeradvanced_content_search_form button {padding-left:5px;}
 
 /* LIST */
 #pickeradvanced_container #pickeradvanced_content_list{float:left;height:269px;width:159px;overflow:auto;background-color:#fff;}

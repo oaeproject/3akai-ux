@@ -24,34 +24,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             "structure0": {
                 "all": {
                     "_ref": "9574379429432",
-                    "_title": "Search All",
+                    "_title": "All",
                     "main": {
                         "_ref": "9574379429432",
-                        "_title": "Search All"
+                        "_title": "All"
                     }
                 },
                 "content": {
                     "_ref": "6573920372",
-                    "_title": "Search Content",
+                    "_title": "Content",
                     "main": {
                         "_ref": "6573920372",
-                        "_title": "Search Content"
+                        "_title": "Content"
                     }
                 },
                 "groups": {
-                    "_title": "Search Groups",
+                    "_title": "Groups",
                     "_ref": "87949372639",
                     "main": {
                         "_ref": "87949372639",
-                        "_title": "Search Groups"
+                        "_title": "Groups"
                     }
                 },
                 "people": {
-                    "_title": "Search People",
+                    "_title": "People",
                     "_ref": "49294509202",
                     "main": {
                         "_ref": "49294509202",
-                        "_title": "Search People"
+                        "_title": "People"
                      }
                 }
             },

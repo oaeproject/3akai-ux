@@ -325,14 +325,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             parseContent(data, dataArr);
             parseGroups(data, dataArr);
             parseMessages(data, dataArr);
-            parseUsers(data, dataArr);
-            parseInvitations(data, dataArr);
+            //parseUsers(data, dataArr);
+            //parseInvitations(data, dataArr);
 
             renderCarousel(dataArr);
         };
 
         var checkDataParsable = function(data){
-            if (data.content && data.groups && data.messages && data.users && data.invitations) {
+            if (data.content && data.groups && data.messages){ // && data.users && data.invitations) {
                 parseData(data);
             }
         };
@@ -354,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
 
-            $.ajax({
+            /*$.ajax({
                 url: "/var/contacts/findstate.json?state=INVITED&page=0&items=1000",
                 cache: false,
                 success: function(data){
@@ -370,7 +370,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.users = data;
                     checkDataParsable(dataArr);
                 }
-            });
+            }); */
 
             $.ajax({
                 url: "/var/search/groups-all.json?page=0&items=50&q=*",

@@ -143,6 +143,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Load template configuration file
             sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/templates", function(success, pref_data){
                 if (success) {
+                    // remove properties added by server
+                    sakai.api.Server.removeServerCreatedObjects(pref_data);
                     sakai_global.sitespages.mytemplates = pref_data;
                 } else {
                     sakai_global.sitespages.mytemplates = {};
@@ -523,18 +525,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns {String} URL safe title
          */
         sakai_global.sitespages.createURLSafeTitle = function(title) {
-            var url_safe_title = title.toLowerCase();
-            url_safe_title = url_safe_title.replace(/ /g,"-");
-            url_safe_title = url_safe_title.replace(/'/g,"");
-            url_safe_title = url_safe_title.replace(/"/g,"");
-            url_safe_title = url_safe_title.replace(/[:]/g,"");
-            url_safe_title = url_safe_title.replace(/[?]/g,"");
-            url_safe_title = url_safe_title.replace(/[=]/g,"");
-
-            var regexp = new RegExp("[^a-z0-9_-]", "gi");
-            url_safe_title = url_safe_title.replace(regexp,"-");
-
-            return url_safe_title;
+            return sakai.api.Util.makeSafeURL(title);
         };
 
         $(window).bind("ready.dashboard.sakai", function(e, tuid) {
@@ -780,18 +771,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global.sitespages.updatePageContent = function(url, content, callback) {
 
-            var jsonString = $.toJSON({
-                "pageContent": { "sling:resourceType": "sakai/pagecontent", "sakai:pagecontent": content }});
-
             $.ajax({
-                url: url,
+                url: url + "/pageContent",
                 type: "POST",
                 data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":content": jsonString,
-                    ":replace": false,
-                    ":replaceProperties": true,
+                    "sling:resourceType": "sakai/pagecontent",
+                    "sakai:pagecontent": content,
                     "_charset_": "utf-8"
                 },
                 success: function(data) {
@@ -1860,7 +1845,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         // Bind Widget Context Settings click event
-        $("#context_settings").bind("click", function(ev){
+        // change to mousedown based on following link
+        // http://tinymce.moxiecode.com/forum/viewtopic.php?pid=74422
+        $("#context_settings").mousedown(function(ev){
             var ed = tinyMCE.get('elm1');
             var selected = ed.selection.getNode();
             $("#dialog_content").hide();
@@ -2560,7 +2547,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Populate the select box
                     var select = $("#revision_history_list").get(0);
                     $(select).unbind("change",changeVersionPreview);
-
+                    $(select).bind("change", changeVersionPreview);
                     select.options.length = 0;
                     for (var ver in data.versions){
 
@@ -2580,8 +2567,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var id = ver;
                             var option = new Option(name, id);
                             select.options[select.options.length] = option;
-
-                            $(select).bind("change", changeVersionPreview);
 
                             // Signal that a page reload will be needed when we go back
                             sakai_global.sitespages.versionHistoryNeedsReset = true;
