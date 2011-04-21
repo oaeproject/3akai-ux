@@ -166,7 +166,10 @@
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}/${sublevel_index}">
-                            <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
+                            <a href="#l=${level_index}/${sublevel_index}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
+                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                {if sublevel._count} (${sublevel._count}){/if}
+                            </a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
                         {var index = index + 1}
                     {/if}
@@ -174,7 +177,10 @@
             </ul>
             {else}
                 <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level_index}">
-                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</a>
+                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                        {if level._count} (${level._count}){/if}
+                    </a>
                     <div class="lhnavigation_private"></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                 </li>
@@ -196,7 +202,10 @@
                     {if sublevel_index.substring(0,1) !== "_" && sublevel._title}
                         {if index != 0}<hr class="s3d-split-line"/>{/if}
                         <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}/${sublevel_index}">
-                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">{if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}</a>
+                            <a href="#l=${level_index}/${sublevel_index}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">
+                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                {if sublevel._count} (${sublevel._count}){/if}
+                            </a>
                             <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
                             <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                         </li>
@@ -206,7 +215,10 @@
             </ul>
             {else}
                 <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level_index}">
-                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</a>
+                    <a href="#l=${level_index}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                        {if level._count} (${level._count}){/if}
+                    </a>
                     <input class="lhnavigation_change_title" type="text" style="display:none;"/>
                     <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
                     <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
@@ -221,6 +233,36 @@
         <li><a href="javascript:;">Change Name</a></li>
         <li><a href="javascript:;" id="lhavigation_submenu_deletepage">Delete Page</a></li>
     </ul>
+</div>
+
+<!-- WRAPPING DIALOG -->
+<div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+        <h1>__MSG__APPEARANCE__</h1>
+        <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+
+    <div class="dialog_content">
+
+        <h3 style="margin-top:0px">__MSG__WRAPPING_SELECT__</h3>
+
+        <ul style="margin-left:1em">
+            <li style="list-style-type:none; padding-l"><button type="button" id="wrapping_no" class="s3d-link-button s3d-bold">__MSG__WRAPPING_NONE__</button></li>
+            <li style="list-style-type:none"><button type="button" id="wrapping_left" class="s3d-link-button s3d-bold">__MSG__WRAPPING_LEFT__</button></li>
+            <li style="list-style-type:none"><button type="button" id="wrapping_right" class="s3d-link-button s3d-bold">__MSG__WRAPPING_RIGHT__</button></li>
+        </ul>
+
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        </div>
+    </div>
+
+    <!-- DIALOG FOOTER -->
+    <div class="dialog_footer">
+        <div class="dialog_footer_inner"><!-- --></div>
+    </div>
 </div>
 
 <div class="s3d-sprites-buttons" id="context_menu" style="display:none">

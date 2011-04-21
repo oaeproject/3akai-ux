@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     userid: sakai.data.me.user.userid,
                     page: 0,
                     items: 5,
-                    sortOn: "lastModified",
+                    sortOn: "_lastModified",
                     sortOrder: "desc"
                 },
                 success: function(data){

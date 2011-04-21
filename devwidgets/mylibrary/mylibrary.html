@@ -2,10 +2,18 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/mylibrary/css/mylibrary.css" />
 
 <div class="mylibrary_widget">
+    <div id="mylibrary_title_container"></div>
+    <div id="mylibrary_title_template"><!--
+        {if isMe}
+            <div class='s3d-contentpage-title'>My Library</div>
+        {else}
+            <div class='s3d-contentpage-title'>${firstName}'s Library</div>
+        {/if}
+    --></div>
     <!-- Action bar -->
-    <div class="mylibrary_title_bar">
+    <div id="mylibrary_title_bar" class="mylibrary_title_bar">
         <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder"
-            style="display:none;">
+            style="display:none; width: auto;">
             __MSG__SORT_BY__: <select id="mylibrary_sortby">
                 <option value="lastModified_desc">__MSG__NEWEST__</option>
                 <option value="lastModified_asc">__MSG__OLDEST__</option>
@@ -25,12 +33,12 @@
     </div>
 
     <div id="mylibrary_empty" class="fl-container fl-fix mylibrary_item" style="display:none;">
-        <p class="mylibrary_meta mylibrary_center"><span id="mylibrary_empty_note"></span>
+        <div class="mylibrary_meta mylibrary_center"><span id="mylibrary_empty_note"></span>
             <button type="button" id="mylibrary_addcontent"
                 class="s3d-button s3d-button-link-2-state" style="display:none;">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span>
             </button>
-        </p>
+        </div>
     </div>
 
     <!-- Library Items -->

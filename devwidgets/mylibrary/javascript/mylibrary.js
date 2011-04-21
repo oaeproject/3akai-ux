@@ -42,7 +42,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             totalItems: 0,
             itemsPerPage: 8,
             currentPagenum: 1,
-            sortBy: "lastModified",
+            sortBy: "_lastModified",
             sortOrder: "desc",
             isOwnerViewing: false,
             default_search_text: ""
@@ -171,11 +171,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var sortSelection = this.options[this.selectedIndex].value;
             switch (sortSelection) {
                 case "lastModified_asc":
-                    mylibrary.sortBy = "lastModified";
+                    mylibrary.sortBy = "_lastModified";
                     mylibrary.sortOrder = "asc";
                     break;
                 default:
-                    mylibrary.sortBy = "lastModified";
+                    mylibrary.sortBy = "_lastModified";
                     mylibrary.sortOrder = "desc";
                     break;
             }
@@ -374,6 +374,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_livefilter.show();
                 $mylibrary_sortarea.show();
                 $mylibrary_empty.hide();
+                $("#mylibrary_title_bar").show();
                 $("#mylibrary_items", $rootel).html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
@@ -381,6 +382,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();
                 $mylibrary_sortarea.hide();
+                $("#mylibrary_title_bar").hide();
                 $mylibrary_empty_note.html(getPersonalizedText("NO_ITEMS_IN_YOUR_LIBRARY"));
                 $mylibrary_empty.show();
                 if (mylibrary.isOwnerViewing) {
@@ -408,6 +410,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_livefilter.val(mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
                 getLibraryItems(userid, renderLibraryItems);
+                sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
+                    isMe: mylibrary.isOwnerViewing, 
+                    firstName: sakai_global.profile.main.data.basic.elements.firstName.value
+                }, $("#mylibrary_title_container", $rootel));
             } else {
                 debug.warn("No user found for My Library");
             }

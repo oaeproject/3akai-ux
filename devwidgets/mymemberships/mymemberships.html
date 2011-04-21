@@ -2,23 +2,41 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/mymemberships/css/mymemberships.css" />
 
 <div class="mymemberships_widget">
+    
+    <div id="mymemberships_sortarea" class="s3d-margin-top-5" style="display:none;">__MSG__SORT_BY__:
+        <select id="mymemberships_sortby">
+            <option value="asc">__MSG__A_Z__</option>
+            <option value="desc">__MSG__Z_A__</option>
+        </select>
+    </div>
+    <div id="mymemberships_title_container"></div>
+    <div id="mymemberships_title_template"><!--
+        {if isMe}
+            <div class='s3d-contentpage-title'>My Memberships</div>
+        {else}
+            <div class='s3d-contentpage-title'>${firstName}'s Memberships</div>
+        {/if}
+    --></div>
+    
     <!-- Empty/Error messages -->
     <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
-    <p id="mymemberships_nogroups" style="display:none;">__MSG__YOU_ARE_NOT_A_MEMBER__
-        <button type="button" id="mymemberships_addgroup"
-            class="s3d-button s3d-button-link-2-state" style="display:none;">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
-        </button>
-    </p>
+    <p id="mymemberships_nogroups" style="display:none;"><!-- No groups message renders here --></p>
+
+    <div id="mymemberships_nogroups_template" style="display:none"><!--
+        {if isMe}
+            __MSG__YOU_ARE_NOT_A_MEMBER__
+            <button type="button" id="mymemberships_addgroup"
+            class="s3d-button s3d-button-link-2-state">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
+            </button>
+        {else}
+            __MSG__THIS_USER_IS_NOT_A_MEMBER__
+        {/if}
+    --></div>
 
     <!-- Action bar -->
     <div id="mymemberships_actionbar" style="display:none;">
-        <div id="mymemberships_sortarea">__MSG__SORT_BY__:
-            <select id="mymemberships_sortby">
-                <option value="asc">__MSG__A_Z__</option>
-                <option value="desc">__MSG__Z_A__</option>
-            </select>
-        </div>
+        
     </div>
 
     <!-- Items -->
@@ -57,6 +75,7 @@
     <div id="mymemberships_hover_template" style="display:none;"><!--
         <div class="mymemberships_hover_top">
             <p><span class="s3d-bold">${title}</span>
+            <br/>
                 <span class="mymemberships_hover_details">${totalParticipants}
                     {if totalParticipants !== 1}__MSG__PARTICIPANTS__{else}__MSG__PARTICIPANT__{/if}</span>
             </p>

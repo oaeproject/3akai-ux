@@ -25,7 +25,7 @@
 .mylibrary_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0 10px;height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
-.mylibrary_item {color:#333;padding:10px 0; border-bottom:1px solid #DDDDDD;}
+.mylibrary_item {color:#333;}
 .mylibrary_item img {float: left;padding: 0 10px 5px 0;width: 40px;}
 .mylibrary_name_div {color:#878A8C; width:50%; overflow:hidden;}
 .mylibrary_details {font-size:0.9em;}
@@ -38,7 +38,7 @@
 .mylibrary_description_detail {color: #878A8C; font-size:0.9em; display:block; padding-top:2px; margin:0;}
 .mylibrary_detail_dark {color:#000000;}
 .mylibrary_noborder{border:none;}
-#mylibrary_livefilter{float:right; width:200px;}
+#mylibrary_livefilter{float:right; width:200px; margin-right: 170px;}
 .mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
-.mylibrary_meta {color:#888;font-style:italic;}
-.mylibrary_center {text-align:center;margin-top:1em;}
+.mylibrary_meta {color:#aaa;font-style:italic;}
+.mylibrary_center {text-align:center;}
