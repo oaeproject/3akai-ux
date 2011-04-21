@@ -441,7 +441,7 @@ define(["jquery",
                 }
                 if (profile.picture) {
                     if (profile.picture.name) {
-                        picture_name = profile.picture.name
+                        picture_name = profile.picture.name;
                     } else {
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
@@ -449,7 +449,7 @@ define(["jquery",
                     return "/~" + id + "/public/profile/" + picture_name;
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
-                        picture_name = profile.basic.elements.picture.value.name
+                        picture_name = profile.basic.elements.picture.value.name;
                     } else {
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
@@ -1507,8 +1507,7 @@ define(["jquery",
                 replacement = "-";
             }
             url = $.trim(url);
-            url = url.replace(/['"]/gi,"");
-            url = url.replace(/[:;<>#^%{}|~`@%&!$,.=\+\/\?\(\)\*\s\\\\\\[\\]]*/gi, replacement);
+            url = url.replace(/[:;<>#%{}|~`@%&!$,.="'\^\+\/\?\(\)\*\s\\\\\[\]]/gi, replacement);
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
             return url;
         }

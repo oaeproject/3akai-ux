@@ -131,6 +131,14 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .s3d-dropdown-menu .s3d-dropdown-container {background:url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bg.png") repeat-x scroll left top #0c4e79;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;-moz-box-shadow:0 10px 10px -3px #333333; -webkit-box-shadow:0 10px 10px -3px #333333; box-shadow:0 10px 10px -3px #333333;position:absolute;z-index:999;min-width:140px;padding:5px;-moz-border-radius:0 2px 2px 2px; border-radius:0 2px 2px 2px; -webkit-border-radius:0 2px 2px 2px;cursor:auto;}
 .s3d-split-line {background-color:none;border:medium none;border-top:1px dotted #d4d4d4;height: 1px;margin: 3px 9px;}
 
+/*
+ * MARGINS
+ */
+.s3d-margin-top-5 {margin-top: 5px;}
+.s3d-margin-top-10 {margin-top: 10px;}
+.s3d-margin-top-15 {margin-top: 15px;}
+.s3d-margin-top-20 {margin-top: 20px;}
+
 /* 
  * LINKS
  */

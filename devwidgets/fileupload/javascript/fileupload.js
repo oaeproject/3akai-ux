@@ -64,6 +64,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var oldVersionPath = "";
         var context = "";
         var type = "file";
+        var activityMessage = "";
 
         var numberOfSelectedFiles = 0;
 
@@ -541,7 +542,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
                     resetFields();
                 }
-            }, false);
+            }, false, true);
         };
 
         /**
@@ -731,6 +732,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
+        var handleCreateActivityResponse = function(responseData, success) {
+            if (success) {
+                // update the entity widget with the new activity
+                $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+            }
+        };
+
         /**
          *
          */
@@ -797,7 +805,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         // Initiate the tagging process and create an activity
                         $fileUploadAddTags = $($fileUploadAddTags.selector);
                         tags = sakai.api.Util.formatTags($fileUploadAddTags.val());
-                        var activityMessage = "__MSG__UPLOADED_FILE__";
+                        activityMessage = "__MSG__UPLOADED_FILE__";
                         if (newVersion) {
                             activityMessage = "__MSG__UPLOADED_NEW_FILE_VERSION__";
                         }
@@ -807,12 +815,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         for (var file in uploadedFiles) {
                             if (uploadedFiles.hasOwnProperty(file)) {
                                 sakai.api.Util.tagEntity("/p/" + uploadedFiles[file].hashpath, tags, []);
-                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData, function(responseData, success){
-                                    if (success) {
-                                        // update the entity widget with the new activity
-                                        $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
-                                    }
-                                });
+                                sakai.api.Activity.createActivity("/p/" + uploadedFiles[file].hashpath, "content", "default", activityData, handleCreateActivityResponse);
                             }
                         }
 

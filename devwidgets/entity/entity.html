@@ -6,31 +6,7 @@
 <div id="entity_user_template" style="display:none"><!--
     <div id="entity_actions">
         {if !anon}
-            {if type && type == "user_me"}
-                <button id="entity_user_create_and_add" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_AND_ADD__</span>
-                </button>
-                <div class="entity_user_create_add_dropdown entity_user_dropdown s3d-dropdown-menu" style="display:none;">
-                    <div class="entity_dropdown_tr">
-                    </div>
-                    <div class="entity_dropdown_content">
-                        <ul>
-                            <li>
-                                <a class="sakai_add_content_overlay" href="javascript:;">__MSG__ADD_CONTENT__</a>
-                            </li>
-                            <li>
-                                <a href="/search/people#q=*&filter=&facet=&page=1">__MSG__ADD_CONTACTS__</a>
-                            </li>
-                            <hr class="subnav_split"/>
-                            <li>
-                                <a class="sakai_create_group_overlay" href="javascript:;">__MSG__CREATE_GROUP__</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="entity_dropdown_bottom">
-                    </div>
-                </div>
-            {elseif type != "user_anon"}
+            {if type != "user_anon" && type != "user_me"}
                 {if type == "user_other"}
                     <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" type="button">
                         <div id="entity_add_icon"></div>
@@ -45,7 +21,6 @@
                     <button class="entity_user_contact_pending" type="button">
                         <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__</span>
                     </button>
-
                 {/if}
                 <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" type="button" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
@@ -53,22 +28,13 @@
             {/if}
         {/if}
     </div>
-    {if data.picture}
-        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
-            <img id="entity_profile_picture" src="${data.picture}"/>
-        </div>
-    {else}
-        <div id="entity_user_image" class="entity_user_image {if type && type == "user_me"} entity_user_image_pointer{/if} ">
-            <img id="entity_profile_picture" src=""/>
-        </div>
-    {/if}
-    <div id="entity_name" class="s3d-bold">${data.displayName}</div>
-    <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
-        <span class="entity_number">(${data.counts["memberships"]})</span> <a href="#l=memberships" title="${data.counts["memberships"]} Memberships">Memberships</a>,
-        <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
-    </div>
     {if type && type == "user_me"}
+        <div id="entity_user_image" class="entity_my_profilepic">
+            <img src="/devwidgets/entity/images/entity_changepic_arrow.png" class="entity_changepic_arrow"/>
+            <div class="entity_profilepic_internal">
+                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_user.png{/if}"/>
+            </div>
+        </div>
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
             <div class="entity_dropdown_tr"></div>
             <div class="entity_dropdown_content s3d-dropdown-menu">
@@ -77,6 +43,19 @@
                 </ul>
             </div>
             <div class="entity_dropdown_bottom"></div>
+        </div>
+        <div class="s3d-bold entity_name_me">${data.displayName}</div>
+    {else}
+        <div id="entity_user_image" class="entity_other_profilepic">
+            <div class="entity_profilepic_internal">
+                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_user.png{/if}"/>
+            </div>
+        </div>
+        <div id="entity_name" class="s3d-bold">${data.displayName}</div>
+        <div id="entity_owns" class="s3d-regular-links">
+            <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
+            <span class="entity_number">(${data.counts["memberships"]})</span> <a href="#l=memberships" title="${data.counts["memberships"]} Memberships">Memberships</a>,
+            <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
         </div>
     {/if}
 --></div>

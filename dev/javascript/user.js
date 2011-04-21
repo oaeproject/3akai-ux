@@ -64,6 +64,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         pubdata = data;
                         pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                     }
+                    addCount(pubdata, "library", contextData.counts["content"]);
+                    addCount(pubdata, "contacts", contextData.counts["contacts"]);
+                    addCount(pubdata, "memberships", contextData.counts["memberships"]);
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
@@ -87,6 +90,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 });
         };
         
+        var addCount = function(pubdata, pageid, count){
+            if (pubdata.structure0) {
+                for (var i in pubdata.structure0) {
+                    if (i === pageid){
+                        pubdata.structure0[i]._title += " (" + count + ")";
+                        if (pubdata.structure0[i]._altTitle){
+                            pubdata.structure0[i]._altTitle += " (" + count + ")";
+                        }
+                    }
+                }
+            }
+        };
+        
         var getUserPicture = function(profile, userid){
             var picture = "";
             if (profile.picture) {
@@ -100,6 +116,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
                 sakai.api.User.getUser(qs.get("id"), getProfileData);
             } else if (!sakai.data.me.user.anon){
+                if (document.location.pathname === "/dev/user.html"){
+                    document.location = "/dev/me.html";
+                    return false;
+                }
                 sakai.api.Security.showPage();
                 contextType = "user_me";
                 // Set the profile data object
