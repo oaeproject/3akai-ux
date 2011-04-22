@@ -8,5 +8,5 @@
     "personalportal":false,
     "type": "sakai",
     "enabled": true,
-    "url":"/devwidgets/contacts/contacts.html",
+    "url":"/devwidgets/contacts/contacts.html"
 }
