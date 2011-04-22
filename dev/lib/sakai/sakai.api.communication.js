@@ -352,7 +352,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     type: "user"
                 };
                 newMsg.body = $.trim(msg["sakai:body"].replace(/\n/gi, "<br />"));
-                newMsg.excerpt = $.trim(sakai_util.shortenString(msg["sakai:body"].replace(/\n/gi, " "), 1000));
+                newMsg.nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                 newMsg.subject = msg["sakai:subject"];
                 //Jan 22, 2009 10:25 PM
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));

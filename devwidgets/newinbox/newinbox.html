@@ -25,10 +25,16 @@
             <!-- Inbox Item Template -->
             <div id="newinbox_message_list_item_template"><!--
                 {for message in data.results}
-                    <div class="fl-container fl-fix newinbox_items_container{if message.read !== "true"} unread{/if}" id="${message.id}">
+                    <div class="fl-container fl-fix newinbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
                         <div class="newinbox_items_inner">
                             <div class="newinbox_delete">
-                              <button type="button" class="s3d-link-button newinbox_delete_button">__MSG__X__</button>
+                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_reply_button">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
+                              </button>
+                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                              </button>
+
                             </div>
                             <div class="newinbox_placeholder"><input type="checkbox"/></div>
                             <div class="newinbox_message_data">
@@ -43,7 +49,7 @@
                                 <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
                               </div>
                               <div class="newinbox_excerpt">
-                                <p>${message.excerpt}<p>
+                                <p>${message.nolinebreaks}<p>
                               </div>
                             </div>
                         </div>
@@ -87,6 +93,14 @@
                     </div>
                     <div class="newinbox_show_message_body">
                         <p>${message.body}</p>
+                        {if message.invited === true}
+                          <button class="newinbox_invitation newinbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
+                          <button class="newinbox_invitation newinbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
+                        {elseif message.ignored === true}
+                          __MSG__IGNORED__
+                        {else}
+                          __MSG__ACCEPTED__
+                        {/if}
                     </div>
                   </div>
                   {if !reply}

@@ -513,7 +513,7 @@ define(function(){
              */
             JoinRequest: {
                 title: "${user} has requested to join your group: ${group}",
-                body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
+                body: "${user} has requested to join your group: ${group}. Use the links below to respond to this request."
             }
         },
 
