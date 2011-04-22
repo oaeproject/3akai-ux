@@ -135,7 +135,18 @@
             <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
         {/if}
         <span class="entity_number entity_permissions_label">
-            Visible to anyone with the link
+            {var permissions = data.data["sakai:permissions"]}
+            {if permissions == "public"}
+                __MSG__VISIBLE_TO_ANYONE__
+            {elseif permissions == "everyone"}
+                __MSG__VISIBLE_TO_LOGGED__
+            {else}
+                {var firstuser = data.members.managers[0].basic.elements}
+                __MSG__PRIVATE_TO__ ${firstuser.firstName.value} ${firstuser.lastName.value}
+                {if peopleCount > 1}
+                    + ${peopleCount - 1} __MSG__OTHERS__
+                {/if}
+            {/if}
         </span>
     </div>
 --></div>
