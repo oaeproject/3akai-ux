@@ -56,8 +56,8 @@
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
 #entity_content_image img{height:50px; margin-top:5px;}
-#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -7px;}
-#entity_name_edit input {padding:3px 0; border:1px solid #DDDDDD; background:none;}
+#entity_name_edit {padding:3px; font-size:18px; font-weight:bold; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -7px;}
+#entity_name_edit input {padding:3px 0; border:1px solid #DDDDDD; background:none; width:700px;}
 
 /* Dialogs */
 .entity_content_users_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}
