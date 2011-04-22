@@ -9,7 +9,7 @@ require(
 
     require.ready(function() {
 
-    module("JCR Removal");
+    module("Server Object Removal");
 
     var dummyObject = {
         "name":"dummy",
@@ -26,7 +26,7 @@ require(
     var testJCRRemoval = function(){
 
         //remove all the jcr objects from the dummyobject
-        sakai.api.Server.removeJCRObjects(dummyObject);
+        dummyObject = sakai.api.Server.removeServerCreatedObjects(dummyObject, ["_", "jcr:"]);
 
         //get the amount of properties
         var objCount=0;
