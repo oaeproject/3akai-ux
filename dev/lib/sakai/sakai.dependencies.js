@@ -47,7 +47,7 @@ window.debug = (function() {
  * @namespace
  * Array extensions for Sakai
  */
-if(Array.hasOwnProperty("indexOf") === false){
+if (!(Array.indexOf || [].indexOf)) {
 
     /**
     * Finds the first occurrence of an element in an array and returns its
