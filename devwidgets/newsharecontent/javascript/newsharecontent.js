@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var fetchUsersGroups = function(){
             var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
 
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){
                 if (success) {
                     var suggestions = [];
                     var name, value, type;
