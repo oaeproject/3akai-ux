@@ -451,23 +451,16 @@ define(["jquery",
         },
 
         getContacts : function(callback) {
-            if (this.data.me.mycontacts) {
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            } else {
-                // has to be synchronous
-                $.ajax({
-                    url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
-                    async: false,
-                    success: function(data) {
-                        sakaiUserAPI.data.me.mycontacts = data.results;
-                        if ($.isFunction(callback)) {
-                            callback();
-                        }
+            $.ajax({
+                url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
+                cache: false,
+                success: function(data) {
+                    sakaiUserAPI.data.me.mycontacts = data.results;
+                    if ($.isFunction(callback)) {
+                        callback();
                     }
-                });
-            }
+                }
+            });
         },
 
         checkIfConnected : function(userid) {
@@ -513,7 +506,7 @@ define(["jquery",
                 },
                 success: function(data){
                     $.ajax({
-                        url: "/~" + inviteTo + "/contacts.remove.html",
+                        url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
                         type: "POST",
                         data: {
                             "targetUserId": inviteFrom

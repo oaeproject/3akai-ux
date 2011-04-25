@@ -52,6 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var toUser = false;  // configurable user to include as a message recipient
             var layover = true;        //    Will this widget be in a popup or inside another element.
             var callbackWhenDone = null;    //    Callback function for when the message gets sent
+            var replyMessageID = null;
 
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
@@ -178,6 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if ($(messageDialogContainer).hasClass('dialog')) {
                     $(messageDialogContainer).jqmHide();
+                    setTimeout(resetView, 250);
                 }
 
                 // If we have a valid callback function we call that
@@ -186,7 +188,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success && callbackWhenDone !== null) {
                     callbackWhenDone(true);
                 }
-                setTimeout(resetView, 250);
+
+                // Reset all the instance variables
+                toUser = false;
+                layover = true;
+                callbackWhenDone = null;
+                replyMessageID = null;
             };
 
 
@@ -266,8 +273,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @param {String} subject The subject
              * @param {String} body The body
              * @param {Boolean} replyOnly hide the to: and subject: fields
+             * @param {String} replyID The ID of the message you're replying to
              */
-            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly) {
+            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID) {
                 layover = true;
                 // Make sure that everything is standard.
                 resetView();
@@ -290,6 +298,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(sendmessage_to).hide();
                     $(sendmessage_subject).hide();
                     $(sendmessage_body).find("label").hide();
+                }
+                if (replyID) {
+                    replyMessageID = replyID;
                 }
 
                 // Maybe we dont want to display a popup but instead want to add it in another div.
@@ -331,7 +342,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         overlay: 20,
                         toTop: true
                     });
-                    debug.log($(messageDialogContainer), $(messageDialogContainer));
                     $(messageDialogContainer).jqmShow();
                 }
 
@@ -386,7 +396,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if(checkFieldsForErrors(recipients)) {
                         sakai.api.Communication.sendMessage(recipients, sakai.data.me,
                             $(messageFieldSubject).val(), $(messageFieldBody).val(),
-                            "message", null, handleSentMessage, true, "new_message");
+                            "message", replyMessageID, handleSentMessage, true, "new_message");
                     } else {
                         $(buttonSendMessage).removeAttr("disabled");
                         sakai.api.Util.notification.show("All fields are required.","All fields are required",sakai.api.Util.notification.type.ERROR);
@@ -409,8 +419,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Initialization //
                 ////////////////////
                 $(window).unbind("initialize.sendmessage.sakai");
-                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly) {
-                    initialize(userObj, insertInId, callback, subject, body, replyOnly);
+                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID) {
+                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID);
                 });
             };
 

@@ -499,12 +499,15 @@ define(["jquery",
              * Get the value for a specific key in a specific widget.
              * @example sakai.api.i18n.Widgets.getValueForKey("myprofile", "en_US", "PREVIEW_PROFILE");
              * @param {String} widgetname The name of the widget
-             * @param {String} locale The locale for the getting the value
+             * @param {String|Object} locale The locale for the getting the value, either in string form or
+             *                               the user's locale object from sakai.api.User.data.me.user.locale
              * @param {String} key The key which you want to be translated
              * @return {String} The value you wanted to translate for a specific widget
              */
             getValueForKey : function(widgetname, locale, key) {
-
+                if ($.isPlainObject(locale) && locale.language && locale.country) {
+                    locale = locale.language + "_" + locale.country;
+                }
                 // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
                 if ((typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object") && (typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string")){
                     return sakaii18nAPI.data.widgets[widgetname][locale][key];

@@ -255,21 +255,17 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;
     margin:0!important;color:#333!important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary{color:#4b6b80; font-size: 9px;}
-.s3d-button:hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
-.s3d-button-link-2-state:hover{background-position:right -1357px;}
+.s3d-button:hover .s3d-button-link-2-state-inner,.s3d-button-hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
+.s3d-button-link-2-state:hover, .s3d-button-hover.s3d-button-link-2-state{background-position:right -1357px;}
 .s3d-button-link-2-state[disabled] .s3d-button-link-2-state-inner {color:#bbb !important;}
 .s3d-button-link-2-state[disabled] {background-position:right -1277px;}
 .s3d-button-link-2-state:hover[disabled] .s3d-button-link-2-state-inner {background-position:-10px -1237px !important; color:#bbb !important;}
 .s3d-button-link-2-state:hover[disabled] {background-position:right -1277px;}
 .s3d-button-link-2-state-inner span {padding:0; margin:0; top:0;}
-.s3d-button-link-2-state-inner .s3d-button-arrow-down {height:15px;margin-top:5px;padding-right:15px;
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
-.s3d-button-link-2-state-inner .s3d-button-arrow-up {height:15px;margin-top:5px;padding-right:15px;
-    background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -213px -396px transparent;}
-.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-up {
-    background-position:-544px -396px;}
-.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-down {
-    background-position:-514px -396px;}
+.s3d-button-link-2-state-inner .s3d-button-arrow-down {height:15px;margin-top:5px;padding-right:15px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
+.s3d-button-link-2-state-inner .s3d-button-arrow-up {height:15px;margin-top:5px;padding-right:15px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -213px -396px transparent;}
+.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-up{background-position:-544px -396px;}
+.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-down{background-position:-514px -396px;}
 
 /* Primary button */
 .s3d-button-primary{background-position:right -110px;}
@@ -320,11 +316,7 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 /*
  * INPUT FIELDS
  */
- textarea { border:1px inset #999999; }
- input[type="text"]:hover,input[type="password"]:hover,textarea:hover,.as-selections:hover,.as-selections:hover input{background:none repeat scroll 0 0 #D3EDF5;}
-/* Textarea default border in IE 8 make the text area look bigger SAKIII-2466*/
-textarea:hover { border-width:1px; }
-
+input[type=text], textarea{border:1px inset #999999;}
 
 /*
  * CONTENT AREA TOP TABS
