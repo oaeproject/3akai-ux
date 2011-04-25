@@ -351,7 +351,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     username: sakai_user.getDisplayName(msg.userTo[0]),
                     type: "user"
                 };
-                newMsg.body = $.trim(msg["sakai:body"].replace(/\n/gi, "<br />"));
+                newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
                 newMsg.nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                 newMsg.subject = msg["sakai:subject"];
                 //Jan 22, 2009 10:25 PM
@@ -451,8 +451,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 url: url,
                 cache: false,
                 success: function(data){
+                    var count = data.count[0].count;
                     if ($.isFunction(callback)) {
-                        callback(true, data);
+                        callback(true, count);
                     }
                 },
                 error: function(xhr, textStatus, thrownError) {

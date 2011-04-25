@@ -179,6 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if ($(messageDialogContainer).hasClass('dialog')) {
                     $(messageDialogContainer).jqmHide();
+                    setTimeout(resetView, 250);
                 }
 
                 // If we have a valid callback function we call that
@@ -187,7 +188,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success && callbackWhenDone !== null) {
                     callbackWhenDone(true);
                 }
-                setTimeout(resetView, 250);
+
+                // Reset all the instance variables
+                toUser = false;
+                layover = true;
+                callbackWhenDone = null;
+                replyMessageID = null;
             };
 
 
@@ -336,7 +342,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         overlay: 20,
                         toTop: true
                     });
-                    debug.log($(messageDialogContainer), $(messageDialogContainer));
                     $(messageDialogContainer).jqmShow();
                 }
 

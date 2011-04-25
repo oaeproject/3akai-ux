@@ -2039,19 +2039,23 @@ define(function(){
             },
             "2024634737": {
                 "box": "inbox",
-                "category": "message"
+                "category": "message",
+                "title": "INBOX"
             },
             "3679202964": {
                 "box": "inbox",
-                "category": "invitation"
+                "category": "invitation",
+                "title": "INVITATIONS"
             },
             "66582410046": {
                 "box": "outbox",
-                "category": "*"
+                "category": "*",
+                "title": "SENT"
             },
             "3519294282": {
                 "box": "trash",
-                "category": "*"
+                "category": "*",
+                "title": "TRASH"
             },
             "546341435": {
                 "dashboard": {
