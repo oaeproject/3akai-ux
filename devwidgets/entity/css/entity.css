@@ -58,6 +58,9 @@
 #entity_content_image img{height:50px; margin-top:5px;}
 #entity_name_edit {padding:3px; font-size:18px; font-weight:bold; width:600px; padding:0 0 5px 5px; margin-bottom:5px;position:relative; top:-7px; left: -7px;}
 #entity_name_edit input {padding:3px 0; border:1px solid #DDDDDD; background:none;}
+#entity_container .entity_add_to_library {background:url(/devwidgets/savecontent/images/savecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
+#entity_container .entity_share_content {background:url(/dev/images/sharecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
+#entity_container .entity_download_content {background:url(/dev/images/download_button_image.png) no-repeat; padding-left: 15px; margin-left: 5px;}
 
 /* Dialogs */
 .entity_content_users_dialog_list{margin:12px 0 0;padding:0;height:310px;overflow:auto;border:1px solid #d4dade;}

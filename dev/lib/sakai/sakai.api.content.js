@@ -162,9 +162,16 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 content.members.hasOwnProperty("viewers")) {
                 for (var i in content.members.viewers) {
                     if (content.members.viewers.hasOwnProperty(i)) {
-                        if (userid === content.members.viewers[i].userid) {
+                        if (userid === content.members.viewers[i].userid || userid === content.members.viewers[i].groupid) {
                             return true;
                         }
+                    }
+                }
+            }
+            if (content && userid && content.hasOwnProperty("sakai:pooled-content-viewer")) {
+                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
+                    if (userid === content["sakai:pooled-content-viewer"][i]) {
+                        return true;
                     }
                 }
             }
@@ -185,9 +192,16 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 content.members.hasOwnProperty("managers")) {
                 for (var i in content.members.managers) {
                     if (content.members.managers.hasOwnProperty(i)) {
-                        if (userid === content.members.managers[i].userid) {
+                        if (userid === content.members.managers[i].userid || userid === content.members.managers[i].groupid) {
                             return true;
                         }
+                    }
+                }
+            }
+            if (content && userid && content.hasOwnProperty("sakai:pooled-content-manager")) {
+                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
+                    if (userid === content["sakai:pooled-content-manager"][i]) {
+                        return true;
                     }
                 }
             }
