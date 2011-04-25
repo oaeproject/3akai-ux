@@ -1,6 +1,6 @@
 {
     "ca":true,
-    "hasSettings": "true",
+    "hasSettings": false,
     "description":"Basic LTI Widget",
     "id":"basiclti",
     "i18n": {
