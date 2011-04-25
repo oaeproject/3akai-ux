@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_close = $(".savecontent_close", $rootel),
             $savecontent_save = $("#savecontent_save", $rootel),
             $savecontent_buttons = $("#savecontent_widget button", $rootel);
-            
+        var dataCache = {};
         var currentSelected = false;
 
         $savecontent_widget.jqm({
@@ -68,10 +68,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * toggleSavecontent
          * Displays the widget
          */
-        var toggleSavecontent = function(clickedEl) {
+        var toggleSavecontent = function(contentId, clickedEl) {
             
-            var savecontentTop = clickedEl.offset().top + clickedEl.height();
-            var savecontentLeft = clickedEl.offset().left + clickedEl.width() - 150;
+            currentSelected = contentId;
+            $savecontent_buttons.removeAttr("disabled");
+            
+            var savecontentTop = clickedEl.offset().top + clickedEl.height() - 5;
+            var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 125;
                 
             $savecontent_widget.css({
                 top: savecontentTop,
@@ -79,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
                 
             var json = {
-                "content": sakai_global.content_profile.content_data,
+                "content": dataCache[contentId],
                 "me": sakai.data.me,
                 "sakai": sakai
             };
@@ -96,35 +99,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveContent = function(id){
             if (id) {
                 $savecontent_buttons.attr("disabled", "disabled");
-                if (id === "mylibrary") {
-                    sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(contentId, userId){
-                        sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
-                        sakai_global.content_profile.content_data.members.viewers.push({"userid": userId});
-                        hideSavecontent();
-                    });
-                } else {
-                    var name = id;
-                    // get group name
-                    for (var i in sakai.data.me.groups) {
-                        if (sakai.data.me.groups.hasOwnProperty(i)) {
-                            if (sakai.data.me.groups[i]["sakai:group-id"] === id) {
-                                name = sakai.data.me.groups[i]["sakai:group-title"];
-                            }
-                        }
+                sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId){
+                    if (entityId === sakai.data.me.user.userid) {
+                        sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
+                    } else {
+                        var notificationBody = $("#savecontent_group_add_library_body").html();
+                        notificationBody = notificationBody.replace("${groupid}", entityId);
+                        notificationBody = notificationBody.replace("${grouplibrary}", $("#savecontent_select option:selected", $rootel).text());
+                        sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
                     }
-
-                    // trigger content profile to add viewer
-                    $(window).trigger("finished.savecontent.sakai", {
-                        "toAdd": [id],
-                        "toAddNames": [name],
-                        "mode": "viewers"
-                    });
-
-                    // bind when content profile has added viewer, close the widget
-                    $(window).bind("membersadded.content.sakai", function(){
-                        hideSavecontent();
-                    });
-                }
+                    dataCache[currentSelected]["sakai:pooled-content-viewer"].push(entityId);
+                    if (sakai_global.content_profile) {
+                        sakai_global.content_profile.content_data.members.viewers.push({
+                            "userid": entityId
+                        }); 
+                    }
+                    hideSavecontent();
+                });
             }
         };
 
@@ -137,11 +128,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $savecontent_save.live("click", function () {
             saveContent($("#savecontent_select option:selected", $rootel).val());
         });
+        
+        var loadSaveContent = function(contentId, clickedEl){
+            hideSavecontent();
+            toggleSavecontent(contentId, clickedEl);
+        }
 
         $(".savecontent_trigger").live("click", function(){
-            hideSavecontent();
-            currentSelected = false;
-            toggleSavecontent($(this));
+            var clickedEl = $(this);
+            var contentId = clickedEl.data("entityid");
+            if (contentId){
+                if (dataCache[contentId]){
+                    loadSaveContent(contentId, clickedEl);
+                } else {
+                    $.ajax({
+                        url: "/p/" + contentId + ".2.json",
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data){
+                            dataCache[contentId] = data;
+                            loadSaveContent(contentId, clickedEl);
+                        }
+                    })
+                }
+            }
         });
 
     };

@@ -13,23 +13,28 @@
             <div class="savecontent_inner">
                 <div id="savecontent_container"></div>
             </div>
-            <button class="savecontent_close s3d-link-button s3d-action s3d-bold" type="button">
-                __MSG__CANCEL__
-            </button>
             <button id="savecontent_save" class="s3d-button s3d-button-link-2-state fl-force-right" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
+            </button>
+            <button class="savecontent_close s3d-link-button s3d-action fl-force-right" type="button">
+                __MSG__CANCEL__
             </button>
         </div>
     </div>
 </div>
 
+<span style="display:none;" id="savecontent_my_add_library_title">__MSG__MY_LIBRARY__</span>
+<span style="display:none;" id="savecontent_my_add_library_body">__MSG__MY_LIBRARY_ADDED__</span>
+<span style="display:none;" id="savecontent_group_add_library_title">__MSG__LIBRARY__</span>
+<span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
+
 <div id="savecontent_template" style="display:none"><!--
-    __MSG__YOU_ARE_SAVING__ "${content.data["sakai:pooled-content-file-name"]}" __MSG__TO__
+    __MSG__YOU_ARE_SAVING__ "${content["sakai:pooled-content-file-name"]}" __MSG__TO__
     <select name="savecontent_select" id="savecontent_select">
         {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
-            <option value="mylibrary">__MSG__MY_LIBRARY__</option>
+            <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
         {else}
-            <option value="mylibrary" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
+            <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
         {for g in me.groups}
             {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}

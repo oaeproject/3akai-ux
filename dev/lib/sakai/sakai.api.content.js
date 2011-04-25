@@ -168,6 +168,13 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                     }
                 }
             }
+            if (content && userid && content.hasOwnProperty("sakai:pooled-content-viewer")) {
+                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
+                    if (userid === content["sakai:pooled-content-viewer"][i]) {
+                        return true;
+                    }
+                }
+            }
             return false;
         },
 
@@ -188,6 +195,13 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         if (userid === content.members.managers[i].userid || userid === content.members.managers[i].groupid) {
                             return true;
                         }
+                    }
+                }
+            }
+            if (content && userid && content.hasOwnProperty("sakai:pooled-content-manager")) {
+                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
+                    if (userid === content["sakai:pooled-content-manager"][i]) {
+                        return true;
                     }
                 }
             }

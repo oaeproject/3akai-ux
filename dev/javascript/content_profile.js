@@ -218,6 +218,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         });
 
                         var mimeType = sakai.api.Content.getMimeType(contentInfo);
+                        contentInfo.mimeType = mimeType;
                         if (sakai.config.MimeTypes[mimeType]) {
                             contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
                         } else {

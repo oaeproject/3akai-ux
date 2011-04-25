@@ -2101,7 +2101,7 @@ define(function(){
                     "publications": {
                         "_ref": "86312659",
                         "_altTitle": "Publications",
-                        "_title": "Publications",
+                        "_title": "Publications"
                     }
                 },
                 "library": {

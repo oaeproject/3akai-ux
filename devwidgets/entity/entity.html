@@ -86,23 +86,30 @@
 <div id="entity_content_template" style="display:none"><!--
     <div id="entity_actions">
         {if !anon}
-            {if type && type == "content_not_shared"}
-                <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-contentpath="" data-contentname="${data.data["sakai:pooled-content-file-name"]}" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
-                </button>
-            {else}
-                <button id="entity_content_save" class="s3d-button s3d-button-link-2-state  savecontent_trigger" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
-                </button>
-            {/if}
             {if type && type == "content_managed"}
                 <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__</span>
                 </button>
             {/if}
-            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHARE__</span>
+            <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["jcr:name"]}" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                    __MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span>
+                </span>
             </button>
+            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                    __MSG__SHARE__<span class="entity_share_content"></span>
+                </span>
+            </button>
+            {if data.data.mimeType === "x-sakai/link"}
+                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
+                </a>
+            {else}
+                <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
+                </a>
+            {/if}
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
