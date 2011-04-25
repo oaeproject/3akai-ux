@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mylibrary_items.html("");
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
-            getLibraryItems(sakai_global.profile.main.data.homePath.split("~")[1],
+            getLibraryItems(sakai_global.profile.main.data.userid,
                 renderLibraryItems, query || false);
         };
 
@@ -401,7 +401,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            var userid = sakai_global.profile.main.data.homePath.split("~")[1];
+            var userid = sakai_global.profile.main.data.userid;
             if (userid) {
                 if (userid === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;

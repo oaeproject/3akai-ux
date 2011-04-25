@@ -9,15 +9,6 @@
     {if type === "default"}
         <div class="contentpreview_default_preview" id="contentpreview_default_preview">
             <div id="contentpreview_default_preivew_button">
-                {if mimeType === "x-sakai/link"}
-                    <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-primary" target="_blank">
-                        <span class="s3d-button-inner">Open Link</span>
-                    </a>
-                {else}
-                    <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.path}" class="s3d-button s3d-button-primary" target="_blank">
-                        <span class="s3d-button-inner">Download</span>
-                    </a>
-                {/if}
                 {if sakai_global.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container" class="contentpreview_actions_container_default">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete">
@@ -50,9 +41,6 @@
         <div class="contentpreview_fullsize_preview contentpreview_other_preview" id="contentpreview_fullsize_preview"></div>
         <div id="contentpreview_other_preview_buttons" class="fl-push">
             {if buttons === "default"}
-                <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.path}" class="s3d-button s3d-button-primary" target="_blank">
-                    <span class="s3d-button-inner">Download</span>
-                </a>
                 {if sakai_global.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete">
@@ -64,9 +52,6 @@
                     </div>
                 {/if}
             {elseif buttons === "links"}
-                <a id="contentpreview_download_button" href="${sakai_global.content_profile.content_data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-primary" target="_blank">
-                    <span class="s3d-button-inner">Open Link</span>
-                </a>
                 {if sakai_global.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete">
