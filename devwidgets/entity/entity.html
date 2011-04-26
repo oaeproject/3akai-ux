@@ -84,7 +84,7 @@
         {if !anon}
             {if type && type == "content_managed"}
                 <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__</span>
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__<span class="entity_content_permissions_icon"></span></span>
                 </button>
             {/if}
             <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["jcr:name"]}" type="button">
