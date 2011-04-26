@@ -6,18 +6,9 @@
     <!-- WIDGET BODY -->
     <div class="fl-widget-newinbox s3d-widget-newinbox s3d-widget-small-newinbox">
         <div class="newinbox_main">
-            <!-- Title Bar -->
-            <div class="newinbox_title_bar">
-              <button type="button" id="newinbox_back_to_messages" class="newinbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
-              </button>
-                <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right newinbox-message-list-view newinbox-message-detail-view" id="newinbox_create_new_message" style="display:none">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
-                </a>
-            </div>
             <!-- Title -->
-            <div id="newinbox_header" class="newinbox-message-list-view" style="display:none">
-              <h1 id="newinbox_box_title_wrapper"><span id="newinbox_box_title"></span> <span id="newinbox_title_total_wrapper" style="display:none">(<span id="newinbox_title_total"></span>)</span></h1>
+            <div id="newinbox_header" class="newinbox-message-list-view s3d-contentpage-title" style="display:none">
+              <span id="newinbox_box_title"></span> <span id="newinbox_title_total_wrapper" style="display:none">(<span id="newinbox_title_total"></span>)</span>
             </div>
             <div id="newinbox_message_header" class="newinbox-message-list-view">
               <div class="s3d-button s3d-button-link-2-state newinbox-message-list-view" id="newinbox_select" style="display:none">
@@ -39,6 +30,12 @@
               <button type="button" id="newinbox_mark_as_read" class="s3d-button s3d-button-link-2-state newinbox-message-list-view" disabled="disabled" style="display:none">
                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MARK_AS_READ__</span>
               </button>
+              <button type="button" id="newinbox_back_to_messages" class="newinbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
+              </button>
+              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right newinbox-message-list-view newinbox-message-detail-view" id="newinbox_create_new_message" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
+              </a>
               <input type="text" id="newinbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="newinbox-message-list-view" style="display:none"/>
             </div>
 

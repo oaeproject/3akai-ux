@@ -1,11 +1,10 @@
 /* Title */
 #newinbox_box_title_wrapper{text-transform:capitalize;font-weight:normal;}
-.newinbox_title_bar{margin:20px 0;height:40px;border-bottom:1px solid #d4d4d4;box-shadow:0 4px 4px -6px;-moz-box-shadow:0 4px 4px -6px;-webkit-box-shadow:0 4px 4px -6px;}
-#newinbox_message_list{border-bottom:1px solid #d4d4d4;float:left;width:100%;}
+#newinbox_message_list{border-bottom:1px solid #d4d4d4;float:left;width:100%; font-size: 12px;}
 /* Message Header */
-#newinbox_message_header{float:left;width:100%;border-bottom:1px solid #d4d4d4;padding:10px 0px;}
+#newinbox_message_header{float:left;width:100%;border-bottom:1px solid #d4d4d4; padding: 5px 0 18px;}
 #newinbox_select span{font-size:9px;}
-#newinbox_search_messages{width:40%;padding:2px;float:right;}
+#newinbox_search_messages{width: 250px;padding:2px;float:right; margin-right: 50px;}
 #newinbox_select_options{position:absolute;top:-10000px;left:-10000px;width:60px;background-color:#F4F4F4;z-index:999;box-shadow:0px 0px 5px 0px #aaa;}
 #newinbox_select_options ul{margin:0;padding:2px;}
 #newinbox_select_options ul li{list-style:none;}
@@ -19,14 +18,14 @@
 .newinbox_name{width:48%;overflow:hidden;display:inline-block;}
 .newinbox_date{width:25%;text-align:right;overflow:hidden;display:inline-block;}
 .newinbox_subject{width:73%;display:inline-block;vertical-align:top;}
-.newinbox_excerpt{height:32px;display:inline-block;width:73%;margin-top:12px;overflow:hidden;}
+.newinbox_excerpt{height:32px;display:inline-block;width:73%;overflow:hidden; margin-left: 65px;margin-top: 11px;}
 .newinbox_delete{float:right;}
 .newinbox_delete_button{margin-right:5px;color:black;}
 .newinbox_delete_button:hover{text-decoration:none;}
 #newinbox_no_messages p{text-align:center;margin:60px 0px;}
 /* Message Detail */
 #newinbox_show_message .newinbox_items_container{margin-bottom:10px;border-bottom:none;}
-#newinbox_show_message .newinbox_items_inner{cursor:default;}
+#newinbox_show_message .newinbox_items_inner{cursor:default; font-size: 12px;}
 #newinbox_show_message .newinbox_excerpt{height:auto;overflow:visible;}
 .newinbox_show_message_body{padding:10px;border-bottom:1px solid #ddd;}
 #newinbox_show_message_header{border-bottom:1px solid #d4d4d4;margin-bottom:11px;}
