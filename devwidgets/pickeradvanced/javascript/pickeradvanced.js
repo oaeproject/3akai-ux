@@ -163,8 +163,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getGroups = function() {
             $pickeradvanced_group_specific_filters.html('');
             $(sakai.data.me.groups).each(function(i,val) {
-                var groupItem = sakai.api.Util.TemplateRenderer($pickeradvanced_group_search_template, {"data":val});
-                $pickeradvanced_group_specific_filters.append(groupItem);
+                if (val["sakai:group-title"]) {
+                    var groupItem = sakai.api.Util.TemplateRenderer($pickeradvanced_group_search_template, {"data":val});
+                    $pickeradvanced_group_specific_filters.append(groupItem);
+                }
             });
         };
 

@@ -91,6 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
+                case "content_shared": //fallthrough
                 case "content_managed":
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");

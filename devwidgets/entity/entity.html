@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
-<div id="entity_container"><!-- --></div>
+<div id="entity_container"><span style="display:none;">__MSG__IE_PLACEHOLDER__</span></div>
 
 <div id="entity_user_template" style="display:none"><!--
     <div id="entity_actions">
@@ -86,19 +86,30 @@
 <div id="entity_content_template" style="display:none"><!--
     <div id="entity_actions">
         {if !anon}
-            {if type && type == "content_not_shared"}
-                <button id="entity_content_add_to_library" class="s3d-button s3d-button-link-2-state" type="button">
-                    <div id="entity_add_icon"></div>
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_MY_LIBRARY__</span>
-                </button>
-            {elseif type && type == "content_managed"}
+            {if type && type == "content_managed"}
                 <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__</span>
                 </button>
             {/if}
-            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHARE__</span>
+            <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["jcr:name"]}" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                    __MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span>
+                </span>
             </button>
+            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                    __MSG__SHARE__<span class="entity_share_content"></span>
+                </span>
+            </button>
+            {if data.data.mimeType === "x-sakai/link"}
+                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
+                </a>
+            {elseif data.data.mimeType !== "x-sakai/document"}
+                <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
+                </a>
+            {/if}
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
@@ -106,14 +117,48 @@
     </div>
     <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]}</span>
     <span id="entity_name_edit" style="display:none">
-        <input id="entity_name_text" type="text" size="50" />
+        <input id="entity_name_text" type="text" />
     </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
-        <span class="entity_number">Used by (<a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}" class="entity_content_people">${peopleCount}</a>)</span> <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}" class="entity_content_people">{if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
+        <span class="entity_number">
+            Used by (<a href="#" title="${peopleCount}
+            {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
+            class="entity_content_people">${peopleCount}</a>)
+        </span>
+        <a href="#" title="${peopleCount}
+        {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
+        class="entity_content_people">
+        {if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
         {var groupCount = data.members.counts.groups}
-        <span class="entity_number">(<a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}" class="entity_content_group">${groupCount}</a>)</span> <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}" class="entity_content_group">{if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}</a>
-        <span class="entity_number entity_permissions_label">Visible to anyone with the link</span>
+        <span class="entity_number">
+            ({if groupCount}<a href="#" title="${groupCount}
+            {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}"
+            class="entity_content_group">${groupCount}</a>{else}<span title="0 __MSG__GROUPS__">0</span>{/if})
+        </span>
+        {if groupCount}
+            <a href="#" title="${groupCount}
+                {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}"
+                class="entity_content_group">
+                {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}
+            </a>
+        {else}
+            <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
+        {/if}
+        <span class="entity_number entity_permissions_label">
+            {var permissions = data.data["sakai:permissions"]}
+            {if permissions == "public"}
+                __MSG__VISIBLE_TO_ANYONE__
+            {elseif permissions == "everyone"}
+                __MSG__VISIBLE_TO_LOGGED__
+            {else}
+                {var firstuser = data.members.managers[0].basic.elements}
+                __MSG__PRIVATE_TO__ ${firstuser.firstName.value} ${firstuser.lastName.value}
+                {if peopleCount > 1}
+                    + ${peopleCount - 1} __MSG__OTHERS__
+                {/if}
+            {/if}
+        </span>
     </div>
 --></div>
 

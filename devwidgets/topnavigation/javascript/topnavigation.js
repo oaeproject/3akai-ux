@@ -354,7 +354,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleArrowKeyInSearch = function(up) {
             if ($(topnavSearchResultsContainer).find("li").length) {
-                var currentIndex = next = 0;
+                var currentIndex = 0,
+                    next = 0;
                 if ($(topnavSearchResultsContainer).find("li.selected").length) {
                     currentIndex = $(topnavSearchResultsContainer).find("li").index($(topnavSearchResultsContainer).find("li.selected")[0]);
                     next = up ? (currentIndex - 1 >= 0 ? currentIndex-1 : -1) : (currentIndex + 1 >= $(topnavSearchResultsContainer).find("li").length ? $(topnavSearchResultsContainer).find("li").length-1 : currentIndex +1);

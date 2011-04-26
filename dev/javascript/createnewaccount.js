@@ -130,7 +130,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Wait for 2 seconds
                     setTimeout(function(){
                         sakai.api.User.login({
-         	                "username": values.username,
+                            "username": values.username,
                             "password": values.password
                         }, function(){
                             // Relocate to the user home space

@@ -105,6 +105,12 @@ require(
         }, {
             "name": "indexFields",
             "type": "object"
+        }, {
+            "name": "sakaidocs",
+            "type": "boolean"
+        }, {
+            "name": "hashParams",
+            "type": "object"
         }];
 
 

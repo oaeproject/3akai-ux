@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }else{
                 url = "/var/contacts/findbyuser.json";
                 data = {
-                    "userid": sakai_global.profile.main.data.homePath.split("~")[1]
+                    "userid": sakai_global.profile.main.data.userid
                 };
             }
 

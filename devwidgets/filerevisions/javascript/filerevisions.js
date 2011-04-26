@@ -83,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success){
                     $.each(data.results, function(i, val) {
                         var profile = $.parseJSON(val.body);
-                        var userId = profile.homePath.split("/~")[1];
+                        var userId = profile.userid;
                         baseFileData.revEditors[userId] = sakai.api.User.getDisplayName(profile);
                     });
                     baseFileData["sakai:savedByFull"] = baseFileData.revEditors[userid];

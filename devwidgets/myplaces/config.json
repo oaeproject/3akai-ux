@@ -8,5 +8,5 @@
     "personalportal":false,
     "type": "sakai",
     "enabled": true,
-    "url":"/devwidgets/myplaces/myplaces.html",
+    "url":"/devwidgets/myplaces/myplaces.html"
 }

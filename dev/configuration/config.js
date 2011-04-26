@@ -2083,40 +2083,33 @@ define(function(){
                     "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0,
                     "basicinfo": {
                         "_ref": "533118849",
                         "_altTitle": "Basic Information",
-                        "_title": "Basic Information",
-                        "_order": 0
+                        "_title": "Basic Information"
                     },
                     "aboutme": {
                         "_ref": "657672090",
                         "_altTitle": "About",
-                        "_title": "About Me",
-                        "_order": 1
+                        "_title": "About Me"
                     },
                     "locations": {
                         "_ref": "2967778497",
                         "_title": "Locations",
-                        "_altTitle": "Locations",
-                        "_order": 2
+                        "_altTitle": "Locations"
                     },
                     "publications": {
                         "_ref": "86312659",
                         "_altTitle": "Publications",
-                        "_title": "Publications",
-                        "_order": 3
+                        "_title": "Publications"
                     }
                 },
                 "library": {
                     "_ref": "9834611274",
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
-                    "_order": 1,
                     "main": {
                         "_ref": "9834611274",
-                        "_order": 0,
                         "_title": "Content"
                     }
                 },
@@ -2124,22 +2117,18 @@ define(function(){
                     "_title": "My Memberships",
                     "_ref": "213623673",
                     "_altTitle": "${user}'s Memberships",
-                    "_order": 2,
                     "main": {
                         "_ref": "213623673",
-                        "_title": "Memberships",
-                        "_order": 0
+                        "_title": "Memberships"
                     }
                 },
                 "contacts": {
                     "_title": "My Contacts",
                     "_ref": "1193715035",
                     "_altTitle": "${user}'s Contacts",
-                    "_order": 3,
                     "main": {
                         "_ref": "1193715035",
-                        "_title": "Contacts",
-                        "_order": 0
+                        "_title": "Contacts"
                     }
                 }
             },

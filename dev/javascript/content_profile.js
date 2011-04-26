@@ -218,6 +218,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         });
 
                         var mimeType = sakai.api.Content.getMimeType(contentInfo);
+                        contentInfo.mimeType = mimeType;
                         if (sakai.config.MimeTypes[mimeType]) {
                             contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
                         } else {
@@ -473,7 +474,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        $(window).bind("finished.sharecontent.sakai", function(e, peopleList){
+        $(window).bind("finished.sharecontent.sakai finished.savecontent.sakai", function(e, peopleList){
             if(!peopleList.mode || peopleList.mode === undefined){
                 peopleList.mode = "viewers";
             }

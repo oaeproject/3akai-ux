@@ -134,10 +134,10 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * MARGINS
  */
-.s3d-margin-top-5 {margin-top: 5px;}
-.s3d-margin-top-10 {margin-top: 10px;}
-.s3d-margin-top-15 {margin-top: 15px;}
-.s3d-margin-top-20 {margin-top: 20px;}
+.s3d-margin-top-5 {margin-top: 5px !important;}
+.s3d-margin-top-10 {margin-top: 10px !important;}
+.s3d-margin-top-15 {margin-top: 15px !important;}
+.s3d-margin-top-20 {margin-top: 20px !important;}
 
 /* 
  * LINKS
