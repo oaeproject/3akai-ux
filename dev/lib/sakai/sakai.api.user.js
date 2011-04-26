@@ -156,7 +156,7 @@ define(["jquery",
             });
 
         },
-        
+
         getUser: function(userid, callback){
             var authprofileURL = "/~" + userid + "/public/authprofile";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -516,7 +516,7 @@ define(["jquery",
                 },
                 success: function(data){
                     $.ajax({
-                        url: "/~" + inviteTo + "/contacts.remove.html",
+                        url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
                         type: "POST",
                         data: {
                             "targetUserId": inviteFrom
@@ -646,7 +646,7 @@ define(["jquery",
                 });
             }
         }
-        
+
     };
 
     return sakaiUserAPI;
