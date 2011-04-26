@@ -21,9 +21,6 @@
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container .entity_permissions_label {margin-left:30px;}
 #entity_container #entity_actions button{float:right; margin-top: 5px;}
-#entity_container #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -904px -21px transparent;height: 10px;left: 12px;position: absolute;top: 7px;width: 8px;z-index: 999;}
-#entity_container #entity_add_icon + span {padding-left: 23px;}
-#entity_container button:hover #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -924px -21px transparent}
 #entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
 
 /* Directory */
@@ -42,6 +39,11 @@
 #entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
 #entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
+
+#entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
+#entity_container .entity_message_icon {background: url("/dev/images/message_icon.png") no-repeat scroll left center transparent;}
+#entity_container .entity_add_to_contacts_icon {background:url("/dev/images/opposite_arrows_icon.png") no-repeat scroll left center transparent;}
+#entity_container .entity_add_to_contacts_requested_icon {background:url("/dev/images/opposite_arrows_requested_icon.png") no-repeat scroll left center transparent;}
 
 /* Me */
 #entity_container .entity_name_me {clear:both; font-size: 14px; padding: 5px 5px 0px 20px; color: #666;}

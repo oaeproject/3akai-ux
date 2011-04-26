@@ -9,21 +9,19 @@
             {if type != "user_anon" && type != "user_me"}
                 {if type == "user_other"}
                     <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" type="button">
-                        <div id="entity_add_icon"></div>
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__</span>
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
                     </button>
                 {elseif type == "contact_invited"}
                     <button id="entity_user_accept_invitation" class="s3d-button s3d-button-link-2-state" type="button">
-                        <div id="entity_add_icon"></div>
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_INVITATION__</span>
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
                     </button>
                 {elseif type == "contact_pending"}
                     <button class="entity_user_contact_pending" type="button">
-                        <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__</span>
+                        <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></div></span>
                     </button>
                 {/if}
                 <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" type="button" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></span>
                 </button>
             {/if}
         {/if}
