@@ -1,0 +1,18 @@
+{
+    "description":        "Inbox widget",
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/inbox/bundles/default.properties"
+    },
+    "id":                 "inbox",
+    "name":               "Inbox",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "core",
+    "url":                "/devwidgets/inbox/inbox.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

@@ -34,7 +34,8 @@ define(["jquery",
         "sakai/sakai.api.l10n",
         "/dev/configuration/config.js",
         "/dev/configuration/config_custom.js",
-        "/dev/lib/misc/trimpath.template.js"],
+        "/dev/lib/misc/trimpath.template.js",
+        "/dev/lib/jquery/plugins/jquery.ba-bbq.js"],
         function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
     
     var util = {
@@ -55,7 +56,6 @@ define(["jquery",
 
                 $("head")[0].appendChild(script);
               })();
-
               if (sakai_conf.enableChat) {
                   // scroll more on focus if the focused element is obscrured by the chat bar
                   $("input:not(.chat_with_txt), textarea, select, button:not(.chat_name_link), a:not(.chat_window_name)").live("focus", function(){
@@ -138,6 +138,9 @@ define(["jquery",
          */
 
         convertToHumanReadableFileSize : function(filesize) {
+            if (! filesize){
+                filesize = 0;
+            }
             var i;
             if (filesize.indexOf && filesize.indexOf("binary-length:") > -1) {
                 filesize = filesize.replace("binary-length:", "");
@@ -175,8 +178,11 @@ define(["jquery",
         formatTags : function(inputTags){
             if ($.trim(inputTags) !== "") {
                 var tags = [];
-                var splitTags = $(inputTags.split(","));
-                splitTags.each(function(index){
+                var splitTags = inputTags;
+                if (!$.isArray(inputTags)) {
+                    splitTags = $(inputTags.split(","));
+                }
+                $(splitTags).each(function(index){
                     if ($.trim(splitTags[index]).length) {
                         tags.push($.trim(splitTags[index]));
                     }
@@ -768,7 +774,7 @@ define(["jquery",
                 var selector = tagname;
                 for (var i in attributes) {
                     if (i && attributes.hasOwnProperty(i)) {
-                        selector += "[" + i + "*=" + attributes[i] + "]";
+                        selector += "[" + i + "*='" + attributes[i] + "']";
                     }
                 }
                 if ($(selector).length) {
@@ -924,7 +930,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "/directory#location=" + item;
+                        var url = "#location=" + item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }
@@ -1101,10 +1107,9 @@ define(["jquery",
             getTimeAgo : function(date){
                 if (date !== null) {
 
-                    var currentDate = new Date();
+                    var currentDate = Date.now();
                     // convert current date to GMT time
-                    currentDate = this.toGMT(currentDate);
-
+                    currentDate = sakai_l10n.fromEpoch(currentDate, require("sakai/sakai.api.user").data.me);
                     var iTimeAgo = (currentDate - date) / (1000);
                     if (iTimeAgo < 60) {
                         if (Math.floor(iTimeAgo) === 1) {
@@ -1217,24 +1222,23 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.error("TemplateRenderer:", e);
+                        debug.log("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    throw "TemplateRenderer: The template '" + templateName + "' could not be found";
+                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
 
             // Run the template and feed it the given JSON object
             var render = "";
             try {
-                render = this.templateCache[templateName].process(templateData);
+                render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.error("TemplateRenderer:", err);
+                debug.log("TemplateRenderer: rendering failed: " + err);
             }
-            
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
@@ -1333,6 +1337,14 @@ define(["jquery",
                 html4.ATTRIBS["video::src"] = 0;
                 html4.ATTRIBS["video::class"] = 0;
                 html4.ATTRIBS["video::autoplay"] = 0;
+                html4.ATTRIBS["li::data-sakai-ref"] = 0;
+                html4.ATTRIBS["li::data-sakai-path"] = 0;
+                html4.ATTRIBS["span::sakai-entityid"] = 0;
+                html4.ATTRIBS["button::sakai-entityid"] = 0;
+                html4.ATTRIBS["button::sakai-entityname"] = 0;
+                html4.ATTRIBS["button::sakai-entitytype"] = 0;
+                html4.ATTRIBS["button::entitypicture"] = 0;
+                html4.ATTRIBS["a::data-reset-hash"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
                     var out = [];
@@ -1348,6 +1360,8 @@ define(["jquery",
                                 } else if (html4.ATTRIBS.hasOwnProperty('*::' + attribName)) {
                                     attribKey = '*::' + attribName;
                                     atype = html4.ATTRIBS[attribKey];
+                                } else if (attribName.indexOf('data-') === 0) {
+                                    atype = html4.atype.IDREFS;
                                 }
                                 if (atype !== null) {
                                     switch (atype) {
@@ -1355,7 +1369,7 @@ define(["jquery",
                                         case html4.atype.STYLE:
                                             var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                                           "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                                          "text-decoration", "border"];
+                                                          "text-decoration", "border", "visibility"];
                                             var sanitizedValue = "";
                                             if (value){
                                                 var vals = value.split(";");
@@ -1471,6 +1485,7 @@ define(["jquery",
                 }
             }
         },
+
         /**
         * Runs MathJax over an element replacing any math TeX with rendered 
         * formulas

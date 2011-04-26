@@ -1,0 +1,235 @@
+<!-- CSS -->
+<link  rel="stylesheet" type="text/css" href="/devwidgets/newaddcontent/css/newaddcontent.css" />
+
+<!-- CONTAINER -->
+<div id="newaddcontent_container" class="dialog">
+
+    <div id="newaddcontent_container_selecteditems">
+        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__ <span>(__MSG__TYPE_DIRECTLY_INTO_LIST__)</span></div>
+        <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
+    </div>
+
+    <ul id="newaddcontent_container_lhchoice">
+        <li class="newaddcontent_container_lhchoice_item newaddcontent_container_lhchoice_selected_item" id="newaddcontent_upload_content">
+            <span id="newaddcontent_upload_content_icon" class="lhchoice_icon"></span>
+            <span class="s3d-bold">__MSG__UPLOAD_CONTENT__</span>
+        </li>
+        <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_new_document">
+            <span id="newaddcontent_add_new_document_icon" class="lhchoice_icon"></span>
+            <span class="s3d-bold">__MSG__NEW_DOCUMENT__</span>
+        </li>
+        <li class="newaddcontent_container_lhchoice_item">
+            <span id="newaddcontent_add_existing_content_icon" class="lhchoice_icon"></span>
+            <span class="s3d-bold">__MSG__EXISTING_CONTENT__</span>
+            <ul>
+                <li class="newaddcontent_container_lhchoice_subitem newaddcontent_container_lhchoice_selected_subitem" id="newaddcontent_existing_content_everything">
+                    <span id="newaddcontent_everything_icon" class="lhchoice_icon"></span>
+                    <span>__MSG__EVERYTHING__</span>
+                </li>
+                <li class="newaddcontent_container_lhchoice_subitem" id="newaddcontent_existing_content_my_content" style="display:none;">
+                    <span id="newaddcontent_my_content_icon" class="lhchoice_icon"></span>
+                    <span>__MSG__MY_CONTENT__</span>
+                </li>
+                <li class="newaddcontent_container_lhchoice_subitem" id="newaddcontent_existing_content_shared_with_me">
+                    <span id="newaddcontent_shared_with_me_icon" class="lhchoice_icon"></span>
+                    <span>__MSG__SHARED_WITH_ME__</span>
+                </li>
+            </ul>
+        </li>
+        <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_add_link">
+            <span id="newaddcontent_add_link_icon" class="lhchoice_icon"></span>
+            <span class="s3d-bold">__MSG__ADD_LINK__</span>
+        </li>
+    </ul>
+
+    <div id="newaddcontent_container_newitem">
+        <div id="newaddcontent_container_newitem_raquo_right"></div>
+        <div id="newaddcontent_container_newitem_fields">
+
+            <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
+                <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
+                <form id="newaddcontent_upload_content_form" class="newaddcontent_form" method="POST" enctype="multipart/form-data">
+                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
+                </form>
+                <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
+                    <span class="newaddcontent_upload_content_originaltitle"><!----></span>
+                    <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
+                    <input type="text" id="newaddcontent_upload_content_title"/>
+
+                    <label for="newaddcontent_upload_content_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_upload_content_description"></textarea>
+
+                    <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_upload_content_tags"/>
+
+                    <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
+                    <select id="newaddcontent_upload_content_permissions">
+                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="private">__MSG__PRIVATE__</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="newaddcontent_add_document_template" class="newaddcontent_newitem_container" style="display:none;">
+                <div id="newaddcontent_add_document_description_container">
+                    <div id="newaddcontent_add_document_description_image"></div>
+                    <div>__MSG__SAKAI_DOC_DESCRIPTION__</div>
+                    <a href="#" class="s3d-regular-links s3d-bold">__MSG__LEARN_MORE__</a>
+                </div>
+
+                <form id="newaddcontent_add_document_form" class="newaddcontent_form">
+                    <label for="newaddcontent_add_document_title">__MSG__NAME_DOCUMENT__:</label>
+                    <input type="text" id="newaddcontent_add_document_title"/>
+
+                    <label for="newaddcontent_add_document_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_add_document_description"></textarea>
+
+                    <label for="newaddcontent_add_document_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_add_document_tags"/>
+
+                    <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                    <select id="newaddcontent_add_document_permissions">
+                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                        <option value="private">__MSG__PRIVATE__</option>
+                    </select>
+                </form>
+            </div>
+
+            <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
+                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear">__MSG__CLEAR__</button>
+                <div id="newaddcontent_existingitems_list_container">
+                    <div id="newaddcontent_existingitems_list_container_actions">
+                        <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
+                        <select id="newaddcontent_existingitems_list_container_actions_sort" class="fl-force-right">
+                            <option value="sort_up">__MSG__A_Z__</option>
+                            <option value="sort_down">__MSG__Z_A__</option>
+                        </select>
+                        <label for="newaddcontent_existingitems_list_container_actions_sort" id="newaddcontent_existingitems_list_container_actions_sort_label" class="fl-force-right">__MSG__SORT_BY__</label>
+                    </div>
+                    <div id="newaddcontent_existingitems_list_container_list">
+                    </div>
+                </div>
+            </div>
+
+            <div id="newaddcontent_add_link_template" class="newaddcontent_newitem_container" style="display:none;">
+                <form id="newaddcontent_add_link_form" class="newaddcontent_form">
+                    <label for="newaddcontent_add_link_url">__MSG__PASTE_LINK_URL_ADDRESS__:</label>
+                    <input type="text" id="newaddcontent_add_link_url" class="appendhttp url required"/>
+
+                    <label for="newaddcontent_add_link_title">__MSG__TITLE__:</label>
+                    <input type="text" id="newaddcontent_add_link_title"/>
+
+                    <label for="newaddcontent_add_link_description">__MSG__DESCRIPTION__:</label>
+                    <textarea id="newaddcontent_add_link_description"></textarea>
+
+                    <label for="newaddcontent_add_link_tags">__MSG__TAGS__:</label>
+                    <input type="text" id="newaddcontent_add_link_tags"/>
+                </form>
+            </div>
+
+        </div>
+        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_add_to_list" title="__MSG__ADD__" disabled="disabled">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
+        </button>
+    </div>
+
+    <div id="newaddcontent_container_actions">
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
+        <button title="Add" class="s3d-button s3d-button-link-2-state newaddcontent_container_start_upload" type="button" disabled="disabled">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DONE_ADD_COLLECTED__</span>
+        </button>
+    </div>
+
+    <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
+    <div id="newaddcontent_selecteditems_edit_permissions_container" style="display:none;"><!----></div>
+</div>
+
+<div id="newaddcontent_selecteditems_edit_data_template" style="display:none;"><!--
+    <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
+    <div id="newaddcontent_selecteditems_edit_data_fields">
+        <div class="newaddcontent_selecteditems_edit_data_close"></div>
+        <form class="newaddcontent_form">
+            <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item.title}"/>
+            <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
+            <textarea id="newaddcontent_selecteditems_edit_data_description">${item.description}</textarea>
+            <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS__:</label>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_tags" value="${item.tags}"/>
+        </form>
+    </div>
+    <div id="newaddcontent_selecteditems_edit_data_actions">
+        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
+        </button>
+    </div>
+--></div>
+
+<div id="newaddcontent_selecteditems_edit_permissions_template" style="display:none;"><!--
+    <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
+    <div id="newaddcontent_selecteditems_edit_data_fields">
+        <div class="newaddcontent_selecteditems_edit_data_close"></div>
+        <form class="newaddcontent_form">
+            <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__PERMISSIONS__:</label>
+            <select id="newaddcontent_selecteditems_edit_permissions_permissions">
+                <option value="public" {if "public" == item.permissions} selected="selected"{/if}>__MSG__PUBLIC__</option>
+                <option value="everyone" {if "everyone" == item.permissions} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+                <option value="private" {if "private" == item.permissions} selected="selected"{/if}>__MSG__ONLY_ME__</option>
+            </select>
+            <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
+            <select id="newaddcontent_selecteditems_edit_permissions_copyright">
+            {for cr in copyright}
+                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+            {/for}
+            </select>
+        </form>
+    </div>
+    <div id="newaddcontent_selecteditems_edit_permissions_actions">
+        <button type="button" class="s3d-button s3d-button-link-2-state newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span>
+        </button>
+    </div>
+--></div>
+
+<div id="newaddcontent_selecteditems_template"><!--
+    <ul>
+    {for item in items}
+        <li id="newaddcontent_selecteditems_${item_index}">
+            <div class="newaddcontent_selecteditems_remove"></div>
+            <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
+            <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
+            {if item.type !== "existing"}
+                <span class="newaddcontent_selecteditems_actions">
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                    <span class="newaddcontent_selecteditems_split">|</span>
+                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
+                </span>
+            {/if}
+        </li>
+    {/for}
+    </ul>
+--></div>
+
+<div id="newaddcontent_existingitems_template"><!--
+    <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
+        <ul>
+            {if data.results.length}
+                {for item in data.results}
+                    <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if} {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["jcr:path"], queue) >= 0} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}>
+                        <input type="checkbox" id="${item["jcr:path"]}" {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["jcr:path"], queue) >= 0} disabled{/if} {if $.inArray(item["jcr:path"], queue) >= 0} checked="checked"{/if}/>
+                        <label for="${item["jcr:path"]}">
+                            <span id="{if sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]]}${sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]]} ${sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
+                            ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["jcr:path"]}
+                        </label>
+                    </li>
+                {/for}
+            {else}
+                <span id="newaddcontent_existingitems_no_items_found">__MSG__NO_CONTENT_FOUND__</span>
+            {/if}
+        </ul>
+    </form>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="application/javascript" src="/devwidgets/newaddcontent/javascript/newaddcontent.js"></script>

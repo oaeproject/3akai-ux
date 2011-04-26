@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 for (var i = 0, il = message.userFrom.length; i < il; i++) {
                     // The userid seems to be missing
                     if (!message.userFrom[i]["userid"]){
-                        message.userFrom[i]["userid"] = message.userFrom[i].homePath.substr(2, message.userFrom[i].homePath.length);
+                        message.userFrom[i]["userid"] = message.userFrom[i].userid;
                     }
                     picture = sakai.api.Util.constructProfilePicture(message.userFrom[i]);
                     if (picture) {
@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 for (var j = 0, jl = message.userTo.length; j < jl; j++) {
                     // The userid seems to be missing
                     if (!message.userFrom[j]["userid"]){
-                        message.userFrom[j]["userid"] = message.userFrom[j].homePath.substr(2, message.userFrom[j].homePath.length);
+                        message.userFrom[j]["userid"] = message.userFrom[j].userid;
                     }
                     picture = sakai.api.Util.constructProfilePicture(message.userFrom[j]);
                     if (picture) {
@@ -836,7 +836,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_accept_invitation").live("click", function(ev){
-            sakai.api.User.acceptContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+            sakai.api.User.acceptContactInvite(selectedMessage["sakai:from"], function(success) {
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();
@@ -853,7 +853,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          *
          */
         $("#inbox_message_ignore_invitation").live("click", function(ev){
-            sakai.api.User.ignoreContactInvite(selectedMessage["sakai:from"], sakai.data.me.user.userid, function(success) {
+            sakai.api.User.ignoreContactInvite(selectedMessage["sakai:from"], function(success) {
                 if (success) {
                     $("#inbox-invitation-accept").hide();
                     $("#inbox-invitation-ignore").hide();

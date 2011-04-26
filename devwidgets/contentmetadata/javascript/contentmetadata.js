@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Containers
         var $contentmetadataDescriptionContainer = $("#contentmetadata_description_container");
         var $contentmetadataTagsContainer = $("#contentmetadata_tags_container");
+        var $contentmetadataUrlContainer = $("#contentmetadata_url_container");
         var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
         var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
         var $contentmetadataLocationsContainer = $("#contentmetadata_locations_container");
@@ -67,6 +68,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Templates
         var contentmetadataDescriptionTemplate = "contentmetadata_description_template";
         var contentmetadataTagsTemplate = "contentmetadata_tags_template";
+        var contentmetadataUrlTemplate = "contentmetadata_url_template";
         var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
         var contentmetadataDetailsTemplate = "contentmetadata_details_template";
         var contentmetadataLocationsTemplate = "contentmetadata_locations_template";
@@ -113,35 +115,55 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             addEditBinding(mode);
         };
 
+        /**
+         * Render the URL template
+         * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
+         */
+        var renderUrl = function(mode){
+            sakai_global.content_profile.content_data.mode = mode;
+            var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+            if(mimeType === "x-sakai/link") {
+                var json = {
+                    data: sakai_global.content_profile.content_data,
+                    sakai: sakai
+                };
+                sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
+                $contentmetadataUrlContainer.show();
+            } else {
+                $contentmetadataUrlContainer.hide();
+            }
+            addEditBinding(mode);
+        };
+
         var renderName = function(mode){
             if (mode === "edit") {
-                $("#contentmetadata_name_name").hide();
-                $("#contentmetadata_name_text").val($.trim($("#contentmetadata_name_name").text()));
-                $("#contentmetadata_name_edit").show();
-                $("#contentmetadata_name_text").focus();
+                $("#entity_name").hide();
+                $("#entity_name_text").val($.trim($("#entity_name").text()));
+                $("#entity_name_edit").show();
+                $("#entity_name_text").focus();
             }
-            $("#contentmetadata_name_text").unbind("blur");
-            $("#contentmetadata_name_text").bind("blur", function(){
-                $("#contentmetadata_name_edit").hide();
-                if ($.trim($("#contentmetadata_name_text").val())) {
-                    $("#contentmetadata_name_name").text($("#contentmetadata_name_text").val());
-                    $("#contentmetadata_name_name").show();
+            $("#entity_name_text").unbind("blur");
+            $("#entity_name_text").bind("blur", function(){
+                $("#entity_name_edit").hide();
+                if ($.trim($("#entity_name_text").val())) {
+                    $("#entity_name").text($("#entity_name_text").val());
+                    $("#entity_name").show();
                     $.ajax({
                         url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
                         type: "POST",
                         cache: false,
                         data: {
-                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val())
+                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#entity_name_text").val())
                         },
                         success: function(){
-                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#contentmetadata_name_text").val());
+                            sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#entity_name_text").val());
                             $("#contentpreview_download_button").attr("href", sakai_global.content_profile.content_data.smallPath + "/" + encodeURIComponent(sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]));
                         }
                     });
                 }
                 else {
-                    $("#contentmetadata_name_name").show();
-                    $(".contentmetadata_editable").live("click", editData);
+                    $("#entity_name").show();
+                    $(".entity_editable").live("click", editData);
                 }
             });
         };
@@ -292,6 +314,38 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         /**
+         * Update the description of the content
+         */
+        var updateUrl = function(){
+            var url = $("#contentmetadata_url_url").val();
+            var preview = sakai.api.Content.getPreviewUrl(url);
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
+            sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
+            sakai_global.content_profile.content_data.data["sakai:preview-url"] = preview.url;
+            sakai_global.content_profile.content_data.data["sakai:preview-type"] = preview.type;
+            sakai_global.content_profile.content_data.data["sakai:preview-avatar"] = preview.avatar;
+            sakai_global.content_profile.content_data.data["length"] = url.length;
+            renderUrl(false);
+            $.ajax({
+                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                type: "POST",
+                cache: false,
+                data: {
+                    "sakai:pooled-content-url": url,
+                    "sakai:pooled-content-revurl": url,
+                    "sakai:preview-url": preview.url,
+                    "sakai:preview-type": preview.type,
+                    "sakai:preview-avatar": preview.avatar,
+                    "length": url.length
+                },
+                success: function(){
+                    createActivity("__MSG__UPDATED_URL__");
+                    $(window).trigger("updated.version.content.sakai");
+                }
+            });
+        };
+
+        /**
          * Update the copyright of the content
          */
         var updateCopyright = function(){
@@ -330,6 +384,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         case "tags":
                             renderTags("edit");
                             break;
+                        case "url":
+                            renderUrl("edit");
+                            break;
                         case "locations":
                             renderLocations("edit");
                             break;
@@ -356,6 +413,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     break;
                 case "tags":
                     updateTags();
+                    break;
+                case "url":
+                    updateUrl();
                     break;
                 case "copyright":
                     updateCopyright();
@@ -409,6 +469,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Render all information
             renderDescription(false);
             renderTags(false);
+            renderUrl(false);
             renderCopyright(false);
             renderLocations(false);
             renderDetails(false);

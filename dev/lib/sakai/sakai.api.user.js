@@ -172,7 +172,7 @@ define(["jquery",
          * Log-in to Sakai3
          *
          * @example
-         * sakai.api.user.login({
+         * sakai.api.User.login({
          *     "username": "user1",
          *     "password": "test"
          * });
@@ -451,23 +451,16 @@ define(["jquery",
         },
 
         getContacts : function(callback) {
-            if (this.data.me.mycontacts) {
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            } else {
-                // has to be synchronous
-                $.ajax({
-                    url: sakai_conf.URL.CONTACTS_FIND_STATE,
-                    async: false,
-                    success: function(data) {
-                        sakaiUserAPI.data.me.mycontacts = data.results;
-                        if ($.isFunction(callback)) {
-                            callback();
-                        }
+            $.ajax({
+                url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
+                cache: false,
+                success: function(data) {
+                    sakaiUserAPI.data.me.mycontacts = data.results;
+                    if ($.isFunction(callback)) {
+                        callback();
                     }
-                });
-            }
+                }
+            });
         },
 
         checkIfConnected : function(userid) {
@@ -484,9 +477,9 @@ define(["jquery",
             return ret;
         },
 
-        acceptContactInvite : function(inviteFrom, inviteTo, callback) {
+        acceptContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + inviteTo + "/contacts.accept.html",
+                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.accept.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
@@ -504,16 +497,16 @@ define(["jquery",
             });
         },
 
-        ignoreContactInvite : function(inviteFrom, inviteTo, callback) {
+        ignoreContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + inviteTo + "/contacts.ignore.html",
+                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.ignore.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
                     $.ajax({
-                        url: "/~" + inviteTo + "/contacts.remove.html",
+                        url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
                         type: "POST",
                         data: {
                             "targetUserId": inviteFrom
@@ -643,6 +636,7 @@ define(["jquery",
                 });
             }
         }
+        
     };
 
     return sakaiUserAPI;

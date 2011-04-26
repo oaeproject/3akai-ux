@@ -20,7 +20,7 @@ https://source.fluidproject.org/svn/LICENSE.txt
 /*global jQuery, YAHOO, opera*/
 var fluid_1_2 = fluid_1_2 || {};
 var fluid = fluid || fluid_1_2;
-require(["jquery", "/dev/lib/jquery/jquery-ui.full.js"], function(jQuery) {
+require(["jquery", "jquery-ui"], function(jQuery) {
     (function ($, fluid) {
 
         fluid.version = "Infusion 1.2";

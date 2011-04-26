@@ -1,0 +1,25 @@
+.s3d-page-column-left{float:left;width:185px;min-height:400px;border-top:solid #d6dadd 1px;}
+.s3d-page-column-right{float:left;width:750px;border-top:solid #d6dadd 1px;border-left: 1px solid #B3B3B4;padding:12px;box-shadow: 3px -10px 7px 0;-moz-box-shadow: 3px -10px 7px 0;-webkit-box-shadow: 3px -10px 7px 0;}
+.s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
+.s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;}
+.s3d-page-content-padding{padding: 10px 15px 20px;}
+.s3d-page-content-lowpadding{padding: 0px 15px 20px;}
+.s3d-page-full{height:100px;}
+.s3d-navigation-container{background: url("/devwidgets/topnavigation/images/topnav_bg.png") repeat-x scroll left top transparent;-moz-box-shadow:0 -5px 9px 6px #555555;-webkit-box-shadow:0 -5px 9px 6px #555555;box-shadow:0 -5px 9px 6px #555555;height: 40px;margin-left: auto;margin-right: auto;position: absolute;width: 100%;z-index: 999;}
+.s3d-page-header{background: url("/dev/images/pageHeader_bg.png") repeat-x scroll 0 0 transparent;border-bottom: 1px solid #B3B3B4;height: 45px;margin-top: 40px;padding: 20px 15px 7px;width: 930px;}
+.s3d-fixed-container .s3d-container-shadow-left, .s3d-container-shadow-right {background: url("/dev/images/container_shadow_left.png") no-repeat scroll 0 0 transparent;height: 346px;margin-left: -5px;position: absolute;width: 5px;}
+.s3d-container-shadow-right{background: url("/dev/images/container_shadow_right.png") no-repeat scroll 0 0 transparent;float: right;margin-left: 960px;}
+
+/* CSS THAT OVERWRITES MAIN CSS */
+.s3d-main-container {padding: 0px !important;}
+.fixed-container.s3d-main-container{width:960px;}
+.s3d-twocolumn{background-color:#fff;}
+.requireUser {background: url("/dev/images/grey_bg.png") repeat-x scroll left -91px #f2f2f2 !important;}
+.s3d-header .fixed-container {padding:0 !important; width:960px;}
+.s3d-header .s3d-fixed-container .s3d-decor-left {margin-left:0;}
+.s3d-header .s3d-fixed-container .s3d-decor {margin-right:0;}
+.s3d-header .s3d-fixed-container .s3d-decor-left {background: url("/dev/images/pageHeader_tl.png") no-repeat scroll 0 0 transparent;}
+.s3d-header .s3d-fixed-container .s3d-decor {background: url("/dev/images/pageHeader_tr.png") no-repeat scroll 0 0 transparent;}
+
+/* Page titles */
+.s3d-contentpage-title {border-bottom:5px solid #E1E1E1; color:#333333; font-size:1.25em; padding:8px 0; margin-bottom: 15px;}

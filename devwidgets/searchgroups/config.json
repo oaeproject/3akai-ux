@@ -1,0 +1,18 @@
+{
+    "description":        "Search Groups",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/searchgroups/bundles/default.properties"
+    },
+    "id":                 "searchgroups",
+    "name":               "Search Groups",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "core",
+    "url":                "/devwidgets/searchgroups/searchgroups.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

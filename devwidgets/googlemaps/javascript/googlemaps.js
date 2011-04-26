@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.googlemaps = function(tuid, showSettings){
+    sakai_global.googlemaps = function(tuid, showSettings, widgetData){
 
 
         /////////////////////////////
@@ -148,9 +148,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getFromJCR = function() {
 
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            if (widgetData && widgetData.googlemaps) {
+                renderMap(true, widgetData.googlemaps);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                    renderMap(success, data);
+                });
+            }
+                
+        };
 
-                if (success) {
+        var renderMap = function(success, data){
+            if (success) {
 
                     // Get data from the backend server
                     json = data;
@@ -203,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#main-content-div").show();
                 // Set focus in location text box
                 $("#googlemaps_input_text_location").focus();
-            });
+
         };
 
         /**

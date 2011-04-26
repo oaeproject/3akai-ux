@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#message_dialog{width:566px;}
+.message_dialog.dialog{width:566px;}
 .dialogue_box{background:#FFF none repeat scroll 0 0;border:none;height:auto;left:auto;margin-left:0;margin-top:0;position:relative;top:0;width:100%;z-index:101;}
 .sendmessage_error_message{font-weight:bold;margin:10px;padding:10px;border:1px solid red;background-color:#f7d8d8;}
 .sendmessage_normal_message{margin:10px;padding:10px;border:1px solid #0f0;background-color:#d9f7d8;}
@@ -24,14 +24,16 @@
 /* send_message_lightbox.html */
 .send_message .compose-form input,.send_message .compose-form textarea{font-weight:normal;}
 .send_message .compose-form #message_from,.send_message .compose-form #message_to{font-weight:bold;padding-left:4px;}
-.send_message .compose-form div{padding:0 10px 10px 0;}
-.send_message .compose-form .compose-subject{width:500px;}
-.send_message .compose-form .compose-body{height:150px;width:500px;}
+.send_message .compose-form .sendmessage_send_form{padding:10px 10px 0px 0;}
+.send_message .compose-form label{display:block; margin-bottom:5px;}
+.send_message .compose-form .compose-subject{width:500px;height:22px}
+.send_message .compose-form .compose-body{height:150px;width:500px;padding:3px 0px;}
 #send_message{font-weight:bold;}
 
 /* AutoSuggest Styles */
-.send_message ul.as-selections{margin:5px 3px 0;width:500px;border-color:#CCC #E6E6E6 #E6E6E6 #CCC;border-style:solid;border-width:1px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
+.send_message ul.as-selections{width:500px;border-color:#999;border-style:inset;border-width:1px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;padding-left:0px;}
 .send_message ul.as-list{margin:-2px 0 0 3px;}
+.send_message ul.as-selections li.as-original, ul.as-selections li{margin-left:4px;}
 .send_message #sendmessage_to_container{margin-bottom:10px;}
 .send_message img.sm_suggestion_img{height:16px;width:16px;margin-right:5px;}
 .send_message input#sendmessage_to_autoSuggest{width:175px;}

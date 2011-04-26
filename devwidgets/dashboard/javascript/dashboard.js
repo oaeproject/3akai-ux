@@ -31,7 +31,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.dashboard = function(tuid, showSettings) {
+    sakai_global.dashboard = function(tuid, showSettings, widgetData) {
 
         // Add Goodies related fields
         var addGoodiesDialog = "#add_goodies_dialog";
@@ -188,7 +188,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             }
 
             $(".body-container", $rootel).show();
-            
+
             if (doShowDashboard) {
                 showDashboard();
             }
@@ -825,7 +825,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
 
         var changeLayout = function(title) {
-            $("#paget_title_only", $rootel).html(" "+title);
+            if (title) {
+                $("#paget_title_only", $rootel).html(" " + title);
+            }
             $(changeLayoutDialog, $rootel).jqmShow();
         };
 
@@ -839,16 +841,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
          *     This is especially useful when there are multiple dashboard
          *     widgets on one page.
          */
-        $(window).bind("changeLayout.dashboard.sakai", function(e, title, dashboard_tuid) {
-            if (dashboard_tuid && dashboard_tuid === tuid) {
-                // for show.html, where multiple dashboards are on one page
-                changeLayout(title);
-                e.stopPropagation();
-            } else if (!dashboard_tuid) {
-                // when there is only one dashboard on the page
+        $(window).bind("changeLayout.dashboard.sakai", function(e, title, iTuid) {
+            showChangeLayoutDialog(title, iTuid);
+            e.stopPropagation();
+        });
+        
+        $(".dashboard_change_layout").live("click", function(){
+            var iTuid = "" + $(this).data("tuid");
+            showChangeLayoutDialog(false, iTuid);
+        });
+        
+        var showChangeLayoutDialog = function(title, iTuid){
+            if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                 changeLayout(title);
             }
-        });
+        }
 
         ///////////////////////
         // Add Sakai Goodies //
@@ -955,12 +962,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
 
         $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
+            showAddWidgetDialog(iTuid);
+            e.stopPropagation();
+        });
+        
+        $(".dashboard_global_add_widget").live("click", function(){
+            var iTuid = "" + $(this).data("tuid");
+            showAddWidgetDialog(iTuid);
+        });
+        
+        var showAddWidgetDialog = function(iTuid){
             if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                 widgetDialogShown[tuid] = true;
                 $(addGoodiesDialog, $rootel).jqmShow();
-                e.stopPropagation();
             }
-        });
+        }
 
         /**
         * Initialize the Dashboard Widget
@@ -991,27 +1007,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             // by showing it here instead of by default
             $(".widget-content #widgetscontainer", $rootel).show();
 
-            sakai.api.Widgets.loadWidgetData(tuid, decideExists);
+            if (widgetData && widgetData.dashboard) {
+                decideExists(true, widgetData.dashboard);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, decideExists);
+            }
         };
 
-
-        /**
-         * Bind the init.dashboard.sakai event to initialize this dashboard
-         *
-         * @param e      standard jQuery Event object
-         * @param dashboard_tuid  (optional) tuid of the dashboard to initialize.
-         *     This is especially useful when there are multiple dashboard
-         *     widgets on one page.
-         */
-        $(window).bind("init.dashboard.sakai", function(e, path, editmode,
-            propertyname, fixedContainer, dashboard_tuid) {
-            if (dashboard_tuid && dashboard_tuid === tuid) {
+        if (document.location.pathname === "/dev/group.html"){
+            $(window).bind("init.dashboard.sakai", function(e, path, editmode, propertyname, fixedContainer) {
                 init(path, editmode, propertyname, fixedContainer);
-                e.stopPropagation();
-            } else if (!dashboard_tuid) {
-                init(path, editmode, propertyname, fixedContainer);
-            }
-        });
+            });
+        } else {
+            init("", true, "personalportal", false);
+        }
 
         /**
          * Send out an event to indicate that the dashboard widget has been

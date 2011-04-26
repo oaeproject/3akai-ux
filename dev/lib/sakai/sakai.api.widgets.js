@@ -74,7 +74,7 @@ define(["jquery",
              *  Function that needs to be executed when a widget notifies the container
              *  that its settings mode has been successfully completed.
              */
-            registerFinishFunction : function(callback){
+            registerFinishFunction : function(callback) {
                 if (callback){
                     this.toCallOnFinish = callback;
                 }
@@ -87,7 +87,7 @@ define(["jquery",
              *  Function that needs to be executed when a widget notifies the container
              *  that its settings mode has been cancelled.
              */
-            registerCancelFunction : function(callback){
+            registerCancelFunction : function(callback) {
                 if (callback){
                     this.toCallOnCancel = callback;
                 }
@@ -101,7 +101,7 @@ define(["jquery",
              * @param {Object} widgetname
              *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
              */
-            informFinish : function(tuid, widgetname){
+            informFinish : function(tuid, widgetname) {
                 if (this.toCallOnFinish){
                     this.toCallOnFinish(tuid, widgetname);
                 }
@@ -213,8 +213,8 @@ define(["jquery",
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context){
-                var obj = this.loadWidgets(id, showSettings, context);
+            insertWidgets : function(id, showSettings, context, widgetData){
+                var obj = this.loadWidgets(id, showSettings, context, widgetData);
                 this.loaded.push(obj);
             },
 
@@ -226,13 +226,13 @@ define(["jquery",
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context){
+            loadWidgets : function(id, showSettings, context, widgetData){
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
 
                 // Help variables
-                var widgets = {}, settings = false;
+                var widgetsInternal = {}, settings = false;
 
                 /**
                  * Inform the widget that is is loaded and execute the main JavaScript function
@@ -242,25 +242,33 @@ define(["jquery",
                 var informOnLoad = function(widgetname){
                     var doDelete;
                     // Check if the name of the widget is inside the widgets object.
-                    if (widgets[widgetname] && widgets[widgetname].length > 0){
+                    if (widgetsInternal[widgetname] && widgetsInternal[widgetname].length > 0){
 
                         // Run through all the widgets with a specific name
-                        for (var i = 0, j = widgets[widgetname].length; i<j; i++){
-                            widgets[widgetname][i].done++;
+                        for (var i = 0, j = widgetsInternal[widgetname].length; i<j; i++){
+                            widgetsInternal[widgetname][i].done++;
 
-                            if (widgets[widgetname][i].done === widgets[widgetname][i].todo){
+                            if (widgetsInternal[widgetname][i].done === widgetsInternal[widgetname][i].todo){
                                 // Save the placement in the widgets variable
-                                sakaiWidgetsAPI.widgetLoader.widgets[widgets[widgetname][i].uid] = {
-                                    "placement": widgets[widgetname][i].placement + widgets[widgetname][i].uid + "/" + widgetname,
+                                sakaiWidgetsAPI.widgetLoader.widgets[widgetsInternal[widgetname][i].uid] = {
+                                    "placement": widgetsInternal[widgetname][i].placement + widgetsInternal[widgetname][i].uid + "/" + widgetname,
                                     "name" : widgetname
                                 };
-
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
-                                initfunction(widgets[widgetname][i].uid, settings);
+                                var widgetData = {};
+                                if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData.length > 0){
+                                    for (var data in widgetsInternal[widgetname][i].widgetData){
+                                        if (widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid]){
+                                            widgetData = widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid];
+                                        }
+                                    }
+                                }
+                                var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
+                                initfunction(widgetsInternal[widgetname][i].uid, settings, widgetData, historyState);
 
                                 // Send out a "loaded" event for this widget
-                                $(window).trigger(widgetname + "_loaded", [widgets[widgetname][i].uid]);
+                                $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
 
                                 doDelete = true;
                             }
@@ -268,7 +276,7 @@ define(["jquery",
 
                         // Remove the widget from the widgets object (clean up)
                         if (doDelete){
-                            delete widgets[widgetname];
+                            delete widgetsInternal[widgetname];
                         }
                     }
                 };
@@ -315,13 +323,13 @@ define(["jquery",
                     var JSTags = locateTagAndRemove(content, "script", "src");
                     content = JSTags.content;
 
-                    for (var widget = 0, k = widgets[widgetname].length; widget < k; widget++){
+                    for (var widget = 0, k = widgetsInternal[widgetname].length; widget < k; widget++){
                         var container = $("<div>");
                         container.html(content);
-                        $("#" + widgets[widgetname][widget].uid).append(container);
+                        $("#" + widgetsInternal[widgetname][widget].uid).append(container);
 
-                        widgets[widgetname][widget].todo = JSTags.URL.length;
-                        widgets[widgetname][widget].done = 0;
+                        widgetsInternal[widgetname][widget].todo = JSTags.URL.length;
+                        widgetsInternal[widgetname][widget].done = 0;
                     }
 
                     for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
@@ -337,7 +345,7 @@ define(["jquery",
                  * @param {Object} widgets
                  * @param {Object} batchWidgets A list of all the widgets that need to load
                  */
-                var loadWidgetFiles = function(widgets, batchWidgets){
+                var loadWidgetFiles = function(widgetsInternal2, batchWidgets){
                     var urls = [];
                     var requestedURLsResults = [];
                     var requestedBundlesResults = [];
@@ -455,7 +463,7 @@ define(["jquery",
                                     else {
                                         translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_user.data.me);
                                     }
-                                    var ss = sethtmlover(translated_content, widgets, widgetName);
+                                    var ss = sethtmlover(translated_content, widgetsInternal2, widgetName);
                                     for (var s = 0; s < ss.length; s++) {
                                         stylesheets.push(ss[s]);
                                     }
@@ -588,33 +596,41 @@ define(["jquery",
                             }
 
                             // Check if the widget exists
-                            if (!widgets[widgetname]){
-                                widgets[widgetname] = [];
+                            if (!widgetsInternal[widgetname]){
+                                widgetsInternal[widgetname] = [];
                             }
 
                             // Set the initial properties for the widget
-                            var index = widgets[widgetname].length;
-                            widgets[widgetname][index] = {
+                            var index = widgetsInternal[widgetname].length;
+                            widgetsInternal[widgetname][index] = {
                                 uid : widgetid,
                                 placement : placement,
-                                id : id
+                                id : id,
+                                widgetData: widgetData
                             };
-                            var floating = "inline_class_widget_nofloat";
 
-                            if ($(divarray[i]).css("float") !== "none") {
-                                floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                            var floating = "inline_class_widget_nofloat";
+                            if ($(divarray[i]).hasClass("block_image_left")){
+                                floating = "inline_class_widget_leftfloat";
+                            } else if ($(divarray[i]).hasClass("block_image_right")){
+                                floating = "inline_class_widget_rightfloat";
                             }
-                            widgets[widgetname][index].floating = floating;
+                            
+                            /*if ($(divarray[i]).css("float") !== "none") {
+                                floating = $(divarray[i]).css("float") === "left" ? "inline_class_widget_leftfloat" : "inline_class_widget_rightfloat";
+                            } */
+                            widgetsInternal[widgetname][index].floating = floating;
+                            
                         }
                     }
 
-                    for (i in widgets){
-                        if (widgets.hasOwnProperty(i)) {
-                            for (var ii = 0, jj = widgets[i].length; ii<jj; ii++) {
+                    for (i in widgetsInternal){
+                        if (widgetsInternal.hasOwnProperty(i)) {
+                            for (var ii = 0, jj = widgetsInternal[i].length; ii<jj; ii++) {
 
                                 // Replace all the widgets with id "widget_" to widgets with new id's
                                 // and add set the appropriate float class
-                                $(document.getElementById(widgets[i][ii].id)).replaceWith($('<div id="'+widgets[i][ii].uid+'" class="' + widgets[i][ii].floating + '"></div>'));
+                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id="'+widgetsInternal[i][ii].uid+'" class="' + widgetsInternal[i][ii].floating + '"></div>'));
                             }
 
                             var url = sakai.widgets[i].url;
@@ -623,11 +639,11 @@ define(["jquery",
                     }
 
                     // Load the HTML files for the widgets
-                    loadWidgetFiles(widgets, batchWidgets);
+                    loadWidgetFiles(widgetsInternal, batchWidgets);
 
                 };
 
-                insertWidgets(id, showSettings, context);
+                insertWidgets(id, showSettings, context, widgetData);
 
                 return {
                     "informOnLoad" : informOnLoad
@@ -710,9 +726,135 @@ define(["jquery",
             }
         },
 
+        /**
+         * Notify widgets when they have been shown or hidden, given a root element
+         *
+         * @param {String} selector the root selector ("#theid") for the page which could house the widgets to nofity
+         * @param {Boolean} showing true if we are showing the widget, false if it is about to be hidden
+         */
+        nofityWidgetShown : function(selector, showing) {
+            var elts = $(selector).find("div[class^='inline_class_widget']");
+            $.each(elts, function(i,elt) {
+                var tuid = $(elt).attr("id");
+                $(window).trigger(tuid + ".shown.sakai", [showing]);
+            });
+        },
+
+        oldState : false,
+
+        /**
+         * This binds to any links with a hash URL and handles the
+         * pushState for them
+         */
+        bindToHash : function() {
+            $("a[href^='#']").live("click", function(e) {
+                var $target = $(e.currentTarget),
+                    args = $target.attr("href"),
+                    replace = $target.data("reset-hash"),
+                    remove = $target.data("remove-params"),
+                    stateToAdd = {}, currentState = {}, newState = {};
+                // new state to push
+                stateToAdd = $.deparam.fragment(args, true);
+                // current window.location.hash
+                currentState = $.deparam.fragment();
+                // the link wants to remove params from the url
+                if (remove) {
+                    // data-remove-params is a comma-delimited attribute
+                    remove = remove.split(',');
+                    $.each(remove, function(i,val) {
+                        val = $.trim(val);
+                        if (currentState[val]) {
+                            delete currentState[val];
+                        }
+                    });
+                }
+                // replace means we should replace the state entirely with the new state from the link
+                if (replace) {
+                    newState = stateToAdd;
+                } else {
+                    // otherwise we merge the currentState with the stateToAdd
+                    // note that any params in stateToAdd will override those in currentState
+                    newState = $.extend({}, currentState, stateToAdd);
+                }
+                // Always push with the 2 argument as newState contains the entire state we want
+                $.bbq.pushState(newState, 2);
+                return false;
+            });
+            oldState = $.bbq.getState();
+            $(window).bind("hashchange", sakaiWidgetsAPI.handleHashChange);
+            $(window).trigger("hashchange");
+        },
+
+        /**
+         * This function is used for creating href's to link to a
+         * hash change
+         * @param {Object} paramsObject The object containing key value pairs
+         *                              to add to the URL
+         * @param {String} url          The url you want to add hash parameters
+         *                              to. If not provided, the system will use
+         *                              the current page URL.
+         */
+        createHashURL : function(paramsObject, url) {
+            return $.param.fragment(url || window.location.hash, paramsObject);
+        },
+
+        /**
+         * Handle the hash change and dispatch the hashchange event
+         * to each widget that has the changed parameter
+         * @param {Object} e The hashchange event object
+         */
+        handleHashChange : function(e) {
+            var widgetHashes = {};
+            // get the changed params
+            var currentState = $.bbq.getState();
+
+            /** 
+             * construct the changedParams object which contains a map like this:
+             * widgetHashes = { "widgetid" : { "changed": {"property": "value"}, "deleted": {}}};
+             */
+            $.each(sakai_widgets_config, function(id, obj) {
+                if (obj.hasOwnProperty('hashParams')) {
+                    // iterate over each of the params that the widet watches
+                    $.each(obj.hashParams, function(i, val) {
+                        // If the current history state has this value
+                        if (currentState.hasOwnProperty(val)) {
+                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                            // and the oldState value exists and isn't the same as the new value
+                            // or the oldState didn't have the value
+                            if ((oldState.hasOwnProperty(val) && oldState[val] !== currentState[val]) ||
+                                !oldState.hasOwnProperty(val)) {
+
+                                widgetHashes[id].changed[val] = currentState[val];
+                            }
+                            widgetHashes[id].all[val] = currentState[val];
+
+                        // Check if the property was in the history state previously,
+                        // indicating that it was deleted from the currentState
+                        } else if (oldState.hasOwnProperty(val)) {
+                            widgetHashes[id] = widgetHashes[id] || {changed:{}, deleted:{}, all: {}};
+                            widgetHashes[id].deleted[val] = oldState[val];
+                        }
+                    });
+                }
+            });
+            if (e.currentTarget) {
+                // Fire an event to each widget that has the hash params in it
+                $.each(widgetHashes, function(widgetID, hashObj) {
+                    $(window).trigger("hashchanged." + widgetID + ".sakai", [hashObj.changed || {}, hashObj.deleted || {}, hashObj.all || {}, currentState || {}]);
+                });
+
+                // Reset the oldState to the currentState
+                oldState = currentState;
+                return true;
+            } else {
+                return widgetHashes[e];
+            }
+        },
+
         initialLoad : function() {
-            this.Container.setReadyToLoad(true);
-            this.widgetLoader.insertWidgets(null, false);
+            sakaiWidgetsAPI.bindToHash();
+            sakaiWidgetsAPI.Container.setReadyToLoad(true);
+            sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false);
         }
     };
 

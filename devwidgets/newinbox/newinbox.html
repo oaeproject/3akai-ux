@@ -1,0 +1,163 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/newinbox/css/newinbox.css" />
+
+<div id="newinbox_widget">
+
+    <!-- WIDGET BODY -->
+    <div class="fl-widget-newinbox s3d-widget-newinbox s3d-widget-small-newinbox">
+        <div class="newinbox_main">
+            <!-- Title -->
+            <div id="newinbox_header" class="newinbox-message-list-view s3d-contentpage-title" style="display:none">
+              <span id="newinbox_box_title"></span> <span id="newinbox_title_total_wrapper" style="display:none">(<span id="newinbox_title_total"></span>)</span>
+            </div>
+            <div id="newinbox_message_header" class="newinbox-message-list-view">
+              <div class="s3d-button s3d-button-link-2-state newinbox-message-list-view" id="newinbox_select" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="newinbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
+              </div>
+              <div id="newinbox_select_options" style="display:none">
+                <ul>
+                  <li>
+                    <button type="button" id="newinbox_select_all" class="s3d-link-button s3d-action">__MSG__ALL__</button>
+                  </li>
+                  <li>
+                    <button type="button" id="newinbox_select_unread" class="s3d-link-button  s3d-action">__MSG__UNREAD__</button>
+                  </li>
+                </ul>
+              </div>
+              <button type="button" id="newinbox_delete_selected" class="s3d-button s3d-button-link-2-state newinbox-message-list-view" disabled="disabled" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DELETE_SELECTED__</span>
+              </button>
+              <button type="button" id="newinbox_mark_as_read" class="s3d-button s3d-button-link-2-state newinbox-message-list-view" disabled="disabled" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MARK_AS_READ__</span>
+              </button>
+              <button type="button" id="newinbox_back_to_messages" class="newinbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
+              </button>
+              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right newinbox-message-list-view newinbox-message-detail-view" id="newinbox_create_new_message" style="display:none">
+                  <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
+              </a>
+              <input type="text" id="newinbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="newinbox-message-list-view" style="display:none"/>
+            </div>
+
+            <!-- Inbox Items -->
+            <div id="newinbox_message_list" style="display:none" class="newinbox-message-list-view"></div>
+
+            <!-- Inbox Item Template -->
+            <div id="newinbox_message_list_item_template"><!--
+                {for message in data.results}
+                    <div class="fl-container fl-fix newinbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
+                        <div class="newinbox_items_inner">
+                            <div class="newinbox_delete">
+                              <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state newinbox_reply_button">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
+                              </a>
+                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                              </button>
+
+                            </div>
+                            <div class="newinbox_placeholder"><input type="checkbox"/></div>
+                            <div class="newinbox_message_data">
+                              <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
+                              <div class="newinbox_name">
+                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                              </div>
+                              <div class="newinbox_date">
+                                <span>${message.date}</span>
+                              </div>
+                              <div class="newinbox_subject">
+                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                              </div>
+                              <div class="newinbox_excerpt">
+                                <p>${message.nolinebreaks}<p>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                {forelse}
+                    <div class="fl-container fl-fix" id="newinbox_no_messages">
+                        <p>__MSG__NO_MESSAGES__</p>
+                    </div>
+                {/for}
+            --></div>
+            <div id="newinbox_pager" class="jq_pager"></div>
+
+            <!-- Message show pane -->
+            <div id="newinbox_show_message" style="display:none" class="newinbox-message-detail-view"></div>
+            <div id="newinbox_show_message_template"><!--
+                {macro showMessage(message, reply)}
+                  <div class="newinbox_message_container{if reply} reply{/if}">
+                    <div class="newinbox_show_message_header">
+                        <div class="fl-container fl-fix newinbox_items_container" id="${message.id}">
+                            <div class="newinbox_items_inner">
+                                {if !reply}
+                                <div class="fl-force-right">
+                                    <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                                    </button>
+                                </div>
+                                {/if}
+                                <div class="newinbox_placeholder">&nbsp;</div>
+                                <img alt="person icon" src="${message.from.picture}"/>
+                                <div class="newinbox_name">
+                                  <a href="#" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                                </div>
+                                <div class="newinbox_date">
+                                  <span>${message.date}</span>
+                                </div>
+                                {if !reply}
+                                <div class="newinbox_subject">
+                                  <a href="#" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                </div>
+                                {/if}
+                                <div class="newinbox_excerpt">
+                                  <p>${message.body}</p>
+                                  {if message.invitation}
+                                    {if message.invited}
+                                      <button class="newinbox_invitation newinbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
+                                      <button class="newinbox_invitation newinbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
+                                    {elseif message.ignored}
+                                      __MSG__IGNORED__
+                                    {else}
+                                      __MSG__ACCEPTED__
+                                    {/if}
+                                  {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {if reply && message.previousMessage}
+                      ${showMessage(message.previousMessage, true)}
+                  {/if}
+                {/macro}
+                <div id="newinbox_show_message_header">
+                  <h1>${message.subject}</h1>
+                </div>
+                <div id="newinbox_show_message_main">
+                  ${showMessage(message)}
+                </div>
+                {if message.previousMessage}
+                <div id="newinbox_show_message_replies">
+                      ${showMessage(message.previousMessage, true)}
+                </div>
+                {/if}
+                <div id="newinbox_show_message_reply">
+                   <div class="newinbox_show_message_reply_fields"></div>
+                </div>
+            --></div>
+
+            <!-- New Message -->
+            <div id="newinbox_new_message" style="display:none">
+              <h1>New Message</h1>
+              <div id="newinbox_new_message_sendmessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/devwidgets/newinbox/javascript/newinbox.js"></script>

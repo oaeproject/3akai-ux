@@ -58,35 +58,20 @@
 
 <!-- SECTION TEMPLATES -->
 <div id="profilesection_default_template"><!--
-    {var mode = sakai_global.profile.main.mode}
+    {var mode = sakai_global.profile.main.mode.value}
     {if fields}
         {if config && config.label}
             <div class="profilesection_generalinfo_header">
                 <h2 class="fl-force-left">${config.label}</h2>
-
-                {if (mode.value === "viewmy" || mode.value === "edit") && config.modifyacl !== false}
-                        {var _access = "everybody"}
-                    {if data && data.access}
-                        {var _access = data.access}
-                    {/if}
-                    <div class="profilesection_generalinfo_acl fl-force-right">
-                        {if mode.value === "viewmy"}
-                            <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                            <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
-                        {else}
-                            <label for="profilesection_generalinfo_access_${currentsection}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
-                            <select id="profilesection_generalinfo_${currentsection}_access" name="profilesection_generalinfo_access_${currentsection}" class="profilesection_generalinfo_access">
-                                {for ace in sakai_global.profile.main.acls.options}
-                                    <option{if _access === ace_index} selected="selected"{/if} value="${ace_index}">${ace.label}</option>
-                                {/for}
-                            </select>
-                        {/if}
-                    </div>
-                {/if}
             </div>
         {/if}
 
         ${fields}
+        {if mode === "edit"}
+        <button type="button" class="s3d-button s3d-button-primary profile-section-save-button">
+            <span class="s3d-button-inner">__MSG__UPDATE__</span>
+        </button>
+        {/if}
     {/if}
 --></div>
 
@@ -216,6 +201,13 @@
         {/if}
     {/if}
 --></div>
+
+<!-- ERROR CONTAINER -->
+<div id="profile_error" style="display:none;">
+    <div id="profile_error_form_errors">__MSG__SOME_FIELDS_CONTAIN_ERRORS_PLEASE_CHECK_AGAIN__</div>
+    <div id="profile_error_form_error_server">__MSG__THERE_WAS_AN_ERROR_TRYING_TO_SAVE_YOUR_DATA_ON_THE_SERVER__. __MSG__PLEASE_TRY_AGAIN_LATER_OR_CALL_HELPDESK__.</div>
+    <div id="profile_message_form_successful">__MSG__YOUR_PROFILE_INFORMATION_HAS_BEEN_UPDATED__</div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script src="/devwidgets/profilesection/javascript/profilesection.js" type="application/javascript"></script>

@@ -16,29 +16,25 @@
  * specific language governing permissions and limitations under the License.
  */
 
- #contentpreview_download_button:hover { text-decoration: none; }
  /* Default type*/
  #contentpreview_default_preview {background-color:#EEF2F5; height:70px; margin-bottom:15px; padding-bottom:20px; padding-left:15px; padding-right:20px; padding-top:20px;}
- #contentpreview_default_preivew_button { width: 240px; float: right }
- #contentpreview_download_button { text-align:center; width:216px; float:right}
+ #contentpreview_default_preivew_button { width: 240px; float: right; padding-top:9px; }
  #contentpreview_default_preview_image { float:left; width:80px; }
  #contentpreivew_default_preivew_data { width: 280px; float:left; padding-top:7px; font-weight: bold;}
- .contentpreview_actions_container_default {float:right;}
+ .contentpreview_actions_container_default {float:right; padding-top:5px;}
  
  /* Non default type */
- #contentpreview_text_preview { font-family: 'Courier New'; padding: 5px; overflow: auto;}
- #contentpreview_image_preview { padding: 0px; display:none; }
- #contentpreview_other_preview_buttons { padding: 15px 20px 15px 10px; height: 25px; }
+ #contentpreview_other_preview_buttons { padding: 0px 20px 15px 10px; margin-bottom: 20px; border-bottom: 5px solid #e1e1e1;}
  
  /*Content Preview template*/
- #contentpreview_image_rendered { border: 1px solid #D4DADE; }
- #contentpreview_html_iframe { width: 640px; height: 390px; frameborder: 0; }
- #contentpreview_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
-
  /* Image formatting */
- .contentpreview_other_preview { width:640px; height: 390px; border: 1px solid #D4DADE; display:none; }
- .contentpreview_image_preview_width { width:640px;}
- .contentpreview_image_preview_height { height:390px;}
+ .contentpreview_other_preview { max-width:920px; max-height: 560px;  display:none; }
  .contentpreview_noborder { border:none;}
  .contentpreview_overflowhidden { overflow: hidden}
- 
+
+ .contentpreview_fullsize_preview embed { width: 920px; }
+
+ .contentpreview_fullsize_preview #documentviewer_preview>img,
+ .contentpreview_fullsize_preview #documentviewer_preview>div,
+ .contentpreview_fullsize_preview #documentviewer_preview>embed,
+ .contentpreview_fullsize_preview #documentviewer_preview>iframe { border: 1px solid #D4DADE; }

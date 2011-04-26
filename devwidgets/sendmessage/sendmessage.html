@@ -7,7 +7,7 @@
 <span id="sendmessage_data_error" style="display:none;">__MSG__FAILED_TO_RETRIEVE_DATA__</span>
 <span id="sendmessage_fields_error" style="display:none;">__MSG__PLEASE_FILL_IN_ALL_FIELDS__.</span>
 
-<div class="dialog" id="message_dialog">
+<div class="dialog message_dialog">
 
     <!-- HEADER -->
     <div class="dialog_header">
@@ -20,40 +20,31 @@
     <!-- FORM -->
     <div id="message_form" class="dialog_content">
 
-        <!-- CONTAINER FOR MESSAGES -->
-        <div id="message_done"></div>
-
         <div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
             <form class="compose-form" action="" method="post">
 
-                <!-- FROM -->
-                <div>__MSG__FROM__: <span id="message_from"></span></div>
-
                 <!-- TO -->
-                <div id="sendmessage_fixed_to_user" style="display:none;">__MSG__TO__: <span id="message_to"></span></div>
-
-                <!-- MULTIPLE RECIPIENTS -->
-                <div id="sendmessage_to_container" style="display:none;">
-                    <label id="sendmessage_to_autoSuggest_label"
-                        for="sendmessage_to_autoSuggest">__MSG__ADDITIONAL_RECIPIENTS__</label>
+                <div class="sendmessage_send_form" id="sendmessage_to">
+                    <!-- MULTIPLE RECIPIENTS -->
+                    <label id="sendmessage_label_to_autoSuggest" for="sendmessage_to_autoSuggest">__MSG__SEND_MESSAGE_TO__:</label>
                     <input type="text" id="sendmessage_to_autoSuggest" />
                 </div>
 
                 <!-- SUBJECT -->
-                <div>
-                    <label for="comp-subject">__MSG__SUBJECT__</label><br />
+                <div class="sendmessage_send_form" id="sendmessage_subject">
+                    <label for="comp-subject">__MSG__SUBJECT__:</label>
                     <input type="text" class="compose-subject" id="comp-subject" />
                 </div>
 
                 <!-- BODY -->
-                <div>
-                    <label for="comp-body">__MSG__BODY__</label><br />
+                <div class="sendmessage_send_form" id="sendmessage_body">
+                    <label for="comp-body">__MSG__BODY__:</label>
                     <textarea class="compose-body" id="comp-body" cols="90" rows="10"></textarea>
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="dialog_buttons fl-force-right">
-                    <button type="button" class="s3d-button jqmClose" id="send_message_cancel"><span class="s3d-button-inner">__MSG__DONT_SEND__</span></button>
+                    <button type="button" class="s3d-button" id="send_message_cancel"><span class="s3d-button-inner">__MSG__DONT_SEND__</span></button>
                     <button type="button" class="s3d-button s3d-button-primary" id="send_message"><span class="s3d-button-inner">__MSG__SEND_MESSAGE__</span></button>
                 </div>
 
@@ -65,7 +56,7 @@
 
     <!-- FOOTER -->
     <div id="sendmessage_dialog_footer" class="dialog_footer">
-        <div class="dialog_footer_inner"></div>
+        <div class="dialog_footer_inner sendmessage_dialog_footer_inner"></div>
     </div>
     <span id="sendmessage_message_sent" style="display:none;">__MSG__YOUR_MESSAGE_HAS_BEEN_SENT__.</span>
     <span id="sendmessage_message_error" style="display:none;"><b>__MSG__AN_ERROR_HAS_OCCURRED__.</b> __MSG__PLEASE_TRY_AGAIN_LATER__.</span>

@@ -16,85 +16,58 @@
  * specific language governing permissions and limitations under the License.
  */
 
-/**
- * Top Navigation Bar
- */
-#explore_nav_container{background-color:#454a4f;color:#000;}
-.explore_nav{vertical-align:bottom;width:960px;height:32px;margin:0 auto 5px;background-color:#454a4f;}
-.explore_nav ul{padding:0;margin:0;}
-.explore_nav li{float:left;list-style:none none;padding:0;margin:0;}
-.explore_nav .explore{font-size:1em;}
-.explore_nav ul.explore li{padding:0;padding-bottom:0;border-left:1px solid #878a8c;}
-.explore_nav .explore li.navigation_first_link{border-left:none;}
-.explore_nav .explore li a{height:16px;color:#fff;padding:8px 20px;text-align:center;display:block;float:left;font-weight:bold;}
-.explore_nav .navigation_grey_link{color:#888!important;}
-.explore_nav .explore li a.explore_inactive{color:#888;}
-.explore_nav .explore li small{color:#ddd;font-size:.85em;}
-.explore_nav .explore li span{height:16px;color:#fff;padding:8px 20px;text-align:center;display:block;float:left;font-weight:bold;}
-#topnavigation_mail_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -362px -394px transparent;float:left;height:14px;width:18px;}
-.explore-bg{height:100px;background-color:#868b91;position:absolute;top:32px;left:0;right:0;z-index:-1;}
+#topnavigation_container {width:960px; margin-left:auto; margin-right:auto;}
 
-/* Selected Nav element */
-.explore_nav .explore .explore_nav_selected{padding-bottom:12px;}
-.explore_nav .explore .explore_nav_selected a,.explore_nav .explore .explore_nav_selected span{background:url(/dev/images/body_bg_sprite.png) repeat scroll left top #868A8D;}
+/* NAVIGATION */
+.topnavigation_explore {margin: 0 0 0 6px;float:left;}
+.topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login{color:#fff; text-decoration:none;}
+.topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 
-/*** Top Right Navbar ***/
-.explore_nav .personal-container{margin-top:0;padding-right:5px;overflow:hidden;}
-.explore_nav .personal{padding:0 0 0 5px;margin:0;min-height:20px;float:right;}
-.explore_nav .personal li a{padding:0 7px;border-right:1px solid #878a8c;color:#fff;font-size:11px;}
-.explore_nav .personal li .help_none{border-right:none;}
-.explore_nav .user_link #userid{margin-left:7px;}
-.explore_nav .personal li.last a{border:none;padding-right:0;}
-.personal img{vertical-align:middle;}
-.explore_nav .personal #top_navigation li a.sign_out{border:none;}
-.explore_nav .personal .user_link img{position:relative;top:-1px;padding:0 3px;}
-.explore_nav .personal .mail img{position:relative;top:-1px;}
-.user_link_chat_status, .user_link_chat_status_link{color:#fff;}
+/* SEARCH */
+.topnavigation_search {float:right;margin-top:10px;height: 22px;margin-right: 20px;}
+.topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search_icon.png") no-repeat center right transparent;}
+.topnavigation_search #topnavigation_search_input{margin-left:7px;border:none; height:20px;box-shadow:1px 1px 1px #888 inset;-webkit-box-shadow:1px 1px 1px #888 inset;box-shadow:1px 1px 1px #888 inset;}
+.topnavigation_search #topnavigation_search_results {margin: 6px 0 0 -30px;position: absolute;width: 241px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
+.topnavigation_search #topnavigation_search_results_container{background: url("/devwidgets/topnavigation/images/topnav_search_bg.png") repeat-x scroll left bottom #F3F3F3;padding:12px 3px 5px;}
+.topnavigation_search #topnavigation_search_results_bottom_container {background-color:#F3F3F3;height:32px;padding:4px 3px 0 12px;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
+.topnavigation_search #topnavigation_search_results_container .topnavigation_search_results_section_header{color:#636363;padding:0 12px;}
+.topnavigation_search #topnavigation_search_results_container ul {margin:5px 0 15px;}
+.topnavigation_search #topnavigation_search_results_container ul li {padding:2px 12px;font-size:11px;}
+.topnavigation_search #topnavigation_search_results_container ul li.selected {background-color:#D3EDF5;}
+.topnavigation_search #topnavigation_search_results_container ul li a{text-decoration:none;color:#2683BC;}
+.topnavigation_search #topnavigation_search_results_container #topnavigation_search_results_no_results{padding:0 12px;}
+.topnavigation_search #topnavigation_search_results_container .topnav_content_icon, .topnavigation_search #topnavigation_search_results_container .topnav_person_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon, .topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {width:16px; height:16px; display:block;}
+.topnavigation_search #topnavigation_search_results_container .topnav_content_icon_container {margin-right:7px;}
+.topnavigation_search #topnavigation_search_results_container .topnav_person_icon{background:url("/dev/images/icons_sprite.png") no-repeat scroll -761px -20px transparent;}
+.topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -220px -21px transparent;}
+.topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -780px -21px transparent;}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top:7px; color:#636363;}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px}
 
-/* User Link Dropdown */
-#user_link_container{position:relative;text-align:left;min-width:50px;max-width:200px;}
-#user_link {display:inline; text-align:center;padding:0;margin:0;}
-#user_link:hover {text-decoration:none;}
-#user_link .dropdownlistone_arrow { *padding-right:8px;}
+/* USER */
+.topnavigation_user_container {float:right;}
+.topnavigation_user_container ul {margin:0;}
+.topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;margin-right:20px;}
 
-/* Anonymous Login */
-#login_container{background:none repeat scroll 0 0 #878A8C;left:785px;padding:10px;position:absolute;top:32px;width:246px;z-index:1000;text-align:right;color:#eee;}
-#login_container input{border:1px solid #666;height:20px;line-height:20px;margin:3px 0 10px;text-align:right;width:240px;font-weight:bold;color:#333;padding:0 10px 0 0;}
-#error_message{color:#ff0;}
-#login_busy{background:url(/dev/images/ajax_load.gif) 0 0 no-repeat;width:80px;height:10px;}
-#register_button_container .register{border:none!important;}
-#register_here{margin-bottom:10px;}
+.s3d-dropdown-menu:hover #topnavigation_user_options_login_fields{display:block !important;}
+.s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}
 
-/* General Search */
-#general_search_container{padding-top:3px;}
-.search_input_focus{color:#333!important;}
+.topnavigation_user_container #topnavigation_user_options_list {float:right;}
+.topnavigation_user_container #topnavigation_user_inbox_container {color:#fff;width:60px;margin-top:11px;text-decoration:none;}
+.topnavigation_user_container #topnavigation_user_inbox_container {float:left;}
+.topnavigation_user_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;display: inline;float: left;height: 15px;margin: 2px 7px 0 0;width: 15px;}
 
-/* MAIN */
-.dropdown .dropdown_contacts .dropdown_person_name,.dropdown ul li a{color:#006e96;font-weight:700;}
-#people_dropdown_main .button,#mysites_dropdown_main .button{float:none;display:inline;}
-#people_dropdown_my_contacts_list{padding-bottom:10px;}
-.chat_has_dropdown img,.chat_has_dropdown span{float:left;position:relative;}
-.chat_has_dropdown img{padding:1px 0 0;margin:0 0 0 5px;}
-
-/* Search Bar */
-.search_box{margin:0;padding:0;}
-.search_box .search_type{display:inline-block;font-weight:normal;font-size:11px;text-align:center;cursor:pointer;height:22px;margin-top:1px;padding:0;*display:inline;zoom:1;}
-.search_text,.search_links{display:inline-block;padding:4px 8px 0 11px;}
-.search_links{padding:4px 10px 0 17px; float:left;}
-.search_text{font-weight:bold;float:left;}
-.search_left{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -12px -958px transparent;}
-.search_left:hover{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1969px transparent;color:#000;}
-.search_right:hover{background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1995px transparent;color:#000;}
-.search_right{color:#FFF;background:url("/dev/images/dashboard_sprite.png") no-repeat scroll right -2049px transparent;}
-.search_drop{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -68px -235px transparent;width:15px;height:15px;margin:5px 7px 0 0;float:left;}
-.search_right:hover .search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -245px -395px transparent;}
-.search_icon{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -7px -396px transparent;width:15px;height:15px;margin:5px 10px 0 0;float:left;}
-.search_string{padding:3px 0 0 3px;color:#aaa;font-size:1em;margin-top:0px;border:1px solid #736F6E;width:15em!important;height:19px;vertical-align:top;*margin-left:0px;margin-left:22px\0/;} /* \0/ is IE8 specific fix */
-.search_string:hover{background-color:#CCC!important;}
-#search_more_menu{background-color:transparent;z-index:2;}
-#search_more_menu ul{background-color:#FFF;}
-#search_more_menu ul li{float:none;}
-.personal_container{background-color:transparent!important;height:20px;}
-.personal_container div{background-color:transparent!important;}
-#top_navigation li a{border-right:1px solid #454A4F;}
-#top_navigation li:last-child a{border:none;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -182px;margin-top: 9px;position: absolute;width: 241px;z-index: 999;}
+#topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
+#topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_form input{background: none repeat scroll 0 0 transparent;border: 1px solid #424242;height: 20px;width: 100%;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;margin-bottom:5px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login .s3d-button-inner, .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all .s3d-button-inner{color:#2683bc !important;}
+#topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:5px 12px 8px 0;}
+#topnavigation_user_options_login_fields_bottom_container #topnavigation_user_options_login_button{margin-top: 3px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error {border-radius: 2px 2px 0 0;height: 25px;margin-left: -12px;margin-top: 0;padding: 7px 12px 0;position: absolute;width:217px;background-color:#f8dc92;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_error span {color:#8b6b0a;}
+#topnavigation_search_results_container ul li{list-style-type:none;}
+.topnavigation_user_options_login_sign_in_error_margin #topnavigation_user_options_login_error + label {margin-top:40px !important;}
+.topnavigation_user_options_login_sign_in_error_margin input{border:2px solid #FFBA00 !important;}

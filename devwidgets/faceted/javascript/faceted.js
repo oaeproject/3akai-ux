@@ -35,13 +35,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      */
-    sakai_global.faceted = function(tuid){
+    sakai_global.faceted = function(tuid, showSettings, widgetData){
 
 
         ///////////////////
         // CSS Selectors //
         ///////////////////
 
+        var rootel = $("#" + tuid);
         var faceted = "#faceted";
         var facetedContainer = faceted + "_container";
         var facetedListall = faceted + "_listall";
@@ -57,40 +58,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderTemplateFaceted = function(facetedConfig){
             if (sakai.data.me.user.anon) {
-              $(facetedContainer).hide();
+              $(facetedContainer,rootel).hide();
             } else {
               // Render the faceted.
-              $(facetedContainer).html(sakai.api.Util.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
+              $(facetedContainer,rootel).html(sakai.api.Util.TemplateRenderer(facetedDefaultTemplate, facetedConfig));
 
               addBinding();
             }
         };
-
+        
+        var initialSelection = function(){
+            $(".faceted_category",rootel).removeClass("faceted_category_selected");
+            var currentfacet = $.bbq.getState('facet');
+            if (currentfacet) {
+                $("#" + currentfacet, rootel).addClass("faceted_category_selected");
+            } else {
+                $(".faceted_category:first", rootel).addClass("faceted_category_selected");
+            }
+        };
 
         //////////////
         // Bindings //
         //////////////
+        
+        $(window).bind("hashchange", function(ev){
+            initialSelection();
+        });
 
         /**
          * Bind the widget's links
          */
         var addBinding = function(){
-            // bind faceted list all
-            $(facetedListall).bind("click", function() {
-                $(".faceted_list_expanded").show();
-                $(".faceted_back").show();
-                $(facetedListall).hide();
-            });
-            // bind faceted back link
-            $(".faceted_back_link").bind("click", function() {
-                $(facetedListall).show();
-                $(".faceted_list_expanded").hide();
-                $(".faceted_back").hide();
-            });
             // bind category links
-            $(".faceted_category").bind("click", function() {
-                $(".faceted_category").removeClass("faceted_category_selected");
+            $(".faceted_category",rootel).bind("click", function() {
+                $(".faceted_category",rootel).removeClass("faceted_category_selected");
                 $(this).addClass("faceted_category_selected");
+                var facet = $(this).attr("id");
+                $.bbq.pushState({
+                    "page": 1,
+                    "facet": facet
+                }, 0);
             });
         };
 
@@ -99,19 +106,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization //
         ////////////////////
 
-        /**
-         * Render function
-         */
-        var render = function(facetedConfig){
-            renderTemplateFaceted(facetedConfig);
-        };
+        renderTemplateFaceted(widgetData.facetedConfig);
+        initialSelection();
 
-        $(window).bind("render.faceted.sakai", function(e, config) {
-            render(config);
-        });
-
-        // Indicate that the widget has finished loading
-        $(window).trigger("ready.faceted.sakai", {});
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("faceted");

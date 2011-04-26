@@ -71,6 +71,15 @@ if(Array.hasOwnProperty("indexOf") === false){
     };
 }
 
+require({
+    baseUrl:"/dev/lib/",
+    paths: {
+        "jquery": "jquery/jquery-1.5.2",
+        "jquery-ui": "jquery/jquery-ui-1.8.11.custom"
+    },
+    priority: ["jquery"]
+});
+
 require(
     {
         baseUrl: "/dev/lib/"
@@ -81,8 +90,8 @@ require(
         "../../../../dev/lib/sakai/sakai.jquery-extensions.js",
         "../../../../dev/configuration/config.js",
         "../../../../dev/configuration/config_custom.js",
-        "../../../../dev/lib/jquery/jquery-ui.full.js",
-        "../../../../dev/lib/jquery/plugins/jquery.validate.sakai-edited.js",
+        "jquery-ui",
+        "../../../../dev/lib/jquery/plugins/jquery.validate.js",
         "../../../../dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
         "../../../../dev/lib/fluid/3akai_Infusion.js",
         "../../../../dev/lib/misc/l10n/globalization.js",

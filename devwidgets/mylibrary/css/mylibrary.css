@@ -1,0 +1,44 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+.mylibrary_main{margin:0 10px 10px 15px;overflow:hidden; }
+
+.mylibrary_title {font-size:1.1em;}
+.mylibrary_information {margin-top:15px;}
+.mylibrary_information_detail {width:70%;}
+.mylibrary_information_fliter {float:right;}
+.mylibrary_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0 10px;height:21px;}
+.mylibrary_check, #mylibrary_check_all {margin-top:4px;}
+.mylibrary_widget{overflow:hidden;}
+.mylibrary_item {color:#333;padding:10px 0; border-bottom:1px solid #DDDDDD;}
+.mylibrary_item img {float: left;padding: 0 10px 5px 0;width: 40px;}
+.mylibrary_name_div {color:#878A8C; width:50%; overflow:hidden;}
+.mylibrary_details {font-size:0.9em;}
+.mylibrary_name {display:block; margin-bottom:3px;}
+.mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;
+    height:14px;width:54px;display:inline-block;vertical-align:text-top;}
+.mylibrary_placeholder {width:20px; height:20px; float:left;}
+.mylibrary_icon {background:url("/dev/images/dashboard_sprite.png") no-repeat scroll -68px -235px transparent; margin-top:10px;float:left;display:none;}
+.mylibrary_description {float:right; border-left:1px solid #DDDDDD;width:30%; padding-left:5px;}
+.mylibrary_description_detail {color: #878A8C; font-size:0.9em; display:block; padding-top:2px; margin:0;}
+.mylibrary_detail_dark {color:#000000;}
+.mylibrary_noborder{border:none;}
+#mylibrary_livefilter{float:right; width:200px; margin-right: 170px;}
+.mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
+.mylibrary_meta {color:#aaa;font-style:italic;}
+.mylibrary_center {text-align:center;}

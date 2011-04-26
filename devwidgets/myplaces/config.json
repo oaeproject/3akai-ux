@@ -1,0 +1,12 @@
+{
+    "description": "My Places",
+    "i18n": {
+        "default": "/devwidgets/myplaces/bundles/default.properties"
+    },
+    "id": "myplaces",
+    "name": "myplaces",
+    "personalportal":false,
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/myplaces/myplaces.html"
+}

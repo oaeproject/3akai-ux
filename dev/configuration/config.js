@@ -15,8 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-define(function() {
+define(function(){
     var config = {
         URL: {
             // Static URLs
@@ -44,6 +43,7 @@ define(function() {
             SEARCH_SITES_URL: "/search/sites",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
+            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
@@ -280,9 +280,9 @@ define(function() {
              *
              */
             configuration: {
-
+            
                 defaultConfig: {
-
+                
                     "basic": {
                         "label": "__MSG__PROFILE_BASIC_LABEL__",
                         "required": true,
@@ -350,16 +350,6 @@ define(function() {
                                 "required": false,
                                 "display": true
                             },
-                            /*
-                            "dateofbirth": {
-                                "label": "__MSG__PROFILE_BASIC_DATEOFBIRTH_LABEL__",
-                                "required": false,
-                                "display": true,
-                                "type": "oldDate",
-                                // note that MM/DD/YYYY will be localized in javascript, so its value is simply a placeholder
-                                // ie do not change MM/DD/YYYY -- keep it in this string
-                                "example": "__MSG__DATE_OF_BIRTH_EXAMPLE__ MM/DD/YYYY __MSG__FORMAT__"
-                            }, */
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -512,7 +502,6 @@ define(function() {
              */
             userShortDescription: "${role} in ${department} at ${college}",
             groupShortDescription: "asdf"
-
         },
 
         Groups: {
@@ -524,7 +513,7 @@ define(function() {
              */
             JoinRequest: {
                 title: "${user} has requested to join your group: ${group}",
-                body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
+                body: "${user} has requested to join your group: ${group}. Use the links below to respond to this request."
             }
         },
 
@@ -588,7 +577,7 @@ define(function() {
         },
 
         SystemTour: {
-            "enableReminders":true,
+            "enableReminders": true,
             "reminderIntervalHours": "168"
         },
 
@@ -623,7 +612,36 @@ define(function() {
             To: "to",
             read: "read"
         },
-
+        Extensions:{
+            "docx":"application/doc",
+            "doc":"application/doc",
+            "odt":"application/doc",
+            "ods":"application/vnd.ms-excel",
+            "xls":"application/vnd.ms-excel",
+            "xlsx":"application/vnd.ms-excel",
+            "odp":"application/vnd.ms-powerpoint",
+            "ppt":"application/vnd.ms-powerpoint",
+            "pptx":"application/vnd.ms-powerpoint",
+            "odg":"image/jpeg",
+            "png":"image/png",
+            "jpg":"image/jpeg",
+            "jpeg":"image/jpeg",
+            "bmp":"image/bmp",
+            "gif":"image/gif",
+            "pdf":"application/x-pdf",
+            "swf":"application/x-shockwave-flash",
+            "flv":"video/x-msvideo",
+            "mpg":"video/x-msvideo",
+            "mpeg":"video/x-msvideo",
+            "mp4":"video/x-msvideo",
+            "avi":"video/x-msvideo",
+            "mov":"video/x-msvideo",
+            "txt":"text/rtf",
+            "rtf":"text/rtf",
+            "htm":"text/html",
+            "html":"text/html",
+            "other":"other"
+        },
         MimeTypes: {
             "application/doc": {
                 cssClass: "icon-doc-sprite",
@@ -648,7 +666,7 @@ define(function() {
             "application/x-download": {
                 cssClass: "icon-pdf-sprite",
                 URL: "/dev/images/mimetypes/pdf.png",
-                description: "PDF_DOCUMENT" 
+                description: "PDF_DOCUMENT"
             },
             "application/x-pdf": {
                 cssClass: "icon-pdf-sprite",
@@ -740,12 +758,12 @@ define(function() {
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
-            "video/quicktime":{
+            "video/quicktime": {
                 cssClass: "icon-video-sprite",
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
-            folder: {
+            "folder": {
                 cssClass: "icon-kmultiple-sprite",
                 URL: "/dev/images/mimetypes/kmultiple.png",
                 description: "FOLDER"
@@ -755,7 +773,12 @@ define(function() {
                 URL: "/dev/images/mimetypes/html.png",
                 description: "URL_LINK"
             },
-            other: {
+            "x-sakai/document": {
+                cssClass: "icon-sakaidoc-sprite",
+                URL: "/dev/images/mimetypes/sakaidoc.png",
+                description: "DOCUMENT"
+            },
+            "other": {
                 cssClass: "icon-unknown-sprite",
                 URL: "/dev/images/mimetypes/unknown.png",
                 description: "OTHER_DOCUMENT"
@@ -774,7 +797,7 @@ define(function() {
             }],
             "hideLoginOn": ["/dev", "/dev/index.html", "/dev/create_new_account.html"]
         },
-
+        
         notification: {
             type: {
                 ERROR: {
@@ -788,36 +811,100 @@ define(function() {
             }
         },
 
-        Navigation: [
-            {
-                "url" : "/home",
-                "id" : "navigation_my_sakai_link",
-                "label" : "MY_SAKAI"
-            },
-            {
-                "url" : "/search/content#q=*&facet=manage",
-                "anonUrl" : "/search/content#q=*",
-                "id" : "navigation_content_link",
-                "label" : "CONTENT_AND_MEDIA"
-            },
-            {
-                "url" : "/search/groups#q=*&facet=manage",
-                "anonUrl" : "/search/groups#q=*",
-                "id" : "navigation_groups_link",
-                "label" : "GROUPS"
-            },
-            {
-                "url" : "/search/people#q=*&facet=contacts",
-                "anonUrl" : "/search/people#q=*",
-                "id" : "navigation_people_link",
-                "label" : "PEOPLE"
-            },
-            {
-                "url" : "/directory",
-                "id" : "navigation_directory_link",
-                "label" : "DIRECTORY"
-            }
-        ],
+        Navigation: [{
+            "url": "/dev/me.html",
+            "id": "navigation_you_link",
+            "anonymous": false,
+            "label": "YOU",
+            "subnav": [{
+                "url": "/dev/me.html",
+                "id": "subnavigation_home_link",
+                "label": "MY_HOME"
+            }, {
+                "url": "/dev/me.html#l=messages/inbox",
+                "id": "subnavigation_messages_link",
+                "label": "MY_MESSAGES"
+            }, {
+                "id": "subnavigation_hr"
+            }, {
+                "url": "/dev/me.html#l=profile/basicinfo",
+                "id": "subnavigation_profile_link",
+                "label": "MY_PROFILE"
+            }, {
+                "url": "/dev/me.html#l=library",
+                "id": "subnavigation_content_link",
+                "label": "MY_LIBRARY"
+            }, {
+                "url": "/dev/me.html#l=memberships",
+                "id": "subnavigation_memberships_link",
+                "label": "MY_MEMBERSHIPS"
+            }, {
+                "url": "/dev/me.html#l=contacts",
+                "id": "subnavigation_contacts_link",
+                "label": "MY_CONTACTS_CAP"
+            }]
+        }, {
+            "url": "/dev/createnew.html",
+            "id": "navigation_create_and_add_link",
+            "anonymous": false,
+            "label": "CREATE_AND_ADD",
+            "subnav": [{
+                "id": "subnavigation_add_content_link",
+                "label": "ADD_CONTENT",
+                "url": "#"
+            }, {
+                "id": "subnavigation_add_contacts_link",
+                "label": "ADD_CONTACTS",
+                "url": "/search/people#q=*&filter=&facet=&page=1"
+            }, {
+                "id": "subnavigation_hr"
+            }, {
+                "id": "subnavigation_simple_group_link",
+                "label": "CREATE_GROUP",
+                "url": "/dev/createnew.html"
+            }]
+        }, {
+            "url": "/dev/directory2.html",
+            "id": "navigation_explore_link",
+            "anonymous": false,
+            "label": "EXPLORE",
+            "subnav": [{
+                "id": "subnavigation_explore_content_link",
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
+            }, {
+                "id": "subnavigation_explore_groups_link",
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
+            }, {
+                "id": "subnavigation_explore_people_link",
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
+            }]
+        }, {
+            "url": "/dev/directory2.html",
+            "id": "navigation_anon_explore_link",
+            "anonymous": true,
+            "label": "EXPLORE",
+            "subnav": [{
+                "id": "subnavigation_explore_content_link",
+                "label": "CONTENT",
+                "url": "/dev/search2.html#l=content"
+            }, {
+                "id": "subnavigation_explore_groups_link",
+                "label": "GROUPS",
+                "url": "/dev/search2.html#l=groups"
+            }, {
+                "id": "subnavigation_explore_people_link",
+                "label": "PEOPLE",
+                "url": "/dev/search2.html#l=people"
+            }]
+        }, {
+            "url": "/dev/create_new_account2.html",
+            "id": "navigation_anon_signup_link",
+            "anonymous": true,
+            "label": "SIGN_UP"
+        }],
 
         /*
          * Are anonymous users allowed to browse/search
@@ -826,12 +913,12 @@ define(function() {
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html"],
+        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev",  "/index.html"],
+        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/index.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
@@ -848,7 +935,7 @@ define(function() {
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/content_profile2.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html"],
+        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
@@ -1897,44 +1984,236 @@ define(function() {
 
         enableChat: false,
 
+        "defaultprivstructure": {
+            "structure0": {
+                "dashboard": {
+                    "_ref": "267187828",
+                    "_title": "My Dashboard",
+                    "_order": 0,
+                    "main": {
+                        "_ref": "267187828",
+                        "_order": 0,
+                        "_title": "Dashboard"
+                    }
+                },
+                "messages": {
+                    "_title": "My Messages",
+                    "_ref": "1165301022",
+                    "_order": 1,
+                    "inbox": {
+                        "_ref": "1165301022",
+                        "_order": 0,
+                        "_title": "Inbox"
+                    },
+                    "invitations": {
+                        "_ref": "9867733100",
+                        "_order": 1,
+                        "_title": "Invitations"
+                    },
+                    "sent": {
+                        "_ref": "4253485084",
+                        "_order": 2,
+                        "_title": "Sent"
+                    },
+                    "trash": {
+                        "_ref": "3915412565",
+                        "_order": 3,
+                        "_title": "Trash"
+                    }
+                }
+            },
+            "267187828": {
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            },
+            "1165301022": {
+                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+            },
+            "9867733100": {
+                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
+            },
+            "4253485084": {
+                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
+            },
+            "3915412565": {
+                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
+            },
+            "2024634737": {
+                "box": "inbox",
+                "category": "message",
+                "title": "INBOX"
+            },
+            "3679202964": {
+                "box": "inbox",
+                "category": "invitation",
+                "title": "INVITATIONS"
+            },
+            "66582410046": {
+                "box": "outbox",
+                "category": "*",
+                "title": "SENT"
+            },
+            "3519294282": {
+                "box": "trash",
+                "category": "*",
+                "title": "TRASH"
+            },
+            "546341435": {
+                "dashboard": {
+                    "layout": "threecolumn",
+                    "columns": {
+                        "column1": [{
+                            "uid": "id6902437615810",
+                            "visible": "block",
+                            "name": "mycontent"
+                        }],
+                        "column2": [{
+                            "uid": "id9495917029618",
+                            "visible": "block",
+                            "name": "mygroups"
+                        }],
+                        "column3": [{
+                            "uid": "id7360391172040",
+                            "visible": "block",
+                            "name": "mycontacts"
+                        }]
+                    }
+                }
+            }
+        },
+
+        "defaultpubstructure": {
+            "structure0": {
+                "profile": {
+                    "_ref": "533118849",
+                    "_title": "My Profile",
+                    "_altTitle": "${user}'s Profile",
+                    "_order": 0,
+                    "basicinfo": {
+                        "_ref": "533118849",
+                        "_order": 0,
+                        "_altTitle": "Basic Information",
+                        "_title": "Basic Information"
+                    },
+                    "aboutme": {
+                        "_ref": "657672090",
+                        "_order": 1,
+                        "_altTitle": "About",
+                        "_title": "About Me"
+                    },
+                    "locations": {
+                        "_ref": "2967778497",
+                        "_order": 2,
+                        "_title": "Locations",
+                        "_altTitle": "Locations"
+                    },
+                    "publications": {
+                        "_ref": "86312659",
+                        "_order": 3,
+                        "_altTitle": "Publications",
+                        "_title": "Publications"
+                    }
+                },
+                "library": {
+                    "_ref": "9834611274",
+                    "_order": 1,
+                    "_title": "My Library",
+                    "_altTitle": "${user}'s Library",
+                    "main": {
+                        "_ref": "9834611274",
+                        "_title": "Content"
+                    }
+                },
+                "memberships": {
+                    "_title": "My Memberships",
+                    "_order": 2,
+                    "_ref": "213623673",
+                    "_altTitle": "${user}'s Memberships",
+                    "main": {
+                        "_ref": "213623673",
+                        "_title": "Memberships"
+                    }
+                },
+                "contacts": {
+                    "_title": "My Contacts",
+                    "_order": 3,
+                    "_ref": "1193715035",
+                    "_altTitle": "${user}'s Contacts",
+                    "main": {
+                        "_ref": "1193715035",
+                        "_title": "Contacts"
+                    }
+                }
+            },
+            "533118849": {
+                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
+            },
+            "657672090": {
+                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
+            },
+            "2967778497": {
+                "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
+            },
+            "86312659": {
+                "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
+            },
+            "9834611274": {
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
+            },
+            "213623673": {
+                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
+                    "<div id='widget_tooltip' class='widget_inline'></div> " +
+                    "<div id='widget_mymemberships' class='widget_inline'></div>"
+            },
+            "1193715035": {
+                "page": "<div id='widget_contacts' class='widget_inline'></div>"
+            },
+            "94551980": {
+                "sectionid": "basic"
+            },
+            "1924492668": {
+                "sectionid": "aboutme"
+            },
+            "73466539": {
+                "sectionid": "locations"
+            },
+            "5756708555": {
+                "sectionid": "publications"
+            }
+        },
+
         widgets: {
-            "groups":[
-                "Administrators",
-                "Lecturers & Supervisors",
-                "Researchers",
-                "Students"
-            ],
+            "groups": ["Administrators", "Lecturers & Supervisors", "Researchers", "Students"],
             "layouts": {
                 "onecolumn": {
-                    "name":"One column",
-                    "widths":[100],
+                    "name": "One column",
+                    "widths": [100],
                     "siteportal": true
                 },
                 "dev": {
-                    "name":"Dev Layout",
-                    "widths":[50,50],
+                    "name": "Dev Layout",
+                    "widths": [50, 50],
                     "siteportal": true
                 },
                 "threecolumn": {
-                    "name":"Three equal columns",
-                    "widths":[33,33,33],
+                    "name": "Three equal columns",
+                    "widths": [33, 33, 33],
                     "siteportal": false
                 },
                 "fourcolumn": {
-                    "name":"Four equal columns",
-                    "widths":[25,25,25,25],
+                    "name": "Four equal columns",
+                    "widths": [25, 25, 25, 25],
                     "siteportal": false
                 },
                 "fivecolumn": {
-                    "name":"Five equal columns",
-                    "widths":[20,20,20,20,20],
+                    "name": "Five equal columns",
+                    "widths": [20, 20, 20, 20, 20],
                     "siteportal": false
                 }
             },
             "defaults": {
                 "personalportal": {
                     "layout": "dev",
-                    "columns": [["mygroups", "mycontacts"], ["mycontent","recentmessages"]]
+                    "columns": [["mygroups", "mycontacts"], ["mycontent", "recentmessages"]]
                 },
                 "siteportal": {
                     "layout": "dev",
@@ -1943,5 +2222,6 @@ define(function() {
             }
         }
     };
+    
     return config;
 });

@@ -159,8 +159,6 @@ require(
              if (bundle) {
                  $.ajax({
                      url: bundle,
-                     async: false,
-                     cache: false,
                      success: function(data){
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
                          sakai.api.i18n.data.widgets[widgetname]["default"] = sakai.api.i18n.changeToJSON(data);
@@ -225,7 +223,6 @@ require(
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         async: false,
                          success: function(data){
                              var div = document.createElement('div');
                              div.innerHTML = data;
@@ -248,7 +245,6 @@ require(
              var makeWidgetTest = function(url, widget) {
                  $.ajax({
                      url: url,
-                     async: false,
                      success: function(data){
                          var div = document.createElement('div');
                          div.innerHTML = data;
