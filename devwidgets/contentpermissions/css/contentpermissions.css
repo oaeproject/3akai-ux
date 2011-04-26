@@ -1,3 +1,4 @@
+#entity_container #entity_content_permissions .entity_content_permissions_icon {margin-left:5px;padding-left:20px;background:url("/dev/images/settings_icon.png") no-repeat scroll left -1px transparent;}
 #contentpermissions_container #contentpermissions_global_permissions, #contentpermissions_container .contentpermissions_member_permissions, #contentpermissions_container #contentpermissions_newmember_all_permissions {border: 1px solid #A9A9A9;height: 20px;margin-top: -2px;}
 #contentpermissions_container #contentpermissions_global_permissions {margin-left:30px;}
 #contentpermissions_container .contentpermissions_member_permissions {float:right;margin:8px 25px 0 0}

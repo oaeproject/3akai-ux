@@ -17,17 +17,10 @@
  */
 /* General*/
 #entity_container .entity_number {color:#424242;}
-#entity_container .entity_user_dropdown {position:absolute;z-index:999;width:150px;margin-left:2px;margin-top:12px;}
-#entity_container .entity_user_dropdown .entity_dropdown_bottom{background: url("/devwidgets/entity/images/entity_list_bottom_border.png") no-repeat scroll -1px 0 transparent;height: 7px;}
-#entity_container .entity_user_dropdown .entity_dropdown_tr{background: url("/devwidgets/entity/images/entity_list_top_border.png") no-repeat scroll right top transparent;height: 5px;}
-#entity_container .entity_user_dropdown .entity_dropdown_content{background: url("/devwidgets/entity/images/entity_list_border.png") repeat-y scroll right top transparent;}
 #entity_container #entity_name {font-size: 18px;margin-bottom:5px;padding:5px 0 !important;}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container .entity_permissions_label {margin-left:30px;}
 #entity_container #entity_actions button{float:right; margin-top: 5px;}
-#entity_container #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -904px -21px transparent;height: 10px;left: 12px;position: absolute;top: 7px;width: 8px;z-index: 999;}
-#entity_container #entity_add_icon + span {padding-left: 23px;}
-#entity_container button:hover #entity_add_icon{background: url("/dev/images/icons_sprite.png") no-repeat scroll -924px -21px transparent}
 #entity_container .entity_plaintitle {font-size: 18px; margin-top: 8px; margin-left: 10px;}
 
 /* Directory */
@@ -35,20 +28,26 @@
 #entity_container #entity_directory_image img {width:45px; height:45px;}
 
 /* User */
-#entity_container .entity_user_image {width:63px;height:46px; background:url("/devwidgets/entity/images/entity_user_icon.png") no-repeat transparent;float:left;margin-left: 5px;margin-right:5px;margin-top:-8px;}
+#entity_container #entity_user_image.s3d-dropdown-menu {padding:5px 6px;margin-left:15px;}
+#entity_container #entity_user_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
+#entity_container #entity_user_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
+
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
-#entity_container .entity_user_image_clicked {}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
 #entity_container .entity_user_contact_pending {background:#fff; border:1px solid #ccc; display:inline-block; font-size:0.9em;margin:0 5px 5px 0;overflow:visible;padding:0 15px;position:relative;top: -1px; height: 23px; line-height: 23px;}
 #entity_container .entity_user_contact_pending_inner {color:#333333 !important;font-size:11px;margin:0 !important;}
 #entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
-#entity_container .entity_profilepic_internal {height: 50px; width: 50px; padding: 1px; background-color: #fff; box-shadow: 0 0 1px 2px #aaa;}
+#entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
+
+#entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
+#entity_container .entity_message_icon {background: url("/dev/images/message_icon.png") no-repeat scroll left center transparent;}
+#entity_container .entity_add_to_contacts_icon {background:url("/dev/images/opposite_arrows_icon.png") no-repeat scroll left center transparent;}
+#entity_container .entity_add_to_contacts_requested_icon {background:url("/dev/images/opposite_arrows_requested_icon.png") no-repeat scroll left center transparent;}
 
 /* Me */
 #entity_container .entity_name_me {clear:both; font-size: 14px; padding: 5px 5px 0px 20px; color: #666;}
 #entity_container .entity_my_profilepic {width:70px; height: 54px; background-color:#fff; margin-left: 20px; padding: 2px 2px 2px 1px;}
-#entity_container .entity_changepic_arrow {float: right; margin-top: 40px;}
 
 /* Group */
 #entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
@@ -61,6 +60,13 @@
 #entity_container .entity_add_to_library {background:url(/devwidgets/savecontent/images/savecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
 #entity_container .entity_share_content {background:url(/dev/images/sharecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
 #entity_container .entity_download_content {background:url(/dev/images/download_button_image.png) no-repeat; padding-left: 15px; margin-left: 5px;}
+#entity_container #entity_managed_content {background: url("/devwidgets/entity/images/entity_manager_icon.png") no-repeat scroll left top transparent;box-shadow:3px 3px 7px -3px #000;-moz-box-shadow:3px 3px 7px -3px #000;-webkit-box-shadow:3px 3px 7px -3px #000;height: 15px;margin-left: -6px;margin-top: 23px;position: absolute;width: 58px;}
+#entity_container .entity_content_details_icon {display: inline-block;height: 10px;width: 15px;}
+#entity_container #entity_used_by_icon {background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
+#entity_container #entity_public_privacy_icon {background: url("/devwidgets/entity/images/entity_chain_icon.png") no-repeat scroll left top transparent;}
+#entity_container #entity_everyone_privacy_icon {background: url("/devwidgets/entity/images/entity_anyone_lock_icon.png") no-repeat scroll left top transparent;}
+#entity_container #entity_private_privacy_icon {background: url("/devwidgets/entity/images/entity_private_lock_icon.png") no-repeat scroll left top transparent;}
+
 
 
 /* Dialogs */

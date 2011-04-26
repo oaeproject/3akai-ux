@@ -9,40 +9,34 @@
             {if type != "user_anon" && type != "user_me"}
                 {if type == "user_other"}
                     <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" type="button">
-                        <div id="entity_add_icon"></div>
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__</span>
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
                     </button>
                 {elseif type == "contact_invited"}
                     <button id="entity_user_accept_invitation" class="s3d-button s3d-button-link-2-state" type="button">
-                        <div id="entity_add_icon"></div>
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_INVITATION__</span>
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
                     </button>
                 {elseif type == "contact_pending"}
                     <button class="entity_user_contact_pending" type="button">
-                        <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__</span>
+                        <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></div></span>
                     </button>
                 {/if}
                 <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" type="button" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></span>
                 </button>
             {/if}
         {/if}
     </div>
     {if type && type == "user_me"}
-        <div id="entity_user_image" class="entity_my_profilepic">
-            <img src="/devwidgets/entity/images/entity_changepic_arrow.png" class="entity_changepic_arrow"/>
+        <div id="entity_user_image" class="s3d-dropdown-menu">
             <div class="entity_profilepic_internal">
                 <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_user.png{/if}"/>
             </div>
-        </div>
-        <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
-            <div class="entity_dropdown_tr"></div>
-            <div class="entity_dropdown_content s3d-dropdown-menu">
+            <div class="s3d-dropdown-menu-arrow"></div>
+            <div class="s3d-dropdown-container" style="display:none;">
                 <ul>
-                    <li><a id="changepic_container_trigger" href="javascript:;">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
-            <div class="entity_dropdown_bottom"></div>
         </div>
         <div class="s3d-bold entity_name_me">${data.displayName}</div>
     {else}
@@ -88,7 +82,7 @@
         {if !anon}
             {if type && type == "content_managed"}
                 <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__</span>
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PERMISSIONS__<span class="entity_content_permissions_icon"></span></span>
                 </button>
             {/if}
             <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["jcr:name"]}" type="button">
@@ -113,7 +107,10 @@
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
-            <img src="${data.data['iconURL']}"/>
+        {if data.isManager}
+            <div id="entity_managed_content"></div>
+        {/if}
+        <img src="${data.data['iconURL']}"/>
     </div>
     <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]}</span>
     <span id="entity_name_edit" style="display:none">
@@ -122,6 +119,7 @@
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
         <span class="entity_number">
+            <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
             Used by (<a href="#" title="${peopleCount}
             {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
             class="entity_content_people">${peopleCount}</a>)
@@ -147,6 +145,7 @@
         {/if}
         <span class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
+            <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
             {if permissions == "public"}
                 __MSG__VISIBLE_TO_ANYONE__
             {elseif permissions == "everyone"}
@@ -189,13 +188,11 @@
     </div>
     {if type && type == "group_managed"}
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
-            <div class="entity_dropdown_tr"></div>
             <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
-                    <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a href="#" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
-            <div class="entity_dropdown_bottom"></div>
         </div>
     {/if}
 --></div>

@@ -120,12 +120,12 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * DROPDOWN MENU
  */
-.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 5px 25px;cursor:pointer; margin-left:-2px;}
-.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top transparent;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
+.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 10px 25px;cursor:pointer; margin-left:-2px;}
+.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
 .s3d-dropdown-menu ul, .s3d-dropdown-menu .s3d-dropdown-menu-content-container {margin:0;padding: 10px 7px;display:block;background-color: #F3F3F3;-moz-border-radius:2px; border-radius:2px; -webkit-border-radius:2px;}
-.s3d-dropdown-menu ul li {display:block; list-style:none;padding:6px 8px;margin:0 2px;cursor:pointer;color:#636363; text-decoration:none; font-weight:normal;}
+.s3d-dropdown-menu ul li {display:block; list-style:none;padding:1px;margin:0 2px;cursor:pointer;color:#636363; text-decoration:none; font-weight:normal;}
 .s3d-dropdown-menu ul li:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_list_hover.png") repeat-x scroll left top transparent;}
-.s3d-dropdown-menu ul li a {text-decoration:none;display:block;}
+.s3d-dropdown-menu ul li a {text-decoration:none;display:block;padding:5px 6px;}
 .s3d-dropdown-menu ul li:hover a {color:#f3f3f3;}
 .s3d-dropdown-menu ul li a {color:#2683bc;font-size:12px;}
 .s3d-dropdown-menu .s3d-dropdown-container {background:url("/devwidgets/topnavigation/images/topnav_nav_hover_list_bg.png") repeat-x scroll left top #0c4e79;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;-moz-box-shadow:0 10px 10px -3px #333333; -webkit-box-shadow:0 10px 10px -3px #333333; box-shadow:0 10px 10px -3px #333333;position:absolute;z-index:999;min-width:140px;padding:5px;-moz-border-radius:0 2px 2px 2px; border-radius:0 2px 2px 2px; -webkit-border-radius:0 2px 2px 2px;cursor:auto;}
@@ -252,8 +252,7 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 
 /* Link button */
 .s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;}
-.s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;
-    margin:0!important;color:#333!important;font-size:11px;}
+.s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent!important;margin:0!important;color:#333!important;font-size:11px;}
 .s3d-button-link-2-state-inner-secondary{color:#4b6b80; font-size: 9px;}
 .s3d-button:hover .s3d-button-link-2-state-inner,.s3d-button-hover .s3d-button-link-2-state-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1317px transparent!important;color:#FFF!important;}
 .s3d-button-link-2-state:hover, .s3d-button-hover.s3d-button-link-2-state{background-position:right -1357px;}
@@ -262,10 +261,11 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 .s3d-button-link-2-state:hover[disabled] .s3d-button-link-2-state-inner {background-position:-10px -1237px !important; color:#bbb !important;}
 .s3d-button-link-2-state:hover[disabled] {background-position:right -1277px;}
 .s3d-button-link-2-state-inner span {padding:0; margin:0; top:0;}
-.s3d-button-link-2-state-inner .s3d-button-arrow-down {height:15px;margin-top:5px;padding-right:15px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
+.s3d-button-link-2-state-inner .s3d-button-arrow-down {height:15px;margin-top:5px;padding-right:15px; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -123px -396px transparent;}
 .s3d-button-link-2-state-inner .s3d-button-arrow-up {height:15px;margin-top:5px;padding-right:15px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -213px -396px transparent;}
-.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-up{background-position:-544px -396px;}
-.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-down{background-position:-514px -396px;}
+.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-up {background-position:-544px -396px;}
+.s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-down {background-position:-514px -396px;}
+a.s3d-button-link-2-state{text-decoration:none;}
 
 /* Primary button */
 .s3d-button-primary{background-position:right -110px;}
