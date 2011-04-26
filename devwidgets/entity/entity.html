@@ -121,6 +121,7 @@
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
         <span class="entity_number">
+            <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
             Used by (<a href="#" title="${peopleCount}
             {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
             class="entity_content_people">${peopleCount}</a>)
@@ -145,6 +146,7 @@
             <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
         {/if}
         <span class="entity_number entity_permissions_label">
+            <div id="entity_chain_icon" class="entity_content_details_icon"></div>
             {var permissions = data.data["sakai:permissions"]}
             {if permissions == "public"}
                 __MSG__VISIBLE_TO_ANYONE__
