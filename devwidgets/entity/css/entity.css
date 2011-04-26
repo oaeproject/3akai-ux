@@ -31,7 +31,7 @@
 #entity_container #entity_directory_image img {width:45px; height:45px;}
 
 /* User */
-#entity_container #entity_user_image.s3d-dropdown-menu {padding:4px 6px 5px;margin-left:15px;}
+#entity_container #entity_user_image.s3d-dropdown-menu {padding:5px 6px;margin-left:15px;}
 #entity_container #entity_user_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
 #entity_container #entity_user_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
 
