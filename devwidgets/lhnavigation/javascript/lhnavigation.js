@@ -263,6 +263,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-main-content > div:visible", false);
             $("#s3d-page-main-content > div:visible").hide();
             var content = getPageContent(ref);
+            currentPageShown = {
+                "ref": ref,
+                "path": path,
+                "content": content,
+                "savePath": savePath
+            };
             if ($("#s3d-page-main-content #" + ref).length > 0){
                 if (reload){
                     createPageToShow(ref, path, content, savePath);
@@ -288,12 +294,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var isEditingNewPage = false;
 
         var createPageToShow = function(ref, path, content, savePath){
-            currentPageShown = {
-                "ref": ref,
-                "path": path,
-                "content": content,
-                "savePath": savePath
-            };
             if ($("#" + ref).length === 0) {
                 // Create the new element
                 var $el = $("<div>").attr("id", ref);
@@ -446,23 +446,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             deletePage();
         });
         
+        var updateCountsAfterDelete = function(structure, ref, path){
+            var oldOrder = structure.items[path]._order;
+            delete structure.pages[ref];
+            delete structure.items[path];
+            structure.orderedItems.splice(oldOrder, 1);
+            for (var i = oldOrder; i < structure.orderedItems.length; i++){
+                structure.orderedItems[i]._order = i;
+                structure.items[structure.orderedItems[i]._id]._order = i;
+            }
+        }
+        
         var deletePage = function(){
             if (pubstructure.pages[currentPageShown.ref]){
-                delete pubstructure.pages[currentPageShown.ref];
-                delete pubstructure.items[currentPageShown.path];
+                updateCountsAfterDelete(pubstructure, currentPageShown.ref, currentPageShown.path);
                 if (getPageCount(pubstructure.items) < 3){
                     $(window).trigger("sakai.contentauthoring.needsOneColumn");
                 }
             } else if (privstructure.pages[currentPageShown.ref]){
-                delete privstructure.pages[currentPageShown.ref];
-                delete privstructure.items[currentPageShown.path];
+                updateCountsAfterDelete(privstructure, currentPageShown.ref, currentPageShown.path);
                 if (getPageCount(privstructure.pages) < 3){
                     $(window).trigger("sakai.contentauthoring.needsOneColumn");
                 }
             }
             renderData();
             rerenderNavigation();
-            $.bbq.pushState({"l": ""}, 0);
+            $.bbq.pushState({"l": "", "_": Math.random()}, 0);
             isEditingNewPage = false;
             $.ajax({
                 url: currentPageShown.savePath,
