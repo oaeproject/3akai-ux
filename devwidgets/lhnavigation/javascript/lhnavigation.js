@@ -234,13 +234,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
 
         var renderPage = function(ref, path, savePath, reload){
-            $("#s3d-page-main-content > div").hide();
+            sakai.api.Widgets.nofityWidgetShown("#s3d-page-main-content > div:visible", false);
+            $("#s3d-page-main-content > div:visible").hide();
             var content = getPageContent(ref);
             if ($("#s3d-page-main-content #" + ref).length > 0){
                 if (reload){
                     createPageToShow(ref, path, content, savePath);
                 }
                 $("#s3d-page-main-content #" + ref).show();
+                sakai.api.Widgets.nofityWidgetShown("#"+ref, true);
             } else {
                 createPageToShow(ref, path, content, savePath);
             }

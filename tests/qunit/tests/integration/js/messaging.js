@@ -49,7 +49,7 @@ require(
         });
 
         asyncTest("Count Unread Messages", 2, function() {
-            var expected = {"count": [{"group": "message", "count": 1}]};
+            var expected = 1;
             sakai.api.Communication.sendMessage(userlist[0], sakai.data.me, dummySubject, dummyMessage, "", "", function(success, data) {
                 sakai.api.User.logout(function(success) {
                     sakai.api.User.login({
