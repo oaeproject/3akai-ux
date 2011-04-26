@@ -120,8 +120,8 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * DROPDOWN MENU
  */
-.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 5px 25px;cursor:pointer; margin-left:-2px;}
-.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top transparent;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
+.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 10px 25px;cursor:pointer; margin-left:-2px;}
+.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
 .s3d-dropdown-menu ul, .s3d-dropdown-menu .s3d-dropdown-menu-content-container {margin:0;padding: 10px 7px;display:block;background-color: #F3F3F3;-moz-border-radius:2px; border-radius:2px; -webkit-border-radius:2px;}
 .s3d-dropdown-menu ul li {display:block; list-style:none;padding:6px 8px;margin:0 2px;cursor:pointer;color:#636363; text-decoration:none; font-weight:normal;}
 .s3d-dropdown-menu ul li:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_list_hover.png") repeat-x scroll left top transparent;}

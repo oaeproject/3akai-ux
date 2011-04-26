@@ -29,20 +29,16 @@
         {/if}
     </div>
     {if type && type == "user_me"}
-        <div id="entity_user_image" class="entity_my_profilepic">
-            <img src="/devwidgets/entity/images/entity_changepic_arrow.png" class="entity_changepic_arrow"/>
+        <div id="entity_user_image" class="s3d-dropdown-menu">
             <div class="entity_profilepic_internal">
                 <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_user.png{/if}"/>
             </div>
-        </div>
-        <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
-            <div class="entity_dropdown_tr"></div>
-            <div class="entity_dropdown_content s3d-dropdown-menu">
+            <div class="s3d-dropdown-menu-arrow"></div>
+            <div class="s3d-dropdown-container" style="display:none;">
                 <ul>
                     <li><a id="changepic_container_trigger" href="javascript:;">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
-            <div class="entity_dropdown_bottom"></div>
         </div>
         <div class="s3d-bold entity_name_me">${data.displayName}</div>
     {else}
@@ -189,13 +185,11 @@
     </div>
     {if type && type == "group_managed"}
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
-            <div class="entity_dropdown_tr"></div>
             <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
                     <li><a href="#">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
-            <div class="entity_dropdown_bottom"></div>
         </div>
     {/if}
 --></div>
