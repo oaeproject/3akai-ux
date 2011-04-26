@@ -412,7 +412,7 @@ label.error{color:#9f3333;font-weight:bold;}
 .s3d-list-entity-picture{float:left;height:32px;margin-right:10px;width:32px;}
 .s3d-entity-displayname{padding-top:4px;margin:4px 0 0 8px;float:left;}
 .s3d-list-link-full-space{clear:both;height:100%;}
-ul li.s3d-list-item:hover{background-color:#9CF;}
+ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 
 .s3d-dropdownlistone-text{padding:0 7px;border-right:none;color:#fff;font-size:11px;}
 .s3d-dropdownlistone-text .dropdownlistone_arrow{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -149px -394px transparent;padding-right:17px;padding-left:8px;}

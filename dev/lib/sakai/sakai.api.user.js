@@ -461,6 +461,9 @@ define(["jquery",
                     url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
                     async: false,
                     success: function(data) {
+                        $.each(data.results, function(index, contact){
+                            contact.profile.basic.elements.picture = sakai_util.constructProfilePicture(contact.profile);
+                        });
                         sakaiUserAPI.data.me.mycontacts = data.results;
                         if ($.isFunction(callback)) {
                             callback();

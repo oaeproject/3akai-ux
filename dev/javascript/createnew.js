@@ -48,7 +48,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             },
             "9574379429432": {
-                "page": "<div id='widget_newcreategroup_2024634737' class='widget_inline'/>"
+                "page": "<div id='widget_newcreategroup_2024634737' class='widget_inline'></div><div id='widget_addpeople' class='widget_inline'></div>"
             },
             "1234567890": {
                 "page": "Categories Overview"
