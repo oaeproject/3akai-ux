@@ -233,12 +233,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var generateNav = function(){
-            if (contextType && contextData && pubdata) {
-                if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
-                } else {
-                    $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
-                }
+            if (contextType && contextType === "user_me" && contextData && pubdata && privdata) {
+                $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
+            } else if (contextType && contextType !== "user_me" && contextData && pubdata) {
+                $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
             }
         };
 
