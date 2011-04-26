@@ -54,9 +54,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var privstructure = false;
         var pubstructure = false;
         var contextData = false;
-        
+
         var parametersToCarryOver = {};
-        
+
         var bookmark = false;
 
         ////////////////////
@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showHideSubnav = function($el, forceOpen){
             if ($el.hasClass("lhnavigation_hassubnav")) {
                 if (!$el.next().is(":visible") || forceOpen) {
-                	$(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
+                    $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
                     $el.next().show();
                 } else {
                     $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
@@ -74,29 +74,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
-        }
+        };
 
         ////////////
         // Events //
         ////////////
-        
+
         /**
          * Adjust the left hand navigation to include a set of given hash
          * parameters and re-render the navigation
          */
         $(window).bind("lhnav.addHashParam", function(ev, params){
             for (var p in params){
-            	parametersToCarryOver[p] = params[p];
+                parametersToCarryOver[p] = params[p];
             }
         });
-        
+
         var rerenderNavigation = function(){
             $("#lhnavigation_container a").each(function(index){
                 var oldHref =  $(this).attr("href");
                 var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
                 $(this).attr("href", newHref);
             });
-        }
+        };
 
         /////////////////////
         // MENU NAVIGATION //
@@ -126,11 +126,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
-        
+
         var hideSubMenu = function(){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-        }
+        };
 
         var renderData = function(){
             $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             structure._childCount = childCount;
             return structure;
-        }
+        };
 
         var processData = function(data){
             var structure = {};
@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderPage(ref, selected, savePath);
             }
 
-        }
+        };
 
         var renderPage = function(ref, path, savePath, reload){
             $("#s3d-page-main-content > div").hide();
@@ -244,7 +244,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 createPageToShow(ref, path, content, savePath);
             }
-        }
+        };
 
         var getPageContent = function(ref){
             if (privstructure.pages[ref]) {
@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 return false;
             }
-        }
+        };
 
         var currentPageShown = {};
         var isEditingNewPage = false;
@@ -271,15 +271,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $el = $("<div>").attr("id", ref);
                 // Add element to the DOM
                 $("#s3d-page-main-content").append($el);
-            } 
+            }
             var $contentEl = $("#" + ref);
             // Add sanitized content
             var sanitizedContent = sakai.api.Security.saneHTML(content);
             $contentEl.html(sanitizedContent);
             // Insert widgets
             sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath + "/",[privstructure.pages, pubstructure.pages]);
-        }
-        
+        };
+
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -287,42 +287,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
-        
+
         /**
          * Edit button
          */
         $("#lhnav_editpage").live("click", function(){
             editPage();
         });
-        
+
         var editPage = function(){
             isEditingNewPage = false;
             $("#lhnav_editmode").show();
             $("#s3d-page-main-content").hide();
             var content = currentPageShown.content || "";
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-        }
-        
+        };
+
         /**
          * Cancel button
          */
         $("#lhnav_edit_cancel_button").live("click", function(){
             cancelEditPage();
         });
-        
+
         var cancelEditPage = function(){
             $("#lhnav_editmode").hide();
             $("#context_menu").hide();
             $("#s3d-page-main-content").show();
-        }
-        
+        };
+
         /**
          * Save button
          */
         $("#lhnav_edit_save_button").live("click", function(){
             savePage();
         });
-        
+
         var savePage = function(){
             $("#context_menu").hide();
             currentPageShown.content = getTinyMCEContent();
@@ -334,12 +334,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderPage(currentPageShown.ref, currentPageShown.path, currentPageShown.savePath, true);
             $("#lhnav_editmode").hide();
             $("#s3d-page-main-content").show();
-            
+
             //Store the edited content
             var toStore = {};
             toStore[currentPageShown.ref] = {
                 "page": currentPageShown.content
-            }
+            };
             $.ajax({
                 url: currentPageShown.savePath + ".resource",
                 type: "POST",
@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":replaceProperties": true,
                     "_charset_":"utf-8",
                     ":content": $.toJSON(toStore)
-                }           
+                }
             });
             if (isEditingNewPage){
                 $.ajax({
@@ -360,18 +360,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     dataType: "json",
                     data: {
                         "structure0": $.toJSON(pubstructure.items)
-                    }           
+                    }
                 });
             }
-        }
-        
+        };
+
         /**
          * Add a page to the document
          */
         $("#lhnav_addpage").live("click", function(ev){
             addPage();
         });
-        
+
         var addPage = function(){
             var newpageid = Math.round(Math.random() * 1000000000);
             pubstructure.pages[newpageid] = {};
@@ -395,8 +395,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             editPage();
             rerenderNavigation();
             isEditingNewPage = true;
-        }
-        
+        };
+
         /**
          * Submenu for nav items
          */
@@ -407,14 +407,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             submenu.css("top", clickedItem.position().top + "px");
             submenu.toggle();
         });
-        
+
         /**
          * Delete a page
          */
         $("#lhavigation_submenu_deletepage").live("click", function(ev){
             deletePage();
         });
-        
+
         var deletePage = function(){
             if (pubstructure.pages[currentPageShown.ref]){
                 delete pubstructure.pages[currentPageShown.ref];
@@ -441,8 +441,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "structure0": $.toJSON(pubstructure.items)
                 }
             });
-        }
-        
+        };
+
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure){
@@ -463,7 +463,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return pageCount;
         };
-        
+
         /**
          * Get content out of tinyMCE editor
          */
@@ -471,8 +471,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var content = tinyMCE.get("elm1").getContent({format : 'raw'});
             content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
             return content;
-        }
-        
+        };
+
         /**
          * Renders the insert dropdown menu
          */
@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Vars for media and goodies
             var media = {}; media.items = [];
             var goodies = {}; goodies.items = [];
-            
+
             // Fill in media and goodies
             for (var i in sakai.widgets){
                 if (i) {
@@ -511,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
         };
-        
+
         /**
          * Hide selected widget
          * @param {Object} hash
@@ -550,7 +550,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderSelectedWidget(id);
             }
         });
-        
+
         /**
          * Shows or hides the insert dropdown menu
          */
@@ -571,9 +571,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
-        
+
         var currentlySelectedWidget = false;
-        
+
         /**
          * Render selected widget
          * @param {Object} hash
@@ -589,7 +589,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 currentlySelectedWidget = {
                     "widgetname": widgetid,
                     "uid": id
-                }
+                };
                 $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
                 $("#dialog_title").html(sakai.widgets[widgetid].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,currentPageShown.savePath + "/");
@@ -603,9 +603,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
         };
-        
+
         var updatingExistingWidget = false;
-        
+
         /**
          * Insert widget modal Cancel button - hide modal
          * @param {Object} tuid
@@ -628,15 +628,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             updatingExistingWidget = false;
             $('#insert_dialog').jqmHide();
         };
-        
+
         /**
          * Register the appropriate widget cancel and save functions
          */
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.lhnavigation.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.lhnavigation.widgetCancel);
-        
+
         $(document.body).append($("#context_menu"));
-        
+
         /**
          * tinyMCE selection event handler
          * @retun void
@@ -660,12 +660,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // save the cursor position in the editor
             bookmark = tinyMCE.get("elm1").selection.getBookmark(1);
         };
-        
+
         // Bind Widget Context Remove click event
         $("#context_remove").bind("mousedown", function(ev){
             tinyMCE.get("elm1").execCommand('mceInsertContent', false, '');
         });
-        
+
         // Bind Widget Context Settings click event
         // change to mousedown based on following link
         // http://tinymce.moxiecode.com/forum/viewtopic.php?pid=74422
@@ -696,7 +696,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     currentlySelectedWidget = {
                         "widgetname": type,
                         "uid": nuid
-                    }
+                    };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[type].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.savePath + "/");
@@ -708,7 +708,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#context_menu").hide();
 
         });
-        
+
         /**
          * Show wrapping dialog
          * @param {Object} hash
@@ -719,7 +719,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             window.scrollTo(0,0);
             hash.w.show();
         };
-        
+
         // Init wrapping modal
         $('#wrapping_dialog').jqm({
             modal: true,
@@ -728,7 +728,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toTop: true,
             onShow: showWrappingDialog
         });
-        
+
         var setNewStyleClass = function(classToAdd) {
             var ed = tinyMCE.get('elm1');
             var $selected = $(ed.selection.getNode());
@@ -753,20 +753,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setNewStyleClass("block_image_right");
             $('#wrapping_dialog').jqmHide();
         });
-        
+
         var initSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show()).show();
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
             $("#lhnavigation_actions").show();
             init_tinyMCE();
             renderInsertDropdown("sakaidocs");
-        }
-        
+        };
+
         var hideSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").hide()).hide();
             $("#lhnavigation_actions").hide();
-        }
-        
+        };
+
         //////////////////
         //////////////////
         //////////////////
@@ -774,22 +774,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////////
         //////////////////
         //////////////////
-        
+
         var init_tinyMCE = function(){
-        
+
             // Init tinyMCE
             if (window["tinyMCE"]) {
                 tinyMCE.init({
-                
+
                     // General options
                     mode: "exact",
                     elements: "elm1",
                     theme: "advanced",
-                    
+
                     // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
                     //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
                     plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,autoresize",
-                    
+
                     // Context Menu
                     theme_advanced_buttons1: "formatselect,fontselect,fontsizeselect,bold,italic,underline,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,table,link",
                     theme_advanced_buttons2: "",
@@ -800,28 +800,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     theme_advanced_statusbar_location: "none",
                     handle_node_change_callback: mySelectionEvent,
                     //init_instance_callback: "sakai_global.sitespages.startEditPage",
-                    
+
                     // Example content CSS (should be your site CSS)
                     content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
-                    
+
                     // Editor CSS - custom Sakai Styling
                     editor_css: sakai.config.URL.TINY_MCE_EDITOR_CSS,
-                    
+
                     // Drop lists for link/image/media/template dialogs
                     template_external_list_url: "lists/template_list.js",
                     external_link_list_url: "lists/link_list.js",
                     external_image_list_url: "lists/image_list.js",
                     media_external_list_url: "lists/media_list.js",
-                    
+
                     // Use the native selects
                     use_native_selects: true,
-                    
+
                     // Replace tabs by spaces.
                     nonbreaking_force_tab: true,
-                    
+
                     // Determine classes to show to users (e.g. to mock up links). Format: "Header 1=header1;Header 2=header2;..."
                     theme_advanced_styles: "Regular link=s3d-regular-links",
-                    
+
                     // Security
                     verify_html: true,
                     cleanup: true,
@@ -925,7 +925,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "video[src|class|autoplay|controls|height|width|preload|loop]"
                 });
             }
-        }
+        };
 
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -973,7 +973,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 parametersToCarryOver = cData.parametersToCarryOver;
                 rerenderNavigation();
             }
-        }
+        };
 
         $(window).bind("hashchange", function(e, data){
             selectPage();
