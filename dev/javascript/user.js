@@ -59,6 +59,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Server.loadJSON(puburl, function(success, data){
                     if (!success){
                         publicToStore = sakai.config.defaultpubstructure;
+                        publicToStore.structure0 = $.toJSON(publicToStore.structure0);
                         pubdata = publicToStore;
                     } else {
                         pubdata = data;
@@ -71,6 +72,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
                                 privateToStore = sakai.config.defaultprivstructure;
+                                privateToStore.structure0 = $.toJSON(privateToStore.structure0);
                                 privdata = privateToStore;
                             } else {
                                 privdata = data2;
