@@ -146,8 +146,8 @@
             <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
         {/if}
         <span class="entity_number entity_permissions_label">
-            <div id="entity_chain_icon" class="entity_content_details_icon"></div>
             {var permissions = data.data["sakai:permissions"]}
+            <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
             {if permissions == "public"}
                 __MSG__VISIBLE_TO_ANYONE__
             {elseif permissions == "everyone"}
