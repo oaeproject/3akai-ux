@@ -109,7 +109,10 @@
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
-            <img src="${data.data['iconURL']}"/>
+        {if data.isManager}
+            <div id="entity_managed_content"></div>
+        {/if}
+        <img src="${data.data['iconURL']}"/>
     </div>
     <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]}</span>
     <span id="entity_name_edit" style="display:none">

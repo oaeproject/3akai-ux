@@ -58,6 +58,7 @@
 #entity_container .entity_add_to_library {background:url(/devwidgets/savecontent/images/savecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
 #entity_container .entity_share_content {background:url(/dev/images/sharecontent_button_icon.png) no-repeat; padding-left: 20px; margin-left: 5px;}
 #entity_container .entity_download_content {background:url(/dev/images/download_button_image.png) no-repeat; padding-left: 15px; margin-left: 5px;}
+#entity_container #entity_managed_content {background: url("/devwidgets/entity/images/entity_manager_icon.png") no-repeat scroll left top transparent;box-shadow:3px 3px 7px -3px #000;-moz-box-shadow:3px 3px 7px -3px #000;-webkit-box-shadow:3px 3px 7px -3px #000;height: 15px;margin-left: -6px;margin-top: 23px;position: absolute;width: 58px;}
 
 
 /* Dialogs */
