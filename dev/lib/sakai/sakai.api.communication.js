@@ -451,7 +451,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 url: url,
                 cache: false,
                 success: function(data){
-                    var count = data.count[0].count;
+                    var count = 0;
+                    if (data.count && data.count[0] && data.count[0].count) {
+                        count = data.count[0].count;
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, count);
                     }

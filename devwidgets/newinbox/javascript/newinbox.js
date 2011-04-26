@@ -20,7 +20,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
     sakai_global.newinbox = function(tuid, showSettings, widgetData, state) {
 
         var POLLING_INTERVAL = 15000, // in ms
-            MESSAGES_PER_PAGE = 20;
+            MESSAGES_PER_PAGE = 10;
 
         var totalMessages = 0,
             messages = {},
@@ -34,7 +34,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
             removals = [],
             selectWhat = "all",
             listViewClass = ".newinbox-message-list-view",
-            detailViewClass = ".newinbox-message-detail-view";
+            detailViewClass = ".newinbox-message-detail-view",
+            newMessageViewClass = ".newinbox-new-message-view";
 
         var $rootel = $("#"+tuid),
             $newinbox_items = $('#newinbox_message_list .newinbox_items_inner', $rootel),
@@ -94,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
          */
         var toggleSelectDropdown = function(e, show) {
             // don't toggle when the target of the click is the checkbox
-            if (!$(e.target).is($newinbox_select_checkbox.selector)) {
+            if (e === null || !$(e.target).is($newinbox_select_checkbox.selector)) {
                 $newinbox_select.toggleClass("s3d-button-hover", show);
                 if ($newinbox_select.is(":visible")) {
                     $newinbox_select_options.css({
@@ -102,7 +103,14 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                         left: $newinbox_select.offset().left + 1
                     });
                 }
-                $newinbox_select_options.toggle(show);
+                if (show === true) {
+                    $newinbox_select_options.show();
+                } else if (show === false) {
+                    $newinbox_select_options.hide();
+                } else {
+                    $newinbox_select_options.toggle();
+                }
+
             }
         };
 
@@ -255,13 +263,14 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
         /** Messages **/
 
         var showMessage = function() {
-            toggleSelectDropdown(false);
+            toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             hideReply();
             var messageToShow = $.extend(true, {}, currentMessage);
             if (widgetData.category === "invitation") {
                 determineInviteStatus(messageToShow);
             }
+            $newinbox_box_title.text(messageToShow.subject);
             sakai.api.Util.TemplateRenderer($newinbox_show_message_template, {message:messageToShow}, $newinbox_show_message);
             if (!currentMessage.read) {
                 sakai.api.Communication.markMessagesAsRead(currentMessage.path);
@@ -275,11 +284,12 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
          * Show the sendmessage widget all by itself in a div
          */
         var showNewMessage = function() {
-            toggleSelectDropdown(false);
+            toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             $(detailViewClass).hide();
             $(window).trigger("initialize.sendmessage.sakai", [null, $newinbox_new_message_sendmessage, sendMessageFinished]);
-            $newinbox_new_message.show();
+            $newinbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("newinbox", sakai.api.User.data.me.user.locale, "NEW_MESSAGE"));
+            $(newMessageViewClass).show();
         };
 
         var deleteMessage = function(e) {
@@ -290,6 +300,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                 if (!success) {
                     debug.log("deleting failed");
                     // show a gritter message indicating deleting it failed
+                } else {
+                    getMessages();
                 }
             });
             if ($newinbox_show_message.is(":visible")) {
@@ -309,12 +321,12 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                     update = false;
                 }
                 messages = data;
-                if (data && data.total) {
+                if (data && _.isNumber(data.total)) {
                     totalMessages = data.total;
                     // only show unread counts for the inbox
                     if (widgetData.box === "inbox") {
                         sakai.api.Communication.getUnreadMessageCount(widgetData.box, function(success, unreadMsgs) {
-                            $newinbox_title_total.text(unreadMsgs).parent().show();
+                            $newinbox_title_total.text(unreadMsgs);
                         });
                     }
                     // only show pager if needed
@@ -323,7 +335,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                         $newinbox_pager.pager({ pagenumber: currentPage+1, pagecount: Math.ceil(totalMessages/MESSAGES_PER_PAGE), buttonClickCallback: handlePageClick });
                     }
                 } else {
-                    $newinbox_title_total.text("0").parent().show();
+                    $newinbox_title_total.text("0");
                 }
                 if ($.isFunction(callback)) {
                     callback(update);
@@ -339,7 +351,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
          * Do some magic to make sendmessage happy
          */
         var hideReply = function() {
-            $("<div/>").html($newinbox_show_message_reply_fields.html()).hide().appendTo('body');
+            $("#showmessagehidden").remove();
+            $("<div/>").attr("id", "showmessagehidden").html($newinbox_show_message_reply_fields.html()).hide().appendTo('body');
             $newinbox_show_message_reply_fields.empty();
         };
 
@@ -355,7 +368,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
          */
         var showReply = function() {
             $newinbox_show_message_reply_fields = $($newinbox_show_message_reply_fields.selector);
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.from.userObj, $newinbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id]);
+            var replyButtonText = sakai.api.i18n.Widgets.getValueForKey("newinbox", sakai.api.User.data.me.user.locale, "REPLY");
+            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.from.userObj, $newinbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
             $newinbox_show_message_reply_fields.show();
         };
 
@@ -390,7 +404,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
          */
         var setInitialState = function(callback) {
             $(detailViewClass).hide();
-            $newinbox_new_message.hide();
+            $(newMessageViewClass).hide();
+            $newinbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("newinbox", sakai.api.User.data.me.user.locale, widgetData.title));
             $(listViewClass).show();
             if ($.isFunction(callback)) {
                 callback();
@@ -404,11 +419,11 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
             // only applyThreeDots when the container is visible, or it won't work
             if ($newinbox_message_list.is(":visible")) {
                 // apply threedots to the subject and the name
-                $(".newinbox_subject a, .newinbox_name a").each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold"));
+                $(".newinbox_subject a, .newinbox_name a", $rootel).each(function(i,elt) {
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold newinbox_main"));
                 });
-                $(".newinbox_excerpt p").each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "s3d-bold"));
+                $(".newinbox_excerpt p", $rootel).each(function(i,elt) {
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "newinbox_main"));
                 });
             }
         };
