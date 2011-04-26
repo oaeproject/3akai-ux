@@ -275,7 +275,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @param {Boolean} replyOnly hide the to: and subject: fields
              * @param {String} replyID The ID of the message you're replying to
              */
-            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID) {
+            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
                 layover = true;
                 // Make sure that everything is standard.
                 resetView();
@@ -301,6 +301,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (replyID) {
                     replyMessageID = replyID;
+                }
+
+                if (buttonText) {
+                    $("#send_message span").text(buttonText);
+                } else {
+                    $("#send_message span").text($("#sendmessage_default_button_text").text());
                 }
 
                 // Maybe we dont want to display a popup but instead want to add it in another div.
@@ -419,8 +425,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Initialization //
                 ////////////////////
                 $(window).unbind("initialize.sendmessage.sakai");
-                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID) {
-                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID);
+                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
+                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText);
                 });
             };
 
