@@ -132,7 +132,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnavigation_submenu").hide();
         }
 
+        var orderItems = function(items){
+            var orderedItems = [];
+            var noLeft = false;
+            for (var i = 0; noLeft === false; i++){
+                var toAdd = false;
+                for (var el in items){
+                    if (el.substring(0,1) !== "_" && items[el]._order == i){
+                        toAdd = items[el];
+                        toAdd._id = el;
+                        break;
+                    }
+                }
+                if (!toAdd){
+                    noLeft = true;
+                } else {
+                    toAdd._elements = orderItems(toAdd);
+                    orderedItems.push(toAdd);
+                }
+            }
+            return orderedItems;
+        }
+        
+        var calculateOrder = function(){
+            if (privstructure && privstructure.items){
+                privstructure.orderedItems = orderItems(privstructure.items);
+            }
+            if (pubstructure && pubstructure.items){
+                pubstructure.orderedItems = orderItems(pubstructure.items);
+            }
+        }
+
         var renderData = function(){
+            calculateOrder();
             $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
                 "private": privstructure,
                 "public": pubstructure,
@@ -159,9 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var structure = {};
             structure.items = {};
             structure.pages = {};
-            //alert("DATA IS " + $.toJSON(data));
             if (data["structure0"]){
-                //alert(data["structure0"]);
                 if (typeof data["structure0"] === "string") {
                     structure.items = $.parseJSON(data["structure0"]);
                 } else {
@@ -186,31 +216,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var selected = state || false;
             // If no page is selected, select the first one from the nav
             if (!selected){
-                for (var first in privstructure.items){
-                    if (privstructure.items[first]._childCount > 1) {
-                        for (var second in privstructure.items[first]){
-                            if (second.substring(0,1) !== "_"){
-                                selected = first + "/" + second;
-                                break;
-                            }
+                for (var first = 0; first < privstructure.orderedItems.length; first++){
+                    if (privstructure.orderedItems[first]._childCount > 1) {
+                        for (var second = 0; second < privstructure.orderedItems[first].elements.length; second++){
+                            selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first].elements[second]._id;
+                            break;
                         }
                     } else {
-                        selected = first;
+                        selected = privstructure.orderedItems[first]._id;
                     }
                     break;
                 }
             }
             if (!selected){
-                for (var first in pubstructure.items){
-                    if (pubstructure.items[first]._childCount > 1) {
-                        for (var second in pubstructure.items[first]){
-                            if (second.substring(0,1) !== "_"){
-                                selected = first + "/" + second;
-                                break;
-                            }
+                for (var first = 0; first < pubstructure.orderedItems.length; first++){
+                    if (pubstructure.orderedItems[first]._childCount > 1) {
+                        for (var second = 0; second < pubstructure.orderedItems[first].elements.length; second++){
+                            selected = pubstructure.orderedItems[first]._id + "/" + pubstructure.orderedItems[first].elements[second]._id;
+                            break;
                         }
                     } else {
-                        selected = first;
+                        selected = pubstructure.orderedItems[first]._id;
                     }
                     break;
                 }
@@ -376,13 +402,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         var addPage = function(){
             var newpageid = Math.round(Math.random() * 1000000000);
+            var neworder = pubstructure.orderedItems.length;
             pubstructure.pages[newpageid] = {};
             pubstructure.pages[newpageid].page = "Default content";
             pubstructure.items[newpageid] = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
+                "_order": neworder,
                 "main":{
                     "_ref": newpageid,
+                    "_order": 0,
                     "_title": "Untitled Page",
                     "_childCount": 0
                 },

@@ -24,25 +24,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             "structure0": {
                 "group": {
                     "_ref": "9574379429432",
+                    "_order": 0,
                     "_title": "Group",
                     "main": {
                         "_ref": "9574379429432",
+                        "_order": 0,
                         "_title": "Group"
                     }
                 },
                 "categories": {
                     "_ref": "6573920372",
+                    "_order": 1,
                     "_title": "Categories",
                     "courses": {
                         "_ref": "1234567890",
+                        "_order": 0,
                         "_title": "Courses"
                     },
                     "reseach": {
                         "_title": "Research",
+                        "_order": 1,
                         "_ref": "87949372639"
                     },
                     "other": {
                         "_title": "Other",
+                        "_order": 2,
                         "_ref": "49294509202"
                     }
                 }
