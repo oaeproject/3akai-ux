@@ -58,9 +58,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Load public data from /~userid/private/pubspace
                 sakai.api.Server.loadJSON(puburl, function(success, data){
                     if (!success){
-                        publicToStore = sakai.config.defaultpubstructure;
+                        pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
+                        publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
                         publicToStore.structure0 = $.toJSON(publicToStore.structure0);
-                        pubdata = publicToStore;
                     } else {
                         pubdata = data;
                         pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
@@ -71,9 +71,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
-                                privateToStore = sakai.config.defaultprivstructure;
+                                privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
+                                privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
                                 privateToStore.structure0 = $.toJSON(privateToStore.structure0);
-                                privdata = privateToStore;
                             } else {
                                 privdata = data2;
                                 privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);   
