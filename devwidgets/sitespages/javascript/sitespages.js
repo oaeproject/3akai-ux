@@ -2293,18 +2293,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var tuid = "id" + Math.round(Math.random() * 1000000000);
                 var id = "widget_" + widgetid + "_" + tuid;
                 sakai_global.sitespages.newwidget_uid = id;
-                $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                $("#dialog_title").html(sakai.widgets[widgetid].name);
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai_global.sitespages.config.basepath + "_widgets/");
-                if (sakai.widgets[widgetid].settingsWidth) {
-                    widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                if (sakai.widgets[widgetid].hasSettings) {
+                    $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
+                    $("#dialog_title").html(sakai.widgets[widgetid].name);
+                    sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, sakai_global.sitespages.config.basepath + "_widgets/");
+                    if (sakai.widgets[widgetid].settingsWidth) {
+                        widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
+                    }
+                    $dialog_content.show();
+                    window.scrollTo(0, 0);
                 }
-                $dialog_content.show();
-                window.scrollTo(0,0);
             } else if (!widgetid){
                 window.scrollTo(0,0);
             }
             $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+            if(!sakai.widgets[widgetid].hasSettings){
+                sakai.api.Widgets.Container.informFinish(tuid, widgetid);
+            }
         };
 
 
