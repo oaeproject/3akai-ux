@@ -153,8 +153,8 @@
             {else}
                 {var firstuser = data.members.managers[0].basic.elements}
                 __MSG__PRIVATE_TO__ ${firstuser.firstName.value} ${firstuser.lastName.value}
-                {if peopleCount > 1}
-                    + ${peopleCount - 1} __MSG__OTHERS__
+                {if (peopleCount + groupCount) > 1}
+                    + ${groupCount + peopleCount - 1} __MSG__OTHERS__
                 {/if}
             {/if}
         </span>
