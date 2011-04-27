@@ -234,7 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
-        }
+        };
 
         var openTooltip = function (groupid, $item) {
             $(window).trigger("init.tooltip.sakai", {
@@ -291,6 +291,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         mymemberships.cache[groupid].joinrequests
                     ]);
                 }
+            });
+            $("#mymemberships_msggroup_" + groupid).live("click", function() {
+                var to = {
+                    type: "group",
+                    uuid: groupid,
+                    username: mymemberships.cache[groupid].title
+                };
+                $(window).trigger("initialize.sendmessage.sakai", to);
             });
         };
 
