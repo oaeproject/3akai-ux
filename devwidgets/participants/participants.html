@@ -1,0 +1,46 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/participants/css/participants.css" />
+
+<div class="participants_widget">
+    <div class="s3d-contentpage-title">__MSG__PARTICIPANTS__</div>
+    <div id="participants_general_actions">
+        <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state newinbox-message-list-view">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="newinbox_select_checkbox"> __MSG__DOWN_ARROW__</span>
+        </div>
+        <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state newinbox-message-list-view">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE_SELECTED__</span>
+        </div>
+        <input type="text"/>
+        <label for="participants_sort_by">__MSG__SORT_BY__</label>
+        <select id="participants_sort_by">
+            <option>__MSG__ROLE__</option>
+            <option>__MSG__NAME__</option>
+        </select>
+    </div>
+    <div id="participants_list_container"><!----></div>
+</div>
+
+<div id="participants_list_template"><!--
+<ul>
+    {for participant in participants}
+        <li class="s3d-list-item">
+            <input type="checkbox" id="${participant.id}_chk" class="participants_list_participant_checkbox"/>
+            <label for="${participant.id}_chk">
+                <img src="/dev/images/default_profile_picture_64.png" alt="${participant.name}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
+            </label>
+            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-links">${participant.name}</a>
+            <br/>
+            <span class="participants_list_participant_details">${participant.title}</span>
+            <br/>
+            <a href="/~${participant.id}#l=library" class="s3d-regular-links participants_list_participant_details">${participant.content} __MSG__CONTENT_ITEMS__</a>
+            <span class="participants_list_participant_divider">|</span>
+            <a href="/~${participant.id}#l=contacts" class="s3d-regular-links participants_list_participant_details">${participant.contacts} __MSG__CONTACTS__</a>
+            <span class="participants_list_participant_divider">|</span>
+            <a href="/~${participant.id}#l=memberships" class="s3d-regular-links participants_list_participant_details">${participant.memberships} __MSG__MEMBERSHIPS__</a>
+        </li>
+    {/for}
+</ul>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/participants/javascript/participants.js"></script>
