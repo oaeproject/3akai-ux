@@ -76,7 +76,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mylibrary_items.html("");
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
-            getLibraryItems(sakai_global.profile.main.data.userid,
+            var contextId = "";
+            if(sakai_global.currentgroup){
+                contextId = sakai_global.currentgroup.id;
+            } else {
+                contextId = sakai_global.profile.main.data.userid;
+            }
+            getLibraryItems(contextId,
                 renderLibraryItems, query || false);
         };
 
@@ -121,9 +127,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
                         sakai.api.i18n.General.getValueForKey("YOUR").toLowerCase());
             } else {
-                return sakai.api.i18n.Widgets.getValueForKey(
-                    "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
-                        sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
+                if (!sakai_global.currentgroup) {
+                    return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
+                }
             }
         };
 
@@ -401,18 +407,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            var userid = sakai_global.profile.main.data.userid;
-            if (userid) {
-                if (userid === sakai.data.me.user.userid) {
+            var contextId = "";
+            var contextName = "";
+            if (sakai_global.currentgroup) {
+                contextId = sakai_global.currentgroup.id;
+                contextName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
+                if (sakai_global.currentgroup.manager) {
                     mylibrary.isOwnerViewing = true;
                 }
+            } else {
+                contextId = sakai_global.profile.main.data.userid;
+                contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
+                if (contextId === sakai.data.me.user.userid) {
+                    mylibrary.isOwnerViewing = true;
+                }
+            }
+            if (contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 $mylibrary_livefilter.val(mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
-                getLibraryItems(userid, renderLibraryItems);
+                getLibraryItems(contextId, renderLibraryItems);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing, 
-                    firstName: sakai_global.profile.main.data.basic.elements.firstName.value
+                    firstName: contextName
                 }, $("#mylibrary_title_container", $rootel));
             } else {
                 debug.warn("No user found for My Library");
