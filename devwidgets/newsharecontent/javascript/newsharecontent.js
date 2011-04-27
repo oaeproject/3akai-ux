@@ -280,24 +280,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $newsharecontentMessageContainer.slideToggle();
         });
         
-        
-        //////////////
-        //  UTILITY //
-        //////////////
-        /*jQuery removes the hash from the script that is required by addthis */
-        var loadScript = function(sa,cb){
-            var h = $('body')[0],
-            s = document.createElement("script"),_this=this;
-            s.id = 'addthis_script';
-            s.onload = s.onreadystatechange = function(){               
-                if(!s.readyState || s.readyState == "loaded" || s.readyState == "complete" ){   
-                    if(cb){cb();}
-                }
-            };
-            s.onerror = function(){h.removeChild( s );if(cb){cb();}}
-            s.src = sa;
-            h.appendChild(s);
-        }
 
         ////////////////////
         // INITIALIZATION //
@@ -306,10 +288,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var init = function(){
             addBinding();
             fetchUsersGroups();
-            if($('#addthis_script').length===0){
-                loadScript('http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4db72a071927628b&domready=1');
-            }
-           
+			var ajaxcache = $.ajaxSettings.cache;
+            $.ajaxSettings.cache = true;
+            $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
+            $.ajaxSettings.cache = ajaxcache;
         };
 
         init();
