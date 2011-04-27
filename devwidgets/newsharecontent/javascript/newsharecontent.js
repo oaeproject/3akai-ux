@@ -297,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 					if(cb){cb();}
 				}
 			};
-			s.onerror = function(){h.removeChild( s );cb();}
+			s.onerror = function(){h.removeChild( s );if(cb){cb();}}
 			s.src = sa;
 			h.appendChild(s);
 		}
