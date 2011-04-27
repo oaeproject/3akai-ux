@@ -1,7 +1,51 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/newsharecontent/css/newsharecontent.css" />
 
-<div id="newsharecontent_container" style="display:none" class="dialog">
+
+<div id="newsharecontent_widget" style="display:none">
+    <!-- SAVECONTENT DIALOG -->
+    <div id="newsharecontent" class="newsharecontent_dialog">
+        <!-- SAVECONTENT HEADER -->
+        <div class="newsharecontent_header_arrow"></div>
+
+        <!-- SAVECONTENT CONTENT -->
+        <div class="newsharecontent_outer clearfix">
+            <h2 id="newsharecontent_title">__MSG__SHARE_CONTENT__</h2>
+            <div class="newsharecontent_inner">
+                <div id="newsharecontent_container">
+                	<div>
+                	<label for="newsharecontent_sharelist">__MSG__WHO_DO_YOU_WANT_TO_SHARE_WITH__</label>
+      	 			<div id="newsharecontent_sharelist_container"><input type="text" id="newsharecontent_sharelist" /></div>
+                
+                	<label>__MSG__SERVICE__:</label>
+                	<div id="newsharecontent_message_service">
+						<!-- AddThis Button BEGIN -->
+						<div id="toolbox">
+						</div>
+						
+						<!-- AddThis Button END -->
+                	</div>
+                	
+                	<span class="arrow_right"></span><label for="newsharecontent_message" class="toggletext">__MSG__MESSAGE__:</label>
+                	</div>
+                	<div id="newsharecontent_message_container">
+                		<input type="text" id="newsharecontent_heading" placeholder="Enter heading" />
+                		<textarea id="newsharecontent_message" placeholder="Enter message"></textarea>
+                	</div>
+                
+                </div>
+            </div>
+            <button id="sharecontent_send_button" class="s3d-button s3d-button-link-2-state fl-force-right" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHARE__</span>
+            </button>
+            <button type="button" class="s3d-link-button jqmClose s3d-bold" id="newsharecontent_cancel">
+                __MSG__DONT_SEND__
+            </button>
+        </div>
+    </div>
+</div>
+<!--
+<div id="newsharecontent_container" style="display:none" class="dialogx">
     <div id="newsharecontent_container_header" class="dialog_header">
         <div class="dialog_header_inner">
             <h1>__MSG__SHARE_CONTENT__</h1>
@@ -29,7 +73,7 @@
         <div class="dialog_footer_inner"><!-- --></div>
     </div>
 </div>
-
+-->
 <div id="newsharecontent_share_message_template" style="display:none;"><!-- __MSG__HI__
 
  __MSG__I_WOULD_LIKE_TO_SHARE_FILENAME_WITH_YOU__
@@ -41,3 +85,4 @@
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/newsharecontent/javascript/newsharecontent.js"></script>
+
