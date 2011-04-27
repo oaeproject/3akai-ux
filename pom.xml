@@ -13,11 +13,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.sakaiproject.nakamura</groupId>
-    <artifactId>base</artifactId>
-    <version>0.10</version>
-  </parent>
   <groupId>org.sakaiproject.nakamura</groupId>
   <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
   <packaging>bundle</packaging>
@@ -111,6 +106,8 @@
         SLING-INF/content/tests;path:=/tests;uninstall:=false;overwrite:=true,
         SLING-INF/content/jsdoc;path:=/jsdoc;uninstall:=false;overwrite:=true,
     </dev.content>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
   <profiles>
     <profile>
@@ -133,10 +130,27 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-scr-plugin</artifactId>
+        <version>1.4.4</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.5.2</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>generate-scr-scrdescriptor</id>
+            <goals>
+              <goal>scr</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.0.1</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
@@ -156,7 +170,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.3</version>
+        <version>1.4</version>
         <executions>
           <execution>
             <!-- Should be process-resources but that is blocked by the maven-bundle-plugin bug. -->
@@ -171,12 +185,6 @@
               <goal>run</goal>
             </goals>
           </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
           <execution>
             <phase>initialize</phase>
             <configuration>

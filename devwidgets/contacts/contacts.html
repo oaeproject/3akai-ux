@@ -9,7 +9,7 @@
 </div>
 
 <!-- WIDGET BODY -->
-<div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
+<div class="fl-widget-content s3d-widget-content">
     <div id="contacts_container"><!----></div>
 </div>
 
@@ -18,7 +18,7 @@
 </div>
 
 <div id="contacts_template"><!--
-    <h1>__MSG__CONTACTS__ {if accepted.results.length} (${accepted.results.length}){/if}</h1>
+    <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.results.length} (${accepted.results.length}){/if}</div>
     {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending" style="display:none;">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
