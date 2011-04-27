@@ -17,7 +17,6 @@
  */
 
 /* Widget Container CSS */
-#lhnavigation_container {background:url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;}
 #lhnavigation_container #lhnavigation_actions {padding:12px;text-align:center;}
 #lhnavigation_container #lhnavigation_actions .s3d-button-inner{font-size:9px;}
 
