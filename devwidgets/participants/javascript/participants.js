@@ -44,6 +44,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Templates
         var participantsListTemplate = "participants_list_template";
 
+        // Elements
+        var $participantsSearchField = $("#participants_search_field");
+
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -69,7 +72,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var loadParticipants = function(query){
+        var loadParticipants = function(){
+            var query = $.trim($participantsSearchField.val());
             sakai.api.Server.loadJSON("/var/search/groupmembers-all.json",
                 renderParticipants, {
                     group: sakai_global.currentgroup.id,
@@ -78,7 +82,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             );
         };
 
+        var addBinding = function(){
+            $participantsSearchField.unbind("keyup", loadParticipants);
+            $participantsSearchField.bind("keyup", loadParticipants);
+        };
+
         var init = function(){
+            addBinding();
             loadParticipants();
         };
 
