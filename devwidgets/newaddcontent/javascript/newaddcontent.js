@@ -371,9 +371,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "structure0": $.toJSON({
                     "page1": {
                         "_ref": "6573920372",
+                        "_order": 0,
                         "_title": "Page Title 1",
                         "main": {
                             "_ref": "6573920372",
+                            "_order": 0,
                             "_title": "Page Title 1"
                         }
                     } 
