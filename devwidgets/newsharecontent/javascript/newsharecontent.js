@@ -58,7 +58,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         $newsharecontentSendButton = $("#sharecontent_send_button");
         var newsharecontentListItem = ".as-selection-item";
         var newsharecontentShareListContainer = "#newsharecontent_sharelist_container";
-        var $newsharecontentMessageToggle = $newsharecontentContainer.find('label.toggletext');
+        var $newsharecontentMessageToggle = $('label.toggletext',$newsharecontentContainer);
         var $newsharecontentMessageArrow = $('#newsharecontent_message_arrow');
         var $newsharecontentHeading = $('#newsharecontent_heading');
 
