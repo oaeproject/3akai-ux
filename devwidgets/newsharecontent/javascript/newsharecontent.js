@@ -49,7 +49,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         // Containers
         var $newsharecontentContainer = $("#newsharecontent_widget");
- 		var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
+        var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
         
         // Elements
         var $newsharecontentLinkURL = $("#newsharecontent_linkurl");
@@ -59,7 +59,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var newsharecontentListItem = ".as-selection-item";
         var newsharecontentShareListContainer = "#newsharecontent_sharelist_container";
         var $newsharecontentMessageToggle = $newsharecontentContainer.find('label.toggletext');
-        var $newsharecontentMessageArrow = $newsharecontentMessageToggle.prev();
+        var $newsharecontentMessageArrow = $('#newsharecontent_message_arrow');
         var $newsharecontentHeading = $('#newsharecontent_heading');
 
         // Classes
@@ -83,21 +83,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (hash) {
                 hash.w.show();
             }
-            
-           	
-           	var tbx = $('#toolbox');
-           	if(tbx.find('a').length===0){
-				var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
-	
-				for (var s in svcs) {
-					tbx.append('<a class="addthis_button_'+s+'"></a>');
-				}			
-				addthis.toolbox("#toolbox");           	
-           	}
+            var tbx = $('#toolbox');
+            if(tbx.find('a').length===0){
+                var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
+                for (var s in svcs) {
+                    tbx.append('<a class="addthis_button_'+s+'"></a>');
+                }
+                addthis.toolbox("#toolbox");
+            }
 
-				
-			
-			
+                
+            
+            
         };
 
         var resetWidget = function(hash){
@@ -192,9 +189,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var messageText = $.trim($newsharecontentMessage.val());
             var messageSubject = $.trim($newsharecontentHeading.val());
             if (userList.list.length && messageText) {
-            	if(messageSubject===''){
-            		messageSubject = sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"";
-            	}
+                if(messageSubject===''){
+                    messageSubject = sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"";
+                }
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, messageSubject, messageText, "message", false, false, false, "shared_content");
 
                 var toAddList = userList.list.slice();
@@ -256,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var addBinding = function(){
             $newsharecontentContainer.jqm({
-               	modal: false,
+                modal: false,
                 overlay: 1,
                 toTop: true,
                 zIndex: 3000,
@@ -264,12 +261,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 onHide: resetWidget
             });
 
-			
-			$('#entity_content_share').live('click',function(){
-				var $this = $(this);
-				$newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
-				$newsharecontentContainer.jqmShow(); 
-			});
+            
+            $('#entity_content_share').live('click',function(){
+                var $this = $(this);
+                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
+                $newsharecontentContainer.jqmShow(); 
+            });
             //$(window).bind("init.sharecontent.sakai", function(e, config, callbackFn){});
 
             $newsharecontentSendButton.unbind("click", doShare);
@@ -277,30 +274,30 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         };
 
-	
-		$newsharecontentMessageToggle.add($newsharecontentMessageArrow[0]).bind('click',function(){
-			$newsharecontentMessageArrow.toggleClass('arrow_down');
-			$newsharecontentMessageContainer.slideToggle();
-		});
-		
-		
+    
+        $newsharecontentMessageToggle.add($newsharecontentMessageArrow[0]).bind('click',function(){
+            $newsharecontentMessageArrow.toggleClass('arrow_down');
+            $newsharecontentMessageContainer.slideToggle();
+        });
+        
+        
         //////////////
         //  UTILITY //
         //////////////
         /*jQuery removes the hash from the script that is required by addthis */
         var loadScript = function(sa,cb){
-			var h = $('body')[0],
-			s = document.createElement("script"),_this=this;
-			s.id = 'addthis_script';
-			s.onload = s.onreadystatechange = function(){				
-				if(!s.readyState || s.readyState == "loaded" || s.readyState == "complete" ){	
-					if(cb){cb();}
-				}
-			};
-			s.onerror = function(){h.removeChild( s );if(cb){cb();}}
-			s.src = sa;
-			h.appendChild(s);
-		}
+            var h = $('body')[0],
+            s = document.createElement("script"),_this=this;
+            s.id = 'addthis_script';
+            s.onload = s.onreadystatechange = function(){               
+                if(!s.readyState || s.readyState == "loaded" || s.readyState == "complete" ){   
+                    if(cb){cb();}
+                }
+            };
+            s.onerror = function(){h.removeChild( s );if(cb){cb();}}
+            s.src = sa;
+            h.appendChild(s);
+        }
 
         ////////////////////
         // INITIALIZATION //
@@ -310,7 +307,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             addBinding();
             fetchUsersGroups();
             if($('#addthis_script').length===0){
-            	loadScript('http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4db72a071927628b&domready=1');
+                loadScript('http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4db72a071927628b&domready=1');
             }
            
         };
