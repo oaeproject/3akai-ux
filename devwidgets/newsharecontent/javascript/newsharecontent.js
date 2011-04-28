@@ -146,11 +146,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var getSelectedList = function() {
             var list = $("#as-values-" + tuid).val();
+            list = list.replace('user/','');
             // this value is a comma-delimited list
             // split it and get rid of any empty values in the array
             list = list.split(",");
             var removed = 0;
             $(list).each(function(i, val) {
+
                if (val === "") {
                    list.splice(i - removed, 1);
                    removed += 1;
@@ -163,7 +165,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 // In IE 7 </A> is returned and in firefox </a>
                 toAddNames.push($(this).html().split(/<\/[aA]?>/g)[1]);
             });
-
             var returnValue = {"list":list, "toAddNames":toAddNames};
 
             return returnValue;
@@ -188,8 +189,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             var messageText = $.trim($newsharecontentMessage.val());
             if (userList.list.length && messageText) {
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
-
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
                 var toAddList = userList.list.slice();
                 var removed = 0;
                 for (var i in toAddList) {
