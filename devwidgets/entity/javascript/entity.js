@@ -45,6 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var entityUserImage = "#entity_user_image";
         var entityUserMessage = "#entity_user_message";
         var entityUserAddToContacts = "#entity_user_add_to_contacts";
+        var entityUserDropdown = "#entity_user_image.s3d-dropdown-menu";
 
         /**
          * The 'context' variable can have the following values:
@@ -66,14 +67,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $(entityUserCreateAddDropdown).css("left", $(this).position().left - 38);
                         }
                     });
-                    $(entityUserImage).bind("click", function(){
-                        if($(this).hasClass("entity_user_image_clicked")){
-                            $(this).removeClass("entity_user_image_clicked");
-                            $(entityUserPictureDropdown).hide();
-                        }else{
-                            $(this).addClass("entity_user_image_clicked");
-                            $(entityUserPictureDropdown).show();
-                        }
+                    $(entityUserDropdown).hover(function(){
+                        var $li = $(this);
+                        var $subnav = $li.children(".s3d-dropdown-container");
+
+                        var pos = $li.position();
+                        $subnav.css("left", pos.left + 15);
+                        $subnav.css("margin-top", $li.height() + 4 + "px");
+                        $subnav.show();
+                    }, function(){
+                        var $li = $(this);
+                        $li.children(".s3d-dropdown-container").hide();
                     });
                     break;
                 case "user_other":
@@ -91,6 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
+                case "content_shared": //fallthrough
                 case "content_managed":
                     var $entityContentUsersDialog = $("#entity_content_users_dialog");
                     var $entityContentUsersDialogContainer = $("#entity_content_users_dialog_list_container");

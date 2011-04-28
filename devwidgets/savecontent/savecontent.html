@@ -1,0 +1,50 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/savecontent/css/savecontent.css" />
+
+<div id="savecontent_widget" style="display:none">
+    <!-- SAVECONTENT DIALOG -->
+    <div id="savecontent" class="savecontent_dialog">
+        <!-- SAVECONTENT HEADER -->
+        <div class="savecontent_header_arrow"></div>
+
+        <!-- SAVECONTENT CONTENT -->
+        <div class="savecontent_outer clearfix">
+            <h2 id="savecontent_title">__MSG__SAVE_TO__</h2>
+            <div class="savecontent_inner">
+                <div id="savecontent_container"></div>
+            </div>
+            <button class="savecontent_close s3d-link-button s3d-action s3d-bold" type="button">
+                __MSG__CANCEL__
+            </button>
+            <button id="savecontent_save" class="s3d-button s3d-button-link-2-state fl-force-right" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<span style="display:none;" id="savecontent_my_add_library_title">__MSG__MY_LIBRARY__</span>
+<span style="display:none;" id="savecontent_my_add_library_body">__MSG__MY_LIBRARY_ADDED__</span>
+<span style="display:none;" id="savecontent_group_add_library_title">__MSG__LIBRARY__</span>
+<span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
+
+<div id="savecontent_template" style="display:none"><!--
+    __MSG__YOU_ARE_SAVING__ "${content["sakai:pooled-content-file-name"]}" __MSG__TO__
+    <select name="savecontent_select" id="savecontent_select">
+        {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
+            <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
+        {else}
+            <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
+        {/if}
+        {for g in me.groups}
+            {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
+                <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}'s Library</option>
+            {else}
+                <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]}'s Library (got it)</option>
+            {/if}>
+        {/for}
+    </select>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/savecontent/javascript/savecontent.js"></script>

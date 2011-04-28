@@ -24,33 +24,41 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             "structure0": {
                 "all": {
                     "_ref": "9574379429432",
+                    "_order": 0,
                     "_title": "All",
                     "main": {
                         "_ref": "9574379429432",
+                        "_order": 0,
                         "_title": "All"
                     }
                 },
                 "content": {
                     "_ref": "6573920372",
+                    "_order": 1,
                     "_title": "Content",
                     "main": {
                         "_ref": "6573920372",
+                        "_order": 0,
                         "_title": "Content"
                     }
                 },
                 "groups": {
                     "_title": "Groups",
                     "_ref": "87949372639",
+                    "_order": 2,
                     "main": {
                         "_ref": "87949372639",
+                        "_order": 0,
                         "_title": "Groups"
                     }
                 },
                 "people": {
                     "_title": "People",
                     "_ref": "49294509202",
+                    "_order": 3,
                     "main": {
                         "_ref": "49294509202",
+                        "_order": 0,
                         "_title": "People"
                      }
                 }

@@ -513,7 +513,7 @@ define(function(){
              */
             JoinRequest: {
                 title: "${user} has requested to join your group: ${group}",
-                body: "Hi, \n\n ${user} has requested to join your group: ${group}. Use the links below to respond to this request. \n\n Kind regards,\n\nThe Sakai Team"
+                body: "${user} has requested to join your group: ${group}. Use the links below to respond to this request."
             }
         },
 
@@ -2039,19 +2039,23 @@ define(function(){
             },
             "2024634737": {
                 "box": "inbox",
-                "category": "message"
+                "category": "message",
+                "title": "INBOX"
             },
             "3679202964": {
                 "box": "inbox",
-                "category": "invitation"
+                "category": "invitation",
+                "title": "INVITATIONS"
             },
             "66582410046": {
                 "box": "outbox",
-                "category": "*"
+                "category": "*",
+                "title": "SENT"
             },
             "3519294282": {
                 "box": "trash",
-                "category": "*"
+                "category": "*",
+                "title": "TRASH"
             },
             "546341435": {
                 "dashboard": {
@@ -2086,34 +2090,34 @@ define(function(){
                     "_order": 0,
                     "basicinfo": {
                         "_ref": "533118849",
+                        "_order": 0,
                         "_altTitle": "Basic Information",
-                        "_title": "Basic Information",
-                        "_order": 0
+                        "_title": "Basic Information"
                     },
                     "aboutme": {
                         "_ref": "657672090",
+                        "_order": 1,
                         "_altTitle": "About",
-                        "_title": "About Me",
-                        "_order": 1
+                        "_title": "About Me"
                     },
                     "locations": {
                         "_ref": "2967778497",
+                        "_order": 2,
                         "_title": "Locations",
-                        "_altTitle": "Locations",
-                        "_order": 2
+                        "_altTitle": "Locations"
                     },
                     "publications": {
                         "_ref": "86312659",
+                        "_order": 3,
                         "_altTitle": "Publications",
-                        "_title": "Publications",
-                        "_order": 3
+                        "_title": "Publications"
                     }
                 },
                 "library": {
                     "_ref": "9834611274",
+                    "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
-                    "_order": 1,
                     "main": {
                         "_ref": "9834611274",
                         "_order": 0,
@@ -2122,24 +2126,24 @@ define(function(){
                 },
                 "memberships": {
                     "_title": "My Memberships",
+                    "_order": 2,
                     "_ref": "213623673",
                     "_altTitle": "${user}'s Memberships",
-                    "_order": 2,
                     "main": {
                         "_ref": "213623673",
-                        "_title": "Memberships",
-                        "_order": 0
+                        "_order": 0,
+                        "_title": "Memberships"
                     }
                 },
                 "contacts": {
                     "_title": "My Contacts",
+                    "_order": 3,
                     "_ref": "1193715035",
                     "_altTitle": "${user}'s Contacts",
-                    "_order": 3,
                     "main": {
                         "_ref": "1193715035",
-                        "_title": "Contacts",
-                        "_order": 0
+                        "_order": 0,
+                        "_title": "Contacts"
                     }
                 }
             },

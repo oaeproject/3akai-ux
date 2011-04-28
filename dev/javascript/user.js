@@ -58,8 +58,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Load public data from /~userid/private/pubspace
                 sakai.api.Server.loadJSON(puburl, function(success, data){
                     if (!success){
-                        publicToStore = sakai.config.defaultpubstructure;
-                        pubdata = publicToStore;
+                        pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
+                        publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
+                        publicToStore.structure0 = $.toJSON(publicToStore.structure0);
                     } else {
                         pubdata = data;
                         pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
@@ -70,8 +71,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (isMe){
                         sakai.api.Server.loadJSON(privurl, function(success2, data2){
                             if (!success2){
-                                privateToStore = sakai.config.defaultprivstructure;
-                                privdata = privateToStore;
+                                privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
+                                privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
+                                privateToStore.structure0 = $.toJSON(privateToStore.structure0);
                             } else {
                                 privdata = data2;
                                 privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);   
@@ -231,12 +233,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var generateNav = function(){
-            if (contextType && contextData && pubdata) {
-                if (contextType === "user_me") {
-                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
-                } else {
-                    $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
-                }
+            if (contextType && contextType === "user_me" && contextData && pubdata && privdata) {
+                $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
+            } else if (contextType && contextType !== "user_me" && contextData && pubdata) {
+                $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
             }
         };
 
