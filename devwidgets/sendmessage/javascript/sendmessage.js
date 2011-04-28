@@ -207,11 +207,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var initAutoSuggest = function() {
                 var preFill = [];
-                if (toUser && toUser.uuid){
-                    preFill.push({
-                        "name": toUser.username,
-                        "value": toUser.uuid
-                    });
+                if (toUser) {
+                    if ($.isPlainObject(toUser) && toUser.uuid) {
+                        preFill.push({
+                            "name": toUser.username,
+                            "value": toUser.uuid,
+                            "type": usr.type
+                        });
+                    } else if (_.isArray(toUser)) {
+                        $.each(toUser, function(i,usr) {
+                            preFill.push({
+                                "name": usr.username,
+                                "value": usr.uuid,
+                                "type": usr.type
+                            });
+                        });
+                    }
+
+
                 }
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
                     asHtmlID: "sendmessage_to_autoSuggest",
@@ -267,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * Initializes the sendmessage widget, optionally preloading the message
              * with a recipient, subject and body. By default, the widget appears as
              * a modal dialog. This function can be called from other widgets or pages.
-             * @param {Object} userObj The user object containing the nescecary information {uuid:  "user1", username: "John Doe", type: "user"}, or a user profile
+             * @param {Object|Array} userObj The user object containing the nescecary information {uuid:  "user1", username: "John Doe", type: "user"}, or a user profile
              * @param {jQuery} $insertInId Insert the HTML into another element instead of showing it as a popup (String ID or jQuery)
              * @param {Object} callback When the message is sent this function will be called. If no callback is provided a standard message will be shown that fades out.
              * @param {String} subject The subject
@@ -280,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Make sure that everything is standard.
                 resetView();
                 // The user we are sending a message to.
-                if (userObj && userObj.username) {
+                if (userObj && (($.isPlainObject(userObj) && userObj.username) || _.isArray(userObj))) {
                     toUser = userObj;
                 } else {
                     toUser = false;
@@ -295,7 +308,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 if (replyOnly) {
-                    $(sendmessage_to).hide();
+                    $(sendmessage_to).find("label").hide();
                     $(sendmessage_subject).hide();
                     $(sendmessage_body).find("label").hide();
                 }

@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.newinbox = function(tuid, showSettings, widgetData, state) {
 
@@ -59,7 +59,8 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
             $newinbox_select_unread = $("#newinbox_select_unread", $rootel),
             $newinbox_select_all = $("#newinbox_select_all", $rootel),
             $newinbox_delete_selected = $("#newinbox_delete_selected", $rootel),
-            $newinbox_mark_as_read =$("#newinbox_mark_as_read", $rootel);
+            $newinbox_mark_as_read = $("#newinbox_mark_as_read", $rootel),
+            $newinbox_title_total_wrapper = $("#newinbox_title_total_wrapper", $rootel);
 
 
         /** Message header button handling **/
@@ -271,7 +272,13 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                 determineInviteStatus(messageToShow);
             }
             $newinbox_box_title.text(messageToShow.subject);
-            sakai.api.Util.TemplateRenderer($newinbox_show_message_template, {message:messageToShow}, $newinbox_show_message);
+            sakai.api.Util.TemplateRenderer($newinbox_show_message_template, {
+                message:messageToShow,
+                me: {
+                    name: sakai.api.User.getDisplayName(sakai.api.User.data.me.profile),
+                    picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
+                }
+            }, $newinbox_show_message);
             if (!currentMessage.read) {
                 sakai.api.Communication.markMessagesAsRead(currentMessage.path);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
@@ -342,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
                 } else {
                     updateMessageList(update);
                 }
-            }, true, doFlip);
+            }, true);
         };
 
         /** Replies **/
@@ -369,7 +376,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
         var showReply = function() {
             $newinbox_show_message_reply_fields = $($newinbox_show_message_reply_fields.selector);
             var replyButtonText = sakai.api.i18n.Widgets.getValueForKey("newinbox", sakai.api.User.data.me.user.locale, "REPLY");
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.from.userObj, $newinbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
+            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $newinbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
             $newinbox_show_message_reply_fields.show();
         };
 
@@ -407,6 +414,9 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
             $(newMessageViewClass).hide();
             $newinbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("newinbox", sakai.api.User.data.me.user.locale, widgetData.title));
             $(listViewClass).show();
+            if (widgetData.box !== "inbox") {
+                $newinbox_title_total_wrapper.hide();
+            }
             if ($.isFunction(callback)) {
                 callback();
             }
@@ -419,7 +429,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
             // only applyThreeDots when the container is visible, or it won't work
             if ($newinbox_message_list.is(":visible")) {
                 // apply threedots to the subject and the name
-                $(".newinbox_subject a, .newinbox_name a", $rootel).each(function(i,elt) {
+                $(".newinbox_subject a, .newinbox_name a, .newinbox_name span", $rootel).each(function(i,elt) {
                     $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold newinbox_main"));
                 });
                 $(".newinbox_excerpt p", $rootel).each(function(i,elt) {
@@ -441,6 +451,7 @@ require(["jquery", "sakai/sakai.api.core", "/tests/qunit/js/jquery.mockjax.js"],
 
                 sakai.api.Util.TemplateRenderer($newinbox_message_list_item_template, {
                     sakai: sakai,
+                    _: _,
                     data: data
                 }, $newinbox_message_list);
 
