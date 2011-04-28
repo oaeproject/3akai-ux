@@ -120,11 +120,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $.each(data.results, function(i){
                         if (data.results[i]["rep:userId"]) {
                             name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = "user/" + data.results[i]["rep:userId"];
+                            value = data.results[i]["rep:userId"];
                             type = "user";
                         }  else if (data.results[i]["sakai:group-id"]) {
                                 name = data.results[i]["sakai:group-title"];
-                                value = "group/" + data.results[i]["sakai:group-id"];
+                                value = data.results[i]["sakai:group-id"];
                                 type = "group";
                             }
                         suggestions.push({"value": value, "name": name, "type": type});
@@ -146,7 +146,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var getSelectedList = function() {
             var list = $("#as-values-" + tuid).val();
-            list = list.replace('user/','');
             // this value is a comma-delimited list
             // split it and get rid of any empty values in the array
             list = list.split(",");
