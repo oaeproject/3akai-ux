@@ -92,7 +92,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "sakai": sakai
             };
 
-debug.log(json);
             $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_template", json));
             showPersonInfo(clickedEl);
         };
