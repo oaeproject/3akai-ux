@@ -16,7 +16,7 @@
 #newsharecontent_container textarea {resize:none;height:78px;}
 #newsharecontent_container input, #newsharecontent_container textarea {padding:4px;border:1px solid #ccc;width:194px;}
 #newsharecontent_container ul li input {border:none;}
-#newsharecontent_message_container input, #newsharecontent_message_container textarea {margin-bottom:10px;width:208px;} 
+#newsharecontent_message_container textarea {margin-bottom:10px;width:208px;} 
 #toolbox {margin-bottom:12px;}
 #toolbox a {float:left; margin-right:5px;}
 

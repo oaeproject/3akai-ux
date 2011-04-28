@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ///////////////
 
         var fillShareData = function(hash){
-           $newsharecontentLinkURL.val(window.location);
+        	$newsharecontentLinkURL.val(window.location);
             var shareData = {
                 "filename": "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
                 "path": window.location,
@@ -187,12 +187,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var userList = getSelectedList();
 
             var messageText = $.trim($newsharecontentMessage.val());
-            var messageSubject = $.trim($newsharecontentHeading.val());
             if (userList.list.length && messageText) {
-                if(messageSubject===''){
-                    messageSubject = sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"";
-                }
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, messageSubject, messageText, "message", false, false, false, "shared_content");
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
 
                 var toAddList = userList.list.slice();
                 var removed = 0;
@@ -275,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
     
-        $newsharecontentMessageToggle.add($newsharecontentMessageArrow[0]).bind('click',function(){
+        $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){
             $newsharecontentMessageArrow.toggleClass('arrow_down');
             $newsharecontentMessageContainer.slideToggle();
         });
@@ -288,7 +284,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var init = function(){
             addBinding();
             fetchUsersGroups();
-			var ajaxcache = $.ajaxSettings.cache;
+            var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
             $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
             $.ajaxSettings.cache = ajaxcache;
