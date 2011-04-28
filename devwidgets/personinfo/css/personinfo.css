@@ -1,0 +1,47 @@
+#personinfo_widget{color: #333333;position:absolute;display:none;width:250px;}
+.personinfo_outer {background-color:#e4e3e3;
+    border: 1px solid #EAEBEC;
+    border-top: none;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */
+    box-shadow: 0px 0px 5px #A9A9A9;
+    -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */
+    -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */
+}
+.personinfo_inner {margin: 5px 1px 0 1px; padding: 0; background-color:#ffffff;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */
+}
+#personinfo_title {font-size: 13px; margin: 10px 10px 5px;}
+#personinfo_widget button{margin:10px 10px 10px 0px;}
+#personinfo_widget .personinfo_close{padding-top:3px;}
+#personinfo_widget .personinfo_header_arrow{margin-left: 110px;font-size: 0px; line-height: 0%; width: 0px;
+    border-top: 0;
+    border-bottom: 15px solid #e4e3e3;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
+.personinfo_loading{background:#fff url(/dev/images/ajax_load.gif) center 8px no-repeat;min-height:40px;}
+.personinfo_close{float:right}
+#personinfo_close{background:url(/dev/images/tour_sprite.png) no-repeat scroll -389px -79px transparent;height:16px;width:16px;}
+
+#personinfo_user {margin:10px 10px 0 10px;padding:10px;}
+#personinfo_user_picture img {width:48px; height:48px;}
+
+#personinfo_user_picture {float: left; padding-right: 10px}
+.personinfo_user_info {font-size:smaller;line-height:12px;margin:0;}
+
+.personinfo_content_list_left {float:left;}
+#personinfo_content_list {max-height:200px;width:246px;overflow-y:auto;overflow-x:hidden;margin:0;border-bottom:3px;}
+#personinfo_content_list img {float: left; padding-botom: 10px; width: 40px;}
+#personinfo_content_list li {max-height:60px;list-style:none;padding:5px 5px;border-bottom:1px solid #FFF;border-top:1px solid #FFF;overflow:hidden;}
+#personinfo_content_list li:hover {background-color:#9de1ee;cursor:pointer;}
+.personinfo_content_list_right {float:right;width:170px;}
+.personinfo_content_name {color:#1a648b;margin-right:3px;}
+.personinfo_content_plus {color:#1a648b;font-size:x-large;font-weight:100;float:right;margin-right:15px;}
+.personinfo_content_mimetype {font-size:smaller;font-weight:700;white-space:pre;}
+.personinfo_content_text {margin:0;font-size:11px;line-height:14px;}
+.personinfo_content_none {text-align:center;}
+

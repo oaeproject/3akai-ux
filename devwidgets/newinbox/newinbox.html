@@ -60,7 +60,7 @@
                             <div class="newinbox_message_data">
                               <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
                               <div class="newinbox_name">
-                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
                               </div>
                               <div class="newinbox_date">
                                 <span>${message.date}</span>
@@ -100,7 +100,7 @@
                                 <div class="newinbox_placeholder">&nbsp;</div>
                                 <img alt="person icon" src="${message.from.picture}"/>
                                 <div class="newinbox_name">
-                                  <a href="#" class="s3d-regular-links s3d-bold">${message.from.name}</a>
+                                  <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
                                 </div>
                                 <div class="newinbox_date">
                                   <span>${message.date}</span>
