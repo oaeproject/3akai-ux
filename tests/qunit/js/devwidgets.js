@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "helloworld",
         "help",
         "inbox",
+        "institutionalskinning",
         "joinrequestbuttons",
         "joinrequests",
         "lhnavigation",
