@@ -4,12 +4,12 @@
 <div class="participants_widget">
     <div class="s3d-contentpage-title">__MSG__PARTICIPANTS__</div>
     <div id="participants_general_actions">
-        <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="newinbox_select_checkbox"> __MSG__DOWN_ARROW__</span>
+        <div class="s3d-button s3d-button-link-2-state">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="participants_select_all"> __MSG__DOWN_ARROW__</span>
         </div>
-        <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state participants_message_selected">
+        <button type="button" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE_SELECTED__</span>
-        </div>
+        </button>
         <input type="text" id="participants_search_field"/>
         <label for="participants_sort_by">__MSG__SORT_BY__</label>
         <select id="participants_sort_by">
@@ -25,18 +25,20 @@
     {for participant in participants}
         <li class="s3d-list-item">
             <div class="participants_list_participant_actions">
-                <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state participants_list_participant_message">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
-                </div>
-                <div style="" id="newinbox_select" class="s3d-button s3d-button-link-2-state participants_list_participant_request_connection">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_CONNECTION__</span>
-                </div>
+                {if participant.id != sakai.data.me.user.userid}
+                    <button type="button" sakai-entitytype="user" sakai-entityname="${participant.name}" sakai-entityid="${participant.id}" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+                    </button>
+                    <button type="button" sakai-entityname="${participant.name}" sakai-entityid="${participant.id}" class="s3d-button s3d-button-link-2-state sakai_addtocontacts_overlay">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_CONNECTION__</span>
+                    </button>
+                {/if}
             </div>
             <input type="checkbox" id="${participant.id}_chk" class="participants_list_participant_checkbox"/>
             <label for="${participant.id}_chk">
                 <img src="/dev/images/default_profile_picture_64.png" alt="${participant.name}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
             </label>
-            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-links">${participant.name}</a>
+            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-links participants_list_participant_name">${participant.name}</a>
             <br/>
             <span class="participants_list_participant_details">${participant.title}</span>
             <br/>
@@ -47,7 +49,7 @@
             <a href="/~${participant.id}#l=memberships" class="s3d-regular-links participants_list_participant_details">${participant.memberships} __MSG__MEMBERSHIPS__</a>
         </li>
         {if participant_index != participants.length -1}
-        <hr/>
+            <hr/>
         {/if}
     {/for}
 </ul>

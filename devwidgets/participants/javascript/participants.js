@@ -24,15 +24,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      *
      * @class participants
      *
-     * @description
-     * My Hello World is a dashboard widget that says hello to the current user
-     * with text in the color of their choosing
-     *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.participants = function (tuid, showSettings) {
+
 
         /////////////////////////////
         // Configuration variables //
@@ -46,10 +43,59 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Elements
         var $participantsSearchField = $("#participants_search_field");
+        var participantsListParticipantRequestConnection = ".participants_list_participant_request_connection";
+        var $participantsSelectAll = $("#participants_select_all");
+        var participantsListParticipantCheckbox = ".participants_list_participant_checkbox";
+        var $participantsSendSelectedMessage = $("#participants_send_selected_message");
+        var participantsListParticipantName = ".participants_list_participant_name";
+
 
         ///////////////////////
         // Utility functions //
         ///////////////////////
+
+        var enableDisableButtons = function(){
+            if($(participantsListParticipantCheckbox + ":checked").length){
+                $participantsSendSelectedMessage.removeAttr("disabled");
+            } else {
+                $participantsSendSelectedMessage.attr("disabled", "disabled");
+                $participantsSelectAll.removeAttr("checked");
+            }
+        };
+
+        /**
+         * Set the attributes needed by the sendmessage widget to send a message to all selected users
+         */
+        var setSendSelectedMessageAttributes = function(){
+            var userArr = [];
+            var userIDArr = [];
+            $.each($(participantsListParticipantCheckbox + ":checked"), function(index, item){
+                userIDArr.push($(item)[0].id.split("_")[0]);
+                userArr.push($(item).nextAll(participantsListParticipantName).text());
+            });
+            $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
+            $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
+            $participantsSendSelectedMessage.attr("sakai-entityid", userIDArr);
+            enableDisableButtons();
+        };
+
+        /**
+         * Check/Uncheck all items in the members list and enable/disable buttons
+         */
+        var checkAll = function(){
+            if($(this).is(":checked")){
+                $(participantsListParticipantCheckbox).attr("checked","checked");
+                setSendSelectedMessageAttributes();
+            }else{
+                $(participantsListParticipantCheckbox).removeAttr("checked");
+                enableDisableButtons();
+            }
+        };
+
+
+        //////////////////////
+        // Render functions //
+        //////////////////////
 
         var renderParticipants = function (success, data){
             if(success){
@@ -65,13 +111,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
-                    "participants": participantsArr
+                    "participants": participantsArr,
+                    "sakai": sakai
                 }));
             }else {
                 debug.log("Participants could not be loaded");
             }
         };
 
+
+        ////////////////////
+        // Init functions //
+        ////////////////////
+
+        /**
+         * Load the managers and viewers of the group
+         */
         var loadParticipants = function(){
             var query = $.trim($participantsSearchField.val());
             sakai.api.Server.loadJSON("/var/search/groupmembers-all.json",
@@ -84,7 +139,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var addBinding = function(){
             $participantsSearchField.unbind("keyup", loadParticipants);
+            $participantsSelectAll.unbind("click", checkAll);
+
             $participantsSearchField.bind("keyup", loadParticipants);
+            $participantsSelectAll.bind("click", checkAll);
+            $(participantsListParticipantCheckbox).live("click", setSendSelectedMessageAttributes)
         };
 
         var init = function(){

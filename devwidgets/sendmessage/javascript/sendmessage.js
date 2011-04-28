@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     bodyEl.addClass(invalidClass);
                 }
                 // check if there are recipients
-                if((recipients.length === 0 && !toUser) ||
+                if((recipients.length === 0 && !toUser.length) ||
                     recipients.length === 1 && recipients[0] === "") {
                     // no recipients are selected
                     valid = false;
@@ -179,7 +179,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if ($(messageDialogContainer).hasClass('dialog')) {
                     $(messageDialogContainer).jqmHide();
-                    setTimeout(resetView, 250);
                 }
 
                 // If we have a valid callback function we call that
@@ -207,11 +206,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var initAutoSuggest = function() {
                 var preFill = [];
-                if (toUser && toUser.uuid){
-                    preFill.push({
-                        "name": toUser.username,
-                        "value": toUser.uuid
-                    });
+                if (toUser){
+                    for (var i = 0; i < toUser.length; i++) {
+                        preFill.push({
+                            "name": toUser[i].username,
+                            "value": toUser[i].uuid
+                        });
+                    }
                 }
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
                     asHtmlID: "sendmessage_to_autoSuggest",
@@ -280,7 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Make sure that everything is standard.
                 resetView();
                 // The user we are sending a message to.
-                if (userObj && userObj.username) {
+                if (userObj.length) {
                     toUser = userObj;
                 } else {
                     toUser = false;
