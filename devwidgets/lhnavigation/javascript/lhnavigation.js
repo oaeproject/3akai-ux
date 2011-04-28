@@ -425,6 +425,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectPage();
             editPage();
             rerenderNavigation();
+            editPageTitle();
             isEditingNewPage = true;
         }
         
@@ -436,8 +437,64 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var submenu = $("#lhnavigation_submenu");
             submenu.css("left", clickedItem.position().left + submenu.width() - (clickedItem.width() / 2) + "px");
             submenu.css("top", clickedItem.position().top + "px");
-            submenu.toggle();
+            toggleSubmenu();
         });
+        
+        var toggleSubmenu = function(forceHide){
+            var submenu = $("#lhnavigation_submenu");
+            if (forceHide) {
+                submenu.hide();
+            } else {
+                submenu.toggle();
+            }
+        };
+        
+        /**
+         * Rename a page
+         * @param {Object} ev
+         */
+        $("#lhavigation_submenu_edittitle").live("click", function(ev){
+            editPageTitle();
+        });
+        
+        $(".lhnavigation_change_title").live("blur", function(ev){
+            savePageTitle();
+        });
+        
+        var editPageTitle = function(){
+            // Select correct item
+            var menuitem = $("li[data-sakai-path='" + currentPageShown.path + "']");
+            var inputArea = $(".lhnavigation_change_title", menuitem);
+            var pageTitle = $(".lhnavigation_toplevel", menuitem);
+
+            pageTitle.hide();
+            inputArea.show();
+            inputArea.val($.trim(pageTitle.text()));
+            inputArea.focus();
+            
+            // Hide the dropdown menu
+            toggleSubmenu(true);
+        }
+        
+        var savePageTitle = function(){
+            var menuitem = $("li[data-sakai-path='" + currentPageShown.path + "']");
+            var inputArea = $(".lhnavigation_change_title", menuitem);
+            var pageTitle = $(".lhnavigation_toplevel", menuitem);
+            inputArea.hide();
+            pageTitle.text(inputArea.val());
+            pageTitle.show();
+
+            pubstructure.items[currentPageShown.path]._title = inputArea.val();
+            $.ajax({
+                url: currentPageShown.savePath,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "structure0": $.toJSON(pubstructure.items)
+                }           
+            });
+
+        }
         
         /**
          * Delete a page
@@ -797,7 +854,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var initSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").show()).show();
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
-            $("#lhnavigation_actions").show();
             init_tinyMCE();
             renderInsertDropdown("sakaidocs");
         }

@@ -109,7 +109,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
-                                debug.log("1 => " + contentInfo.structure0);
                                 if (contentInfo["sakai:custom-mimetype"] && contentInfo["sakai:custom-mimetype"] === "x-sakai/document"){
                                     showPreview = false;
                                 } else {
