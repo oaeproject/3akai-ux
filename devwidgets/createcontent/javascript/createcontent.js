@@ -64,7 +64,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return {Object} object containing item.name, item.path, item.type (mimetype)
          *   and item.type_img_url (URL for mimetype icon) for the given result
          */
-        var parseDataResult = function(result) {
+        var parseDataResult = function(result, isRelatedContent) {
             // initialize parsed item with default values
             var item = {
                 name: result["sakai:pooled-content-file-name"],
@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // be aware that links don't have an extension
             var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
             if(lastDotIndex !== -1) {
-                if (item.type !== "x-sakai/link") {
+                if (item["_mimeType"] !== "x-sakai/link") {
                     // extension found
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
@@ -109,21 +109,49 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             item.usedin = usedin;
             var path = result["jcr:path"];
             if (result[path + "/comments"]) {
-                var lastmodified = result[path + "/comments"]["_lastModified"];
-                var totalcomment = 0;
-                var commentpath = "";
+                var totalcomment = 0; // store total number of comments realted to content
+                var commentpath = ""; // store the path of the comment to display
+                var latestDate = 0; // store the latest date of the comment
                 for (var obj in result[path + "/comments"]) {
+                    // if the object is comment
                     if (obj.indexOf(path + "/comments") > -1) {
+                        // add the comment count
                         totalcomment++;
-                        commentpath = obj;
+                        // check if the comment is latest comment
+                        if (result[path + "/comments"][obj]["_created"] > latestDate) {
+                            commentpath = obj;
+                            latestDate = result[path + "/comments"][obj]["_created"];
+                        }
                     }
                 }
-                item.totalcomment = totalcomment;
                 item.comment = result[path + "/comments"][commentpath];
+                item.totalcomment = totalcomment;
+                // get the user name from userid and render it
+                sakai.api.User.getUser(item.comment.author, renderTemplate);                
+            }
+
+            if(isRelatedContent){
+                // get realted content author name from the author id and rendertemplate
+                sakai.api.User.getUser(result["sakai:pool-content-created-for"], renderRelatedContentTemplate);
             }
 
             return item;
         };
+
+        var renderTemplate = function(success, data){
+            var item = {author:{}};
+            item.author.authorId = data.userid;
+            item.author.authorName = sakai.api.User.getDisplayName(data)
+            $("#createcontent_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",item));
+        };
+
+        var renderRelatedContentTemplate = function(success, data){
+            var item = {author:{}};
+            item.author.authorId = data.userid;
+            item.author.authorName = sakai.api.User.getDisplayName(data)
+            $("#createcontent_related_content_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_related_content_author_template",item));
+        };
+
 
         /**
          * This AJAX callback function handles the search result data returned from
@@ -214,14 +242,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(relatedContent){
                     var createcontentjson = {items: []};
                     var item = parseDataResult(contentData);
-                    console.log(relatedContent);
                     if(relatedContent) {
-                        item.relatedContent = parseDataResult(relatedContent.results[0]);
+                        item.relatedContent = parseDataResult(relatedContent.results[0], true);
                     }
                     createcontentjson.items.push(item);
                     // pass the array to HTML view
                     createcontentjson.sakai = sakai;
-                    console.log(createcontentjson);
                     $(createcontentItem, rootel).html(sakai.api.Util.TemplateRenderer(createcontentItemTemplate,createcontentjson));
                 }
             });

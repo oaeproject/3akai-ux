@@ -2,7 +2,7 @@
 
 .createcontent_widget #createcontent_no_createcontent_wrap{padding:0 20px;}
 
-.createcontent_main {margin:15px;padding-top:10px; padding-bottom:10px;}
+.createcontent_main {padding-top:10px; padding-bottom:10px;}
 .createcontent_background {background-color:#EBEFF1!important; min-height : 50px;}
 .createcontent_title {color:#707E8C; display:block;}
 .createcontent_add_container {background-color:#FFFFFF; padding:10px 5px 0; margin: 5px 5px 15px 5px;}

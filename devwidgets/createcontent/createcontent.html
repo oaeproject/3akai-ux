@@ -34,7 +34,7 @@
                 </div>
                 <div class="createcontent_item_info">
                     <p class="createcontent_item_title">
-                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/createcontent#createcontent_path=${item.path}">
+                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}">
                             ${item.name}
                         </a>
                     </p>
@@ -52,9 +52,7 @@
                     </a>
                     </div>
                     <div class="createcontent_background" style="margin-left:40px;">
-                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/createcontent#createcontent_path">
-                            ${item.comment.author}
-                        </a>
+                        <div id="createcontent_author"></div>
                         <p> ${item.comment.comment}</p>
                     </div>
                 </div>
@@ -65,18 +63,16 @@
                 <div class="createcontent_item_related_info">
                     <p class="createcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.name}</span></p>
                     <div class="createcontent_item_img fl-force-left">
-                    <a href="#">
+                    <a href="/content#content_path=/p/${item['jcr:name']}">
                         <img class="s3d-icon-32" src="/dev/images/accept.png" />
                     </a>
                     </div>
                     <div class="createcontent_item_div">
-                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/createcontent#createcontent_path">
+                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}">
                             ${item.relatedContent.name}
                         </a>
                         ${item.relatedContent.type} __MSG__BY__
-                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/createcontent#createcontent_path">
-                            ${item.relatedContent.name}
-                        </a>
+                        <div id="createcontent_related_content_author"></div>
                     </div>
 
                 </div>
@@ -91,6 +87,18 @@
             --></div>
         </div>
     </div>
+
+    <div id="createcontent_item_comment_author_template"><!--
+        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
+            ${author.authorName}
+        </a>
+    --></div>
+
+    <div id="createcontent_item_related_content_author_template"><!--
+        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
+            ${author.authorName}
+        </a>
+    --></div>
 
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner"></div>
