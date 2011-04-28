@@ -2120,6 +2120,7 @@ define(function(){
                     "_altTitle": "${user}'s Library",
                     "main": {
                         "_ref": "9834611274",
+                        "_order": 0,
                         "_title": "Content"
                     }
                 },
@@ -2130,6 +2131,7 @@ define(function(){
                     "_altTitle": "${user}'s Memberships",
                     "main": {
                         "_ref": "213623673",
+                        "_order": 0,
                         "_title": "Memberships"
                     }
                 },
@@ -2140,6 +2142,7 @@ define(function(){
                     "_altTitle": "${user}'s Contacts",
                     "main": {
                         "_ref": "1193715035",
+                        "_order": 0,
                         "_title": "Contacts"
                     }
                 }

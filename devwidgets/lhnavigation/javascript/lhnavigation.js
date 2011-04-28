@@ -218,8 +218,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!selected){
                 for (var first = 0; first < privstructure.orderedItems.length; first++){
                     if (privstructure.orderedItems[first]._childCount > 1) {
-                        for (var second = 0; second < privstructure.orderedItems[first].elements.length; second++){
-                            selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first].elements[second]._id;
+                        for (var second = 0; second < privstructure.orderedItems[first]._elements.length; second++){
+                            selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first]._elements[second]._id;
                             break;
                         }
                     } else {
@@ -231,8 +231,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!selected){
                 for (var first = 0; first < pubstructure.orderedItems.length; first++){
                     if (pubstructure.orderedItems[first]._childCount > 1) {
-                        for (var second = 0; second < pubstructure.orderedItems[first].elements.length; second++){
-                            selected = pubstructure.orderedItems[first]._id + "/" + pubstructure.orderedItems[first].elements[second]._id;
+                        for (var second = 0; second < pubstructure.orderedItems[first]._elements.length; second++){
+                            selected = pubstructure.orderedItems[first]._id + "/" + pubstructure.orderedItems[first]._elements[second]._id;
                             break;
                         }
                     } else {
