@@ -17,7 +17,7 @@
 #savecontent_title {font-size: 13px; margin: 10px 10px 5px;}
 #savecontent_select {margin-top:10px;width:220px;/*color:#336699;font-weight:bold;*/}
 #savecontent_widget button{margin:10px 10px 10px 0px;}
-#savecontent_widget .savecontent_close{padding-top:3px;}
+#savecontent_widget .savecontent_close{padding-top:3px; margin-left: 10px;}
 #savecontent_widget .savecontent_header_arrow{margin-left: 110px;font-size: 0px; line-height: 0%; width: 0px;
     border-top: 0;
     border-bottom: 15px solid #e4e3e3;
