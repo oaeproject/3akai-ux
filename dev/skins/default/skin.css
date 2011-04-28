@@ -1,2 +1,5 @@
 /* Default Custom Skin File */
-#topnav_logo{height:90px;background:url('images/NYU.png') no-repeat;}
+#topnav_logo{height:90px;background:url('images/STU.png') no-repeat;}
+#explore_navigation {background:url("/dev/images/explore_navigation_bg.png") repeat-x scroll left bottom #E5E6E7;box-shadow:0px 11px 7px -11px inset;-moz-box-shadow:0px 11px 7px -11px inset;-webkit-box-shadow:0px 11px 7px -11px inset;}
+#explore_navigation #explore_navigation_choose_category {background: url("/dev/images/explore_choose_category_bg.png") repeat-x scroll left top transparent;border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px;-webkit-border-radius:0 0 2px 2px;color: #FFFFFF;display: inline-block;float: right;height: 38px;line-height: 38px;padding: 0 20px;cursor:pointer;margin-right:20px;}
+#explore_content {background:url("/dev/images/explore_top_dropshadow.png") no-repeat top center transparent;}

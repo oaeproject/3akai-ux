@@ -864,7 +864,7 @@ define(function(){
                 "url": "/dev/createnew.html"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
