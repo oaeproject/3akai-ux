@@ -404,6 +404,23 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             return supported;
         },
 
+        getCreatorProfile : function(content, callback) {
+            $.ajax({
+                url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+                success: function(profile){
+                    if ($.isFunction(callback)) {
+                       callback(true, profile);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)){
+                        callback(false, xhr);
+                    }
+                }
+            });
+
+        },
+
         hasPreview : function(content){
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
@@ -416,7 +433,6 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             }
             return result;
         }
-
     };
     return sakai_content;
 });
