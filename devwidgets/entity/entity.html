@@ -143,6 +143,11 @@
         {else}
             <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
         {/if}
+        <span class="entity_comments">
+            <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="comments-icon" />
+            {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+            <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+        </span>
         <span class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
             <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
@@ -153,8 +158,8 @@
             {else}
                 {var firstuser = data.members.managers[0].basic.elements}
                 __MSG__PRIVATE_TO__ ${firstuser.firstName.value} ${firstuser.lastName.value}
-                {if peopleCount > 1}
-                    + ${peopleCount - 1} __MSG__OTHERS__
+                {if (peopleCount + groupCount) > 1}
+                    + ${groupCount + peopleCount - 1} __MSG__OTHERS__
                 {/if}
             {/if}
         </span>

@@ -73,7 +73,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var fullSizeContainer = $("#contentpreview_fullsize_preview");
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template"), {}, fullSizeContainer);
             sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:sakData}]);
-            $("#contentpreview_fullsize_preview").show();
         };
 
         var renderDefaultPreview = function(){
@@ -116,23 +115,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var determineFileCreator = function(){
-            $.ajax({
-                url: "/~" + sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
-                success: function(profile){
-                    sakai_global.content_profile.content_data.creator = sakai.api.User.getDisplayName(profile);
-                    determineDataType();
-                    bindButtons();
-                },
-                error: function(xhr, textStatus, thrownError){
-                    determineDataType();
-                    bindButtons();
-                }
-            });
-        };
-
         $(window).bind("start.contentpreview.sakai", function(){
-            determineFileCreator();
+            determineDataType();
+            bindButtons();
         });
 
         $(window).bind("updated.version.content.sakai",function() {

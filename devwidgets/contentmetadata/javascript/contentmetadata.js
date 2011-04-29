@@ -202,12 +202,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var renderDetails = function(mode){
             sakai_global.content_profile.content_data.mode = mode;
-            var json = {
-                data: sakai_global.content_profile.content_data,
-                sakai: sakai
-            };
-            $contentmetadataDetailsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json));
-            addEditBinding(mode);
+            sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, profile) {
+                var json = {
+                    data: sakai_global.content_profile.content_data,
+                    sakai: sakai,
+                    creator: profile
+                };
+                sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json, $contentmetadataDetailsContainer);
+                addEditBinding(mode);
+            });
         };
 
         var createActivity = function(activityMessage){
