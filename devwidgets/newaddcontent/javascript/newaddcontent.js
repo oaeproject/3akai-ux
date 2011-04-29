@@ -465,6 +465,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if(arrayItem.type == "content"){
                     $.each(data, function(ii, savedItem){
                         if (savedItem.filename == arrayItem.originaltitle) {
+                            arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
                             var obj = {
                                 "url": "/p/" + savedItem.hashpath,
@@ -496,6 +497,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     requests: $.toJSON(objArr)
                 },
                 success: function(data){
+                    // save tags
+                    var tags = [];
+                    $.each(itemsToUpload, function(i,arrayItem){
+                        sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath, arrayItem.tags.split(","),tags, function(){});
+                    });
+
                     checkUploadCompleted(true);
                 }, error: function(){
                     checkUploadCompleted(true);
