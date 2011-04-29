@@ -47,6 +47,25 @@
             <div class="creategroups_item_border"></div>
             {/if}
 
+            {if entry[0].manager}
+            <div class="creategroups_item_related_info">
+                <p class="creategroups_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span class="s3d-bold">${entry[0].groupid}</span></p>
+                <div class="creategroups_item_img fl-force-left">
+                <a href="#">
+                    <img class="s3d-icon-32" src="/dev/images/accept.png" />
+                </a>
+                </div>
+                <div class="creategroups_item_div">
+                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="#">
+                        Study Group12
+                    </a>
+                    Study Group
+                </div>
+            </div>
+            <div class="creategroups_item_border"></div>
+            {/if}
+            
+
             <div class="creategroups_seeall_button">
                 <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/dev/user.html#l=library">
                     __MSG__SEE_ALL_MY_CONTENT__

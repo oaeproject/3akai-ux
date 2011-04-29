@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Utility functions //
         ///////////////////////
 
-        var renderTemplate = function(success, data){
+        var renderTemplate = function(data){
             var item = {author:{}};
             item.author.authorId = data.userid;
             item.author.authorName = sakai.api.User.getDisplayName(data);
@@ -128,6 +128,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handlecreategroupsData = function(success, data) {
             if(success) {
+                // get content and render it
                 getRelatedContent(data);
             }
         };
@@ -169,31 +170,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Retrieve the manager render it.
+         */
+        var getManager = function (newjson){
+            sakai.api.Groups.getManagers(newjson.entry[0].groupid, function(success, managerData){
+                newjson.entry[0].manager = managerData[0];
+                console.log(newjson);
+                $(creategroupsItem, rootel).html(sakai.api.Util.TemplateRenderer(creategroupsItemTemplate,newjson));
+            });
+        };
+
+        /**
          * Fetches the related content
          */
         var getRelatedContent = function(newjson){
-            var searchterm = newjson.entry[0]["sakai:group-title"];
-            searchquery = prepSearchTermForURL(searchterm);
-
-            // get related content for contentData
-            // return some search results for now
+            // get related content for group
             var params = {
-                "items" : "11"
+                "userid" : newjson.entry[0].groupid,
+                "page" : 0,
+                "items" : 10,
+                "sortOn" :"_lastModified",
+                "sortOrder":"desc"
             };
-            var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
-            if (searchquery === '*' || searchquery === '**') {
-                url = sakai.config.URL.SEARCH_ALL_FILES_ALL;
-            } else {
-                params["q"] = searchquery;
-            }
+            var url = "/var/search/pool/manager-viewer.json";
             $.ajax({
                 url: url,
                 data: params,
                 success: function(relatedContent){
-                   newjson.entry[0].relatedContent = parseDataResult(relatedContent.results[0]);
-                   //get related content author
-                   sakai.api.User.getUser(relatedContent.results[0]["sakai:pool-content-created-for"],renderRelatedContentTemplate);
-                   $(creategroupsItem, rootel).html(sakai.api.Util.TemplateRenderer(creategroupsItemTemplate,newjson));
+                    if(relatedContent.results.length > 0){
+                        newjson.entry[0].relatedContent = parseDataResult(relatedContent.results[0]);    
+                        //get related content author
+                        sakai.api.User.getUser(relatedContent.results[0]["sakai:pool-content-created-for"],renderRelatedContentTemplate);
+                    }
+                    // get manager information
+                    getManager(newjson);
                 }
             });
         };
