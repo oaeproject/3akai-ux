@@ -150,6 +150,9 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
             sakai.api.Widgets.Container.informFinish(tuid, "basiclti");
         };
 
+        var isSakai2Tool = function() {
+            return false;
+        };
 
         //////////////////////
         // Render functions //
@@ -243,10 +246,28 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
          * Save the basiclti to the jcr
          */
         var saveRemoteContent = function(){
-            if (json.ltiurl !== "") {
+            var  saveContentAjax = function(json_data) {
+                var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: json,
+                    success: function(data) { 
+                        savedDataToJCR(true, data); 
+                    }
+                }); 
+                // Because we need to use a particular servlet (LiteBasicLTI), and it
+                // requires some different options, we make our own ajax call above
+                // instead of using saveWidgetData for now.
+                // 
+                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);                
+            };
+
+            if (isSakai2Tool()) {
+                json["lti_virtual_tool_id"] = $('#basiclti_settings_lti_virtual_tool_id').val();    
+
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
-                json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";
                 json.ltikey = $(basicltiSettingsLtiKey).val() || "";
                 json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
                 json["debug@TypeHint"] = "Boolean";
@@ -262,20 +283,28 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
                 json.defined = ""; // what the heck is this? Where does it come from?
                 json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
 
-                var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: json,
-                    success: function(data) { 
-                        savedDataToJCR(true, data); 
-                    }
-                }); 
-                // Because we need to use a particular servlet (LiteBasicLTI), and it
-                // requires some different options, we make our own ajax call above
-                // instead of using saveWidgetData for now.
-                // 
-                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
+                saveContentAjax(json);
+            }
+            else if (json.ltiurl !== "") {
+                json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";    
+                json[":operation"] = "basiclti";
+                json["sling:resourceType"] = "sakai/basiclti";
+                json.ltikey = $(basicltiSettingsLtiKey).val() || "";
+                json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
+                json["debug@TypeHint"] = "Boolean";
+                json.debug = $('#basiclti_settings_debug:checked').val() !== null;
+                json["release_names@TypeHint"] = "Boolean";
+                json.release_names = $('#basiclti_settings_release_names:checked').val() !== null;
+                json["release_principal_name@TypeHint"] = "Boolean";
+                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked').val() !== null;
+                json["release_email@TypeHint"] = "Boolean";
+                json.release_email = $('#basiclti_settings_release_email:checked').val() !== null;
+                json.launchDataUrl = ""; // does not need to be persisted
+                json.tuidFrame = ""; // does not need to be persisted
+                json.defined = ""; // what the heck is this? Where does it come from?
+                json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
+
+                saveContentAjax(json);
             }
             else {
                 sakai.api.Util.notification.show("", sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_URL"),
@@ -424,6 +453,7 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
                     width_unit: defaultWidthUnit
                 };
             }
+            json.isSakai2Tool = isSakai2Tool();
             renderRemoteContentSettings();
             //renderIframeSettings(true); // LDS disabled preview
             renderColorContainer();

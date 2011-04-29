@@ -11,12 +11,39 @@
     <form>
         <div class="basiclti_settings_subcontainer">
             <p>
+            {if isSakai2Tool === true}
+                <label for="basiclti_settings_lti_virtual_tool_id">Tool:</label>
+                <select id="basiclti_settings_lti_virtual_tool_id" name="lti_virtual_tool_id">
+                    <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
+                    <option value="sakai.assignment.grades">__MSG__ASSIGNMENTS__</option>
+                    <option value="sakai.schedule">__MSG__CALENDAR__</option>
+                    <option value="sakai.summary.calendar">__MSG__CALENDAR_SUMMARY__</option>
+                    <option value="sakai.chat">__MSG__CHAT_ROOM__</option>
+                    <option value="sakai.dropbox">__MSG__DROP_BOX__</option>
+                    <option value="sakai.mailbox">__MSG__EMAIL_ARCHIVE__</option>
+                    <option value="sakai.forums">__MSG__FORUMS__</option>
+                    <option value="sakai.gradebook.tool">__MSG__GRADEBOOK__</option>
+                    <option value="sakai.messages">__MSG__MESSAGES__</option>
+                    <option value="sakai.news">__MSG__NEWS__</option>
+                    <option value="sakai.poll">__MSG__POLLS__</option>
+                    <option value="sakai.postem">__MSG__POSTEM__</option>
+                    <option value="sakai.profile">__MSG__PROFILE__</option>
+                    <option value="sakai.profile2">__MSG__PROFILE2__</option>
+                    <option value="sakai.resources">__MSG__RESOURCES__</option>
+                    <option value="sakai.site.roster">__MSG__ROSTER__</option>
+                    <option value="sakai.rwiki">__MSG__RWIKI__</option>
+                    <option value="sakai.singleuser">__MSG__SINGLE_USER__</option>
+                    <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
+                    <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
+                </select>
+            {else}
                 <label for="basiclti_settings_ltiurl">__MSG__URL__: </label>
                 <input type="text" id="basiclti_settings_ltiurl" value="${ltiurl}" /><br />
                 <label for="basiclti_settings_ltikey">__MSG__KEY__: </label>
                 <input type="text" id="basiclti_settings_ltikey" value="${ltikey}" /><br />
                 <label for="basiclti_settings_ltisecret">__MSG__SECRET__: </label>
                 <input type="text" id="basiclti_settings_ltisecret" value="${ltisecret}" /><br />
+            {/if}
             </p>
             <p>
                 <label class="basiclti_settings_label_head"></label> <span><br class="fl-push" />
@@ -65,7 +92,7 @@
             <div class="basiclti_settings_subcontainer">
                 <label class="basiclti_settings_label_head">__MSG__BORDER__:</label><br />
                 <div class="basiclti_settings_block">
-                    <label for="basiclti_settings_borders">__MSG__WIDTH:</label>
+                    <label for="basiclti_settings_borders">__MSG__WIDTH__:</label>
                     <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
                     <div id="basiclti_settings_color_container">
                     </div>
