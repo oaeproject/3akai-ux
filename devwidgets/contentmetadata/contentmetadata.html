@@ -113,6 +113,14 @@
             <span>${data.data["_mimeType"]}</span>
         </div>
         <div class="contentmetadata_content_row">
+            <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
+            <span>
+                <a href="${creator.homePath}">
+                    ${sakai.api.User.getDisplayName(creator)}
+                </a>
+            </span>
+        </div>
+        <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_created"], sakai.data.me))}</span>
         </div>

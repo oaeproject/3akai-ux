@@ -207,11 +207,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var initAutoSuggest = function() {
                 var preFill = [];
-                if (toUser && toUser.uuid){
-                    preFill.push({
-                        "name": toUser.username,
-                        "value": toUser.uuid
-                    });
+                if (toUser) {
+                    if ($.isPlainObject(toUser) && toUser.uuid) {
+                        preFill.push({
+                            "name": toUser.username,
+                            "value": toUser.uuid,
+                            "type": usr.type
+                        });
+                    } else if (_.isArray(toUser)) {
+                        $.each(toUser, function(i,usr) {
+                            preFill.push({
+                                "name": usr.username,
+                                "value": usr.uuid,
+                                "type": usr.type
+                            });
+                        });
+                    }
+
+
                 }
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
                     asHtmlID: "sendmessage_to_autoSuggest",
@@ -267,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * Initializes the sendmessage widget, optionally preloading the message
              * with a recipient, subject and body. By default, the widget appears as
              * a modal dialog. This function can be called from other widgets or pages.
-             * @param {Object} userObj The user object containing the nescecary information {uuid:  "user1", username: "John Doe", type: "user"}, or a user profile
+             * @param {Object|Array} userObj The user object containing the nescecary information {uuid:  "user1", username: "John Doe", type: "user"}, or a user profile
              * @param {jQuery} $insertInId Insert the HTML into another element instead of showing it as a popup (String ID or jQuery)
              * @param {Object} callback When the message is sent this function will be called. If no callback is provided a standard message will be shown that fades out.
              * @param {String} subject The subject
@@ -275,12 +288,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * @param {Boolean} replyOnly hide the to: and subject: fields
              * @param {String} replyID The ID of the message you're replying to
              */
-            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID) {
+            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
                 layover = true;
                 // Make sure that everything is standard.
                 resetView();
                 // The user we are sending a message to.
-                if (userObj && userObj.username) {
+                if (userObj && (($.isPlainObject(userObj) && userObj.username) || _.isArray(userObj))) {
                     toUser = userObj;
                 } else {
                     toUser = false;
@@ -295,12 +308,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
 
                 if (replyOnly) {
-                    $(sendmessage_to).hide();
+                    $(sendmessage_to).find("label").hide();
                     $(sendmessage_subject).hide();
                     $(sendmessage_body).find("label").hide();
                 }
                 if (replyID) {
                     replyMessageID = replyID;
+                }
+
+                if (buttonText) {
+                    $("#send_message span").text(buttonText);
+                } else {
+                    $("#send_message span").text($("#sendmessage_default_button_text").text());
                 }
 
                 // Maybe we dont want to display a popup but instead want to add it in another div.
@@ -419,8 +438,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Initialization //
                 ////////////////////
                 $(window).unbind("initialize.sendmessage.sakai");
-                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID) {
-                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID);
+                $(window).bind("initialize.sendmessage.sakai", function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
+                    initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText);
                 });
             };
 
