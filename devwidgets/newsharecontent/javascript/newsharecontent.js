@@ -272,7 +272,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
     
         $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){
             $newsharecontentMessageArrow.toggleClass('arrow_down');
-            $newsharecontentMessageContainer.slideToggle();
+            $newsharecontentMessageContainer.stop(true, true).slideToggle();
         });
         
 
