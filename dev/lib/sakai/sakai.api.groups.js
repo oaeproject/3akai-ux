@@ -765,6 +765,24 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 }
             }
             return newjson;
+        },
+        
+        getTemplate: function(cat, id){
+            var category = false;
+            for (var i = 0; i < sakai_conf.worldTemplates.length; i++){
+                if (sakai_conf.worldTemplates[i].id === cat){
+                    category = sakai_conf.worldTemplates[i];
+                    break;
+                }
+            }
+            var template = false;
+            for (var i = 0; i < category.templates.length; i++){
+                if (category.templates[i].id === id){
+                    template = category.templates[i];
+                    break;
+                }
+            }
+            return template;
         }
         
     };

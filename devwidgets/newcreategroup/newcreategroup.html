@@ -3,7 +3,7 @@
 
 <!-- CONTAINER -->
 <div id="newcreategroup_container" style="display:none;">
-    <h1>__MSG__CREATE_SIMPLE_GROUP__</h1>
+    <h1>__MSG__CREATE_A__ <span id="newcreategroup_template_name"></span></h1>
     <hr/>
 
     <div id="newcreategroup_group_members_container">
@@ -19,17 +19,17 @@
 
     <div id="newcreategroup_group_data_container">
         <form id="newcreategroup_group_form">
-            <label for="newcreategroup_title">__MSG__GROUP_TITLE__</label>
+            <label for="newcreategroup_title">__MSG__TITLE__:</label>
             <input type="text" id="newcreategroup_title" class="required"/>
-            <label for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__</label>
+            <label for="newcreategroup_suggested_url">__MSG__SUGGESTED_URL__:</label>
             <span id="newcreategroup_suggested_url_base"></span><input type="text" id="newcreategroup_suggested_url" class="required"/>
-            <label for="newcreategroup_description">__MSG__DESCRIPTION__</label>
+            <label for="newcreategroup_description">__MSG__DESCRIPTION__:</label>
             <textarea id="newcreategroup_description"></textarea>
-            <label for="newcreategroup_tags">__MSG__TAGS__</label>
+            <label for="newcreategroup_tags">__MSG__TAGS__:</label>
             <textarea id="newcreategroup_tags"></textarea>
 
             <div class="newcreategroup_section">
-                <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_IN__</label>
+                <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_BY__:</label>
                 <select id="newcreategroup_can_be_found_in">
                     <option value="public">__MSG__PUBLIC__</option>
                     <option value="logged-in-only">__MSG__LOGGED_IN_USERS__</option>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="newcreategroup_section">
-                <label for="newcreategroup_membership">__MSG__MEMBERSHIP__</label>
+                <label for="newcreategroup_membership">__MSG__MEMBERSHIP__:</label>
                 <select id="newcreategroup_membership">
                     <option value="yes">__MSG__JOIN_USER_DIRECT__</option>
                     <option value="withauth">__MSG__JOIN_USER_REQUEST__</option>
@@ -70,11 +70,11 @@
                         <img class="s3d-list-entity-picture" src="${user.picture}" alt="__MSG__PROFILE_PICTURE__"/>
                         <a href="~${user.userid}" title="${user.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${user.dottedname}</a>
                         <br/>
-                        {if user.permission == "viewer"}
-                            <span class="s3d-entity-displayname">__MSG__MEMBER__</span>
-                        {else}
-                            <span class="s3d-entity-displayname">__MSG__MANAGER__</span>
-                        {/if}
+                        {for role in roles}
+                            {if role.id == user.permission}
+                                <span class="s3d-entity-displayname">${role.title}</span>
+                            {/if}
+                        {/for}
                     </li>
                     {var index = index + 1}
                 {/for}

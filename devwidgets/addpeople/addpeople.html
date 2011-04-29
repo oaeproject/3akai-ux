@@ -16,10 +16,12 @@
             <button title="__MSG__REMOVE_SELECTED__" class="s3d-button s3d-button-link-2-state addpeople_remove_selected" type="button">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE_SELECTED__</span>
             </button>
-            <select id="addpeople_selected_all_permissions">
-                <option value="viewer">__MSG__MEMBER__</option>
-                <option value="manager">__MSG__MANAGER__</option>
-            </select>
+            <select id="addpeople_selected_all_permissions"></select>
+            <div id="addpeople_selected_permissions_template"><!--
+                {for role in roles}
+                    <option value="${role.id}">${role.title}</option>
+                {/for}
+            --></div>
         </div>
         <div id="addpeople_selected_contacts_container"><!----></div>
     </div>
@@ -53,8 +55,9 @@
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
                 <a href="~${contact.userid}" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
-                    <option value="viewer" {if contact.permission == "viewer"} selected="selected"{/if}>__MSG__MEMBER__</option>
-                    <option value="manager" {if contact.permission == "manager"} selected="selected"{/if}>__MSG__MANAGER__</option>
+                    {for role in roles}
+                        <option value="${role.id}" {if contact.permission == role.id} selected="selected" {/if}>${role.title}</option>
+                    {/for}
                 </select>
             </li>
             {var index = index + 1}

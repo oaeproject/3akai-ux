@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.addpeople = function(tuid, showSettings){
+    sakai_global.addpeople = function(tuid, showSettings, widgetData){
 
 
         /////////////////////////////
@@ -65,6 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $addpeopleMembersAutoSuggestField = $("#addpeople_members_autosuggest_field");
 
         var selectedUsers = {};
+        var currentTemplate = false;
 
 
         ///////////////
@@ -81,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderSelectedContacts = function(){
-            $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {"contacts":selectedUsers}));
+            $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {"contacts":selectedUsers, "roles": currentTemplate.roles}));
         };
 
 
@@ -110,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Also hide the overlay
          */
         var finishAdding = function(){
-            $(window).trigger("sakai.addpeople.usersselected", selectedUsers);
+            $(window).trigger("sakai.addpeople.usersselected", [tuid, selectedUsers]);
             $addpeopleContainer.jqmHide();
         };
 
@@ -146,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         userid: $(this)[0].id.split("_")[0],
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
                         dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
-                        permission: "viewer",
+                        permission: roleList[0].id,
                         picture: $(this).next().children("img").attr("src")
                     }
                     selectedUsers[userObj.userid] = userObj;
@@ -219,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 userid: userid[1],
                 name: userData.attributes.name,
                 dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
-                permission: "viewer",
+                permission: roleList[0].id,
                 picture: pictureURL
             };
             selectedUsers[userObj.userid] = userObj;
@@ -313,18 +314,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeopleFinishAdding.bind("click", finishAdding);
             $addpeopleRemoveSelected.bind("click", removeSelected);
         };
-
+        
+        var loadRoles = function(){
+            currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
+            $("#addpeople_selected_all_permissions").html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
+        }
 
         ////////////
         // EVENTS //
         ////////////
 
-        $(window).bind("init.addpeople.sakai", function(e, data){
-            addBinding();
-            initializeJQM();
-            fetchUsersGroups();
-            sakai.api.User.getContacts(renderContacts);
-            enableDisableControls();
+        $(window).bind("init.addpeople.sakai", function(e, initTuid){
+            debug.log(initTuid);
+            if (initTuid === tuid) {
+                loadRoles();
+                addBinding();
+                initializeJQM();
+                fetchUsersGroups();
+                sakai.api.User.getContacts(renderContacts);
+                enableDisableControls();
+            }
         });
     };
 
