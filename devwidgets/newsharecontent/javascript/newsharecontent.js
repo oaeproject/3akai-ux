@@ -48,8 +48,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /////////////////////////////
 
         // Containers
-        var $newsharecontentContainer = $("#newsharecontent_container");
-
+        var $newsharecontentContainer = $("#newsharecontent_widget");
+        var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
+        
         // Elements
         var $newsharecontentLinkURL = $("#newsharecontent_linkurl");
         var $newsharecontentSharelist = $("#newsharecontent_sharelist");
@@ -57,6 +58,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         $newsharecontentSendButton = $("#sharecontent_send_button");
         var newsharecontentListItem = ".as-selection-item";
         var newsharecontentShareListContainer = "#newsharecontent_sharelist_container";
+        var $newsharecontentMessageToggle = $('label.toggletext',$newsharecontentContainer);
+        var $newsharecontentMessageArrow = $('#newsharecontent_message_arrow');
+        var $newsharecontentHeading = $('#newsharecontent_heading');
 
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
@@ -67,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ///////////////
 
         var fillShareData = function(hash){
-            $newsharecontentLinkURL.val(window.location);
+        	$newsharecontentLinkURL.val(window.location);
             var shareData = {
                 "filename": "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
                 "path": window.location,
@@ -79,6 +83,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (hash) {
                 hash.w.show();
             }
+            var tbx = $('#toolbox');
+            if(tbx.find('a').length===0){
+                var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
+                for (var s in svcs) {
+                    tbx.append('<a class="addthis_button_'+s+'"></a>');
+                }
+                addthis.toolbox("#toolbox");
+            }
+
+                
+            
+            
         };
 
         var resetWidget = function(hash){
@@ -104,11 +120,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $.each(data.results, function(i){
                         if (data.results[i]["rep:userId"]) {
                             name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = "user/" + data.results[i]["rep:userId"];
+                            value = data.results[i]["rep:userId"];
                             type = "user";
                         }  else if (data.results[i]["sakai:group-id"]) {
                                 name = data.results[i]["sakai:group-title"];
-                                value = "group/" + data.results[i]["sakai:group-id"];
+                                value = data.results[i]["sakai:group-id"];
                                 type = "group";
                             }
                         suggestions.push({"value": value, "name": name, "type": type});
@@ -135,6 +151,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             list = list.split(",");
             var removed = 0;
             $(list).each(function(i, val) {
+
                if (val === "") {
                    list.splice(i - removed, 1);
                    removed += 1;
@@ -147,7 +164,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 // In IE 7 </A> is returned and in firefox </a>
                 toAddNames.push($(this).html().split(/<\/[aA]?>/g)[1]);
             });
-
             var returnValue = {"list":list, "toAddNames":toAddNames};
 
             return returnValue;
@@ -172,8 +188,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
             var messageText = $.trim($newsharecontentMessage.val());
             if (userList.list.length && messageText) {
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, false, "shared_content");
-
+                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
                 var toAddList = userList.list.slice();
                 var removed = 0;
                 for (var i in toAddList) {
@@ -233,23 +248,33 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var addBinding = function(){
             $newsharecontentContainer.jqm({
-                modal: true,
-                overlay: 20,
+                modal: false,
+                overlay: 1,
                 toTop: true,
                 zIndex: 3000,
                 onShow: fillShareData,
                 onHide: resetWidget
             });
 
-            $(window).bind("init.sharecontent.sakai", function(e, config, callbackFn){
-                $newsharecontentContainer.jqmShow();
+            
+            $('#entity_content_share').live('click',function(){
+                var $this = $(this);
+                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
+                $newsharecontentContainer.jqmShow(); 
             });
+            //$(window).bind("init.sharecontent.sakai", function(e, config, callbackFn){});
 
             $newsharecontentSendButton.unbind("click", doShare);
             $newsharecontentSendButton.bind("click", doShare);
 
         };
 
+    
+        $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){
+            $newsharecontentMessageArrow.toggleClass('arrow_down');
+            $newsharecontentMessageContainer.slideToggle();
+        });
+        
 
         ////////////////////
         // INITIALIZATION //
@@ -258,6 +283,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var init = function(){
             addBinding();
             fetchUsersGroups();
+            var ajaxcache = $.ajaxSettings.cache;
+            $.ajaxSettings.cache = true;
+            $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
+            $.ajaxSettings.cache = ajaxcache;
         };
 
         init();
