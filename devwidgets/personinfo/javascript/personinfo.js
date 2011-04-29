@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $personinfo_widget.jqm({
             modal: false,
             overlay: 0,
-            zIndex: 1000,
+            zIndex: 900,
             toTop: true
         });
 
@@ -145,11 +145,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                                 // get content items for the user
                                 $.ajax({
-                                    url: sakai.config.URL.SEARCH_ALL_FILES_ALL,
+                                    url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                                     data: {
                                         "page": 0,
                                         "items": 20,
-                                        "q": userId
+                                        "userid": userId
                                     },
                                     success: function(data){
                                         // Truncate long filenames

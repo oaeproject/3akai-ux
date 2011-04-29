@@ -8,7 +8,7 @@
         <div class="personinfo_header_arrow"></div>
         <!-- PERSONINFO CONTENT -->
         <div class="personinfo_outer clearfix">
-            <button class="personinfo_close s3d-link-button" title="__MSG__CLOSE__"><div id="personinfo_close"></div></button>
+            <button id="personinfo_close_button" class="personinfo_close s3d-link-button" title="__MSG__CLOSE__"><div id="personinfo_close"></div></button>
             <div class="personinfo_inner">
                 <div id="personinfo_container"></div>
             </div>
@@ -58,13 +58,15 @@
                 {/if}
                 </div>
                 <div class="personinfo_content_list_right">
-                    <span class="personinfo_content_name s3d-regular-links s3d-bold">${i["sakai:pooled-content-file-name"]}</span>
+                    <a href="/content#content_path=/p/${i['jcr:name']}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
                     {if mimeTypeDescription}
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}
-                    <span class="personinfo_content_plus s3d-regular-links s3d-bold" style="display:none;">+</span>
                     <p class="personinfo_content_text">__MSG__USED_IN__ 2 __MSG__PLACES__</p>
                     <p class="personinfo_content_text">17 __MSG__COMMENTS__</p>
+                    <span class="personinfo_content_plus">
+                        <button type="button" class="savecontent_trigger s3d-link-button s3d-action" data-entityid="${i['jcr:name']}" title="__MSG__SAVE_CONTENT__">+</button>
+                    </span>
                 </div>
             </li>
         {forelse}
