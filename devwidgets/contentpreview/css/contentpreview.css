@@ -28,7 +28,7 @@
  
  /*Content Preview template*/
  /* Image formatting */
- .contentpreview_other_preview { max-width:920px; max-height: 560px;  display:none; }
+ .contentpreview_other_preview { max-width:920px; max-height: 560px;}
  .contentpreview_noborder { border:none;}
  .contentpreview_overflowhidden { overflow: hidden}
 
