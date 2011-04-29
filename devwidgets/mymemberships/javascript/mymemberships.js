@@ -302,6 +302,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 $("#mymemberships_msggroup_" + groupid).live("click", function() {
+                    $(window).trigger("done.tooltip.sakai");
+                    $("#mymemberships_item_" + groupid).removeClass("mymemberships_item_hovered");
                     var to = {
                         type: "group",
                         uuid: groupid,
