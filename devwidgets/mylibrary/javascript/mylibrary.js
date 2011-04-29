@@ -122,14 +122,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} bundleKey The message bundle key
          */
         var getPersonalizedText = function (bundleKey) {
-            if (mylibrary.isOwnerViewing) {
+            if(sakai_global.currentgroup){
+                return sakai.api.i18n.Widgets.getValueForKey(
+                    "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
+                        sakai_global.currentgroup.data.authprofile["sakai:group-title"]);
+            } else if (mylibrary.isOwnerViewing) {
                 return sakai.api.i18n.Widgets.getValueForKey(
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
                         sakai.api.i18n.General.getValueForKey("YOUR").toLowerCase());
             } else {
-                if (!sakai_global.currentgroup) {
-                    return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
-                }
+                return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
             }
         };
 
@@ -409,9 +411,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function () {
             var contextId = "";
             var contextName = "";
+            var isGroup = false;
             if (sakai_global.currentgroup) {
                 contextId = sakai_global.currentgroup.id;
                 contextName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
+                isGroup = true;
                 if (sakai_global.currentgroup.manager) {
                     mylibrary.isOwnerViewing = true;
                 }
@@ -428,7 +432,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 mylibrary.currentPagenum = 1;
                 getLibraryItems(contextId, renderLibraryItems);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
-                    isMe: mylibrary.isOwnerViewing, 
+                    isMe: mylibrary.isOwnerViewing,
+                    isGroup: isGroup,
                     firstName: contextName
                 }, $("#mylibrary_title_container", $rootel));
             } else {

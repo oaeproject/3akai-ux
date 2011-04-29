@@ -73,7 +73,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var fullSizeContainer = $("#contentpreview_fullsize_preview");
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template"), {}, fullSizeContainer);
             sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:sakData}]);
-            $("#contentpreview_fullsize_preview").show();
         };
 
         var renderDefaultPreview = function(){
