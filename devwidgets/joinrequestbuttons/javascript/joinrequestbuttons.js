@@ -234,6 +234,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $joinrequestbuttons_join.live("click", function (ev) {
+            hideButtons();
             var groupid = this.id.split("joinrequestbuttons_join_")[1];
             if (!groupid || $.trim(groupid) === "") {
                 debug.error("No group id found");

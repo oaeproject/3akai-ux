@@ -93,6 +93,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         // Place message functionality
                     });
                     break;
+                case "group":
+                    $(window).bind("ready.joinrequestbuttons.sakai", function() {
+                        $(window).trigger("init.joinrequestbuttons.sakai", [
+                            context.data.authprofile.groupid,
+                            context.data.authprofile["sakai:group-joinable"],
+                            1 /*FIXME manager count */,
+                            function (renderedButtons) {
+                                // onShow
+                                $("#" + tuid +" #joinrequestbuttons_widget").show();
+                            }
+                        ]);
+                    });
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, "#"+tuid);
+                    break;
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
                 case "content_shared": //fallthrough
