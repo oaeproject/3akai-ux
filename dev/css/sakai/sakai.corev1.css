@@ -5,7 +5,7 @@
 .s3d-page-content-padding{padding: 10px 15px 20px;}
 .s3d-page-content-lowpadding{padding: 0px 15px 20px;}
 .s3d-page-full{height:100px;}
-.s3d-navigation-container{background: url("/devwidgets/topnavigation/images/topnav_bg.png") repeat-x scroll left top transparent;box-shadow:5px 0 6px;-webkit-box-shadow:5px 0 6px;box-shadow:5px 0 6px;height: 40px;margin-left: auto;margin-right: auto;position: absolute;width: 100%;z-index: 999;}
+.s3d-navigation-container{background: url("/devwidgets/topnavigation/images/topnav_bg.png") repeat-x scroll left top transparent;-moz-box-shadow:0 -5px 9px 6px #555555;-webkit-box-shadow:0 -5px 9px 6px #555555;box-shadow:0 -5px 9px 6px #555555;height: 40px;margin-left: auto;margin-right: auto;position: absolute;width: 100%;z-index: 999;}
 .s3d-page-header{background:url("/devwidgets/entity/images/entity_bottom_bordershadow.png") repeat-x scroll left bottom, url("/devwidgets/entity/images/entity_bg.png") repeat-x scroll left top #E6EBEE;border-bottom: 1px solid #B3B3B4;height: 45px;margin-top: 40px;padding:24px 20px 12px;width: 930px;}
 .s3d-fixed-container .s3d-container-shadow-left, .s3d-container-shadow-right {background: url("/dev/images/container_shadow_left.png") no-repeat scroll 0 0 transparent;height: 346px;margin-left: -5px;position: absolute;width: 5px;}
 .s3d-container-shadow-right{background: url("/dev/images/container_shadow_right.png") no-repeat scroll 0 0 transparent;float: right;margin-left: 960px;}
