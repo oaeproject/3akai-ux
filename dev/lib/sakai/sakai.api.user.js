@@ -156,7 +156,7 @@ define(["jquery",
             });
 
         },
-        
+
         getUser: function(userid, callback){
             var authprofileURL = "/~" + userid + "/public/authprofile";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -451,16 +451,26 @@ define(["jquery",
         },
 
         getContacts : function(callback) {
-            $.ajax({
-                url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
-                cache: false,
-                success: function(data) {
-                    sakaiUserAPI.data.me.mycontacts = data.results;
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
+            if (this.data.me.mycontacts) {
+                if ($.isFunction(callback)) {
+                    callback();
                 }
-            });
+            } else {
+                // has to be synchronous
+                $.ajax({
+                    url: sakai_conf.URL.CONTACTS_FIND_ALL + "?page=0&items=100",
+                    async: false,
+                    success: function(data) {
+                        $.each(data.results, function(index, contact){
+                            contact.profile.basic.elements.picture = sakai_util.constructProfilePicture(contact.profile);
+                        });
+                        sakaiUserAPI.data.me.mycontacts = data.results;
+                        if ($.isFunction(callback)) {
+                            callback();
+                        }
+                    }
+                });
+            }
         },
 
         checkIfConnected : function(userid) {
@@ -636,7 +646,7 @@ define(["jquery",
                 });
             }
         }
-        
+
     };
 
     return sakaiUserAPI;
