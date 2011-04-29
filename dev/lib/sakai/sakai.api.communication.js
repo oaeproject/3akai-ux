@@ -319,51 +319,49 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         /**
          * Processes the messages from the server, stripping out everything we don't need
          */
-        processMessages : function(data, doFlip) {
+        processMessages : function(data) {
             var messages = {},
                 ret = $.extend(true, {}, data);
             $.each(ret, function(i, msg) {
                 var newMsg = {};
-                // these need to be fixed to allow for multiple people from and to
-                newMsg.from = {};
-                newMsg.from.name = sakai_user.getDisplayName(msg.userFrom[0]);
-                if (msg.userFrom[0].basic.elements.picture) {
-                    var parsedPic = $.parseJSON(msg.userFrom[0].basic.elements.picture.value);
-                    newMsg.from.picture = parsedPic.url || sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
-                } else {
-                    newMsg.from.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
-                }
-                newMsg.from.userObj = {
-                    uuid: msg.userFrom[0].userid,
-                    username: sakai_user.getDisplayName(msg.userFrom[0]),
-                    type: "user"
+                newMsg.replyAll = [];
+                newMsg.from = {
+                    name:  msg.userFrom[0].userid ? sakai_user.getDisplayName(msg.userFrom[0]) : msg.userFrom[0]["sakai:group-title"],
+                    picture: sakai_util.constructProfilePicture(msg.userFrom[0]),
+                    userObj : {
+                        uuid: msg.userFrom[0].userid ? msg.userFrom[0].userid : msg.userFrom[0].groupid,
+                        username: msg.userFrom[0].userid ? sakai_user.getDisplayName(msg.userFrom[0]) : msg.userFrom[0]["sakai:group-title"],
+                        type: msg.userFrom[0].userid ? "user" : "group"
+                    }
                 };
-                newMsg.to = {};
-                newMsg.to.name = sakai_user.getDisplayName(msg.userTo[0]);
-                if (msg.userTo[0].basic.elements.picture) {
-                    var parsedPic1 = $.parseJSON(msg.userTo[0].basic.elements.picture.value);
-                    newMsg.to.picture = parsedPic1.url || sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
-                } else {
-                    newMsg.to.picture = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                if (newMsg.from.userObj.uuid !== sakai_user.data.me.user.userid) {
+                    newMsg.replyAll.push(newMsg.from.userObj);
                 }
-                newMsg.to.userObj = {
-                    uuid: msg.userTo[0].userid,
-                    username: sakai_user.getDisplayName(msg.userTo[0]),
-                    type: "user"
-                };
+                newMsg.to = [];
+                newMsg.toList = [];
+                $.each(msg.userTo, function(i, user) {
+                    var tmpUsr = {
+                        name : user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                        picture : sakai_util.constructProfilePicture(user),
+                        userObj : {
+                            uuid: user.userid ? user.userid : user.groupid,
+                            username: user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                            type: user.userid ? "user" : "group"
+                        }
+                    };
+                    if (user.userid !== sakai_user.data.me.user.userid) {
+                        newMsg.replyAll.push(tmpUsr.userObj);
+                    }
+                    newMsg.toList.push(tmpUsr.name);
+                    newMsg.to.push(tmpUsr);
+                });
                 newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
-                newMsg.nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
+                newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                 newMsg.subject = msg["sakai:subject"];
-                //Jan 22, 2009 10:25 PM
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
                 newMsg.id = msg.id;
                 newMsg.read = msg["sakai:read"];
                 newMsg.path = msg["jcr:path"];
-                if (doFlip) {
-                    var tmp = newMsg.to;
-                    newMsg.to = newMsg.from;
-                    newMsg.from = tmp;
-                }
                 if (msg.previousMessage) {
                     newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
                     $.each(newMsg.previousMessage, function(i,val){
@@ -451,7 +449,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 url: url,
                 cache: false,
                 success: function(data){
-                    var count = data.count[0].count;
+                    var count = 0;
+                    if (data.count && data.count[0] && data.count[0].count) {
+                        count = data.count[0].count;
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, count);
                     }
