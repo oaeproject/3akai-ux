@@ -42,7 +42,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
      */
     sakai_global.newsharecontent = function(tuid, showSettings){
 
-
         /////////////////////////////
         // CONFIGURATION VARIABLES //
         /////////////////////////////
@@ -50,7 +49,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Containers
         var $newsharecontentContainer = $("#newsharecontent_widget");
         var $newsharecontentMessageContainer = $("#newsharecontent_message_container");
-        
+
         // Elements
         var $newsharecontentLinkURL = $("#newsharecontent_linkurl");
         var $newsharecontentSharelist = $("#newsharecontent_sharelist");
@@ -65,13 +64,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
 
-
         ///////////////
         // RENDERING //
         ///////////////
 
         var fillShareData = function(hash){
-        	$newsharecontentLinkURL.val(window.location);
+            $newsharecontentLinkURL.val(window.location);
             var shareData = {
                 "filename": "\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"",
                 "path": window.location,
@@ -91,10 +89,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
                 addthis.toolbox("#toolbox");
             }
-
-                
-            
-            
         };
 
         var resetWidget = function(hash){
@@ -105,14 +99,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(newsharecontentListItem).remove();
         };
 
-
         ////////////
         // SEARCH //
         ////////////
 
         var fetchUsersGroups = function(){
             var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-
             sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){
                 if (success) {
                     var suggestions = [];
@@ -138,7 +130,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             });
         };
-
 
         ///////////
         // SHARE //
@@ -185,7 +176,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
 
             var userList = getSelectedList();
-
             var messageText = $.trim($newsharecontentMessage.val());
             if (userList.list.length && messageText) {
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
@@ -201,8 +191,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                                 toAddList.splice(i - removed, 1);
                                 removed++;
                             }
-                        }
-                        else if (toAddList[i].substring(0, 6) === "group/") {
+                        } else if (toAddList[i].substring(0, 6) === "group/") {
                             var group = toAddList[i].substring(6, toAddList[i].length);
                             if(!sakai.api.Content.isUserAManager(sakai_global.content_profile.content_data, group) && !sakai.api.Content.isUserAViewer(sakai_global.content_profile.content_data, group)){
                                 toAddList[i - removed] = group;
@@ -213,24 +202,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         }
                     }
                 }
-
                 userList.list = toAddList;
-
                 if (toAddList.length) {
                     $(window).trigger("finished.sharecontent.sakai", {
                         "toAdd": toAddList,
                         "toAddNames": userList.toAddNames,
                         "mode": "viewer"
                     });
-                }else {
+                } else {
                     sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + userList.toAddNames.toString().replace(/,/g, ", "));
                 }
-
                 createActivity("__MSG__ADDED_A_MEMBER__");
-
                 $newsharecontentContainer.jqmHide();
-            }else{
-                if(!messageText){
+            } else {
+                if (!messageText) {
                     $newsharecontentMessage.addClass(newsharecontentRequiredClass);
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "NO_MESSAGE_PROVIDED"), sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "A_MESSAGE_SHOULD_BE_PROVIDED_TO_SHARE"));
                 }
@@ -240,7 +225,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
         };
-
 
         //////////////
         // BINDINGS //
@@ -256,25 +240,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 onHide: resetWidget
             });
 
-            
             $('#entity_content_share').live('click',function(){
                 var $this = $(this);
                 $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
                 $newsharecontentContainer.jqmShow(); 
             });
-            //$(window).bind("init.sharecontent.sakai", function(e, config, callbackFn){});
-
             $newsharecontentSendButton.unbind("click", doShare);
             $newsharecontentSendButton.bind("click", doShare);
-
         };
 
-    
         $newsharecontentMessageToggle.add($newsharecontentMessageArrow).bind('click',function(){
             $newsharecontentMessageArrow.toggleClass('arrow_down');
             $newsharecontentMessageContainer.stop(true, true).slideToggle();
         });
-        
+
 
         ////////////////////
         // INITIALIZATION //
