@@ -22,7 +22,7 @@
 .mylibrary_information {margin-top:15px;}
 .mylibrary_information_detail {width:70%;}
 .mylibrary_information_fliter {float:right;}
-.mylibrary_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0 10px;height:21px;}
+.mylibrary_title_bar {border-bottom:1px solid #DDDDDD; padding:5px 0 10px;min-height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
 .mylibrary_item {color:#333;padding:10px 0; border-bottom:1px solid #DDDDDD;}
@@ -42,3 +42,55 @@
 .mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
 .mylibrary_meta {color:#aaa;font-style:italic;}
 .mylibrary_center {text-align:center;}
+
+/* Used in group filter */
+#mylibrary_groupfilter{
+    margin-top:10px;padding:8px;
+    background-color:#ebeef0;
+    border: 1px solid #EAEBEC;
+    border-top: none;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */
+}
+#mylibrary_groupfilter_selection:hover{cursor:pointer;}
+#mylibrary_groupfilter_selection{padding: 2px 6px 9px 6px;margin:-4px 0 0 5px;position:absolute;z-index:1000;}
+.mylibrary_groupfilter_selection_open{
+    padding-left:5px !important;
+    margin:-5px 0 0 5px !important;
+    border: 1px solid #000000;
+    border-bottom: 0;
+    background-color:#ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px; /* Firefox 3.6 and earlier */
+    -moz-border-radius-topright: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-top-left-radius-topleft: 5px; /* Safari */
+    -webkit-border-top-left-radius-topright: 5px; /* Safari */
+}
+#mylibrary_groupfilter_groups{
+    border: 1px solid #000000;
+    background-color:#ffffff;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-top-left-radius: 5px; /* Safari */
+    position:fixed;
+    width:415px;
+    z-index:100;
+}
+#mylibrary_groupfilter_wrapper{position:relative;}
+#mylibrary_groupfilter_groups_container{padding:5px;}
+#mylibrary_groupfilter_groups_container button{padding:1px;width:130px;}
+#mylibrary_groupfilter_groups_container button:hover{
+    padding:0px !important;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+    background:#ffffff url("/devwidgets/mylibrary/images/selected_bg.png") repeat-x;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-top-left-radius: 5px; /* Safari */
+}
+.mylibrary_groupfilter_usedin_arrow_up{margin: 1px 0 0 2px;background: url("/devwidgets/mylibrary/images/up_arrow.png") no-repeat scroll left top transparent;display: inline;float: right;height: 17px;width: 17px;}
+.mylibrary_groupfilter_usedin_arrow_down{margin: 1px 0 0 2px;background: url("/devwidgets/mylibrary/images/down_arrow.png") no-repeat scroll left top transparent;display: inline;float: right;height: 17px;width: 17px;}

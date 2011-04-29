@@ -30,6 +30,22 @@
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
             </button>
         </div>
+        <div id="mylibrary_groupfilter_wrapper" style="display:none;">
+            <div id="mylibrary_groupfilter">
+                __MSG__USED_IN__: <span id="mylibrary_groupfilter_selection"><button type="button" class="s3d-link-button s3d-action s3d-bold" title="__MSG__ALL__">__MSG__ALL__</button> <span id="mylibrary_groupfilter_usedin_count"></span><span id="mylibrary_groupfilter_usedin_arrow" class="mylibrary_groupfilter_usedin_arrow_up"></span></span>
+            </div>
+            <div id="mylibrary_groupfilter_groups" style="display:none;">
+                <div id="mylibrary_groupfilter_groups_container"><!-- --></div>
+                <div id="mylibrary_groupfilter_groups_template"><!--
+                    <button type="button" class="s3d-link-button s3d-action" data-groupid="" title="__MSG__ALL__">__MSG__ALL__</button>
+                    {if groups && groups.entry}
+                        {for group in groups.entry}
+                            <button type="button" class="s3d-link-button s3d-action" data-groupid="${group.groupid}" title="${group["sakai:group-title"]}">${group["sakai:group-title-short"]}</button>
+                        {/for}
+                    {/if}
+                --></div>
+            </div>
+        </div>
     </div>
 
     <div id="mylibrary_empty" class="fl-container fl-fix mylibrary_item" style="display:none;">

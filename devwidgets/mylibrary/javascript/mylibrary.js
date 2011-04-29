@@ -61,6 +61,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_empty_note = $("#mylibrary_empty_note", $rootel);
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
+        var $mylibrary_groupfilter_selection = $("#mylibrary_groupfilter_selection", $rootel);
+        var $mylibrary_groupfilter_groups = $("#mylibrary_groupfilter_groups", $rootel);
+        var $mylibrary_groupfilter_wrapper = $("#mylibrary_groupfilter_wrapper", $rootel);
+        var $mylibrary_groupfilter_usedin_count = $("#mylibrary_groupfilter_usedin_count", $rootel);
+        var $mylibrary_groupfilter_groups_container = $("#mylibrary_groupfilter_groups_container", $rootel);
+        var $mylibrary_groupfilter_groups_template = $("#mylibrary_groupfilter_groups_template", $rootel);
+        var $mylibrary_groupfilter_groups_button = $("#mylibrary_groupfilter_groups button", $rootel);
+        var $mylibrary_groupfilter_usedin_arrow = $("#mylibrary_groupfilter_usedin_arrow", $rootel);
 
 
         ///////////////////////
@@ -381,20 +389,87 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_sortarea.show();
                 $mylibrary_empty.hide();
                 $("#mylibrary_title_bar").show();
-                $("#mylibrary_items", $rootel).html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
+                $mylibrary_items.show();
+                $mylibrary_items.html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
             } else {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();
                 $mylibrary_sortarea.hide();
-                $("#mylibrary_title_bar").hide();
+                //$("#mylibrary_title_bar").hide();
+                $mylibrary_items.hide();
                 $mylibrary_empty_note.html(getPersonalizedText("NO_ITEMS_IN_YOUR_LIBRARY"));
                 $mylibrary_empty.show();
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_addcontent.show();
                 }
             }
+        };
+
+        /**
+         * Renders the used in filter
+         */
+        var initUsedInFilter = function (){
+            $mylibrary_groupfilter_selection.click(function (ev) {
+                if ($mylibrary_groupfilter_selection.hasClass("mylibrary_groupfilter_selection_open")){
+                    $mylibrary_groupfilter_selection.removeClass("mylibrary_groupfilter_selection_open");
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_down")
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_up")
+                    $mylibrary_groupfilter_groups.hide();
+                } else {
+                    $mylibrary_groupfilter_selection.addClass("mylibrary_groupfilter_selection_open");
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_up")
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_down")
+                    $mylibrary_groupfilter_groups.show();
+                }
+                return false;
+            });
+            $mylibrary_groupfilter_groups_button.live("click", function (ev) {
+                var groupId = $(this).data("groupid");
+                var groupTitle = $(this).attr("title");
+                if (!groupId){
+                    groupId = sakai.data.me.user.userid;
+                    groupTitle = getPersonalizedText("ALL");
+                }
+                $mylibrary_groupfilter_selection.find("button").attr("title", groupTitle);
+                $mylibrary_groupfilter_selection.find("button").text(groupTitle);
+
+                mylibrary.currentPagenum = 1;
+                getLibraryItems(groupId, renderLibraryItems);
+                sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
+                    isMe: mylibrary.isOwnerViewing,
+                    firstName: groupTitle
+                }, $("#mylibrary_title_container", $rootel));
+
+                $mylibrary_groupfilter_selection.click();
+            });
+
+            var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups);
+
+            // Truncate long group titles
+            for (var g in groups.entry) {
+                if (groups.entry.hasOwnProperty(g)) {
+                    if (groups.entry[g]["sakai:group-title"]) {
+                        groups.entry[g]["sakai:group-title"] = sakai.api.Util.applyThreeDots(groups.entry[g]["sakai:group-title"], 300, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        groups.entry[g]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(groups.entry[g]["sakai:group-title"], 125, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                    }
+                }
+            }
+
+            var json = {
+                "groups": groups
+            };
+
+            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
+            $mylibrary_groupfilter_wrapper.show();
+            $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length) + 1) + ")");
         };
 
         /////////////////////////////
@@ -420,6 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
                 if (contextId === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;
+                    initUsedInFilter();
                 }
             }
             if (contextId) {
