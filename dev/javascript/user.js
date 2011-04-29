@@ -86,19 +86,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 sakai.api.Server.saveJSON(privurl, privateToStore);
                             }
                             addCounts();
+                            generateNav();
                         });
                     } else {
                         generateNav();
                     }
                 });
         };
-        
+
         var addCounts = function(){
             addCount(pubdata, "library", contextData.counts["content"]);
             addCount(pubdata, "contacts", contextData.counts["contacts"]);
             addCount(pubdata, "memberships", contextData.counts["memberships"]);        
         }
-        
+
         var addCount = function(pubdata, pageid, count){
             if (pubdata.structure0) {
                 for (var i in pubdata.structure0) {
@@ -108,7 +109,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
-        
+
         var getUserPicture = function(profile, userid){
             var picture = "";
             if (profile.picture) {
@@ -222,9 +223,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     loadSpaceData();
                                 }
                             });
-                            
-                            renderEntity();
-                            loadSpaceData();
                         }
                     });
 
@@ -245,14 +243,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("sakai.entity.init", ["user", contextType, contextData]);
             }
         };
-        
+
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 contextType = "contact_pending";
                 renderEntity();
             });
         });
-        
+
         $("#entity_user_accept_invitation").live("click", function(){
             sakai.api.User.acceptContactInvite(contextData.userid);
             contextType = "contact";

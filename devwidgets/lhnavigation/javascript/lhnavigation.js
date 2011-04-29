@@ -382,16 +382,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }           
             });
             if (isEditingNewPage){
-                $.ajax({
-                    url: currentPageShown.savePath,
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        "structure0": $.toJSON(pubstructure.items)
-                    }           
-                });
+                storeStructure(pubstructure);
             }
-        }
+        };
+
+        var storeStructure = function(structure){
+            sakai.api.Server.saveJSON(currentPageShown.savePath, {
+                "structure0": $.toJSON(structure.items)
+            });
+        };
 
         /**
          * Add a page to the document
@@ -485,15 +484,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             pageTitle.show();
 
             pubstructure.items[currentPageShown.path]._title = inputArea.val();
-            $.ajax({
-                url: currentPageShown.savePath,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    "structure0": $.toJSON(pubstructure.items)
-                }           
-            });
-
+            storeStructure(pubstructure);
         }
 
         /**
