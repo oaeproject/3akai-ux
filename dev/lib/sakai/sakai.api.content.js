@@ -432,6 +432,17 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 result = true;
             }
             return result;
+        },
+
+        getCommentCount : function(content){
+            var count = 0;
+            $.each(content[content["jcr:path"] + "/comments"], function(key, val){
+                var regex = new RegExp(content["jcr:path"] + "/comments/");
+                if (key.match(regex)){
+                    count++;
+                }
+            });
+            return count;
         }
     };
     return sakai_content;
