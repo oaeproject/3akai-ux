@@ -54,7 +54,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var $newsharecontentLinkURL = $("#newsharecontent_linkurl");
         var $newsharecontentSharelist = $("#newsharecontent_sharelist");
         var $newsharecontentMessage = $("#newsharecontent_message");
-        $newsharecontentSendButton = $("#sharecontent_send_button");
+        var $newsharecontentSendButton = $("#sharecontent_send_button");
         var newsharecontentListItem = ".as-selection-item";
         var newsharecontentShareListContainer = "#newsharecontent_sharelist_container";
         var $newsharecontentMessageToggle = $('label.toggletext',$newsharecontentContainer);
@@ -172,11 +172,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         var doShare = function(){
-            $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
-            $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-
             var userList = getSelectedList();
             var messageText = $.trim($newsharecontentMessage.val());
+            $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
+            $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             if (userList.list.length && messageText) {
                 sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
                 var toAddList = userList.list.slice();
@@ -241,9 +240,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
 
             $('#entity_content_share').live('click',function(){
-                var $this = $(this);
-                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
-                $newsharecontentContainer.jqmShow(); 
+                if (window.hasOwnProperty('addthis')) {
+                    var $this = $(this);
+                    $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
+                    $newsharecontentContainer.jqmShow();
+                }
             });
             $newsharecontentSendButton.unbind("click", doShare);
             $newsharecontentSendButton.bind("click", doShare);
