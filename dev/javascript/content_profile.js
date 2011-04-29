@@ -72,10 +72,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "dataType":"json"
                     },
                     {
-                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
+                        "url": sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED,
                         "method":"GET",
                         "cache":false,
-                        "dataType":"json"
+                        "dataType":"json",
+                        "parameters":{"p":content_path, "items":"1000"}
                     }
                 ];
 

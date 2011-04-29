@@ -404,6 +404,23 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             return supported;
         },
 
+        getCreatorProfile : function(content, callback) {
+            $.ajax({
+                url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+                success: function(profile){
+                    if ($.isFunction(callback)) {
+                       callback(true, profile);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    if ($.isFunction(callback)){
+                        callback(false, xhr);
+                    }
+                }
+            });
+
+        },
+
         hasPreview : function(content){
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
@@ -415,8 +432,20 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 result = true;
             }
             return result;
-        }
+        },
 
+        getCommentCount : function(content){
+            var count = 0;
+            if (content[content["jcr:path"] + "/comments"]) {
+                $.each(content[content["jcr:path"] + "/comments"], function(key, val){
+                    var regex = new RegExp(content["jcr:path"] + "/comments/");
+                    if (key.match(regex)) {
+                        count++;
+                    }
+                });
+            }
+            return count;
+        }
     };
     return sakai_content;
 });

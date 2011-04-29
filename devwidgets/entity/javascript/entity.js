@@ -141,11 +141,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         return false;
                     });
+
+                    $("#entity_comments_link").live("click", function(){
+                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#comments_mainContainer").offset().top}, 500 );
+                        $("#comments_txtMessage").focus();
+                       return false;
+
+                    });
                     break;
             }
        };
 
         var renderEntity = function(context){
+            context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
             $("#entity_message").click(function(){
                 var to = {type: context.context};

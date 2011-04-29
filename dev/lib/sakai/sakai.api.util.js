@@ -457,10 +457,10 @@ define(["jquery",
                     //change string to json object and get name from picture object
                     return "/~" + id + "/public/profile/" + picture_name;
                 } else {
-                    return "";
+                    return sakai_conf.URL.USER_DEFAULT_ICON_URL;
                 }
             } else {
-                return "";
+                return sakai_conf.URL.USER_DEFAULT_ICON_URL;
             }
         },
 
