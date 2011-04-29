@@ -4,7 +4,7 @@
 <div class="mylibrary_widget">
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
-        {if isMe}
+        {if isMe && !isGroup}
             <div class='s3d-contentpage-title'>My Library</div>
         {else}
             <div class='s3d-contentpage-title'>${firstName}'s Library</div>
