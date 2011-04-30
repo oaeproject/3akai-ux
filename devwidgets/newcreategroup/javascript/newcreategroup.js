@@ -90,6 +90,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Checking for tags, permissions and members before redirecting.
      */
     var checkCreationComplete = function(){
+        debug.log(creationComplete.tags + " - " + creationComplete.permissions + " - " +  creationComplete.members + " - " + creationComplete.message);
         if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message){
             window.location = "/~" + creationComplete.groupid;
         }
@@ -103,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
         var grouptags = $newcreategroupGroupTags.val().split(",");
-        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, function(success, nameTaken){
+        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, currentTemplate, function(success, nameTaken){
             if (success) {
                 creationComplete.groupid = groupid;
 
@@ -131,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "permission": item.permission
                     });
                 });
-                sakai.api.Groups.addUsersToGroup(groupid, false, users, function(){
+                sakai.api.Groups.addUsersToGroup(groupid, false, users, false, function(){
                     creationComplete.members = true;
                     checkCreationComplete();
                 });

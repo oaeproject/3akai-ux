@@ -66,6 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var selectedUsers = {};
         var currentTemplate = false;
+        var hasbeenInit = false;
 
 
         ///////////////
@@ -147,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         userid: $(this)[0].id.split("_")[0],
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
                         dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
-                        permission: roleList[0].id,
+                        permission: currentTemplate.joinRole,
                         picture: $(this).next().children("img").attr("src")
                     }
                     selectedUsers[userObj.userid] = userObj;
@@ -220,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 userid: userid[1],
                 name: userData.attributes.name,
                 dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
-                permission: roleList[0].id,
+                permission: currentTemplate.joinRole,
                 picture: pictureURL
             };
             selectedUsers[userObj.userid] = userObj;
@@ -325,12 +326,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         $(window).bind("init.addpeople.sakai", function(e, initTuid){
-            debug.log(initTuid);
             if (initTuid === tuid) {
-                loadRoles();
-                addBinding();
+                if (!hasbeenInit) {
+                    loadRoles();
+                    addBinding();
+                    fetchUsersGroups();
+                    hasbeenInit = true;
+                }
                 initializeJQM();
-                fetchUsersGroups();
                 sakai.api.User.getContacts(renderContacts);
                 enableDisableControls();
             }

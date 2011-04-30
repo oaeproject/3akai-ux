@@ -2258,7 +2258,9 @@ define(function(){
                                 title: "Lecturer",
                                 allowManage: true
                             }
-                        ]
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
                     }
                 ]
             },
@@ -2288,7 +2290,9 @@ define(function(){
                                 title: "Lecturer",
                                 allowManage: true
                             }
-                        ]
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
                     },
                     {
                         id: "medicalscience",
@@ -2312,7 +2316,9 @@ define(function(){
                                 title: "Lecturer",
                                 allowManage: true
                             }
-                        ]
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
                     },
                     {
                         id: "physicscourse",
@@ -2336,7 +2342,9 @@ define(function(){
                                 title: "Lecturer",
                                 allowManage: true
                             }
-                        ]
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
                     }
                 ]
             },
@@ -2361,7 +2369,9 @@ define(function(){
                                 title: "Lurker",
                                 allowManage: false
                             }
-                        ]
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
                     },
                     {
                         id: "bidwriting",
@@ -2380,7 +2390,9 @@ define(function(){
                                 title: "Lurker",
                                 allowManage: false
                             }
-                        ]
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
                     }
                 ]
             }
