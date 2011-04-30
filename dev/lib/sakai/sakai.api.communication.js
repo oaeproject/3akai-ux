@@ -45,14 +45,13 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * @param {String} [reply] The id of the message you are replying on
          * @param {Function} [callback] A callback function which is executed at the end of the operation
          * @param {Boolean} [sendMail] True if a mail needs to be sent, False if no mail is needed. Unles specified false the default will be true and a mail will be sent
-         * @param {Boolean|String} [mailContent] False or String of content that contains HTML or regular text
+         * @param {Boolean|String} [context] String used in switch to set sakai:templatePath and sakai:templateParams
          *
          */
         sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
-
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -132,7 +131,6 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             var doSendMail = function(){
                 // Basic message details
                 var toSend = buildEmailParams();
-
                 // Send message
                 $.ajax({
                     url: "/~" + meData.user.userid + "/message.create.html",
@@ -176,7 +174,6 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 if (reply) {
                     toSend["sakai:previousmessage"] = reply;
                 }
-
                 // Send message
                 $.ajax({
                     url: "/~" + meData.user.userid + "/message.create.html",
@@ -225,7 +222,6 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     callback(false, xhr);
                 }
             }
-
             $.ajax({
                 url: "/system/batch",
                 method: "POST",
