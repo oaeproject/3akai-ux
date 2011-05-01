@@ -7,10 +7,10 @@
     <div class="fl-widget-newinbox s3d-widget-newinbox s3d-widget-small-newinbox">
         <div class="newinbox_main">
             <!-- Title -->
-            <div id="newinbox_header" class="newinbox-message-list-view s3d-contentpage-title" style="display:none">
-              <span id="newinbox_box_title"></span> <span id="newinbox_title_total_wrapper" style="display:none">(<span id="newinbox_title_total"></span>)</span>
+            <div id="newinbox_header" class="newinbox-message-list-view s3d-contentpage-title newinbox-message-detail-view newinbox-new-message-view" style="display:none">
+              <span id="newinbox_box_title" class="newinbox-message-list-view newinbox-message-detail-view newinbox-new-message-view"></span> <span id="newinbox_title_total_wrapper" class="newinbox-message-list-view" style="display:none">(<span id="newinbox_title_total"></span>)</span>
             </div>
-            <div id="newinbox_message_header" class="newinbox-message-list-view">
+            <div id="newinbox_message_header">
               <div class="s3d-button s3d-button-link-2-state newinbox-message-list-view" id="newinbox_select" style="display:none">
                   <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="newinbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
               </div>
@@ -47,30 +47,36 @@
                 {for message in data.results}
                     <div class="fl-container fl-fix newinbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
                         <div class="newinbox_items_inner">
-                            <div class="newinbox_delete">
-                              <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state newinbox_reply_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
-                              </a>
-                              <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                              </button>
-
+                            <div class="newinbox_left_col newinbox_col">
+                                <div class="newinbox_placeholder"><input type="checkbox"/></div>
+                                <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
                             </div>
-                            <div class="newinbox_placeholder"><input type="checkbox"/></div>
-                            <div class="newinbox_message_data">
-                              <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
-                              <div class="newinbox_name">
-                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
-                              </div>
-                              <div class="newinbox_date">
-                                <span>${message.date}</span>
-                              </div>
-                              <div class="newinbox_subject">
-                                <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
-                              </div>
-                              <div class="newinbox_excerpt">
-                                <p>${message.nolinebreaks}<p>
-                              </div>
+                            <div class="newinbox_middle_col newinbox_col">
+                                <div class="newinbox_message_data">
+                                  <div class="newinbox_name">
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                    <span class="newinbox_to_list">__MSG__TO__: ${_.first(message.toList, 3).join(", ")}{if message.toList.length > 3} + ${message.toList.length-3} __MSG__OTHERS__{/if}</span>
+                                  </div>
+                                  <div class="newinbox_date">
+                                    <span>${message.date}</span>
+                                  </div>
+                                  <div class="newinbox_subject">
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                  </div>
+                                  <div class="newinbox_excerpt">
+                                    <p>${message.body_nolinebreaks}<p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="newinbox_right_col newinbox_col">
+                                <div class="newinbox_delete fl-force-right">
+                                  <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                                  </button>
+                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state newinbox_reply_button">
+                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
+                                  </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +86,7 @@
                     </div>
                 {/for}
             --></div>
-            <div id="newinbox_pager" class="jq_pager"></div>
+            <div id="newinbox_pager" class="jq_pager newinbox-message-list-view" style="display:none"></div>
 
             <!-- Message show pane -->
             <div id="newinbox_show_message" style="display:none" class="newinbox-message-detail-view"></div>
@@ -90,38 +96,47 @@
                     <div class="newinbox_show_message_header">
                         <div class="fl-container fl-fix newinbox_items_container" id="${message.id}">
                             <div class="newinbox_items_inner">
+                                <div class="newinbox_left_col newinbox_col">
+                                    <div class="newinbox_placeholder">&nbsp;</div>
+                                    <img alt="person icon" src="${message.from.picture}"/>
+                                </div>
+                                <div class="newinbox_middle_col newinbox_col">
+                                    <div class="newinbox_message_data">
+                                        <div class="newinbox_name">
+                                          <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                          {if !reply}<span class="newinbox_to_list">__MSG__TO__: ${message.toList.join(", ")}</span>{/if}
+                                        </div>
+                                        <div class="newinbox_date">
+                                          <span>${message.date}</span>
+                                        </div>
+                                        {if !reply}
+                                        <div class="newinbox_subject">
+                                          <a href="#" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                        </div>
+                                        {/if}
+                                        <div class="newinbox_excerpt">
+                                          <p>${message.body}</p>
+                                          {if message.invitation}
+                                            {if message.invited}
+                                              <button class="newinbox_invitation newinbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
+                                              <button class="newinbox_invitation newinbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
+                                            {elseif message.ignored}
+                                              __MSG__IGNORED__
+                                            {else}
+                                              __MSG__ACCEPTED__
+                                            {/if}
+                                          {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="newinbox_right_col newinbox_col">
                                 {if !reply}
-                                <div class="fl-force-right">
-                                    <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
-                                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                                    </button>
-                                </div>
+                                    <div class="newinbox_delete fl-force-right">
+                                        <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
+                                        </button>
+                                    </div>
                                 {/if}
-                                <div class="newinbox_placeholder">&nbsp;</div>
-                                <img alt="person icon" src="${message.from.picture}"/>
-                                <div class="newinbox_name">
-                                  <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
-                                </div>
-                                <div class="newinbox_date">
-                                  <span>${message.date}</span>
-                                </div>
-                                {if !reply}
-                                <div class="newinbox_subject">
-                                  <a href="#" class="s3d-regular-links s3d-bold">${message.subject}</a>
-                                </div>
-                                {/if}
-                                <div class="newinbox_excerpt">
-                                  <p>${message.body}</p>
-                                  {if message.invitation}
-                                    {if message.invited}
-                                      <button class="newinbox_invitation newinbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
-                                      <button class="newinbox_invitation newinbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
-                                    {elseif message.ignored}
-                                      __MSG__IGNORED__
-                                    {else}
-                                      __MSG__ACCEPTED__
-                                    {/if}
-                                  {/if}
                                 </div>
                             </div>
                         </div>
@@ -129,10 +144,8 @@
                   {if reply && message.previousMessage}
                       ${showMessage(message.previousMessage, true)}
                   {/if}
+                  </div>
                 {/macro}
-                <div id="newinbox_show_message_header">
-                  <h1>${message.subject}</h1>
-                </div>
                 <div id="newinbox_show_message_main">
                   ${showMessage(message)}
                 </div>
@@ -142,13 +155,14 @@
                 </div>
                 {/if}
                 <div id="newinbox_show_message_reply">
-                   <div class="newinbox_show_message_reply_fields"></div>
+                    <img alt="person icon" src="${me.picture}"/>
+                    <span>${me.name} (__MSG__REPLY_LOWER__) <span class="newinbox_to_list">__MSG__TO__:</span></span>
+                    <div class="newinbox_show_message_reply_fields"></div>
                 </div>
             --></div>
 
             <!-- New Message -->
-            <div id="newinbox_new_message" style="display:none">
-              <h1>New Message</h1>
+            <div id="newinbox_new_message" class="newinbox-new-message-view" style="display:none">
               <div id="newinbox_new_message_sendmessage"></div>
             </div>
         </div>
