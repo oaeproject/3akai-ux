@@ -115,6 +115,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
         });
 
+        // bind hashchange to close dialog
+        $(window).bind("hashchange hashchanged.newinbox.sakai", function(){
+            hidePersonInfo();
+        });
+
         $(".personinfo_trigger").live("mouseenter", function(){
             $personinfo_invite.hide();
             var clickedEl = $(this);

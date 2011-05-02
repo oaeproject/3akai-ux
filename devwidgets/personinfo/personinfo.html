@@ -62,8 +62,10 @@
                     {if mimeTypeDescription}
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}
-                    <p class="personinfo_content_text">__MSG__USED_IN__ 2 __MSG__PLACES__</p>
-                    <p class="personinfo_content_text">17 __MSG__COMMENTS__</p>
+                    {var placeCount = sakai.api.Content.getPlaceCount(i)}
+                    <p class="personinfo_content_text">__MSG__USED_IN__ ${placeCount} {if placeCount == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                    {var commentCount = sakai.api.Content.getCommentCount(i)}
+                    <p class="personinfo_content_text">${commentCount}{if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
                     <span class="personinfo_content_plus">
                         <button type="button" class="savecontent_trigger s3d-link-button s3d-action" data-entityid="${i['jcr:name']}" title="__MSG__SAVE_CONTENT__">+</button>
                     </span>
