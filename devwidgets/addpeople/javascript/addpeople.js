@@ -230,7 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers[userObj.userid] = userObj;
             renderSelectedContacts();
             enableDisableControls();
-            $(".as-close", rootel).click();
+            $(".as-close").click();
         };
 
         /**
