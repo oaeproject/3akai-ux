@@ -695,15 +695,21 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     var batchRequests = [];
                     var dataToReturn = {};
                     for (var i = 0; i < roles.length; i++) {
+                        var url = "/var/search/groupmembers-all.json";
+                        var parameters = {
+                            group: groupID + "-" + roles[i].id,
+                            q: searchquery
+                        }
+                        if (searchquery !== "*"){
+                            url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
+                        }
                         batchRequests.push({
-                            "url": "/var/search/groupmembers-all.json?group=" + groupID + "-" + roles[i].id + "&q=" + searchquery,
+                            "url": url,
                             "method": "GET",
-                            "cache": false,
-                            "dataType": "json"
+                            "parameters": parameters
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
-                        debug.log(data);
                         if (success) {
                             for (var i = 0; i < roles.length; i++) {
                                 if (data.results.hasOwnProperty(i)) {
