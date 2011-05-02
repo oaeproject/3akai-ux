@@ -17,3 +17,22 @@
  */
 .featuredcontent_widget {margin: 12px 0;}
 .featuredcontent_widget .s3d-contentpage-title{background: url("/devwidgets/featuredcontent/images/featuredcontent_header_bg.png") no-repeat scroll center bottom transparent;border-bottom: medium none;height: 25px;margin: 0 12px;}
+.featuredcontent_widget #featuredcontent_footer {background: url("/devwidgets/featuredcontent/images/featuredcontent_footer_bg.png") no-repeat scroll center bottom transparent;height:9px;}
+
+/* Content boxes */
+.featuredcontent_widget #featuredcontent_content_container {margin:0 10px;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_small_container div:first-child {margin-bottom:10px;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content {float:left;background:url("/devwidgets/featuredcontent/images/featuredcontent_content_bg.png") repeat-x bottom left #f0f0ee;margin:5px;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;padding: 12px;overflow:hidden;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_large {height:206px;width:302px;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_medium {height:206px;width:134px;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_small_container {float:left;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_small {float:none;height:86px;width:134px;}
+.featuredcontent_widget #featuredcontent_content_container a.featuredcontent_content_title {margin-bottom:7px;font-size:12px;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_large a.featuredcontent_content_title {font-size:15px;display:block;}
+.featuredcontent_widget #featuredcontent_content_container span.featuredcontent_content_description {color: #424242;font-size: 12px;clear:both;display:block;}
+.featuredcontent_widget #featuredcontent_content_container img.featuredcontent_thumbnail_image {float:left;height:32px;width:32px;margin:0 4px 12px 0;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_preview_overlay {background-color: #FFFFFF;height:206px;margin:-12px;width:136px;-moz-opacity:.50;filter:alpha(opacity=50);opacity:.50;padding:12px;position:absolute;}
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_preview_overlay:hover {-moz-opacity:.8;filter:alpha(opacity=80);opacity:.8;cursor:pointer;}
+
+/* temp */
+.featuredcontent_widget #featuredcontent_content_container .featuredcontent_content_large img {margin: -12px;}
