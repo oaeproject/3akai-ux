@@ -284,6 +284,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.removeUsersFromGroup(groupid, groupType,
                 [sakai.data.me.user.userid], sakai.data.me, function (success) {
                 if (success) {
+                    $(window).trigger("updated.counts.lhnav.sakai");
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
                         $joinrequestbuttons_group_removal_successful.text(),
                         sakai.api.Util.notification.type.INFORMATION);

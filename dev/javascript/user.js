@@ -98,7 +98,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             addCount(pubdata, "library", contextData.counts["content"]);
             addCount(pubdata, "contacts", contextData.counts["contacts"]);
             addCount(pubdata, "memberships", contextData.counts["memberships"]);        
-        }
+        };
 
         var addCount = function(pubdata, pageid, count){
             if (pubdata.structure0) {
@@ -263,6 +263,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
+        });
+
+        $(window).bind("updated.counts.lhnav.sakai", function(){
+            determineContentContactsMemberships();
+            addCounts();
         });
 
         $(window).bind("complete.fileupload.sakai", determineContext);
