@@ -445,6 +445,29 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 });
             }
             return count;
+        },
+
+        getPlaceCount : function(content){
+            var count = 0;
+            if (content["sakai:pooled-content-viewer"]) {
+                for (var i in content["sakai:pooled-content-viewer"]) {
+                    if (content["sakai:pooled-content-viewer"].hasOwnProperty(i)) {
+                        if (content["sakai:pooled-content-viewer"][i] !== "anonymous" && content["sakai:pooled-content-viewer"][i] !== "everyone") {
+                            count++;
+                        }
+                    }
+                }
+            }
+            if (content["sakai:pooled-content-manager"]) {
+                for (var ii in content["sakai:pooled-content-manager"]) {
+                    if (content["sakai:pooled-content-manager"].hasOwnProperty(ii)) {
+                        if (content["sakai:pooled-content-manager"][ii] !== "anonymous" && content["sakai:pooled-content-manager"][ii] !== "everyone") {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return count;
         }
     };
     return sakai_content;

@@ -168,6 +168,31 @@ define(["jquery",
             });
         },
 
+        getMultipleUsers: function(userArray, callback){
+            // this method could be checking for and removing duplicate users
+            for (var i in userArray) {
+                if (userArray.hasOwnProperty(i)) {
+                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", userArray.length, userArray[i], {
+                        "url": "/~" + userArray[i] + "/public/authprofile",
+                        "method": "GET"
+                    });
+                }
+            }
+
+            // bind response from batch request
+            $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
+                if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
+                    var users = {};
+                    for (i in reqData.responseId) {
+                        if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
+                            users[reqData.responseId[i]] = $.parseJSON(reqData.responseData[i].body);
+                        }
+                    }
+                    callback(users);
+                }
+            });
+        },
+
         /**
          * Log-in to Sakai3
          *
