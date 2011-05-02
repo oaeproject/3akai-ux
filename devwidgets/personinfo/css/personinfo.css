@@ -32,7 +32,7 @@
 #personinfo_user_picture {float: left; padding-right: 10px}
 .personinfo_user_info {font-size:smaller;line-height:12px;margin:0;}
 .personinfo_content_list_left {float:left;}
-#personinfo_content_list {max-height:280px;width:246px;overflow-y:auto;overflow-x:hidden;margin:0;border-bottom:3px;}
+#personinfo_content_list {max-height:280px;width:246px;overflow-y:auto;overflow-x:hidden;margin:0;border-bottom:3px; display:none;}
 #personinfo_content_list img {float: left; padding-botom: 10px; width: 40px;}
 #personinfo_content_list li {max-height:60px;list-style:none;padding:5px 5px;border-bottom:1px solid #FFF;border-top:1px solid #FFF;overflow:hidden;}
 #personinfo_content_list li:hover {background-color:#9de1ee;}
