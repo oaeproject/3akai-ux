@@ -45,12 +45,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var smallArr = [];
 
         var renderFeaturedContent = function(data){
-            debug.log(data);
-            $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {"data":data, "sakai":sakai}))
-        }
+            $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
+                "data": data,
+                "sakai": sakai
+            }))
+        };
 
         var parseFeaturedContent = function(data){
-            debug.log(data);
             for (var i = 0; i < data.results.length; i++) {
                 data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
                 if(data.results[i].hasPreview){

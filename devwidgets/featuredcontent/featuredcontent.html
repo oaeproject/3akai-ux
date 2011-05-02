@@ -12,7 +12,7 @@
         {if item.hasPreview}
             <div class="featuredcontent_content featuredcontent_content_large">
                 <div class="featuredcontent_content_preview_overlay">
-                    <a href="/content#content_path=/p/${item["jcr:name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 150)}</a>
+                    <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 150)}</a>
                     <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
                     {if item["sakai:tags"]}
                         <span class="featuredcontent_content_tags">${sakai.api.Util.applyThreeDots(item["sakai:tags"].toString().replace(/,/g, ", "), 70)}</span>
@@ -23,7 +23,7 @@
         {elseif item["sakai:description"]}
             <div class="featuredcontent_content featuredcontent_content_medium">
                 <img src="${sakai.config.MimeTypes[sakai.api.Content.getMimeType(item)].URL}" class="featuredcontent_thumbnail_image"/>
-                <a href="/content#content_path=/p/${item["jcr:name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 70)}</a>
+                <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 70)}</a>
                 <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
                 {if item["sakai:tags"]}
                     <span class="featuredcontent_content_tags">${sakai.api.Util.applyThreeDots(item["sakai:tags"].toString().replace(/,/g, ", "), 70)}</span>
@@ -36,7 +36,7 @@
                 {/if}
                 <div class="featuredcontent_content featuredcontent_content_small">
                     <img src="${sakai.config.MimeTypes[sakai.api.Content.getMimeType(small)].URL}" class="featuredcontent_thumbnail_image"/>
-                    <a href="/content#content_path=/p/${small["jcr:name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 70)}</a>
+                    <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}"class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 70)}</a>
                     {if small["sakai:tags"]}
                         <span class="featuredcontent_content_tags">${sakai.api.Util.applyThreeDots(small["sakai:tags"].toString().replace(/,/g, ", "), 70)}</span>
                     {/if}
