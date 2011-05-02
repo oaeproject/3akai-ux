@@ -43,26 +43,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        var rootel = $("#" + tuid);
+
         // Containers
-        var $addpeopleContainer = $("#addpeople_container");
-        var $addpeopleContactsContainer = $("#addpeople_contacts_container");
-        var $addpeopleSelectedContactsContainer = $("#addpeople_selected_contacts_container");
-        var $addpeopleMembersAutoSuggest = $("#addpeople_members_autosuggest");
+        var $addpeopleContainer = $("#addpeople_container", rootel);
+        var $addpeopleContactsContainer = $("#addpeople_contacts_container", rootel);
+        var $addpeopleSelectedContactsContainer = $("#addpeople_selected_contacts_container", rootel);
+        var $addpeopleMembersAutoSuggest = $("#addpeople_members_autosuggest", rootel);
 
         // Templates
         var addpeopleContactsTemplate = "addpeople_contacts_template";
         var addpeopleSelectedContactsTemplate = "addpeople_selected_contacts_template";
 
         // Elements
-        var $addpeopleSelectAllContacts = $("#addpeople_select_all_contacts");
+        var $addpeopleSelectAllContacts = $("#addpeople_select_all_contacts", rootel);
         var addpeopleCheckbox = ".addpeople_checkbox";
         var addpeopleSelectedCheckbox = ".addpeople_selected_checkbox";
         var addpeopleSelectedPermissions = ".addpeople_selected_permissions";
-        var $addpeopleSelectedAllPermissions = $("#addpeople_selected_all_permissions");
-        var $addpeopleSelectAllSelectedContacts = $("#addpeople_select_all_selected_contacts");
-        var $addpeopleFinishAdding = $(".addpeople_finish_adding");
-        var $addpeopleRemoveSelected = $(".addpeople_remove_selected");
-        var $addpeopleMembersAutoSuggestField = $("#addpeople_members_autosuggest_field");
+        var $addpeopleSelectedAllPermissions = $("#addpeople_selected_all_permissions", rootel);
+        var $addpeopleSelectAllSelectedContacts = $("#addpeople_select_all_selected_contacts", rootel);
+        var $addpeopleFinishAdding = $(".addpeople_finish_adding", rootel);
+        var $addpeopleRemoveSelected = $(".addpeople_remove_selected", rootel);
+        var $addpeopleMembersAutoSuggestField = $("#addpeople_members_autosuggest_field", rootel);
 
         var selectedUsers = {};
         var currentTemplate = false;
@@ -75,7 +77,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderContacts = function(){
             if ($addpeopleContactsContainer.text() == "") {
-                debug.log(sakai.api.Groups.getMemberships(sakai.data.me.groups));
                 $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
                     "contacts": sakai.data.me.mycontacts,
                     "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups),
@@ -229,7 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers[userObj.userid] = userObj;
             renderSelectedContacts();
             enableDisableControls();
-            $(".as-close").click();
+            $(".as-close", rootel).click();
         };
 
         /**
@@ -299,8 +300,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var addBinding = function(){
             // Unbind all
-            $(addpeopleCheckbox).die("change", constructSelecteduser);
-            $(addpeopleSelectedPermissions).die("change", changePermission);
+            $(addpeopleCheckbox, rootel).die("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions, rootel).die("change", changePermission);
             $addpeopleFinishAdding.unbind("click", finishAdding);
             $addpeopleRemoveSelected.unbind("click", removeSelected);
 
@@ -312,15 +313,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 checkAll(this, addpeopleSelectedCheckbox);
             });
             $addpeopleSelectedAllPermissions.bind("change", changeSelectedPermission)
-            $(addpeopleCheckbox).live("change", constructSelecteduser);
-            $(addpeopleSelectedPermissions).live("change", changePermission);
+            $(addpeopleCheckbox, rootel).live("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions, rootel).live("change", changePermission);
             $addpeopleFinishAdding.bind("click", finishAdding);
             $addpeopleRemoveSelected.bind("click", removeSelected);
         };
         
         var loadRoles = function(){
             currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-            $("#addpeople_selected_all_permissions").html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
+            $("#addpeople_selected_all_permissions", rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
         }
 
         ////////////

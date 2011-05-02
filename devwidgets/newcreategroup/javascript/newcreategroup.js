@@ -42,26 +42,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     /////////////////////////////
     // Configuration variables //
     /////////////////////////////
+    
+    var rootel = $("#" + tuid);
 
     // Containers
-    var $newcreategroupContainer = $("#newcreategroup_container");
-    var $newcreategroupGroupMembersNoneAddedContainer = $("#newcreategroup_group_members_none_added_container");
-    var $newcreategroupMembersAddedContainer = $("#newcreategroup_group_members_added_container");
+    var $newcreategroupContainer = $("#newcreategroup_container", rootel);
+    var $newcreategroupGroupMembersNoneAddedContainer = $("#newcreategroup_group_members_none_added_container", rootel);
+    var $newcreategroupMembersAddedContainer = $("#newcreategroup_group_members_added_container", rootel);
 
     // Elements
-    var $newcreategroupCreateSimpleGroupButton = $(".newcreategroup_create_simple_group");
-    var $newcreategroupGroupTitle = $("#newcreategroup_title");
-    var $newcreategroupSuggestedURL = $("#newcreategroup_suggested_url");
-    var $newcreategroupGroupDescription = $("#newcreategroup_description");
-    var $newcreategroupGroupTags = $("#newcreategroup_tags");
-    var $newcreategroupSuggestedURLBase = $("#newcreategroup_suggested_url_base");
-    var $newcreategroupCanBeFoundIn = $("#newcreategroup_can_be_found_in");
-    var $newcreategroupGroupMembership = $("#newcreategroup_membership");
-    var $newcreategroupAddPeople = $(".newcreategroup_add_people");
+    var $newcreategroupCreateSimpleGroupButton = $(".newcreategroup_create_simple_group", rootel);
+    var $newcreategroupCancelCreateButton = $("#newcreategroup_cancel_create", rootel);
+    var $newcreategroupGroupTitle = $("#newcreategroup_title", rootel);
+    var $newcreategroupSuggestedURL = $("#newcreategroup_suggested_url", rootel);
+    var $newcreategroupGroupDescription = $("#newcreategroup_description", rootel);
+    var $newcreategroupGroupTags = $("#newcreategroup_tags", rootel);
+    var $newcreategroupSuggestedURLBase = $("#newcreategroup_suggested_url_base", rootel);
+    var $newcreategroupCanBeFoundIn = $("#newcreategroup_can_be_found_in", rootel);
+    var $newcreategroupGroupMembership = $("#newcreategroup_membership", rootel);
+    var $newcreategroupAddPeople = $(".newcreategroup_add_people", rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
 
     // Forms
-    var $newcreategroupGroupForm = $("#newcreategroup_group_form");
+    var $newcreategroupGroupForm = $("#newcreategroup_group_form", rootel);
 
     // Templates
     var newcreategroupMembersSelectedTemplate = "newcreategroup_group_members_selected_template";
@@ -190,7 +193,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-        $(".newcreategroup_template_name").text(currentTemplate.title);
+        $(".newcreategroup_template_name", rootel).text(currentTemplate.title);
         $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
         $newcreategroupContainer.show();
         addBinding();
@@ -198,6 +201,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     $(window).bind("sakai.newcreategroup.init", function(){
         doInit();
+    });
+    
+    $newcreategroupCancelCreateButton.bind("click", function(){
+        $.bbq.pushState({"_r": Math.random()});
     });
 
     $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
