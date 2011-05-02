@@ -92,6 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "newsharecontent",
         "nextleveldown",
         "nodecontentarea",
+        "participants",
         "pickeradvanced",
         "pickeruser",
         "poll",

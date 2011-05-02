@@ -124,13 +124,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var checkAll = function(el, peopleContainer){
             if($(el).is(":checked")){
-                $(peopleContainer).attr("checked","checked");
-                $(peopleContainer).change();
+                $(peopleContainer, rootel).attr("checked","checked");
+                $(peopleContainer, rootel).change();
                 if (peopleContainer != addpeopleSelectedCheckbox) {
                     renderSelectedContacts();
                 }
             }else{
-                $(peopleContainer).removeAttr("checked");
+                $(peopleContainer, rootel).removeAttr("checked");
                 if (peopleContainer != addpeopleSelectedCheckbox) {
                     selectedUsers = {};
                     renderSelectedContacts();
@@ -181,6 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Change the permission setting for a specific user
          */
         var changePermission = function(){
+            debug.log("HERE");
             var userid = $(this)[0].id.split("_")[0];
             selectedUsers[userid].permission = $(this).val();
         };
@@ -300,8 +301,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var addBinding = function(){
             // Unbind all
-            $(addpeopleCheckbox, rootel).die("change", constructSelecteduser);
-            $(addpeopleSelectedPermissions, rootel).die("change", changePermission);
+            $(addpeopleCheckbox).die("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions).die("change", changePermission);
             $addpeopleFinishAdding.unbind("click", finishAdding);
             $addpeopleRemoveSelected.unbind("click", removeSelected);
 
@@ -313,8 +314,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 checkAll(this, addpeopleSelectedCheckbox);
             });
             $addpeopleSelectedAllPermissions.bind("change", changeSelectedPermission)
-            $(addpeopleCheckbox, rootel).live("change", constructSelecteduser);
-            $(addpeopleSelectedPermissions, rootel).live("change", changePermission);
+            $(addpeopleCheckbox).live("change", constructSelecteduser);
+            $(addpeopleSelectedPermissions).live("change", changePermission);
             $addpeopleFinishAdding.bind("click", finishAdding);
             $addpeopleRemoveSelected.bind("click", removeSelected);
         };
