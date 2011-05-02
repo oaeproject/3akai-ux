@@ -62,6 +62,38 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 }
             });
         },
+        
+        /**
+         * Get the data for the specified group
+         *
+         * @param {String} groupid The ID of the group
+         * @param {Function} callback Callback function, passes (success, (data|xhr))
+         * @param {Boolean} async If this call should be ascynronous, defaults to true
+         */
+        getGroupAuthorizableData : function(groupid, callback, async, cache) {
+            if (async === null || async === undefined) {
+                async = true;
+            }
+            if (cache !== false) {
+                cache = true;
+            }
+            $.ajax({
+                url: "/system/userManager/group/" + groupid + ".public.infinity.json",
+                async: async,
+                cache: cache,
+                success: function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    debug.error("Could not get data for group " + groupid);
+                    if ($.isFunction(callback)) {
+                        callback(false, xhr);
+                    }
+                }
+            });
+        },
 
         /**
          * Create a group
@@ -656,39 +688,34 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          *
          */
         getMembers : function(groupID, callback) {
-            $.ajax({
-                url: "/system/userManager/group/" + groupID + ".members.json",
-                success: function(data) {
-                    if ($.isFunction(callback)) {
-                        callback(true, data);
+            var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                if (success){
+                    var roles = $.parseJSON(data["sakai:roles"]);
+                    var batchRequests = [];
+                    var dataToReturn = {};
+                    for (var i = 0; i < roles.length; i++) {
+                        batchRequests.push({
+                            "url": "/system/userManager/group/" + groupID + "-" + roles[i].id + ".members.json",
+                            "method": "GET",
+                            "cache": false,
+                            "dataType": "json"
+                        });
+                        sakai.api.Server.batch(batchRequests, function(success, data){
+                            if (success) {
+                                for (var i = 0; i < roles.length; i++) {
+                                    if (data.results.hasOwnProperty(i)) {
+                                        var members = $.parseJSON(data.results[i].body);
+                                        dataToReturn[roles[i].id] = members;
+                                    }
+                                }
+                                if ($.isFunction(callback)) {
+                                    callback(true, dataToReturn);
+                                }
+                            }
+                        });
                     }
-                },
-                error: function(xhr, textStatus) {
+                } else {
                     debug.error("Could not get members group info for " + groupID);
-                    if ($.isFunction(callback)) {
-                        callback(false, xhr);
-                    }
-                }
-            });
-        },
-
-        /**
-         * Returns all the users who are managers of a certain group
-         *
-         * @param {String} groupID The ID of the group we would like to get the managers of
-         * @param {Function} callback Callback function, passes (success, (data|xhr))
-         *
-         */
-        getManagers : function(groupID, callback) {
-            $.ajax({
-                url: "/system/userManager/group/" + groupID + "-managers.members.json",
-                success: function(data) {
-                    if ($.isFunction(callback)) {
-                        callback(true, data);
-                    }
-                },
-                error: function(xhr, textStatus) {
-                    debug.error("Could not get managers group info for " + groupID);
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }

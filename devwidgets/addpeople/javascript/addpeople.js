@@ -75,8 +75,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderContacts = function(){
             if ($addpeopleContactsContainer.text() == "") {
+                debug.log(sakai.api.Groups.getMemberships(sakai.data.me.groups));
                 $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
                     "contacts": sakai.data.me.mycontacts,
+                    "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups),
                     "sakai": sakai
                 }));
             }

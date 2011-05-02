@@ -190,7 +190,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-        $("#newcreategroup_template_name").text(currentTemplate.title);
+        $(".newcreategroup_template_name").text(currentTemplate.title);
         $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
         $newcreategroupContainer.show();
         addBinding();
