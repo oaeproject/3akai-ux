@@ -137,6 +137,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                         };
                         $(window).trigger("complete.bundleRequest.Server.api.sakai", jsonData);
                     }
+                    delete this.initialRequests[groupId];
                 });
             }
         },
