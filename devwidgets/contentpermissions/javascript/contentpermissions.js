@@ -384,7 +384,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         	});
             
             $('#ew_permissions>a').click(function(){
-            	$contentpermissionsContainer.jqmShow();
+                $contentpermissionsContainer.jqmShow();
                 setWidgetTitleAndRender();
                 $('#newentitywidget_widget').jqmHide();
             });
