@@ -12,7 +12,10 @@
         {for item in data}
             {if item.mode == "large"}
                 <div class="featuredcontent_content featuredcontent_content_large">
-                    <div class="featuredcontent_content_preview_overlay">
+                    <div id="featuredcontent_large_preview">
+                        <div id="widget_documentviewer_cpFullSizePreview" class="widget_inline"></div>
+                    </div>
+                    <div class="featuredcontent_content_right_description">
                         <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 150)}</a>
                         {if item["sakai:description"]}
                             <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
@@ -25,14 +28,11 @@
                             </span>
                         {/if}
                     </div>
-                    <div id="featuredcontent_large_preview">
-                        <div id="widget_documentviewer_cpFullSizePreview" class="widget_inline"></div>
-                    </div>
                 </div>
             {elseif item.mode == "medium"}
                 <div class="featuredcontent_content featuredcontent_content_medium">
                     <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
-                    <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 70)}</a>
+                    <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 50,[],"s3d-bold")}</a>
                     {if item["sakai:description"]}
                         <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
                     {/if}
@@ -50,7 +50,6 @@
                         <div class="featuredcontent_content_small_container">
                     {/if}
                     <div class="featuredcontent_content featuredcontent_content_small">
-                        <img src="${sakai.api.Content.getMimeTypeData(small["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                         <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 70)}</a>
                         {if small["sakai:tags"]}
                             <span class="featuredcontent_content_tags">
@@ -66,6 +65,13 @@
                 {/for}
             {/if}
         {/for}
+        <div id="featuredcontent_show_more_container">
+            <a href="/search#l=content" title="__MSG__SHOW_MORE__">
+                <button type="button" id="featuredcontent_show_more" class="s3d-button s3d-button-link-2-state">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
+                </button>
+            <a/>
+        </div>
     {else}
         __MSG__NO_FEATURED_CONTENT__
     {/if}
