@@ -179,7 +179,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if ($(messageDialogContainer).hasClass('dialog')) {
                     $(messageDialogContainer).jqmHide();
-                    setTimeout(resetView, 250);
                 }
 
                 // If we have a valid callback function we call that
