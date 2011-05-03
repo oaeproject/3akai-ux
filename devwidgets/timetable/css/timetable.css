@@ -17,15 +17,18 @@
  */
 
 
-/* no entries */
+/* No entries */
 
 .timetable_widget #no_event_entries{display:block}
-#no_event_entries h1{font:17px / 17px Arial, Helvetica, sans-serif;margin:0 0 33px 11px}
-#no_event_entries .call-to-action{border:1px solid #a9a9a9;clear:both;overflow:hidden;width:464px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;padding:14px 17px 17px}
-#no_event_entries .call-to-action h2{float:left;font:bold 16px / 21px Arial, Helvetica, sans-serif;letter-spacing:.03em;width:200px;word-wrap:break-word;margin:3px 0 0}
-#no_event_entries .call-to-action a.add_event_link{background:#c8e6fe;border:1px solid #c9ced1;color:#38393e;cursor:pointer;display:inline-block;float:right;font:bold 13px / 43px Arial, Helvetica, sans-serif;height:43px;text-align:center;text-decoration:none;width:221px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}
+.timetable_widget #no_event_entries h1{font:17px / 17px Arial, Helvetica, sans-serif;margin:0 0 33px 11px}
+.timetable_widget #no_event_entries .call-to-action{border:1px solid #a9a9a9;clear:both;overflow:hidden;width:464px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;padding:14px 17px 17px}
+.timetable_widget #no_event_entries .call-to-action h2{float:left;font:bold 16px / 21px Arial, Helvetica, sans-serif;letter-spacing:.03em;width:200px;word-wrap:break-word;margin:3px 0 0}
+.timetable_widget #no_event_entries .call-to-action a.add_event_link{background:#c8e6fe;border:1px solid #c9ced1;color:#38393e;cursor:pointer;display:inline-block;float:right;font:bold 13px / 43px Arial, Helvetica, sans-serif;height:43px;text-align:center;text-decoration:none;width:221px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}
 
-/* new event entry (MODAL) */
+/* New event entry (MODAL) 
+ * 
+ * Notes: because this is a modal view, we cannot prefix this with .timetable_widget 
+ */
 
 #new_event_entry{background:#fff;width:520px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;-moz-box-shadow:0 0 15px rgba(0,0,0,.5);-webkit-box-shadow:0 0 15px rgba(0,0,0,.5);box-shadow:0 0 15px rgba(0,0,0,.5);padding:24px 72px 37px 20px}
 #new_event_entry h2{color:#929295;font:13px / 13px Arial, Helvetica, sans-serif;margin-bottom:35px}
@@ -41,9 +44,9 @@
 #new_event_entry #event_datetime #new_event_ends label{width:29px}
 #new_event_entry #event_datetime .n_e_date{background-image:url(../images/dtp_input_bg.png);background-position:97% 50%;background-repeat:no-repeat;cursor:pointer;margin-left:4px;margin-right:8px;width:101px}
 #new_event_entry #event_datetime .n_e_time{width:37px}
-.ayrton_nud{float:left;height:24px;width:10px}
-.ayrton_nud *{background:url(../images/nudup.png);clear:both;cursor:pointer;display:block;height:12px;text-indent:-9999px;width:10px}
-.ayrton_nud .ayrton_nud_d{background:url(../images/nuddown.png)}
+#new_event_entry .ui-numeric_up_down{float:left;height:24px;width:10px}
+#new_event_entry .ui-numeric_up_down *{background:url(../images/nudup.png);clear:both;cursor:pointer;display:block;height:12px;text-indent:-9999px;width:10px}
+#new_event_entry .ui-numeric_up_down .ui-numeric_up_down-down{background:url(../images/nuddown.png)}
 #new_event_entry #event_types.new_event_entry_row{height:23px;line-height:28px;margin-bottom:46px}
 #new_event_entry #event_types label{vertical-align:bottom}
 #new_event_entry #event_types select{color:#47494e;height:23px}
@@ -52,55 +55,58 @@
 #new_event_entry button{background:#4283b9;border:1px solid #c9ced1;color:#dfefff;cursor:pointer;font:bold 11px / 21px Arial, Helvetica, sans-serif;height:23px;vertical-align:middle;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;margin:0 0 0 33px;padding:0 14px}
 #new_event_entry #event_datetime .n_e_date::-webkit-input-placeholder,#new_event_entry #event_datetime .n_e_date:-moz-placeholder{color:#a9a9a9}
 
-/* datepicker */
+/* Datepicker 
+ *
+ * Notes: there's no way to prefix this datepicker with the .timetable_widget selector, b/c this is dynamically added to the HTML DOM Three.
+ */
 
 #ui-datepicker-div{background:#fff;border:1px solid #a9a9a9;display:none;margin-left:6px;margin-top:5px;width:212px;padding:42px 8px 9px}
 #ui-datepicker-div .ui-datepicker-header{height:42px;left:0;position:absolute;top:0;width:228px}
 #ui-datepicker-div .ui-datepicker-header a{background:url(../images/dtpleft.png);display:block;height:14px;left:20px;position:absolute;text-indent:-9999px;top:14px;width:8px}
 #ui-datepicker-div .ui-datepicker-header a.ui-datepicker-next{background:url(../images/dtpright.png);left:200px}
 #ui-datepicker-div .ui-datepicker-header .ui-datepicker-title{color:#797979;font:bold 12px / 42px Arial, Helvetica, sans-serif;text-align:center}
-table.ui-datepicker-calendar{border-collapse:collapse;border-spacing:0;width:inherit}
-table.ui-datepicker-calendar thead{background:#e4e4e4;color:#000}
-table.ui-datepicker-calendar thead th{text-align:center;font:12px / 17px Arial, Helvetica, sans-serif}
-table.ui-datepicker-calendar td{border:1px solid #f1f1f1;font:bold 12px / 24px Arial, Helvetica, sans-serif;text-align:center}
-table.ui-datepicker-calendar td.ui-datepicker-other-month{background:#f7f7f7}
-table.ui-datepicker-calendar td.ui-datepicker-current-day{background:#d5dbdf}
-table.ui-datepicker-calendar td.ui-datepicker-today{background:#386d9a}
-table.ui-datepicker-calendar a{color:#797979;text-decoration:none}
-table.ui-datepicker-calendar td.ui-datepicker-other-month span{color:#d6d6d2}
-table.ui-datepicker-calendar td.ui-datepicker-current-day a{color:#315a85}
-table.ui-datepicker-calendar td.ui-datepicker-today a{color:#fff}
+#ui-datepicker-div .ui-datepicker-calendar{border-collapse:collapse;border-spacing:0;width:inherit}
+#ui-datepicker-div .ui-datepicker-calendar thead{background:#e4e4e4;color:#000}
+#ui-datepicker-div .ui-datepicker-calendar thead th{text-align:center;font:12px / 17px Arial, Helvetica, sans-serif}
+#ui-datepicker-div .ui-datepicker-calendar td{border:1px solid #f1f1f1;font:bold 12px / 24px Arial, Helvetica, sans-serif;text-align:center}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-other-month{background:#f7f7f7}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-current-day{background:#d5dbdf}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-today{background:#386d9a}
+#ui-datepicker-div .ui-datepicker-calendar a{color:#797979;text-decoration:none}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-other-month span{color:#d6d6d2}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-current-day a{color:#315a85}
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-today a{color:#fff}
 
-/* event entries */
+/* Event entries */
 
-#event_entries .event_entries_heading{height:25px;margin-bottom:9px;width:522px}
-#event_entries h1{float:left;font:17px / 25px Arial, Helvetica, sans-serif;margin:0 8px 0 0}
-#event_entries a.add_event_link{background:#fff;border:1px solid #c9ced1;color:#38393e;cursor:pointer;display:inline-block;float:left;font:bold 11px / 21px Arial, Helvetica, sans-serif;height:21px;margin-top:2px;vertical-align:middle;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:0 4px}
-#event_entries .sort_events_container{height:25px;float:right;line-height:25px}
-#event_entries .sort_events_container em{color:#38393e;font:11px / 25px Arial, Helvetica, sans-serif}
-#event_entries .sort_events_container select{color:#63636c;height:23px}
-#event_entries_list{clear:both;float:left;margin:0 0 0 12px}
-#event_entries_list li{clear:both;cursor:pointer;list-style:none;margin-top:15px}
-#event_entries_list li .event_container{margin-left:-12px;-webkit-border-top-left-radius:10px;-webkit-border-bottom-left-radius:10px;-moz-border-radius-topleft:10px;-moz-border-radius-bottomleft:10px;border-top-left-radius:10px;border-bottom-left-radius:10px;padding:6px 0 12px 12px}
-#event_entries_list li.selected .event_container{background:#c8e6fe}
-#event_entries_list .event_cal{background:#fff;border:1px solid #a9a9a9;color:#000;float:left;height:30px;margin-right:11px;text-align:center;width:30px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}
-#event_entries_list .event_cal strong{border-bottom:1px solid #a9a9a9;display:inline-block;font:bold 15px / 18px Arial, Helvetica, sans-serif;height:17px;width:30px}
-#event_entries_list .event_cal span{font:9px / 13px Arial, Helvetica, sans-serif;text-transform:uppercase;vertical-align:super}
-#event_entries_list .event_info h2{color:#1f5b85;font:bold 11px / 1em Arial, Helvetica, sans-serif;margin:0}
-#event_entries_list .event_info h3{color:#2c5988;font:11px / 1em Arial, Helvetica, sans-serif;margin:0}
-#event_entries_list .event_info h4{color:#000;font:10px / 1em Arial, Helvetica, sans-serif}
-#event_entries hr{background:#dfe1e4;border:0;display:inline-block;height:1px;width:507px;margin:9px 0 0 auto}
-#event_entry_info{background:#c8e6fe;display:none;float:left;margin-top:15px;width:175px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;padding:24px 18px 24px 29px}
-#event_entry_info.selected_index_0{-webkit-border-radius:10px;-webkit-border-top-left-radius:0;-moz-border-radius:10px;-moz-border-radius-topleft:0;border-radius:10px;border-top-left-radius:0}
-#event_entry_info h3,#event_entry_info p{color:#356c9a;font:12px / 1em Arial, Helvetica, sans-serif}
-#event_entry_info #event_entry_info_map{margin-bottom:30px}
-#event_entry_info #event_entry_info_map img{border:1px solid #4283b9;margin:10px 0}
-#event_entry_info #event_entry_info_details{margin-bottom:15px}
-#event_entry_info #event_entry_info_details h3{margin-bottom:5px}
-#event_entry_info #event_entry_info_details em{color:#38393e;font-size:11px;line-height:14px}
-#event_entry_info #event_entry_info_details strong{color:#316d95;line-height:14px}
-#event_entry_info #event_entry_info_details ul{margin-bottom:5px;margin-top:10px;width:153px}
-#event_entry_info #event_entry_info_details li{float:left;margin-right:2px;margin-bottom:3px}
-#event_entry_info #event_entry_info_notes h3{color:#000;font-size:9px;margin-bottom:3px}
-#event_entry_info #event_entry_info_notes p{color:#000;line-height:14px}
-#event_entry_info #event_entry_info_details p,#event_entry_info #event_entry_info_notes{clear:both}
+.timetable_widget #event_entries .event_entries_heading{height:25px;margin-bottom:9px;width:522px}
+.timetable_widget #event_entries h1{float:left;font:17px / 25px Arial, Helvetica, sans-serif;margin:0 8px 0 0}
+.timetable_widget #event_entries a.add_event_link{background:#fff;border:1px solid #c9ced1;color:#38393e;cursor:pointer;display:inline-block;float:left;font:bold 11px / 21px Arial, Helvetica, sans-serif;height:21px;margin-top:2px;vertical-align:middle;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:0 4px}
+.timetable_widget #event_entries .sort_events_container{height:25px;float:right;line-height:25px}
+.timetable_widget #event_entries .sort_events_container em{color:#38393e;font:11px / 25px Arial, Helvetica, sans-serif}
+.timetable_widget #event_entries .sort_events_container select{color:#63636c;height:23px}
+.timetable_widget #event_entries_list{clear:both;float:left;margin:0 0 0 12px}
+.timetable_widget #event_entries_list li{clear:both;cursor:pointer;list-style:none;margin-top:15px}
+.timetable_widget #event_entries_list li .event_container{margin-left:-12px;-webkit-border-top-left-radius:10px;-webkit-border-bottom-left-radius:10px;-moz-border-radius-topleft:10px;-moz-border-radius-bottomleft:10px;border-top-left-radius:10px;border-bottom-left-radius:10px;padding:6px 0 12px 12px}
+.timetable_widget #event_entries_list li.selected .event_container{background:#c8e6fe}
+.timetable_widget #event_entries_list .event_cal{background:#fff;border:1px solid #a9a9a9;color:#000;float:left;height:30px;margin-right:11px;text-align:center;width:30px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}
+.timetable_widget #event_entries_list .event_cal strong{border-bottom:1px solid #a9a9a9;display:inline-block;font:bold 15px / 18px Arial, Helvetica, sans-serif;height:17px;width:30px}
+.timetable_widget #event_entries_list .event_cal span{font:9px / 13px Arial, Helvetica, sans-serif;text-transform:uppercase;vertical-align:super}
+.timetable_widget #event_entries_list .event_info h2{color:#1f5b85;font:bold 11px / 1em Arial, Helvetica, sans-serif;margin:0}
+.timetable_widget #event_entries_list .event_info h3{color:#2c5988;font:11px / 1em Arial, Helvetica, sans-serif;margin:0}
+.timetable_widget #event_entries_list .event_info h4{color:#000;font:10px / 1em Arial, Helvetica, sans-serif}
+.timetable_widget #event_entries hr{background:#dfe1e4;border:0;display:inline-block;height:1px;width:507px;margin:9px 0 0 auto}
+.timetable_widget #event_entry_info{background:#c8e6fe;display:none;float:left;margin-top:15px;width:175px;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;padding:24px 18px 24px 29px}
+.timetable_widget #event_entry_info.selected_index_0{-webkit-border-radius:10px;-webkit-border-top-left-radius:0;-moz-border-radius:10px;-moz-border-radius-topleft:0;border-radius:10px;border-top-left-radius:0}
+.timetable_widget #event_entry_info h3,#event_entry_info p{color:#356c9a;font:12px / 1em Arial, Helvetica, sans-serif}
+.timetable_widget #event_entry_info #event_entry_info_map{margin-bottom:30px}
+.timetable_widget #event_entry_info #event_entry_info_map img{border:1px solid #4283b9;margin:10px 0}
+.timetable_widget #event_entry_info #event_entry_info_details{margin-bottom:15px}
+.timetable_widget #event_entry_info #event_entry_info_details h3{margin-bottom:5px}
+.timetable_widget #event_entry_info #event_entry_info_details em{color:#38393e;font-size:11px;line-height:14px}
+.timetable_widget #event_entry_info #event_entry_info_details strong{color:#316d95;line-height:14px}
+.timetable_widget #event_entry_info #event_entry_info_details ul{margin-bottom:5px;margin-top:10px;width:153px}
+.timetable_widget #event_entry_info #event_entry_info_details li{float:left;margin-right:2px;margin-bottom:3px}
+.timetable_widget #event_entry_info #event_entry_info_notes h3{color:#000;font-size:9px;margin-bottom:3px}
+.timetable_widget #event_entry_info #event_entry_info_notes p{color:#000;line-height:14px}
+.timetable_widget #event_entry_info #event_entry_info_details p,#event_entry_info #event_entry_info_notes{clear:both}

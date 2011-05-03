@@ -50,8 +50,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
         var $settingsForm = $("#timetable_settings_form", $rootel);
         
         var $addEventContainer = $("#new_event_entry", $rootel);
-        var $addEventForm = $('form', $addEventContainer);
-        var $addEventFormSelect = $("select#n_e_type", $addEventForm);
+        var $addEventForm = $('#new_event_entry_form', $rootel);
+        var $addEventFormSelect = $("#event_types select#n_e_type", $rootel);
         
         var $mainContainer = $("#timetable_main", $rootel);
         var $sortEventsList, $addEventLinks, $eventList, $eventInfo;
@@ -82,10 +82,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
          */
         var countDaysLeft = function(event_start_day){
             var today = new Date();
-			today.setHours(0, 0, 0, 0);
-            var one_day = 1000 * 60 * 60 * 24;        
+            today.setHours(0, 0, 0, 0);
+            var one_day = 1000 * 60 * 60 * 24;
             
             return Math.ceil((event_start_day.getTime() - today.getTime()) / (one_day)) - 1;
+        };
+        
+        /**
+         * Set a width to the list to make it as wide as possible without having a horizontal scrollbar.
+         */
+        var doApplyWidthToList = function(){
+            var fullWidth = $('#timetable_main', $rootel).width();
+            var detailsWidth = $('#event_entry_info', $rootel).outerWidth();
+            var listWidth = fullWidth - detailsWidth - 12;
+            
+            $('#event_entries_list, .event_entries_heading', $rootel).width(listWidth);
+            $('#event_entries hr', $rootel).width(listWidth - 16);
+            
         };
         
         /**
@@ -266,23 +279,44 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             var compA, compB;
             
             listitems.sort(function(a, b){
-                if (selectVal == 'Id') {
-                    compA = parseInt($(a).attr('data-id'), 10);
-                    compB = parseInt($(b).attr('data-id'), 10);
+                for (i = 0; i < data.events.length; i++) {
+                    var e = data.events[i];
+                    if (e.id == $(a).attr('data-id')) {
+                        compA = e.start;
+                    }
+                    
+                    if (e.id == $(b).attr('data-id')) {
+                        compB = e.start;
+                    }
                 }
-                else {
-                    for (i = 0; i < data.events.length; i++) {
-                        var e = data.events[i];
-                        if (e.id == $(a).attr('data-id')) {
-                            compA = e.start;
+                
+                if (selectVal == 'descending') {
+                    if (compA < compB) {
+                        return -1;
+                    }
+                    else {
+                        if (compA > compB) {
+                            return 1;
                         }
-                        
-                        if (e.id == $(b).attr('data-id')) {
-                            compB = e.start;
+                        else {
+                            return 0;
                         }
                     }
                 }
-                return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+                else 
+                    if (selectVal == 'ascending') {
+                        if (compA > compB) {
+                            return -1;
+                        }
+                        else {
+                            if (compA < compB) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        }
+                    }
             });
             $.each(listitems, function(idx, itm){
                 $eventList.append(itm);
@@ -329,18 +363,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
         /////////////////////////////  
         
         /**
-         * Set a width to the list to make it as wide as possible without having a horizontal scrollbar.
-         */
-        var doApplyWidthToList = function(){
-            var fullWidth = $('#timetable_main', $rootel).width();
-            var detailsWidth = $('#event_entry_info', $rootel).outerWidth();
-            var listWidth = fullWidth - detailsWidth - 12;
-            
-            $('#event_entries_list, .event_entries_heading', $rootel).width(listWidth);
-            $('#event_entries hr', $rootel).width(listWidth - 16);
-        };
-        
-        /**
          * Retreive the start and end date from the input fields into a global variable.
          */
         var initialiseStartAndEndDate = function(){
@@ -355,7 +377,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
             $.validator.addMethod("n_e_time", function(value, element){
                 return this.optional(element) || /^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/.test(value);
             }, "Invalid format, use only 'hh:mm' please.");
-            
             
             $.validator.addMethod("n_e_date", function(value, element){
                 initialiseStartAndEndDate();
@@ -399,17 +420,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                 var $timeinput = $(this);
                 
                 // Here we add the necessary UI elements to create a NUD-component.
-                $timeinput.after('<div class="ayrton_nud"><a class="ayrton_nud_u ayrton_nud_a">up</a><a class="ayrton_nud_d ayrton_nud_a">down</a></div>');
+                $timeinput.after('<div class="ui-numeric_up_down"><a class="ui-numeric_up_down-up ui-numeric_up_down-anchor">up</a><a class="ui-numeric_up_down-down ui-numeric_up_down-anchor">down</a></div>');
                 
                 // Clickhandler.
                 var mininterval = 15;
-                $timeinput.parent().find('.ayrton_nud_a').click(function(){
+                $timeinput.parent().find('.ui-numeric_up_down-anchor').click(function(){
                     var tval = $timeinput.val();
                     
                     var th = parseInt(tval.split(':')[0], 10);
                     var tm = parseInt(tval.split(':')[1], 10);
                     
-                    if ($(this).hasClass('ayrton_nud_u')) {
+                    if ($(this).hasClass('ui-numeric_up_down-up')) {
                         // Increase the minute value with mininterval.
                         tm += mininterval;
                         if (tm >= 60) {
@@ -422,7 +443,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/jquery-ui-datepicker
                         }
                     }
                     else 
-                        if ($(this).hasClass('ayrton_nud_d')) {
+                        if ($(this).hasClass('ui-numeric_up_down-down')) {
                             // Decrease the minute value with mininterval.
                             tm -= mininterval;
                             if (tm < 0) {
