@@ -156,7 +156,7 @@ define(["jquery",
             });
 
         },
-        
+
         getUser: function(userid, callback){
             var authprofileURL = "/~" + userid + "/public/authprofile";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
@@ -164,6 +164,31 @@ define(["jquery",
                     callback(true, data);
                 } else {
                     callback(false);
+                }
+            });
+        },
+
+        getMultipleUsers: function(userArray, callback){
+            // this method could be checking for and removing duplicate users
+            for (var i in userArray) {
+                if (userArray.hasOwnProperty(i)) {
+                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", userArray.length, userArray[i], {
+                        "url": "/~" + userArray[i] + "/public/authprofile",
+                        "method": "GET"
+                    });
+                }
+            }
+
+            // bind response from batch request
+            $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
+                if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
+                    var users = {};
+                    for (i in reqData.responseId) {
+                        if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
+                            users[reqData.responseId[i]] = $.parseJSON(reqData.responseData[i].body);
+                        }
+                    }
+                    callback(users);
                 }
             });
         },
@@ -475,6 +500,28 @@ define(["jquery",
                 }
             });
             return ret;
+        },
+
+        /**
+         * Get a contacts connection state, or return false if user is not a contact
+         *
+         * @param {String} the user's ID
+         * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
+         */
+        getConnectionState : function(userid, callback) {
+            var ret = false;
+            this.getContacts(function() {
+                for (var i in sakaiUserAPI.data.me.mycontacts) {
+                    if (i && sakaiUserAPI.data.me.mycontacts.hasOwnProperty(i)) {
+                        if (sakaiUserAPI.data.me.mycontacts[i].target === userid && sakaiUserAPI.data.me.mycontacts[i].details) {
+                            ret = sakaiUserAPI.data.me.mycontacts[i].details["sakai:state"];
+                        }
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(ret);
+                }
+            });
         },
 
         acceptContactInvite : function(inviteFrom, callback) {
