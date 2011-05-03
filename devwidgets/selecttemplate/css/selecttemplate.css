@@ -15,3 +15,16 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+#selecttemplate_container img {float:left; margin-right: 20px;}
+#selecttemplate_container .selecttemplate_template_small {float:left; width: 219px; margin:30px 30px 0 0;}
+#selecttemplate_container .selecttemplate_template_large {float:left; width: 471px; margin:30px 30px 0 0;}
+#selecttemplate_container .selecttemplate_template_right {margin-right:0;}
+#selecttemplate_container h1 {color:#777; font-weight:normal;}
+#selecttemplate_container h2 {color:#0096c6;}
+#selecttemplate_container h3 {color:#ada9a7; font-weight:normal; border-top: 5px solid #e1e1e1; padding-top: 10px;}
+#selecttemplate_container h4 {color:#535353;}
+#selecttemplate_container p {color:#7b7b7b;}
+#selecttemplate_container .selecttemplate_preview_button {display:block; border-radius: 5px; -moz-border-radius:5px; color:#444; border: 1px solid #d2d7db; background-color:#f5f5f5; padding: 5px; margin: 10px 0;}
+#selecttemplate_container .selecttemplate_preview_button:hover {color:#fff; border: 1px solid #00abd3; background-color:#00c0ee;}
+#selecttemplate_container .selecttemplate_use_button {display:block; border-radius: 5px; -moz-border-radius:10px; color:#fff; border: 1px solid #565656; background-color:#7e7e7e; padding: 3px 20px; margin: 10px 0; font-weight:bold;}

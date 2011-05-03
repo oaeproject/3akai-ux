@@ -3,12 +3,13 @@
 
 <!-- CONTAINER -->
 <div id="selecttemplate_container">
+    <h1>__MSG__CREATE_A_COURSE__</h1>
     <div id="selecttemplate_templatelist_container" style="display:none"></div>
     <div id="selecttemplate_createworld_container" style="display:none"></div>
     <div id="selecttemplate_templatelist_template" style="display:none"><!--
         {for template in templates}
             {var templatesize = (template_index == 0)?"large":"small";}
-            <div class="selecttemplate_template_${templatesize}">
+            <div class="selecttemplate_template_${templatesize} {if template_index % 3 == 1} selecttemplate_template_right{/if}">
                 <h3>__MSG__FEATURED_TEMPLATE__</h3>
                 <div>
                     {if templatesize == "large"}
@@ -16,13 +17,16 @@
                     {/if}
                     <h2>${template.title}</h2>
                     <div class="selecttemplate_perfectfor">
-                        <h3>__MSG__PERFECT_FOR__:</h3>
+                        <h4>__MSG__PERFECT_FOR__:</h4>
                         <p>${template.perfectFor}</p>
                     </div>
-                    <button>__MSG__PREVIEW_TEMPLATE__</button>
-                    <button>__MSG__USE_TEMPLATE__</button>
+                    <button class="selecttemplate_preview_button">__MSG__PREVIEW_TEMPLATE__</button>
+                    <button class="selecttemplate_use_button">__MSG__USE_TEMPLATE__</button>
                 </div>
             </div>
+            {if template_index % 3 == 1}
+                <div class="fl-push"></div>
+            {/if}
         {/for}
     --></div>
     <div id="selecttemplate_createworld_template" style="display:none"><!--
