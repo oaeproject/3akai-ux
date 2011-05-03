@@ -124,9 +124,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_invite.hide();
             var clickedEl = $(this);
             userId = clickedEl.data("userid");
-            if (!sakai.api.User.checkIfConnected(userId)){
-                $personinfo_invite.show();
-            }
+
+            // check if user is a contact and their connection state
+            sakai.api.User.getConnectionState(userId, function(state){
+                if (!state){
+                    $personinfo_invite.show();
+                }
+            });
+
             if (!open) {
                 open = true;
                 if (userId) {
