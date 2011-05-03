@@ -429,7 +429,7 @@ define(["jquery",
                     return "";
                 }
 
-                var expression = new RegExp(".{1}__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
+                var expression = new RegExp("__MSG__(.*?)__", "gm"), processed = "", lastend = 0;
 
                 while(expression.test(toprocess)) {
                     var replace = RegExp.lastMatch;
