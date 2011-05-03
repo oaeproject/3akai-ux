@@ -7,7 +7,22 @@
     <div id="selecttemplate_createworld_container" style="display:none"></div>
     <div id="selecttemplate_templatelist_template" style="display:none"><!--
         {for template in templates}
-            <div><a href="javascript:;" class="selecttemplate_templatelist_picktemplate" data-templateid="${template.id}">${template.title}</a></div>
+            {var templatesize = (template_index == 0)?"large":"small";}
+            <div class="selecttemplate_template_${templatesize}">
+                <h3>__MSG__FEATURED_TEMPLATE__</h3>
+                <div>
+                    {if templatesize == "large"}
+                        <img src=${template.img} />
+                    {/if}
+                    <h2>${template.title}</h2>
+                    <div class="selecttemplate_perfectfor">
+                        <h3>__MSG__PERFECT_FOR__:</h3>
+                        <p>${template.perfectFor}</p>
+                    </div>
+                    <button>__MSG__PREVIEW_TEMPLATE__</button>
+                    <button>__MSG__USE_TEMPLATE__</button>
+                </div>
+            </div>
         {/for}
     --></div>
     <div id="selecttemplate_createworld_template" style="display:none"><!--
