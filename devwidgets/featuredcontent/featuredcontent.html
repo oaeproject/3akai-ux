@@ -14,7 +14,9 @@
                 <div class="featuredcontent_content featuredcontent_content_large">
                     <div class="featuredcontent_content_preview_overlay">
                         <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 150)}</a>
-                        <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
+                        {if item["sakai:description"]}
+                            <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
+                        {/if}
                         {if item["sakai:tags"]}
                             <span class="featuredcontent_content_tags">
                                 {for tag in item["sakai:tags"]}
@@ -23,13 +25,17 @@
                             </span>
                         {/if}
                     </div>
-                    <img src="/p/${item["jcr:path"]}"/>
+                    <div id="featuredcontent_large_preview">
+                        <div id="widget_documentviewer_cpFullSizePreview" class="widget_inline"></div>
+                    </div>
                 </div>
             {elseif item.mode == "medium"}
                 <div class="featuredcontent_content featuredcontent_content_medium">
-                    <img src="${sakai.config.MimeTypes[sakai.api.Content.getMimeType(item)].URL}" class="featuredcontent_thumbnail_image"/>
+                    <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                     <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 70)}</a>
-                    <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
+                    {if item["sakai:description"]}
+                        <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], 500)}</span>
+                    {/if}
                     {if item["sakai:tags"]}
                         <span class="featuredcontent_content_tags">
                             {for tag in item["sakai:tags"]}
@@ -38,14 +44,14 @@
                         </span>
                     {/if}
                 </div>
-            {else}
+            {elseif $.isArray(item)}
                 {for small in item}
                     {if small_index %2 == 0}
                         <div class="featuredcontent_content_small_container">
                     {/if}
                     <div class="featuredcontent_content featuredcontent_content_small">
-                        <img src="${sakai.config.MimeTypes[sakai.api.Content.getMimeType(small)].URL}" class="featuredcontent_thumbnail_image"/>
-                        <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}"class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 70)}</a>
+                        <img src="${sakai.api.Content.getMimeTypeData(small["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
+                        <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 70)}</a>
                         {if small["sakai:tags"]}
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}

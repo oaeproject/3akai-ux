@@ -36,16 +36,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredcontentContentTemplate = "featuredcontent_content_template";
 
         var featuredContentArr = [];
+        var featuredcontentPreviewContainer = "#featuredcontent_large_preview";
+        var rendered = false;
 
         var renderFeaturedContent = function(data){
+            rendered = true;
             $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                 "data": data,
                 "sakai": sakai
-            }))
+            }));
+            sakai.api.Widgets.widgetLoader.insertWidgets($(featuredcontentPreviewContainer), false, false, [{
+                cpFullSizePreview: {
+                    "data": featuredContentArr[0]
+                }
+            }]);
         };
 
         var addSmall = function(data){
-            if (data.results.length) {
+            if (data.results.length && featuredContentArr.length != 7) {
                 var added = 0;
                 var tempArr = [];
                 for (var i = 0; i < data.results.length; i++) {
@@ -60,26 +68,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         else {
                             data.results.splice(i, 1);
                         }
-                        if(data.results.length == 1){
+                        if (added == 2 || !data.results.length) {
                             featuredContentArr.push(tempArr);
+                            addMedium(data);
+                            if(!data.results.length && !rendered){
+                                renderFeaturedContent(featuredContentArr);
+                            }
+                            break;
                         }
                     }
-                    else {
-                        featuredContentArr.push(tempArr);
-                        addMedium(data);
-                        break;
-                    }
                 }
-                renderFeaturedContent(featuredContentArr);
+            } else {
+                if (!rendered) {
+                    renderFeaturedContent(featuredContentArr);
+                }
             }
         };
 
         var addMedium = function(data){
-            if (data.results.length) {
+            if (data.results.length && featuredContentArr.length != 7) {
                 var removed = 0;
                 for (var i = 0; i < data.results.length; i++) {
                     data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
-                    if (data.results[i]["sakai:description"]) {
                         data.results[i].mode = "medium";
                         featuredContentArr.push(data.results[i]);
                         if (i) {
@@ -92,28 +102,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (removed) {
                             addSmall(data);
                         }
-                    }
-                    else 
-                        if (i == data.results.length) {
-                            addSmall(data);
-                            break;
-                        }
                 }
-            } else {
-                renderFeaturedContent(featuredContentArr);
             }
         };
 
         var addLarge = function(data){
             for (var i = 0; i < data.results.length; i++) {
                 data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
-                if(data.results[i].hasPreview && data.results[i]["sakai:description"] && data.results[i]["sakai:tags"]){
+                if(data.results[i].hasPreview){
                     data.results[i].mode = "large";
                     featuredContentArr.push(data.results[i]);
                     data.results.splice(i, 1);
                     addMedium(data);
                     break;
-                }else if(i == data.results.length){
+                }else if(i == data.results.length - 1){
                     addMedium(data);
                 }
             }
@@ -125,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var getFeaturedContent = function(){
             $.ajax({
-                url: "/var/search/pool/all-all.json?page=0&items=11&q=*&_charset_=utf-8",
+                url: "/var/search/pool/all-all.json?page=0&items=10&q=*&_charset_=utf-8&sortOn=_lastModified&sortOrder=desc",
                 cache: false,
                 success: function(data){
                     if(data.total){
