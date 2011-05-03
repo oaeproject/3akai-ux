@@ -35,14 +35,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Templates
         var featuredcontentContentTemplate = "featuredcontent_content_template";
 
-        // Limit number of items
-        var maxLarge = 4;
-        var maxMedium = 8;
-        var maxSmall = 16;
-
         var featuredContentArr = [];
-        var mediumArr = [];
-        var smallArr = [];
 
         var renderFeaturedContent = function(data){
             $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
@@ -51,42 +44,95 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }))
         };
 
-        var parseFeaturedContent = function(data){
-            for (var i = 0; i < data.results.length; i++) {
-                data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
-                if(data.results[i].hasPreview){
-                    if (maxLarge) {
-                        featuredContentArr.push(data.results[i]);
-                        maxLarge--;
+        var addSmall = function(data){
+            if (data.results.length) {
+                var added = 0;
+                var tempArr = [];
+                for (var i = 0; i < data.results.length; i++) {
+                    if (added !== 2) {
+                        data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
+                        data.results[i].mode = "small";
+                        tempArr.push(data.results[i]);
+                        added++;
+                        if (i) {
+                            data.results.splice(i - added, 1);
+                        }
+                        else {
+                            data.results.splice(i, 1);
+                        }
+                        if(data.results.length == 1){
+                            featuredContentArr.push(tempArr);
+                        }
                     }
-                } else if(data.results[i]["sakai:description"]){
-                    if (maxMedium) {
-                        mediumArr.push(data.results[i]);
-                        maxMedium--;
-                    }
-                } else {
-                    if (maxSmall) {
-                        smallArr.push(data.results[i]);
-                        maxSmall--;
+                    else {
+                        featuredContentArr.push(tempArr);
+                        addMedium(data);
+                        break;
                     }
                 }
+                renderFeaturedContent(featuredContentArr);
             }
+        };
 
-            $.each(mediumArr, function(index, item){
-                featuredContentArr.push(item);
-            });
+        var addMedium = function(data){
+            if (data.results.length) {
+                var removed = 0;
+                for (var i = 0; i < data.results.length; i++) {
+                    data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
+                    if (data.results[i]["sakai:description"]) {
+                        data.results[i].mode = "medium";
+                        featuredContentArr.push(data.results[i]);
+                        if (i) {
+                            data.results.splice(i - removed, 1);
+                        }
+                        else {
+                            data.results.splice(i, 1);
+                        }
+                        removed++;
+                        if (removed) {
+                            addSmall(data);
+                        }
+                    }
+                    else 
+                        if (i == data.results.length) {
+                            addSmall(data);
+                            break;
+                        }
+                }
+            } else {
+                renderFeaturedContent(featuredContentArr);
+            }
+        };
 
-            featuredContentArr.push(smallArr);
+        var addLarge = function(data){
+            for (var i = 0; i < data.results.length; i++) {
+                data.results[i].hasPreview = sakai.api.Content.hasPreview(data.results[i]);
+                if(data.results[i].hasPreview && data.results[i]["sakai:description"] && data.results[i]["sakai:tags"]){
+                    data.results[i].mode = "large";
+                    featuredContentArr.push(data.results[i]);
+                    data.results.splice(i, 1);
+                    addMedium(data);
+                    break;
+                }else if(i == data.results.length){
+                    addMedium(data);
+                }
+            }
+        };
 
-            renderFeaturedContent(featuredContentArr);
+        var parseFeaturedContent = function(data){
+            addLarge(data);
         };
 
         var getFeaturedContent = function(){
             $.ajax({
-                url: "/var/search/pool/all-all.json?page=0&items=10&q=*&_charset_=utf-8",
+                url: "/var/search/pool/all-all.json?page=0&items=11&q=*&_charset_=utf-8",
                 cache: false,
                 success: function(data){
-                    parseFeaturedContent(data);
+                    if(data.total){
+                        parseFeaturedContent(data);
+                    }else{
+                        renderFeaturedContent(false);
+                    }
                 },
                 error: function(xhr, textStatus, thrownError){
                     debug.log(xhr, textStatus, thrownError);
