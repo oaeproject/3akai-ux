@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var entityUserPictureDropdown = ".entity_user_picture_dropdown";
         var entityUserCreateAddDropdown = ".entity_user_create_add_dropdown";
 
-
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
         var entityUserImage = "#entity_user_image";
@@ -152,9 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
             }
        };
-
-        
-        
+    
         var renderEntity = function(context){
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));

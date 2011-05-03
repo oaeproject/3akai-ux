@@ -388,11 +388,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 setWidgetTitleAndRender();
                 $('#newentitywidget_widget').jqmHide();
             });
-            
-            //$(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
-            //    $contentpermissionsContainer.jqmShow();
-            //    setWidgetTitleAndRender();
-            //});
 
             $(contentpermissionsCancelButton).live("click", closeOverlay);
             $(contentpermissionsShareButton).live("click", doShare);
