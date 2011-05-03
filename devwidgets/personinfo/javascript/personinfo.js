@@ -70,7 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Shows the widget
          */
         var showPersonInfo = function(clickedEl) {
-            var personinfoTop = clickedEl.offset().top + clickedEl.height() - 5;
+            var personinfoTop = clickedEl.offset().top + clickedEl.height() - 1;
             var personinfoLeft = clickedEl.offset().left + clickedEl.width() / 2 - 125;
 
             $personinfo_widget.css({
@@ -96,38 +96,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             showPersonInfo(clickedEl);
         };
 
-        // bind personinfo cancel
-        $personinfo_close.live("click", function(){
-            hidePersonInfo();
-        });
-
-        // bind personinfo message button
-        $personinfo_message.live("click", function () {
-            dataCache[userId].uuid = userId;
-            dataCache[userId].username = userId;
-            dataCache[userId].type = "user";
-            // initialize the sendmessage-widget
-            $(window).trigger("initialize.sendmessage.sakai", [dataCache[userId], false, false, null, null, null]);
-        });
-
-        // bind personinfo request connection button
-        $personinfo_invite.live("click", function(){
-            $(window).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
-        });
-
-        // bind hashchange to close dialog
-        $(window).bind("hashchange hashchanged.newinbox.sakai", function(){
-            hidePersonInfo();
-        });
-
-        $(".personinfo_trigger").live("mouseenter", function(){
+        /**
+         * fetchPersonInfo
+         * Fetches data about the user
+         */
+        var fetchPersonInfo = function(clickedEl) {
             $personinfo_invite.hide();
-            var clickedEl = $(this);
             userId = clickedEl.data("userid");
 
             // check if user is a contact and their connection state
             sakai.api.User.getConnectionState(userId, function(state){
-                if (!state){
+                if (!state && userId !== sakai.data.me.user.userid){
                     $personinfo_invite.show();
                 }
             });
@@ -190,6 +169,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
+        };
+
+        // bind personinfo cancel
+        $personinfo_close.live("click", function(){
+            hidePersonInfo();
+        });
+
+        // bind personinfo message button
+        $personinfo_message.live("click", function () {
+            dataCache[userId].uuid = userId;
+            dataCache[userId].username = userId;
+            dataCache[userId].type = "user";
+            // initialize the sendmessage-widget
+            $(window).trigger("initialize.sendmessage.sakai", [dataCache[userId], false, false, null, null, null]);
+        });
+
+        // bind personinfo request connection button
+        $personinfo_invite.live("click", function(){
+            $(window).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
+        });
+
+        // bind hashchange to close dialog
+        $(window).bind("hashchange hashchanged.newinbox.sakai", function(){
+            hidePersonInfo();
+        });
+
+        // bind mouse hover trigger
+        $(".personinfo_trigger").live("mouseenter", function(){
+            fetchPersonInfo($(this));
+        });
+
+        // bind click trigger
+        $(".personinfo_trigger_click").live("click", function(){
+            fetchPersonInfo($(this));
         });
     };
 
