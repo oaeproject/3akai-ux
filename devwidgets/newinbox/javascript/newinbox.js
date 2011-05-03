@@ -239,13 +239,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleContactInvitation = function(e) {
+            $(".newinbox_invitation", $rootel).hide();
             if ($(e.target).hasClass("newinbox_invitation_accept")) {
+                $(".newinbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts(showMessage);
+                    getContacts();
                 });
             } else {
+                $(".newinbox_ignored", $rootel).show();
                 sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts(showMessage);
+                    getContacts();
                 });
             }
         };
