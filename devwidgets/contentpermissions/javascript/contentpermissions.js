@@ -382,11 +382,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 toTop: true,
                 zIndex: 3000
             });
-
-            $(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
-                $contentpermissionsContainer.jqmShow();
+			
+			$('#ew_permissions>a').click(function(){
+				$contentpermissionsContainer.jqmShow();
                 setWidgetTitleAndRender();
-            });
+                $('#newentitywidget_widget').jqmHide();
+			});
+			
+            //$(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
+            //    $contentpermissionsContainer.jqmShow();
+            //    setWidgetTitleAndRender();
+            //});
 
             $(contentpermissionsCancelButton).live("click", closeOverlay);
             $(contentpermissionsShareButton).live("click", doShare);
@@ -406,6 +412,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var init = function(){
             addBinding();
+             console.log($('#new_permissions'));
         };
 
         init();
