@@ -1082,8 +1082,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         
         
         $("#ew_upload").bind("click", function(){
-        	initialise();
-        	$('#newentitywidget_widget').jqmHide();
+            initialise();
+            $('#newentitywidget_widget').jqmHide();
         });
 
         initialiseUploader();
