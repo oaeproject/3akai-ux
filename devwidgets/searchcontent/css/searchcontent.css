@@ -32,13 +32,13 @@ strong{color:#000;}
 .searchcontent_result_title{width:80%;text-align:center;font-size:1.1em;color:#999;padding:0;}
 
 /* SEARCH RESULTS */
-#searchcontent_results_container{margin:10px 0 0;padding:0 10px;}
+#searchcontent_results_container{margin:10px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}
 .searchcontent_results_part{padding-bottom:10px;}
 .searchcontent_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
 .searchcontent_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
-.searchcontent_result{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}
-.searchcontent_result_first{border-top: 1px dotted #cccccc;}
+.searchcontent_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;}
+.searchcontent_result_first{border-top: 1px solid #e9e9e9;}
 .searchcontent_result img{float:left;padding:0 10px 10px 0;width:50px;}
 .searchcontent_result_sites img{width:30px;}
 .searchcontent_result_right{margin-left:90px;}
@@ -46,7 +46,7 @@ strong{color:#000;}
 .searchcontent_result_header{color:#39c;margin:0 0 5px 25px;font-weight:bold;font-size:1.1em;}
 .searchcontent_result_tags,.searchcontent_result_description{margin:0 0 5px;color:#333;font-size:.95em;padding:6px 0;}
 .searchcontent_result_footer{margin:0 0 5px 25px;color:#999;font-size:.85em;}
-.searchcontent_results .jq_pager{border-bottom: 1px dotted #cccccc;}
+.searchcontent_results .jq_pager{border-bottom: 1px solid #e9e9e9;}
 
 /* search results people */
 .searchcontent_result_person{padding:8px;margin:15px 10px 0 0;border:1px solid #ddd;width:200px;height:60px;float:left;}
