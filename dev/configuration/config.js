@@ -75,6 +75,7 @@ define(function(){
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
             POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
             PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
             PRESENCE_SERVICE: "/var/presence.json",

@@ -512,6 +512,28 @@ define(["jquery",
             return ret;
         },
 
+        /**
+         * Get a contacts connection state, or return false if user is not a contact
+         *
+         * @param {String} the user's ID
+         * @param {Function} [callback] A function which will be called when the information is retrieved from the server.
+         */
+        getConnectionState : function(userid, callback) {
+            var ret = false;
+            this.getContacts(function() {
+                for (var i in sakaiUserAPI.data.me.mycontacts) {
+                    if (i && sakaiUserAPI.data.me.mycontacts.hasOwnProperty(i)) {
+                        if (sakaiUserAPI.data.me.mycontacts[i].target === userid && sakaiUserAPI.data.me.mycontacts[i].details) {
+                            ret = sakaiUserAPI.data.me.mycontacts[i].details["sakai:state"];
+                        }
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(ret);
+                }
+            });
+        },
+
         acceptContactInvite : function(inviteFrom, callback) {
             $.ajax({
                 url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.accept.html",

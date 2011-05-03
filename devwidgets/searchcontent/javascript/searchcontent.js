@@ -166,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 });
 
                 var userArray = [];
-                var userRequest = false;
+                var fetchUsers = false;
 
                 // If we have results we add them to the object.
                 if (results && results.results) {
@@ -187,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                             }
                             if (finaljson.items[item]["sakai:pool-content-created-for"]) {
                                 userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
-                                userRequest = true;
+                                fetchUsers = true;
                             }
                         }
                     }
@@ -212,17 +212,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(searchConfig.global.pagerClass).hide();
             }
 
+            // Make the content items available to other widgets
+            sakai_global.searchcontent.content_items = finaljson.items;
+
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".searchcontent_results_container").show();
 
             // display functions available to logged in users
             if (!sakai.data.me.user.anon) {
-                $(".searchcontent_result_plus").show();
+                $(".searchcontent_result_user_functions").show();
             }
 
             // Update dom with user display names
-            if (userRequest) {
+            if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
                     for (u in users) {
                         if (users.hasOwnProperty(u)) {
