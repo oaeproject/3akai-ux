@@ -53,12 +53,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var tempArr = [];
 
             // First check for a piece of content with preview
+            var candidate = false;
+            var i = 0;
             $.each(data.results, function(index, item){
                 item.hasPreview = sakai.api.Content.hasPreview(item);
-                if (item.hasPreview && !largeEnough) {
+                if (!candidate){
+                    if (item.hasPreview && !largeEnough) {
+                        item.mode = "large";
+                        if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                            item.image = true;
+                        }
+                        candidate = item;
+                        i = index;
+                    }
+                }
+                if (item.hasPreview && item["sakai:description"] && !largeEnough ) {
                     largeEnough = true;
                     item.mode = "large";
-                    if(item["_mimeType"].split("/")[0] == "image"){
+                    if(item["_mimeType"] && item["_mimeType"].split("/")[0] == "image"){
                         item.image = true;
                     }
                     featuredContentArr.push(item);
@@ -66,6 +78,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     return false;
                 }
             });
+
+            if (!largeEnough){
+                featuredContentArr.push(candidate);
+                data.results.splice(i, 1);
+            }
 
             $.each(data.results, function(index, item){
                 if (featuredContentArr.length != 7) {
