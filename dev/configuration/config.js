@@ -879,7 +879,7 @@ define(function(){
                 "url": "/dev/search2.html#l=people"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
