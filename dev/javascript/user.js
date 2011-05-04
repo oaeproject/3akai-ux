@@ -42,10 +42,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setupProfile = function(pub) {
             var firstWidgetRef = "";
+            var profilestructure = {};
+            profilestructure._title = pub.structure0.profile._title;
+            profilestructure._altTitle = pub.structure0.profile._altTitle;
+            profilestructure._order = pub.structure0.profile._order;
+            pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
                 var widgetID = ""+Math.ceil(Math.random() * 1000000000);
                 var widgetUUID = ""+Math.ceil(Math.random() * 1000000000);
-                pub.structure0.profile[title] = {
+                profilestructure[title] = {
                     _ref: widgetID,
                     _order: section.order,
                     _altTitle: section.label,
@@ -61,6 +66,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sectionid: title
                 };
             });
+            pub.structure0.profile = profilestructure;
             pub.structure0.profile._ref = firstWidgetRef;
         };
 
@@ -84,12 +90,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
-                    setupProfile(pubdata);
                 } else {
-                    setupProfile(data);
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }
+                setupProfile(pubdata);
                 if (!isMe){
                     addCounts();
                 }
