@@ -112,31 +112,31 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
          */
         bundleRequests : function(groupId, numRequests, requestId, request){
-            if (!this.initialRequests) {
-                this.initialRequests = this.initialRequests || {};
+            if (!sakaiServerAPI.initialRequests) {
+                sakaiServerAPI.initialRequests = sakaiServerAPI.initialRequests || {};
             }
-            if (!this.initialRequests[groupId]){
-                this.initialRequests[groupId] = {};
-                this.initialRequests[groupId].count = 0;
-                this.initialRequests[groupId].requests = [];
-                this.initialRequests[groupId].requestId = [];
+            if (!sakaiServerAPI.initialRequests[groupId]){
+                sakaiServerAPI.initialRequests[groupId] = {};
+                sakaiServerAPI.initialRequests[groupId].count = 0;
+                sakaiServerAPI.initialRequests[groupId].requests = [];
+                sakaiServerAPI.initialRequests[groupId].requestId = [];
             }
             if (request) {
-                this.initialRequests[groupId].requests.push(request);
-                this.initialRequests[groupId].requestId.push(requestId);
+                sakaiServerAPI.initialRequests[groupId].requests.push(request);
+                sakaiServerAPI.initialRequests[groupId].requestId.push(requestId);
             }
-            this.initialRequests[groupId].count++;
-            var that = this;
-            if (numRequests === this.initialRequests[groupId].count) {
-                this.batch(that.initialRequests[groupId].requests, function(success, data) {
+            sakaiServerAPI.initialRequests[groupId].count++;
+            if (numRequests === sakaiServerAPI.initialRequests[groupId].count) {
+                sakaiServerAPI.batch(sakaiServerAPI.initialRequests[groupId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
                             "groupId": groupId,
-                            "responseId": that.initialRequests[groupId].requestId,
+                            "responseId": sakaiServerAPI.initialRequests[groupId].requestId,
                             "responseData": data.results
                         };
                         $(window).trigger("complete.bundleRequest.Server.api.sakai", jsonData);
                     }
+                    delete sakaiServerAPI.initialRequests[groupId];
                 });
             }
         },
