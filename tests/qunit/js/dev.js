@@ -33,7 +33,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "/dev/javascript/directory.js",
         "/dev/javascript/group.js",
         "/dev/javascript/group_edit.js",
-        "/dev/javascript/inbox.js",
         "/dev/javascript/index.js",
         "/dev/javascript/logout.js",
         "/dev/javascript/mysakai.js",
