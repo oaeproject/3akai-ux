@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#content_preview_delete").unbind("click");
             $("#upload_content").unbind("click");
             // Open the delete content pop-up
-            $("#content_preview_delete>a").bind("click", function(e){
+            $("#content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
                 $(window).trigger('init.deletecontent.sakai', [sakai_global.content_profile.content_data,
