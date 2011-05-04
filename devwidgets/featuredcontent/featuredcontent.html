@@ -20,7 +20,11 @@
                         <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
                     </div>
                     <div id="featuredcontent_large_preview">
-                        <div id="widget_documentviewer_cpFullSizePreview" class="widget_inline"></div>
+                        {if item.image}
+                            <img src="/p/${item["jcr:name"]}"/>
+                        {else}
+                            <img src="/p/${item["jcr:name"]}.page1-small.png"/>
+                        {/if}
                     </div>
                     <div class="featuredcontent_content_right_description">
                         <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 125)}</a>

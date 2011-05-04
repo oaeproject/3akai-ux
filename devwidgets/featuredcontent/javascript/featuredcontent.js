@@ -38,18 +38,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var largeEnough = false;
 
         var featuredContentArr = [];
-        var featuredcontentPreviewContainer = "#featuredcontent_large_preview";
 
         var renderFeaturedContent = function(data){
             $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                 "data": data,
                 "sakai": sakai
             }));
-            sakai.api.Widgets.widgetLoader.insertWidgets($(featuredcontentPreviewContainer), false, false, [{
-                cpFullSizePreview: {
-                    "data": featuredContentArr[0]
-                }
-            }]);
         };
 
         var parseFeaturedContent = function(data){
@@ -64,6 +58,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (item.hasPreview && !largeEnough) {
                     largeEnough = true;
                     item.mode = "large";
+                    if(item["_mimeType"].split("/")[0] == "image"){
+                        item.image = true;
+                    }
                     item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                     featuredContentArr.push(item);
                     data.results.splice(index, 1);
