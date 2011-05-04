@@ -258,6 +258,12 @@
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
+    <!-- Target: Development Builds -->
+    <target name="dev_light" depends="create_target_folders">
+        <echo message="Sakai 3 UX Development Build: Build complete." />
+    </target>
+
+
     <!-- Target: Remove the build folder -->
     <target name="clean" depends="init" description="Remove the build folder">
         <delete dir="${TARGET}" includeemptydirs="true" />
