@@ -512,26 +512,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         };
 
         var renderLocation = function(data){
-
             sakai_global.profile.main.data["sakai:tags"] = data.tags;
             sakai_global.profile.main.directory = sakai.api.User.parseDirectory(sakai_global.profile);
-
-            // remove exisiting elements in the locations
-            $("#profilesection-locations").children().children(":first").children().remove();
-
-            // Set the section template, if there is no template defined, user the default one
-            var sectionTemplate = $profilesection_default_template;
-            // Copy the config so we don't write into it ever
-            var sectionConfig = $.extend(true, {}, sakai_global.profile.main.config["locations"]);
-            // Render the template section for location
-            var generalinfo = renderTemplateSection(sectionTemplate, sectionConfig);
-
-            // add access for the object
-            sakai_global.profile.main.data["locations"].access = {};
-            sakai_global.profile.main.data["locations"].access = sectionConfig.access;
-
-            // Render append the location div to the UI.
-            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+            sakai.data.me.profile.saveddirectory = data.saveddirectory;
+            renderTemplateGeneralInfo("locations");
         };
 
         ////////////////////
