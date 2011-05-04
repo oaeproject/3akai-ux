@@ -99,4 +99,4 @@
 #newentitywidget_container ul li{list-style:none;padding:4px 0;border-bottom:1px solid #ccc;}
 #newentitywidget_container ul li a{padding-left:6px;color:#369;font-size:13px;}
 #newentitywidget_container ul li a:hover{ color:#999;}
-
+#newentitywidget_container ul li#ew_content_preview_delete {border:0;}

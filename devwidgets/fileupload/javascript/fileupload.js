@@ -1080,11 +1080,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#new_uploader").show();
         });
         
-        
-        $("#ew_upload").bind("click", function(){
-            initialise();
-            $('#newentitywidget_widget').jqmHide();
-        });
 
         initialiseUploader();
     };
