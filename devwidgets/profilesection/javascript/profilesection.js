@@ -284,7 +284,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
          * @param {Boolean} isLocation boolean value for location or not
          *  The name of the profile section you want to render in this widget
          */
-        var renderTemplateGeneralInfo = function(profilesection , isLocation) {
+        var renderTemplateGeneralInfo = function(profilesection, isLocation) {
+            isLocation = profilesection === "locations";
             // Variable that contains the rendered output for a section
             var generalinfo = "";
 
@@ -307,6 +308,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
             } else {
                 $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
                 $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+                $(".profile-section-save-button", $rootel).hide();
             }
             $(window).trigger("ready.profilesection.sakai");
         };
