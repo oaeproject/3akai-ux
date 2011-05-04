@@ -178,11 +178,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // bind personinfo message button
         $personinfo_message.live("click", function () {
-            dataCache[userId].uuid = userId;
-            dataCache[userId].username = userId;
-            dataCache[userId].type = "user";
+            sendMessageUserObj = dataCache[userId];
+            sendMessageUserObj.uuid = userId;
+            sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);;
+            sendMessageUserObj.type = "user";
             // initialize the sendmessage-widget
-            $(window).trigger("initialize.sendmessage.sakai", [dataCache[userId], false, false, null, null, null]);
+            $(window).trigger("initialize.sendmessage.sakai", [sendMessageUserObj, false, false, null, null, null]);
         });
 
         // bind personinfo request connection button
@@ -203,6 +204,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // bind click trigger
         $(".personinfo_trigger_click").live("click", function(){
             fetchPersonInfo($(this));
+        });
+
+        // bind outside click to close widget
+        $(document).unbind("click.personinfo_close").bind("click.personinfo_close", function (e) {
+            var $clicked = $(e.target);
+            // Check if one of the parents is the tooltip
+            if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
+                hidePersonInfo();
+            }
+        });
+
+        // bind hover out to close widget
+        $personinfo_widget.bind("mouseleave", function(){
+            hidePersonInfo();
         });
     };
 
