@@ -32,19 +32,21 @@ strong{color:#000;}
 .searchpeople_result_title{width:80%;text-align:center;font-size:1.1em;color:#999;padding:0;}
 
 /* SEARCH RESULTS */
-#searchpeople_results_container{margin:0px 0 0;padding:0 10px;}
+#searchpeople_results_container{margin:0px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}
 .searchpeople_results_part{padding-bottom:10px;}
 .searchpeople_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
 .searchpeople_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
-.searchpeople_result{color:#333;padding:5px 0 10px;}
-.searchpeople_result img{float:left;padding:0 10px 10px 0;width:50px;}
+.searchpeople_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;}
+.searchpeople_result_first{border-top: 1px solid #e9e9e9;}
+.searchpeople_result a img{float:left;padding:0 10px 10px 0;width:50px;}
 .searchpeople_result_sites img{width:30px;}
-.searchpeople_result_right{margin-left:60px;}
+.searchpeople_result_right{margin-left:90px;}
 .searchpeople_result_star{background-image:url(/dev/images//star.png);display:block;float:left;position:relative;top:-4px;left:0;}
 .searchpeople_result_header{color:#39c;margin:0 0 5px 25px;font-weight:bold;font-size:1.1em;}
-.searchpeople_result_tags,.searchpeople_result_description{margin:0 0 5px;color:#333;font-size:.95em;}
+.searchpeople_result_description{margin:0 0 5px;color:#333;font-size:.90em;padding:6px 0;}
 .searchpeople_result_footer{margin:0 0 5px 25px;color:#999;font-size:.85em;}
+.searchpeople_results .jq_pager{border-bottom: 1px solid #e9e9e9;}
 
 /* search results people */
 .searchpeople_result_person{padding:8px;margin:15px 10px 0 0;border:1px solid #ddd;width:200px;height:60px;float:left;}
@@ -120,3 +122,18 @@ a.searchpeople_results_part_title{color:#5a6a7c;}
 .site_heading{border-bottom:none;}
 .searchpeople_no_results{padding:10px;}
 .searchpeople_result_person_threedots{display:block;width:150px;}
+
+/* search results people */
+.searchpeople_result_counts {padding:3px 0;font-size:11px;}
+.searchpeople_result_detail_separator {color:#cccccc;}
+.searchpeople_result_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.searchpeople_result_icon{display: inline-block;height: 10px;width: 15px;}
+.searchpeople_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.searchpeople_result_tags_list{margin-left:20px;margin-top:6px;font-size:11px;}
+.searchpeople_result_tags_dot{color: #999999;}
+.searchpeople_result_anonuser{display:inline;float:left;height:15px;width:15px;}
+.searchpeople_result_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
+.searchpeople_result_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 0 -2px;}
+.searchpeople_result:hover {background-color: #f2f9fc;}
+.searchpeople_result:hover .searchpeople_result_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
+.searchpeople_result:hover .searchpeople_result_message_icon{cursor:pointer;}

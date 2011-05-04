@@ -357,6 +357,12 @@ define(function(){
                                 "display": true,
                                 "type": "textarea",
                                 "tagField": true
+                            },
+                            "description": {
+                                "label": "__MSG__DESCRIPTION__",
+                                "required": false,
+                                "display": true,
+                                "type": "textarea"
                             }
                         }
                     },
