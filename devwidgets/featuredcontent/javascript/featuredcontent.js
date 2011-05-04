@@ -38,18 +38,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var largeEnough = false;
 
         var featuredContentArr = [];
-        var featuredcontentPreviewContainer = "#featuredcontent_large_preview";
 
         var renderFeaturedContent = function(data){
             $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                 "data": data,
                 "sakai": sakai
             }));
-            sakai.api.Widgets.widgetLoader.insertWidgets($(featuredcontentPreviewContainer), false, false, [{
-                cpFullSizePreview: {
-                    "data": featuredContentArr[0]
-                }
-            }]);
         };
 
         var parseFeaturedContent = function(data){
@@ -59,28 +53,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var tempArr = [];
 
             // First check for a piece of content with preview
+            var candidate = false;
+            var i = 0;
             $.each(data.results, function(index, item){
                 item.hasPreview = sakai.api.Content.hasPreview(item);
-                if (item.hasPreview && !largeEnough) {
+                if (!candidate){
+                    if (item.hasPreview && !largeEnough) {
+                        item.mode = "large";
+                        if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                            item.image = true;
+                        }
+                        candidate = item;
+                        i = index;
+                    }
+                }
+                if (item.hasPreview && item["sakai:description"] && !largeEnough ) {
                     largeEnough = true;
                     item.mode = "large";
-                    item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
+                    if(item["_mimeType"] && item["_mimeType"].split("/")[0] == "image"){
+                        item.image = true;
+                    }
                     featuredContentArr.push(item);
                     data.results.splice(index, 1);
                     return false;
                 }
             });
 
+            if (!largeEnough){
+                featuredContentArr.push(candidate);
+                data.results.splice(i, 1);
+            }
+
             $.each(data.results, function(index, item){
                 if (featuredContentArr.length != 7) {
                     if (mode == "medium") {
                         item.mode = "medium";
                         mode = "small";
-                        item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                         featuredContentArr.push(item);
                     } else {
                         item.mode = "small";
-                        item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                         tempArr.push(item);
                         numSmall++;
                         if (numSmall == 2) {
@@ -112,22 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var addToLibrary = function(clickedElement){
-            var contentId = $(clickedElement.currentTarget).data("contentid");
-            sakai.api.Content.addToLibrary(contentId, sakai.data.me.user.userid, function(success){
-                if (success) {
-                    $(clickedElement.currentTarget).addClass("disabled");
-                    sakai.api.Util.notification.show("My Library", "The content has been added to your library.");
-                }
-            });
-        };
-
-        var addBinding = function(){
-            $(".featuredcontent_content_actions_addtolibrary").live("click",addToLibrary);
-        };
-
         var doInit = function(){
-            addBinding();
             getFeaturedContent();
         };
 

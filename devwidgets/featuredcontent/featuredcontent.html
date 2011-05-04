@@ -14,13 +14,17 @@
                 <div class="featuredcontent_content featuredcontent_content_large">
                     <div class="featuredcontent_content_actions">
                         <div class="featuredcontent_content_actions_share share_trigger_click" data-contentid="${item["jcr:name"]}"></div>
-                        {if !sakai.data.me.user.anon && !item.member}
-                            <div class="featuredcontent_content_actions_addtolibrary" data-contentid="${item["jcr:name"]}"></div>
+                        {if !sakai.data.me.user.anon}
+                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["jcr:name"]}"></div>
                         {/if}
                         <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
                     </div>
                     <div id="featuredcontent_large_preview">
-                        <div id="widget_documentviewer_cpFullSizePreview" class="widget_inline"></div>
+                        {if item.image}
+                            <img src="/p/${item["jcr:name"]}"/>
+                        {else}
+                            <img src="/p/${item["jcr:name"]}.page1-small.png"/>
+                        {/if}
                     </div>
                     <div class="featuredcontent_content_right_description">
                         <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 125)}</a>
@@ -42,8 +46,8 @@
                 <div class="featuredcontent_content featuredcontent_content_medium">
                     <div class="featuredcontent_content_actions">
                         <div class="featuredcontent_content_actions_share share_trigger_click" data-contentid="${item["jcr:name"]}"></div>
-                        {if !sakai.data.me.user.anon && !item.member}
-                            <div class="featuredcontent_content_actions_addtolibrary" data-contentid="${item["jcr:name"]}"></div>
+                        {if !sakai.data.me.user.anon}
+                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["jcr:name"]}"></div>
                         {/if}
                         <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
                     </div>
@@ -70,8 +74,8 @@
                     <div class="featuredcontent_content featuredcontent_content_small">
                         <div class="featuredcontent_content_actions">
                             <div class="featuredcontent_content_actions_share share_trigger_click" data-contentid="${small["jcr:name"]}"></div>
-                            {if !sakai.data.me.user.anon && !small.member}
-                                <div class="featuredcontent_content_actions_addtolibrary" data-contentid="${small["jcr:name"]}"></div>
+                            {if !sakai.data.me.user.anon}
+                                <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["jcr:name"]}"></div>
                             {/if}
                             <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                         </div>
