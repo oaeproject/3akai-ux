@@ -267,8 +267,6 @@ define(["jquery",
                                                 if (pagetitle.indexOf("-") != -1){
                                                     var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
                                                     if (altPageTitle === widgetSaveId){
-                                                        debug.log(altPageTitle + " === " + widgetSaveId + " === " + pagetitle);
-                                                        debug.log(widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
                                                         widgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];;
                                                     }
                                                 }
