@@ -308,7 +308,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
                 $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
             }
-
+            $(window).trigger("ready.profilesection.sakai");
         };
 
         var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink, value) {
@@ -552,19 +552,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 });
             }
 
-            // Bind to the global save function
-            $('.profile-section-save-button', $rootel).live("click", function(){
-                // Save the values to the global object
-                saveValues();
-
-            });
+            $(window).bind("save.profile.sakai", saveValues);
 
             // Bind to the global update location
             $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
                 ev.stopImmediatePropagation();
                 // render location in profile Section
                 renderLocation(data);
-
             });
 
         };
