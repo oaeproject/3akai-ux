@@ -509,43 +509,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // BINDING FUNCTIONS //
         ///////////////////////
 
-        /**
-         * Add binding to the footer elements
-         */
-        var addBindingFooter = function(){
-
-            // Reinitialise jQuery objects
-            $profile_footer_button_dontupdate = $($profile_footer_button_dontupdate.selector);
-            //$profile_footer_button_update = $($profile_footer_button_update.selector);
-
-            // Bind the don't update
-            $profile_footer_button_dontupdate.bind("click", function(){
-
-                // Change the profile mode
-                window.location.reload();
-
-            });
-
-        };
-
-        /**
-         * Add binding to the action elements
-         */
-        var addBindingActions = function(){
-
-            // Reinitialise jQuery objects
-            $profile_actions_button_edit = $($profile_actions_button_edit.selector);
-
-            // Bind the edit button
-            $profile_actions_button_edit.bind("click", function(){
-
-                // Change the profile mode
-                changeProfileMode("edit");
-
-            });
-
-        };
-
         jQuery.validator.addMethod("appendhttp", function(value, element) {
             if(value.substring(0,7) !== "http://" &&
             value.substring(0,6) !== "ftp://" &&
@@ -559,13 +522,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the profile form
          */
         var addBindingForm = function(){
-
             // Reinitialize the jQuery form selector
             $profile_form = $($profile_form.selector);
-
             // Initialize the validate plug-in
             $profile_form.validate({
-                submitHandler: function(form, validator) {
+                submitHandler: function(form) {
                     $(".profile-section-save-button").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
                     $(window).trigger("save.profile.sakai");
@@ -585,22 +546,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 validClass: "profilesection_validation_valid",
                 ignoreTitle: true // Ignore the title attribute, this can be removed as soon as we use the data-path attribute
             });
-
-        };
-
-        /**
-         * Add binding to all the elements on the page
-         */
-        var addBinding = function(){
-
-            // Add binding to the actions elements
-            addBindingActions();
-
-            // Add binding to the profile form
-            addBindingForm();
-
-            // Add binding to footer elements
-            addBindingFooter();
 
         };
 
@@ -746,7 +691,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 //insertProfileSectionWidgets();
 
                 // Add binding to all the elements
-                //addBinding();
+                $(window).bind("ready.profilesection.sakai", addBindingForm);
 
                 // check for edit profile tour in progress
                 checkEditProfileTour();
