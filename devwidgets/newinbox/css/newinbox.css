@@ -39,7 +39,7 @@
 .newinbox_delete_button:hover{text-decoration:none;}
 #newinbox_no_messages p{text-align:center;margin:60px 0px;}
 #newinbox_pager{float:left;width:100%;border-bottom:1px solid #D4D4D4;}
-.newinbox_invitation_accept{padding-right:5px;border-right:1px solid black;}
+.newinbox_invitation_accept{padding-right:5px;}
 .newinbox_invitation_ignore{padding-left:3px;}
 /* Message Detail */
 #newinbox_show_message{background-color:#f4f4f4;padding-bottom:10px;margin-top:7px;}
