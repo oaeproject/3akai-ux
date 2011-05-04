@@ -24,7 +24,7 @@
  .contentpreview_actions_container_default {float:right; padding-top:5px;}
  
  /* Non default type */
- #contentpreview_other_preview_buttons { padding: 0px 20px 15px 10px; margin-bottom: 20px; border-bottom: 5px solid #e1e1e1;}
+ #contentpreview_fullsize_preview { padding: 0px 20px 15px 10px; margin-bottom: 20px; border-bottom: 5px solid #e1e1e1;}
  
  /*Content Preview template*/
  /* Image formatting */

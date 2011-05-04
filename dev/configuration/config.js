@@ -290,6 +290,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "order": 0,
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -372,6 +373,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "order": 1,
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -407,6 +409,7 @@ define(function(){
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
+                        "order": 2,
                         "elements": {
                             "locationtitle": {
                                 "label": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -424,6 +427,7 @@ define(function(){
                         "modifyacl": true,
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
+                        "order": 3,
                         //"template": "profile_section_publications_template",
                         "elements": {
                             "maintitle": {
@@ -1987,7 +1991,7 @@ define(function(){
 
         enableChat: false,
 
-        "defaultprivstructure": {
+        defaultprivstructure: {
             "structure0": {
                 "dashboard": {
                     "_ref": "267187828",
@@ -2084,37 +2088,12 @@ define(function(){
             }
         },
 
-        "defaultpubstructure": {
+        defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0,
-                    "basicinfo": {
-                        "_ref": "533118849",
-                        "_order": 0,
-                        "_altTitle": "Basic Information",
-                        "_title": "Basic Information"
-                    },
-                    "aboutme": {
-                        "_ref": "657672090",
-                        "_order": 1,
-                        "_altTitle": "About",
-                        "_title": "About Me"
-                    },
-                    "locations": {
-                        "_ref": "2967778497",
-                        "_order": 2,
-                        "_title": "Locations",
-                        "_altTitle": "Locations"
-                    },
-                    "publications": {
-                        "_ref": "86312659",
-                        "_order": 3,
-                        "_altTitle": "Publications",
-                        "_title": "Publications"
-                    }
+                    "_order": 0
                 },
                 "library": {
                     "_ref": "9834611274",
@@ -2150,18 +2129,6 @@ define(function(){
                     }
                 }
             },
-            "533118849": {
-                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-            },
-            "657672090": {
-                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
-            },
-            "2967778497": {
-                "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
-            },
-            "86312659": {
-                "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
-            },
             "9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
@@ -2172,18 +2139,6 @@ define(function(){
             },
             "1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
-            },
-            "94551980": {
-                "sectionid": "basic"
-            },
-            "1924492668": {
-                "sectionid": "aboutme"
-            },
-            "73466539": {
-                "sectionid": "locations"
-            },
-            "5756708555": {
-                "sectionid": "publications"
             }
         },
 

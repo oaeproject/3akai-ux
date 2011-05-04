@@ -119,12 +119,11 @@
                                           {if message.invitation}
                                             {if message.invited}
                                               <button class="newinbox_invitation newinbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
+                                              <span class="newinbox_invitation newinbox_invitation_divider">|</span>
                                               <button class="newinbox_invitation newinbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
-                                            {elseif message.ignored}
-                                              __MSG__IGNORED__
-                                            {else}
-                                              __MSG__ACCEPTED__
                                             {/if}
+                                            <span class="newinbox_ignored"{if !message.ignored} style="display:none"{/if}>__MSG__IGNORED__</span>
+                                            <span class="newinbox_accepted"{if (message.ignored || message.invited)} style="display:none;"{/if}>__MSG__ACCEPTED__</span>
                                           {/if}
                                         </div>
                                     </div>
