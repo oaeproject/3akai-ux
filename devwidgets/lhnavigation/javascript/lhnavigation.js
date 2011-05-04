@@ -165,12 +165,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderData = function(){
             calculateOrder();
-            $("#lhnavigation_container").html(sakai.api.Util.TemplateRenderer("lhnavigation_template", {
+            var lhnavHTML = sakai.api.Util.TemplateRenderer("lhnavigation_template", {
                 "private": privstructure,
                 "public": pubstructure,
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
-            }));
+            });
+            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
+            $("#lhnavigation_container").html(lhnavHTML);
         };
 
         var includeChildCount = function(structure){
