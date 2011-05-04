@@ -54,9 +54,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var privstructure = false;
         var pubstructure = false;
         var contextData = false;
-        
+
         var parametersToCarryOver = {};
-        
+
         var bookmark = false;
 
         ////////////////////
@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showHideSubnav = function($el, forceOpen){
             if ($el.hasClass("lhnavigation_hassubnav")) {
                 if (!$el.next().is(":visible") || forceOpen) {
-                	$(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
+                    $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
                     $el.next().show();
                 } else {
                     $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
@@ -74,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
-        }
+        };
 
         ////////////
         // Events //
@@ -86,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $(window).bind("lhnav.addHashParam", function(ev, params){
             for (var p in params){
-            	parametersToCarryOver[p] = params[p];
+                parametersToCarryOver[p] = params[p];
             }
         });
 
@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
                 $(this).attr("href", newHref);
             });
-        }
+        };
 
         /////////////////////
         // MENU NAVIGATION //
@@ -126,11 +126,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
-        
+
         var hideSubMenu = function(){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-        }
+        };
 
         var orderItems = function(items){
             var orderedItems = [];
@@ -187,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             structure._childCount = childCount;
             return structure;
-        }
+        };
 
         var processData = function(data){
             var structure = {};
@@ -259,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderPage(ref, selected, savePath);
             }
 
-        }
+        };
 
         var renderPage = function(ref, path, savePath, reload){
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-main-content > div:visible", false);
@@ -280,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 createPageToShow(ref, path, content, savePath);
             }
-        }
+        };
 
         var getPageContent = function(ref){
             if (privstructure.pages[ref]) {
@@ -290,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 return false;
             }
-        }
+        };
 
         var currentPageShown = {};
         var isEditingNewPage = false;
@@ -301,14 +301,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $el = $("<div>").attr("id", ref);
                 // Add element to the DOM
                 $("#s3d-page-main-content").append($el);
-            } 
+            }
             var $contentEl = $("#" + ref);
             // Add sanitized content
             var sanitizedContent = sakai.api.Security.saneHTML(content);
             $contentEl.html(sanitizedContent);
             // Insert widgets
             sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath + "/",[privstructure.pages, pubstructure.pages]);
-        }
+        };
 
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -331,7 +331,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#s3d-page-main-content").hide();
             var content = currentPageShown.content || "";
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-        }
+        };
 
         /**
          * Cancel button
@@ -344,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnav_editmode").hide();
             $("#context_menu").hide();
             $("#s3d-page-main-content").show();
-        }
+        };
 
         /**
          * Save button
@@ -364,12 +364,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderPage(currentPageShown.ref, currentPageShown.path, currentPageShown.savePath, true);
             $("#lhnav_editmode").hide();
             $("#s3d-page-main-content").show();
-            
+
             //Store the edited content
             var toStore = {};
             toStore[currentPageShown.ref] = {
                 "page": currentPageShown.content
-            }
+            };
             $.ajax({
                 url: currentPageShown.savePath + ".resource",
                 type: "POST",
@@ -381,7 +381,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":replaceProperties": true,
                     "_charset_":"utf-8",
                     ":content": $.toJSON(toStore)
-                }           
+                }
             });
             if (isEditingNewPage){
                 storeStructure(pubstructure);
@@ -428,7 +428,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             rerenderNavigation();
             editPageTitle();
             isEditingNewPage = true;
-        }
+        };
 
         /**
          * Submenu for nav items
@@ -531,7 +531,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "structure0": $.toJSON(pubstructure.items)
                 }
             });
-        }
+        };
 
         var getPageCount = function(pagestructure){
             var pageCount = 0;
@@ -561,7 +561,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var content = tinyMCE.get("elm1").getContent({format : 'raw'});
             content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
             return content;
-        }
+        };
 
         /**
          * Renders the insert dropdown menu
@@ -570,7 +570,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Vars for media and goodies
             var media = {}; media.items = [];
             var goodies = {}; goodies.items = [];
-            
+
             // Fill in media and goodies
             for (var i in sakai.widgets){
                 if (i) {
@@ -601,7 +601,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
         };
-        
+
         /**
          * Hide selected widget
          * @param {Object} hash
@@ -679,7 +679,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 currentlySelectedWidget = {
                     "widgetname": widgetid,
                     "uid": id
-                }
+                };
                 $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
                 $("#dialog_title").html(sakai.widgets[widgetid].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,currentPageShown.savePath + "/");
@@ -786,7 +786,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     currentlySelectedWidget = {
                         "widgetname": type,
                         "uid": nuid
-                    }
+                    };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[type].name);
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.savePath + "/");
@@ -849,12 +849,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnav-page-edit-mode").html($("#lhnav_editmode"));
             init_tinyMCE();
             renderInsertDropdown("sakaidocs");
-        }
+        };
 
         var hideSakaiDocs = function(){
             $("#lhnav-page-action-bar").html($("#lhav_buttonbar").hide()).hide();
             $("#lhnavigation_actions").hide();
-        }
+        };
 
         //////////////////
         //////////////////
@@ -1014,7 +1014,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "video[src|class|autoplay|controls|height|width|preload|loop]"
                 });
             }
-        }
+        };
 
         ///////////////////////////////////////////////////
         ///////////////////////////////////////////////////
@@ -1062,7 +1062,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 parametersToCarryOver = cData.parametersToCarryOver;
                 rerenderNavigation();
             }
-        }
+        };
 
         $(window).bind("hashchange", function(e, data){
             selectPage();

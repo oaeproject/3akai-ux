@@ -40,31 +40,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
         var qs = new Querystring();
 
-/*
-"basic": {
-    "label": "__MSG__PROFILE_BASIC_LABEL__",
-    "required": true,
-    "display": true,
-    "access": "everybody",
-    "modifyacl": false,
-    "elements": {
-
-"basicinfo": {
-    "_ref": "533118849",
-    "_order": 0,
-    "_altTitle": "Basic Information",
-    "_title": "Basic Information"
-},
-
-"533118849": {
-    "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-},
-
-"94551980": {
-    "sectionid": "basic"
-},
-*/
-
         var setupProfile = function(pub) {
             var firstWidgetRef = "";
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
@@ -110,8 +85,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
                     setupProfile(pubdata);
-                    setupProfile(publicToStore);
                 } else {
+                    setupProfile(data);
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }

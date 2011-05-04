@@ -75,6 +75,7 @@ define(function(){
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
             POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
             PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
             PRESENCE_SERVICE: "/var/presence.json",
@@ -862,10 +863,6 @@ define(function(){
                 "url": "/search/people#q=*&filter=&facet=&page=1"
             }, {
                 "id": "subnavigation_hr"
-            }, {
-                "id": "subnavigation_simple_group_link",
-                "label": "CREATE_GROUP",
-                "url": "/dev/createnew.html"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -2178,8 +2175,184 @@ define(function(){
                     "columns": [["sitemembers"], []]
                 }
             }
-        }
+        },
+
+        worldTemplates : [
+            {
+                id: "group",
+                title : "GROUP",
+                templates: [
+                    {
+                        id: "simplegroup",
+                        title: "Simple group",
+                        img: "/dev/images/worldtemplates/simplegroup.png",
+                        fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
+                        perfectFor: "Sharing content and sending messages",
+                        roles: [
+                            /*{
+                                id: "member",
+                                title: "Member",
+                                allowManage: false
+                            },
+                            {
+                                id: "manager",
+                                title: "Manager",
+                                allowManage: true
+                            } */
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    }
+                ]
+            },
+            {
+                id: "courses",
+                title : "COURSES",
+                templates: [
+                    {
+                        id: "mathcourse",
+                        title: "Mathematics course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "medicalscience",
+                        title: "Medical science course",
+                        img: "/dev/images/worldtemplates/medicalscience.png",
+                        fullImg: "/dev/images/worldtemplates/medicalscience-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "physicscourse",
+                        title: "Physics course",
+                        img: "/dev/images/worldtemplates/physicscourse.png",
+                        fullImg: "/dev/images/worldtemplates/physicscourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    }
+                ]
+            },
+            {
+                id: "research",
+                title : "RESEARCH",
+                templates: [
+                    {
+                        id: "researchproject",
+                        title: "Group project",
+                        img: "/dev/images/worldtemplates/researchproject.png",
+                        fullImg: "/dev/images/worldtemplates/researchproject-full.png",
+                        perfectFor: "Collaborative student projects, Class projects, Reading clubs",
+                        roles: [
+                            {
+                                id: "participant",
+                                title: "Participant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lurker",
+                                title: "Lurker",
+                                allowManage: false
+                            }
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
+                    },
+                    {
+                        id: "bidwriting",
+                        title: "Bid writing",
+                        img: "/dev/images/worldtemplates/bidwriting.png",
+                        fullImg: "/dev/images/worldtemplates/bidwriting-full.png",
+                        perfectFor: "Writing a collaborative research bid",
+                        roles: [
+                            {
+                                id: "participant",
+                                title: "Participant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lurker",
+                                title: "Lurker",
+                                allowManage: false
+                            }
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
+                    }
+                ]
+            }
+        ]
     };
-    
     return config;
 });
