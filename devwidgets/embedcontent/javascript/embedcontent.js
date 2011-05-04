@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 wData.items[index].placement = placement;
                 docData[placement] = {
                     data : value.fullresult,
-                    url : window.location.protocol + '//' + window.location.host + "/p/" + docData['jrc:name']
+                    url : window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
                 };
             });
             // boolean are return as string from ajax call so change back to boolean value
@@ -141,6 +141,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.name = wData.name === "true";
             wData.details = wData.details === "true";
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
+            debug.log("*****************");
+            debug.log(docData);
             sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid, [docData]);
         };
 
@@ -176,6 +178,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} name optional name provided
          */
         var createDataObject = function(result, name) {
+            debug.log("(============)")
+            debug.log(result);
             var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
                 "value": name || result['jcr:name'],
@@ -500,7 +504,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var getWidgetData = function(callback) {
-            if (widgetData.embedcontent) {
+            if (widgetData && widgetData.embedcontent) {
                 processWidgetData(true, widgetData.embedcontent, callback);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){

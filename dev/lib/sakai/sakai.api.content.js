@@ -376,6 +376,7 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         },
 
         getMimeType : function(content){
+            debug.log(content);
             var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];

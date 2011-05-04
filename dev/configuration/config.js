@@ -2189,7 +2189,7 @@ define(function(){
                         fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
                         perfectFor: "Sharing content and sending messages",
                         roles: [
-                            /*{
+                            {
                                 id: "member",
                                 title: "Member",
                                 allowManage: false
@@ -2197,21 +2197,6 @@ define(function(){
                             {
                                 id: "manager",
                                 title: "Manager",
-                                allowManage: true
-                            } */
-                            {
-                                id: "student",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                title: "Lecturer",
                                 allowManage: true
                             }
                         ],
