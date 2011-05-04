@@ -61,7 +61,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if(item["_mimeType"].split("/")[0] == "image"){
                         item.image = true;
                     }
-                    item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                     featuredContentArr.push(item);
                     data.results.splice(index, 1);
                     return false;
@@ -73,11 +72,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (mode == "medium") {
                         item.mode = "medium";
                         mode = "small";
-                        item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                         featuredContentArr.push(item);
                     } else {
                         item.mode = "small";
-                        item.member = sakai.api.Content.isContentInLibrary(item, sakai.data.me.profile["rep:userId"]);
                         tempArr.push(item);
                         numSmall++;
                         if (numSmall == 2) {
@@ -109,22 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var addToLibrary = function(clickedElement){
-            var contentId = $(clickedElement.currentTarget).data("contentid");
-            sakai.api.Content.addToLibrary(contentId, sakai.data.me.user.userid, function(success){
-                if (success) {
-                    $(clickedElement.currentTarget).addClass("disabled");
-                    sakai.api.Util.notification.show("My Library", "The content has been added to your library.");
-                }
-            });
-        };
-
-        var addBinding = function(){
-            $(".featuredcontent_content_actions_addtolibrary").live("click",addToLibrary);
-        };
-
         var doInit = function(){
-            addBinding();
             getFeaturedContent();
         };
 
