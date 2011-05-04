@@ -319,7 +319,8 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                                 canRemove = false;
                                 break;
                             }
-                        }if (canRemove) {
+                        }
+                        if (canRemove) {
                             delete newobj[key];
                         }
                     } else if ($.isPlainObject(newobj[key])) {
