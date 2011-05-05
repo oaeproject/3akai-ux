@@ -36,7 +36,6 @@
         {for i in items}
             {var count = count + 1}
             <div class="fl-container fl-fix mycontacts_items{if count == 1} mycontacts_items_first{/if}">
-                <span class="mycontacts_item_left_filler"><input type="checkbox" name="${i.id}" /></span>
                 <a href="/~${i.id}" class="mycontacts_list_contact_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.photo}" width="48px" height="48px"/></a>
                 <button class="s3d-link-button mycontacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.id}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
                 <div class="mycontacts_item_right">
