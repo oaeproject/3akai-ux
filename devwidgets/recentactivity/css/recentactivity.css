@@ -23,9 +23,12 @@
 
 /* Activity Items */
 .recentactivity_widget .recentactivity_activity_item_content {clear:both;display:block;margin:12px;}
-.recentactivity_widget .recentactivity_activity_item_content .recentactivity_activity_item_image {height:32px;margin-right:7px;width:32px;float:left;}
+.recentactivity_widget .recentactivity_activity_item_content .recentactivity_activity_item_image {height:32px;margin:7px 7px 11px 7px;width:32px;float:left;}
 .recentactivity_widget .recentactivity_activity_item_content a {font-size:12px;}
-.recentactivity_widget .recentactivity_activity_item_description {color:#424242;display:block;font-size:11px;}
+.recentactivity_widget .recentactivity_activity_item_description {color:#424242;display:block;font-size:11px;overflow:auto;}
 
 /* Icons for types of activities */
-.recentactivity_widget .recentactivity_activity_upload {background:url("/devwidgets/recentactivity/images/recentactivity_upload_icon.png") no-repeat top left transparent;width:16px;height:16px;float:right;}
+.recentactivity_widget .recentactivity_activity_icon {width:16px;height:16px;float:right;}
+.recentactivity_widget .recentactivity_activity_newupload {background:url("/devwidgets/recentactivity/images/recentactivity_upload_icon.png") no-repeat top left transparent;}
+.recentactivity_widget .recentactivity_activity_comment {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat top left transparent;}
+.recentactivity_widget .recentactivity_activity_newversion {background:url("/devwidgets/recentactivity/images/recentactivity_refresh_icon.png") no-repeat top left transparent;}
