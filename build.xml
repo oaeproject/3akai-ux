@@ -259,7 +259,7 @@
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="dev_light" depends="create_target_folders">
+    <target name="dev_light" depends="copy_prod, create_target_folders">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 
