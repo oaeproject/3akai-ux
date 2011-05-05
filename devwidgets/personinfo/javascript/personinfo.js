@@ -216,9 +216,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind hover out to close widget
-        $personinfo_widget.bind("mouseleave", function(){
+        /*$personinfo_widget.bind("mouseleave", function(){
             hidePersonInfo();
-        });
+        });*/
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("personinfo");
