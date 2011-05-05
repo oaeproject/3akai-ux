@@ -2,3 +2,4 @@
 #explore_navigation{height:50px;}
 #explore_content {padding: 12px;}
 #explore_content_first_column {width:75%;}
+#explore_content_second_column {float:right;width:23%;margin-top:12px;}
