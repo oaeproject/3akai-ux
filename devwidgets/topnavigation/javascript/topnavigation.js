@@ -306,6 +306,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var createMenuList = function(i){
             var temp = getNavItem(i, sakai.config.Navigation);
+            
+            // Add in the template categories
+            if (sakai.config.Navigation[i].id === "navigation_create_and_add_link"){
+                for (var c = 0; c < sakai.config.worldTemplates.length; c++){
+                    var category = sakai.config.worldTemplates[c];
+                    sakai.config.Navigation[i].subnav.push({
+                        "id": "subnavigation_" + category.id + "_link",
+                        "label": category.title,
+                        "url": "/dev/createnew.html#l=categories/" + category.id
+                    });
+                }
+            }
 
             if (sakai.config.Navigation[i].subnav) {
                 temp.subnav = [];
