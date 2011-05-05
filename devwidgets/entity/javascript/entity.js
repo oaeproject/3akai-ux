@@ -173,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var to = {type: context.context};
                 switch (to.type) {
                     case "group":
-                        to.uuid = context.data.authprofile["sakai:group-id"];
+                        to.uuid = context.data.authprofile["groupid"];
                         to.username = context.data.authprofile["sakai:group-title"];
                         break;
                 }
