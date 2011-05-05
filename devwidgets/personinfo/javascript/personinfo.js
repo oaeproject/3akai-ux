@@ -178,7 +178,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // bind personinfo message button
         $personinfo_message.live("click", function () {
-            sendMessageUserObj = dataCache[userId];
             sendMessageUserObj.uuid = userId;
             sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);;
             sendMessageUserObj.type = "user";
