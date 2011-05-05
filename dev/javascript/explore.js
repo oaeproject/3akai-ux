@@ -17,15 +17,9 @@
  */
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-
-    if (sakai.config.anonAllowed){
-        $("#login_right_col").show();
-    }
-
-    $(window).bind("ready.login.sakai", function(e) {
-        $(window).trigger("render.login.sakai", true);
-    });
     
-    window.location = "/dev/explore.html";
+    sakai_global.explore = function() {
+    };
 
+    sakai.api.Widgets.Container.registerForLoad("explore");
 });
