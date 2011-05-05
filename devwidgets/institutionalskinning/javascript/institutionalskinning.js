@@ -16,16 +16,21 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+// load the master sakai object to access all Sakai OAE API methods
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-    if (sakai.config.anonAllowed){
-        $("#login_right_col").show();
-    }
+    /**
+     * @name sakai_global.institutionalskinning
+     *
+     * @class institutionalskinning
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.institutionalskinning = function (tuid, showSettings) {
 
-    $(window).bind("ready.login.sakai", function(e) {
-        $(window).trigger("render.login.sakai", true);
-    });
-    
-    window.location = "/dev/explore.html";
+    };
 
+    sakai.api.Widgets.widgetLoader.informOnLoad("institutionalskinning");
 });
