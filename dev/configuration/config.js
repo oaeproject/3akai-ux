@@ -2034,16 +2034,16 @@ define(function(){
                 "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
-                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
             },
             "9867733100": {
-                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
             },
             "4253485084": {
-                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
             },
             "3915412565": {
-                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
             },
             "2024634737": {
                 "box": "inbox",
