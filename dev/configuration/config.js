@@ -75,6 +75,7 @@ define(function(){
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
+            POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
             POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
             PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
             PRESENCE_SERVICE: "/var/presence.json",
@@ -289,6 +290,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "order": 0,
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -365,6 +367,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "order": 1,
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -400,6 +403,7 @@ define(function(){
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
+                        "order": 2,
                         "elements": {
                             "locationtitle": {
                                 "label": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -417,6 +421,7 @@ define(function(){
                         "modifyacl": true,
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
+                        "order": 3,
                         //"template": "profile_section_publications_template",
                         "elements": {
                             "maintitle": {
@@ -858,10 +863,6 @@ define(function(){
                 "url": "/search/people#q=*&filter=&facet=&page=1"
             }, {
                 "id": "subnavigation_hr"
-            }, {
-                "id": "subnavigation_simple_group_link",
-                "label": "CREATE_GROUP",
-                "url": "/dev/createnew.html"
             }]
         }, {
             "url": "/dev/directory2.html",
@@ -1984,7 +1985,7 @@ define(function(){
 
         enableChat: false,
 
-        "defaultprivstructure": {
+        defaultprivstructure: {
             "structure0": {
                 "dashboard": {
                     "_ref": "267187828",
@@ -2081,37 +2082,12 @@ define(function(){
             }
         },
 
-        "defaultpubstructure": {
+        defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0,
-                    "basicinfo": {
-                        "_ref": "533118849",
-                        "_order": 0,
-                        "_altTitle": "Basic Information",
-                        "_title": "Basic Information"
-                    },
-                    "aboutme": {
-                        "_ref": "657672090",
-                        "_order": 1,
-                        "_altTitle": "About",
-                        "_title": "About Me"
-                    },
-                    "locations": {
-                        "_ref": "2967778497",
-                        "_order": 2,
-                        "_title": "Locations",
-                        "_altTitle": "Locations"
-                    },
-                    "publications": {
-                        "_ref": "86312659",
-                        "_order": 3,
-                        "_altTitle": "Publications",
-                        "_title": "Publications"
-                    }
+                    "_order": 0
                 },
                 "library": {
                     "_ref": "9834611274",
@@ -2147,18 +2123,6 @@ define(function(){
                     }
                 }
             },
-            "533118849": {
-                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-            },
-            "657672090": {
-                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
-            },
-            "2967778497": {
-                "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
-            },
-            "86312659": {
-                "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
-            },
             "9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
@@ -2169,18 +2133,6 @@ define(function(){
             },
             "1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
-            },
-            "94551980": {
-                "sectionid": "basic"
-            },
-            "1924492668": {
-                "sectionid": "aboutme"
-            },
-            "73466539": {
-                "sectionid": "locations"
-            },
-            "5756708555": {
-                "sectionid": "publications"
             }
         },
 
@@ -2223,8 +2175,184 @@ define(function(){
                     "columns": [["sitemembers"], []]
                 }
             }
-        }
+        },
+
+        worldTemplates : [
+            {
+                id: "group",
+                title : "GROUP",
+                templates: [
+                    {
+                        id: "simplegroup",
+                        title: "Simple group",
+                        img: "/dev/images/worldtemplates/simplegroup.png",
+                        fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
+                        perfectFor: "Sharing content and sending messages",
+                        roles: [
+                            /*{
+                                id: "member",
+                                title: "Member",
+                                allowManage: false
+                            },
+                            {
+                                id: "manager",
+                                title: "Manager",
+                                allowManage: true
+                            } */
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    }
+                ]
+            },
+            {
+                id: "courses",
+                title : "COURSES",
+                templates: [
+                    {
+                        id: "mathcourse",
+                        title: "Mathematics course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "medicalscience",
+                        title: "Medical science course",
+                        img: "/dev/images/worldtemplates/medicalscience.png",
+                        fullImg: "/dev/images/worldtemplates/medicalscience-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "physicscourse",
+                        title: "Physics course",
+                        img: "/dev/images/worldtemplates/physicscourse.png",
+                        fullImg: "/dev/images/worldtemplates/physicscourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    }
+                ]
+            },
+            {
+                id: "research",
+                title : "RESEARCH",
+                templates: [
+                    {
+                        id: "researchproject",
+                        title: "Group project",
+                        img: "/dev/images/worldtemplates/researchproject.png",
+                        fullImg: "/dev/images/worldtemplates/researchproject-full.png",
+                        perfectFor: "Collaborative student projects, Class projects, Reading clubs",
+                        roles: [
+                            {
+                                id: "participant",
+                                title: "Participant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lurker",
+                                title: "Lurker",
+                                allowManage: false
+                            }
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
+                    },
+                    {
+                        id: "bidwriting",
+                        title: "Bid writing",
+                        img: "/dev/images/worldtemplates/bidwriting.png",
+                        fullImg: "/dev/images/worldtemplates/bidwriting-full.png",
+                        perfectFor: "Writing a collaborative research bid",
+                        roles: [
+                            {
+                                id: "participant",
+                                title: "Participant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lurker",
+                                title: "Lurker",
+                                allowManage: false
+                            }
+                        ],
+                        joinRole: "lurker",
+                        creatorRole: "participant"
+                    }
+                ]
+            }
+        ]
     };
-    
     return config;
 });
