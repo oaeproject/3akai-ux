@@ -28,7 +28,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.participants = function (tuid, showSettings) {
+    sakai_global.participants = function (tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -130,8 +130,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Load the managers and viewers of the group
          */
         var loadParticipants = function(){
-            var query = $.trim($participantsSearchField.val());
-            sakai.api.Groups.getMembers(sakai_global.currentgroup.id, query, renderParticipants);
+            if (widgetData && widgetData.participants) {
+                var query = $.trim($participantsSearchField.val());
+                sakai.api.Groups.getMembers(widgetData.participants.groupid, query, renderParticipants);
+            }
         };
 
         var addBinding = function(){
