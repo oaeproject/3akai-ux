@@ -352,6 +352,13 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
+                            "description": {
+                                "label": "__MSG__DESCRIPTION__",
+                                "required": false,
+                                "display": true,
+                                "type": "textarea",
+                                "tagField": true
+                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -871,7 +878,7 @@ define(function(){
                 "id": "subnavigation_hr"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
@@ -889,7 +896,7 @@ define(function(){
                 "url": "/dev/search2.html#l=people"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
