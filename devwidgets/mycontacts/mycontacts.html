@@ -41,7 +41,7 @@
                 <div class="mycontacts_item_right">
                     <a href="/~${i.id}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                     <div class="mycontacts_item_counts">
-                        <a class="s3d-regular-light-links" href="" title="">64 content items</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="" title="">28 comments</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="" title="">4 memberships</a>
+                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS__</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
                     </div>
                     {if i.extra}
                         <span class="mycontacts_list_description">${i.extra}</span>
@@ -50,7 +50,7 @@
                         <div class="mycontacts_item_tags">
                             <span class="mycontacts_item_icon mycontacts_item_tags_icon"></span>
                             <p class="mycontacts_item_tags_list">
-                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mycontacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="" title="${t}">${t}</a>{/if}{/for}
+                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mycontacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
                             </p>
                         </div>
                     {/if}
