@@ -208,6 +208,13 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             return false;
         },
 
+        isContentInLibrary: function(content, userid){
+            if (sakai_content.isUserAViewer(content, userid) || sakai_content.isUserAManager(content, userid)) {
+                return true;
+            }
+            return false;
+        },
+
         addToLibrary: function(contentId, userId, callBack){
             $.ajax({
                 url: "/p/" + contentId + ".members.json",

@@ -15,17 +15,4 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-
-    if (sakai.config.anonAllowed){
-        $("#login_right_col").show();
-    }
-
-    $(window).bind("ready.login.sakai", function(e) {
-        $(window).trigger("render.login.sakai", true);
-    });
-    
-    window.location = "/dev/explore.html";
-
-});
+.institutionalskinning_widget #institutionalskinning_logo {width:100%;height:90px;background:url('/devwidgets/institutionalskinning/images/STU.png') no-repeat;}

@@ -1,0 +1,18 @@
+{
+    "description":        "Featured Content Widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/featuredcontent/bundles/default.properties"
+    },
+    "id":                 "featuredcontent",
+    "name":               "Featured Content Widget",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/featuredcontent/featuredcontent.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
