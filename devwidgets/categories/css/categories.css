@@ -18,10 +18,10 @@
 
 /* General */
 .categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:920px;padding:0 20px 20px;}
-.categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 5px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
+.categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 3px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
 .categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
-.categories_widget #categories_items_content {width:820px;}
-.categories_widget #categories_items_content li {display:block;width:205px;}
+.categories_widget #categories_items_content {width:824px;}
+.categories_widget #categories_items_content li {display:block;width:207px;}
 .categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;background:url("/devwidgets/categories/images/categories_raquo.png") no-repeat center center transparent;}
 .categories_widget #categories_items_scroll #categories_view_all {width:100%;}
 .categories_widget #categories_items_scroll .categories_view_all_link:hover {text-decoration:none !important;}
@@ -32,12 +32,14 @@
 
 
 /* Content Style */
-.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;}
+.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;}
 .categories_widget .categories_item a.categories_item_header_link{font-size: 17px;}
+.categories_widget .categories_item .categories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .categories_widget .categories_item .categories_item_header_meta {color:#ccc;font-size:12px;display:block;}
 .categories_widget .categories_item .categories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}
 .categories_widget .categories_item .categories_item_tags {color:#ccc;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent;display:block;margin-top:10px;padding-left:20px;}
-.categories_widget .categories_item .categories_item_tags a.s3d-regular-links {font-size:12px;}
+.categories_widget .categories_item .categories_item_tags a.s3d-regular-links {font-size:11px;}
+.categories_widget .categories_vertical_divider {background-color:#5B5A5A;float:right;height:170px;margin-right:3px;margin-top:24px;width:1px;}
 
 /* Carousel */
 .categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
