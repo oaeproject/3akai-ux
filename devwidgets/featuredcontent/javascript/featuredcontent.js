@@ -46,80 +46,78 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }));
         };
 
-        var parseFeaturedContent = function(data){
-            var mode = "medium";
-            var numSmall = 0;
-            featuredContentArr = [];
-            var tempArr = [];
+        var parseFeaturedContent = function(success, data){
+            if (success) {
+                var mode = "medium";
+                var numSmall = 0;
+                featuredContentArr = [];
+                var tempArr = [];
 
-            // First check for a piece of content with preview
-            var candidate = false;
-            var i = 0;
-            $.each(data.results, function(index, item){
-                item.hasPreview = sakai.api.Content.hasPreview(item);
-                if (!candidate){
-                    if (item.hasPreview && !largeEnough) {
+                // First check for a piece of content with preview
+                var candidate = false;
+                var i = 0;
+                $.each(data.results, function(index, item){
+                    item.hasPreview = sakai.api.Content.hasPreview(item);
+                    if (!candidate) {
+                        if (item.hasPreview && !largeEnough) {
+                            item.mode = "large";
+                            if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                                item.image = true;
+                            }
+                            candidate = item;
+                            i = index;
+                        }
+                    }
+                    if (item.hasPreview && item["sakai:description"] && !largeEnough) {
+                        largeEnough = true;
                         item.mode = "large";
                         if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
                             item.image = true;
                         }
-                        candidate = item;
-                        i = index;
-                    }
-                }
-                if (item.hasPreview && item["sakai:description"] && !largeEnough ) {
-                    largeEnough = true;
-                    item.mode = "large";
-                    if(item["_mimeType"] && item["_mimeType"].split("/")[0] == "image"){
-                        item.image = true;
-                    }
-                    featuredContentArr.push(item);
-                    data.results.splice(index, 1);
-                    return false;
-                }
-            });
-
-            if (!largeEnough){
-                featuredContentArr.push(candidate);
-                data.results.splice(i, 1);
-            }
-
-            $.each(data.results, function(index, item){
-                if (featuredContentArr.length != 7) {
-                    if (mode == "medium") {
-                        item.mode = "medium";
-                        mode = "small";
                         featuredContentArr.push(item);
-                    } else {
-                        item.mode = "small";
-                        tempArr.push(item);
-                        numSmall++;
-                        if (numSmall == 2) {
-                            numSmall = 0;
-                            mode = "medium";
-                            featuredContentArr.push(tempArr);
-                            tempArr = [];
+                        data.results.splice(index, 1);
+                        return false;
+                    }
+                });
+
+                if (!largeEnough) {
+                    featuredContentArr.push(candidate);
+                    data.results.splice(i, 1);
+                }
+
+                $.each(data.results, function(index, item){
+                    if (featuredContentArr.length != 7) {
+                        if (mode == "medium") {
+                            item.mode = "medium";
+                            mode = "small";
+                            featuredContentArr.push(item);
+                        }
+                        else {
+                            item.mode = "small";
+                            tempArr.push(item);
+                            numSmall++;
+                            if (numSmall == 2) {
+                                numSmall = 0;
+                                mode = "medium";
+                                featuredContentArr.push(tempArr);
+                                tempArr = [];
+                            }
                         }
                     }
-                }
-            });
-            renderFeaturedContent(featuredContentArr);
+                });
+                renderFeaturedContent(featuredContentArr);
+            } else {
+                renderFeaturedContent(false);
+            }
         };
 
         var getFeaturedContent = function(){
-            $.ajax({
-                url: "/var/search/pool/all-all.json?page=0&items=10&q=*&_charset_=utf-8&sortOn=_lastModified&sortOrder=desc",
-                cache: false,
-                success: function(data){
-                    if(data.total){
-                        parseFeaturedContent(data);
-                    }else{
-                        renderFeaturedContent(false);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.log(xhr, textStatus, thrownError);
-                }
+            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseFeaturedContent, {
+                page: 0,
+                items: 10,
+                sortOn: "_lastModified",
+                sortOrder: "desc",
+                q: "*"
             });
         };
 

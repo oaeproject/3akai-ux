@@ -41,6 +41,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
 
+
+        /////////////
+        // BINDING //
+        /////////////
+
+        /**
+         * Expand or collapse the widget
+         */
+        var toggleWidgetvisibility = function(){
+            $categoriesItemsContainer.toggle("display");
+            $categoriesExpandContract.children("div").toggle();
+        };
+
+        var addBinding = function(){
+            $categoriesExpandContract.bind("click", toggleWidgetvisibility)
+        };
+
+        /**
+         * Add binding to the carousel action buttons after rendering and initializing the carousel
+         * @param {Object} carousel reference to the carousel instance
+         */
         var carouselBinding = function(carousel){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected").live("click", function(){
                 var clickedId = $(this)[0].id.split("scroll_")[1];
@@ -57,6 +78,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+
+        ////////////////////////////
+        // CAROUSEL AND RENDERING //
+        ////////////////////////////
+
+        /**
+         * Initialize the carousel after rendering the items
+         */
         var addCarousel = function(){
             $categoriesItemsContainer.jcarousel({
                 animation: "slow",
@@ -64,36 +93,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 scroll: 4,
                 initCallback: carouselBinding
             });
+            $categoriesItemsContainer.css("display","none");
         };
 
-        var renderCategories = function(){
+        var renderCategories = function(total){
             $categoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
-                "directory": categoriesToRender
+                "directory": categoriesToRender,
+                "sakai": sakai,
+                "total":total
             }));
             addCarousel();
         };
 
-        var parseDirectory = function(){
+        /**
+         * Parse the directory structure and extract some information from the featured content
+         * @param {Object} success true or false depending on the success of loading the featured content
+         * @param {Object} data contains featured content data
+         */
+        var parseDirectory = function(success, data){
             $.each(directory, function(i, toplevel){
+                var count = 0;
                 $.each(toplevel.children, function(index, item){
+                    if (data.results[count]){
+                        if (data.results[count]["_mimeType"] && data.results[count]["_mimeType"].split("/")[0] == "image") {
+                            data.results[count].image = true;
+                        }
+                        if (data.results[count]["sakai:tags"]) {
+                            data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
+                        }
+                        data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
+                        item["featuredcontent"] = data.results[count];
+                    }
                     categoriesToRender.push(item);
+                    count++;
                 });
             });
-            renderCategories();
+            renderCategories(data.total);
         };
 
-        var toggleWidgetvisibility = function(el){
-            $categoriesItemsContainer.toggle("display");
-            $categoriesExpandContract.children("div").toggle();
-        }
+        /**
+         * Get a feed of content to display in the carousel
+         */
+        var getCategoryContent = function(){
+            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseDirectory, {
+                page: 0,
+                items: 10,
+                sortOn: "_lastModified",
+                sortOrder: "desc",
+                q: "*"
+            });
+        };
 
-        var addBinding = function(){
-            $categoriesExpandContract.bind("click", toggleWidgetvisibility)
-        }
+
+        ////////////////
+        // INITIALIZE //
+        ////////////////
 
         var doInit = function(){
             addBinding();
-            parseDirectory();
+            getCategoryContent();
+            //parseDirectory();
         };
 
         doInit();
