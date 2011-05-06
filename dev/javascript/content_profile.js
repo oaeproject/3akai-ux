@@ -286,7 +286,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
-            content_path = $.bbq.getState("p") || "";
+            content_path = $.bbq.getState("p").split("/")[0] || "";
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
