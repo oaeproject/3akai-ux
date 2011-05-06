@@ -35,6 +35,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Templates
         var categoriesItemsTemplate = "categories_items_template";
 
+        // Elements
+        var $categoriesExpandContract = $("#categories_expand_contract");
+
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
 
@@ -79,7 +82,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             renderCategories();
         };
 
+        var toggleWidgetvisibility = function(el){
+            $categoriesItemsContainer.toggle("display");
+            $categoriesExpandContract.children("div").toggle();
+        }
+
+        var addBinding = function(){
+            $categoriesExpandContract.bind("click", toggleWidgetvisibility)
+        }
+
         var doInit = function(){
+            addBinding();
             parseDirectory();
         };
 
