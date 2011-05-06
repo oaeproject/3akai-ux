@@ -961,65 +961,19 @@ define(function(){
                 title: "Medicine and Dentistry",
                 children: {
                     preclinicalmedicine: {
-                        title: "Pre-clinical Medicine",
-                        children: {}
+                        title: "Pre-clinical Medicine"
                     },
                     preclinicaldentistry: {
-                        title: "Pre-clinical Dentistry",
-                        children: {}
+                        title: "Pre-clinical Dentistry"
                     },
                     clinicalmedicine: {
-                        title: "Clinical Medicine",
-                        children: {}
+                        title: "Clinical Medicine"
                     },
                     clinicaldentistry: {
-                        title: "Clinical Dentistry",
-                        children: {}
+                        title: "Clinical Dentistry"
                     },
                     othersinmedicineanddentistry: {
-                        title: "Others in Medicine and Dentistry",
-                        children: {}
-                    }
-                }
-            },
-            subjectsalliedtomedicine: {
-                title: "Subjects allied to Medicine",
-                children: {
-                    anatomyphysiologyandpathology: {
-                        title: "Anatomy, Physiology and Pathology",
-                        children: {}
-                    },
-                    pharmacologytoxicologyandpharmacy: {
-                        title: "Pharmacology, Toxicology and Pharmacy",
-                        children: {}
-                    },
-                    complementarymedicine: {
-                        title: "Complementary Medicine",
-                        children: {}
-                    },
-                    nutrition: {
-                        title: "Nutrition",
-                        children: {}
-                    },
-                    ophthalmics: {
-                        title: "Ophthalmics",
-                        children: {}
-                    },
-                    auralandoralsciences: {
-                        title: "Aural and Oral Sciences",
-                        children: {}
-                    },
-                    nursing: {
-                        title: "Nursing",
-                        children: {}
-                    },
-                    medicaltechnology: {
-                        title: "Medical Technology",
-                        children: {}
-                    },
-                    othersinsubjectsalliedtomedicine: {
-                        title: "Others in Subjects allied to Medicine",
-                        children: {}
+                        title: "Others in Medicine and Dentistry"
                     }
                 }
             },
@@ -1027,77 +981,60 @@ define(function(){
                 title: "Biological Sciences",
                 children: {
                     biology: {
-                        title: "Biology",
-                        children: {}
+                        title: "Biology"
                     },
                     botany: {
-                        title: "Botany",
-                        children: {}
+                        title: "Botany"
                     },
                     zoology: {
-                        title: "Zoology",
-                        children: {}
+                        title: "Zoology"
                     },
                     genetics: {
-                        title: "Genetics",
-                        children: {}
+                        title: "Genetics"
                     },
                     microbiology: {
-                        title: "Microbiology",
-                        children: {}
+                        title: "Microbiology"
                     },
                     sportsscience: {
-                        title: "Sports Science",
-                        children: {}
+                        title: "Sports Science"
                     },
                     molecularbiologybiophysicsandbiochemistry: {
-                        title: "Molecular Biology, Biophysics and Biochemistry",
-                        children: {}
+                        title: "Molecular Biology, Biophysics and Biochemistry"
                     },
                     psychology: {
-                        title: "Psychology",
-                        children: {}
+                        title: "Psychology"
                     },
                     othersinbiologicalsciences: {
-                        title: "Others in Biological Sciences",
-                        children: {}
+                        title: "Others in Biological Sciences"
                     }
                 }
             },
-            veterinarysciencesagricultureandrelatedsubjects: {
-                title: "Veterinary Sciences, Agriculture and related subjects",
+            veterinarysciencesagriculture: {
+                title: "Veterinary Sciences and Agriculture",
                 children: {
                     preclinicalveterinarymedicine: {
-                        title: "Pre-clinical Veterinary Medicine",
-                        children: {}
+                        title: "Pre-clinical Veterinary Medicine"
                     },
                     clinicalveterinarymedicineanddentistry: {
-                        title: "Clinical Veterinary Medicine and Dentistry",
-                        children: {}
+                        title: "Clinical Veterinary Medicine and Dentistry"
                     },
                     animalscience: {
-                        title: "Animal Science",
-                        children: {}
+                        title: "Animal Science"
                     },
                     agriculture: {
-                        title: "Agriculture",
-                        children: {}
+                        title: "Agriculture"
                     },
                     forestry: {
-                        title: "Forestry",
-                        children: {}
+                        title: "Forestry"
                     },
                     foodandbeveragestudies: {
-                        title: "Food and Beverage studies",
-                        children: {}
+                        title: "Food and Beverage studies"
                     },
                     agriculturalsciences: {
-                        title: "Agricultural Sciences",
-                        children: {}
+                        title: "Agricultural Sciences"
                     },
                     others: {
-                        title: "Others in Veterinary Sciences, Agriculture and related subjects",
-                        children: {}
+                        title: "Others in Veterinary Sciences and Agriculture"
                     }
                 }
             },
@@ -1105,40 +1042,28 @@ define(function(){
                 title: "Physical Sciences",
                 children: {
                     chemistry: {
-                        title: "Chemistry",
-                        children: {}
+                        title: "Chemistry"
                     },
                     materialsscience: {
-                        title: "Materials Science",
-                        children: {}
+                        title: "Materials Science"
                     },
                     physics: {
-                        title: "Physics",
-                        children: {}
+                        title: "Physics"
                     },
                     forensicandarchaeologicalscience: {
-                        title: "Forensic and Archaeological Science",
-                        children: {}
+                        title: "Forensic and Archaeological Science"
                     },
                     astronomy: {
-                        title: "Astronomy",
-                        children: {}
+                        title: "Astronomy"
                     },
                     geology: {
-                        title: "Geology",
-                        children: {}
+                        title: "Geology"
                     },
                     oceansciences: {
-                        title: "Ocean Sciences",
-                        children: {}
-                    },
-                    physicalandterrestrialgeographicalandenvironmentalsciences: {
-                        title: "Physical and Terrestrial Geographical and Environmental Sciences",
-                        children: {}
+                        title: "Ocean Sciences"
                     },
                     others: {
-                        title: "Others in Physical Sciences",
-                        children: {}
+                        title: "Others in Physical Sciences"
                     }
                 }
             },
@@ -1146,36 +1071,28 @@ define(function(){
                 title: "Mathematical and Computer Sciences",
                 children: {
                     mathematics: {
-                        title: "Mathematics",
-                        children: {}
+                        title: "Mathematics"
                     },
                     operationalresearch: {
-                        title: "Operational Research",
-                        children: {}
+                        title: "Operational Research"
                     },
                     statistics: {
-                        title: "Statistics",
-                        children: {}
+                        title: "Statistics"
                     },
                     computerscience: {
-                        title: "Computer Science",
-                        children: {}
+                        title: "Computer Science"
                     },
                     informationsystems: {
-                        title: "Information Systems",
-                        children: {}
+                        title: "Information Systems"
                     },
                     softwareengineering: {
-                        title: "Software Engineering",
-                        children: {}
+                        title: "Software Engineering"
                     },
                     artificialintelligence: {
-                        title: "Artificial Intelligence",
-                        children: {}
+                        title: "Artificial Intelligence"
                     },
                     others: {
-                        title: "Others in Mathematical and Computing Sciences",
-                        children: {}
+                        title: "Others in Mathematical and Computing Sciences"
                     }
                 }
             },
@@ -1183,40 +1100,31 @@ define(function(){
                 title: "Engineering",
                 children: {
                     generalengineering: {
-                        title: "General Engineering",
-                        children: {}
+                        title: "General Engineering"
                     },
                     civilengineering: {
-                        title: "Civil Engineering",
-                        children: {}
+                        title: "Civil Engineering"
                     },
                     mechanicalengineering: {
-                        title: "Mechanical Engineering",
-                        children: {}
+                        title: "Mechanical Engineering"
                     },
                     aerospaceengineering: {
-                        title: "Aerospace Engineering",
-                        children: {}
+                        title: "Aerospace Engineering"
                     },
                     navalarchitecture: {
-                        title: "Naval Architecture",
-                        children: {}
+                        title: "Naval Architecture"
                     },
                     electronicandelectricalengineering: {
-                        title: "Electronic and Electrical Engineering",
-                        children: {}
+                        title: "Electronic and Electrical Engineering"
                     },
                     productionandmanufacturingengineering: {
-                        title: "Production and Manufacturing Engineering",
-                        children: {}
+                        title: "Production and Manufacturing Engineering"
                     },
                     chemicalprocessandenergyengineering: {
-                        title: "Chemical, Process and Energy Engineering",
-                        children: {}
+                        title: "Chemical, Process and Energy Engineering"
                     },
                     others: {
-                        title: "Others in Engineering",
-                        children: {}
+                        title: "Others in Engineering"
                     }
                 }
             },
@@ -1224,36 +1132,28 @@ define(function(){
                 title: "Technologies",
                 children: {
                     mineralstechnology: {
-                        title: "Minerals Technology",
-                        children: {}
+                        title: "Minerals Technology"
                     },
                     metallurgy: {
-                        title: "Metallurgy",
-                        children: {}
+                        title: "Metallurgy"
                     },
                     ceramicsandglasses: {
-                        title: "Ceramics and Glasses",
-                        children: {}
+                        title: "Ceramics and Glasses"
                     },
                     polymersandtextiles: {
-                        title: "Polymers and Textiles",
-                        children: {}
+                        title: "Polymers and Textiles"
                     },
                     materialstechnologynototherwisespecified: {
-                        title: "Materials Technology not otherwise specified",
-                        children: {}
+                        title: "Materials Technology not otherwise specified"
                     },
                     maritimetechnology: {
-                        title: "Maritime Technology",
-                        children: {}
+                        title: "Maritime Technology"
                     },
                     industrialbiotechnology: {
-                        title: "Industrial Biotechnology",
-                        children: {}
+                        title: "Industrial Biotechnology"
                     },
                     others: {
-                        title: "Others in Technology",
-                        children: {}
+                        title: "Others in Technology"
                     }
                 }
             },
@@ -1261,24 +1161,19 @@ define(function(){
                 title: "Architecture, Building and Planning",
                 children: {
                     architecture: {
-                        title: "Architecture",
-                        children: {}
+                        title: "Architecture"
                     },
                     building: {
-                        title: "Building",
-                        children: {}
+                        title: "Building"
                     },
                     landscapedesign: {
-                        title: "Landscape Design",
-                        children: {}
+                        title: "Landscape Design"
                     },
                     planning: {
-                        title: "Planning (Urban, Rural and Regional)",
-                        children: {}
+                        title: "Planning (Urban, Rural and Regional)"
                     },
                     others: {
-                        title: "Others in Architecture, Building and Planning",
-                        children: {}
+                        title: "Others in Architecture, Building and Planning"
                     }
                 }
             },
@@ -1286,53 +1181,51 @@ define(function(){
                 title: "Social studies",
                 children: {
                     economics: {
-                        title: "Economics",
-                        children: {}
+                        title: "Economics"
                     },
                     politics: {
-                        title: "Politics",
-                        children: {}
+                        title: "Politics"
                     },
                     sociology: {
-                        title: "Sociology",
-                        children: {}
+                        title: "Sociology"
                     },
                     socialpolicy: {
-                        title: "Social Policy",
-                        children: {}
+                        title: "Social Policy"
                     },
                     socialwork: {
-                        title: "Social Work",
-                        children: {}
+                        title: "Social Work"
                     },
                     anthropology: {
-                        title: "Anthropology",
-                        children: {}
+                        title: "Anthropology"
                     },
                     humanandsocialgeography: {
-                        title: "Human and Social Geography",
-                        children: {}
+                        title: "Human and Social Geography"
                     },
                     others: {
-                        title: "Others in Social studies",
-                        children: {}
+                        title: "Others in Social studies"
                     }
                 }
             },
             law: {
                 title: "Law",
                 children: {
-                    lawbyarea: {
-                        title: "Law by area",
-                        children: {}
+                    publiclaw: {
+                        title: "Public Law"
                     },
-                    lawbytopic: {
-                        title: "Law by Topic",
-                        children: {}
+                    privatelaw: {
+                        title: "Private Law"
                     },
-                    others: {
-                        title: "Others in Law",
-                        children: {}
+                    jurisprudence: {
+                        title: "Jurisprudence"
+                    },
+                    legalpractice: {
+                        title: "Legal Practice"
+                    },
+                    medicallaw: {
+                        title: "Medical Law"
+                    },
+                    othersinlaw: {
+                        title: "Others in law"
                     }
                 }
             },
@@ -1340,40 +1233,31 @@ define(function(){
                 title: "Business and Administrative studies",
                 children: {
                     businessstudies: {
-                        title: "Business studies",
-                        children: {}
+                        title: "Business studies"
                     },
                     managementstudies: {
-                        title: "Management studies",
-                        children: {}
+                        title: "Management studies"
                     },
                     finance: {
-                        title: "Finance",
-                        children: {}
+                        title: "Finance"
                     },
                     accounting: {
-                        title: "Accounting",
-                        children: {}
+                        title: "Accounting"
                     },
                     marketing: {
-                        title: "Marketing",
-                        children: {}
+                        title: "Marketing"
                     },
                     humanresourcemanagement: {
-                        title: "Human Resource Management",
-                        children: {}
+                        title: "Human Resource Management"
                     },
                     officeskills: {
-                        title: "Office skills",
-                        children: {}
+                        title: "Office skills"
                     },
                     tourismtransportandtravel: {
-                        title: "Tourism, Transport and Travel",
-                        children: {}
+                        title: "Tourism, Transport and Travel"
                     },
                     others: {
-                        title: "Others in Business and Administrative studies",
-                        children: {}
+                        title: "Others in Business and Administrative studies"
                     }
                 }
             },
@@ -1381,28 +1265,22 @@ define(function(){
                 title: "Mass Communications and Documentation",
                 children: {
                     informationservices: {
-                        title: "Information Services",
-                        children: {}
+                        title: "Information Services"
                     },
                     publicitystudies: {
-                        title: "Publicity studies",
-                        children: {}
+                        title: "Publicity studies"
                     },
                     mediastudies: {
-                        title: "Media studies",
-                        children: {}
+                        title: "Media studies"
                     },
                     publishing: {
-                        title: "Publishing",
-                        children: {}
+                        title: "Publishing"
                     },
                     journalism: {
-                        title: "Journalism",
-                        children: {}
+                        title: "Journalism"
                     },
                     others: {
-                        title: "Others in Mass Communications and Documentation",
-                        children: {}
+                        title: "Others in Mass Communications and Documentation"
                     }
                 }
             },
@@ -1410,40 +1288,31 @@ define(function(){
                 title: "Linguistics, Classics and related subjects",
                 children: {
                     linguistics: {
-                        title: "Linguistics",
-                        children: {}
+                        title: "Linguistics"
                     },
                     comparativeliterarystudies: {
-                        title: "Comparative Literary studies",
-                        children: {}
+                        title: "Comparative Literary studies"
                     },
                     englishstudies: {
-                        title: "English studies",
-                        children: {}
+                        title: "English studies"
                     },
                     ancientlanguagestudies: {
-                        title: "Ancient Language studies",
-                        children: {}
+                        title: "Ancient Language studies"
                     },
                     celticstudies: {
-                        title: "Celtic studies",
-                        children: {}
+                        title: "Celtic studies"
                     },
                     latinstudies: {
-                        title: "Latin studies",
-                        children: {}
+                        title: "Latin studies"
                     },
                     classicalgreekstudies: {
-                        title: "Classical Greek studies",
-                        children: {}
+                        title: "Classical Greek studies"
                     },
                     classicalstudies: {
-                        title: "Classical studies",
-                        children: {}
+                        title: "Classical studies"
                     },
                     others: {
-                        title: "Others in Linguistics, Classics and related subjects",
-                        children: {}
+                        title: "Others in Linguistics, Classics and related subjects"
                     }
                 }
             },
@@ -1451,36 +1320,28 @@ define(function(){
                 title: "European Languages, Literature and related subjects",
                 children: {
                     frenchstudies: {
-                        title: "French studies",
-                        children: {}
+                        title: "French studies"
                     },
                     germanstudies: {
-                        title: "German studies",
-                        children: {}
+                        title: "German studies"
                     },
                     italianstudies: {
-                        title: "Italian studies",
-                        children: {}
+                        title: "Italian studies"
                     },
                     spanishstudies: {
-                        title: "Spanish studies",
-                        children: {}
+                        title: "Spanish studies"
                     },
                     portuguesestudies: {
-                        title: "Portuguese studies",
-                        children: {}
+                        title: "Portuguese studies"
                     },
                     scandinavianstudies: {
-                        title: "Scandinavian studies",
-                        children: {}
+                        title: "Scandinavian studies"
                     },
                     russianandeasteuropeanstudies: {
-                        title: "Russian and East European studies",
-                        children: {}
+                        title: "Russian and East European studies"
                     },
                     others: {
-                        title: "Others in European Languages, Literature and related subjects",
-                        children: {}
+                        title: "Others in European Languages, Literature and related subjects"
                     }
                 }
             },
@@ -1488,40 +1349,31 @@ define(function(){
                 title: "Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects",
                 children: {
                     chinesestudies: {
-                        title: "Chinese studies",
-                        children: {}
+                        title: "Chinese studies"
                     },
                     japanesestudies: {
-                        title: "Japanese studies",
-                        children: {}
+                        title: "Japanese studies"
                     },
                     southasianstudies: {
-                        title: "South Asian studies",
-                        children: {}
+                        title: "South Asian studies"
                     },
                     otherasianstudies: {
-                        title: "Other Asian studies",
-                        children: {}
+                        title: "Other Asian studies"
                     },
                     africanstudies: {
-                        title: "African studies",
-                        children: {}
+                        title: "African studies"
                     },
                     modernmiddleeasternstudies: {
-                        title: "Modern Middle Eastern studies",
-                        children: {}
+                        title: "Modern Middle Eastern studies"
                     },
                     americanstudies: {
-                        title: "American studies",
-                        children: {}
+                        title: "American studies"
                     },
                     australasianstudies: {
-                        title: "Australasian studies",
-                        children: {}
+                        title: "Australasian studies"
                     },
                     others: {
-                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects",
-                        children: {}
+                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
                     }
                 }
             },
@@ -1529,32 +1381,25 @@ define(function(){
                 title: "Historical and Philosophical studies",
                 children: {
                     historybyperiod: {
-                        title: "History by period",
-                        children: {}
+                        title: "History by period"
                     },
                     historybyarea: {
-                        title: "History by area",
-                        children: {}
+                        title: "History by area"
                     },
                     historybytopic: {
-                        title: "History by topic",
-                        children: {}
+                        title: "History by topic"
                     },
                     archaeology: {
-                        title: "Archaeology",
-                        children: {}
+                        title: "Archaeology"
                     },
                     philosophy: {
-                        title: "Philosophy",
-                        children: {}
+                        title: "Philosophy"
                     },
                     theologyandreligiousstudies: {
-                        title: "Theology and Religious studies",
-                        children: {}
+                        title: "Theology and Religious studies"
                     },
                     others: {
-                        title: "Others in Historical and Philosophical studies",
-                        children: {}
+                        title: "Others in Historical and Philosophical studies"
                     }
                 }
             },
@@ -1562,40 +1407,31 @@ define(function(){
                 title: "Creative Arts and Design",
                 children: {
                     fineart: {
-                        title: "Fine Art",
-                        children: {}
+                        title: "Fine Art"
                     },
                     designstudies: {
-                        title: "Design studies",
-                        children: {}
+                        title: "Design studies"
                     },
                     music: {
-                        title: "Music",
-                        children: {}
+                        title: "Music"
                     },
                     drama: {
-                        title: "Drama",
-                        children: {}
+                        title: "Drama"
                     },
                     dance: {
-                        title: "Dance",
-                        children: {}
+                        title: "Dance"
                     },
                     cinematicsandphotography: {
-                        title: "Cinematics and Photography",
-                        children: {}
+                        title: "Cinematics and Photography"
                     },
                     crafts: {
-                        title: "Crafts",
-                        children: {}
+                        title: "Crafts"
                     },
                     imaginativewriting: {
-                        title: "Imaginative Writing",
-                        children: {}
+                        title: "Imaginative Writing"
                     },
                     others: {
-                        title: "Others in Creative Arts and Design",
-                        children: {}
+                        title: "Others in Creative Arts and Design"
                     }
                 }
             },
@@ -1603,20 +1439,16 @@ define(function(){
                 title: "Education",
                 children: {
                     trainingteachers: {
-                        title: "Training Teachers",
-                        children: {}
+                        title: "Training Teachers"
                     },
                     researchandstudyskillsineducation: {
-                        title: "Research and Study Skills in Education",
-                        children: {}
+                        title: "Research and Study Skills in Education"
                     },
                     academicstudiesineducation: {
-                        title: "Academic studies in Education",
-                        children: {}
+                        title: "Academic studies in Education"
                     },
                     othersineducation: {
-                        title: "Others in Education",
-                        children: {}
+                        title: "Others in Education"
                     }
                 }
             }
