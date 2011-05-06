@@ -21,8 +21,10 @@
 .categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 5px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
 .categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
 .categories_widget #categories_items_content {width:820px;}
-.categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;}
 .categories_widget #categories_items_content li {display:block;width:205px;}
+.categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;background:url("/devwidgets/categories/images/categories_raquo.png") no-repeat center center transparent;}
+.categories_widget #categories_items_scroll #categories_view_all {width:100%;}
+.categories_widget #categories_items_scroll .categories_view_all_link:hover {text-decoration:none !important;}
 
 /* Content Style */
 .categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;}
@@ -35,3 +37,4 @@
 /* Carousel */
 .categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
 .categories_widget #categories_items_scroll .categories_items_scroll_deselected {background:url("/devwidgets/categories/images/categories_carousel_deselected.png") repeat-x top left transparent !important;}
+.categories_widget #categories_items_scroll #categories_items_scroll_buttons {position:absolute;bottom:0;}

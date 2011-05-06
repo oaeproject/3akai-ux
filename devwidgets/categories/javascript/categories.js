@@ -39,7 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var categoriesToRender = [];
 
         var carouselBinding = function(carousel){
-            $(".categories_items_scroll_scrollbutton").bind("click", function(){
+            $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected").live("click", function(){
                 var clickedId = $(this)[0].id.split("scroll_")[1];
                 if(clickedId < $(".categories_items_scroll_selected")[0].id.split("scroll_")[1]){
                     carousel.prev();
