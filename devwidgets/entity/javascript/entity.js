@@ -155,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderEntity = function(context){
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
-            $('#newentitywidget_widget').html(sakai.api.Util.TemplateRenderer("newentitywidget_widget", context))
+            $('#newentitywidget_widget').html(sakai.api.Util.TemplateRenderer("newentitywidget_widget", context));
             $("#entity_message").click(function(){
                 var to = {type: context.context};
                 switch (to.type) {
