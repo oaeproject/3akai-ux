@@ -335,22 +335,31 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
 
 
         cleanUpSakaiDocObject: function(pagestructure){
+            // Convert the special objects to arrays
+            data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["jcr:path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
-            var toExclude = ["_ref", "_title", "_altTitle", "_order"];
+            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count"];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
             if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
                 pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
             }
-            if (id){
-                for (var i in pagestructure){
+            var removeServerFormating = function(structure, id){
+                for (var i in structure){
                     if (i.indexOf(id + "/") === 0){
-                        var newid = i.substring((id + "/").length);
-                        pagestructure[newid] = pagestructure[i];
-                        delete pagestructure[i];
+                        var newid = i.substring(i.lastIndexOf("/") + 1);
+                        structure[newid] = structure[i];
+                        delete structure[i];
+                        structure[newid] = removeServerFormating(structure[newid], id);
                     }
                 }
+                return structure;
             }
+            debug.log(pagestructure);
+            if (id){
+                pagestructure = removeServerFormating(pagestructure, id);
+            }
+            debug.log(pagestructure);
             return pagestructure;
         },
 

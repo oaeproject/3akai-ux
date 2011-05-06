@@ -222,6 +222,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // display functions available to logged in users
             if (!sakai.data.me.user.anon) {
                 $(".searchcontent_result_user_functions").show();
+                $(".searchcontent_result_anonuser").hide();
             }
 
             // Update dom with user display names

@@ -257,6 +257,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
 
+            $('.share_trigger_click').live('click',function(){
+                var contentId = $(this).data("contentid");
+                var $this = $(this);
+                sakai.api.Server.loadJSON("/p/" + contentId + ".json", function(success, data){
+                    if (success) {
+                        debug.log("share", data);
+                        contentObj = {
+                            "data": data,
+                            "shareUrl": sakai.config.SakaiDomain + "/content#content_path=/p/" + data["jcr:name"]
+                        };
+                        if (window.hasOwnProperty('addthis')) {
+                            $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
+                            $newsharecontentContainer.jqmShow();
+                        }
+                    }
+                });
+            });
+
             $('.searchcontent_result_share_icon').live('click',function(){
                 var $clickedEl = $(this);
                 var contentId = $clickedEl.data("entityid");

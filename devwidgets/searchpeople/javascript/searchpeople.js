@@ -190,10 +190,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             else {
                 $(searchConfig.global.pagerClass).hide();
             }
-            
+
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".searchpeople_results_container").show();
+
+            // display functions available to logged in users
+            if (!sakai.data.me.user.anon) {
+                $(".searchpeople_result_user_functions").show();
+                $(".searchpeople_result_anonuser").hide();
+            }
         };
         
         /**
@@ -300,6 +306,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $('.sakai_addtocontacts_overlay').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userToAdd.uuid){
                     $(this).hide();
+                    $("#searchpeople_result_left_filler_"+userToAdd.uuid).show();
                 }
             });
         });
