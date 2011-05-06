@@ -29,7 +29,6 @@
                 "sakai:activity-appid": "content",
                 "who": {
                     "jcr:path": "/~Bert/public/authprofile",
-                    "picture": "{\"name\":\"256x256_tmp1304594049901.jpg\",\"_name\":\"tmp1304594049901.jpg\",\"_charset_\":\"utf-8\",\"selectedx1\":0,\"selectedy1\":0,\"selectedx2\":64,\"selectedy2\":64}",
                     "sling:resourceType": "sakai/user-profile",
                     "basic": {
                         "jcr:path": "/~Bert/public/authprofile/basic",
@@ -149,7 +148,6 @@
                 "sakai:activity-appid": "content",
                 "who": {
                     "jcr:path": "/~Bert/public/authprofile",
-                    "picture": "{\"name\":\"256x256_tmp1304594049901.jpg\",\"_name\":\"tmp1304594049901.jpg\",\"_charset_\":\"utf-8\",\"selectedx1\":0,\"selectedy1\":0,\"selectedx2\":64,\"selectedy2\":64}",
                     "sling:resourceType": "sakai/user-profile",
                     "basic": {
                         "jcr:path": "/~Bert/public/authprofile/basic",
@@ -211,7 +209,6 @@
                 "sakai:activity-appid": "content",
                 "who": {
                     "jcr:path": "/~Bert/public/authprofile",
-                    "picture": "{\"name\":\"256x256_tmp1304594049901.jpg\",\"_name\":\"tmp1304594049901.jpg\",\"_charset_\":\"utf-8\",\"selectedx1\":0,\"selectedy1\":0,\"selectedx2\":64,\"selectedy2\":64}",
                     "sling:resourceType": "sakai/user-profile",
                     "basic": {
                         "jcr:path": "/~Bert/public/authprofile/basic",
@@ -331,7 +328,6 @@
                 "sakai:activity-appid": "content",
                 "who": {
                     "jcr:path": "/~Bert/public/authprofile",
-                    "picture": "{\"name\":\"256x256_tmp1304594049901.jpg\",\"_name\":\"tmp1304594049901.jpg\",\"_charset_\":\"utf-8\",\"selectedx1\":0,\"selectedy1\":0,\"selectedx2\":64,\"selectedy2\":64}",
                     "sling:resourceType": "sakai/user-profile",
                     "basic": {
                         "jcr:path": "/~Bert/public/authprofile/basic",

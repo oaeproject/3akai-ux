@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     items: mylibrary.itemsPerPage,
                     sortOn: mylibrary.sortBy,
                     sortOrder: mylibrary.sortOrder,
-                    _q: query || "*"
+                    q: query || "*"
                 }
             );
         };
