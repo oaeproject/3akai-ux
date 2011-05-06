@@ -32,7 +32,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.mylibrary = function (tuid, showSettings) {
+    sakai_global.mylibrary = function (tuid, showSettings, widgetData) {
 
         /////////////////////////////
         // Configuration variables //
@@ -85,8 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
             var contextId = "";
-            if(sakai_global.currentgroup){
-                contextId = sakai_global.currentgroup.id;
+            if(widgetData && widgetData.mylibrary){
+                contextId = widgetData.mylibrary.groupid;
             } else {
                 contextId = sakai_global.profile.main.data.userid;
             }
@@ -487,8 +487,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var contextId = "";
             var contextName = "";
             var isGroup = false;
-            if (sakai_global.currentgroup) {
-                contextId = sakai_global.currentgroup.id;
+            if (widgetData && widgetData.mylibrary) {
+                contextId = widgetData.mylibrary.groupid;
                 contextName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
                 isGroup = true;
                 if (sakai_global.currentgroup.manager) {

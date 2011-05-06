@@ -39,6 +39,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.documentviewer = function(tuid,showSettings,widgetData){
+        
         var documentviewerPreview = "#" + tuid + " #documentviewer_preview";
         var $documentviewerPreview = $(documentviewerPreview);
         var templateObject = {};

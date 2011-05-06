@@ -188,8 +188,85 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             structure._childCount = childCount;
             return structure;
         };
+        
+        var collectPoolIds = function(structure, refs){
+            for (var level in structure) {
+                if (level && level.substring(0, 1) !== "_") {
+                    refs = collectPoolIds(structure[level], refs);
+                } else if (level && level === "_pid") {
+                    if ($.inArray(structure[level], refs) == -1) {
+                        refs.push(structure[level]);
+                    }
+                }
+            }
+            return refs;
+        };
+        
+        var insertDocStructure = function(structure0, docInfo, pid){
+            for (var level in structure0){
+                if (structure0[level]._pid && structure0[level]._pid === pid){
+                    var docStructure = docInfo.structure0;
+                    if (typeof docStructure === "string"){
+                        docStructure = $.parseJSON(docStructure);
+                    }
+                    structure0[level] = $.extend(true, structure0[level], docStructure);
+                    for (var sublevel in structure0[level]){
+                        if (structure0[level][sublevel]._ref){
+                            structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
+                        }
+                    }
+                    for (var subpage in docStructure){
+                        structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
+                        break;
+                    }
+                }
+            }
+            return structure0;
+        };
+        
+        var insertDocPages = function(structure, docInfo, pid){
+            for (var page in docInfo){
+                if (page.substring(0, 9) !== "structure"){
+                    structure.pages[pid + "-" + page] = docInfo[page];
+                }
+            }
+            return structure;
+        };
+        
+        var continueProcessData = function(structure, data, pids, callback){
+            // Prepare a batch request
+            var batchRequests = [];
+            for (var i = 0; i < pids.length; i++) {
+                batchRequests.push({
+                    "url": "/p/" + pids[i] + ".infinity.json",
+                    "method": "GET"
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function(success, data) {
+                if (success) {
+                    for (var i = 0; i < pids.length; i++){
+                        var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                        structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
+                        structure = insertDocPages(structure, docInfo, pids[i]);
+                    }
+                }
+                finishProcessDave(structure, data, callback);
+            });
+        }
+        
+        var finishProcessDave = function(structure, data, callback){
+            // Include the childcounts for the pages
+            structure.items = includeChildCount(structure.items);
+            for (var page in data){
+                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
+                    structure.pages[page] = data[page];
+                }
+            }
+            debug.log(structure);
+            callback(structure);
+        }
 
-        var processData = function(data){
+        var processData = function(data, callback){
             var structure = {};
             structure.items = {};
             structure.pages = {};
@@ -199,18 +276,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     structure.items = data["structure0"];
                 }
-                for (var level in structure.items){
-                    if (level.substring(0, 1) !== "_") {
-                        structure.items[level] = includeChildCount(structure.items[level]);
-                    }
+                // Get a list of all Sakai Docs that have to be "added"
+                var pids = collectPoolIds(structure.items, []);
+                if (pids.length == 0){
+                    finishProcessDave(structure, data, callback);
+                } else {
+                    continueProcessData(structure, data, pids, callback);
                 }
+            } else {
+                finishProcessDave(structure, data, callback);
             }
-            for (var page in data){
-                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
-                    structure.pages[page] = data[page];
-                }
-            }
-            return structure;
         };
 
         var selectPage = function(){
@@ -520,15 +595,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             cData.puburl = puburl;
             cData.privurl = privurl;
             contextData = cData;
-            privstructure = processData(privdata);
-            pubstructure = processData(pubdata);
-            renderData();
-            addBinding();
-            selectPage();
-            if (cData.parametersToCarryOver) {
-                parametersToCarryOver = cData.parametersToCarryOver;
-                rerenderNavigation();
-            }
+            processData(privdata, function(processedPriv){
+                privstructure = processedPriv;
+                processData(pubdata, function(processedPub){
+                    pubstructure = processedPub;
+                    renderData();
+                    addBinding();
+                    selectPage();
+                    if (cData.parametersToCarryOver) {
+                        parametersToCarryOver = cData.parametersToCarryOver;
+                        rerenderNavigation();
+                    }
+                });
+            });            
         };
 
         $(window).bind("hashchange", function(e, data){

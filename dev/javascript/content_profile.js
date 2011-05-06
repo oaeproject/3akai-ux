@@ -54,7 +54,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
                     {
-                        "url": content_path + ".2.json",
+                        "url": content_path + ".infinity.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
