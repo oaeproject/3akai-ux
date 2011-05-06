@@ -470,7 +470,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
-            $mylibrary_groupfilter_wrapper.show();
+            //$mylibrary_groupfilter_wrapper.show();
             $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length) + 1) + ")");
         };
 
