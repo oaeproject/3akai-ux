@@ -35,6 +35,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
         };
 
+        $(window).bind("editPage.sakaidocs.sakai", editPage);
+
         /**
          * Cancel button
          */

@@ -308,7 +308,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!selected){
                 for (var first1 = 0; first1 < pubstructure.orderedItems.length; first1++){
                     if (pubstructure.orderedItems[first1]._childCount > 1) {
-                        for (var second1 = 0; second < pubstructure.orderedItems[first1]._elements.length; second++){
+                        for (var second1 = 0; second1 < pubstructure.orderedItems[first1]._elements.length; second1++){
                             selected = pubstructure.orderedItems[first1]._id + "/" + pubstructure.orderedItems[first1]._elements[second1]._id;
                             break;
                         }
@@ -417,7 +417,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "l": newpageid
             }, 0);
             selectPage();
-            editPage();
+            $(window).trigger("editPage.sakaidocs.sakai");
             rerenderNavigation();
             editPageTitle();
             isEditingNewPage = true;
