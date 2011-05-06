@@ -1,0 +1,30 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;height:220px;width:100%;padding:0 20px;}
+.categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 5px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
+.categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
+
+/* Content Style */
+.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;}
+.categories_widget .categories_item a.categories_item_header_link{font-size: 17px;}
+.categories_widget .categories_item .categories_item_header_meta {color:#ccc;font-size:12px;display:block;}
+.categories_widget .categories_item .categories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}
+.categories_widget .categories_item .categories_item_tags {color:#ccc;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent;display:block;margin-top:10px;padding-left:20px;}
+.categories_widget .categories_item .categories_item_tags a.s3d-regular-links {font-size:12px;}
