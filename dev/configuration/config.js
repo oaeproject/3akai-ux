@@ -22,6 +22,8 @@ define(function(){
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
+            GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
@@ -41,7 +43,7 @@ define(function(){
             SEARCH_PEOPLE_URL: "/search/people",
             SEARCH_GROUP_URL: "/search/groups",
             SEARCH_SITES_URL: "/search/sites",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
@@ -57,6 +59,7 @@ define(function(){
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
+            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
             DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -70,7 +73,8 @@ define(function(){
             LOGOUT_SERVICE: "/system/sling/logout?resource=/dev/index.html",
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
-            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory-all.json",
+            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+            MESSAGE_BOXCATEGORY_ALL_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
@@ -87,6 +91,8 @@ define(function(){
             SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
             SDATA_FETCH: "/",
             // --
+            SEARCH_ALL_ENTITIES: "/var/search/general.json",
+            SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
@@ -352,13 +358,6 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea",
-                                "tagField": true
-                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -500,6 +499,11 @@ define(function(){
                     }
                 }
             },
+            /*
+             * set what name to display where only the first name is used
+             */
+            userFirstNameDisplay: "firstName",
+
             /*
              * set how the user's name is displayed across the entire system
              * - values can be compound, like "firstName lastName" or singular like "displayName"
@@ -1493,94 +1497,111 @@ define(function(){
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
-                    "_ref": "267187828",
+                    "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
+                    "_canEdit": true,
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "267187828",
+                        "_ref": "id267187828",
                         "_order": 0,
                         "_title": "Dashboard"
                     }
                 },
                 "messages": {
                     "_title": "My Messages",
-                    "_ref": "1165301022",
+                    "_ref": "id1165301022",
                     "_order": 1,
+                    "_canEdit": true,
+                    "_canSubedit": true,
+                    "_nonEditable": true,
                     "inbox": {
-                        "_ref": "1165301022",
+                        "_ref": "id1165301022",
                         "_order": 0,
-                        "_title": "Inbox"
+                        "_title": "Inbox",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "invitations": {
-                        "_ref": "9867733100",
+                        "_ref": "id9867733100",
                         "_order": 1,
-                        "_title": "Invitations"
+                        "_title": "Invitations",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "sent": {
-                        "_ref": "4253485084",
+                        "_ref": "id4253485084",
                         "_order": 2,
-                        "_title": "Sent"
+                        "_title": "Sent",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "trash": {
-                        "_ref": "3915412565",
+                        "_ref": "id3915412565",
                         "_order": 3,
-                        "_title": "Trash"
+                        "_title": "Trash",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     }
                 }
             },
-            "267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            "id267187828": {
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
-            "1165301022": {
-                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
+            "id1165301022": {
+                "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
             },
-            "9867733100": {
-                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
+            "id9867733100": {
+                "page": "<div id='widget_inbox_id3679202964' class='widget_inline'/>"
             },
-            "4253485084": {
-                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
+            "id4253485084": {
+                "page": "<div id='widget_inbox_id66582410046' class='widget_inline'/>"
             },
-            "3915412565": {
-                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
+            "id3915412565": {
+                "page": "<div id='widget_inbox_id3519294282' class='widget_inline'/>"
             },
-            "2024634737": {
+            "id2024634737": {
                 "box": "inbox",
                 "category": "message",
                 "title": "INBOX"
             },
-            "3679202964": {
+            "id3679202964": {
                 "box": "inbox",
                 "category": "invitation",
                 "title": "INVITATIONS"
             },
-            "66582410046": {
+            "id66582410046": {
                 "box": "outbox",
                 "category": "*",
                 "title": "SENT"
             },
-            "3519294282": {
+            "id3519294282": {
                 "box": "trash",
                 "category": "*",
                 "title": "TRASH"
             },
-            "546341435": {
+            "id546341435": {
                 "dashboard": {
                     "layout": "threecolumn",
                     "columns": {
                         "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
-                            "name": "mycontent"
+                            "name": "recentchangedcontent"
                         }],
                         "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
-                            "name": "mygroups"
+                            "name": "recentmemberships"
                         }],
                         "column3": [{
                             "uid": "id7360391172040",
                             "visible": "block",
-                            "name": "mycontacts"
+                            "name": "recentcontactsnew"
                         }]
                     }
                 }
@@ -1592,15 +1613,17 @@ define(function(){
                 "profile": {
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0
+                    "_order": 0,
+                    "_nonEditable": true
                 },
                 "library": {
-                    "_ref": "9834611274",
+                    "_ref": "id9834611274",
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "9834611274",
+                        "_ref": "id9834611274",
                         "_order": 0,
                         "_title": "Content"
                     }
@@ -1608,10 +1631,11 @@ define(function(){
                 "memberships": {
                     "_title": "My Memberships",
                     "_order": 2,
-                    "_ref": "213623673",
+                    "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "213623673",
+                        "_ref": "id213623673",
                         "_order": 0,
                         "_title": "Memberships"
                     }
@@ -1619,24 +1643,25 @@ define(function(){
                 "contacts": {
                     "_title": "My Contacts",
                     "_order": 3,
-                    "_ref": "1193715035",
+                    "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "1193715035",
+                        "_ref": "id1193715035",
                         "_order": 0,
                         "_title": "Contacts"
                     }
                 }
             },
-            "9834611274": {
+            "id9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
-            "213623673": {
+            "id213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
                     "<div id='widget_tooltip' class='widget_inline'></div> " +
                     "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
-            "1193715035": {
+            "id1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
             }
         },
@@ -1705,6 +1730,74 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Participants",
+                                        //"_nonEditable": true,
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            //"_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            }
+                        },
                         joinRole: "member",
                         creatorRole: "manager"
                     }
@@ -1737,6 +1830,180 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "week1": {
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Week 1",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Week 1"
+                                        }
+                                    },
+                                    "week2":{
+                                        "_ref":"id569856425",
+                                        "_title":"Week 2",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id569856425",
+                                            "_order":0,
+                                            "_title":"Week 2"
+                                        }
+                                    },
+                                    "week3":{
+                                        "_ref":"id647321988",
+                                        "_title":"Week 3",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"id647321988",
+                                            "_order":0,
+                                            "_title":"Week 3"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
+                                },
+                                "id569856425": {
+                                    page: "<p>Week 2<br></p>"
+                                },
+                                "id647321988": {
+                                    page: "<p>Week 3<br></p>"
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "contact":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title": "Contact",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Contact"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    googlemaps: {
+                                        "mapinput": "16 Mill Lane, Cambridge, UK",
+                                        "mapzoom": "14",
+                                        "mapsize": "LARGE",
+                                        "lng": "0.11648790000003828",
+                                        "sling:resourceType": "sakai/widget-data",
+                                        "maphtml": "16 Mill Ln, Cambridge CB2 1, UK",
+                                        "lat": "52.201596"
+                                    }
+                                }
+                            },
+                            "${pid}2": {
+                                structure0: {
+                                    "about":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"About",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"About"
+                                        }
+                                    },
+                                    "prospective":{
+                                        "_ref":"id373710599",
+                                        "_title":"Prospective Students",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id373710599",
+                                            "_order":0,
+                                            "_title":"Prospective Students"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>This is some information about the course<br></p>"
+                                },
+                                "id373710599": {
+                                    page: "<p>This is some information for prospective students<br></p>"
+                                }
+                            },
+                            "${pid}3": {
+                                structure0: {
+                                    "organizationnotes":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Organization Notes",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Organization Notes"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
+                                }
+                            },
+                            "${pid}4": {
+                                structure0: {
+                                    "studentwiki":{
+                                        "_ref":"id849031890418",
+                                        "_order":0,
+                                        "_title":"Student Wiki",
+                                        "main":{
+                                            "_ref":"id849031890418",
+                                            "_order":0,
+                                            "_title":"Organization Notes"
+                                        }
+                                    }
+                                },
+                                "id849031890418": {
+                                    page: "<p>Student wiki editable by all members of this course<br></p>"
+                                }
+                            }
+                        },
+                        structure: {
+                            "syllabus": {
+                                "_title": "Syllabus",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_view": ["everyone", "-student", "-ta"],
+                                "_edit": ["-lecturer"]
+                            },
+                            "contactus": {
+                                "_title": "Contact us",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "coursewebsite": {
+                                "_title": "Course website",
+                                "_order": 2,
+                                "_docref": "${pid}2",
+                                "_view": ["everyone", "anonymous"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "organizationnotes": {
+                                "_title": "Organization Notes",
+                                "_order": 3,
+                                "_docref": "${pid}3",
+                                "_view": ["-ta"],
+                                "_edit": ["-lecturer"]
+                            },
+                            "studentwiki": {
+                                "_title": "Student Wiki",
+                                "_order": 4,
+                                "_docref": "${pid}4",
+                                "_view": [],
+                                "_edit": ["-lecturer", "-ta", "-student"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
@@ -1763,6 +2030,74 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
@@ -1789,6 +2124,74 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
@@ -1815,6 +2218,74 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
@@ -1841,6 +2312,74 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     }
@@ -1868,6 +2407,74 @@ define(function(){
                                 allowManage: false
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "lurker",
                         creatorRole: "participant"
                     },
@@ -1889,6 +2496,74 @@ define(function(){
                                 allowManage: false
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "lurker",
                         creatorRole: "participant"
                     }

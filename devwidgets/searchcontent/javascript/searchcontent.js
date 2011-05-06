@@ -143,20 +143,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var params = sakai_global.data.search.getQueryParams();
             var finaljson = {};
             finaljson.items = [];
+            var fetchUsers = false;
+            var userArray = [];
             if (success) {
 
                 // Adjust display global total
                 // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
                 if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
                     $(searchConfig.global.numberFound).text("" + results.total);
+                } else if (results.results.length <= 0) {
+                    $(searchConfig.global.numberFound).text(0);
+                } else {
+                    $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
                 }
-                else 
-                    if (results.results.length <= 0) {
-                        $(searchConfig.global.numberFound).text(0);
-                    }
-                    else {
-                        $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
-                    }
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass).pager({
@@ -165,26 +164,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     buttonClickCallback: pager_click_handler
                 });
 
-                var userArray = [];
-                var fetchUsers = false;
-
                 // If we have results we add them to the object.
                 if (results && results.results) {
                     finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     for (var item in finaljson.items) {
                         if (finaljson.items.hasOwnProperty(item)) {
-                            if (finaljson.items[item]["sakai:description"]) {
-                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt");
-                            }
-                            if (finaljson.items[item]["sakai:pooled-content-file-name"]) {
-                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "s3d-bold");
-                            }
+                            // if the content has an owner we need to add their ID to an array,
+                            // so we can lookup the users display name in a batch req
                             if (finaljson.items[item]["sakai:pool-content-created-for"]) {
                                 userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
                                 fetchUsers = true;
@@ -201,15 +187,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // We hide the pager if we don't have any results or
                 // they are less then the number we should display
                 results.total = Math.abs(results.total);
-                if (results.total <= resultsToDisplay) {
-                    $(searchConfig.global.pagerClass).hide();
-                }
-                else {
+                if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass).show();
                 }
-            }
-            else {
-                $(searchConfig.global.pagerClass).hide();
             }
 
             // Make the content items available to other widgets
@@ -228,19 +208,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Update dom with user display names
             if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
-                    for (u in users) {
+                    for (var u in users) {
                         if (users.hasOwnProperty(u)) {
-                            $(".searchcontent_result_username").each(function(index, val){
-                               var userId = $(val).text();
-                               if (userId === u){
-                                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-                               }
-                            });
+                            setUsername(u, users);
                         }
                     }
                 });
             }
+        };
+
+        var setUsername = function(u, users) {
+            $(".searchcontent_result_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
         };
 
         /**
@@ -260,9 +244,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.header).hide();
             $(searchConfig.results.tagHeader).hide();
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
-        }
+        };
 
         var doSearch = function(){
+            $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);

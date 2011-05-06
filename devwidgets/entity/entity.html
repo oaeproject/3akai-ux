@@ -1,37 +1,59 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
-<div id="newentitywidget_widget" style="display:none"><!--
-    <div id="newentitywidget_wrapper" class="newentitywidget_dialog">
-        <div class="newentitywidget_header_arrow"></div>
-        <div class="newentitywidget_outer clearfix">
-            <div class="newentitywidget_inner">
-                <div id="newentitywidget_container">
+<div id="entity_container"><span style="display:none;">__MSG__IE_PLACEHOLDER__</span></div>
+
+<div id="entity_contentsettings_dropdown" style="display:none"><!--
+    <div id="entity_dropdown_wrapper" class="entity_dropdown_dialog">
+        <div class="entity_dropdown_header_arrow"></div>
+        <div class="entity_dropdown_outer clearfix">
+            <div class="entity_dropdown_inner">
+                <div id="entity_dropdown_container">
                 	<div>
-						<ul>
-							<li id="ew_permissions">
-								<a href="#">__MSG__PERMISSIONS__</a>
-							</li>
-							{if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
-							<li id="ew_upload">
-								<a href="#">__MSG__UPLOAD_NEW_VERSION__</a>
-							</li>
-							{/if}
-							<li id="ew_revhistory">
-								<a href="#">__MSG__REVISION_HISTORY__</a>
-							</li>	
-							<li id="ew_content_preview_delete">
-								<a href="#">__MSG__DELETE__</a>
-							</li>							
-						<ul>
-                	</div>
+                        <ul>
+                            <li id="ew_permissions">
+                                <a href="#">__MSG__PERMISSIONS__</a>
+                            </li>
+                            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
+                            <li id="ew_upload">
+                                <a href="#">__MSG__UPLOAD_NEW_VERSION__</a>
+                            </li>
+                            {/if}
+                            <li id="ew_revhistory">
+                                <a href="#">__MSG__REVISION_HISTORY__</a>
+                            </li>	
+                            <li id="ew_content_preview_delete">
+                                <a href="#">__MSG__DELETE__</a>
+                            </li>							
+                        <ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 --></div>
 
-<div id="entity_container"><span style="display:none;">__MSG__IE_PLACEHOLDER__</span></div>
+<div id="entity_groupsettings_dropdown" style="display:none"><!--
+    <div id="entity_dropdown_wrapper" class="entity_dropdown_dialog">
+        <div class="entity_dropdown_header_arrow"></div>
+        <div class="entity_dropdown_outer clearfix">
+            <div class="entity_dropdown_inner">
+                <div id="entity_dropdown_container">
+                    <div>
+                        <ul>
+                            <li id="ew_group_settings">
+                                <a href="javascript:;">Settings</a>
+                            </li>
+                            <li id="ew_group_participants">
+                                <a href="javascript:;">Manage Participants</a>
+                            </li>							
+                        <ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+--></div>
 
 <div id="entity_user_template" style="display:none"><!--
     <div id="entity_actions">
@@ -111,8 +133,8 @@
     <div id="entity_actions">
         {if !anon}
             {if type && type == "content_managed"}
-                <button id="entity_widget" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner"><span class="entity_content_permissions_icon"></span></span>
+                <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner"><span class="entity_permissions_icon"></span></span>
                 </button>
             {/if}
             <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["jcr:name"]}" type="button">
@@ -125,15 +147,15 @@
                     __MSG__SHARE__<span class="entity_share_content"></span>
                 </span>
             </button>
-            {if data.data.mimeType === "x-sakai/link"}
-                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
-                </a>
-            {elseif data.data.mimeType !== "x-sakai/document"}
-                <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
-                </a>
-            {/if}
+        {/if}
+        {if data.data.mimeType === "x-sakai/link"}
+            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
+            </a>
+        {elseif data.data.mimeType !== "x-sakai/document"}
+            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
+            </a>
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
@@ -199,30 +221,43 @@
 <div id="entity_group_template" style="display:none"><!--
     <div id="entity_actions">
         {if !anon}
-            {if type === "group_managemode"}
-                <button id="entity_group_back" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Back to pages</span>
+            {if type && type == "group_managed"}
+                <button id="entity_group_permissions" class="s3d-button s3d-button-link-2-state" type="button">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner"><span class="entity_permissions_icon"></span></span>
                 </button>
             {else}
                 <div id='widget_joinrequestbuttons' class='widget_inline'></div>
-                <button id="entity_message" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">
-                        Message<span class="entity_message_icon entity_user_action_icon"></span>
-                    </span>
-                </button>
-                {if type === "group_managed"}
-                    <button id="entity_manage_group" class="s3d-button s3d-button-link-2-state" type="button">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">Manage group</span>
-                    </button>
-                {/if}
             {/if}
+            <button id="entity_message" class="s3d-button s3d-button-link-2-state" type="button">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">
+                    Message<span class="entity_message_icon entity_user_action_icon"></span>
+                </span>
+            </button>
         {/if}
     </div>
-    <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div>
+    {if type && type == "group_managed"}
+        <div id="entity_group_image" class="s3d-dropdown-menu">
+            <div class="entity_profilepic_internal">
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+            </div>
+            <div class="s3d-dropdown-menu-arrow"></div>
+            <div class="s3d-dropdown-container" style="display:none;">
+                <ul>
+                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                </ul>
+            </div>
+        </div>
+    {else}
+        <div id="entity_group_image" class="entity_other_profilepic">
+            <div class="entity_profilepic_internal">
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+            </div>
+        </div>
+    {/if}
     <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">(1)</span> <a href="#l=library" title="1 Documents">Documents</a>,
-        <span class="entity_number">(2)</span> <a href="#l=memberships" title="(2) Participants">Participants</a>
+        <span class="entity_number">(${data.authprofile["contentCount"]}) Documents</span>,
+        <span class="entity_number">(${data.authprofile["membersCount"]}) Participants</span> 
     </div>
     {if type && type == "group_managed"}
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
@@ -234,6 +269,8 @@
         </div>
     {/if}
 --></div>
+
+<!-- <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div> -->
 
 <!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
 <div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
@@ -262,7 +299,7 @@
                         {if i.pictureUrl}
                             <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
                             <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>

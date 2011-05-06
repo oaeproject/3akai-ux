@@ -256,7 +256,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
                     hidePersonInfo();
                 }
-            })
+            });
 
             if (!open && userId){
                 open = true;

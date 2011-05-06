@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], function($, sakai_conf, sakai_serv){
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sakai/sakai.api.util"], function($, sakai_conf, sakai_serv, sakai_util){
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
@@ -103,7 +103,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Function} callback the callback function for when the group save is complete. It will pass
          *                            two params, success {Boolean} and nameTaken {Boolean}
         */
-        createGroup : function(id, title, description, meData, template, callback) {
+        createGroup : function(id, title, description, meData, template, category, callback) {
             /**
              * Check if the group is created correctly and exists
              * @param {String} groupid
@@ -131,7 +131,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     "sakai:group-title" : group.grouptitle,
                     "sakai:group-description" : group.groupdescription,
                     "sakai:group-id": group.groupid
-                }
+                };
                 if (!group.isSubgroup){
                     data["sakai:category"] = group.category;
                     data["sakai:templateid"] = group.template.id;
@@ -151,7 +151,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         callback(false);
                     }
                 });
-            }
+            };
             
             var toProcess = [];
             var membershipsToProcess = [];
@@ -159,7 +159,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             var mainCallback = false;
             var mainGroupId = false;
             
-            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, callback){
+            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, category, callback){
                 mainCallback = callback;
                 mainGroupId = groupid;
                 // Get list of all manager groups
@@ -169,94 +169,98 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         managerGroups.push(groupid + "-" + template.roles[i].id);
                     }
                 }
-                for (var i = 0; i < template.roles.length; i++){
+                for (var j = 0; j < template.roles.length; j++){
                     for (var m = 0; m < managerGroups.length; m++) {
                         managershipsToProcess.push({
                             "user": managerGroups[m],
-                            "permission": template.roles[i].id
+                            "permission": template.roles[j].id
                         });
                     }
                 }
-                for (var m = 0; m < managerGroups.length; m++) {
+                for (var k = 0; k < managerGroups.length; k++) {
                     managershipsToProcess.push({
-                        "user": managerGroups[m],
+                        "user": managerGroups[k],
                         "permission": ""
                     });
                 }
                 
                 // Get list of all subgroups
                 var subGroups = [];
-                for (var i = 0; i < template.roles.length; i++){
-                    subGroups.push(groupid + "-" + template.roles[i].id);
+                for (var z = 0; z < template.roles.length; z++){
+                    subGroups.push(groupid + "-" + template.roles[z].id);
                 }
                 
                 // First do the main maintenance groups
-                for (var i = 0; i < template.roles.length; i++){
-                    if (template.roles[i].id === template.creatorRole){
+                for (var q = 0; q < template.roles.length; q++){
+                    if (template.roles[q].id === template.creatorRole){
                         var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                            groupid: groupid + "-" + template.roles[q].id,
+                            grouptitle: grouptitle + " " + template.roles[q].title,
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
+                            category: category,
                             isSubgroup: true
-                        }
+                        };
                         toProcess.push(group);
                         membershipsToProcess.push({
                             "user": meData.user.userid,
-                            "permission": template.roles[i].id
+                            "permission": template.roles[q].id
                         });
                     }
                 }
                 
                 // Other maintenance groups
-                for (var i = 0; i < template.roles.length; i++) {
-                    if (template.roles[i].allowManage && template.roles[i].id !== template.creatorRole) {
-                        var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                for (var n = 0; n < template.roles.length; n++) {
+                    if (template.roles[n].allowManage && template.roles[n].id !== template.creatorRole) {
+                        var gr = {
+                            groupid: groupid + "-" + template.roles[n].id,
+                            grouptitle: grouptitle + " " + template.roles[n].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
-                        }
-                        toProcess.push(group);
+                        };
+                        toProcess.push(gr);
                     }
                 }
                 
                 // Other Subgroups
-                for (var i = 0; i < template.roles.length; i++) {
-                    if (!template.roles[i].allowManage) {
-                        var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                for (var o = 0; o < template.roles.length; o++) {
+                    if (!template.roles[o].allowManage) {
+                        var gr1 = {
+                            groupid: groupid + "-" + template.roles[o].id,
+                            grouptitle: grouptitle + " " + template.roles[o].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
-                        }
-                        toProcess.push(group);
+                        };
+                        toProcess.push(gr1);
                     }
                 }
                 
                 // Main group
-                var group = {
+                var gr2 = {
                     groupid: groupid,
                     grouptitle: grouptitle,
                     groupdescription: groupdescription,
+                    category: category,
                     template: template,
                     isSubgroup: false
-                }
-                toProcess.push(group);
-                for (var i = 0; i < template.roles.length; i++) {
+                };
+                toProcess.push(gr2);
+                for (var b = 0; b < template.roles.length; b++) {
                     membershipsToProcess.push({
-                        "user": groupid + "-" + template.roles[i].id,
+                        "user": groupid + "-" + template.roles[b].id,
                         "permission": ""
                     });
                 }
                 
                 saveGroup(true);
-            }
+            };
 
             /**
              * Create the group.
@@ -285,7 +289,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             // check if the group exists
             if (!groupExists(id)) {
-                fillToProcess(id, title, description, meData, template, callback);
+                fillToProcess(id, title, description, meData, template, category, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false, true);
@@ -537,13 +541,31 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Object} meData the data from sakai.api.User.data.me
          * @return true if the current user is a manager, false otherwise
          */
-        isCurrentUserAManager : function(groupid, meData) {
-            if(!groupid || typeof(groupid) !== "string") {
-                return false;
+        isCurrentUserAManager : function(groupid, meData, groupinfo) {
+            if (groupinfo) {
+                var managementRoles = [];
+                var roles = $.parseJSON(groupinfo["sakai:roles"]);
+                for (var r = 0; r < roles.length; r++) {
+                    if (roles[r].allowManage) {
+                        managementRoles.push(roles[r].id);
+                    }
+                }
+                var canManage = false;
+                for (var i = 0; i < meData.groups.length; i++) {
+                    for (var r = 0; r < managementRoles.length; r++) {
+                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[r]) {
+                            canManage = true;
+                        }
+                    }
+                }
+                return canManage;
+            } else {
+                if (!groupid || typeof(groupid) !== "string") {
+                    return false;
+                }
+                var managersGroupId = groupid + "-managers";
+                return $.inArray(managersGroupId, meData.user.subjects) !== -1;
             }
-
-            var managersGroupId = groupid + "-managers";
-            return $.inArray(managersGroupId, meData.user.subjects) !== -1;
         },
 
 
@@ -560,7 +582,6 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if(!groupid || typeof(groupid) !== "string") {
                 return false;
             }
-
             return $.inArray(groupid, meData.user.subjects) !== -1;
         },
 
@@ -699,7 +720,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         var parameters = {
                             group: groupID + "-" + roles[i].id,
                             q: searchquery
-                        }
+                        };
                         if (searchquery !== "*"){
                             url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
                         }
@@ -729,6 +750,16 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     }
                 }
             });
+        },
+
+        /**
+         * Retrieves the profile picture for the group
+         *
+         * @param {Object} profile the groups profile (data.me.profile for the current user)
+         * @return {String} the url for the profile picture
+         */
+        getProfilePicture : function(profile) {
+            return sakai_util.constructProfilePicture(profile, "group");
         },
 
         /**
@@ -932,9 +963,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 }
             }
             var template = false;
-            for (var i = 0; i < category.templates.length; i++){
-                if (category.templates[i].id === id){
-                    template = category.templates[i];
+            for (var w = 0; w < category.templates.length; w++){
+                if (category.templates[w].id === id){
+                    template = category.templates[w];
                     break;
                 }
             }

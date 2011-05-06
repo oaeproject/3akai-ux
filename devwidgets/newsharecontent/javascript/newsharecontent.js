@@ -226,7 +226,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (success) {
                         contentObj = {
                             "data": data,
-                            "shareUrl": sakai.config.SakaiDomain + "/content#content_path=/p/" + data["jcr:name"]
+                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["jcr:name"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
                         };
                         if (window.hasOwnProperty('addthis')) {
                             $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});

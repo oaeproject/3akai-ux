@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['jcr:name']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
+                "link": (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
                 "extension": result['sakai:fileextension'],
                 "jcr:name": result['jcr:name'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
@@ -504,7 +504,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 processWidgetData(true, widgetData.embedcontent, callback);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-                    processWidgetData(success, data, callback)
+                    processWidgetData(success, data, callback);
                 });
             }
         };
@@ -550,7 +550,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var toggleTabs = function(target) {
-            if(!isPreviewExist) $("#embedcontent_name_checkbox").selected(true);
+            if (!isPreviewExist) {
+                $("#embedcontent_name_checkbox").selected(true);
+            }
             $("." + active_tab_class).removeClass(active_tab_class);
             $(target).parent("li").addClass(active_tab_class);
             $("." + active_content_class).hide();
