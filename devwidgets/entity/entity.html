@@ -1,13 +1,9 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/entity/css/entity.css" />
 
-<div id="newentitywidget_widget" style="display:none">
-    <!-- ENTITYWIDGET DIALOG -->
+<div id="newentitywidget_widget" style="display:none"><!--
     <div id="newentitywidget_wrapper" class="newentitywidget_dialog">
-        <!-- ENTITYWIDGET HEADER -->
         <div class="newentitywidget_header_arrow"></div>
-
-        <!-- ENTITYWIDGET CONTENT -->
         <div class="newentitywidget_outer clearfix">
             <div class="newentitywidget_inner">
                 <div id="newentitywidget_container">
@@ -16,12 +12,14 @@
 							<li id="ew_permissions">
 								<a href="#">__MSG__PERMISSIONS__</a>
 							</li>
+							{if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
 							<li id="ew_upload">
 								<a href="#">__MSG__UPLOAD_NEW_VERSION__</a>
 							</li>
+							{/if}
 							<li id="ew_revhistory">
 								<a href="#">__MSG__REVISION_HISTORY__</a>
-							</li>							
+							</li>	
 							<li id="ew_content_preview_delete">
 								<a href="#">__MSG__DELETE__</a>
 							</li>							
@@ -31,7 +29,7 @@
             </div>
         </div>
     </div>
-</div>
+--></div>
 
 <div id="entity_container"><span style="display:none;">__MSG__IE_PLACEHOLDER__</span></div>
 

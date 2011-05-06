@@ -85,10 +85,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var bindButtons = function(){
-            $("#ew_content_preview_delete").unbind("click");
+            $("#content_preview_delete").unbind("click");
             $("#upload_content").unbind("click");
             // Open the delete content pop-up
-            $("#ew_content_preview_delete").bind("click", function(){
+            $("#content_preview_delete").bind("click", function(e){
+                e.preventDefault();
                 window.scrollTo(0,0);
                 $(window).trigger('init.deletecontent.sakai', [sakai_global.content_profile.content_data,
                     function (success) {
@@ -130,6 +131,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).trigger("ready.contentpreview.sakai", {});
 
     };
-
+    
     sakai.api.Widgets.widgetLoader.informOnLoad("contentpreview");
 });
