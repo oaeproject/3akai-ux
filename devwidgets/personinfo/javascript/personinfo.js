@@ -47,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_invite = $("#personinfo_invite", $rootel);
         var dataCache = {};
         var open = false;
+        var closeOnHoverout = false;
         var userId;
 
         $personinfo_widget.jqm({
@@ -103,6 +104,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var fetchPersonInfo = function(clickedEl) {
             $personinfo_invite.hide();
             userId = clickedEl.data("userid");
+
+            closeOnHoverout = false;
+            // hide overlay on mouseleave event if the element has the specified class
+            if (clickedEl.hasClass("personinfo_trigger_hover")){
+                closeOnHoverout = true;
+            }
 
             // check if user is a contact and their connection state
             sakai.api.User.getConnectionState(userId, function(state){
@@ -196,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind mouse hover trigger
-        $(".personinfo_trigger").live("mouseenter", function(){
+        $(".personinfo_trigger_hover").live("mouseenter", function(){
             fetchPersonInfo($(this));
         });
 
@@ -215,9 +222,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind hover out to close widget
-        /*$personinfo_widget.bind("mouseleave", function(){
-            hidePersonInfo();
-        });*/
+        $personinfo_widget.unbind("mouseleave").bind("mouseleave", function(){
+            if (closeOnHoverout) {
+                hidePersonInfo();
+            }
+        });
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("personinfo");
