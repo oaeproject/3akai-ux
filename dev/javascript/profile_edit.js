@@ -64,7 +64,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $profile_error_form_error_server = $("#profile_error_form_error_server");
         var $profile_error_form_errors = $("#profile_error_form_errors");
         var $profile_field_default_template = $("#profile_field_default_template", profile_class);
-        var $profile_form = $("#profile_form", profile_class);
         var $profile_footer = $("#profile_footer", profile_class);
         var $profile_footer_button_update = $("#profile_footer_button_update", profile_class);
         var $profile_footer_button_dontupdate = $("#profile_footer_button_dontupdate", profile_class);
@@ -521,9 +520,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /**
          * Add binding to the profile form
          */
-        var addBindingForm = function(){
+        var addBindingForm = function(e, sectionid){
             // Reinitialize the jQuery form selector
-            $profile_form = $($profile_form.selector);
+            var $profile_form = $("#profile_form_" + sectionid);
             // Initialize the validate plug-in
             $profile_form.validate({
                 submitHandler: function(form) {
