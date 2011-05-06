@@ -1,6 +1,6 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/carousel/css/carousel.css" />
-<link rel="stylesheet" type="text/css" href="/devwidgets/newinbox/css/newinbox.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/inbox/css/inbox.css" />
 
 <div id="carousel_container_tl"><div id="carousel_container_tr"></div></div>
 <div id="carousel_container" class="jcarousel-skin-tango"><!----></div>
@@ -37,20 +37,20 @@
                                 </div>
                             {elseif noPrev.contentType == "message"}
                                 <div class="carousel_single_column_content_container">
-                                    <div class="fl-container fl-fix newinbox_items">
-                                        <div class="newinbox_right_div">
-                                            <button type="button" class="s3d-button s3d-button-link-2-state newinbox_delete_button">
+                                    <div class="fl-container fl-fix inbox_items">
+                                        <div class="inbox_right_div">
+                                            <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button">
                                                 <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
                                             </button>
                                         </div>
                                         <a href="/~${noPrev.from}"><img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
-                                        <div class="newinbox_name">
+                                        <div class="inbox_name">
                                             <div>
                                                 <a href="/~${noPrev.from}" class="s3d-regular-links s3d-bold">${noPrev.from}</a>
                                             </div>
                                             <span>__MSG__DATE__:${noPrev.date}</span>
                                         </div>
-                                        <div class="newinbox_subject">
+                                        <div class="inbox_subject">
                                             <span>__MSG__SUBJECT__:</span>
                                             <div>
                                                 <a href="/~test" class="s3d-regular-links s3d-bold">${noPrev.subject}</a>

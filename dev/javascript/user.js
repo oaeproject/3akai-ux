@@ -40,65 +40,93 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
         var qs = new Querystring();
 
-        var loadSpaceData = function(){
-                var isMe = false;
-                var userid = false;
-                if (!qs.get("id") || qs.get("id") == sakai.data.me.user.userid) {
-                    isMe = true;
-                    userid = sakai.data.me.user.userid;
-                } else {
-                    userid = qs.get("id");
+        var setupProfile = function(pub) {
+            var firstWidgetRef = "";
+            var profilestructure = {};
+            profilestructure._title = pub.structure0.profile._title;
+            profilestructure._altTitle = pub.structure0.profile._altTitle;
+            profilestructure._order = pub.structure0.profile._order;
+            pub.structure0.profile = {};
+            $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
+                var widgetID = ""+Math.ceil(Math.random() * 1000000000);
+                var widgetUUID = ""+Math.ceil(Math.random() * 1000000000);
+                profilestructure[title] = {
+                    _ref: widgetID,
+                    _order: section.order,
+                    _altTitle: section.label,
+                    _title: section.label
+                };
+                if (section.order === 0) {
+                    firstWidgetRef = widgetID;
                 }
-                privurl = "/~" + userid + "/private/privspace/";
-                puburl = "/~" + userid + "/public/pubspace/";
-                
-                var publicToStore = false;
-                var privateToStore = false;
-                
-                // Load public data from /~userid/private/pubspace
-                sakai.api.Server.loadJSON(puburl, function(success, data){
-                    if (!success){
-                        pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
-                        publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
-                        publicToStore.structure0 = $.toJSON(publicToStore.structure0);
-                    } else {
-                        pubdata = data;
-                        pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
-                    }
-                    if (!isMe){
+                pub[widgetID] = {
+                    page: "<div id='widget_displayprofilesection_" + widgetUUID + "' class='widget_inline'/>"
+                };
+                pub[widgetUUID] = {
+                    sectionid: title
+                };
+            });
+            pub.structure0.profile = profilestructure;
+            pub.structure0.profile._ref = firstWidgetRef;
+        };
+
+        var loadSpaceData = function(){
+            var isMe = false;
+            var userid = false;
+            if (!qs.get("id") || qs.get("id") == sakai.data.me.user.userid) {
+                isMe = true;
+                userid = sakai.data.me.user.userid;
+            } else {
+                userid = qs.get("id");
+            }
+            privurl = "/~" + userid + "/private/privspace/";
+            puburl = "/~" + userid + "/public/pubspace/";
+
+            var publicToStore = false;
+            var privateToStore = false;
+
+            // Load public data from /~userid/private/pubspace
+            sakai.api.Server.loadJSON(puburl, function(success, data){
+                if (!success){
+                    pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
+                } else {
+                    pubdata = data;
+                    pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
+                }
+                setupProfile(pubdata);
+                if (!isMe){
+                    addCounts();
+                }
+                if (isMe){
+                    sakai.api.Server.loadJSON(privurl, function(success2, data2){
+                        if (!success2){
+                            privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
+                            privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
+                        } else {
+                            privdata = data2;
+                            privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
+                        }
+                        if (publicToStore) {
+                            sakai.api.Server.saveJSON(puburl, publicToStore);
+                        }
+                        if (privateToStore) {
+                            sakai.api.Server.saveJSON(privurl, privateToStore);
+                        }
                         addCounts();
-                    }
-                    if (isMe){
-                        sakai.api.Server.loadJSON(privurl, function(success2, data2){
-                            if (!success2){
-                                privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
-                                privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
-                                privateToStore.structure0 = $.toJSON(privateToStore.structure0);
-                            } else {
-                                privdata = data2;
-                                privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);   
-                            }
-                            generateNav();
-                            if (publicToStore) {
-                                sakai.api.Server.saveJSON(puburl, publicToStore);
-                            }
-                            if (privateToStore) {
-                                sakai.api.Server.saveJSON(privurl, privateToStore);
-                            }
-                            addCounts();
-                            generateNav();
-                        });
-                    } else {
                         generateNav();
-                    }
-                });
+                    });
+                } else {
+                    generateNav();
+                }
+            });
         };
 
         var addCounts = function(){
             addCount(pubdata, "library", contextData.counts["content"]);
             addCount(pubdata, "contacts", contextData.counts["contacts"]);
-            addCount(pubdata, "memberships", contextData.counts["memberships"]);        
-        }
+            addCount(pubdata, "memberships", contextData.counts["memberships"]);
+        };
 
         var addCount = function(pubdata, pageid, count){
             if (pubdata.structure0) {
@@ -125,7 +153,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else if (!sakai.data.me.user.anon){
                 if (document.location.pathname === "/dev/user.html"){
                     document.location = "/dev/me.html";
-                    return false;
                 }
                 sakai.api.Security.showPage();
                 contextType = "user_me";
@@ -177,9 +204,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (contacts[i].details["sakai:state"] === "ACCEPTED") {
                         isContact = true;
                     } else if (contacts[i].details["sakai:state"] === "INVITED"){
-                        isContactInvited = true
+                        isContactInvited = true;
                     } else if (contacts[i].details["sakai:state"] === "PENDING"){
-                        isContactPending = true
+                        isContactPending = true;
                     }
                 }
             }
