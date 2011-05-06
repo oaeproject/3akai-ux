@@ -1,17 +1,27 @@
 {
+    /*
+     * The Sakai 2 Tools Widget is for all practical cases
+     * the same code as the basiclti widget, but with some name
+     * space changes and config file changes. Even most of the
+     * filenames are still basiclti.*. We may want to refactor 
+     * the widgets in the future, but since the Sakai 2 Tools widget
+     * is likely to be thrown out when the new add dialog is 
+     * implemented for now we are just copying the bltiwidget and
+     * changing the namespaces and global symbols.
+     */
     "sakaidocs": true,
     "ca":true,
     "hasSettings": false,
-    "description":"Sakai 2 Modules",
-    "id":"sak2tool",
+    "description":"Sakai 2 Tools",
+    "id":"sakai2tools",
     "i18n": {
-        "default": "/devwidgets/sak2tool/bundles/default.properties"
+        "default": "/devwidgets/sakai2tools/bundles/default.properties"
     },
-    "img":"/devwidgets/basiclti/images/basiclti.png",
-    "name":"Sakai 2 Modules",
+    "img":"/devwidgets/sakai2tools/images/basiclti.png",
+    "name":"Sakai 2 Tools",
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/sak2tool/basiclti.html",
+    "url":"/devwidgets/sakai2tools/basiclti.html",
     "userpages": true,
     "userdashboard": true,
     "grouppages": true,

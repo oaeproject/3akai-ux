@@ -1,4 +1,5 @@
 {
+    "sakaidocs": true,
     "ca":true,
     "hasSettings": false,
     "description":"Basic LTI Widget",
