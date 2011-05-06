@@ -32,11 +32,7 @@
         </div>
         <div id="searchpeople_results" class="fl-container searchpeople_results">
             <!-- SEARCH RESULTS -->
-            <div id="results_page1" class="results_container s3d-highlight_area_background results_container_sub">
-                <div class="s3d-highlight_area_background_tl">
-                    <div class="s3d-highlight_area_background_tinner">
-                    </div>
-                </div>
+            <div id="results_page1" class="results_container results_container_sub">
                 <!-- CONTENT -->
                 <div class="fl-container fl-fix results_part">
                     <div id="result_results_tagged_under" style="display:none;">
@@ -46,58 +42,77 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchpeople_results_container" class="s3d-highlight_area_background">
+                    <div id="searchpeople_results_container">
                     </div>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
-                </div>
-                <div class="s3d-highlight_area_background_bl">
-                    <div class="s3d-highlight_area_background_binner">
+                    <!-- CONTAINER FOR THE PAGER -->
+                    <div class="jq_pager">
+                        <!-- -->
                     </div>
                 </div>
                 <!-- TEMPLATE CONTAINING THE RESULTS -->
                 <div id="searchpeople_results_template"><!--
+                    {var count = 0}
                     {for i in items}
-                    {if i.userid}
-                    {var peopleFound = true}
-                    <div class="fl-container fl-fix searchpeople_result_person">
-                    {if ! i.picture}
-                    <a href="/~${i.userid}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
-                    {else}
-                    <a href="/~${i.userid}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
-                    {/if}
-                    <a href="/~${i.userid}" class="searchpeople_result_person_name">${i.name}</a>
-                    {if i.extra}
-                    <span class="searchpeople_result_person_dept">${i.extra}</span>
-                    {else}
-                    <span class="searchpeople_result_person_dept">&nbsp;</span>
-                    {/if}
-                    <div class="searchpeople_result_person_links">
-                    {if ! i.isMe && ! sakai.data.me.user.anon}
-                    {if ! i.connected}
-                    <button type="button"class="searchpeople_result_person_link link_add_to_contacts s3d-link-button s3d-action s3d-action sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>__MSG__ADD_TO_CONTACTS__</button>
-                    <span id="link_add_to_contacts_${i.userid}_divider" class="searchpeople_result_person_link searchpeople_result_person_divider sakai_addtocontacts_overlay" sakai-entityid="${i.userid}">|</span>
-                    <button type="button"class="searchpeople_result_person_link searchpeople_result_person_link_message searchpeople_result_person_link_divider_message s3d-link-button s3d-action sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user">__MSG__MESSAGE__</button>
-                    {elseif i.invited}
-                    <button type="button"class="searchpeople_result_person_link link_accept_invitation s3d-link-button s3d-action link_accept_invitation" sakai-entityid="${i.userid}">__MSG__ACCEPT_INVITATION__</button>
-                    <span class="searchpeople_result_person_link searchpeople_result_person_divider link_accept_invitation" sakai-entityid="${i.userid}">|</span>
-                    <button type="button"class="searchpeople_result_person_link searchpeople_result_person_link_message searchpeople_result_person_link_divider_message s3d-link-button s3d-action s3d-action sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user">__MSG__MESSAGE__</button>
-                    {else}
-                    <button type="button" class="searchpeople_result_person_link searchpeople_result_person_link_message s3d-link-button s3d-action sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user">__MSG__MESSAGE__</button>
-                    {/if}
-                    {/if}
-                    </div>
-                    </div>
-                    {/if}
+                        {var count = count + 1}
+                        {if i.userid}
+                            {var peopleFound = true}
+                            <div class="fl-container fl-fix searchpeople_result{if count == 1} searchpeople_result_first{/if}">
+                                <span class="searchpeople_result_user_functions" style="display:none;">
+                                    {if ! i.isMe && ! sakai.data.me.user.anon}
+                                        {if ! i.connected}
+                                            <button class="s3d-link-button searchpeople_result_plus searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>+</button>
+                                            <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid}" style="display:none;"></div>
+                                            <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                        {elseif i.invited}
+                                            <button class="s3d-link-button searchpeople_result_plus searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>+</button>
+                                            <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid}" style="display:none;"></div>
+                                            <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                        {elseif i.pending}
+                                            <div class="searchpeople_result_left_filler"></div>
+                                            <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                        {elseif i.none}
+                                            <div class="searchpeople_result_left_filler"></div>
+                                            <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                        {else}
+                                            <div class="searchpeople_result_left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
+                                            <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                        {/if}
+                                    {else}
+                                        <div class="searchpeople_result_left_filler"></div>
+                                    {/if}
+                                </span>
+                                <span class="searchpeople_result_anonuser"></span>
+                                {if ! i.picture}
+                                    <a href="/~${i.userid}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                {else}
+                                    <a href="/~${i.userid}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
+                                {/if}
+                                <div class="searchpeople_result_right">
+                                    <a href="/~${i.userid}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
+                                    <div class="searchpeople_result_counts">
+                                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="searchpeople_result_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS__</a> <span class="searchpeople_result_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
+                                    </div>
+                                    {if i.extra}
+                                        <span class="searchpeople_result_description">${i.extra}</span>
+                                    {/if}
+                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                        <div class="searchpeople_result_tags">
+                                            <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
+                                            <p class="searchpeople_result_tags_list">
+                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/for}
+                                            </p>
+                                        </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
                     {/for}
                     {if !peopleFound}
-                    <div class="searchpeople_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
+                        <div class="searchpeople_no_results">__MSG__NO_PEOPLE_FOUND__.</span>
                     {/if}
                 --></div>
             </div>
-        </div>
-        <!-- CONTAINER FOR THE PAGER -->
-        <div class="jq_pager">
-            <!-- -->
         </div>
     </div>
 </div>

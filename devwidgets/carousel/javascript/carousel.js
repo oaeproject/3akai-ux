@@ -327,8 +327,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             parseMessages(data, dataArr);
             //parseUsers(data, dataArr);
             //parseInvitations(data, dataArr);
-
-            renderCarousel(dataArr);
+            if (dataArr.length) {
+                renderCarousel(dataArr);
+            }
         };
 
         var checkDataParsable = function(data){

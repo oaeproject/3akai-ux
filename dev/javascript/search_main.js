@@ -374,7 +374,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     else if (user.userid === "anonymous"){
                         user.isAnonymous = true;
                     }
-
+                    
+                    var filteredTags = [];
+                    for (var t = 0; t < user["sakai:tags"].length; t++){
+                        if (user["sakai:tags"][t].split("/")[0] !== "directory"){
+                            filteredTags.push(user["sakai:tags"][t]);
+                        }  
+                    }
+                    user["sakai:tags"] = filteredTags;
 
                     finaljson.items.push(user);
                 }

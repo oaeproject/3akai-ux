@@ -1,12 +1,25 @@
-#newsharecontent_container label {display:block;margin:12px 0 3px 0;}
-#newsharecontent_container label#newsharecontent_linkurl_label {margin-top: 4px;}
-#newsharecontent_container input, #newsharecontent_container textarea {color: #424242;width: 100%;border:1px solid #A9A9A9;height:20px;padding:0 !important;}
-#newsharecontent_container textarea {resize:none;height:100px;}
-#newsharecontent_container .as-selections input {border:none !important;background:none;}
-#newsharecontent_container #newsharecontent_actions {float:right;margin-top:10px;}
-#newsharecontent_container #newsharecontent_actions #newsharecontent_cancel {margin-right: 12px;margin-top: 3px;}
-#newsharecontent_container .newsharecontent_required {border:2px solid #FFC7BF !important;}
-#newsharecontent_container .newsharecontent_required ul.as-selections {border:none;}
+#newsharecontent_widget{color: #333333;position:absolute;display:none;width:250px;}
+.newsharecontent_outer { position:relative; z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }
+.newsharecontent_inner {margin: 0 5px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ }
+#newsharecontent_title {font-size: 13px; margin: 10px 10px 5px;}
+#newsharecontent_select {margin-top:10px;width:220px;/*color:#336699;font-weight:bold;*/}
+#newsharecontent_widget button{margin:10px 10px 10px 0px;}
+#newsharecontent_widget .jqmClose{margin-left:10px; margin-top:15px;}
+#newsharecontent_widget .newsharecontent_header_arrow{ position:relative; z-index:100; margin-left: 110px; font-size: 0px; line-height: 0%; width: 0px; border-top: 0; border-bottom: 15px solid #e4e3e3; border-left: 15px solid transparent; border-right: 15px solid transparent; }
+#newsharecontent_container label {font-size:11px;}
+#newsharecontent_container label.toggletext {color:#369;}
+#newsharecontent_message_container {display:none;padding-top:15px;background: #fff url(../images/messagegradient.png) 0 0 repeat-x;}
+#newsharecontent_sharelist_container {margin-bottom:15px;}
+#newsharecontent_container>div {padding:10px;}
+#newsharecontent_container .arrow_right { border-bottom: 5px solid transparent; border-left: 5px solid black; border-top: 5px solid transparent; height: 0; width: 0; display: block; float: left; margin:4px 5px 0 0; }
+#newsharecontent_container .arrow_down { border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #000; margin-top: 6px; }
+#newsharecontent_container textarea {resize:none;height:78px;}
+#newsharecontent_container input, #newsharecontent_container textarea {padding:4px;border:1px solid #ccc;width:194px;}
+#newsharecontent_container ul li input {border:none;}
+#newsharecontent_message_container textarea {margin-bottom:10px;width:208px;} 
+#toolbox {margin-bottom:12px;}
+#toolbox a {float:left; margin-right:5px;}
+
 
 /* overrides */
-ul.as-selections{box-shadow:none;}
+ul.as-selections{box-shadow:none;border-color:#ccc;}
