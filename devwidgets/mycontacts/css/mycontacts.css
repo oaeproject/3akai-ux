@@ -16,13 +16,31 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.mycontacts_widget #mycontacts_list{padding:10px 20px 0;}
+.mycontacts_widget #mycontacts_list{padding:0;}
 
 /* Friends list */
 .mycontacts_list_contact{float:left;height:80px;margin:5px 10px 0 0;overflow:hidden;padding:0 20px 5px 0;width:70px;}
 .mycontacts_list_contact .mycontacts_list_contact_picture{margin:0;padding:0;display:block;}
 .mycontacts_list_contact .mycontacts_list_contact_picture img{height:48px;width:48px;}
 .mycontacts_list_contact .mycontacts_list_contact_name{font-size:.95em;}
+.mycontacts_items img {float: left;padding: 0 10px 10px 0;width: 48px;}
+.mycontacts_name {margin:0;}
+.mycontacts_post a {font-size:.8em;color:#878A8C;}
+.mycontacts_items{color:#333;padding:10px 10px 0 10px;border-top: 1px dotted #cccccc;}
+.mycontacts_items_first{border-top: 1px solid #e9e9e9;}
+.mycontacts_items_end{border-bottom: 1px solid #e9e9e9;}
+.mycontacts_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
+.mycontacts_item_right{margin-left:44px;}
+.mycontacts_list_description{margin:0 0 5px;color:#333;font-size:.90em;padding:6px 0;}
+.mycontacts_item_counts {padding:3px 0;font-size:11px;}
+.mycontacts_item_detail_separator {color:#cccccc;}
+.mycontacts_item_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.mycontacts_item_icon{display: inline-block;height: 10px;width: 15px;}
+.mycontacts_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.mycontacts_item_tags_list{margin-left:20px;margin-top:6px;font-size:11px;}
+.mycontacts_item_tags_dot{color: #999999;}
+.mycontacts_items:hover {background-color: #f2f9fc;}
+.mycontacts_items:hover .mycontacts_item_message_icon{cursor:pointer;}
 
 /* Contact requests */
 .mycontacts_requests{font-size:.85em;color:#666;padding-left:20px;}
@@ -39,8 +57,3 @@
 /* Widget icon */
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
 #mycontacts_requests{padding-left:0;}
-
-.mycontacts_items {color:#333;padding:5px 0 0;}
-.mycontacts_items img {float: left;padding: 0 10px 10px 0;width: 35px;}
-.mycontacts_name {margin:0;}
-.mycontacts_post a {font-size:.8em;color:#878A8C;}
