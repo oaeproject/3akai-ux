@@ -151,10 +151,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
             }
        };
-
+    
         var renderEntity = function(context){
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
+            $('#newentitywidget_widget').html(sakai.api.Util.TemplateRenderer("newentitywidget_widget", context))
             $("#entity_message").click(function(){
                 var to = {type: context.context};
                 switch (to.type) {
@@ -168,16 +169,61 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
-             var obj = {
-                 "context": context,
-                 "type": type,
-                 "anon": sakai.data.me.user.anon || false,
-                 "data": data || {}
-             };
-             renderEntity(obj);
-             addBinding(obj);
+            var obj = {
+                "context": context,
+                "type": type,
+                "anon": sakai.data.me.user.anon || false,
+                "data": data || {}
+            };
+            renderEntity(obj);
+            addBinding(obj);
+            $('#newentitywidget_widget').jqm({
+                modal: false,
+                overlay: 1,
+                toTop: true,
+                zIndex: 3000
+            });
+            
+            $('#entity_widget').click(function(){
+                var $this = $(this);
+                $('#newentitywidget_widget')
+                .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
+                .jqmShow();
+            });
+            
+            $('#ew_permissions>a').click(function(e){
+                e.preventDefault();
+                $(window).trigger("init.contentpermissions.sakai");
+                $('#newentitywidget_widget').jqmHide();
+            });
+            
+            $('#ew_upload>a').click(function(e){
+                e.preventDefault();
+                $(window).trigger("init.fileupload.sakai");
+                $('#newentitywidget_widget').jqmHide();
+            });         
+        
         });
 
+        $(window).bind("ready.contentpreview.sakai", function(){
+            $("#ew_content_preview_delete>a").bind("click", function(e){
+                e.preventDefault();
+                window.scrollTo(0,0);
+                $(window).trigger('init.deletecontent.sakai', [sakai_global.content_profile.content_data,
+                    function (success) {
+                        if (success) {
+                            // Wait for 2 seconds
+                            setTimeout(function () {
+                                // Relocate to the my sakai page
+                                document.location = "/dev/me.html";  // TODO TEMPORARY REDIRECT!!!
+                            }, 2000);
+                        }
+                    }]
+                );
+                $('#newentitywidget_widget').jqmHide();
+            });
+        });
+        
         $(window).trigger("sakai.entity.ready");
 
     };
