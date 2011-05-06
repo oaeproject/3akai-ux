@@ -1277,7 +1277,6 @@ define(["jquery",
              * @param {Object} message Message that user has entered.
              */
             replaceURL : function(message){
-            	console.log(message);
                 // link is already wrap in anchor tag do nothing
                 // but if it is not wrap in the anchor tag, wrap in the anchor tag.
                 return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1){

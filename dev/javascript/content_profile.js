@@ -47,8 +47,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (content_path && document.location.pathname === "/content"){
                 document.location = "/dev/content_profile2.html#p=" + content_path;
                 return;
-            }
-			
+            }			
             if (content_path) {
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
@@ -334,8 +333,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("render.contentmetadata.sakai");
                             ready_event_fired++;
                         });
-                    }
-                    
+                    }                   
                     sakai.api.Security.showPage();
 
                     // rerender comments widget
@@ -408,7 +406,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (user) {
                     reqData.push({
-                        "url": content_path + ".members.json",
+                        "url": '/p/' + content_path + ".members.json",
                         "method": "POST",
                         "parameters": data
                     });
@@ -526,11 +524,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var init = function(){
             // Bind an event to window.onhashchange that, when the history state changes,
             // loads all the information for the current resource
-            $(window).bind('hashchange', function(){
-            	
+            $(window).bind('hashchange', function(){           	
                 handleHashChange();
             });
-
             handleHashChange();
 
             checkShareContentTour();
