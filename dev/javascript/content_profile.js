@@ -45,28 +45,27 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
             if (content_path && document.location.pathname === "/content"){
-                document.location = "/dev/content_profile2.html#content_path=" + content_path;
+                document.location = "/dev/content_profile2.html#p=" + content_path;
                 return;
             }
-
+			
             if (content_path) {
-
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
                     {
-                        "url": content_path + ".2.json",
+                        "url": '/p/'+content_path + ".2.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
                     },
                     {
-                        "url": content_path + ".members.json",
+                        "url": '/p/'+content_path + ".members.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
                     },
                     {
-                        "url": content_path + ".versions.json",
+                        "url": '/p/'+content_path + ".versions.json",
                         "method":"GET",
                         "cache":false,
                         "dataType":"json"
@@ -76,7 +75,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "method":"GET",
                         "cache":false,
                         "dataType":"json",
-                        "parameters":{"p":content_path, "items":"1000"}
+                        "parameters":{"p":'/p/'+content_path, "items":"1000"}
                     }
                 ];
 
@@ -87,7 +86,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 // temporary request that returns data KERN-1768
                 $.ajax({
-                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
+                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + '/p/'+ content_path  + "&items=1000",
                     type: "GET",
                     "async":false,
                     "cache":false,
@@ -197,7 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + encodeURIComponent(contentInfo["sakai:pooled-content-file-name"]);
+                        var fullPath = '/p/' + content_path + "/" + encodeURIComponent(contentInfo["sakai:pooled-content-file-name"]);
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
@@ -236,7 +235,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             mode: "content",
                             url: sakai.config.SakaiDomain + fullPath,
                             path: fullPath,
-                            smallPath: content_path,
+                            smallPath: '/p/' + content_path,
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
@@ -287,7 +286,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
-            content_path = $.bbq.getState("content_path") || "";
+            content_path = $.bbq.getState("p") || "";
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -336,7 +335,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             ready_event_fired++;
                         });
                     }
-
+                    
                     sakai.api.Security.showPage();
 
                     // rerender comments widget
@@ -528,8 +527,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Bind an event to window.onhashchange that, when the history state changes,
             // loads all the information for the current resource
             $(window).bind('hashchange', function(){
+            	
                 handleHashChange();
             });
+
             handleHashChange();
 
             checkShareContentTour();
