@@ -563,6 +563,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav(globalPageStructure);
         });
 
+        $(window).bind("ready.sakaidocs.sakai", function(){
+            $(window).trigger("init.sakaidocs.sakai", sakai_global.content_profile.content_data.isManager);
+        });
+
         var getPageCount = function(pagestructure){
             var pageCount = 0;
             for (var tl in pagestructure["structure0"]){
