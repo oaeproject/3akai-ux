@@ -3,7 +3,7 @@
 
 <div class="mycontacts_widget">
 
-    <div class="fl-widget-content s3d-widget-content fl-fix"><div id="mycontacts_list"><!-- --></div></div>
+    <div class="fl-widget-content s3d-widget-content fl-fix" id="mycontacts_list"><!-- --></div>
 
     <!-- ERROR MESSAGES -->
     <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
@@ -30,31 +30,13 @@
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner"></div>
     </div>
-
+    
     <div id="mycontacts_list_template" style="display:none"><!--
-        {var count = 0}
         {for i in items}
-            {var count = count + 1}
-            <div class="fl-container fl-fix mycontacts_items{if count == 1} mycontacts_items_first{/if}">
-                <a href="/~${i.id}" class="mycontacts_list_contact_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.photo}" width="48px" height="48px"/></a>
-                <button class="s3d-link-button mycontacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.id}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
-                <div class="mycontacts_item_right">
-                    <a href="/~${i.id}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
-                    <div class="mycontacts_item_counts">
-                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS__</a> <span class="mycontacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.id}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
-                    </div>
-                    {if i.extra}
-                        <span class="mycontacts_list_description">${i.extra}</span>
-                    {/if}
-                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                        <div class="mycontacts_item_tags">
-                            <span class="mycontacts_item_icon mycontacts_item_tags_icon"></span>
-                            <p class="mycontacts_item_tags_list">
-                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mycontacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
-                            </p>
-                        </div>
-                    {/if}
-                </div>
+            <div class="fl-container fl-fix mycontacts_items">
+                <a href="/~${i.id}"><img alt="__MSG__PERSON_ICON__" src="${i.photo}"></a>
+                <div class="mycontacts_name"><a href="/~${i.id}" class="s3d-widget-links s3d-bold">${i.name}</a></div>
+                <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">${i.type.join(", ")}</a></div>
             </div>
         {forelse}
             <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
@@ -64,9 +46,6 @@
             </a>
             <span class="mycontacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
         {/for}
-        {if count > 0}
-            <div class="mycontacts_items_end"></div>
-        {/if}
     --></div>
 
     <div id="mycontacts_requests_template"><!--
