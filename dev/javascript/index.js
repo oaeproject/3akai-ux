@@ -26,6 +26,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).trigger("render.login.sakai", true);
     });
     
-    window.location = "/dev/directory2.html";
+    window.location = "/dev/explore.html";
 
 });
