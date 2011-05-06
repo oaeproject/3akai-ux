@@ -290,6 +290,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "order": 0,
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
@@ -351,6 +352,13 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
+                            "description": {
+                                "label": "__MSG__DESCRIPTION__",
+                                "required": false,
+                                "display": true,
+                                "type": "textarea",
+                                "tagField": true
+                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -366,6 +374,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "order": 1,
                         "elements": {
                             "aboutme": {
                                 "label": "__MSG__PROFILE_ABOUTME_LABEL__",
@@ -401,6 +410,7 @@ define(function(){
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
+                        "order": 2,
                         "elements": {
                             "locationtitle": {
                                 "label": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -418,6 +428,7 @@ define(function(){
                         "modifyacl": true,
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
+                        "order": 3,
                         //"template": "profile_section_publications_template",
                         "elements": {
                             "maintitle": {
@@ -861,7 +872,7 @@ define(function(){
                 "id": "subnavigation_hr"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
@@ -879,7 +890,7 @@ define(function(){
                 "url": "/dev/search2.html#l=people"
             }]
         }, {
-            "url": "/dev/directory2.html",
+            "url": "/dev/explore.html",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
@@ -1981,7 +1992,7 @@ define(function(){
 
         enableChat: false,
 
-        "defaultprivstructure": {
+        defaultprivstructure: {
             "structure0": {
                 "dashboard": {
                     "_ref": "267187828",
@@ -2023,16 +2034,16 @@ define(function(){
                 "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
             },
             "1165301022": {
-                "page": "<div id='widget_newinbox_2024634737' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
             },
             "9867733100": {
-                "page": "<div id='widget_newinbox_3679202964' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
             },
             "4253485084": {
-                "page": "<div id='widget_newinbox_66582410046' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
             },
             "3915412565": {
-                "page": "<div id='widget_newinbox_3519294282' class='widget_inline'/>"
+                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
             },
             "2024634737": {
                 "box": "inbox",
@@ -2078,37 +2089,12 @@ define(function(){
             }
         },
 
-        "defaultpubstructure": {
+        defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_ref": "533118849",
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0,
-                    "basicinfo": {
-                        "_ref": "533118849",
-                        "_order": 0,
-                        "_altTitle": "Basic Information",
-                        "_title": "Basic Information"
-                    },
-                    "aboutme": {
-                        "_ref": "657672090",
-                        "_order": 1,
-                        "_altTitle": "About",
-                        "_title": "About Me"
-                    },
-                    "locations": {
-                        "_ref": "2967778497",
-                        "_order": 2,
-                        "_title": "Locations",
-                        "_altTitle": "Locations"
-                    },
-                    "publications": {
-                        "_ref": "86312659",
-                        "_order": 3,
-                        "_altTitle": "Publications",
-                        "_title": "Publications"
-                    }
+                    "_order": 0
                 },
                 "library": {
                     "_ref": "9834611274",
@@ -2144,18 +2130,6 @@ define(function(){
                     }
                 }
             },
-            "533118849": {
-                "page": "<div id='widget_displayprofilesection_94551980' class='widget_inline'/>"
-            },
-            "657672090": {
-                "page": "<div id='widget_displayprofilesection_1924492668' class='widget_inline'/>"
-            },
-            "2967778497": {
-                "page": "<div id='widget_displayprofilesection_73466539' class='widget_inline'/>"
-            },
-            "86312659": {
-                "page": "<div id='widget_displayprofilesection_5756708555' class='widget_inline'/>"
-            },
             "9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
@@ -2166,18 +2140,6 @@ define(function(){
             },
             "1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
-            },
-            "94551980": {
-                "sectionid": "basic"
-            },
-            "1924492668": {
-                "sectionid": "aboutme"
-            },
-            "73466539": {
-                "sectionid": "locations"
-            },
-            "5756708555": {
-                "sectionid": "publications"
             }
         },
 
