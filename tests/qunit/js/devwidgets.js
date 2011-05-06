@@ -89,7 +89,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "navigation",
         "newaddcontent",
         "newcreategroup",
-        "inbox",
         "newsharecontent",
         "nextleveldown",
         "nodecontentarea",
