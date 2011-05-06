@@ -38,10 +38,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
 
+        var carouselBinding = function(carousel){
+            $(".categories_items_scroll_scrollbutton").bind("click", function(){
+                var clickedId = $(this)[0].id.split("scroll_")[1];
+                if(clickedId < $(".categories_items_scroll_selected")[0].id.split("scroll_")[1]){
+                    carousel.prev();
+                }else{
+                    carousel.next();
+                }
+                $(".categories_items_scroll_scrollbutton").addClass("categories_items_scroll_deselected");
+                $(".categories_items_scroll_selected").removeClass("categories_items_scroll_selected");
+                $(this).removeClass("categories_items_scroll_deselected");
+                $(this).addClass("categories_items_scroll_selected");
+                return false;
+            });
+        };
+
+        var addCarousel = function(){
+            $categoriesItemsContainer.jcarousel({
+                animation: "slow",
+                easing: "swing",
+                scroll: 4,
+                initCallback: carouselBinding
+            });
+        };
+
         var renderCategories = function(){
             $categoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
                 "directory": categoriesToRender
             }));
+            addCarousel();
         };
 
         var parseDirectory = function(){
@@ -51,7 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
             });
             renderCategories();
-        }
+        };
 
         var doInit = function(){
             parseDirectory();
