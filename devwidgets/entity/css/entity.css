@@ -81,3 +81,22 @@
 .entity_content_activity_dialog_list li{display:block;list-style:none;clear:both;padding:10px 0 10px 10px;border-bottom:9px solid #FFF;border-top:1px solid #FFF;overflow:hidden;background:#f1f1f1;}
 .entity_content_activity_dialog_list .entity_content_picture{float:left;display:block;height:32px;width:32px;padding-right:10px;}
 .entity_content_activity_dialog_list .entity_content_activity{position:relative;top:1px;}
+
+/* Widget Popup */
+#entity_container #entity_widget .entity_content_permissions_icon {background:url("/dev/images/settings_arrow_icon.png") no-repeat scroll left -1px transparent;margin-left: 5px;padding-left: 24px;}
+
+#newentitywidget_widget{color: #333333;position:absolute;display:none;width:200px;}
+.newentitywidget_outer { position:relative;clear:right;z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }
+.newentitywidget_inner {margin: 3px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ }
+#newentitywidget_title {font-size: 13px; margin: 10px 10px 5px;}
+#newentitywidget_select {margin-top:10px;width:220px;}
+#newentitywidget_widget button{margin:10px 10px 10px 0px;}
+#newentitywidget_widget .jqmClose{margin-left:10px; margin-top:15px;}
+#newentitywidget_widget .newentitywidget_header_arrow{position:relative;float:right;z-index:100;margin-right:10px;font-size:0px;line-height:0%;width:0px;border-top:0;border-bottom: 15px solid #e4e3e3;border-left:15px solid transparent;border-right:15px solid transparent;}
+#newentitywidget_sharelist_container {margin-bottom:15px;}
+#newentitywidget_container>div {padding:6px;}
+#newentitywidget_container ul {margin:0;padding:0 10px;}
+#newentitywidget_container ul li{list-style:none;padding:4px 0;border-bottom:1px solid #ccc;}
+#newentitywidget_container ul li a{padding-left:6px;color:#369;font-size:13px;}
+#newentitywidget_container ul li a:hover{ color:#999;}
+#newentitywidget_container ul li#ew_content_preview_delete {border:0;}
