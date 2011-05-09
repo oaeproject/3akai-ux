@@ -310,7 +310,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
                 $(".profile-section-save-button", $rootel).hide();
             }
-            $(window).trigger("ready.profilesection.sakai");
+            $(window).trigger("ready.profilesection.sakai", $rootel.attr("id"));
         };
 
         var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink, value) {
@@ -522,33 +522,37 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         // Initialization //
         ////////////////////
 
+        var handleShown = function(e, showing) {
+            if (showing) {
+                $(window).bind("save.profile.sakai", saveValues);
+
+                // Bind to the global update location
+                $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
+                    ev.stopImmediatePropagation();
+                    // render location in profile Section
+                    renderLocation(data);
+                });
+            } else {
+                $(window).unbind("save.profile.sakai");
+                $(window).unbind("renderlocations.contentmetadata.sakai");
+            }
+        };
+
         /**
          * Initialization function
          */
         var init = function() {
-
             currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
-
             // Trigger the profile section event, so we let the container know that the widget is loaded
             if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.ready) {
                 $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
             } else {
-                $(window).bind("ready.profileedit.sakai", function() {
+                $(window).unbind("ready.profileedit.sakai").bind("ready.profileedit.sakai", function() {
                     $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
                 });
             }
-
-            $(window).bind("save.profile.sakai", saveValues);
-
-            // Bind to the global update location
-            $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
-                ev.stopImmediatePropagation();
-                // render location in profile Section
-                renderLocation(data);
-            });
-
         };
-
+        $(window).bind(tuid + ".shown.sakai", handleShown);
         init();
     };
 
