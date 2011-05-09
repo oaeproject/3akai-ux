@@ -64,6 +64,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
                                 item.image = true;
                             }
+                            if (item["sakai:tags"]) {
+                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                            }
                             candidate = item;
                             i = index;
                         }
@@ -73,6 +76,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         item.mode = "large";
                         if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
                             item.image = true;
+                        }
+                        if (item["sakai:tags"]) {
+                            item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                         }
                         featuredContentArr.push(item);
                         data.results.splice(index, 1);
@@ -90,10 +96,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (mode == "medium") {
                             item.mode = "medium";
                             mode = "small";
+                            if (item["sakai:tags"]) {
+                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                            }
                             featuredContentArr.push(item);
                         }
                         else {
                             item.mode = "small";
+                            if (item["sakai:tags"]) {
+                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                            }
                             tempArr.push(item);
                             numSmall++;
                             if (numSmall == 2) {
