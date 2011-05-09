@@ -1003,9 +1003,7 @@ define(["jquery",
 
             var searchDirectoryForKey = function(key, child){
                 var ret;
-                if (!child) {
-                    child = directory[0];
-                }
+
                 if (key == child.attr.id) {
                     ret = child.data.title;
                 }
@@ -1024,7 +1022,15 @@ define(["jquery",
                 return ret;
             };
 
-            return searchDirectoryForKey(key, false);
+            var l = directory.length;
+            var result;
+            for (var i=0; i<l; i++) {
+                result = searchDirectoryForKey(key, directory[i]);
+                if (result) {
+                    break;
+                }
+            }
+            return result;
         },
 
         Activity : {
