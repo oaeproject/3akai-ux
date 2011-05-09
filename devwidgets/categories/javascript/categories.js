@@ -63,17 +63,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} carousel reference to the carousel instance
          */
         var carouselBinding = function(carousel){
-            $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected").live("click", function(){
+            $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
                 var clickedId = $(this)[0].id.split("scroll_")[1];
-                if(clickedId < $(".categories_items_scroll_selected")[0].id.split("scroll_")[1]){
+                if(clickedId < $(".categories_items_scroll_selected")[0].id.split("scroll_")[1] || $(this)[0].id !== "categories_view_next_raquo"){
                     carousel.prev();
                 }else{
                     carousel.next();
                 }
-                $(".categories_items_scroll_scrollbutton").addClass("categories_items_scroll_deselected");
-                $(".categories_items_scroll_selected").removeClass("categories_items_scroll_selected");
-                $(this).removeClass("categories_items_scroll_deselected");
-                $(this).addClass("categories_items_scroll_selected");
+                if ($(this)[0].id !== "categories_view_next_raquo") {
+                    $(".categories_items_scroll_scrollbutton").addClass("categories_items_scroll_deselected");
+                    $(".categories_items_scroll_selected").removeClass("categories_items_scroll_selected");
+                    $(this).removeClass("categories_items_scroll_deselected");
+                    $(this).addClass("categories_items_scroll_selected");
+                } else {
+                    if ($(".categories_items_scroll_selected").next()[0]) {
+                        var $next = $(".categories_items_scroll_selected").next();
+                        var $this = $(".categories_items_scroll_selected");
+                        $next.addClass("categories_items_scroll_selected");
+                        $next.removeClass("categories_items_scroll_deselected");
+                        $this.removeClass("categories_items_scroll_selected");
+                        $this.addClass("categories_items_scroll_deselected");
+                    }
+                }
                 return false;
             });
         };
@@ -91,6 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 animation: "slow",
                 easing: "swing",
                 scroll: 4,
+                wrap: "circular",
                 initCallback: carouselBinding
             });
             $categoriesItemsContainer.css("display","none");

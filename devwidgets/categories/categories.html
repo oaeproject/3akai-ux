@@ -17,6 +17,7 @@
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__VIEW_ALL__</span>
             </button>
         </a>
+        <div id="categories_view_next_raquo"></div>
         <div id="categories_items_scroll_buttons">
             {var count = 1}
             {for item in directory}
@@ -42,7 +43,6 @@
                         {if item.featuredcontent.image}
                             <img src="/p/${item.featuredcontent["jcr:name"]}" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
                         {elseif item.featuredcontent["sakai:custom-mimetype"]}
-                            ${debug.log(item)};
                             <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="categories_item_content_preview"/>
                         {elseif item.featuredcontent.haspreview}
                             <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
