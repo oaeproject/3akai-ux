@@ -28,3 +28,5 @@
 #contacts_container .contacts_item_tags_dot{color: #999999;}
 #contacts_container .contacts_item:hover {background-color: #f2f9fc;}
 #contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;}
+#contacts_container .contacts_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
+#contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}

@@ -60,7 +60,10 @@
             {for i in invited.results}
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
-                    <div class="contacts_item_left_filler"><input type="checkbox" name="checkbox_${i.profile.userid}" /></div>
+                    <div class="contacts_item_left_filler">
+                        <button class="s3d-link-button contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">+</button>
+                        <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
+                    </div>
                     <button class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${i.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" sakai-entitytype="user"></button>
                     <a href="/~${i.profile.userid}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
                     <div class="contacts_list">
@@ -102,7 +105,7 @@
             {for a in accepted.results}
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
-                    <div class="contacts_item_left_filler">
+                    <div class="contacts_item_left_filler" style="display:none;">
                         {if sakai_global.profile.main.mode.value !== "view"}
                             <input type="checkbox" name="checkbox_${a.profile.userid}" />
                         {/if}
