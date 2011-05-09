@@ -125,19 +125,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // Parse the picture of the friend
                         friend.photo = parsePicture(friend.profile);
-
+                        
                         // Contact type
                         friend.type = friend.details["sakai:types"];
-
-                        // Contact description
-                        if (friend.profile.basic && friend.profile.basic.elements && friend.profile.basic.elements.description){
-                            friend.extra = sakai.api.Util.applyThreeDots(friend.profile.basic.elements.description.value, $(".mycontacts_widget").width() + 120, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
-                        }
-
-                        // Contact tags
-                        if (friend.profile["sakai:tags"]){
-                            friend["sakai:tags"] = friend.profile["sakai:tags"];
-                        }
 
                         // Add the friend to the array
                         jsonFriends.items.push(friend);
