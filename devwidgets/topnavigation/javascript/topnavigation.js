@@ -505,14 +505,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(".sakai_sendmessage_overlay").live("click", function(ev){
             var el = $(this);
             var person = false;
+            var people = [];
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
-                person = {
-                    "uuid": el.attr("sakai-entityid"),
-                    "username": el.attr("sakai-entityname"),
-                    "type": el.attr("sakai-entitytype") || "user"
-                };
+                var userIDArr = el.attr("sakai-entityid").split(",");
+                var userNameArr = el.attr("sakai-entityname").split(",");
+                for(var i = 0; i < userNameArr.length; i++){
+                    people.push({
+                        "uuid": userIDArr[i],
+                        "username": userNameArr[i],
+                        "type": el.attr("sakai-entitytype") || "user"
+                    });
+                }
             }
-            $(window).trigger("initialize.sendmessage.sakai", [person]);
+            $(window).trigger("initialize.sendmessage.sakai", [people]);
         });
 
         // Add to contacts

@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     bodyEl.addClass(invalidClass);
                 }
                 // check if there are recipients
-                if((recipients.length === 0 && !toUser) ||
+                if((recipients.length === 0 && !toUser.length) ||
                     recipients.length === 1 && recipients[0] === "") {
                     // no recipients are selected
                     valid = false;
@@ -210,20 +210,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($.isPlainObject(toUser) && toUser.uuid) {
                         preFill.push({
                             "name": toUser.username,
-                            "value": toUser.uuid,
-                            "type": toUser.type
+                            "value": toUser.uuid
                         });
                     } else if (_.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 "name": usr.username,
-                                "value": usr.uuid,
-                                "type": usr.type
+                                "value": usr.uuid
                             });
                         });
                     }
-
-
                 }
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
                     asHtmlID: "sendmessage_to_autoSuggest",
