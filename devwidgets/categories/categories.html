@@ -39,26 +39,28 @@
                     <div class="categories_item">
                         <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${total} content items</span>
+                        {if item.featuredcontent}
                         <hr class="s3d-split-line fl-push">
-                        {if item.featuredcontent.image}
-                            <img src="/p/${item.featuredcontent["jcr:name"]}" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                        {elseif item.featuredcontent["sakai:custom-mimetype"]}
-                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="categories_item_content_preview"/>
-                        {elseif item.featuredcontent.haspreview}
-                            <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                        {else}
-                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="categories_item_content_preview"/>
+                            {if item.featuredcontent.image}
+                                <img src="/p/${item.featuredcontent["jcr:name"]}" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                            {elseif item.featuredcontent["sakai:custom-mimetype"]}
+                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="categories_item_content_preview"/>
+                            {elseif item.featuredcontent.haspreview}
+                                <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                            {else}
+                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="categories_item_content_preview"/>
+                            {/if}
+                            <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
+                            <span class="categories_item_header_meta_small">Used by 19 people</span>
+                            <hr class="fl-push fl-hidden"/>
+                            <span class="categories_item_tags">
+                                {for tag in item.featuredcontent["sakai:tags"]}
+                                    {if tag_index < 3}
+                                        <a href="/search#tag=/tags/${tag}" class="s3d-regular-links">${tag}</a>{if tag_index < item.featuredcontent["sakai:tags"].length-1 && tag_index < 2}<span class="s3d-bold categories_tag_divider">&#183;</span>{/if}
+                                    {/if}
+                                {/for}
+                            </span>
                         {/if}
-                        <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                        <span class="categories_item_header_meta_small">Used by 19 people</span>
-                        <hr class="fl-push fl-hidden"/>
-                        <span class="categories_item_tags">
-                            {for tag in item.featuredcontent["sakai:tags"]}
-                                {if tag_index < 3}
-                                    <a href="/search#tag=/tags/${tag}" class="s3d-regular-links">${tag}</a>{if tag_index < item.featuredcontent["sakai:tags"].length-1 && tag_index < 2}<span class="s3d-bold categories_tag_divider">&#183;</span>{/if}
-                                {/if}
-                            {/for}
-                        </span>
                     </div>
                     {if item_index != directory.length - 1}
                         <div class="categories_vertical_divider"></div>

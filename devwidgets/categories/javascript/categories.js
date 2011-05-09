@@ -123,22 +123,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * @param {Object} data contains featured content data
          */
         var parseDirectory = function(success, data){
+            var count = 0;
             $.each(directory, function(i, toplevel){
-                var count = 0;
-                $.each(toplevel.children, function(index, item){
-                    if (data.results[count]){
-                        if (data.results[count]["_mimeType"] && data.results[count]["_mimeType"].split("/")[0] == "image") {
-                            data.results[count].image = true;
-                        }
-                        if (data.results[count]["sakai:tags"]) {
-                            data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
-                        }
-                        data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
-                        item["featuredcontent"] = data.results[count];
+                if (data.results[count]){
+                    if (data.results[count]["_mimeType"] && data.results[count]["_mimeType"].split("/")[0] == "image") {
+                        data.results[count].image = true;
                     }
-                    categoriesToRender.push(item);
-                    count++;
-                });
+                    if (data.results[count]["sakai:tags"]) {
+                        data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
+                    }
+                    data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
+                    toplevel["featuredcontent"] = data.results[count];
+                }
+                categoriesToRender.push(toplevel);
+                count++;
             });
             renderCategories(data.total);
         };
