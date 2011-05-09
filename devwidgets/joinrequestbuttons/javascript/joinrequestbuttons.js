@@ -245,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
             sakai.api.Groups.addUsersToGroup(groupid, "members",
-                [sakai.data.me.user.userid], function(success) {
+                [{user: sakai.data.me.user.userid}], false, function(success) {
                 if (success) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
                         $joinrequestbuttons_group_adding_successful.text(),
