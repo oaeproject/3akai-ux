@@ -458,7 +458,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }, function(success){
                     if (success) {
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/directory2.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
                             window.location = "/dev/me.html";
                         } else {
                             // Just reload the page
@@ -505,14 +505,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(".sakai_sendmessage_overlay").live("click", function(ev){
             var el = $(this);
             var person = false;
+            var people = [];
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
-                person = {
-                    "uuid": el.attr("sakai-entityid"),
-                    "username": el.attr("sakai-entityname"),
-                    "type": el.attr("sakai-entitytype") || "user"
-                };
+                var userIDArr = el.attr("sakai-entityid").split(",");
+                var userNameArr = el.attr("sakai-entityname").split(",");
+                for(var i = 0; i < userNameArr.length; i++){
+                    people.push({
+                        "uuid": userIDArr[i],
+                        "username": userNameArr[i],
+                        "type": el.attr("sakai-entitytype") || "user"
+                    });
+                }
             }
-            $(window).trigger("initialize.sendmessage.sakai", [person]);
+            $(window).trigger("initialize.sendmessage.sakai", [people]);
         });
 
         // Add to contacts

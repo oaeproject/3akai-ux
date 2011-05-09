@@ -1079,6 +1079,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $fileUploadLinkBox.hide();
             $("#new_uploader").show();
         });
+        
 
         initialiseUploader();
     };

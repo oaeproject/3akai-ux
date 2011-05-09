@@ -256,11 +256,21 @@ define(["jquery",
                                 };
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
-                                var widgetData = {};
+                                var widgetData = false;
                                 if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData.length > 0){
                                     for (var data in widgetsInternal[widgetname][i].widgetData){
-                                        if (widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid]){
-                                            widgetData = widgetsInternal[widgetname][i].widgetData[data][widgetsInternal[widgetname][i].uid];
+                                        var widgetSaveId = widgetsInternal[widgetname][i].uid;
+                                        if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
+                                            widgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
+                                        } else {
+                                            for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
+                                                if (pagetitle.indexOf("-") != -1){
+                                                    var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
+                                                    if (altPageTitle === widgetSaveId){
+                                                        widgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];;
+                                                    }
+                                                }
+                                            } 
                                         }
                                     }
                                 }

@@ -1,9 +1,6 @@
 #contacts_container .contacts_main{margin:0 10px 10px 0;overflow:hidden; }
 #contacts_container h1{font-size: 18px;font-weight: normal; margin:0;}
-#contacts_container h2 {border-bottom:1px solid #DDDDDD; padding:5px 0; color:#636363;font-size: 14px;margin:10px 0 0;}
-#contacts_container .contacts_item {color:#333;padding:10px 0 0; border-bottom:1px solid #DDDDDD;}
-#contacts_container .contacts_item img {float: left;margin: 0 10px 5px 20px;width: 35px;}
-#contacts_container .contacts_name {color:#878A8C; width:350px; display:inline-block;margin-top:11px;}
+#contacts_container h2 {padding:5px 0; color:#636363;font-size: 14px;margin:10px 0 0;}
 #contacts_container .contacts_no_contacts {margin:0px 0px 15px;display:block;}
 #contacts_container a.contacts_no_contacts {text-decoration:none;}
 #contacts_container .contacts_pending_name {width:auto;}
@@ -13,3 +10,23 @@
 #contacts_container .contact_search_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;padding-left:50px;}
 #contacts_container .contact_search_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -123px transparent;}
 #contacts_container .contact_search_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat scroll left -82px transparent !important;}
+
+/* contact lists */
+#contacts_container .contacts_item {color:#333;padding:10px 10px 0 10px;border-top: 1px dotted #cccccc;overflow:hidden;}
+#contacts_container .contacts_item_first{border-top: 1px solid #DDDDDD;}
+#contacts_container .contacts_item_end{border-bottom: 1px solid #DDDDDD;}
+#contacts_container .contacts_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
+#contacts_container .contacts_item img {float: left;padding: 0 15px 10px 0;width: 35px;}
+#contacts_container .contacts_list{margin-left:75px;}
+#contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
+#contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
+#contacts_container .contacts_item_detail_separator {color:#cccccc;}
+#contacts_container .contacts_item_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+#contacts_container .contacts_item_icon{display: inline-block;height: 10px;width: 15px;}
+#contacts_container .contacts_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+#contacts_container .contacts_item_tags_list{font-size:11px;margin:6px 20px 10px 20px;}
+#contacts_container .contacts_item_tags_dot{color: #999999;}
+#contacts_container .contacts_item:hover {background-color: #f2f9fc;}
+#contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;}
+#contacts_container .contacts_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
+#contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
