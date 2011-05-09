@@ -43,6 +43,7 @@
 #addpeople_container ul {margin:5px 0 0;}
 #addpeople_container ul hr {border:none;border-top:1px solid #E7E7E7;background:none;}
 #addpeople_container .s3d-list-entity-picture {cursor:pointer;}
+#addpeople_container .addpeople_nocontacts_nomemberships {padding: 0px 10px; font-style: italic;}
 
 /* Selected contacts list */
 #addpeople_container select {border:1px solid #e7e7e7;float:right;margin:5px 20px 0 0;}

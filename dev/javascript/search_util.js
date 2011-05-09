@@ -147,6 +147,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
+                    if (item["sakai:tags"] && item["sakai:tags"].length > 0){
+                        user["sakai:tags"] = item["sakai:tags"];
+                    }
+                    if (item.basic && item.basic.elements && item.basic.elements.description){
+                        user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, $("#sites_header .search_results_part_header").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
+                    }
+
                     user.connected = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
@@ -159,6 +166,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 // if invited state set invited to true
                                 if(friend.details["sakai:state"] === "INVITED"){
                                     user.invited = true;
+                                } else if(friend.details["sakai:state"] === "PENDING"){
+                                    user.pending = true;
+                                } else if(friend.details["sakai:state"] === "NONE"){
+                                    user.none = true;
                                 }
                             }
                         }
@@ -167,6 +178,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // logged in user
                     if (user.userid === sakai.data.me.user.userid) {
                         user.isMe = true;
+                    }
+                    
+                    if (user["sakai:tags"]) {
+                        var filteredTags = [];
+                        for (var t = 0; t < user["sakai:tags"].length; t++) {
+                            if (user["sakai:tags"][t].split("/")[0] !== "directory") {
+                                filteredTags.push(user["sakai:tags"][t]);
+                            }
+                        }
+                        user["sakai:tags"] = filteredTags;
                     }
 
                     finaljson.items.push(user);

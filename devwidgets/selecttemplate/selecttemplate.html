@@ -5,6 +5,11 @@
 <div id="selecttemplate_container">
     <div id="selecttemplate_templatelist_container" style="display:none"></div>
     <div id="selecttemplate_createworld_container" style="display:none"></div>
+    <div id="selecttemplate_templatelist_template" style="display:none"><!--
+        {for template in templates}
+            <div><a href="javascript:;" class="selecttemplate_templatelist_picktemplate" data-templateid="${template.id}">${template.title}</a></div>
+        {/for}
+    --></div>
     <div id="selecttemplate_createworld_template" style="display:none"><!--
         <div id='selecttemplate_createworld_${tuid}'>
             <div id='widget_newcreategroup_${tuid}' class='widget_inline'></div><div id='widget_addpeople_${tuid}' class='widget_inline'></div>

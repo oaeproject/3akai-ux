@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.googlemaps = function(tuid, showSettings, widgetData){
 
-
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
