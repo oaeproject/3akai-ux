@@ -1,0 +1,40 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/allcategories/css/allcategories.css" />
+
+<div class="allcategories_widget">
+    <div id="allcategories_items_container"><!----></div>
+</div>
+
+<div id="allcategories_items_template"><!--
+    <div id="allcategories_items_content">
+        <ul>
+            {for item in directory}
+                <li>
+                    <div class="allcategories_item">
+                        <div class="allcategories_item_header">
+                            <div class="allcategories_item_raquo"></div>
+                            <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links allcategories_item_header_link s3d-bold">${item.title}</a>
+                            <span class="allcategories_item_header_meta">${total} content items</span>
+                        </div>
+                        {if item.featuredcontent.image}
+                            <img src="/p/${item.featuredcontent["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                        {elseif item.featuredcontent["sakai:custom-mimetype"]}
+                            ${debug.log(item)};
+                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
+                        {elseif item.featuredcontent.haspreview}
+                            <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                        {else}
+                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                        {/if}
+                        <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
+                        <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["jcr:sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
+                        <hr class="fl-push fl-hidden"/>
+                    </div>
+                </li>
+            {/for}
+        </ul>
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/allcategories/javascript/allcategories.js"></script>
