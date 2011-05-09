@@ -107,7 +107,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
                         }
-                        generateNav();
                         if (publicToStore) {
                             sakai.api.Server.saveJSON(puburl, publicToStore);
                         }
@@ -115,6 +114,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
                         addCounts();
+                        generateNav();
                     });
                 } else {
                     generateNav();
