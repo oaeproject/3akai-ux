@@ -67,16 +67,28 @@
 
 <div id="addpeople_contacts_template"><!--
     <ul>
+        {var total = 0}
         {for contact in contacts}
+            ${total++|eat}
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
                 <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
                 <a href="~${contact.profile.userid}" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
             </li>
-            {if contact_index != contacts.length -1}
-                <hr/>
-            {/if}
+            <hr/>
         {/for}
+        {for group in groups.entry}
+            ${total++|eat}
+            <li class="s3d-list-item">
+                <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk"/>
+                <label for="${group["sakai:group-id"]}_chk"><img class="s3d-list-entity-picture" src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__PROFILE_PICTURE__"/></label>
+                <a href="~${group["sakai:group-id"]}" title="${group["sakai:group-title"]}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"])}</a>
+            </li>
+            <hr/>
+        {/for}
+        {if total == 0}
+            <span class="addpeople_nocontacts_nomemberships">__MSG__NO_CONTACTS_MEMBERSHIPS__</span>
+        {/if}
     </ul>
 --></div>
 
