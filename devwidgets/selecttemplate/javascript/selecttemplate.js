@@ -39,6 +39,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.selecttemplate = function(tuid, showSettings){
 
+        var rootel = $("#" + tuid);
+
         var doInit = function(){
             var templatesToRender = false;
             for (var i = 0; i < sakai.config.worldTemplates.length; i++){
@@ -55,23 +57,36 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
+        
+        $(".selecttemplate_templatelist_picktemplate", rootel).live("click", function(){
+            var clicked = $(this);
+            if (clicked.data("templateid")){
+                renderCreateWorld(tuid, clicked.data("templateid"));
+            }
+        });
 
         var renderTemplateList = function(templates){
-            
+            $("#selecttemplate_templatelist_container", rootel).show();
+            $("#selecttemplate_templatelist_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
+            $("#selecttemplate_createworld_container", rootel).hide();
         };
 
         var renderCreateWorld = function(category, id){
-            $("#selecttemplate_templatelist_container").hide();
+            $("#selecttemplate_templatelist_container", rootel).hide();
             var tuid = Math.round(Math.random() * 10000000);
             var toPassOn = {};
             toPassOn[tuid] = {
                 "category": category,
                 "id": id
             }
-            $("#selecttemplate_createworld_container").html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
+            $("#selecttemplate_createworld_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
             sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
-            $("#selecttemplate_createworld_container").show();
+            $("#selecttemplate_createworld_container", rootel).show();
         };
+
+        $(window).bind("hashchange", function(){
+            doInit();
+        });
 
         doInit();
         

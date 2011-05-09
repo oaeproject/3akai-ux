@@ -1106,10 +1106,9 @@ define(["jquery",
             },
             getTimeAgo : function(date){
                 if (date !== null) {
-
-                    var currentDate = Date.now();
+                    var currentDate = new Date();
                     // convert current date to GMT time
-                    currentDate = sakai_l10n.fromEpoch(currentDate, require("sakai/sakai.api.user").data.me);
+                    currentDate = sakai_l10n.fromEpoch(currentDate.getTime(), require("sakai/sakai.api.user").data.me);
                     var iTimeAgo = (currentDate - date) / (1000);
                     if (iTimeAgo < 60) {
                         if (Math.floor(iTimeAgo) === 1) {

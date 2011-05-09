@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         // bind hashchange to close dialog
-        $(window).bind("hashchange hashchanged.newinbox.sakai", function(){
+        $(window).bind("hashchange hashchanged.inbox.sakai", function(){
             hidePersonInfo();
         });
 
