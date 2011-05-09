@@ -220,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         group.title =
                             groupdata.authprofile["sakai:group-title"];
                         group.id =
-                            groupdata.authprofile["sakai:group-id"];
+                            groupid;
                     }
 
                     group.totalParticipants = participants.length;
