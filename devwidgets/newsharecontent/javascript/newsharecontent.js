@@ -26,7 +26,7 @@
 /*global $ */
 
 // Namespaces
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai){
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.newsharecontent
