@@ -115,6 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "total":total
             }));
             addCarousel();
+            $(".categories_widget").css("visibility", "visible");
         };
 
         /**
@@ -162,7 +163,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var doInit = function(){
             addBinding();
             getCategoryContent();
-            //parseDirectory();
         };
 
         doInit();

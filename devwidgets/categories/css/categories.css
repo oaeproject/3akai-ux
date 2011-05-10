@@ -17,7 +17,7 @@
  */
 
 /* General */
-.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:920px;padding:0 20px 5px;}
+.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:920px;padding:0 20px 5px;visibility:hidden;}
 .categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 3px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
 .categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
 .categories_widget #categories_items_container {padding-bottom:13px;}
