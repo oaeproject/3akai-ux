@@ -1,3 +1,4 @@
+
 /*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
@@ -15,22 +16,22 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 /*
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
-/*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function($, sakai, sakaiWidgetsAPI) {
 
     /**
-     * @name sakai_global.sakai2tools
+     * @name sakai_global.basiclti
      *
-     * @class sakai2tools
+     * @class basiclti
      *
      * @description
-     * Sakai2tools widget
+     * Basiclti widget
      *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
@@ -67,8 +68,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var basicltiSettingsPreview = basicltiSettings + "_preview";
         var basicltiSettingsPreviewId = tuid + "_frame";
         var basicltiSettingsPreviewFrame = "#" + basicltiSettingsPreviewId;
+        var basicltiSettingsLtiUrl = basicltiSettings + "_ltiurl";
+        var basicltiSettingsLtiKey = basicltiSettings + "_ltikey";
+        var basicltiSettingsLtiSecret = basicltiSettings + "_ltisecret";
         var basicltiSettingsWidth = basicltiSettings + "_width";
-        var basicltiSettingsVirtualToolId = basicltiSettings + "_lti_virtual_tool_id";
+        var basicltiSettingsReleaseName = basicltiSettings + "_release_names";
 
         // Containers
         var basicltiMainContainer = basiclti + "_main_container";
@@ -141,10 +145,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Called when the data has been saved to the JCR.
          */
-        var savedDataToJCR = function(data, textStatus, XMLHttpRequest){
-            sakai.api.Widgets.Container.informFinish(tuid);
+        var savedDataToJCR = function(success, data){
+            displayRemoteContent(data);
+            sakai.api.Widgets.Container.informFinish(tuid, "sakai2tools");
         };
 
+        var isSakai2Tool = function() {
+            return true;
+        };
 
         //////////////////////
         // Render functions //
@@ -155,8 +163,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete){
-            if (complete) {
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
+            if (complete) { 
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';               
                 $(basicltiSettingsPreview).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             }
             else {
@@ -169,11 +177,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframe = function(){
             if (json) {
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti") + '.launch.html';
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
-                // SAKIII-542 Basic LTI no longer renders IFRAME content (workaround)
-                $("#" + json.tuidFrame).attr("src", json.launchDataUrl);
+                json.launchDataUrl = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement + ".launch.html";
+                $("#" + json.tuidFrame).attr("src", json.launchDataUrl); 
+
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
                 if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
                     $(basicltiSettingsPreviewFrame).load(function() {
@@ -192,7 +200,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderRemoteContentSettings = function(){
             if (json) {
                 $(basicltiSettings).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
-                $(basicltiSettingsVirtualToolId).val(json.lti_virtual_tool_id);
             }
         };
 
@@ -239,49 +246,69 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Save the basiclti to the jcr
          */
         var saveRemoteContent = function(){
-            if (json.ltiurl !== "") {
-                json["lti_virtual_tool_id"] = $(basicltiSettingsVirtualToolId).val() || "";
+            var  saveContentAjax = function(json_data) {
+                var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: json,
+                    success: function(data) { 
+                        savedDataToJCR(true, data); 
+                    }
+                }); 
+                // Because we need to use a particular servlet (LiteBasicLTI), and it
+                // requires some different options, we make our own ajax call above
+                // instead of using saveWidgetData for now.
+                // 
+                //sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);                
+            };
+
+            if (isSakai2Tool()) {
+                json["lti_virtual_tool_id"] = $('#basiclti_settings_lti_virtual_tool_id').val();    
+
                 json[":operation"] = "basiclti";
                 json["sling:resourceType"] = "sakai/basiclti";
+                json.ltikey = $(basicltiSettingsLtiKey).val() || "";
+                json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
+                json["debug@TypeHint"] = "Boolean";
+                json.debug = $('#basiclti_settings_debug:checked').val() !== null;
+                json["release_names@TypeHint"] = "Boolean";
+                json.release_names = $('#basiclti_settings_release_names:checked').val() !== null;
+                json["release_principal_name@TypeHint"] = "Boolean";
+                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked').val() !== null;
+                json["release_email@TypeHint"] = "Boolean";
+                json.release_email = $('#basiclti_settings_release_email:checked').val() !== null;
                 json.launchDataUrl = ""; // does not need to be persisted
                 json.tuidFrame = ""; // does not need to be persisted
-                json.ltiurl = ""; // does not need to be persisted
-                json["ltiurl_lock@TypeHint"] = "Boolean";
-                json.ltiurl_lock = null; // does not need to be persisted
-                json.ltisecret = ""; // does not need to be persisted
-                json["ltisecret_lock@TypeHint"] = "Boolean";
-                json.ltisecret_lock = null; // does not need to be persisted
-                json.ltikey = ""; // does not need to be persisted
-                json["ltikey_lock@TypeHint"] = "Boolean";
-                json.ltikey_lock = null; // does not need to be persisted
-                json["debug@TypeHint"] = "Boolean";
-                json.debug = null; // does not need to be persisted
-                json["debug_lock@TypeHint"] = "Boolean";
-                json.debug_lock = null; // does not need to be persisted
-                json["release_names@TypeHint"] = "Boolean";
-                json.release_names = null; // does not need to be persisted
-                json["release_names_lock@TypeHint"] = "Boolean";
-                json.release_names_lock = null; // does not need to be persisted
-                json["release_email@TypeHint"] = "Boolean";
-                json.release_email = null; // does not need to be persisted
-                json["release_email_lock@TypeHint"] = "Boolean";
-                json.release_email_lock = null; // does not need to be persisted
-                json["release_principal_name@TypeHint"] = "Boolean";
-                json.release_principal_name = null; // does not need to be persisted
-                json["release_principal_name_lock@TypeHint"] = "Boolean";
-                json.release_principal_name_lock = null; // does not need to be persisted
                 json.defined = ""; // what the heck is this? Where does it come from?
                 json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
-                var saveUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
-                $.ajax({
-                    type: 'POST',
-                    url: saveUrl,
-                    data: json,
-                    success: savedDataToJCR
-                });
+
+                saveContentAjax(json);
+            }
+            else if (json.ltiurl !== "") {
+                json.ltiurl = $(basicltiSettingsLtiUrl).val() || "";    
+                json[":operation"] = "basiclti";
+                json["sling:resourceType"] = "sakai/basiclti";
+                json.ltikey = $(basicltiSettingsLtiKey).val() || "";
+                json.ltisecret = $(basicltiSettingsLtiSecret).val() || "";
+                json["debug@TypeHint"] = "Boolean";
+                json.debug = $('#basiclti_settings_debug:checked').val() !== null;
+                json["release_names@TypeHint"] = "Boolean";
+                json.release_names = $('#basiclti_settings_release_names:checked').val() !== null;
+                json["release_principal_name@TypeHint"] = "Boolean";
+                json.release_principal_name = $('#basiclti_settings_release_principal_name:checked').val() !== null;
+                json["release_email@TypeHint"] = "Boolean";
+                json.release_email = $('#basiclti_settings_release_email:checked').val() !== null;
+                json.launchDataUrl = ""; // does not need to be persisted
+                json.tuidFrame = ""; // does not need to be persisted
+                json.defined = ""; // what the heck is this? Where does it come from?
+                json._MODIFIERS = null; // trimpath garbage - probably need a more selective way of saving data
+
+                saveContentAjax(json);
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_URL"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show("", sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_URL"),
+                                                 sakai.api.Util.notification.type.ERROR);
             }
         };
 
@@ -320,6 +347,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function(){
+
+            // Change the url for the iFrame
+            $(basicltiSettingsLtiUrl).change(function(){
+                var urlValue = $(this).val();
+                if (urlValue !== "") {
+                    // Check if someone already wrote http inside the url
+                    if (!isUrl(urlValue)) {
+                        urlValue = 'http://' + urlValue;
+                    }
+                    json.ltiurl = urlValue;
+                    //renderIframeSettings(true); // LDS disabled preview
+                }
+            });
 
             // Change the iframe width
             $(basicltiSettingsWidth).change(function(){
@@ -378,7 +418,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Cancel it
             $(basicltiSettingsCancel).click(function(){
-                sakai.api.Widgets.Container.informCancel(tuid);
+                sakai.api.Widgets.Container.informCancel(tuid, "basiclti");
             });
 
             addColorBinding();
@@ -395,11 +435,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} exists Does there exist a previous basiclti
          */
         var displaySettings = function(parameters, exists){
-            if (exists) {
+            if (exists && parameters.ltiurl) {
                 json = parameters;
             }
             else { // use default values
                 json = {
+                    ltiurl: "",
+                    ltikey: "",
+                    ltisecret: "",
+                    release_names: true,
+                    release_principal_name: true,
+                    release_email: true,
                     border_size: 0,
                     border_color: "cccccc",
                     frame_height: defaultHeight,
@@ -407,6 +453,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     width_unit: defaultWidthUnit
                 };
             }
+            json.isSakai2Tool = isSakai2Tool();
             renderRemoteContentSettings();
             //renderIframeSettings(true); // LDS disabled preview
             renderColorContainer();
@@ -431,23 +478,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the URL and other parameters from the JCR and according to which
          * view we are in, fill in the settings or display an iframe.
          */
-        var getRemoteContent = function(){
-            var settingsUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + "/_widgets").replace(/__TUID__/, tuid).replace(/__NAME__/, "basiclti");
+        var getRemoteContent = function() {
+            // We make our own call below at the moment. Unlike most of the widgets
+            // we need to interact directly with the LiteBasicLTI servlet. It's 
+            // also not a recursive servlet so we can't use the default .infinity.json
+            // that is used under the covers for most of the calls.
+            var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
             $.ajax({
-                url: settingsUrl,
-                cache: false,
-                success: function(data){
-
+                type: "GET",
+                url: url,
+                dataType: 'json',
+                success: function(data) {
                     if (showSettings) {
-                        displaySettings(data, true); // Fill in the settings page.
+                        displaySettings(data,true);
                     }
                     else {
-                        displayRemoteContent(data); // Show the frame
-                    }
+                        displayRemoteContent(data);
+                    } 
                 },
-                error: function(xhr, textStatus, thrownError){
-                    // When the request isn't successful, it means that  there was no existing basiclti
-                    // so we show the basic settings.
+                error: function(xhr, status, e) {
                     displaySettings(null, false);
                 }
             });
