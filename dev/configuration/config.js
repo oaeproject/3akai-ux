@@ -845,7 +845,7 @@ define(function(){
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basicinfo",
+                "url": "/dev/me.html#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
@@ -1710,8 +1710,8 @@ define(function(){
                                 allowManage: true
                             }
                         ],
-                        joinRole: "student",
-                        creatorRole: "lecturer"
+                        joinRole: "member",
+                        creatorRole: "manager"
                     }
                 ]
             },
