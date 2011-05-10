@@ -292,6 +292,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav();
         });
 
+        $(window).bind("updated.counts.lhnav.sakai", function(){
+            determineContentContactsMemberships();
+            addCounts();
+        });
+
         $(window).bind("complete.fileupload.sakai", determineContext);
 
         determineContext();

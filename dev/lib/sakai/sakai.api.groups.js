@@ -737,16 +737,18 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {String} groupID the ID of the group to add members to
          * @param {String} list Either 'members' or 'managers'
          * @param {Array} users Array of user/group IDs to add to the group
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
          */
-        addUsersToGroup : function(groupID, list, users, managerShip, callback) {
+        addUsersToGroup : function(groupID, list, users, medata, managerShip, callback) {
             var reqData = [];
+            var currentUserIncluded = false;
 
             // Construct the batch requests
             $.each(users, function(index, user) {
                 var url = "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json";
                 if (!user.permission){
-                    url = "/system/userManager/group/" + groupID + ".update.json"
+                    url = "/system/userManager/group/" + groupID + ".update.json";
                 }
                 var data = {};
                 if (managerShip){
@@ -759,6 +761,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     "method": "POST",
                     "parameters": data
                 });
+                if (user === medata.user.userid){
+                    currentUserIncluded = true;
+                }
             });
 
             if (reqData.length > 0) {
@@ -766,6 +771,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 sakai_serv.batch(reqData, function(success, data) {
                     if (!success) {
                         debug.error("Could not add users to group");
+                    } else if (currentUserIncluded) {
+                        medata.user.subjects.push(groupID);
                     }
                     if ($.isFunction(callback)) {
                         callback(success);
@@ -817,10 +824,12 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {String} groupID the ID of the group to add members to
          * @param {String} list Either 'members' or 'managers'
          * @param {Array} users Array of user/group IDs to remove from the group
+         * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
          */
-        removeUsersFromGroup : function(groupID, list, users, callback) {
+        removeUsersFromGroup : function(groupID, list, users, medata, callback) {
             var reqData = [];
+            var currentUserIncluded = false;
 
             if (list === 'managers') {
                 groupID = groupID + '-managers';
@@ -835,6 +844,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         ":member@Delete": user
                     }
                 });
+                if (user === medata.user.userid){
+                    currentUserIncluded = true;
+                }
             });
 
             if (reqData.length > 0) {
@@ -842,6 +854,10 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 sakai_serv.batch(reqData, function(success, data) {
                     if (!success) {
                         debug.error("Error removing users from the group");
+                    } else if (currentUserIncluded){
+                        // remove the group from medata.subjects
+                        var index = medata.user.subjects.indexOf(groupID);
+                        medata.user.subjects.splice(index, 1);
                     }
                     if ($.isFunction(callback)) {
                         callback(success);
