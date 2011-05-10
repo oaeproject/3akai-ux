@@ -1760,8 +1760,8 @@ define(function(){
                     {
                         id: "medicalscience",
                         title: "Medical science course",
-                        img: "/dev/images/worldtemplates/medicalscience.png",
-                        fullImg: "/dev/images/worldtemplates/medicalscience-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -1786,8 +1786,60 @@ define(function(){
                     {
                         id: "physicscourse",
                         title: "Physics course",
-                        img: "/dev/images/worldtemplates/physicscourse.png",
-                        fullImg: "/dev/images/worldtemplates/physicscourse-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "engineeringcourse",
+                        title: "Engineering course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "humanitiescourse",
+                        title: "Humanities course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -1818,8 +1870,8 @@ define(function(){
                     {
                         id: "researchproject",
                         title: "Group project",
-                        img: "/dev/images/worldtemplates/researchproject.png",
-                        fullImg: "/dev/images/worldtemplates/researchproject-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Collaborative student projects, Class projects, Reading clubs",
                         roles: [
                             {
@@ -1839,8 +1891,8 @@ define(function(){
                     {
                         id: "bidwriting",
                         title: "Bid writing",
-                        img: "/dev/images/worldtemplates/bidwriting.png",
-                        fullImg: "/dev/images/worldtemplates/bidwriting-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Writing a collaborative research bid",
                         roles: [
                             {
