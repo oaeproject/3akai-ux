@@ -3,11 +3,30 @@
 
 <!-- CONTAINER -->
 <div id="selecttemplate_container">
+    <h1>__MSG__CREATE_A_COURSE__</h1>
     <div id="selecttemplate_templatelist_container" style="display:none"></div>
     <div id="selecttemplate_createworld_container" style="display:none"></div>
     <div id="selecttemplate_templatelist_template" style="display:none"><!--
         {for template in templates}
-            <div><a href="javascript:;" class="selecttemplate_templatelist_picktemplate" data-templateid="${template.id}">${template.title}</a></div>
+            {var templatesize = (template_index == 0)?"large":"small";}
+            <div class="selecttemplate_template_${templatesize} {if template_index % 3 == 1} selecttemplate_template_right{/if}">
+                <h3>__MSG__FEATURED_TEMPLATE__</h3>
+                <div>
+                    {if templatesize == "large"}
+                        <img src=${template.img} />
+                    {/if}
+                    <h2>${template.title}</h2>
+                    <div class="selecttemplate_perfectfor">
+                        <h4>__MSG__PERFECT_FOR__:</h4>
+                        <p>${template.perfectFor}</p>
+                    </div>
+                    <button class="selecttemplate_preview_button" data-templateid="${template.id}">__MSG__PREVIEW_TEMPLATE__</button>
+                    <button class="selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
+                </div>
+            </div>
+            {if template_index % 3 == 1}
+                <div class="fl-push"></div>
+            {/if}
         {/for}
     --></div>
     <div id="selecttemplate_createworld_template" style="display:none"><!--
@@ -15,6 +34,34 @@
             <div id='widget_newcreategroup_${tuid}' class='widget_inline'></div><div id='widget_addpeople_${tuid}' class='widget_inline'></div>
         </div>
     --></div>
+
+    <!-- DIALOG BOX FOR TEMPLATE PREVIEW -->
+    <div id="selecttemplate_preview_dialog" class="dialog" style="width:800px; margin-left: -380px;">
+        <div class="dialog_header">
+            <div class="dialog_header_inner">
+                <h1>__MSG__PREVIEW_TEMPLATE__</h1>
+                <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+            </div>
+        </div>
+
+        <div class="dialog_content">
+            <!-- CONTAINER -->
+            <div id="selecttemplate_preview_dialog_container"></div>
+
+            <!-- TEMPLATE -->
+            <div id="selecttemplate_preview_dialog_template" style="display:none"><!--
+                <img src="${template.fullImg}" />
+                <div id="selecttemplate_preview_dialog_desc">
+                    <h2>${template.title}</h2>
+                    <h4>__MSG__PERFECT_FOR__:</h4>
+                    <p>${template.perfectFor}</p>
+                    <button class="selecttemplate_use_button" data-templateid="$template.id}">__MSG__USE_TEMPLATE__</button>
+                </div>
+                <div class="fl-push"></div>
+            --></div>
+                <button id="selecttemplate_dialog_close" class="jqmClose s3d-link-button" type="button">__MSG__CLOSE__</button>
+        </div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
