@@ -275,15 +275,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
             });
 
-            $('.searchcontent_result_share_icon').live('click',function(){
+            $('.share_specific_trigger_click').live('click',function(){
                 var $clickedEl = $(this);
                 var contentId = $clickedEl.data("entityid");
-                // loop through the content retrieved from searchcontent to find the content we want to share 
-                for (var i in sakai_global.searchcontent.content_items) {
-                    if (sakai_global.searchcontent.content_items.hasOwnProperty(i) && sakai_global.searchcontent.content_items[i]["jcr:name"] === contentId) {
-                        contentObj = {
-                            "data": sakai_global.searchcontent.content_items[i]
-                        };
+                // loop through the content retrieved from either searchcontent or mylibrary widgets to find the content we want to share
+                if ($clickedEl.hasClass("searchcontent_result_share_icon")) {
+                    for (var i in sakai_global.searchcontent.content_items) {
+                        if (sakai_global.searchcontent.content_items.hasOwnProperty(i) && sakai_global.searchcontent.content_items[i]["jcr:name"] === contentId) {
+                            contentObj = {
+                                "data": sakai_global.searchcontent.content_items[i]
+                            };
+                        }
+                    }
+                } else {
+                    for (var i in sakai_global.mylibrary.content_items) {
+                        if (sakai_global.mylibrary.content_items.hasOwnProperty(i) && sakai_global.mylibrary.content_items[i]["jcr:name"] === contentId) {
+                            contentObj = {
+                                "data": sakai_global.mylibrary.content_items[i]
+                            };
+                        }
                     }
                 }
                 contentObj.shareUrl = sakai.config.SakaiDomain + "/content#content_path=/p/" + contentObj.data["jcr:name"];
