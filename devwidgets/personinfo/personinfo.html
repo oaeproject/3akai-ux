@@ -43,10 +43,10 @@
             {var thumbnail = sakai.api.Content.getThumbnail(i)}
             <li id="${i["jcr:name"]}">
                 <div class="personinfo_content_list_left">
-                {if thumbnail}
+                {if thumbnail && sakai.config.MimeTypes[mimeType]}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${thumbnail}" alt="${mimeTypeDescription}" />
-                {elseif mimeType.substring(0,6)==="image/"}
+                {elseif mimeType.substring(0,6)==="image/" && sakai.config.MimeTypes[mimeType]}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
                 {elseif sakai.config.MimeTypes[mimeType]}

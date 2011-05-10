@@ -46,8 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_message = $("#personinfo_message", $rootel),
             $personinfo_invite = $("#personinfo_invite", $rootel);
         var dataCache = {};
+        var triggerType;
         var open = false;
-        var closeOnHoverout = false;
         var userId;
 
         $personinfo_widget.jqm({
@@ -64,15 +64,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var hidePersonInfo = function() {
             open = false;
             $personinfo_widget.jqmHide();
+
+            // unbind the close event
+            if (triggerType === "hover"){
+                $personinfo_widget.unbind("mouseleave");
+            } else {
+                $(document).unbind("click.personinfo_close");
+            }
         };
 
         /**
          * showPersonInfo
          * Shows the widget
          */
-        var showPersonInfo = function(clickedEl) {
-            var personinfoTop = clickedEl.offset().top + clickedEl.height() - 1;
-            var personinfoLeft = clickedEl.offset().left + clickedEl.width() / 2 - 125;
+        var showPersonInfo = function($clickedEl) {
+            var personinfoTop = $clickedEl.offset().top + $clickedEl.height() - 1;
+            var personinfoLeft = $clickedEl.offset().left + $clickedEl.width() / 2 - 125;
 
             $personinfo_widget.css({
                 top: personinfoTop,
@@ -86,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * togglePersonInfo
          * Displays the widget
          */
-        var togglePersonInfo = function(clickedEl) {
+        var togglePersonInfo = function($clickedEl) {
             var json = {
                 "user": dataCache[userId],
                 "me": sakai.data.me,
@@ -94,87 +101,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_template", json));
-            showPersonInfo(clickedEl);
+            showPersonInfo($clickedEl);
         };
 
         /**
          * fetchPersonInfo
          * Fetches data about the user
          */
-        var fetchPersonInfo = function(clickedEl) {
-            $personinfo_invite.hide();
-            userId = clickedEl.data("userid");
+        var fetchPersonInfo = function($clickedEl) {
+            if (dataCache[userId]) {
+                togglePersonInfo($clickedEl);
+            } else {
+                // display loading message
+                $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_loading_template", {"me": sakai.data.me}));
+                showPersonInfo($clickedEl);
+                sakai.api.User.getUser(userId, function(success, data){
+                    if (success) {
+                        dataCache[userId] = data;
 
-            closeOnHoverout = false;
-            // hide overlay on mouseleave event if the element has the specified class
-            if (clickedEl.hasClass("personinfo_trigger_hover")){
-                closeOnHoverout = true;
-            }
+                        // get display pic
+                        var displayPicture = sakai.api.Util.constructProfilePicture(dataCache[userId]);
+                        if (!displayPicture){
+                            displayPicture = sakai.config.URL.USER_DEFAULT_ICON_URL;
+                        }
+                        dataCache[userId].displayPicture = displayPicture;
+                        dataCache[userId].displayName = sakai.api.User.getDisplayName(dataCache[userId]);
 
-            // check if user is a contact and their connection state
-            sakai.api.User.getConnectionState(userId, function(state){
-                if (!state && userId !== sakai.data.me.user.userid){
-                    $personinfo_invite.show();
-                }
-            });
-
-            if (!open) {
-                open = true;
-                if (userId) {
-                    if (dataCache[userId]) {
-                        togglePersonInfo(clickedEl);
-                    } else {
-                        // display loading message
-                        $($personinfo_container).html(sakai.api.Util.TemplateRenderer("#personinfo_loading_template", {"me": sakai.data.me}));
-                        showPersonInfo(clickedEl);
-                        sakai.api.User.getUser(userId, function(success, data){
-                            if (success) {
-                                dataCache[userId] = data;
-
-                                // get display pic
-                                var displayPicture = sakai.api.Util.constructProfilePicture(dataCache[userId]);
-                                if (!displayPicture){
-                                    displayPicture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                                }
-                                dataCache[userId].displayPicture = displayPicture;
-                                dataCache[userId].displayName = sakai.api.User.getDisplayName(dataCache[userId]);
-
-                                // get content items for the user
-                                $.ajax({
-                                    url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
-                                    data: {
-                                        "page": 0,
-                                        "items": 20,
-                                        "userid": userId
-                                    },
-                                    success: function(data){
-                                        // Truncate long filenames
-                                        if (data && data.results) {
-                                            for (var item in data.results) {
-                                                if (data.results.hasOwnProperty(item)) {
-                                                    if (data.results[item]["sakai:pooled-content-file-name"]) {
-                                                        data.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(data.results[item]["sakai:pooled-content-file-name"], 165, {
-                                                            max_rows: 1,
-                                                            whole_word: false
-                                                        }, "s3d-bold");
-                                                    }
-                                                }
+                        // get content items for the user
+                        $.ajax({
+                            url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+                            data: {
+                                "page": 0,
+                                "items": 20,
+                                "userid": userId
+                            },
+                            success: function(data){
+                                // Truncate long filenames
+                                if (data && data.results) {
+                                    for (var item in data.results) {
+                                        if (data.results.hasOwnProperty(item)) {
+                                            if (data.results[item]["sakai:pooled-content-file-name"]) {
+                                                data.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(data.results[item]["sakai:pooled-content-file-name"], 165, {
+                                                    max_rows: 1,
+                                                    whole_word: false
+                                                }, "s3d-bold");
                                             }
                                         }
-
-                                        // add user content to their data object
-                                        dataCache[userId].contentItems = data;
-
-                                        // check user still has widget open before rendering results
-                                        if (open) {
-                                            togglePersonInfo(clickedEl);
-                                        }
                                     }
-                                });
+                                }
+
+                                // add user content to their data object
+                                dataCache[userId].contentItems = data;
+
+                                // check user still has widget open before rendering results
+                                if (open) {
+                                    togglePersonInfo($clickedEl);
+                                }
                             }
                         });
                     }
-                }
+                });
             }
         };
 
@@ -185,8 +171,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // bind personinfo message button
         $personinfo_message.live("click", function () {
+            var sendMessageUserObj = {};
             sendMessageUserObj.uuid = userId;
-            sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);;
+            sendMessageUserObj.username = sakai.api.User.getDisplayName(dataCache[userId]);
             sendMessageUserObj.type = "user";
             // initialize the sendmessage-widget
             $(window).trigger("initialize.sendmessage.sakai", [sendMessageUserObj, false, false, null, null, null]);
@@ -204,29 +191,59 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // bind mouse hover trigger
         $(".personinfo_trigger_hover").live("mouseenter", function(){
-            fetchPersonInfo($(this));
+            doInit($(this));
         });
 
         // bind click trigger
         $(".personinfo_trigger_click").live("click", function(){
-            fetchPersonInfo($(this));
+            doInit($(this));
         });
 
-        // bind outside click to close widget
-        $(document).unbind("click.personinfo_close").bind("click.personinfo_close", function (e) {
-            var $clicked = $(e.target);
-            // Check if one of the parents is the tooltip
-            if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
-                hidePersonInfo();
-            }
-        });
 
-        // bind hover out to close widget
-        $personinfo_widget.unbind("mouseleave").bind("mouseleave", function(){
-            if (closeOnHoverout) {
-                hidePersonInfo();
+        /////////////////////////////
+        // Initialization function //
+        /////////////////////////////
+
+        /**
+         * Initialization function that is run when the widget is triggered.
+         * Determines which events to bind to and fetches user data if the widget
+         * is not already opened.
+         */
+        var doInit = function ($clickedEl) {
+            $personinfo_invite.hide();
+            userId = $clickedEl.data("userid");
+
+            // determine which close events to bind to
+            if ($clickedEl.hasClass("personinfo_trigger_hover")){
+                triggerType = "hover";
+                // hide overlay on mouseleave event if the element has the specified class
+                $personinfo_widget.bind("mouseleave", function(){
+                    hidePersonInfo();
+                });
+            } else {
+                triggerType = "click";
+                // bind outside click to close widget
+                $(document).bind("click.personinfo_close", function (e) {
+                    var $clicked = $(e.target);
+                    // Check if one of the parents is the tooltip
+                    if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
+                        hidePersonInfo();
+                    }
+                });
             }
-        });
+
+            // check if user is a contact and their connection state
+            sakai.api.User.getConnectionState(userId, function(state){
+                if (!state && userId !== sakai.data.me.user.userid){
+                    $personinfo_invite.show();
+                }
+            });
+
+            if (!open && userId){
+                open = true;
+                fetchPersonInfo($clickedEl);
+            }
+        };
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("personinfo");
