@@ -883,6 +883,12 @@ define(function(){
             "anonymous": false,
             "label": "EXPLORE",
             "subnav": [{
+                "id": "subnavigation_explore_categories_link",
+                "label": "BROWSE_ALL_CATEGORIES",
+                "url": "/dev/allcategories.html"
+            },{
+                "id": "subnavigation_hr"
+            },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
@@ -901,6 +907,12 @@ define(function(){
             "anonymous": true,
             "label": "EXPLORE",
             "subnav": [{
+                "id": "subnavigation_explore_categories_link",
+                "label": "BROWSE_ALL_CATEGORIES",
+                "url": "/dev/allcategories.html"
+            },{
+                "id": "subnavigation_hr"
+            },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
