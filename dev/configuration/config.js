@@ -1710,8 +1710,8 @@ define(function(){
                                 allowManage: true
                             }
                         ],
-                        joinRole: "student",
-                        creatorRole: "lecturer"
+                        joinRole: "member",
+                        creatorRole: "manager"
                     }
                 ]
             },
