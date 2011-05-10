@@ -1,5 +1,5 @@
 <!-- STYLESHEET -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/sakai2tools/css/sakai2tools.css" />
+<link rel="stylesheet" type="text/css" href="/devwidgets/basiclti/css/basiclti.css" />
 
 <!-- SETTINGS -->
 <div id="basiclti_settings" style="display:none;">
@@ -11,6 +11,7 @@
     <form>
         <div class="basiclti_settings_subcontainer">
             <p>
+            {if isSakai2Tool === true}
                 <label for="basiclti_settings_lti_virtual_tool_id">Tool:</label>
                 <select id="basiclti_settings_lti_virtual_tool_id" name="lti_virtual_tool_id">
                     <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
@@ -35,6 +36,14 @@
                     <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
                     <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
                 </select>
+            {else}
+                <label for="basiclti_settings_ltiurl">__MSG__URL__: </label>
+                <input type="text" id="basiclti_settings_ltiurl" value="${ltiurl}" /><br />
+                <label for="basiclti_settings_ltikey">__MSG__KEY__: </label>
+                <input type="text" id="basiclti_settings_ltikey" value="${ltikey}" /><br />
+                <label for="basiclti_settings_ltisecret">__MSG__SECRET__: </label>
+                <input type="text" id="basiclti_settings_ltisecret" value="${ltisecret}" /><br />
+            {/if}
             </p>
             <p>
                 <label class="basiclti_settings_label_head"></label> <span><br class="fl-push" />
@@ -46,16 +55,35 @@
         </div>
         <div id="basiclti_settings_advanced" style="display:none;">
             <div class="basiclti_settings_subcontainer">
+                <label class="basiclti_settings_label_head">__MSG__PRIVACY__:</label><br />
+                <div class="basiclti_settings_block">
+                    <div class="basiclti_settings_checkbox">
+                        <label for="basiclti_settings_release_names">__MSG__RELEASE_NAMES__:</label>
+                        <input type="checkbox" id="basiclti_settings_release_names" name="release_names" {if release_names}checked="checked"{/if} /><span>&nbsp;</span>
+                    </div>
+                    <div class="basiclti_settings_checkbox">
+                        <label for="basiclti_settings_release_principal_name">__MSG__RELEASE_USERNAME__:</label>
+                        <input type="checkbox" id="basiclti_settings_release_principal_name" name="release_principal_name" {if release_principal_name}checked="checked"{/if} /><span>&nbsp;</span>
+                    </div>
+                    <div class="basiclti_settings_checkbox">
+                        <label for="basiclti_settings_release_email">__MSG__RELEASE_EMAIL_ADDRESS__:</label>
+                        <input type="checkbox" id="basiclti_settings_release_email" name="release_email" {if release_email}checked="checked"{/if} /><span>&nbsp;</span><br class="fl-push" />
+                    </div>
+                    <br class="fl-push" />
+                </div>
+            </div>
+
+            <div class="basiclti_settings_subcontainer">
                 <label class="basiclti_settings_label_head">__MSG__SIZE__:</label><br />
                 <div class="basiclti_settings_block">
                     <label for="basiclti_settings_width">__MSG__WIDTH__:</label>
                     <input type="text" id="basiclti_settings_width" value="${width}" />
-                    <button type="button" id="basiclti_settings_width_unit_px" class="basiclti_settings_width_unit s3d-link-button s3d-bold {if width_unit == "px"} basiclti_settings_width_unit_selected{/if}"> px</button>
+                    <button type="button"  id="basiclti_settings_width_unit_px" class="s3d-link-button s3d-action basiclti_settings_width_unit {if width_unit == "px"} basiclti_settings_width_unit_selected{/if}"> px</button>
                     <span> or </span>
-                    <button type="button" id="basiclti_settings_width_unit_percent" class="basiclti_settings_width_unit s3d-link-button s3d-bold {if width_unit == "%"} basiclti_settings_width_unit_selected{/if}"> %</button>
+                    <button type="button" id="basiclti_settings_width_unit_percent" class="s3d-link-button s3d-action basiclti_settings_width_unit {if width_unit == "%"} basiclti_settings_width_unit_selected{/if}"> %</button>
                     <br />
                     <label for="basiclti_settings_frame_height">__MSG__HEIGHT__:</label>
-                    <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> px</span>
+                    <input type="text" id="basiclti_settings_frame_height" value="${frame_height}" /><span> __MSG__PX__</span>
                     <button type="button" class="s3d-button s3d-button-primary" id="basiclti_settings_reset_size"><span class="s3d-button-inner">__MSG__RESET_TO_ORIGINAL_SIZE__</span></button>
                     <br class="fl-push" />
                 </div>
@@ -65,7 +93,7 @@
                 <label class="basiclti_settings_label_head">__MSG__BORDER__:</label><br />
                 <div class="basiclti_settings_block">
                     <label for="basiclti_settings_borders">__MSG__WIDTH__:</label>
-                    <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> px</span><br class="fl-push" />
+                    <input type="text" id="basiclti_settings_borders" value="${border_size}" /><span> __MSG__PX__</span><br class="fl-push" />
                     <div id="basiclti_settings_color_container">
                     </div>
                 </div>
@@ -81,7 +109,7 @@
 
 <!-- Template to show the preview of the iframe -->
 <div id="basiclti_settings_preview_template"><!--
-    <iframe name="${tuidFrame}" id="${tuidFrame}" style="border: ${border_size}px #${border_color} solid" src="${launchDataUrl}" width="${width}${width_unit}" height="${frame_height}px"></iframe>
+    <iframe id="${tuidFrame}" style="border: ${border_size}px #${border_color} solid" width="${width}${width_unit}" height="${frame_height}px"></iframe>
 --></div>
 
 <!-- Template for choosing the color -->
@@ -100,4 +128,4 @@
 </div>
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript" src="/devwidgets/sakai2tools/javascript/sakai2tools.js" />
+<script type="text/javascript" src="/devwidgets/sakai2tools/javascript/basiclti.js" />
