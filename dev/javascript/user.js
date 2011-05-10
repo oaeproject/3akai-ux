@@ -123,9 +123,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addCounts = function(){
-            addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
-            addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
-            addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
+            if (contextData && contextData.profile) {
+                addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
+                addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
+                addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
+            }
         };
 
         var addCount = function(pubdata, pageid, count){
