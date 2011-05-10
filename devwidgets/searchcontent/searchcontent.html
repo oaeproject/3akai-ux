@@ -58,7 +58,7 @@
                                 <span class="searchcontent_result_user_functions" style="display:none;">
                                     <button class="s3d-link-button searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['jcr:name']}">+</button>
                                     <button class="s3d-link-button searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
-                                    <button class="s3d-link-button searchcontent_result_share_icon" data-entityid="${i['jcr:name']}"></button>
+                                    <button class="s3d-link-button searchcontent_result_share_icon share_specific_trigger_click" data-entityid="${i['jcr:name']}"></button>
                                 </span>
                                 <span class="searchcontent_result_anonuser"></span>
                                 {var mimeType = sakai.api.Content.getMimeType(i)}

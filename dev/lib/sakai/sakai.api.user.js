@@ -168,12 +168,22 @@ define(["jquery",
             });
         },
 
+        /**
+         * @param {Array} userArray Array of userIds to fetch
+         * @param {Function} callback Callback function to call when the request is complete
+         */
         getMultipleUsers: function(userArray, callback){
-            // this method could be checking for and removing duplicate users
+            var uniqueUserArray = [];
+
             for (var i in userArray) {
-                if (userArray.hasOwnProperty(i)) {
-                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", userArray.length, userArray[i], {
-                        "url": "/~" + userArray[i] + "/public/authprofile",
+                if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
+                    uniqueUserArray.push(userArray[i]);
+                }
+            }
+            for (var ii in uniqueUserArray) {
+                if (uniqueUserArray.hasOwnProperty(ii)) {
+                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
+                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile",
                         "method": "GET"
                     });
                 }
