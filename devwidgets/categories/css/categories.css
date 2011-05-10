@@ -1,0 +1,49 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:920px;padding:0 20px 5px;}
+.categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 3px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
+.categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
+.categories_widget #categories_items_container {padding-bottom:13px;}
+.categories_widget #categories_items_content {width:824px;}
+.categories_widget #categories_items_content li {display:block;width:207px;}
+.categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;}
+.categories_widget #categories_items_scroll #categories_view_next_raquo {width:90px;height:42px;background:url("/devwidgets/categories/images/categories_raquo.png") no-repeat center center transparent;margin-top:35px;cursor:pointer;}
+.categories_widget #categories_items_scroll #categories_view_all {width:100%;}
+.categories_widget #categories_items_scroll .categories_view_all_link:hover {text-decoration:none !important;}
+.categories_widget #categories_expand_contract .categories_expand, .categories_widget #categories_expand_contract .categories_contract {float:right;height:9px;margin:16px 0 0 12px;width:13px;}
+.categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}
+.categories_widget #categories_expand_contract .categories_contract {background:url("/devwidgets/categories/images/categories_contract.png") repeat-x top left transparent;}
+.categories_widget #categories_expand_contract {background:url("/dev/images/explore_choose_category_bg.png") repeat-x scroll left top transparent;border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px;-webkit-border-radius:0 0 2px 2px;color: #FFFFFF;display: inline-block;float: right;height: 38px;line-height: 38px;padding: 0 20px;cursor:pointer;margin-right:20px;margin-top:5px;}
+
+/* Content Style */
+.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;}
+.categories_widget .categories_item a.categories_item_header_link{font-size: 17px;}
+.categories_widget .categories_item .categories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
+.categories_widget .categories_item .categories_item_header_meta {color:#ccc;font-size:12px;display:block;}
+.categories_widget .categories_item .categories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}
+.categories_widget .categories_item .categories_item_tags {color:#ccc;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent;display:block;margin-top:10px;padding-left:20px;}
+.categories_widget .categories_item .categories_item_tags a.s3d-regular-links {font-size:11px;}
+.categories_widget .categories_vertical_divider {background-color:#5B5A5A;float:right;height:170px;margin-right:3px;margin-top:24px;width:1px;}
+.categories_widget .categories_item .categories_tag_divider {margin:0 3px 0 7px;}
+
+/* Carousel */
+.categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
+.categories_widget #categories_items_scroll .categories_items_scroll_deselected {background:url("/devwidgets/categories/images/categories_carousel_deselected.png") repeat-x top left transparent !important;}
+.categories_widget #categories_items_scroll #categories_items_scroll_buttons {position:absolute;bottom:0;margin-bottom:25px;}
