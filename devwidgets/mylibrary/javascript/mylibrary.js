@@ -45,7 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortBy: "_lastModified",
             sortOrder: "desc",
             isOwnerViewing: false,
-            default_search_text: ""
+            default_search_text: "",
+            userArray: []
         };
 
         // DOM jQuery Objects
@@ -313,6 +314,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var handleLibraryItems = function (success, data) {
                 if (success && data && data.results) {
+                    // Make the content items available to other widgets
+                    sakai_global.mylibrary.content_items = data.results;
                     mylibrary.totalItems = data.total;
                     var items = [];
                     if (mylibrary.totalItems === 0) {
@@ -335,10 +338,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tags: formatTags(result["sakai:tags"]),
                             numPeopleUsing: getNumPeopleUsing(),
                             numGroupsUsing: getNumGroupsUsing(),
-                            numComments: getNumComments(result),
+                            numPlaces: sakai.api.Content.getPlaceCount(result),
+                            numComments: sakai.api.Content.getCommentCount(result),
                             mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                            description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
+                                    max_rows: 1,
+                                    whole_word: false
+                                }, "searchcontent_result_course_site_excerpt"),
                             fullResult: result
                         });
+                        mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
                     });
                     if (callback && typeof(callback) === "function") {
                         callback(true, items);
@@ -395,6 +404,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_items.html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
+
+                // Update dom with user display names
+                sakai.api.User.getMultipleUsers(mylibrary.userArray, function(users){
+                    for (u in users) {
+                        if (users.hasOwnProperty(u)) {
+                            $(".mylibrary_item_username").each(function(index, val){
+                               var userId = $(val).text();
+                               if (userId === u){
+                                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+                               }
+                            });
+                        }
+                    }
+                });
             } else {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();

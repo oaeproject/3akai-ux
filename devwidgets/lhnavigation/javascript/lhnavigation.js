@@ -262,7 +262,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     structure.pages[page] = data[page];
                 }
             }
-            debug.log(structure);
             callback(structure);
         };
 
