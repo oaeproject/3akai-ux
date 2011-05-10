@@ -180,42 +180,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             if (userList.list.length && messageText) {
-                sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + contentObj.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
                 var toAddList = userList.list.slice();
-                var removed = 0;
-                for (var i in toAddList) {
-                    if (toAddList.hasOwnProperty(i) && toAddList[i]) {
-                        if (toAddList[i].substring(0, 5) === "user/") {
-                            var user = toAddList[i].substring(5, toAddList[i].length);
-                            if(!sakai.api.Content.isUserAManager(contentObj, user) && !sakai.api.Content.isUserAViewer(contentObj, user)){
-                                toAddList[i - removed] = user;
-                            } else {
-                                toAddList.splice(i - removed, 1);
-                                removed++;
-                            }
-                        } else if (toAddList[i].substring(0, 6) === "group/") {
-                            var group = toAddList[i].substring(6, toAddList[i].length);
-                            if(!sakai.api.Content.isUserAManager(contentObj, group) && !sakai.api.Content.isUserAViewer(contentObj, group)){
-                                toAddList[i - removed] = group;
-                            } else {
-                                toAddList.splice(i - removed, 1);
-                                removed++;
-                            }
-                        }
-                    }
-                }
                 userList.list = toAddList;
                 if (toAddList.length) {
-                    $(window).trigger("finished.sharecontent.sakai", {
-                        "toAdd": toAddList,
-                        "toAddNames": userList.toAddNames,
-                        "mode": "viewer"
-                    });
-                } else {
-                    sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#content_profile_text").text()), sakai.api.Security.saneHTML($("#content_profile_users_added_text").text()) + " " + userList.toAddNames.toString().replace(/,/g, ", "));
+                    sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + contentObj.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
+                    sakai.api.Content.addToLibrary(contentObj.data["jcr:name"], toAddList);
+                    sakai.api.Util.notification.show(false, sakai.api.Security.saneHTML($("#newsharecontent_users_added_text").text()) + " " + userList.toAddNames.join(", "), "");
+                    createActivity("__MSG__ADDED_A_MEMBER__");
+                    $newsharecontentContainer.hide();
                 }
-                createActivity("__MSG__ADDED_A_MEMBER__");
-                $newsharecontentContainer.jqmHide();
             } else {
                 if (!messageText) {
                     $newsharecontentMessage.addClass(newsharecontentRequiredClass);
@@ -243,26 +216,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('#newsharecontent_cancel').bind('click',function(){
-                //$newsharecontentContainer.jqmHide();
                 $newsharecontentContainer.hide();
             });
 
-            $('#entity_content_share').live('click',function(){
-                contentObj = sakai_global.content_profile.content_data;
-                contentObj.shareUrl = window.location;
-                if (window.hasOwnProperty('addthis')) {
-                    var $this = $(this);
-                    $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
-                    $newsharecontentContainer.jqmShow();
-                }
-            });
-
             $('.share_trigger_click').live('click',function(){
-                var contentId = $(this).data("contentid");
+                var contentId = $(this).data("entityid");
                 var $this = $(this);
                 sakai.api.Server.loadJSON("/p/" + contentId + ".json", function(success, data){
                     if (success) {
-                        debug.log("share", data);
                         contentObj = {
                             "data": data,
                             "shareUrl": sakai.config.SakaiDomain + "/content#content_path=/p/" + data["jcr:name"]
@@ -273,35 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
                 });
-            });
-
-            $('.share_specific_trigger_click').live('click',function(){
-                var $clickedEl = $(this);
-                var contentId = $clickedEl.data("entityid");
-                // loop through the content retrieved from either searchcontent or mylibrary widgets to find the content we want to share
-                if ($clickedEl.hasClass("searchcontent_result_share_icon")) {
-                    for (var i in sakai_global.searchcontent.content_items) {
-                        if (sakai_global.searchcontent.content_items.hasOwnProperty(i) && sakai_global.searchcontent.content_items[i]["jcr:name"] === contentId) {
-                            contentObj = {
-                                "data": sakai_global.searchcontent.content_items[i]
-                            };
-                        }
-                    }
-                } else {
-                    for (var i in sakai_global.mylibrary.content_items) {
-                        if (sakai_global.mylibrary.content_items.hasOwnProperty(i) && sakai_global.mylibrary.content_items[i]["jcr:name"] === contentId) {
-                            contentObj = {
-                                "data": sakai_global.mylibrary.content_items[i]
-                            };
-                        }
-                    }
-                }
-                contentObj.shareUrl = sakai.config.SakaiDomain + "/content#content_path=/p/" + contentObj.data["jcr:name"];
-                if (window.hasOwnProperty('addthis')) {
-                    var $this = $(this);
-                    $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
-                    $newsharecontentContainer.jqmShow();
-                }
             });
 
             $newsharecontentSendButton.unbind("click", doShare);
