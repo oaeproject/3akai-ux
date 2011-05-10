@@ -1,0 +1,18 @@
+{
+    "description":        "Categories Widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/categories/bundles/default.properties"
+    },
+    "id":                 "categories",
+    "name":               "Categories Widget",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/categories/categories.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
