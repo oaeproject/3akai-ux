@@ -19,7 +19,6 @@
                         {if item.featuredcontent.image}
                             <img src="/p/${item.featuredcontent["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
                         {elseif item.featuredcontent["sakai:custom-mimetype"]}
-                            ${debug.log(item)};
                             <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
                         {elseif item.featuredcontent.haspreview}
                             <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>

@@ -35,28 +35,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Templates
         var allcategoriesItemsTemplate = "allcategories_items_template";
 
-        // Elements
-        var $allcategoriesExpandContract = $("#allcategories_expand_contract");
-
         var directory = sakai.config.Directory;
         var allcategoriesToRender = [];
-
-
-        /////////////
-        // BINDING //
-        /////////////
-
-        /**
-         * Expand or collapse the widget
-         */
-        var toggleWidgetvisibility = function(){
-            $allcategoriesItemsContainer.toggle("display");
-            $allcategoriesExpandContract.children("div").toggle();
-        };
-
-        var addBinding = function(){
-            $allcategoriesExpandContract.bind("click", toggleWidgetvisibility)
-        };
 
 
         ////////////////////////////
@@ -105,8 +85,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 page: 0,
                 items: 10,
                 sortOn: "_lastModified",
-                sortOrder: "desc",
-                q: "*"
+                sortOrder: "desc"
             });
         };
 
@@ -116,9 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////
 
         var doInit = function(){
-            addBinding();
             getCategoryContent();
-            //parseDirectory();
         };
 
         doInit();
