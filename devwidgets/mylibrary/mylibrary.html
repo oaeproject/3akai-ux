@@ -61,55 +61,56 @@
     <div id="mylibrary_items"><!-- TEMPLATE HERE --></div>
     <div id="mylibrary_items_template"><!--
     {if items}
+        {var count = 0}
         {for item in items}
-            <div class="fl-container fl-fix mylibrary_item">
-                <div class="mylibrary_description">
-                    <span class="mylibrary_detail_dark s3d-bold">${item.type}
-                        {if user_is_manager(item)}<span class="mylibrary_edit fl-fix"></span>{/if}</span>
-                    <span class="mylibrary_description_detail">__MSG__ADDED_BY__:
-                        <a href="/~${item.ownerid}" class="s3d-bold s3d-regular-links mylibrary_added_by">${item.ownername}</a></span>
-                    <span class="mylibrary_description_detail">__MSG__LAST_UPDATED__:
-                        <span class="s3d-bold mylibrary_detail_dark">${item.last_updated}</span></span>
-                </div>
-                <div class="mylibrary_placeholder">{if user_is_owner(item)}<input class="mylibrary_check"
+            {var count = count + 1}
+            <div class="fl-container fl-fix mylibrary_item{if count == 1} mylibrary_item_first{/if}">
+                <div class="mylibrary_item_left_filler">{if user_is_owner(item)}<input class="mylibrary_check"
                     id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
+                <button class="s3d-link-button mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
+                <button class="s3d-link-button mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
                 <a href="${item.link}" title="__MSG__VIEW_THIS_ITEM__">
                     {var thumbnail = sakai.api.Content.getThumbnail(item.fullResult)}
-                    {if thumbnail}
-                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description)}
+                    {if thumbnail && sakai.config.MimeTypes[item.mimeType]}
                         <img src="${thumbnail}" alt="${mimeTypeDescription}" />
-                    {elseif (item.mimeType.substring(0,6)=="image/")}
-                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description)}
+                    {elseif (item.mimeType.substring(0,6)=="image/") && sakai.config.MimeTypes[item.mimeType]}
                         <img class="s3d-icon-40" src="/p/${item.id}" alt="${mimeTypeDescription}" />
                     {else}
                         <img alt="item type icon" src="${item.type_src}" />
                     {/if}
                 </a>
-                <div class="mylibrary_name_div s3d-regular-links">
-                    <div class="mylibrary_name s3d-bold"><a href="${item.link}"
-                        title="__MSG__VIEW_THIS_ITEM__">${item.filename}</a></div>
-                    {if item.tags && item.tags.length}
-                        <p class="mylibrary_description_detail">__MSG__TAGS__:
-                        {for tag in item.tags}
-                            <a href="${tag.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${tag.name}">${tag.name}</a>{if tag_index != item.tags.length-1},{/if}
-                        {/for}
-                        </p>
-                    {/if}
-                    {if item.numPeopleUsing}
-                        <p class="mylibrary_description_detail">__MSG__USED_BY__
-                            <button class="s3d-link-button" title="__MSG__SEE_WHO_IS_USING_THIS_ITEM__">${item.numPeopleUsing}
-                                {if item.numPeopleUsing === 1}person{else}people{/if}</button>
-                            {if item.numGroupsUsing}and <button class="s3d-link-button"
-                                title="See who is using this item">${item.numGroupsUsing}
-                                group{if item.numGroupsUsing != 1}s{/if}</button>
-                            {/if}
-                        </p>
-                    {/if}
-                    {if item.numComments}
-                        <p class="mylibrary_description_detail"><a href="${item.link}"
-                            title="__MSG__VIEW_COMMENTS__">${item.numComments}
-                            __MSG__COMMENT__{if item.numComments != 1}__MSG__PLURAL_S__{/if}</a>
-                        </p>
+                <div class="mylibrary_item_right s3d-regular-links">
+                    <div>
+                        <a class="s3d-bold s3d-regular-light-links" href="${item.link}" title="__MSG__VIEW_THIS_ITEM__">
+                            ${item.filename}
+                        </a>
+                        {if mimeTypeDescription}
+                            <span class="mylibrary_item_mimetype">${mimeTypeDescription.toUpperCase()}</span>
+                        {/if}
+                    </div>
+                    <div class="mylibrary_item_by">
+                        __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> ${item.last_updated}
+                    </div>
+                    {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
+                    <div class="mylibrary_item_usedin">
+                        {var placeCount = sakai.api.Content.getPlaceCount(item)}
+                        {if item.numPlaces > 0}
+                            <span class="mylibrary_item_icon mylibrary_item_usedin_icon"></span>
+                            __MSG__USED_IN__ ${item.numPlaces} {if item.numPlaces == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                        {/if}
+                        {if item.numComments > 0}
+                            <span class="mylibrary_item_icon mylibrary_item_comments_icon"></span>
+                            ${item.numComments} {if item.numComments == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                        {/if}
+                    </div>
+                    {if item.tags && item.tags.length > 0}
+                        <div class="mylibrary_item_tags">
+                            <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
+                            <p class="mylibrary_item_tags_list">
+                                {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name}">${t.name}</a>{/for}
+                            </p>
+                        </div>
                     {/if}
                     {if user_is_owner(item)}
                         <button type="button" class="s3d-button s3d-button-link-2-state" style="display:none;">
@@ -119,6 +120,9 @@
                 </div>
             </div>
         {/for}
+        {if count > 0}
+            <div class="mylibrary_item_end"></div>
+        {/if}
         <div id="mylibrary_pager" class="jq_pager"></div>
     {/if}
     --></div>
