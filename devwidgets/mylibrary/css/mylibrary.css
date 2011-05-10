@@ -22,12 +22,10 @@
 .mylibrary_information {margin-top:15px;}
 .mylibrary_information_detail {width:70%;}
 .mylibrary_information_fliter {float:right;}
-.mylibrary_title_bar {/*border-bottom:1px solid #DDDDDD; */padding:5px 0 10px;min-height:21px;}
+.mylibrary_title_bar {padding:5px 0 10px;min-height:21px;}
 .mylibrary_check, #mylibrary_check_all {margin-top:4px;}
 .mylibrary_widget{overflow:hidden;}
-/*.mylibrary_item {color:#333;padding:10px 0; border-bottom:1px solid #DDDDDD;}*/
 .mylibrary_item img {float: left;padding: 0 10px 5px 0;width: 40px;}
-/*.mylibrary_name_div {color:#333; width:50%; overflow:hidden;}*/
 .mylibrary_details {font-size:0.9em;}
 .mylibrary_edit {background:url("/dev/images/imanage.png") no-repeat scroll 0 0 transparent;
     height:14px;width:54px;display:inline-block;vertical-align:text-top;}
