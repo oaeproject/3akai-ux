@@ -485,14 +485,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         };
 
-        // Create a group
-
-        $(window).bind("sakai.overlays.createGroup", function(ev){
-            $("#creategroupcontainer").show();
-            // Load the creategroup widget.
-            $(window).trigger("init.creategroup.sakai");
-        });
-
         // Add content
 
         $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {

@@ -18,7 +18,7 @@
  *
  */
 
-define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],function($, sakai_conf) {
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/dev/lib/misc/parseuri.js"],function($, sakai_conf, sakai_serv) {
     var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
@@ -216,23 +216,31 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
         },
 
         addToLibrary: function(contentId, userId, callBack){
-            $.ajax({
-                url: "/p/" + contentId + ".members.json",
-                type: "POST",
-                data: {
-                    ":viewer": userId
-                },
-                success: function () {
-                    if (callBack){
+            var toAdd = [];
+            if (typeof userId === "string"){
+                toAdd.push(userId);
+            } else {
+                toAdd = userId;
+            }
+            var batchRequests = [];
+            for (var i = 0; i < toAdd.length; i++){
+                batchRequests.push({
+                    url: "/p/" + contentId + ".members.json",
+                    parameters: {":viewer": toAdd[i]},
+                    method: "POST"
+                });
+            }
+            sakai_serv.batch(batchRequests, function(success, data) {
+                if (success){
+                    if (callBack) {
                         callBack(contentId, userId);
                     }
-                },
-                error: function (data) {
+                } else {
                     debug.error("sharecontent failed to change content " +
                         "permission to 'viewer' for member: " + userId);
                     debug.error("xhr data returned: " + data);
                 }
-            });
+            }, null, true);
         },
 
         /**
