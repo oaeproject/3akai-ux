@@ -154,13 +154,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 member.basic.elements.picture.name.value) {
                 picsrc = member.basic.elements.picture.name.value;
             }
-            list.push({
-                link: "/~" + member.userid,
-                picsrc: picsrc,
-                displayname: member.basic.elements.firstName.value +
-                    " " + member.basic.elements.lastName.value,
-                manager: is_manager || false
-            });
+            // if this user is already a manager don't re-add
+            if ($.grep(list, function(value, index){return (value.link === "/~" + member.userid);}).length === 0) {
+                list.push({
+                    link: "/~" + member.userid,
+                    picsrc: picsrc,
+                    displayname: member.basic.elements.firstName.value +
+                        " " + member.basic.elements.lastName.value,
+                    manager: is_manager || false
+                });
+            }
         };
 
         var setupTooltip = function (groupid, $item) {
@@ -173,11 +176,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get batch group data for this group
             var batchRequests = [
                 {
-                    url: "/system/userManager/group/" + groupid + ".members.json",
+                    url: "/system/userManager/group/" + groupid + ".managers.json",
                     method: "GET"
                 },
                 {
-                    url: "/system/userManager/group/" + groupid + ".managers.json",
+                    url: "/system/userManager/group/" + groupid + ".members.json",
                     method: "GET"
                 },
                 {
@@ -192,19 +195,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success && data && data.results && data.results.length) {
                     var participants = [];
-                    // members
-                    if (data.results[0].body) {
-                        var members = $.parseJSON(data.results[0].body);
-                        $.each(members, function (i, member) {
-                            push_member_to_list(member, participants);
-                        });
-                    }
                     // managers
-                    if (data.results[1].body) {
+                    if (data.results[0].body) {
                         var managers = $.parseJSON(data.results[1].body);
                         group.managerCount = managers.length;
                         $.each(managers, function (i, manager) {
                             push_member_to_list(manager, participants, true);
+                        });
+                    }
+                    // members
+                    if (data.results[1].body) {
+                        var members = $.parseJSON(data.results[0].body);
+                        $.each(members, function (i, member) {
+                            push_member_to_list(member, participants);
                         });
                     }
                     // join requests
