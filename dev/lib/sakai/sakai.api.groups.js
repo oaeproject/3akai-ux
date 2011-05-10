@@ -746,7 +746,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             $.each(users, function(index, user) {
                 var url = "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json";
                 if (!user.permission){
-                    url = "/system/userManager/group/" + groupID + ".update.json"
+                    url = "/system/userManager/group/" + groupID + ".update.json";
                 }
                 var data = {};
                 if (managerShip){
