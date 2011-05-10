@@ -40,7 +40,7 @@
                         <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${total} content items</span>
                         {if item.featuredcontent}
-                        <hr class="s3d-split-line fl-push">
+                            <hr class="s3d-split-line fl-push">
                             {if item.featuredcontent.image}
                                 <img src="/p/${item.featuredcontent["jcr:name"]}" class="categories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
                             {elseif item.featuredcontent["sakai:custom-mimetype"]}

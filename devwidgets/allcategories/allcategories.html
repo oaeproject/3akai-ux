@@ -16,17 +16,19 @@
                             <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links allcategories_item_header_link s3d-bold">${item.title}</a>
                             <span class="allcategories_item_header_meta">${total} content items</span>
                         </div>
-                        {if item.featuredcontent.image}
-                            <img src="/p/${item.featuredcontent["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                        {elseif item.featuredcontent["sakai:custom-mimetype"]}
-                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
-                        {elseif item.featuredcontent.haspreview}
-                            <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                        {else}
-                            <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                        {if item.featuredcontent}
+                            {if item.featuredcontent.image}
+                                <img src="/p/${item.featuredcontent["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                            {elseif item.featuredcontent["sakai:custom-mimetype"]}
+                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
+                            {elseif item.featuredcontent.haspreview}
+                                <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
+                            {else}
+                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                            {/if}
+                            <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
+                            <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["jcr:sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
                         {/if}
-                        <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                        <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["jcr:sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
                         <hr class="fl-push fl-hidden"/>
                     </div>
                 </li>
