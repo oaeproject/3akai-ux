@@ -193,9 +193,9 @@ define(["jquery",
             $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
                 if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
                     var users = {};
-                    for (i in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
-                            users[reqData.responseId[i]] = $.parseJSON(reqData.responseData[i].body);
+                    for (var j in reqData.responseId) {
+                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
                         }
                     }
                     callback(users);
