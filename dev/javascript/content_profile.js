@@ -474,13 +474,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        $(window).bind("finished.sharecontent.sakai finished.savecontent.sakai", function(e, peopleList){
-            if(!peopleList.mode || peopleList.mode === undefined){
-                peopleList.mode = "viewers";
-            }
-            addRemoveUsers(peopleList.mode, peopleList, 'add');
-        });
-
         $("#entity_content_permissions").live("click", function(){
             var pl_config = {
                 "title": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
