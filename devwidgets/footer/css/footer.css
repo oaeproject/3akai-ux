@@ -17,7 +17,7 @@
  */
 
 /* General */
-.footer_main{color:#fff;margin:0 auto;padding:0 0 10px;width:960px;}
+.footer_main{color:#454A4F;margin:0 auto;padding:0 0 10px;width:960px;}
 .footer_main.footer_index{width:955px;}
 #footer_logo{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -49px -712px transparent;width:61px;height:28px;float:left;margin-right:15px;}
 #footer_logo_button{float:left;}
@@ -27,9 +27,9 @@
 #footer_divider {font-weight:bold;}
 
 /* Fixed Container */
-.footer_main .fixed-container{background:#454A4F;padding:10px 25px;width:910px;}
+.footer_main .fixed-container{background:transparent;padding:10px 0;width:960px;}
 .footer_index .fixed-container{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -641px transparent;}
-.footer_main .fixed-container p{font-size:11px;margin-bottom:0;padding-bottom:0;line-height:1.3em;color:#fff;}
+.footer_main .fixed-container p{font-size:11px;margin-bottom:0;padding-bottom:0;line-height:1.3em;color:#454A4F;}
 .footer_main .fixed-container a{color:#c4e4fb;}
 .footer_main .fixed-container button.back-top{color:#fff;display:block;float:right;font-size:13px;font-weight:bold;padding-right:4px;margin-top:-3px;}
 .footer_main .fixed-container div.back-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -102px -640px transparent;height:13px;width:10px;float:right;cursor:pointer; margin-top:-1px;}
