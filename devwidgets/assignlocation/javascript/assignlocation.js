@@ -207,13 +207,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var initTree = function(){
 
-            $assignlocationContainer.jqm({
-                modal: true,
-                toTop: true,
-                onShow: showContainer,
-                onClose: closeContainer
-            });
-
             // set up new jstree for directory
             var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox"];
             $assignlocationJSTreeContainer.jstree({
