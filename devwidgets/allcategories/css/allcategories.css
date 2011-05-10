@@ -1,0 +1,38 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/* General */
+.allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:192px;height:156px;float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
+.allcategories_widget .allcategories_item:hover {background:#d7eff7;}
+.allcategories_widget .allcategories_item .allcategories_item_header {background:url("/devwidgets/allcategories/images/allcategories_item_header_bg.png") repeat-x scroll left top #2a2a2a;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:8px;margin-bottom:12px;cursor:pointer;}
+.allcategories_widget .allcategories_item .allcategories_item_header:hover {background:url("/devwidgets/allcategories/images/allcategories_item_header_hover_bg.png") repeat-x scroll left top #3572a7;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;}
+
+.allcategories_widget .allcategories_item .s3d-split-line {margin:7px 0 15px;}
+.allcategories_widget #allcategories_items_content {width:824px;}
+.allcategories_widget #allcategories_items_content li {display:inline;width:207px;}
+
+.allcategories_widget .allcategories_item .allcategories_item_header .allcategories_item_raquo {background:url("/devwidgets/allcategories/images/allcategories_item_raquo.png") no-repeat top left transparent;width:15px;height:22px;float:right;}
+
+/* Content Style */
+.allcategories_widget .allcategories_item a.s3d-regular-links {font-size:12px;}
+.allcategories_widget .allcategories_item .allcategories_item_header a.s3d-regular-links {color:#FFF;text-decoration:none;}
+.allcategories_widget .allcategories_item a.allcategories_item_header_link{font-size: 17px;}
+.allcategories_widget .allcategories_item .allcategories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
+.allcategories_widget .allcategories_item .allcategories_item_header_meta {color:#fff;font-size:10px;display:block;}
+.allcategories_widget .allcategories_item .allcategories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}
+.allcategories_widget .allcategories_item .allcategories_item_descriptive_text {color:#424242;font-size:11px;}
