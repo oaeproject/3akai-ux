@@ -27,3 +27,4 @@
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
+.mymemberships_no_memberships {text-decoration:none;}

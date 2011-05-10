@@ -845,7 +845,7 @@ define(function(){
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basicinfo",
+                "url": "/dev/me.html#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
@@ -957,1006 +957,503 @@ define(function(){
         displayDebugInfo: true,
 
         Directory: {
-            "indianauniversity": {
-                title: "Indiana University",
-                description: '<h3><img width="100" height="90" _mce_style="float: right;" style="float: right;" _mce_src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg" src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg"/>Indiana University is the flagship campus of the Indiana University system. It is also referred to as Indiana, or simply IU, and is located in Bloomington, Indiana, United States. The name Indiana University Bloomington is not an official campus name, and is only used for clarity.<br/></h3><p>Indiana University is among the top 100 universities in the world. In 2010, the Academic Ranking of World Universities gave Indiana University a world rank of 90 and a national rank of 50. Time named Indiana University its "2001 College of the Year" among major research universities. Indiana is one of 60 members of the Association of American Universities, the leading American research universities. Additionally, IU has over 110 academic programs ranked in the top twenty nationwide.</p><p>The tenth annual Newsweek-Kaplan College Guide, which appeared in the August 22, 2005 issue of Newsweek magazine, chose IU as its "Hottest Big State School" and extolled the campus&quot;s blend of tradition with emerging technologies.</p><p>In January 2010 Kiplinger&quot;s Personal Finance ranked Bloomington the 28th out of the "100 Best Values in Public Colleges 2009-10".</p><p><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Official Website</a><br/><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Campus Map<br/></a></p>',
-                icon: "http://upload.wikimedia.org/wikipedia/en/2/26/Indiana_U_seal.png",
+            medicineanddentistry: {
+                title: "Medicine and Dentistry",
                 children: {
-                    "universityadministration": {
-                        title: "University Administration",
-                        description: "A description of University Administration",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {
-                            "planningandpolicy": {
-                                title: "Planning and Policy",
-                                description: "A description of Planning and Policy",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "internationalaffairs": {
-                                title: "International Affairs",
-                                description: "A description of International Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "publicaffairsandgovernmentrelations": {
-                                title: "Public Affairs and Government Relations",
-                                description: "A description of Public Affairs and Government Relations",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "economicdevelopmentandengagement": {
-                                title: "Economic Development and Engagement",
-                                description: "A description of Economic Development and Engagement",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "intercollegiateathletics": {
-                                title: "Intercollegiate Athletics",
-                                description: "A description of Intercollegiate Athletics",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "research": {
-                                title: "Research",
-                                description: "A description of Research",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "diversityequityandmulticulturalaffairs": {
-                                title: "Diversity, Equity and Multicultural Affairs",
-                                description: "A description of Diversity, Equity and Multicultural Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            }
-                        }
+                    preclinicalmedicine: {
+                        title: "Pre-clinical Medicine"
                     },
-                    "ipfwfortwayne": {
-                        title: "IPFW Fort Wayne",
-                        description: "A description of IPFW Fort Wayne",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    preclinicaldentistry: {
+                        title: "Pre-clinical Dentistry"
                     },
-                    "iubloomington": {
-                        title: "IU Bloomington",
-                        description: "A description of IU Bloomington",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    clinicalmedicine: {
+                        title: "Clinical Medicine"
                     },
-                    "iueast": {
-                        title: "IU East",
-                        description: "A description of IU East",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    clinicaldentistry: {
+                        title: "Clinical Dentistry"
                     },
-                    "iukokomo": {
-                        title: "IU Kokomo",
-                        description: "A description of IU Kokomo",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    othersinmedicineanddentistry: {
+                        title: "Others in Medicine and Dentistry"
+                    }
+                }
+            },
+            biologicalsciences: {
+                title: "Biological Sciences",
+                children: {
+                    biology: {
+                        title: "Biology"
                     },
-                    "iunorthwest": {
-                        title: "IU Northwest",
-                        description: "A description of IU Northwest",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    botany: {
+                        title: "Botany"
                     },
-                    "iusouthbend": {
-                        title: "IU South Bend",
-                        description: "A description of IU South Bend",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    zoology: {
+                        title: "Zoology"
                     },
-                    "iupusoutheast": {
-                        title: "IU Southeast",
-                        description: "A description of IU Southeast",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    genetics: {
+                        title: "Genetics"
                     },
-                    "iupucolumbus": {
-                        title: "IUPU Columbus",
-                        description: "A description of IUPU Columbus",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    microbiology: {
+                        title: "Microbiology"
                     },
-                    "iupuiindianapolis": {
-                        title: "IUPUI Indianapolis",
-                        description: "A description of IUPUI Indianapolis",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {
-                            "administration": {
-                                title: "Administration",
-                                description: "A description of Administration",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "academicaffairs": {
-                                        title: "Academic Affairs",
-                                        description: "A description of Academic Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "diversityequityandinclusion": {
-                                        title: "Diversity, Equity and Inclusion",
-                                        description: "A description of Diversity, Equity and Inclusion",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "externalaffairs": {
-                                        title: "External Affairs",
-                                        description: "A description of External Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "financeandadministration": {
-                                        title: "Finance and Administration",
-                                        description: "A description of Finance and Administration",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "planningandinstitutionalimprovement": {
-                                        title: "Planning and Institutional Improvement",
-                                        description: "A description of Planning and Institutional Improvement",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "studentlife": {
-                                        title: "Student Life",
-                                        description: "A description of Student Life",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "herronschoolofartanddesign": {
-                                title: "Herron School of Art and Design",
-                                description: "A description of Herron School of Art and Design",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "arteducation": {
-                                        title: "Art Education",
-                                        description: "A description of Art Education",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "arthistory": {
-                                        title: "Art History",
-                                        description: "A description of Art History",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "ceramics": {
-                                        title: "Ceramics",
-                                        description: "A description of Ceramics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "furnituredesign": {
-                                        title: "Furniture Design",
-                                        description: "A description of Furniture Design",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "generalfinearts": {
-                                        title: "General Fine Arts",
-                                        description: "A description of General Fine Arts",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "painting": {
-                                        title: "Painting",
-                                        description: "A description of Painting",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "photography": {
-                                        title: "Photography",
-                                        description: "A description of Photography",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "printmaking": {
-                                        title: "Printmaking",
-                                        description: "A description of Printmaking",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "sculpture": {
-                                        title: "Sculpture",
-                                        description: "A description of Sculpture",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "visualcommunication": {
-                                        title: "Visual Communication",
-                                        description: "A description of Visual Communication",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "kelleyschoolofbusiness": {
-                                title: "Kelley School of Business",
-                                description: "A description of Kelly School of Business",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "accounting": {
-                                        title: "Accounting",
-                                        description: "A description of Accounting",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "businessadministration": {
-                                        title: "Business Administration",
-                                        description: "A description of Business Administration",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerinformationsystems": {
-                                        title: "Computer Information Systems",
-                                        description: "A description of Computer Information Systems",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "finance": {
-                                        title: "Finance",
-                                        description: "A description of Finance",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "humanresourcemanagement": {
-                                        title: "Human Resource Management",
-                                        description: "A description of Human Resource Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "internationalstudies": {
-                                        title: "International Studies",
-                                        description: "A description of Human Resource Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "management": {
-                                        title: "Management",
-                                        description: "A description of Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "marketing": {
-                                        title: "Marketing",
-                                        description: "A description of Marketing",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "supplychainmanagement": {
-                                        title: "Supply Chain Management",
-                                        description: "A description of Supply Chain Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "shoolofcontinuingstudies": {
-                                title: "School of Continuing Studies",
-                                description: "A description of School of Continuing Studies",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "communitylearningnetwork": {
-                                        title: "Community Learning Network",
-                                        description: "A description of Community Learning Network",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "adulteducation": {
-                                        title: "Adult Education",
-                                        description: "A description of Adult Education",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "generalstudies": {
-                                        title: "General Studies",
-                                        description: "A description of General Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "graduateschool": {
-                                title: "Graduate School",
-                                description: "A description of Graduate School",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofdentistry": {
-                                title: "School of Dentistry",
-                                description: "A description of School of Dentistry",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "oralbiology": {
-                                        title: "Community Learning Network",
-                                        description: "A description of Community Learning Network",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "oralpathologymedicineandradiology": {
-                                        title: "Oral Pathology, Medicine & Radiology",
-                                        description: "A description of Oral Pathology, Medicine & Radiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "oralsurgeryandhospitaldentistry": {
-                                        title: "Oral Surgery & Hospital Dentistry",
-                                        description: "A description of Oral Surgery & Hospital Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "orthodonticsandoralfacialgenetics": {
-                                        title: "Orthodontics & Oral Facial Genetics",
-                                        description: "A description of Orthodontics & Oral Facial Genetics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pediatricdentistry": {
-                                        title: "Pediatric Dentistry",
-                                        description: "A description of Pediatric Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "periodonticsandallieddentalprograms": {
-                                        title: "Periodontics & Allied Dental Programs",
-                                        description: "A description of Periodontics & Allied Dental Programs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "preventiveandcommunitydentistry": {
-                                        title: "Preventive & Community Dentistry",
-                                        description: "A description of Preventive & Community Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "restorativedentistry": {
-                                        title: "Restorative Dentistry",
-                                        description: "A description of Restorative Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofeducation": {
-                                title: "School of Education",
-                                description: "A description of School of Education",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "purdueschoolofengineeringandtechnology": {
-                                title: "Purdue School of Engineering and Technology",
-                                description: "A description of Purdue School of Engineering and Technology",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "architecturaltechnology": {
-                                        title: "Architectural Technology",
-                                        description: "A description of Architectural Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biomedicalengineering": {
-                                        title: "Biomedical Engineering",
-                                        description: "A description of Biomedical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biomedicalengineeringtechnology": {
-                                        title: "Biomedical Engineering Technology",
-                                        description: "A description of Biomedical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerengineering": {
-                                        title: "Computer Engineering",
-                                        description: "A description of Computer Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerandinformationtechnology": {
-                                        title: "Computer and Information Technology",
-                                        description: "A description of Computer and Information Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computergraphicstechnology": {
-                                        title: "Computer Graphics Technology",
-                                        description: "A description of Computer Graphics Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "constructionengineeringmanagementtechnology": {
-                                        title: "Construction Engineering Management Technology",
-                                        description: "A description of Construction Engineering Management Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "electricalandcomputerengineering": {
-                                        title: "Electrical and Computer Engineering",
-                                        description: "A description of Electrical and Computer Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "electricalandcomputerengineeringtechnology": {
-                                        title: "Electrical and Computer Engineering Technology",
-                                        description: "A description of Electrical and Computer Engineering Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "interiordesigntechnology": {
-                                        title: "Interior Design Technology",
-                                        description: "A description of Interior Design Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mechanicalengineering": {
-                                        title: "Mechanical Engineering",
-                                        description: "A description of Mechanical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mechanicalengineeringtechnology": {
-                                        title: "Mechanical Engineering Technology",
-                                        description: "A description of Mechanical Engineering Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "motorsportsengineering": {
-                                        title: "Motorsports Engineering",
-                                        description: "A description of Motorsports Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "musicandartstechnology": {
-                                        title: "Music and Arts Technology",
-                                        description: "A description of Music and Arts Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "organizationalleadershipandsupervision": {
-                                        title: "Organizational Leadership and Supervision",
-                                        description: "A description of Organizational Leadership and Supervision",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "technicalcommunications": {
-                                        title: "Technical Communications",
-                                        description: "A description of Technical Communications",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofhealthandrehabilitationsciences": {
-                                title: "School of Health and Rehabilitation Sciences",
-                                description: "A description of School of Health and Rehabilitation Sciences",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "healthsciences": {
-                                        title: "Health Sciences",
-                                        description: "A description of Health Sciences",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "nutritionanddietics": {
-                                        title: "Nutrition & Dietics",
-                                        description: "A description of Nutrition & Dietics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "occupationaltherapy": {
-                                        title: "Occupational Therapy",
-                                        description: "A description of Occupational Therapy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physicaltherapy": {
-                                        title: "Physical Therapy",
-                                        description: "A description of Physical Therapy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "iupuihonorscollege": {
-                                title: "IUPUI Honors College",
-                                description: "A description of IUPUI Honors College",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofinformatics": {
-                                title: "School of Informatics",
-                                description: "A description of School of Informatics",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "bioinformatics": {
-                                        title: "Bioinformatics",
-                                        description: "A description of Bioinformatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthinformatics": {
-                                        title: "Health Informatics",
-                                        description: "A description of Health Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthinformationadministration": {
-                                        title: "Health Information Administration",
-                                        description: "A description of Health Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "humancomputerinteraction": {
-                                        title: "Human Computer Interaction",
-                                        description: "A description of Human Computer Interaction",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "informatics": {
-                                        title: "Informatics",
-                                        description: "A description of Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mediaartsandsciencenewmedia": {
-                                        title: "Media, Arts and Science (New Media)",
-                                        description: "A description of Media, Arts and Science (New Media)",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofjournalism": {
-                                title: "School of Journalism",
-                                description: "A description of School of Journalism",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schooloflaw": {
-                                title: "School of Law",
-                                description: "A description of School of Law",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofliberalarts": {
-                                title: "School of Liberal Arts",
-                                description: "A description of School of Liberal Arts",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "africanstudies": {
-                                        title: "African Studies",
-                                        description: "A description of African Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "americansignlanguage": {
-                                        title: "American Sign Language",
-                                        description: "A description of American Sign Language",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "anthropology": {
-                                        title: "Anthropology",
-                                        description: "A description of Anthropology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "chinese": {
-                                        title: "Chinese",
-                                        description: "A description of Chinese",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "classicalstudies": {
-                                        title: "Classical Studies",
-                                        description: "A description of Classical Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "communicationstudies": {
-                                        title: "Communication Studies",
-                                        description: "A description of Communication Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "economics": {
-                                        title: "Economics",
-                                        description: "A description of Economics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "english": {
-                                        title: "English",
-                                        description: "A description of English",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "french": {
-                                        title: "French",
-                                        description: "A description of French",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "geography": {
-                                        title: "Geography",
-                                        description: "A description of Geography",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "german": {
-                                        title: "German",
-                                        description: "A description of German",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "history": {
-                                        title: "History",
-                                        description: "A description of History",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "japanese": {
-                                        title: "Japanese",
-                                        description: "A description of Japanese",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalhumanities": {
-                                        title: "Medical Humanities",
-                                        description: "A description of Medical Humanities",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "museumstudies": {
-                                        title: "Museum Studies",
-                                        description: "A description of Museum Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "philanthropicstudies": {
-                                        title: "Philanthropic Studies",
-                                        description: "A description of Philanthropic Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "philosophy": {
-                                        title: "Philosophy",
-                                        description: "A description of Philosophy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "politicalscience": {
-                                        title: "Political Science",
-                                        description: "A description of Political Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "religiousstudies": {
-                                        title: "Religious Studies",
-                                        description: "A description of Religious Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "sociology": {
-                                        title: "Sociology",
-                                        description: "A description of Sociology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "spanish": {
-                                        title: "Spanish",
-                                        description: "A description of Spanish",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "womensstudies": {
-                                        title: "Women's Studies",
-                                        description: "A description of Women's Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "worldlanguagesandcultures": {
-                                        title: "World Languages and Cultures",
-                                        description: "A description of World Languages and Cultures",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofmedicine": {
-                                title: "School of Medicine",
-                                description: "A description of School of Medicine",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "anatomy": {
-                                        title: "Anatomy",
-                                        description: "A description of Anatomy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "anesthesia": {
-                                        title: "Anesthesia",
-                                        description: "A description of Anesthesia",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biochemistryandmolecularbiology": {
-                                        title: "Biochemistry and Molecular Biology",
-                                        description: "A description of Biochemistry and Molecular Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "cellularandintegrativephysiology": {
-                                        title: "Cellular and Integrative Physiology",
-                                        description: "A description of Cellular and Integrative Physiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "dermatology": {
-                                        title: "Dermatology",
-                                        description: "A description of Dermatology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "emergencymedicine": {
-                                        title: "Emergency Medicine",
-                                        description: "A description of Emergency Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "familymedicine": {
-                                        title: "Family Medicine",
-                                        description: "A description of Family Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthprofessionsprograms": {
-                                        title: "Health Professions Programs",
-                                        description: "A description of Health Professions Programs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalandmoleculargenetics": {
-                                        title: "Medical and Molecular Genetics",
-                                        description: "A description of Medical and Molecular Genetics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalneuroscience": {
-                                        title: "Medical Neuroscience",
-                                        description: "A description of Medical Neuroscience",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "departmentofmedicine": {
-                                        title: "Department of Medicine",
-                                        description: "A description of Department of Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "microbiologyandimmunology": {
-                                        title: "Microbiology and Immunology",
-                                        description: "A description of Microbiology and Immunology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "neurology": {
-                                        title: "Neurology",
-                                        description: "A description of Neurology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "obstetricsandgynecology": {
-                                        title: "Obstetrics & Gynecology",
-                                        description: "A description of Obstetrics & Gynecology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "ophthalmology": {
-                                        title: "Ophthalmology",
-                                        description: "A description of Ophthalmology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "orthopaedicsurgery": {
-                                        title: "Orthopaedic Surgery",
-                                        description: "A description of Orthopaedic Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "otolaryngologyheadandnecksurgery": {
-                                        title: "Otolaryngology - Head and Neck Surgery",
-                                        description: "A description of Otolaryngology - Head and Neck Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pathology": {
-                                        title: "Pathology",
-                                        description: "A description of Pathology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pediatrics": {
-                                        title: "Pediatrics",
-                                        description: "A description of Pediatrics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pharmacologyandtoxicology": {
-                                        title: "Pharmacology and Toxicology",
-                                        description: "A description of Pharmacology and Toxicology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physicalmedicineandrehabilitation": {
-                                        title: "Physical Medicine & Rehabilitation",
-                                        description: "A description of Physical Medicine & Rehabilitation",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "psychiatry": {
-                                        title: "Psychiatry",
-                                        description: "A description of Psychiatry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publichealth": {
-                                        title: "Public Health",
-                                        description: "A description of Public Health",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "radiationoncology": {
-                                        title: "Radiation Oncology",
-                                        description: "A description of Radiation Oncology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "radiology": {
-                                        title: "Radiology",
-                                        description: "A description of Radiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "surgery": {
-                                        title: "Surgery",
-                                        description: "A description of Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "urology": {
-                                        title: "Urology",
-                                        description: "A description of Urology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofpublicandenvironmentalaffairs": {
-                                title: "School of Public and Environmental Affairs",
-                                description: "A description of School of Public and Environmental Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "civicleadership": {
-                                        title: "Civic Leadership",
-                                        description: "A description of Civic Leadership",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "criminaljustice": {
-                                        title: "Criminal Justice",
-                                        description: "A description of Criminal Justice",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "management": {
-                                        title: "Management",
-                                        description: "A description of Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "nonprofitmanagement": {
-                                        title: "Nonprofit Management",
-                                        description: "A description of Nonprofit Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "policystudies": {
-                                        title: "Policy Studies",
-                                        description: "A description of Policy Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publicaffairs": {
-                                        title: "Public Affairs",
-                                        description: "A description of Public Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publicsafetymanagement": {
-                                        title: "Public Safety Management",
-                                        description: "A description of Public Safety Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "purdueschoolofscience": {
-                                title: "Purdue School of Science",
-                                description: "A description of School of Purdue School of Science",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "biology": {
-                                        title: "Biology",
-                                        description: "A description of Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "chemistryandchemicalbiology": {
-                                        title: "Chemistry and Chemical Biology",
-                                        description: "A description of Chemistry and Chemical Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerandinformationscience": {
-                                        title: "Computer and Information Science",
-                                        description: "A description of Computer and Information Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "earthsciencesformerlygeology": {
-                                        title: "Earth Sciences (formerly Geology)",
-                                        description: "A description of Earth Sciences (formerly Geology)",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "forensicandinvestigativescience": {
-                                        title: "Forensic & Investigative Science",
-                                        description: "A description of Forensic & Investigative Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mathematicalsciences": {
-                                        title: "Mathematical Sciences",
-                                        description: "A description of Mathematical Sciences",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physics": {
-                                        title: "Physics",
-                                        description: "A description of Physics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "psychology": {
-                                        title: "Psychology",
-                                        description: "A description of Psychology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofsocialwork": {
-                                title: "School of Social Work",
-                                description: "A description of School of Social Work",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "iupuiuniversitycollege": {
-                                title: "IUPUI University College",
-                                description: "A description of IUPUI University College",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            }
-                        }
+                    sportsscience: {
+                        title: "Sports Science"
+                    },
+                    molecularbiologybiophysicsandbiochemistry: {
+                        title: "Molecular Biology, Biophysics and Biochemistry"
+                    },
+                    psychology: {
+                        title: "Psychology"
+                    },
+                    othersinbiologicalsciences: {
+                        title: "Others in Biological Sciences"
+                    }
+                }
+            },
+            veterinarysciencesagriculture: {
+                title: "Veterinary Sciences and Agriculture",
+                children: {
+                    preclinicalveterinarymedicine: {
+                        title: "Pre-clinical Veterinary Medicine"
+                    },
+                    clinicalveterinarymedicineanddentistry: {
+                        title: "Clinical Veterinary Medicine and Dentistry"
+                    },
+                    animalscience: {
+                        title: "Animal Science"
+                    },
+                    agriculture: {
+                        title: "Agriculture"
+                    },
+                    forestry: {
+                        title: "Forestry"
+                    },
+                    foodandbeveragestudies: {
+                        title: "Food and Beverage studies"
+                    },
+                    agriculturalsciences: {
+                        title: "Agricultural Sciences"
+                    },
+                    others: {
+                        title: "Others in Veterinary Sciences and Agriculture"
+                    }
+                }
+            },
+            physicalsciences: {
+                title: "Physical Sciences",
+                children: {
+                    chemistry: {
+                        title: "Chemistry"
+                    },
+                    materialsscience: {
+                        title: "Materials Science"
+                    },
+                    physics: {
+                        title: "Physics"
+                    },
+                    forensicandarchaeologicalscience: {
+                        title: "Forensic and Archaeological Science"
+                    },
+                    astronomy: {
+                        title: "Astronomy"
+                    },
+                    geology: {
+                        title: "Geology"
+                    },
+                    oceansciences: {
+                        title: "Ocean Sciences"
+                    },
+                    others: {
+                        title: "Others in Physical Sciences"
+                    }
+                }
+            },
+            mathematicalandcomputersciences: {
+                title: "Mathematical and Computer Sciences",
+                children: {
+                    mathematics: {
+                        title: "Mathematics"
+                    },
+                    operationalresearch: {
+                        title: "Operational Research"
+                    },
+                    statistics: {
+                        title: "Statistics"
+                    },
+                    computerscience: {
+                        title: "Computer Science"
+                    },
+                    informationsystems: {
+                        title: "Information Systems"
+                    },
+                    softwareengineering: {
+                        title: "Software Engineering"
+                    },
+                    artificialintelligence: {
+                        title: "Artificial Intelligence"
+                    },
+                    others: {
+                        title: "Others in Mathematical and Computing Sciences"
+                    }
+                }
+            },
+            engineering: {
+                title: "Engineering",
+                children: {
+                    generalengineering: {
+                        title: "General Engineering"
+                    },
+                    civilengineering: {
+                        title: "Civil Engineering"
+                    },
+                    mechanicalengineering: {
+                        title: "Mechanical Engineering"
+                    },
+                    aerospaceengineering: {
+                        title: "Aerospace Engineering"
+                    },
+                    navalarchitecture: {
+                        title: "Naval Architecture"
+                    },
+                    electronicandelectricalengineering: {
+                        title: "Electronic and Electrical Engineering"
+                    },
+                    productionandmanufacturingengineering: {
+                        title: "Production and Manufacturing Engineering"
+                    },
+                    chemicalprocessandenergyengineering: {
+                        title: "Chemical, Process and Energy Engineering"
+                    },
+                    others: {
+                        title: "Others in Engineering"
+                    }
+                }
+            },
+            technologies: {
+                title: "Technologies",
+                children: {
+                    mineralstechnology: {
+                        title: "Minerals Technology"
+                    },
+                    metallurgy: {
+                        title: "Metallurgy"
+                    },
+                    ceramicsandglasses: {
+                        title: "Ceramics and Glasses"
+                    },
+                    polymersandtextiles: {
+                        title: "Polymers and Textiles"
+                    },
+                    materialstechnologynototherwisespecified: {
+                        title: "Materials Technology not otherwise specified"
+                    },
+                    maritimetechnology: {
+                        title: "Maritime Technology"
+                    },
+                    industrialbiotechnology: {
+                        title: "Industrial Biotechnology"
+                    },
+                    others: {
+                        title: "Others in Technology"
+                    }
+                }
+            },
+            architecturebuildingandplanning: {
+                title: "Architecture, Building and Planning",
+                children: {
+                    architecture: {
+                        title: "Architecture"
+                    },
+                    building: {
+                        title: "Building"
+                    },
+                    landscapedesign: {
+                        title: "Landscape Design"
+                    },
+                    planning: {
+                        title: "Planning (Urban, Rural and Regional)"
+                    },
+                    others: {
+                        title: "Others in Architecture, Building and Planning"
+                    }
+                }
+            },
+            socialstudies: {
+                title: "Social studies",
+                children: {
+                    economics: {
+                        title: "Economics"
+                    },
+                    politics: {
+                        title: "Politics"
+                    },
+                    sociology: {
+                        title: "Sociology"
+                    },
+                    socialpolicy: {
+                        title: "Social Policy"
+                    },
+                    socialwork: {
+                        title: "Social Work"
+                    },
+                    anthropology: {
+                        title: "Anthropology"
+                    },
+                    humanandsocialgeography: {
+                        title: "Human and Social Geography"
+                    },
+                    others: {
+                        title: "Others in Social studies"
+                    }
+                }
+            },
+            law: {
+                title: "Law",
+                children: {
+                    publiclaw: {
+                        title: "Public Law"
+                    },
+                    privatelaw: {
+                        title: "Private Law"
+                    },
+                    jurisprudence: {
+                        title: "Jurisprudence"
+                    },
+                    legalpractice: {
+                        title: "Legal Practice"
+                    },
+                    medicallaw: {
+                        title: "Medical Law"
+                    },
+                    othersinlaw: {
+                        title: "Others in law"
+                    }
+                }
+            },
+            businessandadministrativestudies: {
+                title: "Business and Administrative studies",
+                children: {
+                    businessstudies: {
+                        title: "Business studies"
+                    },
+                    managementstudies: {
+                        title: "Management studies"
+                    },
+                    finance: {
+                        title: "Finance"
+                    },
+                    accounting: {
+                        title: "Accounting"
+                    },
+                    marketing: {
+                        title: "Marketing"
+                    },
+                    humanresourcemanagement: {
+                        title: "Human Resource Management"
+                    },
+                    officeskills: {
+                        title: "Office skills"
+                    },
+                    tourismtransportandtravel: {
+                        title: "Tourism, Transport and Travel"
+                    },
+                    others: {
+                        title: "Others in Business and Administrative studies"
+                    }
+                }
+            },
+            masscommunicationsanddocumentation: {
+                title: "Mass Communications and Documentation",
+                children: {
+                    informationservices: {
+                        title: "Information Services"
+                    },
+                    publicitystudies: {
+                        title: "Publicity studies"
+                    },
+                    mediastudies: {
+                        title: "Media studies"
+                    },
+                    publishing: {
+                        title: "Publishing"
+                    },
+                    journalism: {
+                        title: "Journalism"
+                    },
+                    others: {
+                        title: "Others in Mass Communications and Documentation"
+                    }
+                }
+            },
+            linguisticsclassicsandrelatedsubjects: {
+                title: "Linguistics, Classics and related subjects",
+                children: {
+                    linguistics: {
+                        title: "Linguistics"
+                    },
+                    comparativeliterarystudies: {
+                        title: "Comparative Literary studies"
+                    },
+                    englishstudies: {
+                        title: "English studies"
+                    },
+                    ancientlanguagestudies: {
+                        title: "Ancient Language studies"
+                    },
+                    celticstudies: {
+                        title: "Celtic studies"
+                    },
+                    latinstudies: {
+                        title: "Latin studies"
+                    },
+                    classicalgreekstudies: {
+                        title: "Classical Greek studies"
+                    },
+                    classicalstudies: {
+                        title: "Classical studies"
+                    },
+                    others: {
+                        title: "Others in Linguistics, Classics and related subjects"
+                    }
+                }
+            },
+            europeanlanguagesliteratureandrelatedsubjects: {
+                title: "European Languages, Literature and related subjects",
+                children: {
+                    frenchstudies: {
+                        title: "French studies"
+                    },
+                    germanstudies: {
+                        title: "German studies"
+                    },
+                    italianstudies: {
+                        title: "Italian studies"
+                    },
+                    spanishstudies: {
+                        title: "Spanish studies"
+                    },
+                    portuguesestudies: {
+                        title: "Portuguese studies"
+                    },
+                    scandinavianstudies: {
+                        title: "Scandinavian studies"
+                    },
+                    russianandeasteuropeanstudies: {
+                        title: "Russian and East European studies"
+                    },
+                    others: {
+                        title: "Others in European Languages, Literature and related subjects"
+                    }
+                }
+            },
+            easiaticlanguagesliterature: {
+                title: "Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects",
+                children: {
+                    chinesestudies: {
+                        title: "Chinese studies"
+                    },
+                    japanesestudies: {
+                        title: "Japanese studies"
+                    },
+                    southasianstudies: {
+                        title: "South Asian studies"
+                    },
+                    otherasianstudies: {
+                        title: "Other Asian studies"
+                    },
+                    africanstudies: {
+                        title: "African studies"
+                    },
+                    modernmiddleeasternstudies: {
+                        title: "Modern Middle Eastern studies"
+                    },
+                    americanstudies: {
+                        title: "American studies"
+                    },
+                    australasianstudies: {
+                        title: "Australasian studies"
+                    },
+                    others: {
+                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
+                    }
+                }
+            },
+            historicalandphilosophicalstudies: {
+                title: "Historical and Philosophical studies",
+                children: {
+                    historybyperiod: {
+                        title: "History by period"
+                    },
+                    historybyarea: {
+                        title: "History by area"
+                    },
+                    historybytopic: {
+                        title: "History by topic"
+                    },
+                    archaeology: {
+                        title: "Archaeology"
+                    },
+                    philosophy: {
+                        title: "Philosophy"
+                    },
+                    theologyandreligiousstudies: {
+                        title: "Theology and Religious studies"
+                    },
+                    others: {
+                        title: "Others in Historical and Philosophical studies"
+                    }
+                }
+            },
+            creativeartsanddesign: {
+                title: "Creative Arts and Design",
+                children: {
+                    fineart: {
+                        title: "Fine Art"
+                    },
+                    designstudies: {
+                        title: "Design studies"
+                    },
+                    music: {
+                        title: "Music"
+                    },
+                    drama: {
+                        title: "Drama"
+                    },
+                    dance: {
+                        title: "Dance"
+                    },
+                    cinematicsandphotography: {
+                        title: "Cinematics and Photography"
+                    },
+                    crafts: {
+                        title: "Crafts"
+                    },
+                    imaginativewriting: {
+                        title: "Imaginative Writing"
+                    },
+                    others: {
+                        title: "Others in Creative Arts and Design"
+                    }
+                }
+            },
+            education: {
+                title: "Education",
+                children: {
+                    trainingteachers: {
+                        title: "Training Teachers"
+                    },
+                    researchandstudyskillsineducation: {
+                        title: "Research and Study Skills in Education"
+                    },
+                    academicstudiesineducation: {
+                        title: "Academic studies in Education"
+                    },
+                    othersineducation: {
+                        title: "Others in Education"
                     }
                 }
             }
         },
+
         // Array of css files to load in each page
         skinCSS: [],
 
@@ -2213,8 +1710,8 @@ define(function(){
                                 allowManage: true
                             }
                         ],
-                        joinRole: "student",
-                        creatorRole: "lecturer"
+                        joinRole: "member",
+                        creatorRole: "manager"
                     }
                 ]
             },

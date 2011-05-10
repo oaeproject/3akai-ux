@@ -68,7 +68,7 @@
 
         ${fields}
         {if mode === "edit"}
-        <button type="button" class="s3d-button s3d-button-primary profile-section-save-button">
+        <button type="submit" class="s3d-button s3d-button-primary profile-section-save-button">
             <span class="s3d-button-inner">__MSG__UPDATE__</span>
         </button>
         {/if}
@@ -137,11 +137,7 @@
                     {else}
                         <span
                     {/if}
-                        class="profilesection_generalinfo_content
-                        {if config.required} required{/if}
-                        {if config.validation} ${config.validation}
-                        {elseif config.type} ${config.type}
-                        {/if}"
+                        class="profilesection_generalinfo_content{if config.required} required{/if}{if config.validation} ${config.validation}{elseif config.type} ${config.type}{/if}"
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         {if config.type === "date" || config.type === "oldDate"}
                             value="{if data.value}${sakai.api.l10n.transformDate(new Date(data.value))}{/if}"
