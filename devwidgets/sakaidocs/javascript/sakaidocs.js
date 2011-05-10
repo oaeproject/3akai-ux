@@ -20,6 +20,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.sakaidocs = function (tuid, showSettings) {
 
+        var AUTOSAVE_INTERVAL = 15000;
+
+        var isEditingPage = false,
+            autosaveInterval = false,
+            lastAutosave = "";
+
+        var $rootel = $("#"+tuid);
+
         /**
          * Edit button
          */
@@ -28,66 +36,104 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var editPage = function(){
-            isEditingNewPage = false;
-            $("#sakaidocs_editmode").show();
-            $("#s3d-page-main-content").hide();
+            isEditingPage = true;
+            setAutosaveInterval();
+            $("#sakaidocs_editmode", $rootel).show();
+            $("#s3d-page-main-content", $rootel).hide();
             var content = sakai_global.lhnavigation.currentPageShown.content || "";
             tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+            lastAutosave = content;
+            checkAutosave();
         };
 
         $(window).bind("editPage.sakaidocs.sakai", editPage);
 
+        var setAutosaveInterval = function() {
+            autosaveInterval = setInterval(autosave, AUTOSAVE_INTERVAL);
+        };
+
+        $("#autosave_revert").live("click", function() {
+            if ($rootel.is(":visible")) {
+                tinyMCE.get("elm1").setContent(sakai_global.lhnavigation.currentPageShown.autosave.page, {format : 'raw'});
+                $('#autosave_dialog').jqmHide();
+            }
+        });
+
+        var checkAutosave = function() {
+            var currentPage = sakai_global.lhnavigation.currentPageShown;
+            debug.log(currentPage.autosave._lastModified, currentPage._lastModified, currentPage.autosave._lastModified > currentPage._lastModified);
+            if (currentPage && currentPage.autosave && currentPage.autosave._lastModified > currentPage._lastModified) {
+                $('#autosave_dialog').jqmShow();
+            }
+        };
+
+        var autosave = function() {
+            if (isEditingPage) {
+                // autosave
+                var autosaveContent = getTinyMCEContent(),
+                    autosavePostContent = {};
+
+                autosavePostContent[sakai_global.lhnavigation.currentPageShown.ref] = {};
+                if (autosaveContent !== sakai_global.lhnavigation.currentPageShown.content && autosaveContent !== lastAutosave) {
+                    lastAutosave = autosaveContent;
+                    // cache it locally so we don't have to re-retrieve it in order to use it
+                    sakai_global.lhnavigation.currentPageShown.autosave = {
+                        page: autosaveContent,
+                        _lastModified: sakai.api.Util.Datetime.toGMT(new Date()).getTime()
+                    };
+                    autosavePostContent[sakai_global.lhnavigation.currentPageShown.ref].autosave = {
+                        page: autosaveContent
+                    };
+                    sakai.api.Server.saveJSON(sakai_global.lhnavigation.currentPageShown.savePath + ".resource", autosavePostContent);
+                }
+            } else {
+                clearInterval(autosaveInterval);
+                lastAutosave = "";
+            }
+        };
+
         /**
          * Cancel button
          */
-        $("#sakaidocs_edit_cancel_button").live("click", function(){
+        $("#sakaidocs_edit_cancel_button", $rootel).live("click", function(){
             cancelEditPage();
         });
 
         var cancelEditPage = function(){
-            $("#sakaidocs_editmode").hide();
+            isEditingPage = false;
+            $("#sakaidocs_editmode", $rootel).hide();
             $("#context_menu").hide();
-            $("#s3d-page-main-content").show();
+            $("#s3d-page-main-content", $rootel).show();
         };
 
         /**
          * Save button
          */
-        $("#sakaidocs_edit_save_button").live("click", function(){
+        $("#sakaidocs_edit_save_button", $rootel).live("click", function(){
             savePage();
         });
 
         var savePage = function(){
+            isEditingPage = false;
             $("#context_menu").hide();
             sakai_global.lhnavigation.currentPageShown.content = getTinyMCEContent();
             $(window).trigger("savePage.lhnavigation.sakai");
-            $("#sakaidocs_editmode").hide();
-            $("#s3d-page-main-content").show();
+            $("#sakaidocs_editmode", $rootel).hide();
+            $("#s3d-page-main-content", $rootel).show();
 
             //Store the edited content
             var toStore = {};
             toStore[sakai_global.lhnavigation.currentPageShown.ref] = {
-                "page": sakai_global.lhnavigation.currentPageShown.content
+                page: sakai_global.lhnavigation.currentPageShown.content
             };
-            $.ajax({
-                url: sakai_global.lhnavigation.currentPageShown.savePath + ".resource",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8",
-                    ":content": $.toJSON(toStore)
-                }
-            });
+            sakai.api.Server.saveJSON(sakai_global.lhnavigation.currentPageShown.savePath + ".resource", toStore);
         };
 
         /**
          * Add a page to the document
          */
-        $("#sakaidocs_addpage").live("click", function(ev){
+        $("#sakaidocs_addpage", $rootel).live("click", function(ev){
+            cancelEditPage();
             $(window).trigger("addPage.lhnavigation.sakai");
         });
 
@@ -152,12 +198,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         // add bindings
-        $("#sakaidocs_insert_dropdown_button").live("click", function(){
+        $("#sakaidocs_insert_dropdown_button", $rootel).live("click", function(){
             // hide dropdown
             showHideInsertDropdown();
         });
 
-        $(".insert_dropdown_widget_link").live("click", function(){
+        $(".insert_dropdown_widget_link", $rootel).live("click", function(){
             // hide dropdown
             showHideInsertDropdown(true);
 
@@ -182,15 +228,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Shows or hides the insert dropdown menu
          */
         var showHideInsertDropdown = function(hideOnly){
-            var el = $("#sakaidocs_insert_dropdown");
+            var el = $("#sakaidocs_insert_dropdown", $rootel);
             if (el) {
                 if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
-                    $("#sakaidocs_insert_dropdown_button").removeClass("clicked");
+                    $("#sakaidocs_insert_dropdown_button", $rootel).removeClass("clicked");
                     el.hide();
                 } else if (el.css("display")) {
-                    $("#sakaidocs_insert_dropdown_button").addClass("clicked");
-                    var x = $("#sakaidocs_insert_dropdown_button").position().left;
-                    var y = $("#sakaidocs_insert_dropdown_button").position().top;
+                    $("#sakaidocs_insert_dropdown_button", $rootel).addClass("clicked");
+                    var x = $("#sakaidocs_insert_dropdown_button", $rootel).position().left;
+                    var y = $("#sakaidocs_insert_dropdown_button", $rootel).position().top;
                     el.css({
                         "top": y + 28 + "px",
                         "left": x + "px"
@@ -207,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return void
          */
         var renderSelectedWidget = function(widgetid) {
-            var $dialog_content = $("#dialog_content");
+            var $dialog_content = $("#dialog_content", $rootel);
             var widgetSettingsWidth = 650;
             $dialog_content.hide();
             if (sakai.widgets[widgetid]){
@@ -218,7 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "uid": id
                 };
                 $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
-                $("#dialog_title").html(sakai.widgets[widgetid].name);
+                $("#dialog_title", $rootel).html(sakai.widgets[widgetid].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid,true,sakai_global.lhnavigation.currentPageShown.savePath + "/");
                 if (sakai.widgets[widgetid].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
@@ -383,15 +429,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var initSakaiDocs = function(){
             // TODO trigger event in lhnav
-            $("#sakaidocs-page-action-bar").html($("#sakaidocs_buttonbar").show()).show();
-            $("#sakaidocs-page-edit-mode").html($("#sakaidocs_editmode"));
+            $("#sakaidocs-page-action-bar", $rootel).html($("#sakaidocs_buttonbar", $rootel).show()).show();
+            $("#sakaidocs-page-edit-mode", $rootel).html($("#sakaidocs_editmode", $rootel));
             init_tinyMCE();
             renderInsertDropdown("sakaidocs");
         };
 
         var hideSakaiDocs = function(){
-            $("#sakaidocs-page-action-bar").html($("#sakaidocs_buttonbar").hide()).hide();
-            $("#lhnavigation_actions").hide();
+            $("#sakaidocs-page-action-bar", $rootel).html($("#sakaidocs_buttonbar", $rootel).hide()).hide();
+            $("#lhnavigation_actions", $rootel).hide();
         };
 
         //////////////////
@@ -560,7 +606,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             $(window).trigger("ready.sakaidocs.sakai");
-
+            $('#autosave_dialog').jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true
+            });
         };
         doInit();
     };

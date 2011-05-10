@@ -252,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 finishProcessDave(structure, data, callback);
             });
-        }
+        };
         
         var finishProcessDave = function(structure, data, callback){
             // Include the childcounts for the pages
@@ -264,7 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             debug.log(structure);
             callback(structure);
-        }
+        };
 
         var processData = function(data, callback){
             var structure = {};
@@ -278,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // Get a list of all Sakai Docs that have to be "added"
                 var pids = collectPoolIds(structure.items, []);
-                if (pids.length == 0){
+                if (pids.length === 0){
                     finishProcessDave(structure, data, callback);
                 } else {
                     continueProcessData(structure, data, pids, callback);
@@ -343,26 +343,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai_global.lhnavigation.currentPageShown = {
                 "ref": ref,
                 "path": path,
-                "content": content,
                 "savePath": savePath
             };
+            sakai_global.lhnavigation.currentPageShown.content = content ? content.page : "";
+            sakai_global.lhnavigation.currentPageShown._lastModified = content ? content._lastModified : null;
+            sakai_global.lhnavigation.currentPageShown.autosave = content && content.autosave ? content.autosave : null;
             $(window).trigger("changePage.lhnavigation.sakai", sakai_global.lhnavigation.currentPageShown);
             if ($("#s3d-page-main-content #" + ref).length > 0){
                 if (reload){
-                    createPageToShow(ref, path, content, savePath);
+                    createPageToShow(ref, path, content.page, savePath);
                 }
                 $("#s3d-page-main-content #" + ref).show();
                 sakai.api.Widgets.nofityWidgetShown("#"+ref, true);
             } else {
-                createPageToShow(ref, path, content, savePath);
+                createPageToShow(ref, path, content.page, savePath);
             }
         };
 
         var getPageContent = function(ref){
             if (privstructure.pages[ref]) {
-                return privstructure.pages[ref].page;
+                return privstructure.pages[ref];
             } else if (pubstructure.pages[ref]){
-                return pubstructure.pages[ref].page;
+                return pubstructure.pages[ref];
             } else {
                 return false;
             }
@@ -495,8 +497,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var savePage = function() {
             if (pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
                 pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
+                // Manually set _lastModified so autoSave has a reference while the page is still active
+                pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]._lastModified = sakai.api.Util.Datetime.toGMT(new Date()).getTime();
             } else if (privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
                 privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
+                privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]._lastModified = sakai.api.Util.Datetime.toGMT(new Date()).getTime();
             }
             renderPage(sakai_global.lhnavigation.currentPageShown.ref, sakai_global.lhnavigation.currentPageShown.path, sakai_global.lhnavigation.currentPageShown.savePath, true);
             if (isEditingNewPage){
