@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.explore.css" />
+    </head>
+    <body class="fl-centered explore i18nable">
+        <!-- HEADER -->
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_institutionalskinning" class="widget_inline"></div>
+                    <div id="explore_navigation">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fl-fix fl-centered fixed-container s3d-main-container">
+            <div class="s3d-page-column-left">
+                <div id="widget_lhnavigation" class="widget_inline"></div>
+            </div>
+            <div class="s3d-page-column-right">
+                <div id="explore_content_second_column">
+                </div>
+                <div id="explore_content_first_column">
+                    <div class="s3d-contentpage-title"><!----></div>
+                    <div id="widget_featuredcontent" class="widget_inline"></div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
+
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
+        <script>require(["/dev/javascript/category.js"]);</script>
+    </body>
+</html>

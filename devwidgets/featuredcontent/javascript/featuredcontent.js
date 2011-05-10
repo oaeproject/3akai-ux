@@ -35,15 +35,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Templates
         var featuredcontentContentTemplate = "featuredcontent_content_template";
 
+        var $featuredcontentWidget = $(".featuredcontent_widget");
+
         var largeEnough = false;
 
         var featuredContentArr = [];
 
         var renderFeaturedContent = function(data){
-            $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
-                "data": data,
-                "sakai": sakai
-            }));
+            if (!data[0].hasPreview && sakai_global.category) {
+                $featuredcontentWidget.hide();
+            } else {
+                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
+                    "data": data,
+                    "sakai": sakai
+                }));
+                $featuredcontentWidget.show();
+            }
         };
 
         var parseFeaturedContent = function(success, data){
@@ -87,6 +94,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
 
                 if (!largeEnough) {
+                    if(!candidate && data.results.length){
+                        data.results[0].mode = "large";
+                        data.results[0].hasPreview = sakai.api.Content.hasPreview(data.results[0]);
+                        if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
+                            data.results[0].image = true;
+                        }
+                        if (data.results[0]["sakai:tags"]) {
+                            data.results[0]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[0]["sakai:tags"].toString());
+                        }
+                        candidate = data.results[0];
+                    }
                     featuredContentArr.push(candidate);
                     data.results.splice(i, 1);
                 }
@@ -124,12 +142,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var getFeaturedContent = function(){
+            var items = 10;
+            if(sakai_global.category){
+                items = 1;
+            }
             sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseFeaturedContent, {
                 page: 0,
-                items: 10,
+                items: items,
                 sortOn: "_lastModified",
                 sortOrder: "desc",
-                q: "*"
             });
         };
 
