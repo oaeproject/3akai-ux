@@ -144,9 +144,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         return false;
                     });
-                    
+
                     $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
-                    
+
                     $("#entity_comments_link").live("click", function(){
                         $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#comments_mainContainer").offset().top}, 500 );
                         $("#comments_txtMessage").focus();
@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
             }
        };
-    
+
         var renderEntity = function(context){
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
@@ -187,40 +187,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 toTop: true,
                 zIndex: 3000
             });
-            
+
             $('#entity_groupsettings_dropdown').jqm({
                 modal: false,
                 overlay: 1,
                 toTop: true,
                 zIndex: 3000
             });
-            
+
             $('#entity_content_permissions').click(function(){
                 var $this = $(this);
                 $('#entity_contentsettings_dropdown')
                 .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
                 .jqmShow();
             });
-            
+
             $("#entity_group_permissions").click(function(){
                 var $this = $(this);
                 $('#entity_groupsettings_dropdown')
                 .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
                 .jqmShow();
             });
-            
+
             $('#ew_permissions>a').click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.contentpermissions.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
-            
+
             $('#ew_upload>a').click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.fileupload.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();
-            });         
-        
+            });
+
         });
 
         $(window).bind("ready.contentpreview.sakai", function(){
@@ -241,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
         });
-        
+
         $(window).trigger("sakai.entity.ready");
 
     };

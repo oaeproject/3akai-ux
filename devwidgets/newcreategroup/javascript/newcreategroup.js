@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         });
     };
-    
+
     var replaceTemplateParameters = function(variables, groupid, currentTemplate, callback){
         for (var variable in variables){
             for (var doc in currentTemplate.docs){
@@ -185,7 +185,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
         callback(groupid, currentTemplate);
     };
-    
+
     var loopAndReplace = function(structure, variable, replace){
         for (var i in structure){
             if (structure.hasOwnProperty(i)){
@@ -381,7 +381,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     $(window).bind("sakai.newcreategroup.init", function(){
         doInit();
     });
-    
+
     $newcreategroupCancelCreateButton.bind("click", function(){
         $.bbq.pushState({"_r": Math.random()});
     });
