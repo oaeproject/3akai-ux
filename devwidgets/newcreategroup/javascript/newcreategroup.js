@@ -93,8 +93,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Checking for tags, permissions and members before redirecting.
      */
     var checkCreationComplete = function(){
-        if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message){
-            window.location = "/~" + creationComplete.groupid;
+        if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message && creationComplete.docs){
+            //window.location = "/~" + creationComplete.groupid;
+            debug.log("redirecting");
         }
     };
 
@@ -151,6 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     creationComplete.message = true;
                     checkCreationComplete();
                 }
+                createGroupDocs(groupid, currentTemplate);
 
             } else {
                 if(nameTaken){
@@ -160,6 +162,156 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
     };
+
+    var createGroupDocs = function(groupid, currentTemplate){
+        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+            fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+                setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
+                    addStructureToGroup(groupid, currentTemplate, function(){
+                        creationComplete.docs = true;
+                        checkCreationComplete();
+                    });
+                });
+            });
+        });
+    };
+
+    var addStructureToGroup = function(groupid, currentTemplate, callback){
+        for (var doc in currentTemplate.structure) {
+            var definition = currentTemplate.structure[doc];
+            delete definition._docref;
+            definition._view = $.toJSON(definition._view);
+            definition._edit = $.toJSON(definition._edit);
+        }
+        $.ajax({
+            url: "/~" + groupid + "/docstructure",
+            type: "POST",
+            data: {
+                ":operation": "import",
+                ":contentType": "json",
+                ":replace": true,
+                ":replaceProperties": true,
+                "_charset_": "utf-8",
+                ":content": $.toJSON(currentTemplate.structure)
+            },
+            success: function(){
+                callback();
+            }
+        });
+    }
+
+    var setSakaiDocPermissions = function(groupid, currentTemplate, callback){
+        var filesArray = {};
+        for (var doc in currentTemplate.structure){
+            var definition = currentTemplate.structure[doc];
+            var permission = "private";
+            if ($.inArray("anonymous", definition._view) != -1 && $newcreategroupCanBeFoundIn.val() === "public"){
+                permission = "public";
+            } else if ($.inArray("everyone", definition._view) != -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
+                permission = "everyone";
+            }
+            filesArray[definition._pid] = {
+                "hashpath": definition._pid,
+                "permissions": permission
+            }
+        }
+        sakai.api.Content.setFilePermissions(filesArray, function(){
+            var batchRequests = [];
+            for (var doc in currentTemplate.structure) {
+                var definition = currentTemplate.structure[doc];
+                for (var i = 0; i < definition._view.length; i++){
+                    if (definition._view[i].substring(0, 1) === "-") {
+                        batchRequests.push({
+                            "url": "/p/" + definition._pid + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":viewer": groupid + definition._view[i]
+                            }
+                        });
+                    }
+                }
+                for (var i = 0; i < definition._edit.length; i++){
+                    if (definition._edit[i].substring(0, 1) === "-") {
+                        batchRequests.push({
+                            "url": "/p/" + definition._pid + ".members.html",
+                            "method": "POST",
+                            "parameters": {
+                                ":manager": groupid + definition._edit[i]
+                            }
+                        });
+                    }
+                }
+            }
+            sakai.api.Server.batch(batchRequests, function(success, data) {
+                if (success) {
+                    callback(groupid, currentTemplate);
+                }
+            });
+        });
+    };
+
+    var fillSakaiDocs = function(groupid, currentTemplate, callback){
+        var batchRequests = [];
+        for (var doc in currentTemplate.structure){
+            var definition = currentTemplate.structure[doc];
+            var toCreate = currentTemplate.docs[definition._docref];
+            delete toCreate.structure0;
+            batchRequests.push({
+                url: "/p/" + definition._pid + ".resource",
+                method: "POST",
+                parameters: {
+                    ":operation": "import",
+                    ":contentType": "json",
+                    ":replace": true,
+                    ":replaceProperties": true,
+                    "_charset_": "utf-8",
+                    ":content": $.toJSON(toCreate)
+                }
+            });
+        }
+        sakai.api.Server.batch(batchRequests, function(success, data) {
+            if (success) {
+                callback(groupid, currentTemplate);
+            }
+        });
+    };
+
+    var createSakaiDocs = function(groupid, currentTemplate, callback){
+        var batchRequests = [];
+        for (var doc in currentTemplate.structure){
+            var definition = currentTemplate.structure[doc];
+            var permission = "private";
+            if ($.inArray("anonymous", definition._view) != -1 && $newcreategroupCanBeFoundIn.val() === "public"){
+                permission = "public";
+            } else if ($.inArray("everyone", definition._view) != -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
+                permission = "everyone";
+            }
+            var toCreate = currentTemplate.docs[definition._docref];
+            batchRequests.push({
+                url: "/system/pool/createfile",
+                method:"POST",
+                parameters: {
+                    "sakai:pooled-content-file-name": definition._title,
+                    "sakai:description": "",
+                    "sakai:permissions": permission,
+                    "sakai:copyright": "creativecommons",
+                    "structure0": $.toJSON(toCreate.structure0),
+                    "sakai:custom-mimetype": "x-sakai/document"
+                }
+            });
+        }
+        sakai.api.Server.batch(batchRequests, function(success, data) {
+            if (success) {
+                var count = 0;
+                for (var doc in currentTemplate.structure){
+                    var response = $.parseJSON(data.results[count].body);
+                    currentTemplate.structure[doc]._pid = response._contentItem;
+                    count++;
+                }
+                callback(groupid, currentTemplate);
+            }
+        });
+    }
 
     /**
      * Add binding to the elements and validate the forms on submit

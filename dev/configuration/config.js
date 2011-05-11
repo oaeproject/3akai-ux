@@ -1783,7 +1783,7 @@ define(function(){
                                     page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
                                 "439704665": {
-                                    "googlemaps": {
+                                    googlemaps: {
                                         "mapinput": "16 Mill Lane, Cambridge, UK",
                                         "mapzoom": "14",
                                         "mapsize": "LARGE",
@@ -1829,17 +1829,23 @@ define(function(){
                             "syllabus": {
                                 "_title": "Syllabus",
                                 "_order": 0,
-                                "_pid": "${pid}0"
+                                "_docref": "${pid}0",
+                                "_view": ["everyone", "-member"],
+                                "_edit": ["-manager"]
                             },
                             "contactus": {
                                 "_title": "Contact us",
                                 "_order": 1,
-                                "_pid": "${pid}1"
+                                "_docref": "${pid}1",
+                                "_view": ["-member"],
+                                "_edit": ["-manager"]
                             },
                             "coursewebsite": {
                                 "_title": "Course website",
                                 "_order": 2,
-                                "_pid": "${pid}2"
+                                "_docref": "${pid}2",
+                                "_view": ["everyone", "anonymous"],
+                                "_edit": ["-manager", "-member"]
                             }
                         },
                         joinRole: "member",

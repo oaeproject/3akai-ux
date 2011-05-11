@@ -21,6 +21,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.group2 = function() {
 
         var groupData = false;
+        var groupId = false;
+        var pubdata = false;
 
         /**
          * Get the group id from the querystring
@@ -28,9 +30,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var processEntityInfo = function(){
             var querystring = new Querystring();
             if (querystring.contains("id")) {
-                entityID = querystring.get("id");
+                groupId = querystring.get("id");
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile.profile.json", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + groupId + "/public/authprofile.profile.json", function(success, data) {
                 if (success){
                     groupData = {};
                     groupData.authprofile = data;
@@ -42,6 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
                     document.title = pageTitle + groupData.authprofile["sakai:group-title"];
                     loadGroupEntityWidget();
+                    loadDocStructure();
 
                 } else {
                     if (data.status === 401 || data.status === 403){
@@ -67,46 +70,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#entity_manage_group").live("click", function(){
-            document.location = "/dev/group_edit2.html?id=" + entityID;
+            document.location = "/dev/group_edit2.html?id=" + groupId;
         });
 
         $(window).bind("ready.entity.sakai", function(e){
             loadEntityWidget();
         });
-        
+
         /////////////////////////
         // LOAD LEFT HAND SIDE //
         /////////////////////////
-        
-        var pubdata = {
-            "structure0": {
-                "syllabus": {
-                    "_title": "Syllabus",
-                    "_order": 0,
-                    "_pid": "gUbBYGx9E"
-                },
-                "contactus": {
-                    "_title": "Contact us",
-                    "_order": 1,
-                    "_pid": "gUbBi1Caa"
-                },
-                "coursewebsite": {
-                    "_title": "Course websites",
-                    "_order": 2,
-                    "_pid": "gUbBqAyaa"
+
+        var loadDocStructure = function(){
+            $.ajax({
+                url: "/~" + groupId+ "/docstructure.infinity.json",
+                success: function(data){
+                    pubdata = {};
+                    pubdata.structure0 = sakai.api.Server.cleanUpSakaiDocObject(data);
+                    generateNav();
                 }
+            });
+        };
+
+        var generateNav = function(){
+            if (pubdata) {
+                $(window).trigger("lhnav.init", [pubdata, {}, {}]);
             }
         };
-        
-        var generateNav = function(){
-            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
-        };
-        
+
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
-
-        generateNav();
 
         ////////////////////
         // INITIALISATION //
