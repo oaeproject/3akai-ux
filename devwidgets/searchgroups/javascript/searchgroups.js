@@ -167,7 +167,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                             if (finaljson.items[group]["sakai:group-description"]) {
                                 finaljson.items[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-description"]), $(".searchgroups_results").width() + 200, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
                             }
-                            finaljson.items[group].groupType = "Group Type";
+                            finaljson.items[group].groupType = "COURSE";
+                            finaljson.items[group].created = "1305156244412";
                             finaljson.items[group].userMember = false;
                             if (sakai.api.Groups.isCurrentUserAManager(finaljson.items[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(finaljson.items[group]["sakai:group-id"], sakai.data.me)){
                                 finaljson.items[group].userMember = true;
