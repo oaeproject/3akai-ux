@@ -1722,6 +1722,126 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "week1": {
+                                        "_ref":"6573920372",
+                                        "_order":0,
+                                        "_title":"Week 1",
+                                        "main":{
+                                            "_ref":"6573920372",
+                                            "_order":0,
+                                            "_title":"Week 1"
+                                        }
+                                    },
+                                    "week2":{
+                                        "_ref":569856425,
+                                        "_title":"Week 2",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":569856425,
+                                            "_order":0,
+                                            "_title":"Week 2"
+                                        }
+                                    },
+                                    "week3":{
+                                        "_ref":647321988,
+                                        "_title":"Week 3",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":647321988,
+                                            "_order":0,
+                                            "_title":"Week 3"
+                                        }
+                                    }
+                                },
+                                "6573920372": {
+                                    page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
+                                },
+                                "569856425": {
+                                    page: "<p>Week 2<br></p>"
+                                },
+                                "647321988": {
+                                    page: "<p>Week 3<br></p>"
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "contact":{
+                                        "_ref":"6573920372",
+                                        "_order":0,
+                                        "_title": "Contact",
+                                        "main":{
+                                            "_ref":"6573920372",
+                                            "_order":0,
+                                            "_title":"Page Title 1"
+                                        }
+                                    }
+                                },
+                                "6573920372": {
+                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "439704665": {
+                                    "googlemaps": {
+                                        "mapinput": "16 Mill Lane, Cambridge, UK",
+                                        "mapzoom": "14",
+                                        "mapsize": "LARGE",
+                                        "lng": "0.11648790000003828",
+                                        "sling:resourceType": "sakai/widget-data",
+                                        "maphtml": "16 Mill Ln, Cambridge CB2 1, UK",
+                                        "lat": "52.201596"
+                                    }
+                                }
+                            },
+                            "${pid}2": {
+                                structure0: {
+                                    "about":{
+                                        "_ref":"6573920372",
+                                        "_order":0,
+                                        "_title":"About",
+                                        "main":{
+                                            "_ref":"6573920372",
+                                            "_order":0,
+                                            "_title":"About"
+                                        }
+                                    },
+                                    "prospective":{
+                                        "_ref":"373710599",
+                                        "_title":"Prospective Students",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"373710599",
+                                            "_order":0,
+                                            "_title":"Prospective Students"
+                                        }
+                                    }
+                                },
+                                "6573920372": {
+                                    page: "<p>This is some information about the course<br></p>"
+                                },
+                                "373710599": {
+                                    page: "<p>This is some information for prospective students<br></p>"
+                                }
+                            }
+                        },
+                        structure: {
+                            "syllabus": {
+                                "_title": "Syllabus",
+                                "_order": 0,
+                                "_pid": "${pid}0"
+                            },
+                            "contactus": {
+                                "_title": "Contact us",
+                                "_order": 1,
+                                "_pid": "${pid}1"
+                            },
+                            "coursewebsite": {
+                                "_title": "Course website",
+                                "_order": 2,
+                                "_pid": "${pid}2"
+                            }
+                        },
                         joinRole: "member",
                         creatorRole: "manager"
                     }
