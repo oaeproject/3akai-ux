@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_message = $("#personinfo_message", $rootel),
             $personinfo_invite = $("#personinfo_invite", $rootel);
         var dataCache = {};
-        var triggerType;
         var open = false;
         var userId;
 
