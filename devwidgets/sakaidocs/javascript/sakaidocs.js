@@ -20,11 +20,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.sakaidocs = function (tuid, showSettings) {
 
-        var AUTOSAVE_INTERVAL = 15000;
+        var AUTOSAVE_INTERVAL = 15000, // in ms
+            AUTOSAVE_CONCURRENT_EDITING_TIMEOUT = 30; // in seconds
 
         var isEditingPage = false,
             autosaveInterval = false,
-            lastAutosave = "";
+            lastAutosave = "",
+            autosaveDialogShown = false;
 
         var $rootel = $("#"+tuid);
 
@@ -36,14 +38,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var editPage = function(){
-            isEditingPage = true;
-            setAutosaveInterval();
-            $("#sakaidocs_editmode", $rootel).show();
-            $("#s3d-page-main-content", $rootel).hide();
-            var content = sakai_global.lhnavigation.currentPageShown.content || "";
-            tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-            lastAutosave = content;
-            checkAutosave();
+            checkAutosave(function(safeToEdit) {
+                if (safeToEdit) {
+                    isEditingPage = true;
+                    if (!autosaveDialogShown) {
+                        setAutosaveInterval();
+                    }
+                    $("#sakaidocs_editmode", $rootel).show();
+                    $("#s3d-page-main-content", $rootel).hide();
+                    var content = sakai_global.lhnavigation.currentPageShown.content || "";
+                    tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+                    lastAutosave = content;
+                } else {
+                    sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
+                }
+            });
         };
 
         $(window).bind("editPage.sakaidocs.sakai", editPage);
@@ -52,19 +61,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             autosaveInterval = setInterval(autosave, AUTOSAVE_INTERVAL);
         };
 
-        $("#autosave_revert").live("click", function() {
+        $("#autosave_revert").die("click").live("click", function() {
+            autosaveDialogShown = false;
             if ($rootel.is(":visible")) {
+                setAutosaveInterval();
                 tinyMCE.get("elm1").setContent(sakai_global.lhnavigation.currentPageShown.autosave.page, {format : 'raw'});
                 $('#autosave_dialog').jqmHide();
             }
         });
 
-        var checkAutosave = function() {
+        $("#autosave_keep").die("click").live("click", function() {
+            autosaveDialogShown = false;
+            setAutosaveInterval();
+        });
+
+        var checkAutosave = function(callback) {
             var currentPage = sakai_global.lhnavigation.currentPageShown;
-            debug.log(currentPage.autosave._lastModified, currentPage._lastModified, currentPage.autosave._lastModified > currentPage._lastModified);
-            if (currentPage && currentPage.autosave && currentPage.autosave._lastModified > currentPage._lastModified) {
-                $('#autosave_dialog').jqmShow();
-            }
+            sakai.api.Server.loadJSON($.bbq.getState("content_path") + "/" + currentPage.ref + ".2.json", function(success, data) {
+                if (success) {
+                    // update the cached copy of autosave
+                    sakai_global.lhnavigation.currentPageShown.autosave = data.autosave;
+                    var autosave = data.autosave;
+                    if (autosave) {
+                        var autosaveTime = sakai.api.Util.Datetime.toGMT(new Date(data.autosave._lastModified));
+                        // check for concurrent editing
+                        if ((sakai.api.Util.Datetime.getCurrentGMTTime() - autosaveTime)/1000 < AUTOSAVE_CONCURRENT_EDITING_TIMEOUT && autosave._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
+                            if ($.isFunction(callback)) {
+                                callback(false);
+                                return;
+                            }
+                        // check if autosave is more recent than the page
+                        } else if (autosave._lastModified > data._lastModified) {
+                            $('#autosave_dialog').jqmShow();
+                            autosaveDialogShown = true;
+                            if ($.isFunction(callback)) {
+                                callback(true);
+                                return;
+                            }
+                        }
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(true);
+                    return;
+                }
+            });
         };
 
         var autosave = function() {
@@ -79,7 +120,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // cache it locally so we don't have to re-retrieve it in order to use it
                     sakai_global.lhnavigation.currentPageShown.autosave = {
                         page: autosaveContent,
-                        _lastModified: sakai.api.Util.Datetime.toGMT(new Date()).getTime()
+                        _lastModified: sakai.api.Util.Datetime.getCurrentGMTTime(),
+                        _lastModifiedBy: sakai.api.User.data.me.user.userid
                     };
                     autosavePostContent[sakai_global.lhnavigation.currentPageShown.ref].autosave = {
                         page: autosaveContent
