@@ -17,20 +17,23 @@
  */
 
 /* General */
-.footer_main{color:#fff;margin:0 auto;padding:0 0 10px;width:960px;}
+.footer_main{color:#454a4f;margin:0 auto;padding:0 0 10px;width:960px;background:transparent url(/devwidgets/footer/images/footer_shadow.png) 50% 0 no-repeat;}
 .footer_main.footer_index{width:955px;}
-#footer_logo{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -49px -712px transparent;width:61px;height:28px;float:left;margin-right:15px;}
-#footer_logo_button{float:left;}
+#footer_logo{background:url(/devwidgets/footer/images/footer_logo.png) no-repeat scroll 0 0 transparent;width:43px;height:28px;float:left;margin-right:15px;}
+#footer_logo_button{float:left;margin-left:-2px;}
 .footer_main #footer_debug_info{margin:5px 0 0 81px;}
 .footer_main .footer_clickable{cursor:pointer;}
 #footer_contactinfo p{float:right;margin-top:-12px;}
 #footer_divider {font-weight:bold;}
 
 /* Fixed Container */
-.footer_main .fixed-container{background:#454A4F;padding:10px 25px;width:910px;}
+.footer_main .fixed-container{background:transparent;padding:16px 0 10px;width:960px;border-bottom:1px dotted #d1d1d1;}
+.footer_main .fixed-container.bottom{padding-top:12px;border:0;}
+.footer_main .fixed-container.bottom a{margin-right:42px;}
 .footer_index .fixed-container{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -641px transparent;}
-.footer_main .fixed-container p{font-size:11px;margin-bottom:0;padding-bottom:0;line-height:1.3em;color:#fff;}
-.footer_main .fixed-container a{color:#c4e4fb;}
+.footer_main .fixed-container p{font-size:11px;margin-bottom:0;padding-bottom:0;line-height:1.2em;color:#454a4f;}
+.footer_main .fixed-container a{color:#2683bc;}
+.footer_main .fixed-container a.toplink{float:right;margin-left:26px;font-weight:bold;}
 .footer_main .fixed-container button.back-top{color:#fff;display:block;float:right;font-size:13px;font-weight:bold;padding-right:4px;margin-top:-3px;}
 .footer_main .fixed-container div.back-top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -102px -640px transparent;height:13px;width:10px;float:right;cursor:pointer; margin-top:-1px;}
 #footer_main_br{width:100%;height:9px;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -763px transparent;float:left;}
@@ -39,6 +42,9 @@
 .footer_index #footer_main_br{width:100%;height:0;background:none;float:left;}
 .footer_index #footer_main_bl{width:16px;height:9px;background:none;float:left;}
 .footer_index #footer_main_footer{background:none;height:9px;margin:0 16px;}
+.footer_main .fixed-container.bottom p.langloc{float:right;}
+.footer_main .fixed-container.bottom p.langloc span{margin-left:26px;}
+.footer_main .fixed-container.bottom p.langloc a{margin-right:0;}
 
 /* Footer on the login page */
 .footer_index{bottom:0;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -819px transparent;clear:both;padding-bottom:0;position:fixed;margin-bottom:0;z-index:99;}

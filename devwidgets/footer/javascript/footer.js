@@ -193,6 +193,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set the end year of the copyright notice
             var d = new Date();
             $footer_date_end.text(d.getFullYear());
+            
+            $("#footer_language").click(function(e){
+                e.preventDefault();
+                $(window).scrollTop(0,0).trigger("init.accountpreferences.sakai");
+            });
 
         };
 

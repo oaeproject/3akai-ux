@@ -404,6 +404,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             saveRegionalToMe();
             return false;
         });
+        
+        var updateFooter = function(){
+            $("#footer_location").text(me.user.locale.timezone.name);
+            var i = 0, len = sakai.config.Languages.length;
+            for(i;i<len;i++){
+                if(me.user.locale.country === sakai.config.Languages[i].country){
+                    $("#footer_language").text(sakai.config.Languages[i].displayName);
+                    break;
+                }
+            }
+        }
 
         /////////////////////////////
         // INITIALISATION FUNCTION //
@@ -421,7 +432,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // if allowpasswordchange is false then hide the regional setting
                 if (!sakai.config.allowPasswordChange) {
                     $(passChangeContainer).hide();
-                }
+                }               
+                updateFooter();
             }
         };
 
