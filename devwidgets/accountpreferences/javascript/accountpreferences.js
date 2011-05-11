@@ -407,8 +407,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         var updateFooter = function(){
             $("#footer_location").text(me.user.locale.timezone.name);
-            var i = 0, len = sakai.config.Languages.length;
-            for(i;i<len;i++){
+            for(var i = 0, len = sakai.config.Languages.length; i < len; i++){
                 if(me.user.locale.country === sakai.config.Languages[i].country){
                     $("#footer_language").text(sakai.config.Languages[i].displayName);
                     break;

@@ -196,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             
             $("#footer_language").click(function(e){
                 e.preventDefault();
-                $(window).scrollTop(0,0).trigger("init.accountpreferences.sakai");
+                $(window).trigger("init.accountpreferences.sakai");
             });
 
         };
