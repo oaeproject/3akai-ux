@@ -30,8 +30,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Templates
         var exploreNavigationTemplate = "explore_navigation_template";
 
+        /**
+         * Create the breadcrumb data and render on screen
+         * @param {Object} dirData Object that contains children for the category
+         * @param {Array} bbqData Array of IDs fetched with bbq to help identify correct children
+         */
         var createBreadcrumb = function(dirData, bbqData){
-
             // Create top level breadcrumb
             var breadcrumb = [];
             breadcrumb.push({
@@ -54,10 +58,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             })
 
-            debug.log(breadcrumb);
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
         };
 
+        /**
+         * Generate the navigation object and pass it to the left hand navigation widget
+         * @param {Object} navData Contains all data from the category the user is currently viewing
+         */
         var generateNav = function(navData){
             pubdata = {
                 "structure0": {}
