@@ -32,13 +32,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (querystring.contains("id")) {
                 groupId = querystring.get("id");
             }
-            sakai.api.Server.loadJSON("/~" + groupId + "/public/authprofile.profile.json", function(success, data) {
+            sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
                     groupData = {};
-                    groupData.authprofile = data;
+                    groupData.authprofile = data.properties;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
-                            sakai.api.Util.include.css(sakai_global.currentgroup.data.authprofile["sakai:customStyle"]);
+                            sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
                         }
                     });
                     var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
@@ -57,9 +57,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadGroupEntityWidget = function(){
+            var canManage = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
             var context = "group";
             var type = "group";
-            if (false){
+            if (canManage){
                 type = "group_managed";
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
@@ -67,10 +68,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai.entity.ready", function(){
             loadGroupEntityWidget();
-        });
-
-        $("#entity_manage_group").live("click", function(){
-            document.location = "/dev/group_edit2.html?id=" + groupId;
         });
 
         $(window).bind("ready.entity.sakai", function(e){

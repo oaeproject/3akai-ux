@@ -537,13 +537,31 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Object} meData the data from sakai.api.User.data.me
          * @return true if the current user is a manager, false otherwise
          */
-        isCurrentUserAManager : function(groupid, meData) {
-            if(!groupid || typeof(groupid) !== "string") {
-                return false;
+        isCurrentUserAManager : function(groupid, meData, groupinfo) {
+            if (groupinfo) {
+                var managementRoles = [];
+                var roles = $.parseJSON(groupinfo["sakai:roles"]);
+                for (var r = 0; r < roles.length; r++) {
+                    if (roles[r].allowManage) {
+                        managementRoles.push(roles[r].id);
+                    }
+                }
+                var canManage = false;
+                for (var i = 0; i < meData.groups.length; i++) {
+                    for (var r = 0; r < managementRoles.length; r++) {
+                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[r]) {
+                            canManage = true;
+                        }
+                    }
+                }
+                return canManage;
+            } else {
+                if (!groupid || typeof(groupid) !== "string") {
+                    return false;
+                }
+                var managersGroupId = groupid + "-managers";
+                return $.inArray(managersGroupId, meData.user.subjects) !== -1;
             }
-
-            var managersGroupId = groupid + "-managers";
-            return $.inArray(managersGroupId, meData.user.subjects) !== -1;
         },
 
 

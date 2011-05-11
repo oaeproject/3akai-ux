@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }]
                 );
-                $('#newentitywidget_widget').jqmHide();
+                $('#entity_contentsettings_dropdown').jqmHide();
             });
             $("#upload_content").die("click");
             $("#upload_content").live("click", function() {

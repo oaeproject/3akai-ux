@@ -1725,6 +1725,100 @@ define(function(){
                         docs: {
                             "${pid}0": {
                                 structure0: {
+                                    "library":{
+                                        "_ref":"9867543247",
+                                        "_order":0,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"9867543247",
+                                            "_order":0,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "9867543247": {
+                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"6573920372",
+                                        "_order":0,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"6573920372",
+                                            "_order":0,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "6573920372": {
+                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            }
+                        },
+                        joinRole: "member",
+                        creatorRole: "manager"
+                    }
+                ]
+            },
+            {
+                id: "courses",
+                title : "COURSES",
+                templates: [
+                    {
+                        id: "mathcourse",
+                        title: "Mathematics course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
                                     "week1": {
                                         "_ref":"6573920372",
                                         "_order":0,
@@ -1775,7 +1869,7 @@ define(function(){
                                         "main":{
                                             "_ref":"6573920372",
                                             "_order":0,
-                                            "_title":"Page Title 1"
+                                            "_title":"Contact"
                                         }
                                     }
                                 },
@@ -1830,56 +1924,24 @@ define(function(){
                                 "_title": "Syllabus",
                                 "_order": 0,
                                 "_docref": "${pid}0",
-                                "_view": ["everyone", "-member"],
-                                "_edit": ["-manager"]
+                                "_view": ["everyone", "-student"],
+                                "_edit": ["-ta", "-lecturer"]
                             },
                             "contactus": {
                                 "_title": "Contact us",
                                 "_order": 1,
                                 "_docref": "${pid}1",
-                                "_view": ["-member"],
-                                "_edit": ["-manager"]
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
                             },
                             "coursewebsite": {
                                 "_title": "Course website",
                                 "_order": 2,
                                 "_docref": "${pid}2",
                                 "_view": ["everyone", "anonymous"],
-                                "_edit": ["-manager", "-member"]
+                                "_edit": ["-lecturer", "-ta"]
                             }
                         },
-                        joinRole: "member",
-                        creatorRole: "manager"
-                    }
-                ]
-            },
-            {
-                id: "courses",
-                title : "COURSES",
-                templates: [
-                    {
-                        id: "mathcourse",
-                        title: "Mathematics course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
-                        roles: [
-                            {
-                                id: "student",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },

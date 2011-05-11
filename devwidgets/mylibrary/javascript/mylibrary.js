@@ -71,6 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_groupfilter_groups_button = $("#mylibrary_groupfilter_groups button", $rootel);
         var $mylibrary_groupfilter_usedin_arrow = $("#mylibrary_groupfilter_usedin_arrow", $rootel);
 
+        var currentGroup = false;
 
         ///////////////////////
         // Utility Functions //
@@ -131,10 +132,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} bundleKey The message bundle key
          */
         var getPersonalizedText = function (bundleKey) {
-            if(sakai_global.currentgroup){
+            if(currentGroup){
                 return sakai.api.i18n.Widgets.getValueForKey(
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
-                        sakai_global.currentgroup.data.authprofile["sakai:group-title"]);
+                        currentGroup.properties["sakai:group-title"]);
             } else if (mylibrary.isOwnerViewing) {
                 return sakai.api.i18n.Widgets.getValueForKey(
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
@@ -513,11 +514,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var isGroup = false;
             if (widgetData && widgetData.mylibrary) {
                 contextId = widgetData.mylibrary.groupid;
-                contextName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
-                isGroup = true;
-                if (sakai_global.currentgroup.manager) {
-                    mylibrary.isOwnerViewing = true;
-                }
+                sakai.api.Server.loadJSON("/system/userManager/group/" + contextId + ".json", function(success, data) {
+                    if (success){
+                        currentGroup = data;
+                        contextName = currentGroup.properties["sakai:group-title"];
+                        isGroup = true;
+                        mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties["sakai:group-id"], sakai.data.me, currentGroup.properties);
+                        finishInit(contextId, contextName, isGroup);
+                    }
+                });
             } else {
                 contextId = sakai_global.profile.main.data.userid;
                 contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
@@ -525,7 +530,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     mylibrary.isOwnerViewing = true;
                     initUsedInFilter();
                 }
+                finishInit(contextId, contextName, isGroup);
             }
+        };
+        
+        var finishInit = function(contextId, contextName, isGroup){
             if (contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 $mylibrary_livefilter.val(mylibrary.default_search_text);
