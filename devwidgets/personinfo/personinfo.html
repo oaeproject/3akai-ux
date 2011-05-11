@@ -30,9 +30,9 @@
         <span id="personinfo_user_info">
             <span id="personinfo_user_name" class="s3d-bold s3d-regular-links"><a href="${user.homePath}" title="${user.displayName}">${user.displayName}</a></span>
             <span id="personinfo_user_owns" class="s3d-regular-links">
-                <p class="personinfo_user_info">64 __MSG__CONTENT_ITEMS__</p>
-                <p class="personinfo_user_info">28 __MSG__CONTACTS__</p>
-                <p class="personinfo_user_info">4 __MSG__MEMBERSHIPS__</p>
+                <p class="personinfo_user_info">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</p>
+                <p class="personinfo_user_info">${user.counts.contactsCount} __MSG__CONTACTS__</p>
+                <p class="personinfo_user_info">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</p>
             </span>
         </span>
     </div>
