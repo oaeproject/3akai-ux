@@ -66,11 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_widget.jqmHide();
 
             // unbind the close event
-            if (triggerType === "hover"){
-                $personinfo_widget.unbind("mouseleave");
-            } else {
-                $(document).unbind("click.personinfo_close");
-            }
+            $(document).unbind("click.personinfo_close");
         };
 
         /**
@@ -189,11 +185,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             hidePersonInfo();
         });
 
-        // bind mouse hover trigger
-        $(".personinfo_trigger_hover").live("mouseenter", function(){
-            doInit($(this));
-        });
-
         // bind click trigger
         $(".personinfo_trigger_click").live("click", function(){
             doInit($(this));
@@ -213,24 +204,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_invite.hide();
             userId = $clickedEl.data("userid");
 
-            // determine which close events to bind to
-            if ($clickedEl.hasClass("personinfo_trigger_hover")){
-                triggerType = "hover";
-                // hide overlay on mouseleave event if the element has the specified class
-                $personinfo_widget.bind("mouseleave", function(){
+            // bind outside click to close widget
+            $(document).bind("click.personinfo_close", function (e) {
+                var $clicked = $(e.target);
+                // Check if one of the parents is the tooltip
+                if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
                     hidePersonInfo();
-                });
-            } else {
-                triggerType = "click";
-                // bind outside click to close widget
-                $(document).bind("click.personinfo_close", function (e) {
-                    var $clicked = $(e.target);
-                    // Check if one of the parents is the tooltip
-                    if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
-                        hidePersonInfo();
-                    }
-                });
-            }
+                }
+            });
 
             // check if user is a contact and their connection state
             sakai.api.User.getConnectionState(userId, function(state){
