@@ -245,7 +245,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
             sakai.api.Groups.addUsersToGroup(groupid, "members",
-                [{user: sakai.data.me.user.userid}], false, function(success) {
+                [{user: sakai.data.me.user.userid}], sakai.data.me, false, function(success) {
                 if (success) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
                         $joinrequestbuttons_group_adding_successful.text(),
@@ -283,8 +283,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 groupType = "managers";
             }
             sakai.api.Groups.removeUsersFromGroup(groupid, groupType,
-                [sakai.data.me.user.userid], function (success) {
+                [sakai.data.me.user.userid], sakai.data.me, function (success) {
                 if (success) {
+                    $(window).trigger("updated.counts.lhnav.sakai");
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
                         $joinrequestbuttons_group_removal_successful.text(),
                         sakai.api.Util.notification.type.INFORMATION);
@@ -324,7 +325,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupid,
             joinability, managerCount, onShow, requestCallback, joinCallback, leaveCallback,
             joinrequests) {
-            if (!groupid || !joinability) return;
+            if (!groupid || !joinability) {return;}
             joinrequestbuttons.groupid = groupid;
             joinrequestbuttons.joinability = joinability;
             joinrequestbuttons.managerCount = managerCount || 1;
