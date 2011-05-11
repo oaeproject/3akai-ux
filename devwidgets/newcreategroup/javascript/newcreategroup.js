@@ -94,8 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var checkCreationComplete = function(){
         if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message && creationComplete.docs){
-            //window.location = "/~" + creationComplete.groupid;
-            debug.log("redirecting");
+            window.location = "/~" + creationComplete.groupid;
         }
     };
 
