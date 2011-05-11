@@ -24,11 +24,45 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var pubdata = {};
 
+        // Containers
+        var $exploreNavigation = $("#explore_navigation");
+
+        // Templates
+        var exploreNavigationTemplate = "explore_navigation_template";
+
+        var createBreadcrumb = function(dirData, bbqData){
+
+            // Create top level breadcrumb
+            var breadcrumb = [];
+            breadcrumb.push({
+                "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
+                "id": bbqData[0],
+                "link": true
+            });
+            bbqData.splice(0,1);
+
+            // Create children level breadcrumb
+            var children = dirData.children[bbqData[0]];
+            $.each(bbqData, function(index, item){
+                breadcrumb.push({
+                    "title": children.title,
+                    "id": item,
+                    "link": bbqData.length - 1 - index
+                });
+                if (children.children) {
+                    children = children.children[bbqData[index]];
+                }
+            })
+
+            debug.log(breadcrumb);
+            $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
+        };
+
         var generateNav = function(navData){
             pubdata = {
                 "structure0": {}
             }
-            
+
             pubdata["structure0"][navData.id] = {
                 "_id": navData.id,
                 "_order": 0,
@@ -55,15 +89,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         };
 
-        $(window).bind("lhnav.ready", function(){
+        var doInit = function(){
             var category = $.bbq.getState("tag");
             if(!category){
-                category = $.bbq.getState("l").split("/")[0];
+                category = $.bbq.getState("l").split("/");
+            }else{
+                category = category.split("/");
             }
-            sakai.config.Directory[category].id = category;
-            generateNav(sakai.config.Directory[category]);
+            sakai.config.Directory[category[0]].id = category[0];
+            generateNav(sakai.config.Directory[category[0]]);
+            createBreadcrumb(sakai.config.Directory[category[0]], category);
+        }
+
+        $(window).bind("lhnav.ready", function(){
+            doInit();
         });
 
+        $(window).bind("hashchange", function(e, data){
+            doInit();
+        });
     };
 
     sakai.api.Widgets.Container.registerForLoad("category");

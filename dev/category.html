@@ -18,8 +18,25 @@
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
                     <div id="widget_institutionalskinning" class="widget_inline"></div>
-                    <div id="explore_navigation">
-                    </div>
+                    <div id="explore_navigation"></div>
+                    <div id="explore_navigation_template"><!--
+                    <div class="s3d-contentpage-title">
+                        {for crumb in breadcrumb}
+                            {if crumb_index != 0}
+                            <span>&nbsp;/&nbsp;</span>
+                            {/if}
+                            {if crumb.link}
+                                <a href="#l=${crumb.id}" class="s3d-bold s3d-regular-links">
+                            {/if}
+
+                            ${crumb.title}
+
+                            {if crumb.link}
+                                </a>
+                            {/if}
+                        {/for}
+                        </div>
+                    --></div>
                 </div>
             </div>
         </div>
