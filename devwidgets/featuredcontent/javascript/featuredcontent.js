@@ -31,6 +31,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Containers
         var $featuredcontentContentContainer = $("#featuredcontent_content_container");
+        var featuredcontentContentLarge = ".featuredcontent_content_large";
+        var featuredcontentContentPreview = "#featuredcontent_large_preview";
+        var featuredcontentContentActions = ".featuredcontent_content_actions";
+        var featuredcontentContentRightDescription = ".featuredcontent_content_right_description";
 
         // Templates
         var featuredcontentContentTemplate = "featuredcontent_content_template";
@@ -49,6 +53,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "data": data,
                     "sakai": sakai
                 }));
+                if(sakai_global.category){
+                    $(featuredcontentContentLarge).css("width","523px");
+                    $(featuredcontentContentPreview).css("max-width","250px");
+                    $(featuredcontentContentRightDescription).css("width","234px");
+                    $(featuredcontentContentActions).css("width","519px");
+                }
                 $featuredcontentWidget.show();
             }
         };

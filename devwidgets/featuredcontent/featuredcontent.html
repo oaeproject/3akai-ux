@@ -2,12 +2,13 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/featuredcontent/css/featuredcontent.css" />
 
 <div class="featuredcontent_widget" style="display:none;">
-    <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
     <div id="featuredcontent_content_container"><!----></div>
-    <div id="featuredcontent_footer" class="fl-push"></div>
 </div>
 
 <div id="featuredcontent_content_template"><!--
+    {if !sakai_global.category}
+        <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
+    {/if}
     {if data && data.length}
         {for item in data}
             {if $.isArray(item)}
@@ -83,15 +84,20 @@
                 </div>
             {/if}
         {/for}
-        <div id="featuredcontent_show_more_container">
-            <a href="/search#l=content" title="__MSG__SHOW_MORE__">
-                <button type="button" id="featuredcontent_show_more" class="s3d-button s3d-button-link-2-state">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
-                </button>
-            <a/>
-        </div>
+        {if !sakai_global.category}
+            <div id="featuredcontent_show_more_container">
+                <a href="/search#l=content" title="__MSG__SHOW_MORE__">
+                    <button type="button" id="featuredcontent_show_more" class="s3d-button s3d-button-link-2-state">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
+                    </button>
+                <a/>
+            </div>
+        {/if}
     {else}
         __MSG__NO_FEATURED_CONTENT__
+    {/if}
+    {if !sakai_global.category}
+        <div id="featuredcontent_footer" class="fl-push"></div>
     {/if}
 --></div>
 
