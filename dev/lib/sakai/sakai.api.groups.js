@@ -273,8 +273,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     toProcess.splice(0, 1);
                     createGroup(group, saveGroup);
                 } else {
-                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, true, managershipsToProcess, true, function(){
-                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, false, membershipsToProcess, false, function(){
+                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, true, managershipsToProcess, meData, true, function(){
+                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, false, membershipsToProcess, meData, false, function(){
                             if (mainCallback){
                                 mainCallback(true, false);
                             }
