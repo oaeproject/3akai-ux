@@ -228,9 +228,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         for (var doc in currentTemplate.structure){
             var definition = currentTemplate.structure[doc];
             var permission = "private";
-            if ($.inArray("anonymous", definition._view) != -1 && $newcreategroupCanBeFoundIn.val() === "public"){
+            if ($.inArray("anonymous", definition._view) !== -1 && $newcreategroupCanBeFoundIn.val() === "public"){
                 permission = "public";
-            } else if ($.inArray("everyone", definition._view) != -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
+            } else if ($.inArray("everyone", definition._view) !== -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
                 permission = "everyone";
             }
             filesArray[definition._pid] = {
@@ -304,9 +304,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         for (var doc in currentTemplate.structure){
             var definition = currentTemplate.structure[doc];
             var permission = "private";
-            if ($.inArray("anonymous", definition._view) != -1 && $newcreategroupCanBeFoundIn.val() === "public"){
+            if ($.inArray("anonymous", definition._view) !== -1 && $newcreategroupCanBeFoundIn.val() === "public"){
                 permission = "public";
-            } else if ($.inArray("everyone", definition._view) != -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
+            } else if ($.inArray("everyone", definition._view) !== -1 && ($newcreategroupCanBeFoundIn.val() === "public" || $newcreategroupCanBeFoundIn.val() === "logged-in-only")){
                 permission = "everyone";
             }
             var toCreate = currentTemplate.docs[definition._docref];
