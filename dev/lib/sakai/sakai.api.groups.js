@@ -761,7 +761,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     "method": "POST",
                     "parameters": data
                 });
-                if (user === medata.user.userid){
+                if (user.user === medata.user.userid){
                     currentUserIncluded = true;
                 }
             });
