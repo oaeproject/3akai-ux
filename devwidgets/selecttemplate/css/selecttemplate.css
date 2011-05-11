@@ -15,3 +15,30 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+#selecttemplate_container img {float:left; margin-right: 20px;}
+#selecttemplate_container .selecttemplate_template_small {float:left; width: 219px; margin:20px 30px 10px 0;}
+#selecttemplate_container .selecttemplate_template_large {float:left; width: 471px; margin:20px 30px 10px 0;}
+#selecttemplate_container .selecttemplate_template_right {margin-right:0;}
+#selecttemplate_container h1 {color:#535353; font-weight:normal; font-size: 20px; margin: 5px 0 0;}
+#selecttemplate_container h2, #selecttemplate_preview_dialog_container h2 {color:#0096c6; font-size: 15px;}
+#selecttemplate_container .selecttemplate_divider {color:#ada9a7; font-weight:normal; border-top: 5px solid #e1e1e1; padding-top: 10px;}
+#selecttemplate_container h4,
+#selecttemplate_preview_dialog_container h4 {color:#535353;}
+#selecttemplate_container p {color:#7b7b7b;}
+
+.selecttemplate_use_button:hover,
+.selecttemplate_preview_button:hover {color:#fff; border: 1px solid #00abd3; background-color:#00c0ee;}
+.selecttemplate_use_button {display:block; border-radius: 10px; -moz-border-radius:10px; color:#fff; border: 1px solid #565656; background-color:#7e7e7e; padding: 3px 20px; margin: 10px 0; font-weight:bold; cursor: pointer; cursor: hand;}
+.selecttemplate_preview_button {display:block; border-radius: 5px; -moz-border-radius:5px; color:#444; border: 1px solid #d2d7db; background-color:#f5f5f5; padding: 5px; margin: 10px 0; cursor: pointer; cursor: hand;}
+
+#selecttemplate_preview_dialog_container {background: #f5f5f5; -moz-border-radius-bottomright: 5px; -moz-border-radius-bottomleft: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;}
+#selecttemplate_preview_dialog_container img {float:left; padding:1px; border: 1px solid #e7e6e6; margin: 0 0 20px 20px;}
+#selecttemplate_preview_dialog_desc {padding: 20px; background-color: #fffffe; float:left; width:192px; position:relative; right:1px;}
+#selecttemplate_dialog_close {float: right; position: relative; right: 10px; bottom: 40px; border: none;}
+
+/* Override default jqm styles */
+.dialog_content {border-right:none; border-left:none; padding: 0; -moz-border-radius: 5px; border-radius: 5px; margin-bottom: 20px;}
+.dialog_header {background: #f5f5f5; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-top-right-radius: 5px; border-top-left-radius: 5px;}
+.dialog_header_inner {background: none;}
+.dialog_header h1 {color: #aeaaa9; font-weight:normal; font-size:18px;}

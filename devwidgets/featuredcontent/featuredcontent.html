@@ -18,7 +18,7 @@
                     {/if}
                     <div class="featuredcontent_content featuredcontent_content_small">
                         <div class="featuredcontent_content_actions">
-                            <div class="featuredcontent_content_actions_share share_trigger_click" data-contentid="${small["jcr:name"]}"></div>
+                            <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["jcr:name"]}"></div>
                             {if !sakai.data.me.user.anon}
                                 <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["jcr:name"]}"></div>
                             {/if}
@@ -42,7 +42,7 @@
             {else}
                 <div class="featuredcontent_content featuredcontent_content_${item.mode}">
                     <div class="featuredcontent_content_actions">
-                        <div class="featuredcontent_content_actions_share share_trigger_click" data-contentid="${item["jcr:name"]}"></div>
+                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["jcr:name"]}"></div>
                         {if !sakai.data.me.user.anon}
                             <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["jcr:name"]}"></div>
                         {/if}
