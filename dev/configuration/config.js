@@ -352,13 +352,6 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea",
-                                "tagField": true
-                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,

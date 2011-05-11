@@ -528,7 +528,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return sakai.api.Util.makeSafeURL(title);
         };
 
-        $(window).bind("ready.dashboard.sakai", function(e, tuid) {
+        $(window).bind("ready.dashboard.sakai", function(e, thisTUID) {
             var split = $(sakai_global.sitespages.pagecontents[sakai_global.sitespages.selectedpage]["sakai:pagecontent"]).attr("id").split("_");
             var entityID = false;
             if (sakai_global.profile.main.data["rep:userId"]) {
@@ -537,11 +537,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 entityID = sakai_global.currentgroup.id;
             }
             // make sure the dashboard that said it's ready is the one we just got the data for
-            if (split[2] === tuid) {
+            if (split[2] === thisTUID) {
                 if (config.editMode) {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false, tuid]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", true, config.dashboardEmbedProperty, false, thisTUID]);
                 } else {
-                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false, tuid]);
+                    $(window).trigger("init.dashboard.sakai", [sakai_global.sitespages.site_info._pages[sakai_global.sitespages.selectedpage]["jcr:path"] + "/_widgets/", false, config.dashboardEmbedProperty, false, thisTUID]);
                 }
             }
         });
@@ -2288,15 +2288,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var $dialog_content = $("#dialog_content"),
                 widgetSettingsWidth = 650;
             $dialog_content.hide();
+            var newTUID = "id" + Math.round(Math.random() * 1000000000);
             if (sakai.widgets[widgetid]){
                 sakai_global.sitespages.newwidget_id = widgetid;
-                var tuid = "id" + Math.round(Math.random() * 1000000000);
-                var id = "widget_" + widgetid + "_" + tuid;
+                var id = "widget_" + widgetid + "_" + newTUID;
                 sakai_global.sitespages.newwidget_uid = id;
                 if (sakai.widgets[widgetid].hasSettings) {
                     $dialog_content.html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[widgetid].name);
-                    sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, sakai_global.sitespages.config.basepath + "_widgets/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets(newTUID, true, sakai_global.sitespages.config.basepath + "_widgets/");
                     if (sakai.widgets[widgetid].settingsWidth) {
                         widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
                     }
@@ -2308,7 +2308,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
             if(!sakai.widgets[widgetid].hasSettings){
-                sakai.api.Widgets.Container.informFinish(tuid, widgetid);
+                sakai.api.Widgets.Container.informFinish(newTUID, widgetid);
             }
         };
 
@@ -2331,7 +2331,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} tuid
          * @retuen void
          */
-        sakai_global.sitespages.widgetCancel = function(tuid){
+        sakai_global.sitespages.widgetCancel = function(){
             $('#insert_dialog').jqmHide();
         };
 
@@ -2341,7 +2341,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} tuid
          * @return void
          */
-        sakai_global.sitespages.widgetFinish = function(tuid){
+        sakai_global.sitespages.widgetFinish = function(){
             // Add widget to the editor
             $("#insert_screen2_preview").html("");
             if (!sakai_global.sitespages.updatingExistingWidget) {

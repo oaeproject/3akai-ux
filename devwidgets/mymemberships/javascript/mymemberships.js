@@ -234,12 +234,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             }
-        }
+        };
 
         var openTooltip = function (groupid, $item) {
             $(window).trigger("init.tooltip.sakai", {
-                tooltipHTML: sakai.api.Util.TemplateRenderer(
-                    $mymemberships_hover_template, mymemberships.cache[groupid]),
+                tooltipHTML: sakai.api.Util.TemplateRenderer($mymemberships_hover_template, mymemberships.cache[groupid]),
                 tooltipAutoClose: true,
                 tooltipArrow: "top",
                 tooltipTop: $item.offset().top + $item.height() + 5,
@@ -307,13 +306,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $mymemberships_sortby.change(function () {
             var sortSelection = this.options[this.selectedIndex].value;
-            switch (sortSelection) {
-                case "desc":
-                    mymemberships.sortOrder = "desc";
-                    break;
-                default:
-                    mymemberships.sortOrder = "asc";
-                    break;
+            if (sortSelection === "desc") {
+                mymemberships.sortOrder = "desc";
+            } else {
+                mymemberships.sortOrder = "asc";
             }
             doInit();
         });

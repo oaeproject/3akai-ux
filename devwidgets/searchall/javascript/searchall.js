@@ -204,16 +204,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // Adjust total search result count
             updateTotalHitCount(foundGroups.results.length);
-            
+
             var params = sakai_global.data.search.getQueryParams();
             $("#sites_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("groups_results_header_template", {"query_href":"#l=groups&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundGroups.total) > groupsToSearch}));
 
             if (foundGroups && foundGroups.results) {
                 finaljson = sakai_global.data.search.prepareGroupsForRender(foundGroups.results, finaljson);
             }
-        
+
             $(searchConfig.sites.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
-        
+
         };
 
 
@@ -317,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                    renderGroups({});
                }
            });
-        }
+        };
 
         ///////////////////
         // Event binding //
