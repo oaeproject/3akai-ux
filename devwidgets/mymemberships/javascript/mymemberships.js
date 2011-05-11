@@ -155,7 +155,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 picsrc = member.basic.elements.picture.name.value;
             }
             // if this user is already a manager don't re-add
-            if ($.grep(list, function(value, index){return (value.link === "/~" + member.userid);}).length === 0) {
+            var userInList = function() {
+                var filtered = $.grep(list, function(value, index){
+                    return (value.link === "/~" + member.userid);
+                });
+                return (filtered.length === 0);
+            };
+            if (userInList()) {
                 list.push({
                     link: "/~" + member.userid,
                     picsrc: picsrc,

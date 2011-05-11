@@ -35,6 +35,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        var $rootel = $("#" + tuid);
+
         // Containers
         var entityContainer = "#entity_container";
         var entityUserPictureDropdown = ".entity_user_picture_dropdown";
@@ -95,17 +97,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
-                        $(window).trigger("init.joinrequestbuttons.sakai", [
-                            context.data.authprofile.groupid,
-                            context.data.authprofile["sakai:group-joinable"],
-                            1 /*FIXME manager count */,
-                            function (renderedButtons) {
-                                // onShow
-                                $("#" + tuid +" #joinrequestbuttons_widget").show();
+                        var url = "/system/userManager/group/" +
+                            context.data.authprofile.groupid + ".managers.json";
+                        $.ajax({
+                            url: url,
+                            success: function(managers){
+                                $(window).trigger("init.joinrequestbuttons.sakai", [
+                                    context.data.authprofile.groupid,
+                                    context.data.authprofile["sakai:group-joinable"],
+                                    managers.length,
+                                    function (renderedButtons) {
+                                        // onShow
+                                        $("#joinrequestbuttons_widget", $rootel).show();
+                                    }
+                                ]);
                             }
-                        ]);
+                        });
                     });
-                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, "#"+tuid);
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, $rootel);
                     break;
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough

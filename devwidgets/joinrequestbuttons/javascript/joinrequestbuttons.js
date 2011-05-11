@@ -325,7 +325,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupid,
             joinability, managerCount, onShow, requestCallback, joinCallback, leaveCallback,
             joinrequests) {
-            if (!groupid || !joinability) {return;}
+            if (!groupid || !joinability) {
+                return;
+            }
             joinrequestbuttons.groupid = groupid;
             joinrequestbuttons.joinability = joinability;
             joinrequestbuttons.managerCount = managerCount || 1;
