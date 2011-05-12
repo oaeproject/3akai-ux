@@ -48,7 +48,7 @@
     <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list">  
         {for level in public.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}">
+                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" {if level._ignore} style="display:none;" {/if}>
             <div class="lhnavigation_has_subnav"></div>
                 <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
             <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
@@ -72,7 +72,7 @@
                 {/for}
             </ul>
             {else}
-                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level._id}">
+                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level._id}" {if level._ignore} style="display:none;" {/if}>
                     <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
                         {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
                         {if level._count} (${level._count}){/if}

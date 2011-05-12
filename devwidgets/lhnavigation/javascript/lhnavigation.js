@@ -193,7 +193,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var level in structure) {
                 if (level && level.substring(0, 1) !== "_") {
                     refs = collectPoolIds(structure[level], refs);
-                } else if (level && level === "_pid") {
+                } else if (level && level === "_pid" && !structure["_ignore"]) {
                     if ($.inArray(structure[level], refs) == -1) {
                         refs.push(structure[level]);
                     }
@@ -293,28 +293,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // If no page is selected, select the first one from the nav
             if (!selected){
                 for (var first = 0; first < privstructure.orderedItems.length; first++){
-                    if (privstructure.orderedItems[first]._childCount > 1) {
-                        for (var second = 0; second < privstructure.orderedItems[first]._elements.length; second++){
-                            selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first]._elements[second]._id;
-                            break;
+                    if (!privstructure.orderedItems[first]._ignore) {
+                        if (privstructure.orderedItems[first]._childCount > 1) {
+                            for (var second = 0; second < privstructure.orderedItems[first]._elements.length; second++) {
+                                selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first]._elements[second]._id;
+                                break;
+                            }
+                        } else {
+                            selected = privstructure.orderedItems[first]._id;
                         }
-                    } else {
-                        selected = privstructure.orderedItems[first]._id;
+                        break;
                     }
-                    break;
                 }
             }
             if (!selected){
                 for (var first1 = 0; first1 < pubstructure.orderedItems.length; first1++){
-                    if (pubstructure.orderedItems[first1]._childCount > 1) {
-                        for (var second1 = 0; second1 < pubstructure.orderedItems[first1]._elements.length; second1++){
-                            selected = pubstructure.orderedItems[first1]._id + "/" + pubstructure.orderedItems[first1]._elements[second1]._id;
-                            break;
+                    if (!pubstructure.orderedItems[first1]._ignore) {
+                        if (pubstructure.orderedItems[first1]._childCount > 1) {
+                            for (var second1 = 0; second1 < pubstructure.orderedItems[first1]._elements.length; second1++) {
+                                selected = pubstructure.orderedItems[first1]._id + "/" + pubstructure.orderedItems[first1]._elements[second1]._id;
+                                break;
+                            }
+                        } else {
+                            selected = pubstructure.orderedItems[first1]._id;
                         }
-                    } else {
-                        selected = pubstructure.orderedItems[first1]._id;
+                        break;
                     }
-                    break;
                 }
             }
             // Select correct item
