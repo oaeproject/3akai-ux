@@ -164,7 +164,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var setupTooltip = function (groupid, $item) {
-            $item.addClass("mymemberships_item_hovered");
             // check local cache for data on this group
             if (mymemberships.cache[groupid] && mymemberships.cache[groupid].participants) {
                 // data is cached
@@ -328,7 +327,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
         var hoverOut = function (ev) {
             if (!mymemberships.hovering) {
-                $(this).removeClass("mymemberships_item_hovered");
                 $(window).trigger("done.tooltip.sakai");
             }
         };
@@ -346,7 +344,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $tooltip.live("mouseleave", function (ev) {
             mymemberships.hovering = false;
-            $(".mymemberships_item", $rootel).removeClass("mymemberships_item_hovered");
             $(window).trigger("done.tooltip.sakai");
         });
 
@@ -374,9 +371,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 var groupData = [];
                 $.each(groups.entry, function (i, group) {
-                    var title = sakai.api.Util.applyThreeDots(
+                    var titleShort = sakai.api.Util.applyThreeDots(
                         sakai.api.Security.escapeHTML(group["sakai:group-title"]),
-                        650,  // width of .mymemberships_info div (not yet rendered)
+                        550,  // width of .mymemberships_info div (not yet rendered)
                         {max_rows: 1, whole_word: false},
                         "s3d-bold"
                     );
@@ -391,13 +388,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     groupData.push({
                         id: group.groupid,
                         url: "/~" + group.groupid,
-                        picsrc: "/dev/images/group_emblem-sm.png",  // KERN?: should be part of the feed...
+                        picsrc: "/dev/images/group_emblem-lg.png",  // KERN?: should be part of the feed...
                         edit_url: "/dev/group_edit2.html?id=" + group.groupid,
-                        title: title,
-                        desc: desc
+                        title: group["sakai:group-title"],
+                        titleShort: titleShort,
+                        desc: desc,
+                        type: "Course",
+                        created: "1305156244412",
+                        contentCount: "5",
+                        membersCount: "4",
+                        tags: []
                     });
                     mymemberships.cache[group.groupid] = {
-                        title: title,
+                        title: group["sakai:group-title"],
                         id: group.groupid,
                         seeAll: false,
                         managerCount: 1
@@ -405,10 +408,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 var json = {
                     groups: groupData,
+                    isOwnerViewing: mymemberships.isOwnerViewing,
                     user_manages: function (group) {
                         if (!group) { return false; }
                         return sakai.api.Groups.isCurrentUserAManager(group.id, sakai.data.me);
-                    }
+                    },
+                    sakai: sakai
                 };
                 $mymemberships_nodata.hide();
                 $mymemberships_nogroups.hide();
@@ -416,6 +421,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mymemberships_items.show();
                 $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                     $("#mymemberships_items_template", $rootel), json));
+
+                // display functions available to logged in users
+                if (!sakai.data.me.user.anon) {
+                    $(".mymemberships_item_user_functions").show();
+                }
             } else {
                 $mymemberships_nodata.hide();
                 $mymemberships_actionbar.hide();
