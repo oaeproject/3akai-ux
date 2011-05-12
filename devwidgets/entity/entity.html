@@ -77,9 +77,9 @@
         </div>
         <div id="entity_name" class="s3d-bold">${data.displayName}</div>
         <div id="entity_owns" class="s3d-regular-links">
-            <span class="entity_number">(${data.counts["content"]})</span> <a href="#l=library" title="${data.counts["content"]} Documents">Documents</a>,
-            <span class="entity_number">(${data.counts["memberships"]})</span> <a href="#l=memberships" title="${data.counts["memberships"]} Memberships">Memberships</a>,
-            <span class="entity_number">(${data.counts["contacts"]})</span> <a href="#l=contacts" title="${data.counts["contacts"]} Contacts">Contacts</a>
+            <span class="entity_number">(${data.profile.counts["contentCount"]})</span> <a href="#l=library" title="${data.profile.counts["contentCount"]} Documents">Documents</a>,
+            <span class="entity_number">(${data.profile.counts["membershipsCount"]})</span> <a href="#l=memberships" title="${data.profile.counts["membershipsCount"]} Memberships">Memberships</a>,
+            <span class="entity_number">(${data.profile.counts["contactsCount"]})</span> <a href="#l=contacts" title="${data.profile.counts["contactsCount"]} Contacts">Contacts</a>
         </div>
     {/if}
 --></div>
