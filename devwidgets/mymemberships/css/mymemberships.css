@@ -48,4 +48,4 @@
 .mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
 .mymemberships_item_tags_dot{color: #999999;}
 .mymemberships_item:hover {background-color: #f2f9fc;}
-.mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;}
+.mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
