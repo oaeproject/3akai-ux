@@ -495,20 +495,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             storeStructure(pubstructure);
         };
 
-        var savePage = function() {
-            if (pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
-            } else if (privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
-            }
-            renderPage(sakai_global.lhnavigation.currentPageShown.ref, sakai_global.lhnavigation.currentPageShown.path, sakai_global.lhnavigation.currentPageShown.savePath, true);
-            if (isEditingNewPage){
-                storeStructure(pubstructure);
-            }
-        };
-
-        $(window).bind("savePage.lhnavigation.sakai", savePage);
-
         /**
          * Delete a page
          */
