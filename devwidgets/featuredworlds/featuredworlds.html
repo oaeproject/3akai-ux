@@ -1,0 +1,36 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/featuredworlds/css/featuredworlds.css" />
+
+<div class="featuredworlds_widget">
+    <div id="featuredworlds_container"><!----></div>
+</div>
+
+<div id="featuredworlds_template"><!--
+    <div class="s3d-contentpage-title">
+        {for tab in tabs}
+        ${debug.log(tab)}
+            <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" sakai-worldid="${tab.id}">${tab.title}</div>
+        {/for}
+    </div>
+    <div id="featuredworlds_worlds_content_container"></div>
+    <hr class="fl-push fl-hidden"/>
+    <div id="featuredworlds_footer"></div>
+--></div>
+
+<div id="featuredworlds_worlds_content_template"><!--
+    {if data.total}
+        {for item in data.results}
+            <div class="featuredworlds_content">
+                <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image"/>
+                <a href="/~${item["sakai:group-id"]}" class="s3d-bold s3d-regular-links">${item["sakai:group-title"]}</a>
+                <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
+                <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}</a>
+            </div>
+        {/for}
+    {else}
+        <span id="featuredworlds_no_worlds">__MSG__NO_FEATURED_WORLDS__</span>
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/featuredworlds/javascript/featuredworlds.js"></script>

@@ -86,14 +86,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 var fcRnd = Math.floor(Math.random() * 999999999);
                 var fpRnd = Math.floor(Math.random() * 999999999);
+                var fwRnd = Math.floor(Math.random() * 999999999);
                 pubdata[rnd] = {
-                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div>"
+                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
                 }
                 pubdata[fcRnd] = {
                     navData: navData,
                     category: navData.id
                 };
                 pubdata[fpRnd] = {
+                    navData: navData,
+                    category: navData.id
+                };
+                pubdata[fwRnd] = {
                     navData: navData,
                     category: navData.id
                 };
@@ -114,8 +119,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 var fcRnd = Math.floor(Math.random() * 999999999);
                 var fpRnd = Math.floor(Math.random() * 999999999);
+                var fwRnd = Math.floor(Math.random() * 999999999);
                 pubdata[rnd] = {
-                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div>"
+                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
                 }
                 pubdata[fcRnd] = {
                     navData: navData,
@@ -124,6 +130,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 pubdata[fpRnd] = {
                     navData: navData,
                     category: navData.id + "/" + index
+                };
+                pubdata[fwRnd] = {
+                    navData: navData,
+                    category: navData.id
                 };
 
                 count++;
