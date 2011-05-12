@@ -70,7 +70,7 @@ define(function(){
             LOGOUT_SERVICE: "/system/sling/logout?resource=/dev/index.html",
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
-            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
