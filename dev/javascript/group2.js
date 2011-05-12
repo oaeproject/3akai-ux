@@ -77,6 +77,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
         // LOAD LEFT HAND SIDE //
         /////////////////////////
+        
+        var filterOutUnwanted = function(){
+            for (var i in pubdata.structure0){
+                var edit = $.parseJSON(pubdata.structure0[i]._edit);
+                var view = $.parseJSON(pubdata.structure0[i]._view);
+                if (sakai.data.me.user.anon){
+                    // Check whether anonymous is in
+                    if ($.inArray("anonymous", view) === -1){
+                        pubdata.structure0[i]._ignore = true;
+                    }
+                } else {
+                    // Check whether I can manage
+                    
+                }
+            }
+        };
 
         var loadDocStructure = function(){
             $.ajax({
@@ -84,6 +100,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
                     pubdata = {};
                     pubdata.structure0 = sakai.api.Server.cleanUpSakaiDocObject(data);
+                    filterOutUnwanted();
                     generateNav();
                 }
             });
