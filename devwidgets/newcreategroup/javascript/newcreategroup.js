@@ -135,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 });
                 if (users.length > 0) {
-                    sakai.api.Groups.addUsersToGroup(groupid, false, users, false, function(){
+                    sakai.api.Groups.addUsersToGroup(groupid, false, users, sakai.data.me, false, function(){
                         creationComplete.members = true;
                         checkCreationComplete();
                     });
