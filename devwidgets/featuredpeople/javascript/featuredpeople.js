@@ -27,7 +27,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.featuredpeople = function(tuid, showSettings){
+    sakai_global.featuredpeople = function(tuid, showSettings, pageData){
 
         var $rootel = $("#"+tuid);
 
@@ -38,15 +38,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredpeopleTemplate = "featuredpeople_template";
 
         var renderPeople = function(data){
-            debug.log(data);
-            $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {"data":data}));
+                $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
+                    "data": data
+                }));
         }
 
         var parsePeople = function(success, data){
             if (success) {
                 $.each(data.results, function(index, item){
                     if(item.picture){
-                        item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name
+                        item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name;
                     }else{
                         item.picture = "/dev/images/user_avatar_icon_48x48.png";
                     }
@@ -58,8 +59,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var fetchPeople = function(){
             var q = "";
-            if(sakai_global.category){
-                q = sakai_global.category.bbq;
+            if(pageData){
+                q = pageData.category;
             }
             sakai.api.Server.loadJSON("/var/search/users.infinity.json", parsePeople, {
                 page: 0,

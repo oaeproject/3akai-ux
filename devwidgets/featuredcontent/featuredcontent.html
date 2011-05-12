@@ -119,7 +119,7 @@
             <span class="featuredcontent_content_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${small.usedin} {if small.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
             <span class="featuredcontent_content_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#content_path=/p/${small["jcr:name"]}" title="${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>
         </div>
-        {if small_index == 2}
+        {if small_index == 2 && data.length > 3}
             <hr class="s3d-split-line fl-push ">
         {/if}
     {/for}

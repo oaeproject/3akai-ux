@@ -26,3 +26,4 @@
 .featuredpeople_widget .featuredpeople_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:144px;}
 .featuredpeople_widget .featuredpeople_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredpeople_widget .featuredpeople_content .featuredpeople_userpage_link {display:block;font-size:11px;}
+.featuredpeople_widget #feacturedpeople_no_people {display: block;margin: 10px;}

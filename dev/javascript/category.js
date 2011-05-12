@@ -136,9 +136,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var category = $.bbq.getState("tag");
             if(!category){
                 category = $.bbq.getState("l").split("/");
-                sakai_global.category.bbq  = $.bbq.getState("l")
             }else{
-                sakai_global.category.bbq = category;
                 category = category.split("/");
             }
             sakai.config.Directory[category[0]].id = category[0];
