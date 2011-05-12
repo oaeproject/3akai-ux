@@ -41,7 +41,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             breadcrumb.push({
                 "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
                 "id": bbqData[0],
-                "link": true
+                "link": true,
+                "url": "/dev/allcategories.html"
+            });
+            breadcrumb.push({
+                "title": dirData.title,
+                "id": dirData.id,
+                "link": bbqData.length - 1
             });
             bbqData.splice(0,1);
 
@@ -100,7 +106,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var category = $.bbq.getState("tag");
             if(!category){
                 category = $.bbq.getState("l").split("/");
+                sakai_global.category.bbq  = $.bbq.getState("l")
             }else{
+                sakai_global.category.bbq = category;
                 category = category.split("/");
             }
             sakai.config.Directory[category[0]].id = category[0];
@@ -115,6 +123,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("hashchange", function(e, data){
             doInit();
         });
+
+        $(window).trigger("hashchange");
     };
 
     sakai.api.Widgets.Container.registerForLoad("category");

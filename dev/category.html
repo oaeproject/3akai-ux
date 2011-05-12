@@ -26,7 +26,7 @@
                             <span>&nbsp;/&nbsp;</span>
                             {/if}
                             {if crumb.link}
-                                <a href="#l=${crumb.id}" class="s3d-bold s3d-regular-links">
+                                <a href="{if crumb.url}${crumb.url} {else} #l=${crumb.id}{/if}" class="s3d-bold s3d-regular-links">
                             {/if}
 
                             ${crumb.title}

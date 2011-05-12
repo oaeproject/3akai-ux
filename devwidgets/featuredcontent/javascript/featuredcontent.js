@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredCategoryContentArr = [];
 
         var renderFeaturedContent = function(total){
-            if (!featuredContentArr[0].hasPreview && sakai_global.category) {
+            if (featuredContentArr.length && !featuredContentArr[0].hasPreview && sakai_global.category) {
                 $featuredcontentWidget.hide();
             } else {
                 $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
@@ -53,12 +53,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "sakai": sakai
                 }));
                 if(sakai_global.category){
-                    debug.log(featuredCategoryContentArr);
-                    $(featuredcontentCategoryContentContainer).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
-                        "data": featuredCategoryContentArr,
-                        "sakai": sakai,
-                        "total": total
-                    }));
+                    if (featuredCategoryContentArr.length) {
+                        $(featuredcontentCategoryContentContainer).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
+                            "data": featuredCategoryContentArr,
+                            "sakai": sakai,
+                            "total": total
+                        }));
+                    }
                 }
                 $featuredcontentWidget.show();
             }
@@ -116,8 +117,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                         candidate = data.results[0];
                     }
-                    featuredContentArr.push(candidate);
-                    data.results.splice(i, 1);
+                    if(candidate){
+                        featuredContentArr.push(candidate);
+                        data.results.splice(i, 1);
+                    }
                 }
 
                 $.each(data.results, function(index, item){
@@ -131,8 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             item.commentcount = sakai.api.Content.getCommentCount(item);
                             featuredCategoryContentArr.push(item);
                         }
-                    }
-                    else {
+                    } else {
                         if (featuredContentArr.length != 7) {
                             if (mode == "medium") {
                                 item.mode = "medium";
@@ -167,22 +169,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var getFeaturedContent = function(){
             var items = 10;
+            var q = "";
+            var url = "/var/search/pool/all-all.json";
             if(sakai_global.category){
                 items = 7;
+                q = sakai_global.category.bbq;
+                url = "/var/search/pool/all.json"
             }
-            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseFeaturedContent, {
+            sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
                 items: items,
                 sortOn: "_lastModified",
                 sortOrder: "desc",
+                q: q
             });
         };
 
+        var resetWidget = function(){
+            largeEnough = false;
+            featuredContentArr = [];
+            featuredCategoryContentArr = [];
+        };
+
         var doInit = function(){
+            resetWidget();
             getFeaturedContent();
         };
 
-        doInit();
+        if(!sakai_global.category){
+            doInit();
+        }
+
+        $(window).bind("lhnav.ready", function(){
+            doInit();
+        });
+
+        $(window).bind("hashchange", function(e, data){
+            doInit();
+        });
 
     };
 
