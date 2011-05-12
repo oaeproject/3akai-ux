@@ -29,8 +29,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.featuredpeople = function(tuid, showSettings){
 
-        var $featuredpeopleContainer = $("#featuredpeople_container");
-        
+        var $rootel = $("#"+tuid);
+
+        // Containers
+        var $featuredpeopleContainer = $("#featuredpeople_container", $rootel);
+
+        // Templates
         var featuredpeopleTemplate = "featuredpeople_template";
 
         var renderPeople = function(data){

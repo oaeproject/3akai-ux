@@ -27,17 +27,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.featuredcontent = function(tuid, showSettings){
+    sakai_global.featuredcontent = function(tuid, showSettings, pageData){
+
+        var $rootel = $("#"+tuid);
 
         // Containers
-        var $featuredcontentContentContainer = $("#featuredcontent_content_container");
+        var $featuredcontentContentContainer = $("#featuredcontent_content_container", $rootel);
         var featuredcontentCategoryContentContainer = "#featuredcontent_category_content_container";
 
         // Templates
         var featuredcontentContentTemplate = "featuredcontent_content_template";
         var featuredcontentCategoryContentTemplate= "featuredcontent_category_content_template";
 
-        var $featuredcontentWidget = $(".featuredcontent_widget");
+        var $featuredcontentWidget = $(".featuredcontent_widget", $rootel);
 
         var largeEnough = false;
 
@@ -54,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }));
                 if(sakai_global.category){
                     if (featuredCategoryContentArr.length) {
-                        $(featuredcontentCategoryContentContainer).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
+                        $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
                             "data": featuredCategoryContentArr,
                             "sakai": sakai,
                             "total": total
@@ -173,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var url = "/var/search/pool/all-all.json";
             if(sakai_global.category){
                 items = 7;
-                q = sakai_global.category.bbq;
+                q = pageData.category;;
                 url = "/var/search/pool/all.json"
             }
             sakai.api.Server.loadJSON(url, parseFeaturedContent, {
@@ -196,17 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             getFeaturedContent();
         };
 
-        if(!sakai_global.category){
-            doInit();
-        }
-
-        $(window).bind("lhnav.ready", function(){
-            doInit();
-        });
-
-        $(window).bind("hashchange", function(e, data){
-            doInit();
-        });
+        doInit();
 
     };
 

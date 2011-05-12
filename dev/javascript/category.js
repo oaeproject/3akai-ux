@@ -76,12 +76,27 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "structure0": {}
             }
 
+            var rnd =  Math.floor(Math.random() * 999999999);
             pubdata["structure0"][navData.id] = {
                 "_id": navData.id,
                 "_order": 0,
-                "_ref": Math.floor(Math.random() * 999999999),
+                "_ref": rnd,
                 "_title": navData.title
             }
+
+                var fcRnd = Math.floor(Math.random() * 999999999);
+                var fpRnd = Math.floor(Math.random() * 999999999);
+                pubdata[rnd] = {
+                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div>"
+                }
+                pubdata[fcRnd] = {
+                    navData: navData,
+                    category: navData.id
+                };
+                pubdata[fpRnd] = {
+                    navData: navData,
+                    category: navData.id
+                };
 
             var count = 0;
             $.each(navData.children, function(index, item){
@@ -96,6 +111,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "_title": item.title
                     }
                 };
+
+                var fcRnd = Math.floor(Math.random() * 999999999);
+                var fpRnd = Math.floor(Math.random() * 999999999);
+                pubdata[rnd] = {
+                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div>"
+                }
+                pubdata[fcRnd] = {
+                    navData: navData,
+                    category: navData.id + "/" + index
+                };
+                pubdata[fpRnd] = {
+                    navData: navData,
+                    category: navData.id + "/" + index
+                };
+
                 count++;
             });
 
