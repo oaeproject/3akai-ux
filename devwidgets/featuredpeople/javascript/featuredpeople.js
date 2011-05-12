@@ -38,18 +38,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredpeopleTemplate = "featuredpeople_template";
 
         var renderPeople = function(data){
+            debug.log(data);
             $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {"data":data}));
         }
 
         var parsePeople = function(success, data){
             if (success) {
-                $.each(data, function(index, item){
+                $.each(data.results, function(index, item){
                     if(item.picture){
                         item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name
                     }else{
                         item.picture = "/dev/images/user_avatar_icon_48x48.png";
                     }
-                    item.name = sakai.api.User.getDisplayName(item.basic);
+                    item.name = sakai.api.User.getDisplayName(item);
                 });
                 renderPeople(data);
             }
