@@ -56,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
 
         var parametersToCarryOver = {};
+        var sakaiDocsInStructure = {};
 
         var bookmark = false;
 
@@ -109,24 +110,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var selectNavItem = function($clickedItem, $prevItem){
             $clickedItem.children(".lhnavigation_selected_item_subnav").show();
-            hideSubMenu();
-            if (contextData.isEditMode) {
-                $clickedItem.children(".lhnavigation_selected_submenu").show();
-            }
-
+            //hideSubMenu();
+                
             $prevItem.removeClass(navSelectedItemClass);
             $prevItem.addClass(navHoverableItemClass);
             //$prevItem.children(navSelectedItemArrow).css("visibility","hidden");
-
+                
             $clickedItem.removeClass(navHoverableItemClass);
             $clickedItem.addClass(navSelectedItemClass);
             //$clickedItem.children(navSelectedItemArrow).css("visibility","visible");
-
+                
             showHideSubnav($clickedItem);
-
+                
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
-
+        
+        var currentHover = false;
+        
+        $(".lhnavigation_menuitem").live("mouseenter", function(){
+            $(".lhnavigation_selected_submenu").hide();
+            $("#lhnavigation_submenu").hide();
+            var el = $(this);
+            if (el.data("sakai-manage")){
+                $(".lhnavigation_selected_submenu", el).show();
+            }
+        });
+        
+        $(".lhnavigation_menuitem").live("mouseleave", function(){
+            if (!$("#lhnavigation_submenu").is(":visible")) {
+                $(".lhnavigation_selected_submenu").hide();
+            }
+        });
+        
+        // "mouseleave"
+        
         var hideSubMenu = function(){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
@@ -193,7 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var level in structure) {
                 if (level && level.substring(0, 1) !== "_") {
                     refs = collectPoolIds(structure[level], refs);
-                } else if (level && level === "_pid" && !structure["_ignore"]) {
+                } else if (level && level === "_pid" && structure["_canView"] !== false) {
                     if ($.inArray(structure[level], refs) == -1) {
                         refs.push(structure[level]);
                     }
@@ -246,13 +263,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     for (var i = 0; i < pids.length; i++){
                         var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                        sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
+                        addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
                         structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
                         structure = insertDocPages(structure, docInfo, pids[i]);
                     }
                 }
                 finishProcessDave(structure, data, callback);
             });
-        }
+        };
         
         var finishProcessDave = function(structure, data, callback){
             // Include the childcounts for the pages
@@ -263,9 +282,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             callback(structure);
-        }
+        };
 
-        var processData = function(data, callback){
+        var addDocUrlIntoStructure = function(structure, url){
+            structure._poolpath = url;
+            for (var i in structure){
+                if (i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
+                    structure[i] = addDocUrlIntoStructure(structure[i], url);
+                }
+            }
+            return structure;
+        };
+
+        var processData = function(data, docURL, callback){
             var structure = {};
             structure.items = {};
             structure.pages = {};
@@ -274,6 +303,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     structure.items = $.parseJSON(data["structure0"]);
                 } else {
                     structure.items = data["structure0"];
+                }
+                for (var i in structure.items) {
+                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
                 }
                 // Get a list of all Sakai Docs that have to be "added"
                 var pids = collectPoolIds(structure.items, []);
@@ -285,6 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 finishProcessDave(structure, data, callback);
             }
+            debug.log(structure);
         };
 
         var selectPage = function(){
@@ -293,7 +326,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // If no page is selected, select the first one from the nav
             if (!selected){
                 for (var first = 0; first < privstructure.orderedItems.length; first++){
-                    if (!privstructure.orderedItems[first]._ignore) {
+                    if (privstructure.orderedItems[first]._canView !== false) {
                         if (privstructure.orderedItems[first]._childCount > 1) {
                             for (var second = 0; second < privstructure.orderedItems[first]._elements.length; second++) {
                                 selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first]._elements[second]._id;
@@ -308,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             if (!selected){
                 for (var first1 = 0; first1 < pubstructure.orderedItems.length; first1++){
-                    if (!pubstructure.orderedItems[first1]._ignore) {
+                    if (pubstructure.orderedItems[first1]._canView !== false) {
                         if (pubstructure.orderedItems[first1]._childCount > 1) {
                             for (var second1 = 0; second1 < pubstructure.orderedItems[first1]._elements.length; second1++) {
                                 selected = pubstructure.orderedItems[first1]._id + "/" + pubstructure.orderedItems[first1]._elements[second1]._id;
@@ -568,9 +601,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the elements
          */
         var addBinding = function(){
-            $(".lhnavigation_menu_list li").bind("click", function(){
+            $(".lhnavigation_menu_list li").bind("click", function(ev){
                 var el = $(this);
-                if (el.hasClass("lhnavigation_hassubnav")) {
+                if (el.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
                     showHideSubnav(el);
                 }
             });
@@ -580,13 +613,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // INITIALISATION //
         ////////////////////
 
-        var renderNavigation = function(pubdata, privdata, cData, puburl, privurl){
-            cData.puburl = puburl;
-            cData.privurl = privurl;
+        var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+            cData.puburl = mainPubUrl;
+            cData.privurl = mainPrivUrl;
+            sakaiDocsInStructure[mainPubUrl] = pubdata;
+            sakaiDocsInStructure[mainPrivUrl] = privdata;
             contextData = cData;
-            processData(privdata, function(processedPriv){
+            processData(privdata, cData.privurl, function(processedPriv){
                 privstructure = processedPriv;
-                processData(pubdata, function(processedPub){
+                processData(pubdata, cData.puburl, function(processedPub){
                     pubstructure = processedPub;
                     renderData();
                     addBinding();
@@ -603,8 +638,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectPage();
         });
 
-        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, puburl, privurl){
-            renderNavigation(pubdata, privdata, cData, puburl, privurl);
+        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+            renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
         $(window).trigger("lhnav.ready");
 

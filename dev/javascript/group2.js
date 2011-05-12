@@ -79,18 +79,40 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
         
         var filterOutUnwanted = function(){
+            var roles = $.parseJSON(groupData.authprofile["sakai:roles"]);
             for (var i in pubdata.structure0){
                 var edit = $.parseJSON(pubdata.structure0[i]._edit);
                 var view = $.parseJSON(pubdata.structure0[i]._view);
+                var canEdit = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
+                var canSubedit = false;
+                var canView = false;
                 if (sakai.data.me.user.anon){
                     // Check whether anonymous is in
-                    if ($.inArray("anonymous", view) === -1){
-                        pubdata.structure0[i]._ignore = true;
+                    if ($.inArray("anonymous", view) !== -1){
+                        canView = true;
                     }
                 } else {
+                    // Check whether I can view
+                    for (var r = 0; r < view.length; r++){
+                        if (view[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)){
+                            canView = true;
+                        }
+                    }
+                    // Check whether everyone can view
+                    if ($.inArray("everyone", view) !== -1){
+                        canView = true;
+                    }
                     // Check whether I can manage
-                    
+                    for (var r = 0; r < edit.length; r++){
+                        if (edit[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)){
+                            canView = true;
+                            canSubedit = true;
+                        }
+                    }
                 }
+                pubdata.structure0[i]._canView = canView;
+                pubdata.structure0[i]._canSubedit = canSubedit;
+                pubdata.structure0[i]._canEdit = canEdit;
             }
         };
 

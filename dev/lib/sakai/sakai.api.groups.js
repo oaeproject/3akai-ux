@@ -103,7 +103,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Function} callback the callback function for when the group save is complete. It will pass
          *                            two params, success {Boolean} and nameTaken {Boolean}
         */
-        createGroup : function(id, title, description, meData, template, callback) {
+        createGroup : function(id, title, description, meData, template, category, callback) {
             /**
              * Check if the group is created correctly and exists
              * @param {String} groupid
@@ -159,7 +159,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             var mainCallback = false;
             var mainGroupId = false;
             
-            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, callback){
+            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, category, callback){
                 mainCallback = callback;
                 mainGroupId = groupid;
                 // Get list of all manager groups
@@ -199,6 +199,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
+                            category: category,
                             isSubgroup: true
                         }
                         toProcess.push(group);
@@ -217,6 +218,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             grouptitle: grouptitle + " " + template.roles[i].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
                         }
@@ -232,6 +234,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             grouptitle: grouptitle + " " + template.roles[i].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
                         }
@@ -244,6 +247,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     groupid: groupid,
                     grouptitle: grouptitle,
                     groupdescription: groupdescription,
+                    category: category,
                     template: template,
                     isSubgroup: false
                 }
@@ -285,7 +289,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             // check if the group exists
             if (!groupExists(id)) {
-                fillToProcess(id, title, description, meData, template, callback);
+                fillToProcess(id, title, description, meData, template, category, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false, true);
@@ -578,7 +582,6 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if(!groupid || typeof(groupid) !== "string") {
                 return false;
             }
-
             return $.inArray(groupid, meData.user.subjects) !== -1;
         },
 

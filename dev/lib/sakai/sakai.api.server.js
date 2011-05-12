@@ -339,7 +339,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["jcr:path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
-            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_ignore"];
+            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit"];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
             if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
                 pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
