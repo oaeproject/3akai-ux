@@ -8,6 +8,20 @@
 
 <div id="carousel_single_column_template" style="display:none;"><!--
     <h1>__MSG__FEATURED__:</h1>
+    {macro tags(t)}
+        {if t && t.length}
+            <div class="carousel_content_tags">${t.toString().replace(/,/g,", ")}</div>
+        {/if}
+    {/macro}
+
+    {macro contentButtons(id, uploader)}
+        <span class="carousel_content_buttons" style="display:none">
+            <a href="#" class="carousel_sharecontent share_trigger_click" data-entityid="${id}">&gt;</a>
+            <a href="#" class="carousel_savecontent savecontent_trigger" data-entityid="${id}">+</a>
+            <img src="/dev/images/group_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
+        </span>
+    {/macro}
+
     {if data.length}
         <ul>
             {for item in data}
@@ -79,6 +93,49 @@
                                 {if item.comments && item.comments.length}
                                     <a href="#" class="carousel_content_comments s3d-regular-links">${item.comments.length} __MSG__COMMENTS__</a>
                                 {/if}
+                            </div>
+                        {elseif item.contentType == "suggestedContent"}
+                            <div class="carousel_three_column_container">
+                                <div class="carousel_three_column_left">
+                                    {var content0 = item.suggestions[0]}
+                                    {if content0}
+                                        ${content0.preview}
+                                        <h2>${content0.title}</h1>
+                                        <p>${content0.description}</p>
+                                        ${tags(content0.tags)}
+                                        ${contentButtons(content0.id, content0.createdBy)}
+                                    {/if}
+                                </div>
+                                <div class="carousel_three_column_middle">
+                                    {var content1 = item.suggestions[1]}
+                                    {if content1}
+                                        ${content1.preview}
+                                        <h2>${content1.title}</h1>
+                                        <p>${content1.description}</p>
+                                        ${tags(content1.tags)}
+                                        ${contentButtons(content1.id, content1.createdBy)}
+                                    {/if}
+                                </div>
+                                <div class="carousel_three_column_right">
+                                    <div class="carousel_two_high_top">
+                                        {var content2 = item.suggestions[2]}
+                                        {if content2}
+                                            <h2>${content2.title}</h1>
+                                            <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
+                                            ${tags(content2.tags)}
+                                            ${contentButtons(content2.id, content2.createdBy)}
+                                        {/if}
+                                    </div>
+                                    <div class="carousel_two_high_bottom">
+                                        {var content3 = item.suggestions[3]}
+                                        {if content3}
+                                            <h2>${content3.title}</h1>
+                                            <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
+                                            ${tags(content3.tags)}
+                                            ${contentButtons(content3.id, content3.createdBy)}
+                                        {/if}
+                                    </div>
+                                </div>
                             </div>
                         {elseif item.contentType == "group"}
                             {if item && item.members}
