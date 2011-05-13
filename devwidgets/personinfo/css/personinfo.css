@@ -15,7 +15,7 @@
     -webkit-border-radius: 5px; /* Safari */
 }
 #personinfo_title {font-size: 13px; margin: 10px 10px 5px;}
-#personinfo_message, #personinfo_invite {margin:10px 8px 10px 6px;}
+#personinfo_message, #personinfo_invite, #personinfo_invited, #personinfo_pending {margin:10px 8px 10px 6px;}
 #personinfo_close_button {margin:15px 10px 10px 10px;}
 #personinfo_widget .personinfo_close{padding-top:3px;}
 #personinfo_widget .personinfo_header_arrow{margin-left: 110px;font-size: 0px; line-height: 0%; width: 0px;

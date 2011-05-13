@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.username));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.User.getDisplayName(contactToAdd)));
             hash.w.show();
         };
 
@@ -244,7 +244,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Bind the invite button
         $(addToContactsFormButtonInvite).bind("click", function(){
             // Invite this person.
-            doInvite(contactToAdd.uuid);
+            doInvite(contactToAdd.userid);
             return false;
         });
 

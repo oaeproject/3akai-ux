@@ -70,7 +70,7 @@ define(function(){
             LOGOUT_SERVICE: "/system/sling/logout?resource=/dev/index.html",
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
-            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+            MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
@@ -599,15 +599,6 @@ define(function(){
             "reminderIntervalHours": "168"
         },
 
-        Institution: {
-            /*
-             * Institution contact details are displayed in the footer
-             */
-            helpLinkText: "Contact Us",
-            helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "212-555-1212"
-        },
-
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
@@ -893,10 +884,6 @@ define(function(){
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
             }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
-            }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
                 "url": "/dev/search2.html#l=people"
@@ -916,10 +903,6 @@ define(function(){
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
@@ -1702,7 +1685,7 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUP",
+                title : "GROUPS",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1760,8 +1743,8 @@ define(function(){
                     {
                         id: "medicalscience",
                         title: "Medical science course",
-                        img: "/dev/images/worldtemplates/medicalscience.png",
-                        fullImg: "/dev/images/worldtemplates/medicalscience-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -1786,8 +1769,60 @@ define(function(){
                     {
                         id: "physicscourse",
                         title: "Physics course",
-                        img: "/dev/images/worldtemplates/physicscourse.png",
-                        fullImg: "/dev/images/worldtemplates/physicscourse-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "engineeringcourse",
+                        title: "Engineering course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "humanitiescourse",
+                        title: "Humanities course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -1818,8 +1853,8 @@ define(function(){
                     {
                         id: "researchproject",
                         title: "Group project",
-                        img: "/dev/images/worldtemplates/researchproject.png",
-                        fullImg: "/dev/images/worldtemplates/researchproject-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Collaborative student projects, Class projects, Reading clubs",
                         roles: [
                             {
@@ -1839,8 +1874,8 @@ define(function(){
                     {
                         id: "bidwriting",
                         title: "Bid writing",
-                        img: "/dev/images/worldtemplates/bidwriting.png",
-                        fullImg: "/dev/images/worldtemplates/bidwriting-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Writing a collaborative research bid",
                         roles: [
                             {

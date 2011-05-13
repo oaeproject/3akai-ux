@@ -54,7 +54,7 @@
                             <div class="inbox_middle_col inbox_col">
                                 <div class="inbox_message_data">
                                   <div class="inbox_name">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
                                     <span class="inbox_to_list">__MSG__TO__: ${_.first(message.toList, 3).join(", ")}{if message.toList.length > 3} + ${message.toList.length-3} __MSG__OTHERS__{/if}</span>
                                   </div>
                                   <div class="inbox_date">
@@ -103,7 +103,7 @@
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">
                                         <div class="inbox_name">
-                                          <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                          <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
                                           {if !reply}<span class="inbox_to_list">__MSG__TO__: ${message.toList.join(", ")}</span>{/if}
                                         </div>
                                         <div class="inbox_date">
