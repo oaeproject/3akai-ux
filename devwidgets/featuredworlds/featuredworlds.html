@@ -8,7 +8,6 @@
 <div id="featuredworlds_template"><!--
     <div class="s3d-contentpage-title">
         {for tab in tabs}
-        ${debug.log(tab)}
             <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" sakai-worldid="${tab.id}">${tab.title}</div>
         {/for}
     </div>

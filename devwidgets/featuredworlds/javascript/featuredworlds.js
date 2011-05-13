@@ -51,7 +51,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             sakai.api.Server.loadJSON("/var/search/groups.infinity.json", renderWorld, {
                 page: 0,
                 items: 3,
-                q: worldId
+                q: pageData.category,
+                category: worldId,
             });
         };
 
