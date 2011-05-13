@@ -16,19 +16,21 @@
                 {if activity["sakai:activity-type"] == "comment"}
                     <span class="recentactivity_activity_item_description">${sakai.api.Util.applyThreeDots(activity["sakai:activity-comment"], 300)}</span>
                 {else}
-                    <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]}:</span>
+                    <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]}{if activity.showdetails}:{/if}</span>
                 {/if}
             </div>
-            <div class="recentactivity_activity_item_content">
-                {if activity["_mimeType"]}
-                    {var mimeType = activity["_mimeType"]}
-                {else}
-                    {var mimeType = activity["sakai:custom-mimetype"]}
-                {/if}
-                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="PDF" class="recentactivity_activity_item_image"/>
-                <a href="/content#content_path=/p/${activity["_path"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
-                <span class="recentactivity_activity_item_description">Used in 4 places </span>
-            </div>
+            {if activity.showdetails}
+                <div class="recentactivity_activity_item_content">
+                    {if activity["_mimeType"]}
+                        {var mimeType = activity["_mimeType"]}
+                    {else}
+                        {var mimeType = activity["sakai:custom-mimetype"]}
+                    {/if}
+                    <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="PDF" class="recentactivity_activity_item_image"/>
+                    <a href="/content#content_path=/p/${activity["_path"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
+                    <span class="recentactivity_activity_item_description">Used in 4 places </span>
+                </div>
+            {/if}
         </div>
         {if activity_index != data.results.length - 1}
             <hr class="s3d-split-line fl-push">

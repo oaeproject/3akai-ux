@@ -36,6 +36,7 @@ define(function(){
             PUBLIC_MY_DASHBOARD_URL: "/home",
             PUBLIC_PEOPLE_URL: "/dev/public_people.html",
             PUBLIC_SEARCH_URL: "/dev/public_search.html",
+            SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_CONTENT_URL: "/search/content",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_PEOPLE_URL: "/search/people",

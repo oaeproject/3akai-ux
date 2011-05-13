@@ -49,6 +49,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseActivity = function(success, data){
             if (success) {
                 $.each(data.results, function(index, item){
+                    item.showdetails = true;
+                    if(item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group"){
+                        item.showdetails = false;
+                    }
                     item.who.name = sakai.api.User.getDisplayName(item.who);
                     item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
                     item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
@@ -66,7 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchActivity = function(){
-            sakai.api.Server.loadJSON("/var/search/activity/all.json", parseActivity, {
+            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, parseActivity, {
                 "items": 6
             });
         };
