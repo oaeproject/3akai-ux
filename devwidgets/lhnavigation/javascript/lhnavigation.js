@@ -363,16 +363,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 var ref = menuitem.attr("data-sakai-ref");
                 var savePath = menuitem.attr("data-sakai-savepath") || false;
+                var canEdit = menuitem.attr("data-sakai-submanage") || false;
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
                 // Render page
-                renderPage(ref, selected, savePath);
+                renderPage(ref, selected, savePath, canEdit);
             }
 
         };
 
-        var renderPage = function(ref, path, savePath, reload){
+        var renderPage = function(ref, path, savePath, canEdit, reload){
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-main-content > div:visible", false);
             $("#s3d-page-main-content > div:visible").hide();
             var content = getPageContent(ref);
@@ -380,7 +381,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "ref": ref,
                 "path": path,
                 "content": content,
-                "savePath": savePath
+                "savePath": savePath,
+                "canEdit": canEdit
             };
             $(window).trigger("changePage.lhnavigation.sakai", sakai_global.lhnavigation.currentPageShown);
             if ($("#s3d-page-main-content #" + ref).length > 0){
