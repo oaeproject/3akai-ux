@@ -186,15 +186,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $mylibrary_sortby.change(function (ev) {
             var sortSelection = this.options[this.selectedIndex].value;
-            switch (sortSelection) {
-                case "lastModified_asc":
-                    mylibrary.sortBy = "_lastModified";
-                    mylibrary.sortOrder = "asc";
-                    break;
-                default:
-                    mylibrary.sortBy = "_lastModified";
-                    mylibrary.sortOrder = "desc";
-                    break;
+            if (sortSelection === "lastModified_asc") {
+                mylibrary.sortBy = "_lastModified";
+                mylibrary.sortOrder = "asc";
+            } else {
+                mylibrary.sortBy = "_lastModified";
+                mylibrary.sortOrder = "desc";
             }
             reset();
         });
@@ -384,11 +381,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var json = {
                     items: items,
                     user_is_owner: function (item) {
-                        if (!item) return false;
+                        if (!item) {
+                            return false;
+                        }
                         return sakai.data.me.user.userid === item.ownerid && mylibrary.isOwnerViewing;
                     },
                     user_is_manager: function (item) {
-                        if (!item) return false;
+                        if (!item) {
+                            return false;
+                        }
                         return sakai.data.me.user.userid === item.ownerid;
                     }
                 };
@@ -407,15 +408,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Update dom with user display names
                 sakai.api.User.getMultipleUsers(mylibrary.userArray, function(users){
-                    for (u in users) {
+                    for (var u in users) {
                         if (users.hasOwnProperty(u)) {
-                            $(".mylibrary_item_username").each(function(index, val){
-                               var userId = $(val).text();
-                               if (userId === u){
-                                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-                               }
-                            });
+                            setUsername(u, users);
                         }
                     }
                 });
@@ -433,20 +428,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var setUsername = function(u, users) {
+            $(".mylibrary_item_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
+        };
+
         /**
          * Renders the used in filter
          */
         var initUsedInFilter = function (){
             $mylibrary_groupfilter_selection.click(function (ev) {
-                if ($mylibrary_groupfilter_selection.hasClass("mylibrary_groupfilter_selection_open")){
+                if ($mylibrary_groupfilter_selection.hasClass("mylibrary_groupfilter_selection_open")) {
                     $mylibrary_groupfilter_selection.removeClass("mylibrary_groupfilter_selection_open");
-                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_down")
-                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_up")
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_down");
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_up");
                     $mylibrary_groupfilter_groups.hide();
                 } else {
                     $mylibrary_groupfilter_selection.addClass("mylibrary_groupfilter_selection_open");
-                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_up")
-                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_down")
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_up");
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_down");
                     $mylibrary_groupfilter_groups.show();
                 }
                 return false;
@@ -495,7 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
             //$mylibrary_groupfilter_wrapper.show();
-            $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length) + 1) + ")");
+            $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length, 10) + 1) + ")");
         };
 
         /////////////////////////////

@@ -334,13 +334,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $mymemberships_sortby.change(function () {
             var sortSelection = this.options[this.selectedIndex].value;
-            switch (sortSelection) {
-                case "desc":
-                    mymemberships.sortOrder = "desc";
-                    break;
-                default:
-                    mymemberships.sortOrder = "asc";
-                    break;
+            if (sortSelection === "desc") {
+                mymemberships.sortOrder = "desc";
+            } else {
+                mymemberships.sortOrder = "asc";
             }
             doInit();
         });

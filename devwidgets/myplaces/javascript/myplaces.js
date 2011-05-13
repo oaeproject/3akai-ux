@@ -53,7 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(this).children('img').attr("src","/dev/images/user_avatar_icon_32x32.png");
                 }
             );
-        }
+        };
 
         var doInit = function(){
             bindEvents();

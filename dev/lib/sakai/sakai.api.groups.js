@@ -131,7 +131,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     "sakai:group-title" : group.grouptitle,
                     "sakai:group-description" : group.groupdescription,
                     "sakai:group-id": group.groupid
-                }
+                };
                 if (!group.isSubgroup){
                     data["sakai:category"] = group.category;
                     data["sakai:templateid"] = group.template.id;
@@ -151,7 +151,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         callback(false);
                     }
                 });
-            }
+            };
             
             var toProcess = [];
             var membershipsToProcess = [];
@@ -169,94 +169,94 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         managerGroups.push(groupid + "-" + template.roles[i].id);
                     }
                 }
-                for (var i = 0; i < template.roles.length; i++){
+                for (var j = 0; j < template.roles.length; j++){
                     for (var m = 0; m < managerGroups.length; m++) {
                         managershipsToProcess.push({
                             "user": managerGroups[m],
-                            "permission": template.roles[i].id
+                            "permission": template.roles[j].id
                         });
                     }
                 }
-                for (var m = 0; m < managerGroups.length; m++) {
+                for (var k = 0; k < managerGroups.length; k++) {
                     managershipsToProcess.push({
-                        "user": managerGroups[m],
+                        "user": managerGroups[k],
                         "permission": ""
                     });
                 }
                 
                 // Get list of all subgroups
                 var subGroups = [];
-                for (var i = 0; i < template.roles.length; i++){
-                    subGroups.push(groupid + "-" + template.roles[i].id);
+                for (var z = 0; z < template.roles.length; z++){
+                    subGroups.push(groupid + "-" + template.roles[z].id);
                 }
                 
                 // First do the main maintenance groups
-                for (var i = 0; i < template.roles.length; i++){
-                    if (template.roles[i].id === template.creatorRole){
+                for (var q = 0; q < template.roles.length; q++){
+                    if (template.roles[q].id === template.creatorRole){
                         var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                            groupid: groupid + "-" + template.roles[q].id,
+                            grouptitle: grouptitle + " " + template.roles[q].title,
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
                             isSubgroup: true
-                        }
+                        };
                         toProcess.push(group);
                         membershipsToProcess.push({
                             "user": meData.user.userid,
-                            "permission": template.roles[i].id
+                            "permission": template.roles[q].id
                         });
                     }
                 }
                 
                 // Other maintenance groups
-                for (var i = 0; i < template.roles.length; i++) {
-                    if (template.roles[i].allowManage && template.roles[i].id !== template.creatorRole) {
-                        var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                for (var n = 0; n < template.roles.length; n++) {
+                    if (template.roles[n].allowManage && template.roles[n].id !== template.creatorRole) {
+                        var gr = {
+                            groupid: groupid + "-" + template.roles[n].id,
+                            grouptitle: grouptitle + " " + template.roles[n].title,
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
                             isSubgroup: true
-                        }
-                        toProcess.push(group);
+                        };
+                        toProcess.push(gr);
                     }
                 }
                 
                 // Other Subgroups
-                for (var i = 0; i < template.roles.length; i++) {
+                for (var o = 0; o < template.roles.length; o++) {
                     if (!template.roles[i].allowManage) {
-                        var group = {
-                            groupid: groupid + "-" + template.roles[i].id,
-                            grouptitle: grouptitle + " " + template.roles[i].title,
+                        var gr1 = {
+                            groupid: groupid + "-" + template.roles[o].id,
+                            grouptitle: grouptitle + " " + template.roles[o].title,
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
                             isSubgroup: true
-                        }
-                        toProcess.push(group);
+                        };
+                        toProcess.push(gr1);
                     }
                 }
                 
                 // Main group
-                var group = {
+                var gr2 = {
                     groupid: groupid,
                     grouptitle: grouptitle,
                     groupdescription: groupdescription,
                     template: template,
                     isSubgroup: false
-                }
-                toProcess.push(group);
-                for (var i = 0; i < template.roles.length; i++) {
+                };
+                toProcess.push(gr2);
+                for (var b = 0; b < template.roles.length; b++) {
                     membershipsToProcess.push({
-                        "user": groupid + "-" + template.roles[i].id,
+                        "user": groupid + "-" + template.roles[b].id,
                         "permission": ""
                     });
                 }
                 
                 saveGroup(true);
-            }
+            };
 
             /**
              * Create the group.
@@ -699,7 +699,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         var parameters = {
                             group: groupID + "-" + roles[i].id,
                             q: searchquery
-                        }
+                        };
                         if (searchquery !== "*"){
                             url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
                         }
@@ -932,9 +932,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 }
             }
             var template = false;
-            for (var i = 0; i < category.templates.length; i++){
-                if (category.templates[i].id === id){
-                    template = category.templates[i];
+            for (var w = 0; w < category.templates.length; w++){
+                if (category.templates[w].id === id){
+                    template = category.templates[w];
                     break;
                 }
             }
