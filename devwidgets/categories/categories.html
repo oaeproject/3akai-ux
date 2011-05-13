@@ -37,7 +37,7 @@
             {for item in directory}
                 <li>
                     <div class="categories_item">
-                        <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
+                        <a href="/dev/category.html#tag=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${total} content items</span>
                         {if item.featuredcontent}
                             <hr class="s3d-split-line fl-push">
@@ -51,7 +51,7 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="categories_item_content_preview"/>
                             {/if}
                             <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                            <span class="categories_item_header_meta_small">Used by 19 people</span>
+                            <span class="categories_item_header_meta_small">__MSG__USED_BY__ ${item.featuredcontent.usedby} {if item.featuredcontent.usedby != 1} __MSG__PEOPLE__{else} __MSG__PERSON__{/if}</span>
                             <hr class="fl-push fl-hidden"/>
                             <span class="categories_item_tags">
                                 {for tag in item.featuredcontent["sakai:tags"]}
