@@ -59,20 +59,28 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         sakai_global.data.search.prepareCMforRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i < j; i++) {
-                // Set the item object in finaljson equal to the object in results
-                finaljson.items[i] = results[i];
+                if (results[i]['sakai:pooled-content-file-name']) {
+                    // Set the item object in finaljson equal to the object in results
+                    finaljson.items[i] = results[i];
 
-                // Only modify the description if there is one
-                if (finaljson.items[i]["sakai:description"]) {
-                    finaljson.items[i]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:description"], $("#sites_header .search_results_part_header").width() - 80, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
-                }
-                if(finaljson.items[i]["sakai:pooled-content-file-name"]){
-                    finaljson.items[i]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:pooled-content-file-name"], $("#sites_header .search_results_part_header").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
-                }
-                // Modify the tags if there are any
-                if(finaljson.items[i]["sakai:tags"]){
-                    if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
-                        finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
+                    // Only modify the description if there is one
+                    if (finaljson.items[i]["sakai:description"]) {
+                        finaljson.items[i]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:description"], $("#sites_header .search_results_part_header").width() - 80, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "search_result_course_site_excerpt");
+                    }
+                    if (finaljson.items[i]["sakai:pooled-content-file-name"]) {
+                        finaljson.items[i]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:pooled-content-file-name"], $("#sites_header .search_results_part_header").width() - 80, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                    }
+                    // Modify the tags if there are any
+                    if (finaljson.items[i]["sakai:tags"]) {
+                        if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
+                            finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
+                        }
                     }
                 }
             }
@@ -82,28 +90,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         
         sakai_global.data.search.prepareGroupsForRender = function(results, finaljson){
             for (var group in results){
-                if (results.hasOwnProperty(group)) {
+                if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
                     if (results[group]["sakai:group-title"]) {
-                        results[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-title"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-title"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                     if (results[group]["sakai:group-description"]) {
-                        results[group]["sakai:group-description"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-description"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "searchall_result_course_site_excerpt");
+                        results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-description"]), $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false}, "searchall_result_course_site_excerpt");
                     }
+
+                    results[group].groupType = "COURSE";
+                    results[group].created = "1305156244412";
+                    results[group].userMember = false;
                     finaljson.items.push(results[group]);
                 }
             }
 
             // If result is page content set up page path
             for (var i=0, j=finaljson.items.length; i<j; i++ ) {
-                var full_path = finaljson.items[i]["path"];
-                var site_path = finaljson.items[i]["sakai:group-id"];
-                var page_path = site_path;
-                finaljson.items[i]["pagepath"] = page_path;
-                finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".searchall_results .searchall_results_container").width() - 80, {max_rows: 1,whole_word: false},"searchall_result_course_site_excerpt");
+                if (finaljson.items[i]["sakai:group-id"]) {
+                    var full_path = finaljson.items[i]["path"];
+                    var site_path = finaljson.items[i]["sakai:group-id"];
+                    var page_path = site_path;
+                    finaljson.items[i]["pagepath"] = page_path;
+                    finaljson.items[i]["dottedpagepath"] = sakai.api.Util.applyThreeDots(page_path, $(".searchall_results .searchall_results_container").width() - 80, {
+                        max_rows: 1,
+                        whole_word: false
+                    }, "searchall_result_course_site_excerpt");
 
-                if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
-                    finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
-                    finaljson.items[i].picture.picPath = "/~"+finaljson.items[i]["sakai:group-id"]+"/public/profile/"+finaljson.items[i].picture.name;
+                    if (finaljson.items[i].picture && typeof finaljson.items[i].picture === "string") {
+                        finaljson.items[i].picture = $.parseJSON(finaljson.items[i].picture);
+                        finaljson.items[i].picture.picPath = "/~" + finaljson.items[i]["sakai:group-id"] + "/public/profile/" + finaljson.items[i].picture.name;
+                    }
                 }
             }
             finaljson.sakai = sakai;
@@ -116,7 +133,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (item.target){
                     item = results[i].profile;
                 }
-                if (item && item["rep:userId"] != "anonymous") {
+                if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
                     var user = {};
                     user.userid = item["rep:userId"];
                     // Parse the user his info.

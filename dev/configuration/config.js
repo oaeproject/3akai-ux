@@ -87,6 +87,7 @@ define(function(){
             SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
             SDATA_FETCH: "/",
             // --
+            SEARCH_ALL_ENTITIES: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
