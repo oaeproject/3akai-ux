@@ -34,7 +34,6 @@
     </div>
     <div id="categories_items_content">
         <ul>
-        ${debug.log(directory)}
             {for item in directory}
                 <li>
                     <div class="categories_item">
@@ -52,7 +51,7 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="categories_item_content_preview"/>
                             {/if}
                             <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                            <span class="categories_item_header_meta_small">Used by 19 people</span>
+                            <span class="categories_item_header_meta_small">__MSG__USED_BY__ ${item.featuredcontent.usedby} {if item.featuredcontent.usedby != 1} __MSG__PEOPLE__{else} __MSG__PERSON__{/if}</span>
                             <hr class="fl-push fl-hidden"/>
                             <span class="categories_item_tags">
                                 {for tag in item.featuredcontent["sakai:tags"]}

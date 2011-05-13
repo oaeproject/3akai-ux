@@ -133,6 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
                     }
                     data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
+                    data.results[count].usedby = sakai.api.Content.getPlaceCount(data.results[count]);
                     toplevel["featuredcontent"] = data.results[count];
                     toplevel.id = i;
                 }
