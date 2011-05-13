@@ -788,7 +788,7 @@ define(["jquery",
                 }
                 // Always push with the 2 argument as newState contains the entire state we want
                 $.bbq.pushState(newState, 2);
-                return false;
+                e.preventDefault();
             });
             oldState = $.bbq.getState();
             $(window).bind("hashchange", sakaiWidgetsAPI.handleHashChange);
