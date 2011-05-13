@@ -12,11 +12,17 @@
             <div class="personinfo_inner">
                 <div id="personinfo_container"></div>
             </div>
-            <button id="personinfo_message" class="s3d-button s3d-button-link-2-state fl-force-left" type="button">
+            <button id="personinfo_message" class="s3d-button s3d-button-link-2-state fl-force-left" type="button" style="display:none">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
             </button>
-            <button id="personinfo_invite" class="s3d-button s3d-button-link-2-state fl-force-right" type="button">
+            <button id="personinfo_invite" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_CONNECTION__</span>
+            </button>
+            <button id="personinfo_pending" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none" disabled="disabled">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CONNECTION_REQUESTED__</span>
+            </button>
+            <button id="personinfo_invited" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_CONNECTION_REQUEST__</span>
             </button>
         </div>
     </div>

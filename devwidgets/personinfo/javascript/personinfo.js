@@ -45,6 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_close = $(".personinfo_close", $rootel),
             $personinfo_message = $("#personinfo_message", $rootel),
             $personinfo_invite = $("#personinfo_invite", $rootel);
+            $personinfo_invited = $("#personinfo_invited", $rootel);
+            $personinfo_pending = $("#personinfo_pending", $rootel);
         var dataCache = {};
         var open = false;
         var userId;
@@ -85,10 +87,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * showConnectionButton
+         * Display appropriate connection button according to users connection state
+         */
+        var showConnectionButton = function() {
+            if (userId !== sakai.data.me.user.userid) {
+                $personinfo_message.show();
+                if (!dataCache[userId].connectionState) {
+                    $personinfo_invite.show();
+                } else if (dataCache[userId].connectionState === "PENDING") {
+                    $personinfo_pending.show();
+                } else if (dataCache[userId].connectionState === "INVITED") {
+                    $personinfo_invited.show();
+                }
+            }
+        };
+
+        /**
          * togglePersonInfo
          * Displays the widget
          */
         var togglePersonInfo = function($clickedEl) {
+            showConnectionButton();
+
             var json = {
                 "user": dataCache[userId],
                 "me": sakai.data.me,
@@ -113,6 +134,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.User.getUser(userId, function(success, data){
                     if (success) {
                         dataCache[userId] = data;
+
+                        // check if user is a contact and their connection state
+                        sakai.api.User.getConnectionState(userId, function(state){
+                            dataCache[userId].connectionState = state;
+                        });
 
                         // get display pic
                         var displayPicture = sakai.api.Util.constructProfilePicture(dataCache[userId]);
@@ -179,6 +205,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("initialize.addToContacts.sakai", [dataCache[userId]]);
         });
 
+        // bind personinfo request connection button
+        $personinfo_invited.live("click", function(){
+            sakai.api.User.acceptContactInvite(userId, function(success) {
+                if (success) {
+                    $personinfo_invited.hide();
+                }
+            });
+        });
+
         // bind hashchange to close dialog
         $(window).bind("hashchange hashchanged.inbox.sakai", function(){
             hidePersonInfo();
@@ -187,6 +222,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // bind click trigger
         $(".personinfo_trigger_click").live("click", function(){
             doInit($(this));
+        });
+
+        // bind addtocontact contact request
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            if (dataCache[userToAdd.userid]){
+                dataCache[userToAdd.userid].connectionState = "PENDING";
+                $personinfo_invite.hide();
+                $personinfo_pending.show();
+            }
         });
 
 
@@ -201,6 +245,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function ($clickedEl) {
             $personinfo_invite.hide();
+            $personinfo_invited.hide();
+            $personinfo_pending.hide();
             userId = $clickedEl.data("userid");
 
             // bind outside click to close widget
@@ -210,14 +256,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!$clicked.parents().is("#personinfo") && $personinfo_widget.is(":visible")) {
                     hidePersonInfo();
                 }
-            });
-
-            // check if user is a contact and their connection state
-            sakai.api.User.getConnectionState(userId, function(state){
-                if (!state && userId !== sakai.data.me.user.userid){
-                    $personinfo_invite.show();
-                }
-            });
+            })
 
             if (!open && userId){
                 open = true;
