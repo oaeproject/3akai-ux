@@ -46,9 +46,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             USER_CREATED: "new"
         };
 
+        var t = "";
+        var numItems = 0;
+        var numDiff = 0;
+
         var parseActivity = function(success, data){
             if (success) {
+                numDiff = data.total - numItems;
+                numItems = data.total;
                 $.each(data.results, function(index, item){
+                    if(index < numDiff){
+                        item.fadeIn = true;
+                    }
                     item.showdetails = true;
                     if(item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group"){
                         item.showdetails = false;
@@ -67,6 +76,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "sakai": sakai
                 }));
             }
+
+            $(".recentactivity_activity_item_container:hidden").animate({display:"inline"},1000, 'easeOutBounce').toggle("slow");
+
+            t = setTimeout(fetchActivity, 8000);
         };
 
         var fetchActivity = function(){

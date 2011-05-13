@@ -8,7 +8,7 @@
 
 <div id="recentactivity_activity_item_template"><!--
     {for activity in data.results}
-        <div class="recentactivity_activity_item_container">
+        <div class="recentactivity_activity_item_container" {if activity.fadeIn}style="display:none;"{/if}>
             <div class="recentactivity_activity_item_content">
                 <div class="recentactivity_activity_icon recentactivity_activity_${activity["sakai:activity-appid"]}"></div>
                 <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
