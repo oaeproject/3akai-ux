@@ -25,7 +25,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "all": {
                     "_ref": "id9574379429432",
                     "_order": 0,
-                    "_title": "All",
+                    "_title": "All types",
                     "main": {
                         "_ref": "id9574379429432",
                         "_order": 0,

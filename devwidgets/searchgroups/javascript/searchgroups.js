@@ -32,6 +32,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      */
     sakai_global.searchgroups = function(tuid, showSettings, widgetData){
     
+        var selectedCategory = "other"
+        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
+            if (sakai.config.worldTemplates[c].id === widgetData.category) {
+            selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+            }
+        }
+    
         //////////////////////
         // Config variables //
         //////////////////////
@@ -103,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 value : "Groups",
                 facets: {
                     "all": {
-                        "category": "All groups",
+                        "category": "All " + selectedCategory.toLowerCase(),
                         "searchurl": searchURLmap.allgroups,
                         "searchurlall": searchURLmap.allgroupsall
                     }
@@ -113,12 +120,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.manage = {
-               "category": "Groups I manage",
+               "category": selectedCategory + " I manage",
                "searchurl": searchURLmap.managergroups,
                "searchurlall": searchURLmap.managergroups
             };
             searchConfig.facetedConfig.facets.member = {
-               "category": "Groups I'm a member of",
+               "category": selectedCategory + " I'm a member of",
                "searchurl": searchURLmap.membergroups,
                "searchurlall": searchURLmap.membergroups
             };
@@ -200,12 +207,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 } else {
                     $(searchConfig.global.pagerClass, rootel).show();
                 }
-            }
-            else {
+            } else {
                 $(searchConfig.global.pagerClass, rootel).hide();
             }
 
             // Render the results.
+            finaljson.category = selectedCategory.toLowerCase();
             $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".searchgroups_results_container", rootel).show();
 
@@ -220,7 +227,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * This method will show all the appropriate elements for when a search is executed.
          */
         var showSearchContent = function(params){
-            $(searchConfig.global.searchTerm, rootel).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text, rootel).val("");
@@ -254,6 +260,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
+            // get the sort by
+            var sortBy = $("#search_select_sortby option:first").val();
+            if (params["sortby"]){
+                sortBy = params["sortby"];
+            }
+
             // Set all the input fields and paging correct.
             showSearchContent(params);
 
@@ -262,7 +274,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
                 "q": urlsearchterm,
-                "category": widgetData.category
+                "category": widgetData.category,
+                "sortOn": "_lastModified",
+                "sortOrder": sortBy
             };
             
             if (urlsearchterm === '**' || urlsearchterm === '*') {

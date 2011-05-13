@@ -4,15 +4,26 @@
     <div class="searchgroups_content_main">
         <!-- SEARCH BAR -->
         <div class="fl-left fl-container fl-fix searchgroups_bar">
-            <span id="form"><input type="text" maxlength="255" id="searchgroups_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
-                <button id="button" class="s3d-search-button s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
-                </button>
+            <span id="form">
+                <input type="text" maxlength="255" id="searchgroups_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
             </span>
         </div>
         <div class="fl-left fl-container searchgroups_result_title" id="results_header">
-            __MSG__FOUND__ <strong id="searchgroups_numberFound">0</strong> __MSG__RESULTS__
-            <span id="searchgroups_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="searchgroups_mysearchterm"></strong>"</span></span>
+            __MSG__GROUPS__ (<strong id="searchgroups_numberFound">0</strong>)
+            <div class="searchgroups_selects">
+                <!-- FACETED WIDGET -->
+                <div id="searchgroups_results_faceted" class=""><!--
+                    <div id="widget_faceted_${widgetId}" class="widget_inline"></div>
+                --></div>
+                <!-- FACETED WIDGET
+                <div id="widget_faceted_9493020598" class="searchgroups_facted widget_inline"></div>  -->
+                <div class="search_sortby">
+                    __MSG__SORT_BY__: <select id="search_select_sortby">
+                        <option value="desc">__MSG__CHANGED_RECENTLY__</option>
+                        <option value="asc">__MSG__CHANGED_LAST__</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <!-- TEMPORARY SEARCH TEXT -->
         <div id="result_temp" style="display:none;">
@@ -20,10 +31,6 @@
                 <b>__MSG__SEARCHING__ ...</b>
             </div>
         </div>
-        <!-- FACETED WIDGET -->
-        <div id="searchgroups_results_faceted" class="searchgroups_results_faceted"><!--
-            <div id="widget_faceted_${widgetId}" class="widget_inline"></div>
-        --></div>
         <div id="searchgroups_results" class="fl-container searchgroups_results">
             <!-- SEARCH RESULTS -->
             <div id="results_page1" class="results_container results_container_sub">
@@ -101,7 +108,7 @@
                     {/for}
                     {if !groupsFound}
                         <div class="searchgroups_no_groups">
-                            __MSG__NO_GROUPS_FOUND__
+                            __MSG__NO_GROUPS_FOUND_CATEGORY__
                         </div>
                     {/if}
                 --></div>
