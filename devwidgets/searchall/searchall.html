@@ -4,15 +4,19 @@
     <!-- SEARCH BAR -->
     <div class="fl-left fl-container fl-fix searchall_bar">
         <div id="searchall_form">
-            <input type="text" id="searchall_text" maxlength="255" class="input" title="__MSG__INSERT_NAME_OR_KEYWORD__" value="" />
-            <button id="searchall_button" class="s3d-search-button s3d-button s3d-button-primary">
-                <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
-            </button>
+            <input type="text" maxlength="255" id="searchall_text" class="input" value="" title="__MSG__INSERT_NAME_OR_KEYWORD__" />
         </div>
     </div>
     <div class="fl-left fl-container searchall_result_title" id="searchall_result_title" style="display:none">
-        __MSG__FOUND__ <strong id="searchall_numberFound">0</strong> __MSG__RESULTS__
-        <span id="searchall_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="searchall_mysearchterm"></strong>"</span></span>
+        __MSG__ALL_TYPES__ (<strong id="searchall_numberFound">0</strong>)
+        <div class="searchall_selects">
+            <div class="search_sortby">
+                __MSG__SORT_BY__: <select id="search_select_sortby">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+            </div>
+        </div>
     </div>
     <div class="fl-left fl-container searchall_result_title" id="searchall_result_tag_title" style="display:none">
         <span class="keyword"><strong id="searchall_mytagterm"></strong></span>

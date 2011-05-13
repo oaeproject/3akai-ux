@@ -71,9 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".faceted_category",rootel).removeClass("faceted_category_selected");
             var currentfacet = $.bbq.getState('facet');
             if (currentfacet) {
-                $("#" + currentfacet, rootel).addClass("faceted_category_selected");
-            } else {
-                $(".faceted_category:first", rootel).addClass("faceted_category_selected");
+                $("#facted_select #" + currentfacet,rootel).attr("selected","selected");
             }
         };
 
@@ -89,11 +87,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind the widget's links
          */
         var addBinding = function(){
-            // bind category links
-            $(".faceted_category",rootel).bind("click", function() {
-                $(".faceted_category",rootel).removeClass("faceted_category_selected");
-                $(this).addClass("faceted_category_selected");
-                var facet = $(this).attr("id");
+            // bind category select box
+            $("#facted_select",rootel).change(function() {
+                var facet = $(this).find(":selected").val();
                 $.bbq.pushState({
                     "page": 1,
                     "facet": facet

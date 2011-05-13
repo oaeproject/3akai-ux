@@ -206,15 +206,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * This method will show all the appropriate elements for when a search is executed.
          */
         var showSearchContent = function(params){
-            $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text).val("");
-                $(searchConfig.global.matchingLabel).hide();
+                //$(searchConfig.global.matchingLabel).hide();
             }
             else {
                 $(searchConfig.global.text).val(params.q);
-                $(searchConfig.global.matchingLabel).show();
+                //$(searchConfig.global.matchingLabel).show();
             }
             $(searchConfig.global.numberFound).text("0");
             $(searchConfig.results.header).hide();
@@ -226,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);
-            
+
             var facetedurl = "";
             var facetedurlall = "";
             if (params["facet"] && searchConfig.facetedConfig.facets[params["facet"]]) {
@@ -239,6 +238,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     break;
                 }
             }
+
+            // get the sort by
+            var sortBy = $("#search_select_sortby option:first").val();
+            if (params["sortby"]){
+                sortBy = params["sortby"];
+            }
             
             // Set all the input fields and paging correct.
             showSearchContent(params);
@@ -247,7 +252,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var requestParams = {
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
-                "q": urlsearchterm
+                "q": urlsearchterm,
+                "sortOn": "_created",
+                "sortOrder": sortBy
             };
             
             if (urlsearchterm === '**' || urlsearchterm === '*') {
