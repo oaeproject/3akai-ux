@@ -85,7 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var sendmessage_to = "#sendmessage_to",
                 sendmessage_subject = "#sendmessage_subject",
                 sendmessage_body = "#sendmessage_body",
-                send_message_cancel = "#send_message_cancel";
+                send_message_cancel = "#send_message_cancel",
+                $sendmessage_container = $("#sendmessage_container");
 
 
             ///////////////////////
@@ -133,7 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * It will clear any values or texts that might have been entered.
              */
             var resetView = function() {
-                $(dialogHeaderClass).show();
+                $(dialogHeaderClass, $sendmessage_container).show();
                 $(dialogBoxContainer).addClass(dialogBoxClass);
                 $(dialogFooterContainer).addClass(dialogFooterClass);
                 $(".sendmessage_dialog_footer_inner").addClass(dialogFooterInner);
@@ -328,7 +329,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         layover = false;
 
                         // Remove the dialog stuff.
-                        $(dialogHeaderClass).hide();
+                        $(dialogHeaderClass, $sendmessage_container).hide();
                         $(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
                         $(dialogBoxContainer).removeClass(dialogBoxClass);
                         $(dialogFooterContainer).removeClass(dialogFooterClass).find(".sendmessage_dialog_footer_inner").removeClass(dialogFooterInner);

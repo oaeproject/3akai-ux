@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addUser = function (userid, displayName) {
             // add user to group
-            sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], function (success) {
+            sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], sakai.data.me, function (success) {
                 if (success) {
                     // show notification
                     var name = displayName;

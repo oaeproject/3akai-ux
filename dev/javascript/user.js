@@ -131,12 +131,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addCount = function(pubdata, pageid, count){
-            if (pubdata.structure0) {
-                for (var i in pubdata.structure0) {
-                    if (i === pageid){
-                        pubdata.structure0[i]._count = count;
-                    }
-                }
+            if (pubdata.structure0 && pubdata.structure0[pageid]) {
+                pubdata.structure0[pageid]._count = count;
             }
         };
 
@@ -259,6 +255,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
+        });
+
+        $(window).bind("updated.counts.lhnav.sakai", function(){
+            sakai.api.User.getUpdatedCounts(sakai.data.me, function(success){
+                addCounts();
+                renderEntity();
+                generateNav();
+            });
         });
 
         $(window).bind("complete.fileupload.sakai", determineContext);
