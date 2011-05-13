@@ -35,15 +35,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Container
         var $recentactivityActivityContainer = $("#recentactivity_activity_container");
 
+        var activityMap = {
+            CONTENT_ADDED_COMMENT: "comment",
+            CREATED_FILE: "upload",
+            GROUP_CREATED: "new",
+            JOINED_GROUP: "new",
+            SENT_MESSAGE: "upload",
+            UPDATE_FILE: "new",
+            UPLOADED_CONTENT: "upload",
+            USER_CREATED: "new"
+        };
+
         var parseActivity = function(success, data){
             if (success) {
                 $.each(data.results, function(index, item){
                     item.who.name = sakai.api.User.getDisplayName(item.who);
+                    item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
                     item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
                     if (item.who.picture) {
                         item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
-                    }
-                    else {
+                    } else {
                         item.who.picture = "/dev/images/user_avatar_icon_48x48.png";
                     }
                 });
@@ -55,7 +66,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchActivity = function(){
-            sakai.api.Server.loadJSON("/devwidgets/recentactivity/activity.json", parseActivity);
+            sakai.api.Server.loadJSON("/var/search/activity/all.json", parseActivity, {
+                "items": 6
+            });
         };
 
         var doInit = function(){

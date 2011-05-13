@@ -10,7 +10,7 @@
     {for activity in data.results}
         <div class="recentactivity_activity_item_container">
             <div class="recentactivity_activity_item_content">
-                <div class="recentactivity_activity_icon recentactivity_activity_${activity["sakai:activity-type"]}"></div>
+                <div class="recentactivity_activity_icon recentactivity_activity_${activity["sakai:activity-appid"]}"></div>
                 <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
                 <a href="/~${activity.who.userid}" title="View ${activity.who.name}'s Profile" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity.who.name, 150, null,"s3d-bold")}</a>
                 {if activity["sakai:activity-type"] == "comment"}
@@ -26,7 +26,7 @@
                     {var mimeType = activity["sakai:custom-mimetype"]}
                 {/if}
                 <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="PDF" class="recentactivity_activity_item_image"/>
-                <a href="/content#content_path=/p/${activity["jcr:name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
+                <a href="/content#content_path=/p/${activity["_path"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
                 <span class="recentactivity_activity_item_description">Used in 4 places </span>
             </div>
         </div>
