@@ -702,6 +702,23 @@ define(["jquery",
                     }
                 });
             }
+        },
+
+        getUpdatedCounts : function(medata, callback) {
+            $.ajax({
+                url: medata.profile.homePath + "/public/authprofile.json",
+                success: function(profile){
+                    medata.profile.counts = profile.counts;
+                    if ($.isFunction(callback)){
+                        callback(true);
+                    }
+                },
+                error: function(){
+                    if ($.isFunction(callback)){
+                        callback(false);
+                    }
+                }
+            });
         }
 
     };
