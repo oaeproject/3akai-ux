@@ -30,7 +30,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchgroups = function(tuid, showSettings){
+    sakai_global.searchgroups = function(tuid, showSettings, widgetData){
     
         //////////////////////
         // Config variables //
@@ -251,7 +251,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var requestParams = {
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
-                "q": urlsearchterm
+                "q": urlsearchterm,
+                "category": widgetData.category
             };
             
             if (urlsearchterm === '**' || urlsearchterm === '*') {

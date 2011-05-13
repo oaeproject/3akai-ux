@@ -1693,7 +1693,7 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUP",
+                title : "GROUPS",
                 templates: [
                     {
                         id: "simplegroup",
