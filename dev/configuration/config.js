@@ -884,10 +884,6 @@ define(function(){
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
             }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
-            }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
                 "url": "/dev/search2.html#l=people"
@@ -907,10 +903,6 @@ define(function(){
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
