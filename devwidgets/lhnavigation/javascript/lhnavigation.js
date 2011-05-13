@@ -88,6 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var p in params){
                 parametersToCarryOver[p] = params[p];
             }
+            rerenderNavigation();
         });
 
         var rerenderNavigation = function(){

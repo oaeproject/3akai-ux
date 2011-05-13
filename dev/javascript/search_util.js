@@ -207,7 +207,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
                 "q": $.bbq.getState('q') || "*",
-                "facet": $.bbq.getState('facet')
+                "facet": $.bbq.getState('facet'),
+                "sortby": $.bbq.getState('sortby')
             }
             return params;
         }
@@ -234,6 +235,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(this).hide();
                 }
             });
+        });
+
+        // bind sortby select box
+        $("#search_select_sortby").live("change", function(ev) {
+            var sortby = $(this).find(":selected").val();
+            $.bbq.pushState({
+                "page": 1,
+                "sortby": sortby
+            }, 0);
         });
 
         /////////////////////////
