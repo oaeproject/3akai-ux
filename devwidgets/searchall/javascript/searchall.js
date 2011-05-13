@@ -327,7 +327,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     renderGroups({});
                 }
             });
-        }
+        };
 
         ///////////////////
         // Event binding //

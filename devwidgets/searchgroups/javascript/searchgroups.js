@@ -32,7 +32,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      */
     sakai_global.searchgroups = function(tuid, showSettings, widgetData){
 
-        var selectedCategory = "other"
+        var selectedCategory = "other";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
             selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
@@ -240,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.header, rootel).hide();
             $(searchConfig.results.tagHeader, rootel).hide();
             $(searchConfig.results.container, rootel).html($(searchConfig.global.resultTemp, rootel).html());
-        }
+        };
 
         var doSearch = function(){
 
@@ -343,7 +343,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var config = {};
             config[widgetId] = {
                 "facetedConfig": searchConfig.facetedConfig
-            }
+            };
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [config]);
             doSearch();
         });
