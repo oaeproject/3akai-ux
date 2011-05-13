@@ -599,15 +599,6 @@ define(function(){
             "reminderIntervalHours": "168"
         },
 
-        Institution: {
-            /*
-             * Institution contact details are displayed in the footer
-             */
-            helpLinkText: "Contact Us",
-            helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "212-555-1212"
-        },
-
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
