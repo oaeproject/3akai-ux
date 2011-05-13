@@ -91,6 +91,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Display appropriate connection button according to users connection state
          */
         var showConnectionButton = function() {
+            $personinfo_invite.hide();
+            $personinfo_invited.hide();
+            $personinfo_pending.hide();
             if (userId !== sakai.data.me.user.userid) {
                 $personinfo_message.show();
                 if (!dataCache[userId].connectionState) {
@@ -244,9 +247,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * is not already opened.
          */
         var doInit = function ($clickedEl) {
-            $personinfo_invite.hide();
-            $personinfo_invited.hide();
-            $personinfo_pending.hide();
             userId = $clickedEl.data("userid");
 
             // bind outside click to close widget
