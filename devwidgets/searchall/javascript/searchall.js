@@ -265,13 +265,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
             }
 
+            // get the sort by
+            var sortBy = $("#search_select_sortby option:first").val();
+            if (params["sortby"]){
+                sortBy = params["sortby"];
+            }
+
             // Content search
             $.ajax({
                 url: filesUrl,
                 data: {
                     "page": 0,
                     "q" : urlsearchterm,
-                    "items" : cmToSearch
+                    "items" : cmToSearch,
+                    "sortOn": "_lastModified",
+                    "sortOrder": sortBy
                 },
                 cache: false,
                 success: function(data) {
@@ -290,8 +298,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "page": 0,
                     "items": peopleToSearch,
                     "q": urlsearchterm,
-                    "sortOn": "lastName",
-                    "sortOrder": "asc"
+                    "sortOn": "_lastModified",
+                    "sortOrder": sortBy
                 },
                 success: function(data) {
                     renderPeople(data);
@@ -299,24 +307,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 error: function() {
                     renderPeople({});
                 }
-           });
+            });
 
-           // Groups search
-           $.ajax({
-               cache: false,
-               url: groupsUrl,
-               data: {
-                   "page": 0,
-                   "items": groupsToSearch,
-                   "q": urlsearchterm
-               },
-               success: function(data) {
-                   renderGroups(data);
-               },
-               error: function() {
-                   renderGroups({});
-               }
-           });
+            // Groups search
+            $.ajax({
+                cache: false,
+                url: groupsUrl,
+                data: {
+                    "page": 0,
+                    "items": groupsToSearch,
+                    "q": urlsearchterm,
+                    "sortOn": "_lastModified",
+                    "sortOrder": sortBy
+                },
+                success: function(data) {
+                    renderGroups(data);
+                },
+                error: function() {
+                    renderGroups({});
+                }
+            });
         }
 
         ///////////////////

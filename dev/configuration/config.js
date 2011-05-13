@@ -599,15 +599,6 @@ define(function(){
             "reminderIntervalHours": "168"
         },
 
-        Institution: {
-            /*
-             * Institution contact details are displayed in the footer
-             */
-            helpLinkText: "Contact Us",
-            helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "212-555-1212"
-        },
-
         // Set this to true if you have an authentication system such as CAS
         // that needs to redirect the user's browser on logout
         followLogoutRedirects: false,
@@ -893,10 +884,6 @@ define(function(){
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
             }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
-            }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
                 "url": "/dev/search2.html#l=people"
@@ -916,10 +903,6 @@ define(function(){
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
@@ -1702,7 +1685,7 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUP",
+                title : "GROUPS",
                 templates: [
                     {
                         id: "simplegroup",

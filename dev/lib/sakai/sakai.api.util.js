@@ -1515,6 +1515,10 @@ define(["jquery",
             url = url.replace(/[:;<>#%{}|~`@%&!$,.="'\^\+\/\?\(\)\*\s\\\\\[\]]/gi, replacement);
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
             return url;
+        },
+        
+        generateWidgetId: function(){
+            return "id" + Math.round(Math.random() * 10000000);
         }
 
     };
