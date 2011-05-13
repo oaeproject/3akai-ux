@@ -52,6 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_phone = $("#footer_phone");
         var $footer_contactinfo = $("#footer_contactinfo");
         var $footer_contactinfo_template = $("#footer_contactinfo_template");
+        var $footer_langloc_buttons = $('p.langloc>button')
 
 
         //////////////////////
@@ -193,6 +194,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set the end year of the copyright notice
             var d = new Date();
             $footer_date_end.text(d.getFullYear());
+            
+            $footer_langloc_buttons.click(function(e){
+                e.preventDefault();
+                $(window).trigger("init.accountpreferences.sakai");
+            });
 
         };
 

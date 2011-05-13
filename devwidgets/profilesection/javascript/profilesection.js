@@ -284,7 +284,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
          * @param {Boolean} isLocation boolean value for location or not
          *  The name of the profile section you want to render in this widget
          */
-        var renderTemplateGeneralInfo = function(profilesection , isLocation) {
+        var renderTemplateGeneralInfo = function(profilesection, isLocation) {
+            isLocation = profilesection === "locations";
             // Variable that contains the rendered output for a section
             var generalinfo = "";
 
@@ -307,8 +308,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
             } else {
                 $("#profilesection-locations").children().children(":first").append(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
                 $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+                $(".profile-section-save-button", $rootel).hide();
             }
-
+            $(window).trigger("ready.profilesection.sakai", $rootel.attr("id"));
         };
 
         var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink, value) {
@@ -510,65 +512,47 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         };
 
         var renderLocation = function(data){
-
             sakai_global.profile.main.data["sakai:tags"] = data.tags;
             sakai_global.profile.main.directory = sakai.api.User.parseDirectory(sakai_global.profile);
-
-            // remove exisiting elements in the locations
-            $("#profilesection-locations").children().children(":first").children().remove();
-
-            // Set the section template, if there is no template defined, user the default one
-            var sectionTemplate = $profilesection_default_template;
-            // Copy the config so we don't write into it ever
-            var sectionConfig = $.extend(true, {}, sakai_global.profile.main.config["locations"]);
-            // Render the template section for location
-            var generalinfo = renderTemplateSection(sectionTemplate, sectionConfig);
-
-            // add access for the object
-            sakai_global.profile.main.data["locations"].access = {};
-            sakai_global.profile.main.data["locations"].access = sectionConfig.access;
-
-            // Render append the location div to the UI.
-            $("#profilesection-locations").children().children(":first").html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
+            sakai.data.me.profile.saveddirectory = data.saveddirectory;
+            renderTemplateGeneralInfo("locations");
         };
 
         ////////////////////
         // Initialization //
         ////////////////////
 
+        var handleShown = function(e, showing) {
+            if (showing) {
+                $(window).bind("save.profile.sakai", saveValues);
+
+                // Bind to the global update location
+                $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
+                    ev.stopImmediatePropagation();
+                    // render location in profile Section
+                    renderLocation(data);
+                });
+            } else {
+                $(window).unbind("save.profile.sakai");
+                $(window).unbind("renderlocations.contentmetadata.sakai");
+            }
+        };
+
         /**
          * Initialization function
          */
         var init = function() {
-
             currentsection = $rootel.selector.replace("#", "").replace("profilesection-", "");
-
             // Trigger the profile section event, so we let the container know that the widget is loaded
             if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.ready) {
                 $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
             } else {
-                $(window).bind("ready.profileedit.sakai", function() {
+                $(window).unbind("ready.profileedit.sakai").bind("ready.profileedit.sakai", function() {
                     $(window).trigger($rootel.selector.replace("#", "") + ".sakai", renderTemplateGeneralInfo);
                 });
             }
-
-            // Bind to the global save function
-            $('.profile-section-save-button', $rootel).live("click", function(){
-                // Save the values to the global object
-                saveValues();
-
-            });
-
-            // Bind to the global update location
-            $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
-                ev.stopImmediatePropagation();
-                // render location in profile Section
-                renderLocation(data);
-
-            });
-
         };
-
+        $(window).bind(tuid + ".shown.sakai", handleShown);
         init();
     };
 

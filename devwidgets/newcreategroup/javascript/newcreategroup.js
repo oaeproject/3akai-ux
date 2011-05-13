@@ -93,7 +93,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Checking for tags, permissions and members before redirecting.
      */
     var checkCreationComplete = function(){
-        debug.log(creationComplete.tags + " - " + creationComplete.permissions + " - " +  creationComplete.members + " - " + creationComplete.message);
         if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message){
             window.location = "/~" + creationComplete.groupid;
         }
@@ -135,18 +134,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "permission": item.permission
                     });
                 });
-                sakai.api.Groups.addUsersToGroup(groupid, false, users, false, function(){
-                    creationComplete.members = true;
-                    checkCreationComplete();
-                });
-
-                $.each(users, function(index, item){
-                    sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, false, "group_invitation");
-                    if(users.length - 1 == index){
-                        creationComplete.message = true;
+                if (users.length > 0) {
+                    sakai.api.Groups.addUsersToGroup(groupid, false, users, sakai.data.me, false, function(){
+                        creationComplete.members = true;
                         checkCreationComplete();
-                    }
-                });
+                    });
+                    $.each(users, function(index, item){
+                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, false, "group_invitation");
+                        if(users.length - 1 == index){
+                            creationComplete.message = true;
+                            checkCreationComplete();
+                        }
+                    });
+                } else {
+                    creationComplete.members = true;
+                    creationComplete.message = true;
+                    checkCreationComplete();
+                }
 
             } else {
                 if(nameTaken){
