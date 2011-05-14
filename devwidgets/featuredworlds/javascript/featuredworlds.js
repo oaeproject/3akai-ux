@@ -50,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchWorldData = function(worldId, worldTitle){
-            world = worldTitle;
+            world = worldTitle.toLowerCase();
             sakai.api.Server.loadJSON("/var/search/groups.infinity.json", renderWorld, {
                 page: 0,
                 items: 3,
