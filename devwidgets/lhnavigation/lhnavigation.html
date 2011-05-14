@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/lhnavigation.css" />
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/sitespages.css"></link>
 
+<span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
+
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
     <div id="lhnavigation_actions" style="display:none">
@@ -14,7 +16,7 @@
             {if level._childCount > 1}
                 <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}">
             <div class="lhnavigation_has_subnav"></div>
-                <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
+                <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if} {if level._count} (${level._count}){/if}</span>
             <div class="lhnavigation_private"></div>
             <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
             </li>

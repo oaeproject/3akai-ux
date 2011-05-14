@@ -32,6 +32,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             invitations = [],
             rejections = [],
             removals = [],
+            searchTerm = null,
             selectWhat = "all",
             listViewClass = ".inbox-message-list-view",
             detailViewClass = ".inbox-message-detail-view",
@@ -60,7 +61,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_select_all = $("#inbox_select_all", $rootel),
             $inbox_delete_selected = $("#inbox_delete_selected", $rootel),
             $inbox_mark_as_read = $("#inbox_mark_as_read", $rootel),
-            $inbox_title_total_wrapper = $("#inbox_title_total_wrapper", $rootel);
+            $inbox_title_total_wrapper = $("#inbox_title_total_wrapper", $rootel),
+            $inbox_item = $(".inbox_item", $rootel),
+            $inbox_search_messages = $("#inbox_search_messages", $rootel),
+            $inbox_search_term = $("#inbox_search_term", $rootel);
 
 
         /** Message header button handling **/
@@ -325,13 +329,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getMessages = function(callback) {
             var doFlip = widgetData.box === "outbox";
-            sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
+            sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
                 var update = true;
-                if (_.isEqual(messages, data)) {
+                if (!searchTerm) {
+                    $inbox_search_term = $($inbox_search_term.selector);
+                    $inbox_search_term.remove();
+                }
+                if (_.isEqual(messages, data) && !searchTerm) {
                     update = false;
                 }
                 messages = data;
-                if (data && _.isNumber(data.total)) {
+                if (data && _.isNumber(data.total) && data.total !== 0) {
+                    $inbox_search_messages.removeAttr("disabled");
                     totalMessages = data.total;
                     // only show unread counts for the inbox
                     if (widgetData.box === "inbox") {
@@ -345,6 +354,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $inbox_pager.pager({ pagenumber: currentPage+1, pagecount: Math.ceil(totalMessages/MESSAGES_PER_PAGE), buttonClickCallback: handlePageClick });
                     }
                 } else {
+                    if (!searchTerm) {
+                        $inbox_search_messages.attr("disabled", "disabled");
+                    }
                     $inbox_title_total.text("0");
                 }
                 if ($.isFunction(callback)) {
@@ -401,13 +413,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        /** History management **/
-
-        var backToMessages = function() {
-            $.bbq.removeState("message", "reply");
+        /** Searhcing **/
+        var handleSearch = function(e) {
+            if (e.keyCode === 13) {
+                if ($.trim($inbox_search_messages.val()) === "") {
+                    $.bbq.removeState("iq");
+                } else {
+                    $.bbq.pushState({"iq": $inbox_search_messages.val()});
+                }
+            }
         };
 
-        $inbox_back_to_messages.live("click", backToMessages);
+        $inbox_search_messages.live("keydown", handleSearch);
+
+        /** History management **/
+
+        $inbox_item.live("click", function(e) {
+            if (!($(e.target).hasClass("personinfo_trigger_click") || $(e.target).hasClass("inbox_action_button") || $(e.target).is("input"))) {
+                $.bbq.pushState({"message": $(this).attr("id")});
+            }
+        });
 
         /**
          * Set the initial state of this box/category combo
@@ -455,7 +480,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
                     sakai: sakai,
                     _: _,
-                    data: data
+                    data: data,
+                    search: searchTerm
                 }, $inbox_message_list);
 
                 formatMessageList();
@@ -476,33 +502,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
             if ($rootel.is(":visible")) {
-                if (first) {
-                    updateMessageList(true);
-                }
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
-                        var message = messages.results[changed.message || all.message];
-                        currentMessage = message;
-                        // this handles multiple instances of the widget
-                        if (currentMessage) {
-                            showMessage();
-                            if (changed.hasOwnProperty("reply") || all.hasOwnProperty("reply")) {
-                                focusReply();
+                        getMessages(function() {
+                            updateMessageList(true);
+                            var message = messages.results[changed.message || all.message];
+                            currentMessage = message;
+                            // this handles multiple instances of the widget
+                            if (currentMessage) {
+                                showMessage();
+                                if (changed.hasOwnProperty("reply") || all.hasOwnProperty("reply")) {
+                                    focusReply();
+                                }
                             }
-                        }
+                        });
                     } else if (changed.hasOwnProperty("newmessage") || all.hasOwnProperty("newmessage")) {
                         showNewMessage();
+                    } else if (changed.hasOwnProperty("iq") || all.hasOwnProperty("iq")) {
+                        searchTerm = changed.iq || all.iq;
+                        $inbox_search_messages.removeAttr("disabled").val(searchTerm);
+                        setInitialState();
+                        getMessages();
                     }
                 } else if (!$.isEmptyObject(deleted)) {
                     if (deleted.hasOwnProperty("message") || deleted.hasOwnProperty("newmessage")) {
                         setInitialState(formatMessageList);
-                        getMessages(null, null, null, updateMessageList);
+                        getMessages();
+                    } else if (deleted.hasOwnProperty("iq")) {
+                        searchTerm = null;
+                        getMessages();
                     }
                 } else if (!first) {
                     setInitialState();
-                    getMessages(null, null, null, updateMessageList);
+                    getMessages();
                 } else {
                     setInitialState();
+                    getMessages();
                     updateMessageList(true);
                 }
             }
@@ -519,11 +554,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var postInit = function() {
-            getMessages(function() {
-                var all = state && state.all ? state.all : {};
-                handleHashChange(null, {}, {}, all, {}, true);
-                $(window).bind("hashchanged.inbox.sakai", handleHashChange);
-            });
+            var all = state && state.all ? state.all : {};
+            handleHashChange(null, {}, {}, all, {}, true);
+            $(window).bind("hashchanged.inbox.sakai", handleHashChange);
             checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             $(window).bind(tuid + ".shown.sakai", handleShown);
         };

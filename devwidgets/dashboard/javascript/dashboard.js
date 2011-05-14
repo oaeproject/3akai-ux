@@ -855,7 +855,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
             if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
                 changeLayout(title);
             }
-        }
+        };
 
         ///////////////////////
         // Add Sakai Goodies //
@@ -976,7 +976,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                 widgetDialogShown[tuid] = true;
                 $(addGoodiesDialog, $rootel).jqmShow();
             }
-        }
+        };
 
         /**
         * Initialize the Dashboard Widget
