@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
             $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
             $("#topnavigation_search_results").show();
-        }
+        };
 
         var renderPeople = function(data) {
             var people = [];
@@ -278,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderPeople($.parseJSON(data.results[1].body));
                 for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                     renderGroups($.parseJSON(data.results[2 + c].body), sakai.config.worldTemplates[c].id);
-                };
+                }
             });
         };
 
@@ -326,12 +326,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
-                for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                    var category = sakai.config.worldTemplates[c];
+                for (var x = 0; x < sakai.config.worldTemplates.length; x++){
+                    var categoryx = sakai.config.worldTemplates[x];
                     sakai.config.Navigation[i].subnav.push({
-                        "id": "subnavigation_explore_" + category.id + "_link",
-                        "label": category.title,
-                        "url": "/dev/search2.html#l=" + category.id
+                        "id": "subnavigation_explore_" + categoryx.id + "_link",
+                        "label": categoryx.title,
+                        "url": "/dev/search2.html#l=" + categoryx.id
                     });
                 }
             }

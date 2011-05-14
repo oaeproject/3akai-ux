@@ -181,11 +181,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $('#newentitywidget_widget').html(sakai.api.Util.TemplateRenderer("newentitywidget_widget", context));
             $("#entity_message").click(function(){
                 var to = {type: context.context};
-                switch (to.type) {
-                    case "group":
-                        to.uuid = context.data.authprofile["groupid"];
-                        to.username = context.data.authprofile["sakai:group-title"];
-                        break;
+                if (to.type === "group") {
+                    to.uuid = context.data.authprofile["groupid"];
+                    to.username = context.data.authprofile["sakai:group-title"];
                 }
                 $(window).trigger("initialize.sendmessage.sakai", to);
             });
