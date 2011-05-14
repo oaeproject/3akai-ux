@@ -71,6 +71,7 @@ define(function(){
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
             MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+            MESSAGE_BOXCATEGORY_ALL_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
@@ -352,13 +353,6 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea",
-                                "tagField": true
-                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -597,15 +591,6 @@ define(function(){
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
-        },
-
-        Institution: {
-            /*
-             * Institution contact details are displayed in the footer
-             */
-            helpLinkText: "Contact Us",
-            helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "212-555-1212"
         },
 
         // Set this to true if you have an authentication system such as CAS
@@ -893,10 +878,6 @@ define(function(){
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
             }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
-            }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
                 "url": "/dev/search2.html#l=people"
@@ -916,10 +897,6 @@ define(function(){
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
@@ -1702,7 +1679,7 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUP",
+                title : "GROUPS",
                 templates: [
                     {
                         id: "simplegroup",

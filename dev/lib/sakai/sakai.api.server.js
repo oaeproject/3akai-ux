@@ -354,7 +354,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                     }
                 }
                 return structure;
-            }
+            };
             if (id){
                 pagestructure = removeServerFormating(pagestructure, id);
             }

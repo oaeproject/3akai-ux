@@ -116,7 +116,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "participants": participantsArr,
                     "sakai": sakai
                 }));
-            }else {
+            } else {
                 debug.log("Participants could not be loaded");
             }
         };
@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $participantsSearchField.bind("keyup", loadParticipants);
             $participantsSelectAll.bind("click", checkAll);
-            $(participantsListParticipantCheckbox).live("click", setSendSelectedMessageAttributes)
+            $(participantsListParticipantCheckbox).live("click", setSendSelectedMessageAttributes);
         };
 
         var init = function(){
