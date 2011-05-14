@@ -147,15 +147,15 @@
                     __MSG__SHARE__<span class="entity_share_content"></span>
                 </span>
             </button>
-            {if data.data.mimeType === "x-sakai/link"}
-                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
-                </a>
-            {elseif data.data.mimeType !== "x-sakai/document"}
-                <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
-                </a>
-            {/if}
+        {/if}
+        {if data.data.mimeType === "x-sakai/link"}
+            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
+            </a>
+        {elseif data.data.mimeType !== "x-sakai/document"}
+            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
+            </a>
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
