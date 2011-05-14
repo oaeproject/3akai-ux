@@ -472,7 +472,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             savedItem.permissions = arrayItem.permissions;
                             savedItem.hashpath = savedItem.hashpath.poolId;
                             var obj = {
-                                "url": "/p/" + savedItem.hashpath.poolId,
+                                "url": "/p/" + savedItem.hashpath,
                                 "method": "POST",
                                 "parameters": {
                                     "sakai:description": arrayItem.description,
