@@ -4,15 +4,22 @@
     <div class="searchcontent_content_main">
         <!-- SEARCH BAR -->
         <div class="fl-left fl-container fl-fix searchcontent_bar">
-            <span id="form"><input type="text" maxlength="255" id="searchcontent_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
-                <button id="button" class="s3d-search-button s3d-button s3d-button-primary">
-                    <span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span>
-                </button>
-            </span>    
+            <span id="form">
+                <input type="text" maxlength="255" id="searchcontent_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
+            </span>
         </div>
         <div class="fl-left fl-container searchcontent_result_title" id="results_header">
-        	__MSG__FOUND__ <strong id="searchcontent_numberFound">0</strong> 
-            __MSG__RESULTS__ <span id="searchcontent_result_extended_matching" style="display:none;">__MSG__MATCHING_YOUR_SEARCH_FOR__ "<span class="keyword"><strong id="searchcontent_mysearchterm"></strong>"</span></span>
+            __MSG__CONTENT__ (<strong id="searchcontent_numberFound">0</strong>) 
+            <div class="searchcontent_selects">
+                <!-- FACETED WIDGET -->
+                <div id="widget_faceted_98384013291" class="searchcontent_facted widget_inline"></div>
+                <div class="search_sortby">
+                    __MSG__SORT_BY__: <select id="search_select_sortby">
+                        <option value="desc">__MSG__CHANGED_RECENTLY__</option>
+                        <option value="asc">__MSG__CHANGED_LAST__</option>
+                    </select>
+                </div>
+            </div>
         </div> 
         <!-- TEMPORARY SEARCH TEXT -->
         <div id="result_temp" style="display:none;">
@@ -25,9 +32,6 @@
                         <span id="searchcontent_result_all_content" style="display:none;">__MSG__ALL_CONTENT_I_CAN_SEE__</span>
                         <span id="searchcontent_result_content_I_manage" style="display:none;">__MSG__CONTENT_I_CAN_EDIT__</span>
                         <span id="searchcontent_result_content_I_m_a_viewer_of" style="display:none;">__MSG__CONTENT_SHARED_WITH_ME__</span>
-                        <!-- FACETED WIDGET -->
-                        <div id="widget_faceted_98384013291" class="widget_inline">
-                        </div>
                     </div>
         <div id="searchcontent_results" class="fl-container searchcontent_results">
             <!-- SEARCH RESULTS -->
@@ -41,7 +45,7 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchcontent_results_container" class="">
+                    <div id="searchcontent_results_container">
                     </div>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
@@ -64,7 +68,10 @@
                                 {var mimeType = sakai.api.Content.getMimeType(i)}
                                 {var thumbnail = sakai.api.Content.getThumbnail(i)}
                                 <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
-                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                                    {if sakai.config.MimeTypes[mimeType]}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {/if}
                                     {if thumbnail}
                                         <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                                     {elseif mimeType.substring(0,6)==="image/"}

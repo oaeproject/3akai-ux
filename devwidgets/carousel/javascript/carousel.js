@@ -395,7 +395,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             });
 
-            sakai.api.Communication.getAllMessages("inbox", "*", 4, 1, "sakai:created", "desc", function(success, data){
+           sakai.api.Communication.getAllMessages("inbox", "*", false, 4, 1, "sakai:created", "desc", function(success, data){
                 dataArr.messages = data;
                 checkDataParsable(dataArr);
             });

@@ -35,6 +35,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        var $rootel = $("#" + tuid);
+
         // Containers
         var entityContainer = "#entity_container";
         var entityUserPictureDropdown = ".entity_user_picture_dropdown";
@@ -95,6 +97,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group_managed":
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", context));
+                    break;
+                case "group":
+                    $(window).bind("ready.joinrequestbuttons.sakai", function() {
+                        var url = "/system/userManager/group/" +
+                            context.data.authprofile.groupid + ".managers.json";
+                        $.ajax({
+                            url: url,
+                            success: function(managers){
+                                $(window).trigger("init.joinrequestbuttons.sakai", [
+                                    context.data.authprofile.groupid,
+                                    context.data.authprofile["sakai:group-joinable"],
+                                    managers.length,
+                                    function (renderedButtons) {
+                                        // onShow
+                                        $("#joinrequestbuttons_widget", $rootel).show();
+                                    }
+                                ]);
+                            }
+                        });
+                    });
+                    sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, $rootel);
                     break;
                 case "content_anon": //fallthrough
                 case "content_not_shared": //fallthrough
@@ -162,11 +185,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
             $("#entity_message").click(function(){
                 var to = {type: context.context};
-                switch (to.type) {
-                    case "group":
-                        to.uuid = context.data.authprofile["sakai:group-id"];
-                        to.username = context.data.authprofile["sakai:group-title"];
-                        break;
+                if (to.type === "group") {
+                    to.uuid = context.data.authprofile["groupid"];
+                    to.username = context.data.authprofile["sakai:group-title"];
                 }
                 $(window).trigger("initialize.sendmessage.sakai", to);
             });

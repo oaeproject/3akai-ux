@@ -88,6 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var p in params){
                 parametersToCarryOver[p] = params[p];
             }
+            rerenderNavigation();
         });
 
         var rerenderNavigation = function(){
@@ -252,8 +253,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 finishProcessDave(structure, data, callback);
             });
-        }
-        
+        };
+
         var finishProcessDave = function(structure, data, callback){
             // Include the childcounts for the pages
             structure.items = includeChildCount(structure.items);
@@ -263,7 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             callback(structure);
-        }
+        };
 
         var processData = function(data, callback){
             var structure = {};
@@ -277,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // Get a list of all Sakai Docs that have to be "added"
                 var pids = collectPoolIds(structure.items, []);
-                if (pids.length == 0){
+                if (pids.length === 0){
                     finishProcessDave(structure, data, callback);
                 } else {
                     continueProcessData(structure, data, pids, callback);

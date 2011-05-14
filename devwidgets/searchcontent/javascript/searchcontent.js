@@ -143,20 +143,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var params = sakai_global.data.search.getQueryParams();
             var finaljson = {};
             finaljson.items = [];
+            var fetchUsers = false;
+            var userArray = [];
             if (success) {
 
                 // Adjust display global total
                 // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
                 if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
                     $(searchConfig.global.numberFound).text("" + results.total);
+                } else if (results.results.length <= 0) {
+                    $(searchConfig.global.numberFound).text(0);
+                } else {
+                    $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
                 }
-                else 
-                    if (results.results.length <= 0) {
-                        $(searchConfig.global.numberFound).text(0);
-                    }
-                    else {
-                        $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
-                    }
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass).pager({
@@ -164,9 +163,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                     buttonClickCallback: pager_click_handler
                 });
-
-                var userArray = [];
-                var fetchUsers = false;
 
                 // If we have results we add them to the object.
                 if (results && results.results) {
@@ -228,26 +224,29 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             // Update dom with user display names
             if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
-                    for (u in users) {
+                    for (var u in users) {
                         if (users.hasOwnProperty(u)) {
-                            $(".searchcontent_result_username").each(function(index, val){
-                               var userId = $(val).text();
-                               if (userId === u){
-                                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-                               }
-                            });
+                            setUsername(u, users);
                         }
                     }
                 });
             }
         };
 
+        var setUsername = function(u, users) {
+            $(".searchcontent_result_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
+        };
+
         /**
          * This method will show all the appropriate elements for when a search is executed.
          */
         var showSearchContent = function(params){
-            $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
             // Set search box values
             if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text).val("");
@@ -261,7 +260,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.header).hide();
             $(searchConfig.results.tagHeader).hide();
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
-        }
+        };
 
         var doSearch = function(){
 
@@ -281,6 +280,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
+            // get the sort by
+            var sortBy = $("#search_select_sortby option:first").val();
+            if (params["sortby"]){
+                sortBy = params["sortby"];
+            }
+
             // Set all the input fields and paging correct.
             showSearchContent(params);
 
@@ -288,7 +293,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var requestParams = {
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
-                "q": urlsearchterm
+                "q": urlsearchterm,
+                "sortOn": "_lastModified",
+                "sortOrder": sortBy
             };
 
             if (urlsearchterm === '**' || urlsearchterm === '*') {

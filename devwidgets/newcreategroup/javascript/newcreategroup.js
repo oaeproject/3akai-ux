@@ -135,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 });
                 if (users.length > 0) {
-                    sakai.api.Groups.addUsersToGroup(groupid, false, users, false, function(){
+                    sakai.api.Groups.addUsersToGroup(groupid, false, users, sakai.data.me, false, function(){
                         creationComplete.members = true;
                         checkCreationComplete();
                     });
@@ -328,7 +328,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var count = 0;
                 for (var doc in currentTemplate.structure){
                     var response = $.parseJSON(data.results[count].body);
-                    currentTemplate.structure[doc]._pid = response._contentItem;
+                    currentTemplate.structure[doc]._pid = response._contentItem.poolId;
                     count++;
                 }
                 callback(groupid, currentTemplate);

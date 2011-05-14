@@ -389,7 +389,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 dataType: "json",
                 success: function(data){
                     $.ajax({
-                        url: "/p/" + data._contentItem + ".resource",
+                        url: "/p/" + data._contentItem.poolId + ".resource",
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -405,7 +405,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             })
                         },
                         success: function() {
-                            sakai.api.Util.tagEntity("/p/" + data._contentItem, documentObj.tags.split(","));
+                            sakai.api.Util.tagEntity("/p/" + data._contentItem.poolId, documentObj.tags.split(","));
                             checkUploadCompleted();
                         },
                         error: function() {
@@ -447,7 +447,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 dataType: "JSON",
                 success: function(data){
                     linkObj.hashpath = data["_contentItem"];
-                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath, linkObj.tags.split(","));
+                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
                         checkUploadCompleted();
                     });
@@ -471,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
                             var obj = {
-                                "url": "/p/" + savedItem.hashpath,
+                                "url": "/p/" + savedItem.hashpath.poolId,
                                 "method": "POST",
                                 "parameters": {
                                     "sakai:description": arrayItem.description,
@@ -502,7 +502,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     // save tags
                     $.each(itemsToUpload, function(i,arrayItem){
-                        sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath, arrayItem.tags.split(","));
+                        if (arrayItem.hashpath && arrayItem.hashpath.poolId) {
+                            sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
+                        }
                     });
 
                     checkUploadCompleted(true);
