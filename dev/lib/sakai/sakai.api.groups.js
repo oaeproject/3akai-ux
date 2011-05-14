@@ -226,7 +226,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 
                 // Other Subgroups
                 for (var o = 0; o < template.roles.length; o++) {
-                    if (!template.roles[i].allowManage) {
+                    if (!template.roles[o].allowManage) {
                         var gr1 = {
                             groupid: groupid + "-" + template.roles[o].id,
                             grouptitle: grouptitle + " " + template.roles[o].title,
