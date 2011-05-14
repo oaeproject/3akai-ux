@@ -33,7 +33,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
             var file;
             for (file in filesArray) {
                 if (filesArray.hasOwnProperty(file)) {
-                    var contentPath = "/p/" + filesArray[file].hashpath;
+                    var contentPath = "/p/" + filesArray[file].hashpath.poolId;
                     var item;
                     switch (filesArray[file].permissions) {
                     // Logged in only

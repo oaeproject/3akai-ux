@@ -127,6 +127,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
                 addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                 addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
+                addCount(privdata, "messages", sakai.data.me.messages.unread);
             }
         };
 
@@ -220,6 +221,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 contextType = "user_other";
             }
+            renderEntity();
+            loadSpaceData();
         };
 
         var generateNav = function(){
