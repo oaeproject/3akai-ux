@@ -39,7 +39,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderPeople = function(data){
                 $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
-                    "data": data
+                    "data": data,
+                    "category": pageData.category
                 }));
         }
 

@@ -6,7 +6,7 @@
 </div>
 
 <div id="featuredpeople_template"><!--
-    <div class="s3d-contentpage-title">__MSG__PEOPLE__ (<a href="/dev/search2.html#l=people" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
+    <div class="s3d-contentpage-title"><a href="/dev/search2.html#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">__MSG__PEOPLE__</a> (<a href="/dev/search2.html#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
     {for item in data.results}
         <div class="featuredpeople_content">
             <img src="${item.picture}" alt="${item.name}" class="featuredpeople_image"/>
