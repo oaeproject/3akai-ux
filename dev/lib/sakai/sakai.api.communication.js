@@ -385,12 +385,24 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         *                               defaults to true
         * @param {Boolean} doFlip Flip the to and from
         */  
-        getAllMessages : function(box, category, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing, doFlip) {
-            var url = "";
+        getAllMessages : function(box, category, search, messagesPerPage, currentPage, sortBy, sortOrder, callback, doProcessing, doFlip) {
+            var url = "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
+
+            // Set up optional, additional params
+            if (search) {
+                url += "&q=" + search;
+            }
             if (category) {
-                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + "?box=" + box + "&category=" + category + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
+                url += "&category=" + category;
+            }
+
+            // Set the base URL for the search
+            if (search) {
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_SERVICE + url;
+            } else if (category) {
+                url = sakai_conf.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE + url;
             } else {
-                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + "?box=" + box + "&items=" + messagesPerPage + "&page=" + currentPage + "&sortOn=" + sortBy + "&sortOrder=" + sortOrder;
+                url = sakai_conf.URL.MESSAGE_BOX_SERVICE + url;
             }
             $.ajax({
                 url: url,
