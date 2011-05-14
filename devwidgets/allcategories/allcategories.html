@@ -13,7 +13,7 @@
                     <div class="allcategories_item">
                         <div class="allcategories_item_header">
                             <div class="allcategories_item_raquo"></div>
-                            <a href="/search#tag=/tags/${item.title}" class="s3d-regular-links allcategories_item_header_link s3d-bold">${item.title}</a>
+                            <a href="/dev/category.html#tag=${item.id}" class="s3d-regular-links allcategories_item_header_link s3d-bold">${item.title}</a>
                             <span class="allcategories_item_header_meta">${total} content items</span>
                         </div>
                         {if item.featuredcontent}
@@ -27,7 +27,7 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
                             {/if}
                             <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                            <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["jcr:sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
+                            <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
                         {/if}
                         <hr class="fl-push fl-hidden"/>
                     </div>
