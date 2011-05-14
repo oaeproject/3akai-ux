@@ -1,9 +1,11 @@
 /* Title */
 #inbox_box_title_wrapper{text-transform:capitalize;font-weight:normal;}
-.inbox_main{font-size:12px;}
+.inbox_main, .inbox_main .inbox_name button{font-size:12px;}
 #inbox_show_message,#inbox_message_list{float:left;width:100%;}
 #inbox_message_list{border-bottom:1px solid #d4d4d4;border-top:1px solid #d4d4d4;padding-bottom:5px;}
 .inbox_title_bar span,.inbox_items span{color:#878A8C;font-size:0.9em;}
+#inbox_search_term{margin:10px 0px;}
+#inbox_search_term span{font-weight:bold;}
 /* Message Header */
 #inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
 #inbox_select span{font-size:9px;}
@@ -20,7 +22,9 @@
 .inbox_right_col{width:15%;}
 /* Inbox items*/
 .inbox_items_container{color:#333;}
-#inbox_message_list .inbox_items_container{box-shadow:0px 1px 2px 0px #DDDDDD;-moz-box-shadow:0px 1px 2px 0px #DDDDDD;-webkit-box-shadow:0px 1px 2px 0px #DDDDDD;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin:6px 0px;}
+.inbox_item{cursor:pointer;}
+.inbox_item input, .inbox_item .inbox_action_button{cursor:normal;}
+#inbox_message_list .inbox_items_container{box-shadow:0px 1px 2px 0px #DDDDDD;-moz-box-shadow:0px 1px 2px 0px #DDDDDD;-webkit-box-shadow:0px 1px 2px 0px #DDDDDD;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin:6px 0px;overflow:hidden;}
 #inbox_message_list .inbox_items_container .inbox_items_inner{background-color:#f4f4f4;border-radius:2px 2px 6px 6px;-moz-border-radius:2px 2px 6px 6px;-webkit-border-radius:2px 2px 6px 6px;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
 #inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;}
 .inbox_items_container.last{border-bottom:none;}
@@ -28,7 +32,7 @@
 .inbox_items_inner img,#inbox_show_message_reply img{float:left;padding:0 10px 5px 0;width:30px;}
 .inbox_items_inner.hover{background-color:#C4E4FB;}
 .inbox_name{width:69%;overflow:hidden;display:inline-block;}
-.inbox_name span,.inbox_name a{float:left;}
+.inbox_name span,.inbox_name a,.inbox_name button{float:left;}
 .inbox_name span{min-width:30%;}
 .inbox_to_list{font-size:11px;margin-left:3px;display:inline-block;}
 .inbox_date{width:25%;text-align:right;overflow:hidden;display:inline-block;float:right;}

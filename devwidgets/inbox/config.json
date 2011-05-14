@@ -9,5 +9,5 @@
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/inbox/inbox.html",
-    "hashParams": ["message", "newmessage", "reply"]
+    "hashParams": ["message", "newmessage", "reply", "iq"]
 }
