@@ -114,7 +114,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var count = 0;
             $.each(navData.children, function(index, item){
                 var rnd = Math.floor(Math.random() * 999999999);
-                pubdata["structure0"][index] = {
+                pubdata["structure0"][navData.id + "/" + index] = {
                     "_ref": rnd,
                     "_order": count,
                     "_title": item.title,
@@ -146,17 +146,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 count++;
             });
-
+            debug.log(pubdata);
             $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 
-        var doInit = function(){
+        var getCategory = function(){
             var category = $.bbq.getState("tag");
             if(!category){
                 category = $.bbq.getState("l").split("/");
             }else{
                 category = category.split("/");
             }
+            return category;
+        };
+
+        var doInit = function(){
+            var category = getCategory();
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);
@@ -167,11 +172,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("hashchange", function(e, data){
-            var category = [toplevelId];
-            if(e.fragment && toplevelId != e.fragment.split("=")[1]){
-                 category.push(e.fragment.split("=")[1]);
-            }
-            createBreadcrumb(sakai.config.Directory[toplevelId], category);
+            var category = getCategory();
+            createBreadcrumb(sakai.config.Directory[category[0]], category);
         });
 
     };
