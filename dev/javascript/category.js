@@ -90,8 +90,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "_order": 0,
                 "_ref": rnd,
                 "_title": navData.title
-            }
+            };
 
+            // featuredcontent, featured people and featuredworld random numbers
             var fcRnd = Math.floor(Math.random() * 999999999);
             var fpRnd = Math.floor(Math.random() * 999999999);
             var fwRnd = Math.floor(Math.random() * 999999999);
@@ -125,6 +126,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 };
 
+                // featuredcontent, featured people and featuredworld random numbers
                 var fcRnd = Math.floor(Math.random() * 999999999);
                 var fpRnd = Math.floor(Math.random() * 999999999);
                 var fwRnd = Math.floor(Math.random() * 999999999);
@@ -150,6 +152,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 
+        /**
+         * Get the category out of the URL and give it back
+         * @return {Array} Array of strings representing the selected hierarchy
+         */
         var getCategory = function(){
             var category = $.bbq.getState("tag");
             if(!category){
@@ -165,7 +171,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);
-        }
+        };
 
         $(window).bind("lhnav.ready", function(){
             doInit();
