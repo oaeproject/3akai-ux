@@ -412,7 +412,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             checkUploadCompleted();
                         }
                     });
-                    document.hashpath = data["_contentItem"];
+                    document.hashpath = data["_contentItem"].poolId;
                     document.permissions = document["sakai:permissions"];
                     sakai.api.Content.setFilePermissions([document], false);
                 },
@@ -446,7 +446,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-                    linkObj.hashpath = data["_contentItem"];
+                    linkObj.hashpath = data["_contentItem"].poolId;
                     sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
                         checkUploadCompleted();
@@ -470,6 +470,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (savedItem.filename == arrayItem.originaltitle) {
                             arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
+                            savedItem.hashpath = savedItem.hashpath.poolId;
                             var obj = {
                                 "url": "/p/" + savedItem.hashpath.poolId,
                                 "method": "POST",
