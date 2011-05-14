@@ -517,36 +517,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             checkShareContentTour();
         };
 
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        // Temporarily deal with pages as documents here //
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
+        // //////////////////////////
+        // Dealing with Sakai docs //
+        /////////////////////////////
 
         var globalPageStructure = false;
 
         var generateNav = function(pagestructure){
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
-                    isEditMode: sakai_global.content_profile.content_data.isManager,
                     parametersToCarryOver: {
                         "content_path": sakai_global.content_profile.content_data.content_path
                     }
                 }, sakai_global.content_profile.content_data.content_path]);
-                $(window).trigger("lhnav.addHashParam", [{
-                    "content_path": sakai_global.content_profile.content_data.content_path
-                }]);
             }
         };
 
         $(window).bind("lhnav.ready", function(){
             generateNav(globalPageStructure);
-        });
-
-        $(window).bind("ready.sakaidocs.sakai", function(){
-            $(window).trigger("init.sakaidocs.sakai", sakai_global.content_profile.content_data.isManager);
         });
 
         var getPageCount = function(pagestructure){
@@ -577,9 +565,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
             switchToOneColumnLayout(true);
         });
+        
+        var setManagerProperty = function(structure){
+            for (var i in structure){
+                structure[i]._canEdit = true;
+                structure[i]._canSubedit = true;
+            }
+            return structure;
+        }
 
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
+            if (sakai_global.content_profile.content_data.isManager){
+                pagestructure.structure0 = setManagerProperty(pagestructure.structure0);
+            }
             if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {
@@ -620,14 +619,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#content_profile_sakaidoc_container").hide();
             }
         };
-
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        // Temporarily deal with pages as documents here //
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
 
         // Initialise the content profile page
         init();

@@ -48,8 +48,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             profilestructure._order = pub.structure0.profile._order;
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
-                var widgetID = ""+Math.ceil(Math.random() * 1000000000);
-                var widgetUUID = ""+Math.ceil(Math.random() * 1000000000);
+                var widgetID = sakai.api.Util.generateWidgetId();
+                var widgetUUID = sakai.api.Util.generateWidgetId();
                 profilestructure[title] = {
                     _ref: widgetID,
                     _order: section.order,

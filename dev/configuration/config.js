@@ -1487,77 +1487,77 @@ define(function(){
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
-                    "_ref": "267187828",
+                    "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
                     "main": {
-                        "_ref": "267187828",
+                        "_ref": "id267187828",
                         "_order": 0,
                         "_title": "Dashboard"
                     }
                 },
                 "messages": {
                     "_title": "My Messages",
-                    "_ref": "1165301022",
+                    "_ref": "id1165301022",
                     "_order": 1,
                     "inbox": {
-                        "_ref": "1165301022",
+                        "_ref": "id1165301022",
                         "_order": 0,
                         "_title": "Inbox"
                     },
                     "invitations": {
-                        "_ref": "9867733100",
+                        "_ref": "id9867733100",
                         "_order": 1,
                         "_title": "Invitations"
                     },
                     "sent": {
-                        "_ref": "4253485084",
+                        "_ref": "id4253485084",
                         "_order": 2,
                         "_title": "Sent"
                     },
                     "trash": {
-                        "_ref": "3915412565",
+                        "_ref": "id3915412565",
                         "_order": 3,
                         "_title": "Trash"
                     }
                 }
             },
-            "267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            "id267187828": {
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
-            "1165301022": {
-                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
+            "id1165301022": {
+                "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
             },
-            "9867733100": {
-                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
+            "id9867733100": {
+                "page": "<div id='widget_inbox_id3679202964' class='widget_inline'/>"
             },
-            "4253485084": {
-                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
+            "id4253485084": {
+                "page": "<div id='widget_inbox_id66582410046' class='widget_inline'/>"
             },
-            "3915412565": {
-                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
+            "id3915412565": {
+                "page": "<div id='widget_inbox_id3519294282' class='widget_inline'/>"
             },
-            "2024634737": {
+            "id2024634737": {
                 "box": "inbox",
                 "category": "message",
                 "title": "INBOX"
             },
-            "3679202964": {
+            "id3679202964": {
                 "box": "inbox",
                 "category": "invitation",
                 "title": "INVITATIONS"
             },
-            "66582410046": {
+            "id66582410046": {
                 "box": "outbox",
                 "category": "*",
                 "title": "SENT"
             },
-            "3519294282": {
+            "id3519294282": {
                 "box": "trash",
                 "category": "*",
                 "title": "TRASH"
             },
-            "546341435": {
+            "id546341435": {
                 "dashboard": {
                     "layout": "threecolumn",
                     "columns": {
@@ -1589,12 +1589,12 @@ define(function(){
                     "_order": 0
                 },
                 "library": {
-                    "_ref": "9834611274",
+                    "_ref": "id9834611274",
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
                     "main": {
-                        "_ref": "9834611274",
+                        "_ref": "id9834611274",
                         "_order": 0,
                         "_title": "Content"
                     }
@@ -1602,10 +1602,10 @@ define(function(){
                 "memberships": {
                     "_title": "My Memberships",
                     "_order": 2,
-                    "_ref": "213623673",
+                    "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
                     "main": {
-                        "_ref": "213623673",
+                        "_ref": "id213623673",
                         "_order": 0,
                         "_title": "Memberships"
                     }
@@ -1613,24 +1613,24 @@ define(function(){
                 "contacts": {
                     "_title": "My Contacts",
                     "_order": 3,
-                    "_ref": "1193715035",
+                    "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
                     "main": {
-                        "_ref": "1193715035",
+                        "_ref": "id1193715035",
                         "_order": 0,
                         "_title": "Contacts"
                     }
                 }
             },
-            "9834611274": {
+            "id9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
-            "213623673": {
+            "id213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
                     "<div id='widget_tooltip' class='widget_inline'></div> " +
                     "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
-            "1193715035": {
+            "id1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
             }
         },
@@ -1703,20 +1703,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -1725,20 +1725,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -1797,63 +1797,63 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "week1": {
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Week 1",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Week 1"
                                         }
                                     },
                                     "week2":{
-                                        "_ref":569856425,
+                                        "_ref":"id569856425",
                                         "_title":"Week 2",
                                         "_order":1,
                                         "main":{
-                                            "_ref":569856425,
+                                            "_ref":"id569856425",
                                             "_order":0,
                                             "_title":"Week 2"
                                         }
                                     },
                                     "week3":{
-                                        "_ref":647321988,
+                                        "_ref":"id647321988",
                                         "_title":"Week 3",
                                         "_order":2,
                                         "main":{
-                                            "_ref":647321988,
+                                            "_ref":"id647321988",
                                             "_order":0,
                                             "_title":"Week 3"
                                         }
                                     }
                                 },
-                                "6573920372": {
+                                "id6573920372": {
                                     page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
                                 },
-                                "569856425": {
+                                "id569856425": {
                                     page: "<p>Week 2<br></p>"
                                 },
-                                "647321988": {
+                                "id647321988": {
                                     page: "<p>Week 3<br></p>"
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
                                     "contact":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title": "Contact",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Contact"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     googlemaps: {
                                         "mapinput": "16 Mill Lane, Cambridge, UK",
                                         "mapzoom": "14",
@@ -1868,48 +1868,65 @@ define(function(){
                             "${pid}2": {
                                 structure0: {
                                     "about":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"About",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"About"
                                         }
                                     },
                                     "prospective":{
-                                        "_ref":"373710599",
+                                        "_ref":"id373710599",
                                         "_title":"Prospective Students",
                                         "_order":1,
                                         "main":{
-                                            "_ref":"373710599",
+                                            "_ref":"id373710599",
                                             "_order":0,
                                             "_title":"Prospective Students"
                                         }
                                     }
                                 },
-                                "6573920372": {
+                                "id6573920372": {
                                     page: "<p>This is some information about the course<br></p>"
                                 },
-                                "373710599": {
+                                "id373710599": {
                                     page: "<p>This is some information for prospective students<br></p>"
                                 }
                             },
                             "${pid}3": {
                                 structure0: {
                                     "organizationnotes":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Organization Notes",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Organization Notes"
                                         }
                                     }
                                 },
-                                "6573920372": {
+                                "id6573920372": {
                                     page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
+                                }
+                            },
+                            "${pid}4": {
+                                structure0: {
+                                    "studentwiki":{
+                                        "_ref":"id849031890418",
+                                        "_order":0,
+                                        "_title":"Student Wiki",
+                                        "main":{
+                                            "_ref":"id849031890418",
+                                            "_order":0,
+                                            "_title":"Organization Notes"
+                                        }
+                                    }
+                                },
+                                "id849031890418": {
+                                    page: "<p>Student wiki editable by all members of this course<br></p>"
                                 }
                             }
                         },
@@ -1941,6 +1958,13 @@ define(function(){
                                 "_docref": "${pid}3",
                                 "_view": ["-ta"],
                                 "_edit": ["-lecturer"]
+                            },
+                            "studentwiki": {
+                                "_title": "Student Wiki",
+                                "_order": 4,
+                                "_docref": "${pid}4",
+                                "_view": [],
+                                "_edit": ["-lecturer", "-ta", "-student"]
                             }
                         },
                         joinRole: "student",
@@ -1973,20 +1997,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -1995,20 +2019,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2020,15 +2044,15 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             }
                         },
                         joinRole: "student",
@@ -2061,20 +2085,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2083,20 +2107,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2108,15 +2132,15 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             }
                         },
                         joinRole: "student",
@@ -2149,20 +2173,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2171,20 +2195,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2196,15 +2220,15 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             }
                         },
                         joinRole: "student",
@@ -2237,20 +2261,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2259,20 +2283,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2284,15 +2308,15 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
-                                "_view": ["everyone", "anonymous", "-student"],
-                                "_edit": ["-ta", "-lecturer"]
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
                             }
                         },
                         joinRole: "student",
@@ -2326,20 +2350,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2348,20 +2372,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2409,20 +2433,20 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"9867543247",
+                                        "_ref":"id9867543247",
                                         "_order":0,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"9867543247",
+                                            "_ref":"id9867543247",
                                             "_order":0,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "9867543247": {
-                                    page: "<img id='widget_mylibrary_1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "1367865652332": {
+                                "id1367865652332": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2431,20 +2455,20 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"6573920372",
+                                        "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"6573920372",
+                                            "_ref":"id6573920372",
                                             "_order":0,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "6573920372": {
-                                    page: "<img id='widget_participants_439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "439704665": {
+                                "id439704665": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }

@@ -19,86 +19,21 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.sakaidocs = function (tuid, showSettings) {
+        
+        var currentPageShown = false;
+        
+        
+        
+        
+        
+        
+        
 
-        /**
-         * Edit button
-         */
-        $("#sakaidocs_editpage").live("click", function(){
-            editPage();
-        });
+        
 
-        var editPage = function(){
-            isEditingNewPage = false;
-            $("#sakaidocs_editmode").show();
-            $("#s3d-page-main-content").hide();
-            var content = sakai_global.lhnavigation.currentPageShown.content || "";
-            tinyMCE.get("elm1").setContent(content, {format : 'raw'});
-        };
+        // $(window).bind("editPage.sakaidocs.sakai", editPage);
 
-        $(window).bind("editPage.sakaidocs.sakai", editPage);
-
-        /**
-         * Cancel button
-         */
-        $("#sakaidocs_edit_cancel_button").live("click", function(){
-            cancelEditPage();
-        });
-
-        var cancelEditPage = function(){
-            $("#sakaidocs_editmode").hide();
-            $("#context_menu").hide();
-            $("#s3d-page-main-content").show();
-        };
-
-        /**
-         * Save button
-         */
-        $("#sakaidocs_edit_save_button").live("click", function(){
-            savePage();
-        });
-
-        var savePage = function(){
-            $("#context_menu").hide();
-            sakai_global.lhnavigation.currentPageShown.content = getTinyMCEContent();
-            $(window).trigger("savePage.lhnavigation.sakai");
-            $("#sakaidocs_editmode").hide();
-            $("#s3d-page-main-content").show();
-
-            //Store the edited content
-            var toStore = {};
-            toStore[sakai_global.lhnavigation.currentPageShown.ref] = {
-                "page": sakai_global.lhnavigation.currentPageShown.content
-            };
-            $.ajax({
-                url: sakai_global.lhnavigation.currentPageShown.savePath + ".resource",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    ":operation": "import",
-                    ":contentType": "json",
-                    ":replace": true,
-                    ":replaceProperties": true,
-                    "_charset_":"utf-8",
-                    ":content": $.toJSON(toStore)
-                }
-            });
-        };
-
-        /**
-         * Add a page to the document
-         */
-        $("#sakaidocs_addpage").live("click", function(ev){
-            $(window).trigger("addPage.lhnavigation.sakai");
-        });
-
-        /**
-         * Get content out of tinyMCE editor
-         */
-        var getTinyMCEContent = function(){
-            var content = tinyMCE.get("elm1").getContent({format : 'raw'});
-            content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
-            return content;
-        };
+        
 
         /**
          * Renders the insert dropdown menu
@@ -336,18 +271,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         });
 
-        /**
-         * Show wrapping dialog
-         * @param {Object} hash
-         * @return void
-         */
+        
+
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /////////////////////
+        // Widget Wrapping //
+        /////////////////////
+        
+        var setWrappingStyle = function(classToAdd) {
+            var ed = tinyMCE.get('elm1');
+            var $selected = $(ed.selection.getNode());
+            $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
+            $selected.addClass(classToAdd);
+            $('#wrapping_dialog').jqmHide();
+        };
+        
         var showWrappingDialog = function(hash){
             $("#context_menu").hide();
             window.scrollTo(0,0);
             hash.w.show();
         };
-
-        // Init wrapping modal
+        
         $('#wrapping_dialog').jqm({
             modal: true,
             trigger: $('#context_appearance_trigger'),
@@ -355,55 +315,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toTop: true,
             onShow: showWrappingDialog
         });
+        
+        ////////////////////////////
+        // Insert widget dropdown //
+        ////////////////////////////
+        
+        
 
-        var setNewStyleClass = function(classToAdd) {
-            var ed = tinyMCE.get('elm1');
-            var $selected = $(ed.selection.getNode());
-            $selected.removeClass("block_image").removeClass("block_image_right").removeClass("block_image_left");
-            $selected.addClass(classToAdd);
+        ////////////////////////
+        // Page Edit Controls //
+        ////////////////////////
+        
+        var pageEditControlsInitialized = false;
+        
+        var initializePageEditControls = function(){
+            if (!pageEditControlsInitialized){
+                init_tinyMCE();
+                renderInsertDropdown("sakaidocs");
+                pageEditControlsInitialized = true;
+            }
+        }
+
+        var showPageEditControls = function(){
+            $("#sakaidocs-page-action-bar").show();
+            initializePageEditControls();
         };
 
-        // Bind wrapping_no click event
-        $("#wrapping_no").bind("click",function(ev){
-            setNewStyleClass("block_image");
-            $('#wrapping_dialog').jqmHide();
-        });
-
-        // Bind wrapping left click event
-        $("#wrapping_left").bind("click",function(ev){
-            setNewStyleClass("block_image_left");
-            $('#wrapping_dialog').jqmHide();
-        });
-
-        // Bind wrapping right click event
-        $("#wrapping_right").bind("click",function(ev){
-            setNewStyleClass("block_image_right");
-            $('#wrapping_dialog').jqmHide();
-        });
-
-        var initSakaiDocs = function(){
-            // TODO trigger event in lhnav
-            $("#sakaidocs-page-action-bar").html($("#sakaidocs_buttonbar").show()).show();
-            $("#sakaidocs-page-edit-mode").html($("#sakaidocs_editmode"));
-            init_tinyMCE();
-            renderInsertDropdown("sakaidocs");
+        var hidePageEditControls = function(){
+            $("#sakaidocs-page-action-bar").hide();
         };
 
-        var hideSakaiDocs = function(){
-            $("#sakaidocs-page-action-bar").html($("#sakaidocs_buttonbar").hide()).hide();
-            $("#lhnavigation_actions").hide();
+        ///////////////////////
+        // TinyMCE Functions //
+        ///////////////////////
+
+        var getTinyMCEContent = function(){
+            var content = tinyMCE.get("elm1").getContent({format : 'raw'});
+            content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
+            return content;
         };
-
-        //////////////////
-        //////////////////
-        //////////////////
-        // TinyMCE Init //
-        //////////////////
-        //////////////////
-        //////////////////
-
+    
         var init_tinyMCE = function(){
-            // Init tinyMCE
             if (window["tinyMCE"]) {
                 tinyMCE.init({
 
@@ -552,17 +504,143 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         };
-
-        var doInit = function () {
-            $(window).bind("init.sakaidocs.sakai", function(e, editable) {
-                if (editable){
-                    initSakaiDocs();
+        
+        ///////////////////////////////////
+        // Rendering a page in view mode //
+        ///////////////////////////////////
+        
+        var renderPage = function(reloadPage){
+            sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
+            $("#s3d-page-container > div:visible").hide();
+            if ($("#" + currentPageShown.ref).length === 0) {
+                // Create the new element
+                var $el = $("<div>").attr("id", currentPageShown.ref);
+                // Add element to the DOM
+                $("#s3d-page-container").append($el);
+                var $contentEl = $("#" + currentPageShown.ref);
+                // Add sanitized content
+                var sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                $contentEl.html(sanitizedContent);
+                // Insert widgets
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.savePath + "/", currentPageShown.widgetData);
+            } else {
+                if (reloadPage) {
+                    var $contentEl = $("#" + currentPageShown.ref);
+                    var sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                    $contentEl.html(sanitizedContent);
+                    // Insert widgets
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.savePath + "/", currentPageShown.widgetData);
+                    $contentEl.show();
+                } else {
+                    $("#s3d-page-container #" + currentPageShown.ref).show();
+                    sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
+                }
+            }
+            if (currentPageShown.canEdit){
+                showPageEditControls();
+            } else {
+                hidePageEditControls();
+            }
+        };
+        
+        ///////////////////////////////////
+        // Rendering a page in edit mode //
+        ///////////////////////////////////
+        
+        var editPage = function(){
+            $("#sakaidocs-page-edit-mode").show();
+            $("#s3d-page-container").hide();
+            var content = currentPageShown.content || "";
+            tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+        };
+        
+        /////////////////////////
+        // Save an edited page //
+        /////////////////////////
+        
+        var savePage = function(){
+            currentPageShown.content = getTinyMCEContent();
+            
+            stopEditPage();
+            renderPage(true);
+            
+            //Store the edited content
+            var resourceRef = currentPageShown.ref;
+            if (resourceRef.indexOf("-") !== -1){
+                resourceRef = resourceRef.substring(resourceRef.indexOf("-") + 1);
+            }
+            var toStore = {};
+            toStore[resourceRef] = {
+                "page": currentPageShown.content
+            };
+            $.ajax({
+                url: currentPageShown.savePath + ".resource",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    ":operation": "import",
+                    ":contentType": "json",
+                    ":replace": true,
+                    ":replaceProperties": true,
+                    "_charset_":"utf-8",
+                    ":content": $.toJSON(toStore)
                 }
             });
-            $(window).trigger("ready.sakaidocs.sakai");
-
         };
-        doInit();
+        
+        /////////////////////////
+        // Go out of edit mode //
+        /////////////////////////
+        
+        var stopEditPage = function(){
+            $("#sakaidocs-page-edit-mode").hide();
+            $("#context_menu").hide();
+            $("#s3d-page-container").show();
+        };
+            
+        ////////////////////////////
+        // Internal event binding //
+        ////////////////////////////
+        
+        $("#sakaidocs_editpage").live("click", function(){
+            editPage();
+        });
+        
+        $("#sakaidocs_edit_cancel_button").live("click", function(){
+            stopEditPage();
+        });
+        
+        $("#sakaidocs_edit_save_button").live("click", function(){
+            savePage();
+        })
+        
+        $("#wrapping_no").bind("click",function(ev){
+            setNewStyleClass("block_image");  
+        });
+
+        $("#wrapping_left").bind("click",function(ev){
+            setWrappingStyle("block_image_left");
+        });
+
+        $("#wrapping_right").bind("click",function(ev){
+            setWrappingStyle("block_image_right");
+        });
+            
+        ////////////////////////////
+        // External event binding //
+        ////////////////////////////
+        
+        $(window).bind("showpage.sakaidocs.sakai", function(ev, _currentPageShown){
+            currentPageShown = _currentPageShown;
+            renderPage();
+        });
+            
+        ///////////////////////
+        // Widget has loaded //
+        ///////////////////////
+        
+        $(window).trigger("ready.sakaidocs.sakai");
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
