@@ -196,7 +196,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderSelectedWidget = function(widgetid) {
-            debug.log("Starting renderSelectedWidget - " + widgetid);
             var $overlayContainer = $("#insert_dialog");
             var $dialog_content = $("#dialog_content", $overlayContainer);
             var widgetSettingsWidth = 650;
@@ -488,7 +487,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
                 }
             }
-            if (currentPageShown.canEdit){
+            if (currentPageShown.canEdit && !currentPageShown.nonEditable){
                 showPageEditControls(currentPageShown.addArea);
             } else {
                 hidePageEditControls();
@@ -599,13 +598,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////
         
         $(window).bind("showpage.sakaidocs.sakai", function(ev, _currentPageShown){
-            debug.log("SHOWPAGE");
             currentPageShown = _currentPageShown;
             renderPage();
         });
         
         $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown){
-            debug.log("EDITPAGE");
             currentPageShown = _currentPageShown;
             renderPage();
             editPage();

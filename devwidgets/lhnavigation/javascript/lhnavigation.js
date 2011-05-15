@@ -128,30 +128,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             structure._childCount = childCount;
             return structure;
         };
-        
-        var continueProcessData = function(structure, data, pids, callback){
-            // Prepare a batch request
-            var batchRequests = [];
-            for (var i = 0; i < pids.length; i++) {
-                batchRequests.push({
-                    "url": "/p/" + pids[i] + ".infinity.json",
-                    "method": "GET"
-                });
-            }
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if (success) {
-                    for (var i = 0; i < pids.length; i++){
-                        var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
-                        docInfo.orderedItems = orderItems(docInfo.structure0);
-                        sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
-                        addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
-                        structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
-                        structure = insertDocPages(structure, docInfo, pids[i]);
-                    }
-                }
-                finishProcessData(structure, data, callback);
-            });
-        };
 
         var finishProcessData = function(structure, data, callback){
             // Include the childcounts for the pages
@@ -246,6 +222,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return structure;
         };
+
+        var continueProcessData = function(structure, data, pids, callback){
+            // Prepare a batch request
+            var batchRequests = [];
+            for (var i = 0; i < pids.length; i++) {
+                batchRequests.push({
+                    "url": "/p/" + pids[i] + ".infinity.json",
+                    "method": "GET"
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function(success, data) {
+                if (success) {
+                    for (var i = 0; i < pids.length; i++){
+                        if (data.results[i].status === 404 || data.results[i].status === 403) {
+                            for (var level in structure.items) {
+                                if (structure.items[level]._pid && structure.items[level]._pid === pids[i]) {
+                                    structure.items[level]._canView = false;
+                                    structure.items[level]._canEdit = false;
+                                    structure.items[level]._canSubedit = false;
+                                }
+                            }
+                        } else {
+                            var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                            docInfo.orderedItems = orderItems(docInfo.structure0);
+                            sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
+                            addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
+                            structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
+                            structure = insertDocPages(structure, docInfo, pids[i]);
+                        }
+                    }
+                }
+                finishProcessData(structure, data, callback);
+            });
+        };
         
         ///////////////////
         // Page ordering //
@@ -322,15 +332,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var savePath = menuitem.data("sakai-savepath") || false;
                 var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
                 var canEdit = menuitem.data("sakai-submanage") || false;
+                var nonEditable = menuitem.data("sakai-noneditable") || false;
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
                 // Render page
-                preparePageRender(ref, selected, savePath, pageSavePath, canEdit, newPageMode);
+                preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
             }
         };
         
-        var preparePageRender = function(ref, path, savePath, pageSavePath, canEdit, newPageMode){
+        var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
             var content = getPageContent(ref);
             currentPageShown = {
                 "ref": ref,
@@ -340,7 +351,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "pageSavePath": pageSavePath,
                 "canEdit": canEdit,
                 "widgetData": [privstructure.pages, pubstructure.pages],
-                "addArea": contextData.addArea
+                "addArea": contextData.addArea,
+                "nonEditable": nonEditable
             };
             if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
@@ -640,9 +652,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 orderedItems.splice(oldOrder, 1);
                 for (var i = oldOrder; i < orderedItems.length; i++){
                     orderedItems[i]._order = i;
-                    debug.log("BLOEBLEO: " + orderedItems[i]._id);
                     structure[orderedItems[i]._id]._order = i;
-                    debug.log(structure);
                 }
             }
             delete pageslist[ref];

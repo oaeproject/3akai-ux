@@ -1705,10 +1705,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -1728,9 +1730,11 @@ define(function(){
                                         "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
+                                        //"_nonEditable": true,
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            //"_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -1750,6 +1754,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-member"],
                                 "_edit": ["-manager"]
                             },
@@ -1757,6 +1762,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-member"],
                                 "_edit": ["-manager"]
                             }
@@ -1999,10 +2005,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2021,10 +2029,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2044,6 +2054,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2051,6 +2062,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
@@ -2087,10 +2099,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2109,10 +2123,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2132,6 +2148,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2139,6 +2156,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
@@ -2175,10 +2193,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2197,10 +2217,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2220,6 +2242,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2227,6 +2250,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
@@ -2263,10 +2287,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2285,10 +2311,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2308,6 +2336,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2315,6 +2344,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
@@ -2352,10 +2382,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2374,10 +2406,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2397,6 +2431,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2404,6 +2439,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
@@ -2435,10 +2471,12 @@ define(function(){
                                     "library":{
                                         "_ref":"id9867543247",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
                                             "_ref":"id9867543247",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
@@ -2457,10 +2495,12 @@ define(function(){
                                     "participants":{
                                         "_ref":"id6573920372",
                                         "_order":0,
+                                        "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2480,6 +2520,7 @@ define(function(){
                                 "_title": "Library",
                                 "_order": 0,
                                 "_docref": "${pid}0",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             },
@@ -2487,6 +2528,7 @@ define(function(){
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
+                                "_nonEditable": true,
                                 "_view": ["everyone", "anonymous", "-lurker"],
                                 "_edit": ["-participant"]
                             }
