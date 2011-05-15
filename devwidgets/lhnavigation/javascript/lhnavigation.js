@@ -58,41 +58,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
 
-        /////////////////////
-        // MENU NAVIGATION //
-        /////////////////////
-
-        var orderItems = function(items){
-            var orderedItems = [];
-            var noLeft = false;
-            for (var i = 0; noLeft === false; i++){
-                var toAdd = false;
-                for (var el in items){
-                    if (el.substring(0,1) !== "_" && items[el]._order == i){
-                        toAdd = items[el];
-                        toAdd._id = el;
-                        break;
-                    }
-                }
-                if (!toAdd){
-                    noLeft = true;
-                } else {
-                    toAdd._elements = orderItems(toAdd);
-                    orderedItems.push(toAdd);
-                }
-            }
-            return orderedItems;
-        };
-
-        var calculateOrder = function(){
-            if (privstructure && privstructure.items){
-                privstructure.orderedItems = orderItems(privstructure.items);
-            }
-            if (pubstructure && pubstructure.items){
-                pubstructure.orderedItems = orderItems(pubstructure.items);
-            }
-        };
-
+        
+        //////////////////////////////
+        // Rendering the navigation //
+        //////////////////////////////
+        
         var renderData = function(){
             calculateOrder();
             var lhnavHTML = sakai.api.Util.TemplateRenderer("lhnavigation_template", {
@@ -105,6 +75,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#lhnavigation_container").html(lhnavHTML);
         };
 
+        //////////////////
+        // Data storage //
+        //////////////////
+        
+        var storeStructure = function(structure, savepath){
+            sakai.api.Server.saveJSON(savepath, {
+                "structure0": $.toJSON(structure)
+            });
+        };
+        
+        ////////////////////////////////////
+        // Structure processing functions //
+        ////////////////////////////////////
+        
+        var getPageCount = function(pagestructure, pageCount){
+            if (!pageCount){
+                pageCount = 0;
+            }
+            for (var tl in pagestructure){
+                if (pagestructure.hasOwnProperty(tl) && tl.substring(0, 1) !== "_"){
+                    pageCount++;
+                    if (pageCount >= 3) {
+                        return 3;
+                    }
+                    pageCount = getPageCount(pagestructure[tl], pageCount);
+                }
+            }
+            return pageCount;
+        };
+        
+        var getPageContent = function(ref){
+            if (privstructure.pages[ref]) {
+                return privstructure.pages[ref].page;
+            } else if (pubstructure.pages[ref]){
+                return pubstructure.pages[ref].page;
+            } else {
+                return false;
+            }
+        };
+        
         var includeChildCount = function(structure){
             var childCount = 0;
             for (var level in structure){
@@ -118,6 +128,70 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             structure._childCount = childCount;
             return structure;
         };
+        
+        var continueProcessData = function(structure, data, pids, callback){
+            // Prepare a batch request
+            var batchRequests = [];
+            for (var i = 0; i < pids.length; i++) {
+                batchRequests.push({
+                    "url": "/p/" + pids[i] + ".infinity.json",
+                    "method": "GET"
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function(success, data) {
+                if (success) {
+                    for (var i = 0; i < pids.length; i++){
+                        var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                        docInfo.orderedItems = orderItems(docInfo.structure0);
+                        sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
+                        addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
+                        structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
+                        structure = insertDocPages(structure, docInfo, pids[i]);
+                    }
+                }
+                finishProcessData(structure, data, callback);
+            });
+        };
+
+        var finishProcessData = function(structure, data, callback){
+            // Include the childcounts for the pages
+            structure.items = includeChildCount(structure.items);
+            for (var page in data){
+                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
+                    structure.pages[page] = data[page];
+                }
+            }
+            callback(structure);
+        };
+
+        var processData = function(data, docURL, callback){
+            var structure = {};
+            structure.items = {};
+            structure.pages = {};
+            if (data["structure0"]){
+                if (typeof data["structure0"] === "string") {
+                    structure.items = $.parseJSON(data["structure0"]);
+                } else {
+                    structure.items = data["structure0"];
+                }
+                for (var i in structure.items) {
+                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                }
+                // Get a list of all Sakai Docs that have to be "added"
+                var pids = collectPoolIds(structure.items, []);
+                if (pids.length === 0){
+                    finishProcessData(structure, data, callback);
+                } else {
+                    continueProcessData(structure, data, pids, callback);
+                }
+            } else {
+                finishProcessData(structure, data, callback);
+            }
+        };
+        
+        ////////////////////////////////////////////
+        // Insert referenced pooled content items //
+        ////////////////////////////////////////////
         
         var collectPoolIds = function(structure, refs){
             for (var level in structure) {
@@ -163,40 +237,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return structure;
         };
         
-        var continueProcessData = function(structure, data, pids, callback){
-            // Prepare a batch request
-            var batchRequests = [];
-            for (var i = 0; i < pids.length; i++) {
-                batchRequests.push({
-                    "url": "/p/" + pids[i] + ".infinity.json",
-                    "method": "GET"
-                });
-            }
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if (success) {
-                    for (var i = 0; i < pids.length; i++){
-                        var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
-                        sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
-                        addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
-                        structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
-                        structure = insertDocPages(structure, docInfo, pids[i]);
-                    }
-                }
-                finishProcessDave(structure, data, callback);
-            });
-        };
-
-        var finishProcessDave = function(structure, data, callback){
-            // Include the childcounts for the pages
-            structure.items = includeChildCount(structure.items);
-            for (var page in data){
-                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
-                    structure.pages[page] = data[page];
-                }
-            }
-            callback(structure);
-        };
-
         var addDocUrlIntoStructure = function(structure, url){
             structure._poolpath = url;
             for (var i in structure){
@@ -206,128 +246,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return structure;
         };
-
-        var processData = function(data, docURL, callback){
-            var structure = {};
-            structure.items = {};
-            structure.pages = {};
-            if (data["structure0"]){
-                if (typeof data["structure0"] === "string") {
-                    structure.items = $.parseJSON(data["structure0"]);
-                } else {
-                    structure.items = data["structure0"];
-                }
-                for (var i in structure.items) {
-                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
-                }
-                // Get a list of all Sakai Docs that have to be "added"
-                var pids = collectPoolIds(structure.items, []);
-                if (pids.length === 0){
-                    finishProcessDave(structure, data, callback);
-                } else {
-                    continueProcessData(structure, data, pids, callback);
-                }
-            } else {
-                finishProcessDave(structure, data, callback);
-            }
-            debug.log(structure);
-        };
-
         
-
+        ///////////////////
+        // Page ordering //
+        ///////////////////
         
-
-        var getPageContent = function(ref){
-            if (privstructure.pages[ref]) {
-                return privstructure.pages[ref].page;
-            } else if (pubstructure.pages[ref]){
-                return pubstructure.pages[ref].page;
-            } else {
-                return false;
-            }
-        };
-
-        var addPage = function(){
-            var newpageid = Math.round(Math.random() * 1000000000);
-            var neworder = pubstructure.orderedItems.length;
-            pubstructure.pages[newpageid] = {};
-            pubstructure.pages[newpageid].page = "Default content";
-            pubstructure.items[newpageid] = {
-                "_ref": newpageid,
-                "_title": "Untitled Page",
-                "_order": neworder,
-                "main":{
-                    "_ref": newpageid,
-                    "_order": 0,
-                    "_title": "Untitled Page",
-                    "_childCount": 0
-                },
-                "_childCount":1
-            };
-            renderData();
-            $(window).trigger("sakai.contentauthoring.needsTwoColumns");
-            $.bbq.pushState({
-                "l": newpageid
-            }, 0);
-            selectPage();
-            $(window).trigger("editPage.sakaidocs.sakai");
-            addParametersToNavigation();
-            editPageTitle();
-        };
-
-        var updateCountsAfterDelete = function(structure, ref, path){
-            var oldOrder = structure.items[path]._order;
-            delete structure.pages[ref];
-            delete structure.items[path];
-            structure.orderedItems.splice(oldOrder, 1);
-            for (var i = oldOrder; i < structure.orderedItems.length; i++){
-                structure.orderedItems[i]._order = i;
-                structure.items[structure.orderedItems[i]._id]._order = i;
-            }
-        };
-
-        
-
-        var getPageCount = function(pagestructure){
-            var pageCount = 0;
-            for (var tl in pagestructure){
-                if (pagestructure.hasOwnProperty(tl)){
-                    pageCount++;
-                    if (pageCount >= 3){
-                        return 3;
-                    }
-                    for (var ll in pagestructure[tl]){
-                        if (ll.substring(0,1) !== "_"){
-                            pageCount++;
-                            if (pageCount >= 3){
-                                return 3;
-                            }
-                        }
+        var orderItems = function(items){
+            var orderedItems = [];
+            var noLeft = false;
+            for (var i = 0; noLeft === false; i++){
+                var toAdd = false;
+                for (var el in items){
+                    if (el.substring(0,1) !== "_" && items[el]._order == i){
+                        toAdd = items[el];
+                        toAdd._id = el;
+                        break;
                     }
                 }
+                if (!toAdd){
+                    noLeft = true;
+                } else {
+                    toAdd._elements = orderItems(toAdd);
+                    orderedItems.push(toAdd);
+                }
             }
-            return pageCount;
+            return orderedItems;
         };
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //////////////////
-        // Data storage //
-        //////////////////
-        
-        var storeStructure = function(structure, savepath){
-            sakai.api.Server.saveJSON(savepath, {
-                "structure0": $.toJSON(structure.items)
-            });
+
+        var calculateOrder = function(){
+            if (privstructure && privstructure.items){
+                privstructure.orderedItems = orderItems(privstructure.items);
+            }
+            if (pubstructure && pubstructure.items){
+                pubstructure.orderedItems = orderItems(pubstructure.items);
+            }
         };
         
         //////////////////////////////
@@ -352,7 +304,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return selected;
         }
         
-        var selectPage = function(){
+        var selectPage = function(editMode){
             var state = $.bbq.getState("l");
             var selected = state || false;
             // If no page is selected, select the first one from the nav
@@ -366,28 +318,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
                     showHideSubnav(par, true);
                 }
-                var ref = menuitem.attr("data-sakai-ref");
-                var savePath = menuitem.attr("data-sakai-savepath") || false;
-                var canEdit = menuitem.attr("data-sakai-submanage") || false;
+                var ref = menuitem.data("sakai-ref");
+                var savePath = menuitem.data("sakai-savepath") || false;
+                var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
+                var canEdit = menuitem.data("sakai-submanage") || false;
                 if (!menuitem.hasClass(navSelectedItemClass)) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
                 // Render page
-                preparePageRender(ref, selected, savePath, canEdit);
+                preparePageRender(ref, selected, savePath, pageSavePath, canEdit, editMode);
             }
         };
         
-        var preparePageRender = function(ref, path, savePath, canEdit){
+        var preparePageRender = function(ref, path, savePath, pageSavePath, canEdit, editMode){
             var content = getPageContent(ref);
             currentPageShown = {
                 "ref": ref,
                 "path": path,
                 "content": content,
                 "savePath": savePath,
+                "pageSavePath": pageSavePath,
                 "canEdit": canEdit,
-                "widgetData": [privstructure.pages, pubstructure.pages]
+                "widgetData": [privstructure.pages, pubstructure.pages],
+                "addArea": contextData.addArea
             };
-            $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
+            if (editMode) {
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+            } else {
+                $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
+            }
         };
         
         /////////////////////////
@@ -403,7 +362,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contextMenuHover = {
                     path: $el.data("sakai-path"),
                     ref: $el.data("sakai-ref"),
-                    savepath: $el.data("sakai-savepath")
+                    pageSavePath: $el.data("sakai-pagesavepath"),
+                    savePath: $el.data("sakai-savepath")
                 }
                 $(".lhnavigation_selected_submenu", $el).show();
             }
@@ -431,6 +391,134 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
         
+        //////////////////////////////////
+        // Adding a new page or subpage //
+        //////////////////////////////////
+        
+        var addTopPage = function(){
+            var newpageid = sakai.api.Util.generateWidgetId();
+            var neworder = pubstructure.orderedItems.length;
+            
+            var pageContent = "Default content";
+            var pageToCreate = {
+                "_ref": newpageid,
+                "_title": "Untitled Page",
+                "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.savePath,
+                "main":{
+                    "_ref": newpageid,
+                    "_order": 0,
+                    "_title": "Untitled Page",
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.savePath
+                },
+                "_childCount":1
+            }
+            
+            pubstructure.pages[newpageid] = {};
+            sakaiDocsInStructure[contextData.puburl][newpageid] = {};
+            
+            pubstructure.pages[newpageid].page = pageContent;
+            sakaiDocsInStructure[contextData.puburl][newpageid].page = pageContent;
+            
+            pubstructure.items[newpageid] = pageToCreate;
+            pubstructure.items[newpageid]._childCount++;
+            sakaiDocsInStructure[contextData.puburl].structure0[newpageid] = pageToCreate;
+            
+            renderData();
+            $(window).trigger("sakai.contentauthoring.needsTwoColumns");
+            $.bbq.pushState({
+                "l": newpageid,
+                "editMode": "true"
+            }, 0);
+            selectPage(true);
+            addParametersToNavigation();
+            contextMenuHover = {
+                path: currentPageShown.path,
+                ref: currentPageShown.ref,
+                pageSavePath: currentPageShown.pageSavePath,
+                savePath: currentPageShown.savePath
+            }
+            editPageTitle();
+        };
+        
+        var addSubPage = function(){
+            var newpageid = sakai.api.Util.generateWidgetId();
+            var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
+            
+            var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
+            var basePath = currentPageShown.path.split("/")[0];
+
+            var pageContent = "Default content";
+            var pageToCreate = {
+                "_ref": fullRef,
+                "_title": "Untitled Page",
+                "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.pageSavePath,
+                "main":{
+                    "_ref": fullRef,
+                    "_order": 0,
+                    "_title": "Untitled Page",
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.pageSavePath
+                },
+                "_childCount":1
+            }
+            var pageToCreate1 = {
+                "_ref": newpageid,
+                "_title": "Untitled Page",
+                "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.pageSavePath,
+                "main":{
+                    "_ref": newpageid,
+                    "_order": 0,
+                    "_title": "Untitled Page",
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.pageSavePath
+                },
+                "_childCount":1
+            }
+            
+            pubstructure.pages[fullRef] = {};
+            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = {};
+            
+            pubstructure.pages[fullRef].page = pageContent;
+            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid].page = pageContent;
+            
+            pubstructure.items[basePath][newpageid] = pageToCreate;
+            pubstructure.items[basePath]._childCount++;
+            
+            sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
+            
+            renderData();
+            $(window).trigger("sakai.contentauthoring.needsTwoColumns");
+            $.bbq.pushState({
+                "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
+                "editMode": "true"
+            }, 0);
+            selectPage(true);
+            addParametersToNavigation();
+            contextMenuHover = {
+                path: currentPageShown.path,
+                ref: currentPageShown.ref,
+                pageSavePath: currentPageShown.pageSavePath,
+                savePath: currentPageShown.savePath
+            }
+            editPageTitle();
+        };
+        
         /////////////////////
         // Renaming a page //
         /////////////////////
@@ -442,7 +530,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "']");
             changingPageTitle = jQuery.extend(true, {}, contextMenuHover);
             
-            var pageTitle = $(".lhnavigation_toplevel", menuitem);
+            var pageTitle = $(".lhnavigation_page_title_value", menuitem);
             pageTitle.hide();
             
             var inputArea = $(".lhnavigation_change_title", menuitem);
@@ -460,41 +548,110 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var inputArea = $(".lhnavigation_change_title", menuitem);
             inputArea.hide();
             
-            var pageTitle = $(".lhnavigation_toplevel", menuitem);
+            var pageTitle = $(".lhnavigation_page_title_value", menuitem);
             pageTitle.text(inputArea.val());
             pageTitle.show();
-
-            pubstructure.items[changingPageTitle.path]._title = inputArea.val();
-            storeStructure(pubstructure, changingPageTitle.savepath);
+            
+            // Change main structure
+            var mainPath = changingPageTitle.path;
+            if (changingPageTitle.path.indexOf("/") !== -1){
+                var parts = changingPageTitle.path.split("/");
+                mainPath = parts[1];
+                pubstructure.items[parts[0]][parts[1]]._title = inputArea.val();
+            } else {
+                pubstructure.items[changingPageTitle.path]._title = inputArea.val();
+            }
+            // Look up appropriate doc and change that structure
+            var structure = sakaiDocsInStructure[changingPageTitle.savePath];
+            structure.structure0[mainPath]._title = inputArea.val();
+            storeStructure(structure.structure0, changingPageTitle.savePath);
+            
             changingPageTitle = false;
         };
-        
+
         /////////////////////
         // Deleting a page //
         /////////////////////
-        
+
         var deletePage = function(){
-            var structure = false;
-            if (pubstructure.pages[contextMenuHover.ref]){
-                updateCountsAfterDelete(pubstructure, contextMenuHover.ref, contextMenuHover.path);
-                if (getPageCount(pubstructure.items) < 3){
-                    $(window).trigger("sakai.contentauthoring.needsOneColumn");
-                }
-                structure = pubstructure;
-            } else if (privstructure.pages[contextMenuHover.ref]){
-                updateCountsAfterDelete(privstructure, contextMenuHover.ref, contextMenuHover.path);
-                if (getPageCount(privstructure.pages) < 3){
-                    $(window).trigger("sakai.contentauthoring.needsOneColumn");
-                }
-                structure = privstructure;
+            // Look up appropriate doc and change that structure
+            var structure = sakaiDocsInStructure[contextMenuHover.savePath];
+            var realRef = contextMenuHover.ref;
+            if (contextMenuHover.ref.indexOf("-") !== -1){
+                realRef = contextMenuHover.ref.split("-")[1];
             }
+            var realPath = contextMenuHover.path;
+            if (contextMenuHover.path.indexOf("/") !== -1){
+                realPath = contextMenuHover.path.split("/")[1];
+            }
+            updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
+            storeStructure(structure.structure0, contextMenuHover.savePath);
+
+            // Change the main structure
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, contextMenuHover.ref, contextMenuHover.path);
+            if (getPageCount(pubstructure.items) < 3){
+                $(window).trigger("sakai.contentauthoring.needsOneColumn");
+            }
+
+            // Re-render the navigation
             renderData();
             addParametersToNavigation();
-            $.bbq.pushState({"l": "", "_": Math.random()}, 0);
-            storeStructure(structure, contextMenuHover.savepath);
+
+            // Move away from the current page
+            if (contextMenuHover.path.indexOf("/") !== -1){
+                if (getPageCount(structure.structure0) < 3) {
+                    $.bbq.pushState({
+                        "l": contextMenuHover.path.split("/")[0],
+                        "_": Math.random(),
+                        "editMode": ""
+                    }, 0);
+                } else {
+                    var selected = getFirstSelectablePage(structure);
+                    $.bbq.pushState({
+                        "l": contextMenuHover.path.split("/")[0] + "/" + selected,
+                        "_": Math.random(),
+                        "editMode": ""
+                    }, 0);
+                }
+            } else {
+                $.bbq.pushState({
+                    "l": "", 
+                    "_": Math.random(),
+                    "editMode": ""
+                }, 0);
+            }
+
             toggleContextMenu(true);
         };
-        
+
+        var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
+            var oldOrder = 0;
+            if (path.indexOf("/") !== -1){
+                var parts = path.split("/");
+                oldOrder = structure[parts[0]][parts[1]]._order;
+                delete structure[parts[0]][parts[1]];
+                for (var i = 0; i < orderedItems.length; i++){
+                    if (orderedItems[i]._pid === ref.split("-")[0]){
+                        orderedItems[i]._elements.splice(oldOrder, 1);
+                        orderedItems[i]._childCount--;
+                        for (var o = oldOrder; o < orderedItems[i]._elements.length; o++){
+                            orderedItems[i]._elements[o]._order = o;
+                            structure[orderedItems[i]._id][orderedItems[i]._elements[o]._id]._order = o;
+                        }
+                    }
+                }
+            } else {
+                oldOrder = structure[path]._order;
+                delete structure[path];
+                orderedItems.splice(oldOrder, 1);
+                for (var i = oldOrder; i < orderedItems.length; i++){
+                    orderedItems[i]._order = i;
+                    structure[orderedItems[i]._id]._order = i;
+                }
+            }
+            delete pageslist[ref];
+        };
+
         /////////////////////////////////////////////
         // Add additional parameters to navigation //
         /////////////////////////////////////////////
@@ -556,8 +713,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
-            sakaiDocsInStructure[mainPubUrl] = pubdata;
-            sakaiDocsInStructure[mainPrivUrl] = privdata;
+            if (mainPubUrl) {
+                sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
+                sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
+            }
+            if (mainPrivUrl) {
+                sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
+                sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
+            }
             contextData = cData;
             processData(privdata, cData.privurl, function(processedPriv){
                 privstructure = processedPriv;
@@ -604,6 +767,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             onContextMenuHover($(this));
         });
         
+        $("#sakaidocs_addpage_top").live("click", function(){
+            addTopPage();
+        });
+        
+        $("#sakaidocs_addpage_area").live("click", function(){
+            addSubPage();
+        });
+        
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
         });
@@ -633,7 +804,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("hashchange", function(e, data){
-            selectPage();
+            if ($.bbq.getState("editMode") !== "true") {
+                selectPage();
+            }
         });
 
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){

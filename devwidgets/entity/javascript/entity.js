@@ -101,7 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
                         var url = "/system/userManager/group/" +
-                            context.data.authprofile.groupid + ".managers.json";
+                            context.data.authprofile["sakai:group-id"] + ".managers.json";
                         $.ajax({
                             url: url,
                             success: function(managers){

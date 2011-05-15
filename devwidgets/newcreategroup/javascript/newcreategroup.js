@@ -215,7 +215,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 ":replace": true,
                 ":replaceProperties": true,
                 "_charset_": "utf-8",
-                ":content": $.toJSON(currentTemplate.structure)
+                ":content": $.toJSON({
+                    "structure0": $.toJSON(currentTemplate.structure)
+                })
             },
             success: function(){
                 callback();
