@@ -29,6 +29,7 @@
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top:7px;position: absolute;width: 12px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
 #lhnavigation_container .lhnavigation_change_title {margin: 4px 0 5px;padding: 2px 10px 2px 0;width: 115px;}
+#lhnavigation_container .lhnavigation_change_title_restricted_width {width: 100px !important;}
 
 #lhnavigation_container ul li.lhnavigation_selected_item{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_private{background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;}

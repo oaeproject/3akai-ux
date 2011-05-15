@@ -304,7 +304,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return selected;
         }
         
-        var selectPage = function(editMode){
+        var selectPage = function(newPageMode){
             var state = $.bbq.getState("l");
             var selected = state || false;
             // If no page is selected, select the first one from the nav
@@ -326,11 +326,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     selectNavItem(menuitem, $(navSelectedItem));
                 }
                 // Render page
-                preparePageRender(ref, selected, savePath, pageSavePath, canEdit, editMode);
+                preparePageRender(ref, selected, savePath, pageSavePath, canEdit, newPageMode);
             }
         };
         
-        var preparePageRender = function(ref, path, savePath, pageSavePath, canEdit, editMode){
+        var preparePageRender = function(ref, path, savePath, pageSavePath, canEdit, newPageMode){
             var content = getPageContent(ref);
             currentPageShown = {
                 "ref": ref,
@@ -342,8 +342,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "widgetData": [privstructure.pages, pubstructure.pages],
                 "addArea": contextData.addArea
             };
-            if (editMode) {
+            if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                    contextMenuHover = {
+                    path: currentPageShown.path,
+                    ref: currentPageShown.ref,
+                    pageSavePath: currentPageShown.pageSavePath,
+                    savePath: currentPageShown.savePath
+                }
+                editPageTitle();
             } else {
                 $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
             }
@@ -426,24 +433,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakaiDocsInStructure[contextData.puburl][newpageid].page = pageContent;
             
             pubstructure.items[newpageid] = pageToCreate;
-            pubstructure.items[newpageid]._childCount++;
-            sakaiDocsInStructure[contextData.puburl].structure0[newpageid] = pageToCreate;
+            pubstructure.items._childCount++;
+            sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
+            sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
             
             renderData();
+            addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
             $.bbq.pushState({
                 "l": newpageid,
-                "editMode": "true"
+                "newPageMode": "true"
             }, 0);
-            selectPage(true);
-            addParametersToNavigation();
-            contextMenuHover = {
-                path: currentPageShown.path,
-                ref: currentPageShown.ref,
-                pageSavePath: currentPageShown.pageSavePath,
-                savePath: currentPageShown.savePath
-            }
-            editPageTitle();
         };
         
         var addSubPage = function(){
@@ -501,22 +501,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             pubstructure.items[basePath]._childCount++;
             
             sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
+            sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
             
             renderData();
+            addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
             $.bbq.pushState({
                 "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
-                "editMode": "true"
+                "newPageMode": "true"
             }, 0);
-            selectPage(true);
-            addParametersToNavigation();
-            contextMenuHover = {
-                path: currentPageShown.path,
-                ref: currentPageShown.ref,
-                pageSavePath: currentPageShown.pageSavePath,
-                savePath: currentPageShown.savePath
-            }
-            editPageTitle();
         };
         
         /////////////////////
@@ -585,6 +578,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 realPath = contextMenuHover.path.split("/")[1];
             }
             updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
+            structure.orderedItems = orderItems(structure.structure0);
             storeStructure(structure.structure0, contextMenuHover.savePath);
 
             // Change the main structure
@@ -603,21 +597,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.bbq.pushState({
                         "l": contextMenuHover.path.split("/")[0],
                         "_": Math.random(),
-                        "editMode": ""
+                        "newPageMode": ""
                     }, 0);
                 } else {
                     var selected = getFirstSelectablePage(structure);
                     $.bbq.pushState({
                         "l": contextMenuHover.path.split("/")[0] + "/" + selected,
                         "_": Math.random(),
-                        "editMode": ""
+                        "newPageMode": ""
                     }, 0);
                 }
             } else {
                 $.bbq.pushState({
                     "l": "", 
                     "_": Math.random(),
-                    "editMode": ""
+                    "newPageMode": ""
                 }, 0);
             }
 
@@ -646,7 +640,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 orderedItems.splice(oldOrder, 1);
                 for (var i = oldOrder; i < orderedItems.length; i++){
                     orderedItems[i]._order = i;
+                    debug.log("BLOEBLEO: " + orderedItems[i]._id);
                     structure[orderedItems[i]._id]._order = i;
+                    debug.log(structure);
                 }
             }
             delete pageslist[ref];
@@ -804,9 +800,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("hashchange", function(e, data){
-            if ($.bbq.getState("editMode") !== "true") {
-                selectPage();
-            }
+            selectPage($.bbq.getState("newPageMode") === "true");
         });
 
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
