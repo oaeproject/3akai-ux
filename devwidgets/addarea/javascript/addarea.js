@@ -47,7 +47,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addareaContentsListFirstItem = "#addarea_contents_list_first_item";
         var addareaSelectTemplate = ".addarea_select_template";
 
-        // Mappings
+        var context = "";
+
+        // Mapping
         var descriptionMap = {
             "pages": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PAGE_AUTHORING_AND_WIDGETS"),
             "sakaidoc": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "FIND_EXISTING_CONTENT_AND"),
@@ -66,7 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderDescription = function(){
             if(!$(this).hasClass(addareaContentsSelectedListItemClass)){
-                var context = $(this).attr("data-context");
+                context = $(this).attr("data-context");
                 var areadescription = descriptionMap[context];
                 switchSelection($(this));
                 $addareaContentsContainerDescription.html(sakai.api.Util.TemplateRenderer(addareaContentsContainerDescriptionTemplate, {
@@ -78,21 +80,51 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var renderForm = function(){
-            var context = $(this).attr("data-context");
-            if(context){
+        /**
+         * Render the form
+         * @param {Boolean} true when the template should be rendered
+         * @param {Object} data contains data relating to the context of the clicked item in the left hand list
+         */
+        var renderForm = function(success, data){
+            if (success) {
                 $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
-                    context: context
+                    context: context,
+                    data: data
                 }));
                 $(addareaSelectTemplate).hide();
-                //$addareaContentsContainerForm.show();
-                $addareaContentsContainerForm.animate({width:"250px;"},0, 'linear').toggle("slow");
+                
+                var width = "250px";
+                if(context == "sakaidoc"){
+                    width = "500px";
+                }
+                
+                $addareaContentsContainerForm.animate({
+                    width: width
+                }, 0, 'linear').toggle("slow");
+            }
+        }
+
+        /**
+         * Decide to render the form straight away or fetch some data first
+         */
+        var decideRenderForm = function(){
+            context = $(this).attr("data-context");
+            if(context){
+                if(context == "sakaidoc"){
+                    sakai.api.Server.loadJSON("/var/search/pool/all.infinity.json?q=*",
+                        renderForm, {
+                            q: "*"
+                        }
+                    );
+                } else {
+                    renderForm(true, {});
+                }
             }
         };
 
         var addBinding = function(){
             $(addareaContentsListItem).bind("click", renderDescription);
-            $(addareaSelectTemplate).live("click", renderForm)
+            $(addareaSelectTemplate).live("click", decideRenderForm)
         };
 
         var doInit = function(){
