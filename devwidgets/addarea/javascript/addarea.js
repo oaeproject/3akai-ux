@@ -29,6 +29,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.addarea = function(tuid, showSettings){
 
+        // Containers
+        var $addareaContentsContainerDescription = $("#addarea_contents_container_description");
+
+        // Classes
+        var addareaContentsSelectedListItemClass = "addarea_contents_selected_list_item";
+
+        // Templates
+        var addareaContentsContainerDescriptionTemplate = "addarea_contents_container_description_template";
+
+        // Elements
+        var addareaContentsListItem = ".addarea_contents_list_item";
+        var addareaContentsSelectedListItem = ".addarea_contents_selected_list_item";
+        var addareaContentsListFirstItem = "#addarea_contents_list_first_item";
+        var addareaSelectTemplate = ".addarea_select_template";
+
+        // Mappings
+        var descriptionMap = {
+            "pages": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PAGE_AUTHORING_AND_WIDGETS"),
+            "sakaidoc": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "FIND_EXISTING_CONTENT_AND"),
+            "dashboardoverview": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "AN_OVERVIEW_OF_CURRENT_ACTIVITY"),
+            "participantslist": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PARTICIPATING_PEOPLE_AND_GROUPS"),
+            "timetable": "Timetable",
+            "contentlibrary": "Content Library",
+            "widgetpage": "Widgets Page",
+            "sakaitwotool": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "UTILISE_A_PREVIOUS_SAKAI_TOOL")
+        };
+
+        var switchSelection = function($el){
+            $(addareaContentsSelectedListItem).removeClass(addareaContentsSelectedListItemClass);
+            $el.addClass(addareaContentsSelectedListItemClass);
+        };
+
+        var renderDescription = function(){
+            if(!$(this).hasClass(addareaContentsSelectedListItemClass)){
+                var context = $(this).attr("data-context");
+                var areadescription = descriptionMap[context];
+                switchSelection($(this));
+                $addareaContentsContainerDescription.html(sakai.api.Util.TemplateRenderer(addareaContentsContainerDescriptionTemplate, {
+                    areadescription: areadescription,
+                    context: context
+                }));
+            }
+        };
+
+        var renderForm = function(){
+            
+        };
+
+        var addBinding = function(){
+            $(addareaContentsListItem).bind("click", renderDescription);
+            $(addareaSelectTemplate).live("click", renderForm)
+        };
+
+        var doInit = function(){
+            addBinding();
+            $(addareaContentsListFirstItem).click();
+        };
+
+        doInit();
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("addarea");
