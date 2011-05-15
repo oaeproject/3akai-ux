@@ -18,7 +18,7 @@
             </ul>
             <div id="addarea_contents_container">
                 <div id="addarea_contents_container_description"><!----></div>
-                <div id="addarea_contents_container_form"><!----></div>
+                <div id="addarea_contents_container_form" style="display:none;"><!----></div>
             </div>
         </div>
     </div>
@@ -27,18 +27,50 @@
 <div id="addarea_contents_container_description_template"><!--
     <img src="/devwidgets/addarea/images/addarea_preview.png" id="addarea_preview_image"/>
     <span id="addarea_preview_description">${areadescription}</span>
-    <button class="s3d-button s3d-button-link-2-state addarea_select_template" id="addarea_select_${context}" type="button">
+    <button class="s3d-button s3d-button-link-2-state addarea_select_template" data-context="${context}" type="button">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SELECT__</span>
     </button>
 --></div>
 
-<div id="addarea_pages_form_template"><!--Pages form--></div>
+<div id="addarea_pages_form_template"><!--
+    <label for="addarea_pages_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_pages_page_name"/>
 
-<div id="addarea_sakaidoc_form_template"><!--Sakai Doc Form--></div>
+    <label for="addarea_pages_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id ="addarea_pages_permissions">
+        <option value="default">__MSG__DEFAULT__</option>
+        <option value="private">__MSG__PRIVATE__</option>
+        <option value="loggedinonly">__MSG__LOGGED_IN_ONLY__</option>
+        <option value="public">__MSG__PUBLIC__</option>
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
 
-<div id="addarea_dashboardoverview_form_template"><!--Dashboard Overview Form--></div>
+    <label for="addarea_pages_numberofpages">__MSG__PAGES__:</label>
+    <select id ="addarea_pages_numberofpages">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+    <span class="addarea_form_annotation">__MSG__YOU_CAN_ADD_MORE_AND_NAME_THEM_LATER__</span>
+--></div>
 
-<div id="addarea_participantlist_form_template"><!--Participant form--></div>
+<div id="addarea_sakaidoc_form_template"><!--${context}--></div>
+
+<div id="addarea_dashboardoverview_form_template"><!--${context}--></div>
+
+<div id="addarea_participantlist_form_template"><!--
+    <label for="addarea_participantlist_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_participantlist_page_name"/>
+
+    <label for="addarea_participantlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id ="addarea_participantlist_permissions">
+        <option value="default">__MSG__DEFAULT__</option>
+        <option value="private">__MSG__PRIVATE__</option>
+        <option value="loggedinonly">__MSG__LOGGED_IN_ONLY__</option>
+        <option value="public">__MSG__PUBLIC__</option>
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
 
 <div id="addarea_timetable_form_template"><!--Timetable Form--></div>
 
@@ -46,7 +78,46 @@
 
 <div id="addarea_widgetpage_form_template"><!--Widget Page--></div>
 
-<div id="addarea_sakaitwotool_form_template"><!--Sakai 2 Tool--></div>
+<div id="addarea_sakaitwotool_form_template"><!--
+    <label for="addarea_sakaitwotool_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_sakaitwotool_page_name"/>
+
+    <label for="addarea_sakaitwotool_selecttool">__MSG__SELECT_SAKAI_2_TOOL__:</label>
+    <select id="addarea_sakaitwotool_selecttool">
+        <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
+        <option value="sakai.assignment.grades">__MSG__ASSIGNMENTS__</option>
+        <option value="sakai.schedule">__MSG__CALENDAR__</option>
+        <option value="sakai.summary.calendar">__MSG__CALENDAR_SUMMARY__</option>
+        <option value="sakai.chat">__MSG__CHAT_ROOM__</option>
+        <option value="sakai.dropbox">__MSG__DROP_BOX__</option>
+        <option value="sakai.mailbox">__MSG__EMAIL_ARCHIVE__</option>
+        <option value="sakai.forums">__MSG__FORUMS__</option>
+        <option value="sakai.gradebook.tool">__MSG__GRADEBOOK__</option>
+        <option value="sakai.messages">__MSG__MESSAGES__</option>
+        <option value="sakai.news">__MSG__NEWS__</option>
+        <option value="sakai.poll">__MSG__POLLS__</option>
+        <option value="sakai.postem">__MSG__POSTEM__</option>
+        <option value="sakai.profile">__MSG__PROFILE__</option>
+        <option value="sakai.profile2">__MSG__PROFILE2__</option>
+        <option value="sakai.resources">__MSG__RESOURCES__</option>
+        <option value="sakai.site.roster">__MSG__ROSTER__</option>
+        <option value="sakai.rwiki">__MSG__RWIKI__</option>
+        <option value="sakai.singleuser">__MSG__SINGLE_USER__</option>
+        <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
+        <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
+    </select>
+
+    <label for="addarea_sakaitwotool_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id ="addarea_sakaitwotool_permissions">
+        <option value="default">__MSG__DEFAULT__</option>
+        <option value="private">__MSG__PRIVATE__</option>
+        <option value="loggedinonly">__MSG__LOGGED_IN_ONLY__</option>
+        <option value="public">__MSG__PUBLIC__</option>
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+
+
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/addarea/javascript/addarea.js"></script>

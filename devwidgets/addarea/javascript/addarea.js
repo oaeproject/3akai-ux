@@ -29,8 +29,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      */
     sakai_global.addarea = function(tuid, showSettings){
 
+        //default, private, logged in only (if goup visible for logged in), public (if group public), advanced
+
         // Containers
         var $addareaContentsContainerDescription = $("#addarea_contents_container_description");
+        var $addareaContentsContainerForm = $("#addarea_contents_container_form");
 
         // Classes
         var addareaContentsSelectedListItemClass = "addarea_contents_selected_list_item";
@@ -49,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             "pages": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PAGE_AUTHORING_AND_WIDGETS"),
             "sakaidoc": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "FIND_EXISTING_CONTENT_AND"),
             "dashboardoverview": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "AN_OVERVIEW_OF_CURRENT_ACTIVITY"),
-            "participantslist": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PARTICIPATING_PEOPLE_AND_GROUPS"),
+            "participantlist": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PARTICIPATING_PEOPLE_AND_GROUPS"),
             "timetable": "Timetable",
             "contentlibrary": "Content Library",
             "widgetpage": "Widgets Page",
@@ -70,11 +73,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     areadescription: areadescription,
                     context: context
                 }));
+                $addareaContentsContainerForm.hide();
+                $addareaContentsContainerForm.html("");
             }
         };
 
         var renderForm = function(){
-            
+            var context = $(this).attr("data-context");
+            if(context){
+                $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
+                    context: context
+                }));
+                $(addareaSelectTemplate).hide();
+                //$addareaContentsContainerForm.show();
+                $addareaContentsContainerForm.animate({width:"250px;"},0, 'linear').toggle("slow");
+            }
         };
 
         var addBinding = function(){

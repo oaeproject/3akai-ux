@@ -27,8 +27,15 @@
 .addarea_widget li.addarea_contents_selected_list_item {-moz-border-radius:5px 0 0 5px;border-radius:5px 0 0 5px;background-color:#e4e3e2;color:#424242;}
 
 /* Template area (forms etc.) */
-.addarea_widget #addarea_contents_container {background-color:#e4e3e2;width:150px;height:284px;float:left;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description {padding:33px 24px 0;}
+.addarea_widget #addarea_contents_container {background-color:#e4e3e2;min-width:150px;height:284px;float:left;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_description {height:251px;width:90px;padding:33px 24px 0;float:left;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_description #addarea_preview_description {color:#424242;display:block;margin:5px 0 10px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description #addarea_preview_image{border:1px solid #E2E2E2;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_description #addarea_preview_image{border:1px solid #ccc;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_description .addarea_select_template {width:100%;}
+
+.addarea_widget #addarea_contents_container #addarea_contents_container_form {float:left;height:251px;width:250px;padding:33px 24px 0 0;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form label {margin-bottom:4px;color:#424242;display:block;clear:both;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form input, .addarea_widget #addarea_contents_container #addarea_contents_container_form select {border:1px solid #ccc;float:left;margin-bottom:12px;margin-right:12px;padding:2px;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form input {width:100%;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form select {padding:2px 0;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form .addarea_form_annotation {color:#424242;float:left;font-size:10px;line-height:10px;width:100px;}
