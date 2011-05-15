@@ -55,9 +55,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             "sakaidoc": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "FIND_EXISTING_CONTENT_AND"),
             "dashboardoverview": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "AN_OVERVIEW_OF_CURRENT_ACTIVITY"),
             "participantlist": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PARTICIPATING_PEOPLE_AND_GROUPS"),
-            "timetable": "Timetable",
-            "contentlibrary": "Content Library",
-            "widgetpage": "Widgets Page",
+            "timetable": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "KEEP_TRACK_OF_EVENTS_IN_A_TIMETABLE"),
+            "contentlibrary": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "DISPLAY_A_LIBRARY_OF_CONTENT_ITEMS"),
+            "widgetpage": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "DISPLAY_WIDGETS_ON_A_PAGE"),
             "sakaitwotool": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "UTILISE_A_PREVIOUS_SAKAI_TOOL")
         };
 
@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     width: width
                 }, 0, 'linear').toggle("slow");
             }
-        }
+        };
 
         /**
          * Decide to render the form straight away or fetch some data first
@@ -116,6 +116,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             q: "*"
                         }
                     );
+                } else if (context == "widgetpage") {
+                    var widgets = [];
+                    for (var widget in sakai.widgets){
+                        if(sakai.widgets[widget].sakaidocs){
+                            widgets.push(sakai.widgets[widget]);
+                        }
+                    }
+                    renderForm(true, widgets);
                 } else {
                     renderForm(true, {});
                 }
