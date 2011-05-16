@@ -201,6 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             enableDisableControls();
         };
 
+
         ////////////////////
         // INITIALIZATION //
         ////////////////////
@@ -325,13 +326,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#addpeople_selected_all_permissions", rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
         }
 
+
         ////////////
         // EVENTS //
         ////////////
 
         $(window).bind("init.addpeople.sakai", function(e, initTuid){
-            if (initTuid === tuid) {
+            if (initTuid === tuid || sakai_global.sakaidocs) {
                 if (!hasbeenInit) {
+                    if (!widgetData) {
+                        widgetData = {
+                            "category": sakai_global.group2.groupData["sakai:category"],
+                            "id": sakai_global.group2.groupData["sakai:templateid"]
+                        }
+                    }
                     loadRoles();
                     addBinding();
                     fetchUsersGroups();
