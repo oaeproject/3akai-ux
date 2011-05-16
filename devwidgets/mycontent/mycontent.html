@@ -17,7 +17,7 @@
                     <div class="mycontent_item_img fl-force-left">
                         {var mimeType = sakai.api.Content.getMimeType(item)}
                         {var thumbnail = sakai.api.Content.getThumbnail(item)}
-                        <a href="/content#p=${item['jcr:name']}" title="${item['sakai:pooled-content-file-name']}">
+                        <a href="/content#p=${item['jcr:name']}/${item['sakai:pooled-content-file-name']}" title="${item['sakai:pooled-content-file-name']}">
                             {if thumbnail}
                                 {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                 <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
@@ -35,7 +35,7 @@
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
-                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['jcr:name']}">
+                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['jcr:name']}/${item.name}">
                                 ${item.name}
                             </a>
                         </p>

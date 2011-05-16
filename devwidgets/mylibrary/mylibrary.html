@@ -57,7 +57,7 @@
                 </div>
                 <div class="mylibrary_placeholder">{if user_is_owner(item)}<input class="mylibrary_check"
                     id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
-                <a href="${item.link}" title="__MSG__VIEW_THIS_ITEM__">
+                <a href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
                     {var thumbnail = sakai.api.Content.getThumbnail(item.fullResult)}
                     {if thumbnail}
                         {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description)}
@@ -70,7 +70,7 @@
                     {/if}
                 </a>
                 <div class="mylibrary_name_div s3d-regular-links">
-                    <div class="mylibrary_name s3d-bold"><a href="${item.link}"
+                    <div class="mylibrary_name s3d-bold"><a href="${item.link}/${item.filename}"
                         title="__MSG__VIEW_THIS_ITEM__">${item.filename}</a></div>
                     {if item.tags && item.tags.length}
                         <p class="mylibrary_description_detail">__MSG__TAGS__:
