@@ -169,18 +169,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     for (var item in finaljson.items) {
                         if (finaljson.items.hasOwnProperty(item)) {
-                            if (finaljson.items[item]["sakai:description"]) {
-                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt");
-                            }
-                            if (finaljson.items[item]["sakai:pooled-content-file-name"]) {
-                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "s3d-bold");
-                            }
+                            // if the content has an owner we need to add their ID to an array,
+                            // so we can lookup the users display name in a batch req
                             if (finaljson.items[item]["sakai:pool-content-created-for"]) {
                                 userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
                                 fetchUsers = true;
