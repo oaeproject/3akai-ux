@@ -1,0 +1,14 @@
+{
+    "description":"create content",
+    "name":"createcontent",
+    "id":"createcontent",
+    "i18n": {
+        "default": "/devwidgets/createcontent/bundles/default.properties"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/createcontent/createcontent.html",
+    "deletable":true
+}
