@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_phone = $("#footer_phone");
         var $footer_contactinfo = $("#footer_contactinfo");
         var $footer_contactinfo_template = $("#footer_contactinfo_template");
-        var $footer_langloc_buttons = $('p.langloc>button')
+        var $footer_langloc_buttons = $('p.langloc>button');
 
 
         //////////////////////
@@ -123,23 +123,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Display Institution contact details if available
-         */
-        var getContactDetails = function() {
-            if (sakai.config.Institution){
-                helpLinkURL = sakai.config.Institution.helpLinkUrl || "";
-                helpPhone = sakai.config.Institution.helpPhone ? sakai.api.Security.saneHTML(sakai.config.Institution.helpPhone) : "";
-                helpLinkAlt = sakai.config.Institution.helpLinkText ? sakai.api.Security.saneHTML(sakai.config.Institution.helpLinkText) : "";
-                var helpObj = {
-                    href : helpLinkURL,
-                    phone : helpPhone,
-                    alt : helpLinkAlt
-                };
-                $footer_contactinfo.html(sakai.api.Util.TemplateRenderer($footer_contactinfo_template, helpObj));
-            }
-        };
-
-        /**
          * This event handler will make sure that the Top link
          * that's available in every page footer will scroll back
          * to the top of the page
@@ -182,13 +165,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             }
 
-            // check if contact info is set in config and display it
-            getContactDetails();
-
             // index.html mods
             if (checkIndexPage() || doc_name === "") {
                 $back_to_top_link.hide();
                 $footer_root.addClass("footer_index");
+            }
+            
+            if (!sakai.data.me.user.anon){
+                $("#footer_langdoc").show();
             }
 
             // Set the end year of the copyright notice

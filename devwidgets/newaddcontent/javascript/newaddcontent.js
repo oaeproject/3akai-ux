@@ -369,11 +369,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:copyright": documentObj.copyright,
                 "structure0": $.toJSON({
                     "page1": {
-                        "_ref": "6573920372",
+                        "_ref": "id6573920372",
                         "_order": 0,
                         "_title": "Page Title 1",
                         "main": {
-                            "_ref": "6573920372",
+                            "_ref": "id6573920372",
                             "_order": 0,
                             "_title": "Page Title 1"
                         }
@@ -389,7 +389,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 dataType: "json",
                 success: function(data){
                     $.ajax({
-                        url: "/p/" + data._contentItem + ".resource",
+                        url: "/p/" + data._contentItem.poolId + ".resource",
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -399,20 +399,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             ":replaceProperties": true,
                             "_charset_":"utf-8",
                             ":content": $.toJSON({
-                                "6573920372": {
+                                "id6573920372": {
                                      "page": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.<br/><br/>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci."
                                 }
                             })
                         },
                         success: function() {
-                            sakai.api.Util.tagEntity("/p/" + data._contentItem, documentObj.tags.split(","));
+                            sakai.api.Util.tagEntity("/p/" + data._contentItem.poolId, documentObj.tags.split(","));
                             checkUploadCompleted();
                         },
                         error: function() {
                             checkUploadCompleted();
                         }
                     });
-                    document.hashpath = data["_contentItem"];
+                    document.hashpath = data["_contentItem"].poolId;
                     document.permissions = document["sakai:permissions"];
                     sakai.api.Content.setFilePermissions([document], false);
                 },
@@ -446,8 +446,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-                    linkObj.hashpath = data["_contentItem"];
-                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath, linkObj.tags.split(","));
+                    linkObj.hashpath = data["_contentItem"].poolId;
+                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
                         checkUploadCompleted();
                     });
@@ -470,6 +470,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (savedItem.filename == arrayItem.originaltitle) {
                             arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
+                            savedItem.hashpath = savedItem.hashpath.poolId;
                             var obj = {
                                 "url": "/p/" + savedItem.hashpath,
                                 "method": "POST",
@@ -502,7 +503,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     // save tags
                     $.each(itemsToUpload, function(i,arrayItem){
-                        sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath, arrayItem.tags.split(","));
+                        if (arrayItem.hashpath && arrayItem.hashpath.poolId) {
+                            sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
+                        }
                     });
 
                     checkUploadCompleted(true);

@@ -43,9 +43,9 @@
 .footer_index #footer_main_br{width:100%;height:0;background:none;float:left;}
 .footer_index #footer_main_bl{width:16px;height:9px;background:none;float:left;}
 .footer_index #footer_main_footer{background:none;height:9px;margin:0 16px;}
-.footer_main .fixed-container.bottom p.langloc{float:right;}
-.footer_main .fixed-container.bottom p.langloc span{margin-left:26px;}
-.footer_main .fixed-container.bottom p.langloc a{margin-right:0;}
+.footer_main .fixed-container.bottom p.footer_langloc{float:right;}
+.footer_main .fixed-container.bottom p.footer_langloc span{margin-left:26px;}
+.footer_main .fixed-container.bottom p.footer_langloc a{margin-right:0;}
 
 /* Footer on the login page */
 .footer_index{bottom:0;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -819px transparent;clear:both;padding-bottom:0;position:fixed;margin-bottom:0;z-index:99;}

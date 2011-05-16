@@ -21,6 +21,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.group2 = function() {
 
         var groupData = false;
+        var groupId = false;
+        var pubdata = false;
 
         /**
          * Get the group id from the querystring
@@ -28,20 +30,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var processEntityInfo = function(){
             var querystring = new Querystring();
             if (querystring.contains("id")) {
-                entityID = querystring.get("id");
+                groupId = querystring.get("id");
             }
-            sakai.api.Server.loadJSON("/~" + entityID + "/public/authprofile.profile.json", function(success, data) {
+            sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
                     groupData = {};
-                    groupData.authprofile = data;
+                    groupData.authprofile = data.properties;
+                    sakai_global.group2.groupData = groupData.authprofile;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
-                            sakai.api.Util.include.css(sakai_global.currentgroup.data.authprofile["sakai:customStyle"]);
+                            sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
                         }
                     });
                     var pageTitle = sakai.api.i18n.General.getValueForKey(sakai.config.PageTitles.prefix);
                     document.title = pageTitle + groupData.authprofile["sakai:group-title"];
                     loadGroupEntityWidget();
+                    loadDocStructure();
 
                 } else {
                     if (data.status === 401 || data.status === 403){
@@ -54,9 +58,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadGroupEntityWidget = function(){
+            var canManage = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
             var context = "group";
             var type = "group";
-            if (false){
+            if (canManage){
                 type = "group_managed";
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
@@ -66,47 +71,72 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             loadGroupEntityWidget();
         });
 
-        $("#entity_manage_group").live("click", function(){
-            document.location = "/dev/group_edit2.html?id=" + entityID;
-        });
-
         $(window).bind("ready.entity.sakai", function(e){
             loadEntityWidget();
         });
-        
+
         /////////////////////////
         // LOAD LEFT HAND SIDE //
         /////////////////////////
         
-        var pubdata = {
-            "structure0": {
-                "syllabus": {
-                    "_title": "Syllabus",
-                    "_order": 0,
-                    "_pid": "gUbBYGx9E"
-                },
-                "contactus": {
-                    "_title": "Contact us",
-                    "_order": 1,
-                    "_pid": "gUbBi1Caa"
-                },
-                "coursewebsite": {
-                    "_title": "Course websites",
-                    "_order": 2,
-                    "_pid": "gUbBqAyaa"
+        var filterOutUnwanted = function(){
+            var roles = $.parseJSON(groupData.authprofile["sakai:roles"]);
+            for (var i in pubdata.structure0){
+                var edit = $.parseJSON(pubdata.structure0[i]._edit);
+                var view = $.parseJSON(pubdata.structure0[i]._view);
+                var canEdit = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
+                var canSubedit = false;
+                var canView = false;
+                if (sakai.data.me.user.anon){
+                    // Check whether anonymous is in
+                    if ($.inArray("anonymous", view) !== -1){
+                        canView = true;
+                    }
+                } else {
+                    // Check whether I can view
+                    for (var r = 0; r < view.length; r++){
+                        if (view[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)){
+                            canView = true;
+                        }
+                    }
+                    // Check whether everyone can view
+                    if ($.inArray("everyone", view) !== -1){
+                        canView = true;
+                    }
+                    // Check whether I can manage
+                    for (var r = 0; r < edit.length; r++){
+                        if (edit[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)){
+                            canView = true;
+                            canSubedit = true;
+                        }
+                    }
                 }
+                pubdata.structure0[i]._canView = canView;
+                pubdata.structure0[i]._canSubedit = canSubedit;
+                pubdata.structure0[i]._canEdit = canEdit;
             }
         };
-        
-        var generateNav = function(){
-            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
+
+        var loadDocStructure = function(){
+            $.ajax({
+                url: "/~" + groupId+ "/docstructure.infinity.json",
+                success: function(data){
+                    pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
+                    filterOutUnwanted();
+                    generateNav();
+                }
+            });
         };
-        
+
+        var generateNav = function(){
+            if (pubdata) {
+                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true}, "/~" + groupId+ "/docstructure"]);
+            }
+        };
+
         $(window).bind("lhnav.ready", function(){
             generateNav();
         });
-
-        generateNav();
 
         ////////////////////
         // INITIALISATION //

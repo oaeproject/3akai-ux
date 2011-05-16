@@ -15,8 +15,8 @@
                 <div id="widget_faceted_98384013291" class="searchcontent_facted widget_inline"></div>
                 <div class="search_sortby">
                     __MSG__SORT_BY__: <select id="search_select_sortby">
-                        <option value="desc">__MSG__NEWEST__</option>
-                        <option value="asc">__MSG__OLDEST__</option>
+                        <option value="desc">__MSG__CHANGED_RECENTLY__</option>
+                        <option value="asc">__MSG__CHANGED_LAST__</option>
                     </select>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchcontent_results_container" class="">
+                    <div id="searchcontent_results_container">
                     </div>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
@@ -68,7 +68,10 @@
                                 {var mimeType = sakai.api.Content.getMimeType(i)}
                                 {var thumbnail = sakai.api.Content.getThumbnail(i)}
                                 <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
-                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                                    {if sakai.config.MimeTypes[mimeType]}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {/if}
                                     {if thumbnail}
                                         <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                                     {elseif mimeType.substring(0,6)==="image/"}

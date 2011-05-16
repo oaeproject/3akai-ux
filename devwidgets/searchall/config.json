@@ -5,14 +5,14 @@
     "grouppages":         false,
     "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/searchallold/bundles/default.properties"
+        "default":        "/devwidgets/searchall/bundles/default.properties"
     },
     "id":                 "searchallold",
     "name":               "Search All",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "core",
-    "url":                "/devwidgets/searchallold/searchall.html",
+    "url":                "/devwidgets/searchall/searchall.html",
     "userdashboard":      false,
     "userpages":          false
 }

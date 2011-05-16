@@ -23,22 +23,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var pubdata = {
             "structure0": {
                 "categories": {
-                    "_ref": "6573920372",
+                    "_ref": "id6573920372",
                     "_order": 0,
                     "_title": "Categories"
                 }
-            },
-            "1234567890": {
-                "page": "Categories Overview"
-            },
-            "6573920372": {
-                "page": "Courses"
-            },
-            "87949372639": {
-                "page": "Research"
-            },
-            "49294509202": {
-                "page": "Other"
             }
         };
 

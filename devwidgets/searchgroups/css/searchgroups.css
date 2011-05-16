@@ -48,7 +48,7 @@ strong{color:#000;}
 
 /* SEARCH BAR */
 .skinned_select{float:left;width:190px;height:23px;border:1px solid #ddd;padding-top:3px;}
-.searchgroups_bar input{color:#6d6d6d;border:1px solid #ddd;float:left;margin:0 5px;height:22px;width:550px;font-size:1.2em;padding-left:5px;display:block;background:url(/devwidgets/topnavigation/images/topnav_search_icon.png) 99% 4px no-repeat;}
+.searchgroups_bar input{color:#6d6d6d;border:1px solid #ddd;float:left;margin:0 5px;height:22px;width:350px;font-size:1.2em;padding-left:5px;display:block;background:url(/devwidgets/topnavigation/images/topnav_search_icon.png) 99% 4px no-repeat;}
 .searchgroups_bar{border-bottom: 5px solid #e9e9e9;}
 
 /* SEARCH RESULTS TITLE */
@@ -59,19 +59,22 @@ strong{color:#000;}
 .searchgroups_selects div{display:inline !important;}
 
 /* SEARCH RESULTS */
-#searchgroups_results_container{margin:10px 0 0;padding:0 10px;}
+#searchgroups_results_container{margin: 10px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}
 .searchgroups_results_part{padding-bottom:10px;}
 .searchgroups_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
 .searchgroups_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
-.searchgroups_result{color:#333;padding:5px 0 10px;}
-.searchgroups_result img{float:left;padding:0 10px 10px 0;width:50px;}
+.searchgroups_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;}
+.searchgroups_result_first{border-top: 1px solid #e9e9e9;}
+.searchgroups_result a img{float:left;padding:0 10px 10px 0;width:50px;}
 .searchgroups_result_sites img{width:30px;}
-.searchgroups_result_right{margin-left:60px;}
+.searchgroups_result_right{margin-left:90px;}
 .searchgroups_result_star{background-image:url(/dev/images//star.png);display:block;float:left;position:relative;top:-4px;left:0;}
 .searchgroups_result_header{color:#39c;margin:0 0 5px 25px;font-weight:bold;font-size:1.1em;}
-.searchgroups_result_tags,.searchgroups_result_description{margin:0 0 5px;color:#333;font-size:.95em;}
+.searchgroups_result_description{margin:0 0 5px;color:#333;font-size:.95em;padding:6px 0;}
+.searchgroups_result_tags{padding-top:3px;}
 .searchgroups_result_footer{margin:0 0 5px 25px;color:#999;font-size:.85em;}
+.searchgroups_results .jq_pager{border-bottom: 1px solid #e9e9e9;}
 
 /* search results people */
 .searchgroups_result_person{padding:8px;margin:15px 10px 0 0;border:1px solid #ddd;width:200px;height:60px;float:left;}
@@ -118,7 +121,7 @@ strong{color:#000;}
 /* 1px padding to avoid scroll bar in older Webkit browsers */
 .searchgroups_padded_nocontent{padding-bottom:10px;}
 .searchgroups_padded_groups{padding:0 10px;}
-.searchgroups_no_groups{padding:0px 0px 10px;}
+.searchgroups_no_groups{padding:0px 0px 10px 10px;}
 .searchgroups_results_part_header{font-weight:normal;font-size:1.2em;margin-bottom:10px;margin-top:10px;overflow:hidden;}
 a.searchgroups_results_part_title{color:#5a6a7c;}
 .display_more_link{font-size:.95em;font-weight:bold;}
@@ -146,3 +149,23 @@ a.searchgroups_results_part_title{color:#5a6a7c;}
 .site_heading{border-bottom:none;}
 .searchgroups_no_results{padding:10px;}
 .searchgroups_result_person_threedots{display:block;width:150px;}
+
+/* search results group */
+.searchgroups_result_grouptype {font-size:smaller;white-space:pre;}
+.searchgroups_result_icon{display: inline-block;height: 10px;width: 15px;}
+.searchgroups_result_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.searchgroups_result_usedin{font-size: 11px;padding:3px 0;}
+.searchgroups_result_usedin_icon{background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
+.searchgroups_result_comments_icon{margin-left:8px;background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;}
+.searchgroups_result_detail_separator {color:#cccccc;padding: 0 5px;}
+.searchgroups_result_description{color:#333;font-size:.90em;padding:3px 0;}
+.searchgroups_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.searchgroups_result_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
+.searchgroups_result_tags_dot{color: #999999;}
+.searchgroups_result_anonuser{display:inline;float:left;height:15px;width:15px;}
+.searchgroups_result_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
+.searchgroups_result_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
+.searchgroups_result_plus:hover{cursor:pointer;}
+.searchgroups_result:hover {background-color: #f2f9fc;}
+.searchgroups_result:hover .searchgroups_result_plus{cursor:pointer;color:#42a2dc;}
+.searchgroups_result:hover .searchgroups_result_message_icon{cursor:pointer;}
