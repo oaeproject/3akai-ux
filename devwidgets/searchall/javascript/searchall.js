@@ -149,6 +149,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
                     finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
+                    for (var item in finaljson.items) {
+                        if (finaljson.items.hasOwnProperty(item)) {
+                            // if the content has an owner we need to add their ID to an array,
+                            // so we can lookup the users display name in a batch req
+                            if (finaljson.items[item]["sakai:pool-content-created-for"]) {
+                                userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
+                                fetchUsers = true;
+                            }
+                        }
+                    }
                 }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
@@ -188,17 +198,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 sakai.api.User.getMultipleUsers(userArray, function(users){
                     for (u in users) {
                         if (users.hasOwnProperty(u)) {
-                            $(".searchcontent_result_username").each(function(index, val){
-                               var userId = $(val).text();
-                               if (userId === u){
-                                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-                               }
-                            });
+                            setUsername(u, users);
                         }
                     }
                 });
             }
+        };
+
+        var setUsername = function(u, users) {
+            $(".searchcontent_result_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
         };
 
         /**
@@ -239,7 +253,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
                 "q": urlsearchterm,
-                "sortOn": "_created",
+                "sortOn": "_lastModified",
                 "sortOrder": sortBy
             };
 
