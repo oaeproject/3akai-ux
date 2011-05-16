@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_phone = $("#footer_phone");
         var $footer_contactinfo = $("#footer_contactinfo");
         var $footer_contactinfo_template = $("#footer_contactinfo_template");
-        var $footer_langloc_buttons = $('p.langloc>button')
+        var $footer_langloc_buttons = $('p.footer_langloc>button');
 
 
         //////////////////////
