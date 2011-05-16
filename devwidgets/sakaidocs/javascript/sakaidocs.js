@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var checkAutosave = function(callback) {
-            sakai.api.Server.loadJSON($.bbq.getState("content_path") + "/" + currentPageShown.ref + ".2.json", function(success, data) {
+            sakai.api.Server.loadJSON(currentPageShown.savePath + "/" + currentPageShown.ref + ".2.json", function(success, data) {
                 if (success) {
                     // update the cached copy of autosave
                     currentPageShown.autosave = data.autosave;
