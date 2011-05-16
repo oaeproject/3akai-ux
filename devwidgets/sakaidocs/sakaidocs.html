@@ -4,30 +4,34 @@
 <div class="sakaidocs_widget">
     <div class="s3d-widget-content">
 
-        <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title"></div>
-        <div id="s3d-page-main-content" style="padding-left: 10px;"></div>
-        <div id="sakaidocs-page-edit-mode"></div>
-
-        <div id="sakaidocs_editmode" style="display:none">
-            <div id="sakaidocs_buttonbar" style="display:none">
+   <!-- ///////////////
+        // Edit Mode //
+        /////////////// --> 
+        
+        <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title" style="display:none">
+            <div id="sakaidocs_buttonbar">
                 <div style="float:left">
                     <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_editpage">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Edit Page</span>
                     </button>
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Add Page</span>
+                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_top" style="display:none">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
+                    </button>
+                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_area" style="display:none">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
                     </button>
                 </div>
                 <div style="float:right">
                     <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_revisions">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Page Revisions</span>
                     </button>
-                    <!-- <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_commentsrelated">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">See comments and related</span>
-                    </button> -->
                 </div>
                 <div style="clear:both;"><!-- --></div>
             </div>
+        </div>
+        <div id="sakaidocs-page-edit-mode" style="display:none">
+            <div id="sakaidocs_editmode">
+            
             <!-- WORK AREA -->
             <div class="edit_view" id="edit_view_container">
                 <div class="main_container content_container">
@@ -97,6 +101,13 @@
                 </div>
             </div>
         </div>
+        
+   <!-- ////////////////////
+        // Page View Mode //
+        //////////////////// -->
+        <div id="s3d-page-container"></div>
+
+    </div>
 
         <!-- INSERT DIALOG -->
         <div id="insert_dialog" class="dialog">
