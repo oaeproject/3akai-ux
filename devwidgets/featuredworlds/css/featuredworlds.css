@@ -26,8 +26,8 @@
 .featuredworlds_widget .featuredworlds_tab_selected {background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_selected_bg.png") repeat-x scroll left top transparent;}
 
 /* World Items */
-.featuredworlds_widget .featuredworlds_content {background:none repeat scroll 0 0 transparent;height:108px;width:146px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
-.featuredworlds_widget .featuredworlds_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:144px;}
+.featuredworlds_widget .featuredworlds_content {background:none repeat scroll 0 0 transparent;height:108px;width:208px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
+.featuredworlds_widget .featuredworlds_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:206px;}
 .featuredworlds_widget .featuredworlds_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredworlds_widget .featuredworlds_content .featuredworlds_grouppage_link {display:block;font-size:11px;}
 .featuredworlds_widget #featuredworlds_no_worlds {display: block;margin: 10px;}

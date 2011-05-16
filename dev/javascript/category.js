@@ -23,9 +23,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.category = function() {
 
         var pubdata = {};
+        var privdata = {};
 
         // Containers
         var $exploreNavigation = $("#explore_navigation");
+        var toplevelId = "";
 
         // Templates
         var exploreNavigationTemplate = "explore_navigation_template";
@@ -72,41 +74,48 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} navData Contains all data from the category the user is currently viewing
          */
         var generateNav = function(navData){
+
+            toplevelId = navData.id;
+
             pubdata = {
                 "structure0": {}
-            }
+            };
+            privdata = {
+                "structure0": {}
+            };
 
             var rnd =  Math.floor(Math.random() * 999999999);
-            pubdata["structure0"][navData.id] = {
+            privdata["structure0"][navData.id] = {
                 "_id": navData.id,
                 "_order": 0,
                 "_ref": rnd,
                 "_title": navData.title
-            }
+            };
 
-                var fcRnd = Math.floor(Math.random() * 999999999);
-                var fpRnd = Math.floor(Math.random() * 999999999);
-                var fwRnd = Math.floor(Math.random() * 999999999);
-                pubdata[rnd] = {
-                    page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-                }
-                pubdata[fcRnd] = {
-                    navData: navData,
-                    category: navData.id
-                };
-                pubdata[fpRnd] = {
-                    navData: navData,
-                    category: navData.id
-                };
-                pubdata[fwRnd] = {
-                    navData: navData,
-                    category: navData.id
-                };
+            // featuredcontent, featured people and featuredworld random numbers
+            var fcRnd = Math.floor(Math.random() * 999999999);
+            var fpRnd = Math.floor(Math.random() * 999999999);
+            var fwRnd = Math.floor(Math.random() * 999999999);
+            privdata[rnd] = {
+                page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
+            }
+            privdata[fcRnd] = {
+                navData: navData,
+                category: navData.id
+            };
+            privdata[fpRnd] = {
+                navData: navData,
+                category: navData.id
+            };
+            privdata[fwRnd] = {
+                navData: navData,
+                category: navData.id
+            };
 
             var count = 0;
             $.each(navData.children, function(index, item){
                 var rnd = Math.floor(Math.random() * 999999999);
-                pubdata["structure0"][navData.id][index] = {
+                pubdata["structure0"][navData.id + "/" + index] = {
                     "_ref": rnd,
                     "_order": count,
                     "_title": item.title,
@@ -117,6 +126,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 };
 
+                // featuredcontent, featured people and featuredworld random numbers
                 var fcRnd = Math.floor(Math.random() * 999999999);
                 var fpRnd = Math.floor(Math.random() * 999999999);
                 var fwRnd = Math.floor(Math.random() * 999999999);
@@ -138,31 +148,40 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 count++;
             });
-
-            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
+            debug.log(pubdata);
+            $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 
-        var doInit = function(){
+        /**
+         * Get the category out of the URL and give it back
+         * @return {Array} Array of strings representing the selected hierarchy
+         */
+        var getCategory = function(){
             var category = $.bbq.getState("tag");
             if(!category){
                 category = $.bbq.getState("l").split("/");
             }else{
                 category = category.split("/");
             }
+            return category;
+        };
+
+        var doInit = function(){
+            var category = getCategory();
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);
-        }
+        };
 
         $(window).bind("lhnav.ready", function(){
             doInit();
         });
 
         $(window).bind("hashchange", function(e, data){
-            doInit();
+            var category = getCategory();
+            createBreadcrumb(sakai.config.Directory[category[0]], category);
         });
 
-        $(window).trigger("hashchange");
     };
 
     sakai.api.Widgets.Container.registerForLoad("category");

@@ -40,14 +40,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredworldsWorldsContentTemplate = "featuredworlds_worlds_content_template";
 
         var tabs = [];
+        var world = "";
 
         var renderWorld = function(success, data){
             $(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
                 "data": data,
+                "world": world
             }));
         };
 
-        var fetchWorldData = function(worldId){
+        var fetchWorldData = function(worldId, worldTitle){
+            world = worldTitle.toLowerCase();
             sakai.api.Server.loadJSON("/var/search/groups.infinity.json", renderWorld, {
                 page: 0,
                 items: 3,
@@ -60,7 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $featuredworldsContainer.html(sakai.api.Util.TemplateRenderer(featuredworldsTemplate, {
                 "tabs": tabs,
             }));
-            fetchWorldData(tabs[0].id);
+            fetchWorldData(tabs[0].id, tabs[0].title);
         };
 
         var constructWorlds = function(){
@@ -77,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".featuredworlds_tab").live("click", function(){
                 if(!$(this).hasClass("featuredworlds_tab_selected")){
                     var worldId = $(this).attr("sakai-worldid");
-                    fetchWorldData(worldId);
+                    fetchWorldData(worldId, $(this).text());
                     $(".featuredworlds_tab_selected").removeClass("featuredworlds_tab_selected");
                     $(this).addClass("featuredworlds_tab_selected");
                 }

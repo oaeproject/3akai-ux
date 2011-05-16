@@ -52,14 +52,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else {
                 $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                     "data": featuredContentArr,
-                    "sakai": sakai
+                    "sakai": sakai,
+                    "category": pageData.category
                 }));
                 if(sakai_global.category){
                     if (featuredCategoryContentArr.length) {
                         $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
                             "data": featuredCategoryContentArr,
                             "sakai": sakai,
-                            "total": total
+                            "total": total,
+                            "category": pageData.category
                         }));
                     }
                 }
@@ -88,6 +90,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (item["sakai:tags"]) {
                                 item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                             }
+                            item.usedin = sakai.api.Content.getPlaceCount(item);
+                            item.commentcount = sakai.api.Content.getCommentCount(item);
                             candidate = item;
                             i = index;
                         }
@@ -101,6 +105,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (item["sakai:tags"]) {
                             item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                         }
+                        item.usedin = sakai.api.Content.getPlaceCount(item);
+                        item.commentcount = sakai.api.Content.getCommentCount(item);
                         featuredContentArr.push(item);
                         data.results.splice(index, 1);
                         return false;
@@ -117,6 +123,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (data.results[0]["sakai:tags"]) {
                             data.results[0]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[0]["sakai:tags"].toString());
                         }
+                        item.usedin = sakai.api.Content.getPlaceCount(item);
+                        item.commentcount = sakai.api.Content.getCommentCount(item);
                         candidate = data.results[0];
                     }
                     if(candidate){
@@ -131,6 +139,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             item.mode = "small";
                             if (item["sakai:tags"]) {
                                 item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                            }
+                            if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                                item.image = true;
                             }
                             item.usedin = sakai.api.Content.getPlaceCount(item);
                             item.commentcount = sakai.api.Content.getCommentCount(item);
