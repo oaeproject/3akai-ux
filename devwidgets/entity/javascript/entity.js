@@ -97,6 +97,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group_managed":
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", context));
+                    $('#ew_group_settings_edit_link').live("click", function(ev) {
+                        $(window).trigger("init.worldsettings.sakai");
+                    });
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
