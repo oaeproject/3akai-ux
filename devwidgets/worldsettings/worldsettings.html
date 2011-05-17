@@ -1,0 +1,90 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/newcreategroup/css/newcreategroup.css" />
+<-- <link rel="stylesheet" type="text/css" href="/devwidgets/worldsettings/css/worldsettings.css" /> -->
+
+<div id="worldsettings_container" class="worldsettings_dialog dialog">
+    <!-- HEADER -->
+    <div class="dialog_header">
+        <div class="dialog_header_inner">
+            <h1>World Settings</h1>
+            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div id="worldsettings_form" class="dialog_content">
+
+        <label for="newcreategroup_title">__MSG__TITLE__:</label>
+        <input type="text" id="newcreategroup_title" class="required"/><br/>
+        <label for="newcreategroup_description">__MSG__DESCRIPTION__:</label>
+        <textarea id="newcreategroup_description"></textarea>
+        <label for="newcreategroup_tags">__MSG__TAGS__:</label>
+        <textarea id="newcreategroup_tags"></textarea>
+
+        <div class="newcreategroup_section">
+            <label for="newcreategroup_can_be_found_in">__MSG__CAN_BE_FOUND_BY__:</label>
+            <select id="newcreategroup_can_be_found_in">
+                <option value="public">__MSG__PUBLIC__</option>
+                <option value="logged-in-only">__MSG__LOGGED_IN_USERS__</option>
+                <option value="members-only">__MSG__MANAGERS_AND_MEMBERS__</option>
+            </select>
+        </div>
+
+        <div class="newcreategroup_section">
+            <label for="newcreategroup_membership">__MSG__MEMBERSHIP__:</label>
+            <select id="newcreategroup_membership">
+                <option value="yes">__MSG__JOIN_USER_DIRECT__</option>
+                <option value="withauth">__MSG__JOIN_USER_REQUEST__</option>
+                <option value="no">__MSG__JOIN_MANAGER_ADD__</option>
+            </select>
+        </div>
+
+        <div>
+            <span>Roles that can see or edit:</span>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-button" id="worldsettings_cancel_button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="worldsettings_apply_button"><span class="s3d-button-inner">__MSG__APPLY_SETTINGS__</span></button>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="worldsettings_dialog_footer" class="dialog_footer">
+        <div class="dialog_footer_inner worldsettings_dialog_footer_inner"></div>
+    </div>
+
+
+    <!-- Enable only one of the following footer options -->
+
+    <!-- WIDGET FOOTER WITH NO OPTIONS (for widgets that may be placed in *both*
+         dashboards and pages)
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+    -->
+    <!-- WIDGET FOOTER WITH OPTIONS (for widgets that may be placed *only* in
+         dashboards)
+    <div class="fl-widget-options">
+        <div class="widget-options-inner">
+            <ul>
+                <li>
+                    <a href="#">OPTION_1</a>
+                </li>
+                <li><span class="pipe_divider">|</span></li>
+                <li>
+                    <a href="#">OPTION_2</a>
+                </li>
+            </ul>
+        </div>
+        <div class="s3d-widget-options-footer-left">
+            <div class="s3d-widget-options-footer-right"></div>
+        </div>
+    </div>
+    -->
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/worldsettings/javascript/worldsettings.js"></script>
