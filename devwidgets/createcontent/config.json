@@ -1,6 +1,6 @@
 {
-    "description":"create content",
-    "name":"createcontent",
+    "description":"My Recent Content widget",
+    "name":"My recent content",
     "id":"createcontent",
     "i18n": {
         "default": "/devwidgets/createcontent/bundles/default.properties"

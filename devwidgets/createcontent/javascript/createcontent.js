@@ -76,13 +76,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "jcr:name": result["jcr:name"]
             };
-            var mimetypeData = sakai.api.Content.getMimeTypeData(result);
-            // set the mimetype and corresponding image
-            if(item._mimeType) {
-                // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
-                item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
-            }
 
             // set file name without the extension
             // be aware that links don't have an extension
@@ -93,7 +86,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
             }
-            item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
             if(result.hasOwnProperty("_length") && result["_length"]) {
@@ -126,8 +121,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 item.comment = result[path + "/comments"][commentpath];
                 item.totalcomment = totalcomment;
+
+                if (item.comment.comment) {
+                    item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $(".createcontent_widget").width() / 2, {
+                        max_rows: 5,
+                        whole_word: false
+                    });
+                }
+
                 // get the user name from userid and render it
-                sakai.api.User.getUser(item.comment.author, renderTemplate);                
+                sakai.api.User.getUser(item.comment.author, function(success, data){
+                    var json = {
+                        author:{
+                            authorId: data.userid,
+                            authorName: sakai.api.User.getDisplayName(data),
+                            authorPicture: sakai.api.Util.constructProfilePicture(data)
+                        },
+                        sakai: sakai
+                    };
+                    if (item.comment){
+                        json.commentCreated = item.comment._created;
+                    }
+
+                    $("#createcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",json));
+
+                    if (item.comment){
+                        $("#createcontent_item_comment_author_picture img").attr("src", json.author.authorPicture);
+                        $("#createcontent_item_comment_author_picture").show();
+                    }
+                });
             }
 
             if(isRelatedContent){
@@ -138,17 +160,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return item;
         };
 
-        var renderTemplate = function(success, data){
-            var item = {author:{}};
-            item.author.authorId = data.userid;
-            item.author.authorName = sakai.api.User.getDisplayName(data)
-            $("#createcontent_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",item));
+        var renderRecentComment = function(success, data){
+            var item = {
+                author:{
+                    authorId: data.userid,
+                    authorName: sakai.api.User.getDisplayName(data),
+                    authorPicture: sakai.api.Util.constructProfilePicture(data)
+                }
+            };
+            $("#createcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",item));
+            $("#createcontent_item_comment_author_picture img").attr("src", item.author.authorPicture);
+            $("#createcontent_item_comment_author_picture").show();
         };
 
         var renderRelatedContentTemplate = function(success, data){
-            var item = {author:{}};
-            item.author.authorId = data.userid;
-            item.author.authorName = sakai.api.User.getDisplayName(data)
+            var item = {
+                author:{
+                    authorId: data.userid,
+                    authorName: sakai.api.User.getDisplayName(data)
+                }
+            };
             $("#createcontent_related_content_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_related_content_author_template",item));
         };
 
@@ -228,7 +259,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get related content for contentData
             // return some search results for now
             var params = {
-                "items" : "11"
+                "items" : "1"
             };
             var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             if (searchquery === '*' || searchquery === '**') {
