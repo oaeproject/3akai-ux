@@ -35,6 +35,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var $rootel = $("#"+tuid);
 
+        var clearIntervals = function() {
+            clearInterval(editInterval);
+            clearInterval(autosaveInterval);
+        };
+
         var setAutosaveInterval = function() {
             autosaveInterval = setInterval(autosave, AUTOSAVE_INTERVAL);
         };
@@ -58,19 +63,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var checkAutosave = function(callback) {
-            sakai.api.Server.loadJSON(currentPageShown.savePath + "/" + currentPageShown.ref + ".infinity.json", function(success, data) {
+            sakai.api.Server.loadJSON(currentPageShown.realSavePath + ".infinity.json", function(success, data) {
                 if (success) {
                     // update the cached copy of autosave
                     currentPageShown.autosave = data.autosave;
-                    currentPageShown.content = data.page.content;
+                    currentPageShown.content = data.page;
                     // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
                     // someone else is editing the page right now.
-                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing < CONCURRENT_EDITING_TIMEOUT && data._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
+                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
                         if ($.isFunction(callback)) {
                             callback(false);
                             return;
                         }
-                    } else if (data.autosave && data.page && data.autosave._lastModified > data.page._lastModified) {
+                    } else if (data.autosave && data.page && data.autosave._lastModified > data._lastModified) {
                         $('#autosave_dialog').jqmShow();
                         autosaveDialogShown = true;
                         if ($.isFunction(callback)) {
@@ -89,10 +94,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var editing = function() {
             if (isEditingPage) {
                 var editingContent = {};
-                editingContent[currentPageShown.ref] = {
-                    "editing": sakai.api.Util.Datetime.getCurrentGMTTime()
+                editingContent = {
+                    "editing": {
+                        "time": sakai.api.Util.Datetime.getCurrentGMTTime()
+                    }
                 };
-                sakai.api.Server.saveJSON(currentPageShown.savePath + ".resource", editingContent);
+                sakai.api.Server.saveJSON(currentPageShown.realSavePath + ".resource", editingContent);
             } else {
                 clearInterval(editInterval);
             }
@@ -104,7 +111,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var autosaveContent = getTinyMCEContent(),
                     autosavePostContent = {};
 
-                autosavePostContent[currentPageShown.ref] = {};
                 if (autosaveContent !== currentPageShown.content && autosaveContent !== lastAutosave) {
                     lastAutosave = autosaveContent;
                     // cache it locally so we don't have to re-retrieve it in order to use it
@@ -113,10 +119,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         _lastModified: sakai.api.Util.Datetime.getCurrentGMTTime(),
                         _lastModifiedBy: sakai.api.User.data.me.user.userid
                     };
-                    autosavePostContent[currentPageShown.ref].autosave = {
+                    autosavePostContent.autosave = {
                         page: autosaveContent
                     };
-                    sakai.api.Server.saveJSON(currentPageShown.savePath + ".resource", autosavePostContent);
+                    sakai.api.Server.saveJSON(currentPageShown.realSavePath + ".resource", autosavePostContent);
                     var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
                     sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
                 }
@@ -194,7 +200,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[type].name);
-                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.realSavePath + "/");
                     $("#dialog_content").show();
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                 }
@@ -310,7 +316,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
                 $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/");
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.realSavePath + "/");
 
                 if (sakai.widgets[widgetid].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
@@ -577,14 +583,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
-                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.realSavePath + "/", currentPageShown.widgetData);
             } else {
                 if (reloadPage) {
                     $contentEl = $("#" + currentPageShown.ref);
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.realSavePath + "/", currentPageShown.widgetData);
                     $contentEl.show();
                 } else {
                     $("#s3d-page-container #" + currentPageShown.ref).show();
@@ -627,24 +633,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
 
         var savePage = function(){
+            clearIntervals();
             currentPageShown.content = getTinyMCEContent();
 
             stopEditPage();
             renderPage(true);
 
-            //Store the edited content
-            var resourceRef = currentPageShown.ref;
-            if (resourceRef.indexOf("-") !== -1){
-                resourceRef = resourceRef.substring(resourceRef.indexOf("-") + 1);
-            }
+            // Store the edited content
             var toStore = {};
-            toStore[resourceRef] = {
-                page: {
-                    content: currentPageShown.content
-                }
+            toStore = {
+                page: currentPageShown.content
             };
             $.ajax({
-                url: currentPageShown.pageSavePath + ".resource",
+                url: currentPageShown.realSavePath + ".resource",
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -664,6 +665,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var stopEditPage = function(){
             isEditingPage = false;
+            clearIntervals();
             $("#sakaidocs-page-edit-mode").hide();
             $("#page_autosave_time").html("");
             $("#context_menu").hide();
