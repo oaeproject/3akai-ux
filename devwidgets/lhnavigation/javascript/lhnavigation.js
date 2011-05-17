@@ -577,24 +577,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////
         // Deleting a page //
         /////////////////////
+        
+        var pageToDelete = false;
 
         var deletePage = function(){
             // Look up appropriate doc and change that structure
-            var structure = sakaiDocsInStructure[contextMenuHover.savePath];
-            var realRef = contextMenuHover.ref;
-            if (contextMenuHover.ref.indexOf("-") !== -1){
-                realRef = contextMenuHover.ref.split("-")[1];
+            var structure = sakaiDocsInStructure[pageToDelete.savePath];
+            var realRef = pageToDelete.ref;
+            if (pageToDelete.ref.indexOf("-") !== -1){
+                realRef = pageToDelete.ref.split("-")[1];
             }
-            var realPath = contextMenuHover.path;
-            if (contextMenuHover.path.indexOf("/") !== -1){
-                realPath = contextMenuHover.path.split("/")[1];
+            var realPath = pageToDelete.path;
+            if (pageToDelete.path.indexOf("/") !== -1){
+                realPath = pageToDelete.path.split("/")[1];
             }
             updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
             structure.orderedItems = orderItems(structure.structure0);
-            storeStructure(structure.structure0, contextMenuHover.savePath);
+            storeStructure(structure.structure0, pageToDelete.savePath);
 
             // Change the main structure
-            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, contextMenuHover.ref, contextMenuHover.path);
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageToDelete.ref, pageToDelete.path);
             if (getPageCount(pubstructure.items) < 3){
                 $(window).trigger("sakai.contentauthoring.needsOneColumn");
             }
@@ -604,17 +606,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addParametersToNavigation();
 
             // Move away from the current page
-            if (contextMenuHover.path.indexOf("/") !== -1){
+            if (pageToDelete.path.indexOf("/") !== -1){
                 if (getPageCount(structure.structure0) < 3) {
                     $.bbq.pushState({
-                        "l": contextMenuHover.path.split("/")[0],
+                        "l": pageToDelete.path.split("/")[0],
                         "_": Math.random(),
                         "newPageMode": ""
                     }, 0);
                 } else {
                     var selected = getFirstSelectablePage(structure);
                     $.bbq.pushState({
-                        "l": contextMenuHover.path.split("/")[0] + "/" + selected,
+                        "l": pageToDelete.path.split("/")[0] + "/" + selected,
                         "_": Math.random(),
                         "newPageMode": ""
                     }, 0);
@@ -626,8 +628,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "newPageMode": ""
                 }, 0);
             }
-
-            toggleContextMenu(true);
+            $('#lhnavigation_delete_dialog').jqmHide();
         };
 
         var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
@@ -657,6 +658,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             delete pageslist[ref];
         };
+        
+        var confirmPageDelete = function(){
+            pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            $('#lhnavigation_delete_dialog').jqmShow();
+            toggleContextMenu(true);
+        };
+        
+        // Init delete dialog
+        $('#lhnavigation_delete_dialog').jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
 
         /////////////////////////////////////////////
         // Add additional parameters to navigation //
@@ -790,6 +804,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
         
         $("#lhavigation_submenu_deletepage").live("click", function(ev){
+            confirmPageDelete();
+        });
+        
+        $("#lhnavigation_delete_confirm").live("click", function(ev){
             deletePage();
         });
         
