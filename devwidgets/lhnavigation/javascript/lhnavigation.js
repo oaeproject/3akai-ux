@@ -378,6 +378,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
             if ($el.data("sakai-manage")){
+                var additionalOptions = $el.data("sakai-addcontextoption");
+                if (additionalOptions){
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#content_path=" + $el.data("sakai-pagesavepath"));
+                    $("#lhnavigation_submenu_profile_li").show();
+                    $("#lhnavigation_submenu_permissions_li").show();
+                } else {
+                    $("#lhnavigation_submenu_profile_li").hide();
+                    $("#lhnavigation_submenu_permissions_li").hide();
+                }
                 contextMenuHover = {
                     path: $el.data("sakai-path"),
                     ref: $el.data("sakai-ref"),
@@ -396,8 +405,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
-            contextMenu.css("left", $clickedItem.position().left + contextMenu.width() - ($clickedItem.width() / 2) + "px");
-            contextMenu.css("top", $clickedItem.position().top + "px");
+            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
+            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
             toggleContextMenu();
         };
 
@@ -408,6 +417,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 contextMenu.toggle();
             }
+        };
+        
+        //////////////////////
+        // Area permissions //
+        //////////////////////
+        
+        var showAreaPermissions = function(){
+            toggleContextMenu(true);
+            $(window).trigger("permissions.area.trigger", [contextMenuHover]);
         };
         
         //////////////////////////////////
@@ -797,6 +815,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
+        });
+        
+        $("#lhnavigation_submenu_permissions").live("click", function(ev){
+            showAreaPermissions();
         });
 
         $(".lhnavigation_change_title").live("blur", function(ev){
