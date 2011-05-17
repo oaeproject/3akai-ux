@@ -35,7 +35,7 @@
                                 {/if}
                             </a>
                             <div class="relatedcontent_content_right">
-                                <a class="s3d-regular-light-links threedots_text" href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                <a class="s3d-regular-light-links threedots_text" href="/content#p={if i['sakai:pooled-content-file-name']}${i['jcr:name']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
                                 <span class="ellipsis_text">
                                     {if i['sakai:pooled-content-file-name']}
                                         ${i['sakai:pooled-content-file-name']}
