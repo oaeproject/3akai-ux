@@ -346,7 +346,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             currentPageShown = {
                 "ref": ref,
                 "path": path,
-                "content": content && content.page ? content.page : "",
+                "content": content && content.page && content.page.content ? content.page.content : "",
                 "savePath": savePath,
                 "pageSavePath": pageSavePath,
                 "canEdit": canEdit,
