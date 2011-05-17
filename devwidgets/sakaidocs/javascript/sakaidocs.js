@@ -23,11 +23,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var currentPageShown = false;
         var bookmark = false;
 
-        var AUTOSAVE_INTERVAL = 15000, // in ms
-            AUTOSAVE_CONCURRENT_EDITING_TIMEOUT = 30; // in seconds
+        var AUTOSAVE_INTERVAL = 15000, // 15 seconds
+            CONCURRENT_EDITING_TIMEOUT = 10000, // 10 seconds
+            CONCURRENT_EDITING_INTERVAL = 5000; // 5 seconds
 
         var isEditingPage = false,
             autosaveInterval = false,
+            editInterval = false,
             lastAutosave = "",
             autosaveDialogShown = false;
 
@@ -35,6 +37,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var setAutosaveInterval = function() {
             autosaveInterval = setInterval(autosave, AUTOSAVE_INTERVAL);
+        };
+
+        var setEditInterval = function() {
+            editInterval = setInterval(editing, CONCURRENT_EDITING_INTERVAL);
         };
 
         $("#autosave_revert").die("click").live("click", function() {
@@ -56,23 +62,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (success) {
                     // update the cached copy of autosave
                     currentPageShown.autosave = data.autosave;
-                    var autosave = data.autosave;
-                    if (autosave) {
-                        var autosaveTime = sakai.api.Util.Datetime.toGMT(new Date(data.autosave._lastModified));
-                        // check for concurrent editing
-                        if ((sakai.api.Util.Datetime.getCurrentGMTTime() - autosaveTime)/1000 < AUTOSAVE_CONCURRENT_EDITING_TIMEOUT && autosave._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
-                            if ($.isFunction(callback)) {
-                                callback(false);
-                                return;
-                            }
-                        // check if autosave is more recent than the page
-                        } else if (autosave._lastModified > data._lastModified) {
-                            $('#autosave_dialog').jqmShow();
-                            autosaveDialogShown = true;
-                            if ($.isFunction(callback)) {
-                                callback(true);
-                                return;
-                            }
+                    // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
+                    // someone else is editing the page right now.
+                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing < CONCURRENT_EDITING_TIMEOUT && data._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
+                        if ($.isFunction(callback)) {
+                            callback(false);
+                            return;
+                        }
+                    } else if (data.autosave && data.autosave._lastModified > data._lastModified) {
+                        $('#autosave_dialog').jqmShow();
+                        autosaveDialogShown = true;
+                        if ($.isFunction(callback)) {
+                            callback(true);
+                            return;
                         }
                     }
                 }
@@ -81,6 +83,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return;
                 }
             });
+        };
+
+        var editing = function() {
+            if (isEditingPage) {
+                var editingContent = {};
+                editingContent[currentPageShown.ref] = {
+                    "editing": sakai.api.Util.Datetime.getCurrentGMTTime()
+                };
+                sakai.api.Server.saveJSON(currentPageShown.savePath + ".resource", editingContent);
+            } else {
+                clearInterval(editInterval);
+            }
         };
 
         var autosave = function() {
@@ -588,6 +602,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var editPage = function(){
             checkAutosave(function(safeToEdit) {
                 if (safeToEdit) {
+                    editing();
+                    setEditInterval();
                     isEditingPage = true;
                     if (!autosaveDialogShown) {
                         setAutosaveInterval();
