@@ -47,8 +47,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (content_path && document.location.pathname === "/content"){
                 document.location = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
                 return;
-            }			
+                
+            }          
             if (content_path) {
+                
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
                     {
