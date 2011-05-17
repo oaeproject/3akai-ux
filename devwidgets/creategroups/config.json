@@ -1,0 +1,14 @@
+{
+    "description":"create groups",
+    "name":"creategroups",
+    "id":"creategroups",
+    "i18n": {
+        "default": "/devwidgets/creategroups/bundles/default.properties"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/creategroups/creategroups.html",
+    "deletable":true
+}
