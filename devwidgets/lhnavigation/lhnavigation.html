@@ -17,7 +17,7 @@
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
         {for level in private.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}">
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}">
             <div class="lhnavigation_has_subnav"></div>
                 <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if} {if level._count} (${level._count}){/if}</span>
             <div class="lhnavigation_private"></div>
@@ -28,7 +28,7 @@
                 {for sublevel in level._elements}
                     {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
                         {if index != 0}<hr class="s3d-split-line"/>{/if}
-                        <li class="lhnavigation_menuitem lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level._id}/${sublevel._id}">
+                        <li class="lhnavigation_menuitem lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${sublevel._poolpath}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
                             <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
                                 {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
                                 {if sublevel._count} (${sublevel._count}){/if}
@@ -39,7 +39,7 @@
                 {/for}
             </ul>
             {else}
-                <li class="lhnavigation_menuitem lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level._id}">
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}">
                     <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
                         {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
                         {if level._count} (${level._count}){/if}
