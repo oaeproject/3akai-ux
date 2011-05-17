@@ -407,7 +407,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (user) {
                     reqData.push({
-                        "url": '/p/' + content_path + ".members.json",
+                        "url": content_path + ".members.json",
                         "method": "POST",
                         "parameters": data
                     });
