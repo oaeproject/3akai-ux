@@ -38,22 +38,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         var resultsToDisplay = 10;
 
-        // Search URL mapping
-        var searchURLmap = {
-            allfiles: sakai.config.URL.SEARCH_ALL_FILES,
-            allfilesall: sakai.config.URL.SEARCH_ALL_FILES_ALL,
-            mybookmarks: sakai.config.URL.SEARCH_MY_BOOKMARKS,
-            mybookmarksall: sakai.config.URL.SEARCH_MY_BOOKMARKS_ALL,
-            mycontacts: sakai.config.URL.SEARCH_MY_CONTACTS,
-            myfiles: sakai.config.URL.SEARCH_MY_FILES,
-            myfilesall: sakai.config.URL.SEARCH_MY_FILES_ALL,
-            mysites: sakai.config.URL.SEARCH_MY_SITES,
-            pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
-            pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
-            pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,
-            pooledcontentviewerall: sakai.config.URL.POOLED_CONTENT_VIEWER_ALL
-        };
-
         // CSS IDs
         var search = "#searchall";
 
@@ -244,6 +228,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             showSearchAll(params);
 
             var url = sakai.config.URL.SEARCH_ALL_ENTITIES;
+            if (urlsearchterm === '**' || urlsearchterm === '*') {
+                $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
+                url = sakai.config.URL.SEARCH_ALL_ENTITIES_ALL;
+            } else {
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
+            }
             var requestParams = {
                 "page": (params["page"] - 1),
                 "items": resultsToDisplay,
@@ -251,12 +241,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "sortOn": "_lastModified",
                 "sortOrder": sortBy
             };
-
-            if (urlsearchterm === '**' || urlsearchterm === '*') {
-                $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
-            } else {
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
-            }
 
             searchAjaxCall = $.ajax({
                 url: url,
@@ -302,7 +286,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         }
 
         $(window).bind("hashchange", function(ev){
-            if ($.bbq.getState("l") === "all") {
+            if (!$.bbq.getState("l") || $.bbq.getState("l") === "all") {
                 doSearch();
             }
         });

@@ -89,6 +89,7 @@ define(function(){
             SDATA_FETCH: "/",
             // --
             SEARCH_ALL_ENTITIES: "/var/search/general.json",
+            SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
