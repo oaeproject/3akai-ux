@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 wData.items[index].placement = placement;
                 docData[placement] = {
                     data : value.fullresult,
-                    url : window.location.protocol + '//' + window.location.host + "/p/" + docData['jrc:name']
+                    url : window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
                 };
             });
             // boolean are return as string from ajax call so change back to boolean value
@@ -500,11 +500,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var getWidgetData = function(callback) {
-            if (widgetData.embedcontent) {
+            if (widgetData && widgetData.embedcontent) {
                 processWidgetData(true, widgetData.embedcontent, callback);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-                    processWidgetData(success, data, callback)
+                    processWidgetData(success, data, callback);
                 });
             }
         };
@@ -550,7 +550,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var toggleTabs = function(target) {
-            if(!isPreviewExist) $("#embedcontent_name_checkbox").selected(true);
+            if (!isPreviewExist) {
+                $("#embedcontent_name_checkbox").selected(true);
+            }
             $("." + active_tab_class).removeClass(active_tab_class);
             $(target).parent("li").addClass(active_tab_class);
             $("." + active_content_class).hide();

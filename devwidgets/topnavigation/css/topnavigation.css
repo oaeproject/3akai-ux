@@ -71,3 +71,5 @@
 #topnavigation_search_results_container ul li{list-style-type:none;}
 .topnavigation_user_options_login_sign_in_error_margin #topnavigation_user_options_login_error + label {margin-top:40px !important;}
 .topnavigation_user_options_login_sign_in_error_margin input{border:2px solid #FFBA00 !important;}
+
+.personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}

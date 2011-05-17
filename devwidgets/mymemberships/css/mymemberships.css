@@ -1,5 +1,5 @@
 #mymemberships_actionbar {height:13px;padding:5px 0 10px;}
-#mymemberships_actionbar, .mymemberships_item {border-bottom:1px solid #DDDDDD;}
+#mymemberships_actionbar {border-bottom:1px solid #DDDDDD;}
 #mymemberships_sortarea {float:right;}
 #mymemberships_items {margin:0;}
 #mymemberships_items li.mymemberships_item {list-style:none outside none;
@@ -27,3 +27,25 @@
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
+.mymemberships_no_memberships {text-decoration:none;}
+
+/* groups list */
+.mymemberships_item{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}
+.mymemberships_imagearea{float:left;padding:0 10px 10px 0;}
+.mymemberships_imagearea img {width:50px;}
+.mymemberships_item_first{border-top: 1px dotted #cccccc;}
+.mymemberships_item_right{margin-left:60px;}
+.mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
+.mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
+.mymemberships_item_right_buttons{display: inline-block;float:right;}
+.mymemberships_item_message_icon{height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.mymemberships_item_edit {display:block;margin:30px 0 10px 10px;}
+.mymemberships_item_usedin{font-size: 11px;padding:3px 0;}
+.mymemberships_item_detail_separator {color:#cccccc;padding: 0 5px;}
+.mymemberships_item_description{color:#333;font-size:.90em;padding:3px 0 6px 0;}
+.mymemberships_item_tags{padding-top:3px;}
+.mymemberships_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
+.mymemberships_item_tags_dot{color: #999999;}
+.mymemberships_item:hover {background-color: #f2f9fc;}
+.mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}

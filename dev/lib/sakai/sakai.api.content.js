@@ -18,7 +18,7 @@
  *
  */
 
-define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],function($, sakai_conf) {
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/dev/lib/misc/parseuri.js"],function($, sakai_conf, sakai_serv) {
     var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
@@ -169,8 +169,8 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             }
             if (content && userid && content.hasOwnProperty("sakai:pooled-content-viewer")) {
-                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
-                    if (userid === content["sakai:pooled-content-viewer"][i]) {
+                for (var ii = 0; ii < content["sakai:pooled-content-viewer"].length; ii++) {
+                    if (userid === content["sakai:pooled-content-viewer"][ii]) {
                         return true;
                     }
                 }
@@ -199,8 +199,8 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                 }
             }
             if (content && userid && content.hasOwnProperty("sakai:pooled-content-manager")) {
-                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
-                    if (userid === content["sakai:pooled-content-manager"][i]) {
+                for (var ii = 0; ii < content["sakai:pooled-content-manager"].length; ii++) {
+                    if (userid === content["sakai:pooled-content-manager"][ii]) {
                         return true;
                     }
                 }
@@ -208,24 +208,39 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
             return false;
         },
 
+        isContentInLibrary: function(content, userid){
+            if (sakai_content.isUserAViewer(content, userid) || sakai_content.isUserAManager(content, userid)) {
+                return true;
+            }
+            return false;
+        },
+
         addToLibrary: function(contentId, userId, callBack){
-            $.ajax({
-                url: "/p/" + contentId + ".members.json",
-                type: "POST",
-                data: {
-                    ":viewer": userId
-                },
-                success: function () {
-                    if (callBack){
+            var toAdd = [];
+            if (typeof userId === "string"){
+                toAdd.push(userId);
+            } else {
+                toAdd = userId;
+            }
+            var batchRequests = [];
+            for (var i = 0; i < toAdd.length; i++){
+                batchRequests.push({
+                    url: "/p/" + contentId + ".members.json",
+                    parameters: {":viewer": toAdd[i]},
+                    method: "POST"
+                });
+            }
+            sakai_serv.batch(batchRequests, function(success, data) {
+                if (success){
+                    if (callBack) {
                         callBack(contentId, userId);
                     }
-                },
-                error: function (data) {
+                } else {
                     debug.error("sharecontent failed to change content " +
                         "permission to 'viewer' for member: " + userId);
                     debug.error("xhr data returned: " + data);
                 }
-            });
+            }, null, true);
         },
 
         /**
@@ -443,6 +458,29 @@ define(["jquery", "/dev/configuration/config.js", "/dev/lib/misc/parseuri.js"],f
                         count++;
                     }
                 });
+            }
+            return count;
+        },
+
+        getPlaceCount : function(content){
+            var count = 0;
+            if (content["sakai:pooled-content-viewer"]) {
+                for (var i in content["sakai:pooled-content-viewer"]) {
+                    if (content["sakai:pooled-content-viewer"].hasOwnProperty(i)) {
+                        if (content["sakai:pooled-content-viewer"][i] !== "anonymous" && content["sakai:pooled-content-viewer"][i] !== "everyone") {
+                            count++;
+                        }
+                    }
+                }
+            }
+            if (content["sakai:pooled-content-manager"]) {
+                for (var ii in content["sakai:pooled-content-manager"]) {
+                    if (content["sakai:pooled-content-manager"].hasOwnProperty(ii)) {
+                        if (content["sakai:pooled-content-manager"][ii] !== "anonymous" && content["sakai:pooled-content-manager"][ii] !== "everyone") {
+                            count++;
+                        }
+                    }
+                }
             }
             return count;
         }

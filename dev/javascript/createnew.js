@@ -22,53 +22,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var pubdata = {
             "structure0": {
-                "group": {
-                    "_ref": "9574379429432",
-                    "_order": 0,
-                    "_title": "Group",
-                    "main": {
-                        "_ref": "9574379429432",
-                        "_order": 0,
-                        "_title": "Group"
-                    }
-                },
                 "categories": {
-                    "_ref": "6573920372",
-                    "_order": 1,
-                    "_title": "Categories",
-                    "courses": {
-                        "_ref": "1234567890",
-                        "_order": 0,
-                        "_title": "Courses"
-                    },
-                    "reseach": {
-                        "_title": "Research",
-                        "_order": 1,
-                        "_ref": "87949372639"
-                    },
-                    "other": {
-                        "_title": "Other",
-                        "_order": 2,
-                        "_ref": "49294509202"
-                    }
+                    "_ref": "id6573920372",
+                    "_order": 0,
+                    "_title": "Categories"
                 }
-            },
-            "9574379429432": {
-                "page": "<div id='widget_newcreategroup_2024634737' class='widget_inline'/>"
-            },
-            "1234567890": {
-                "page": "Categories Overview"
-            },
-            "6573920372": {
-                "page": "Courses"
-            },
-            "87949372639": {
-                "page": "Research"
-            },
-            "49294509202": {
-                "page": "Other"
             }
         };
+
+        for (var i = 0; i < sakai.config.worldTemplates.length; i++){
+            var category = sakai.config.worldTemplates[i];
+            pubdata.structure0.categories[category.id] = {
+                "_order": i,
+                "_title": sakai.api.i18n.General.getValueForKey(category.title),
+                "_ref": category.id
+            };
+            pubdata[category.id] = {
+                "page": "<div id='widget_selecttemplate_" + category.id + "' class='widget_inline'></div>"
+            };
+        }
 
         var generateNav = function(){
             $(window).trigger("lhnav.init", [pubdata, {}, {}]);

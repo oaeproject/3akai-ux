@@ -32,7 +32,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.mylibrary = function (tuid, showSettings) {
+    sakai_global.mylibrary = function (tuid, showSettings, widgetData) {
 
         /////////////////////////////
         // Configuration variables //
@@ -45,7 +45,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortBy: "_lastModified",
             sortOrder: "desc",
             isOwnerViewing: false,
-            default_search_text: ""
+            default_search_text: "",
+            userArray: []
         };
 
         // DOM jQuery Objects
@@ -61,7 +62,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_empty_note = $("#mylibrary_empty_note", $rootel);
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
+        var $mylibrary_groupfilter_selection = $("#mylibrary_groupfilter_selection", $rootel);
+        var $mylibrary_groupfilter_groups = $("#mylibrary_groupfilter_groups", $rootel);
+        var $mylibrary_groupfilter_wrapper = $("#mylibrary_groupfilter_wrapper", $rootel);
+        var $mylibrary_groupfilter_usedin_count = $("#mylibrary_groupfilter_usedin_count", $rootel);
+        var $mylibrary_groupfilter_groups_container = $("#mylibrary_groupfilter_groups_container", $rootel);
+        var $mylibrary_groupfilter_groups_template = $("#mylibrary_groupfilter_groups_template", $rootel);
+        var $mylibrary_groupfilter_groups_button = $("#mylibrary_groupfilter_groups button", $rootel);
+        var $mylibrary_groupfilter_usedin_arrow = $("#mylibrary_groupfilter_usedin_arrow", $rootel);
 
+        var currentGroup = false;
 
         ///////////////////////
         // Utility Functions //
@@ -77,8 +87,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
             var contextId = "";
-            if(sakai_global.currentgroup){
-                contextId = sakai_global.currentgroup.id;
+            if(widgetData && widgetData.mylibrary){
+                contextId = widgetData.mylibrary.groupid;
             } else {
                 contextId = sakai_global.profile.main.data.userid;
             }
@@ -122,10 +132,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} bundleKey The message bundle key
          */
         var getPersonalizedText = function (bundleKey) {
-            if(sakai_global.currentgroup){
+            if(currentGroup){
                 return sakai.api.i18n.Widgets.getValueForKey(
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
-                        sakai_global.currentgroup.data.authprofile["sakai:group-title"]);
+                        currentGroup.properties["sakai:group-title"]);
             } else if (mylibrary.isOwnerViewing) {
                 return sakai.api.i18n.Widgets.getValueForKey(
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
@@ -177,15 +187,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         $mylibrary_sortby.change(function (ev) {
             var sortSelection = this.options[this.selectedIndex].value;
-            switch (sortSelection) {
-                case "lastModified_asc":
-                    mylibrary.sortBy = "_lastModified";
-                    mylibrary.sortOrder = "asc";
-                    break;
-                default:
-                    mylibrary.sortBy = "_lastModified";
-                    mylibrary.sortOrder = "desc";
-                    break;
+            if (sortSelection === "lastModified_asc") {
+                mylibrary.sortBy = "_lastModified";
+                mylibrary.sortOrder = "asc";
+            } else {
+                mylibrary.sortBy = "_lastModified";
+                mylibrary.sortOrder = "desc";
             }
             reset();
         });
@@ -305,6 +312,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var handleLibraryItems = function (success, data) {
                 if (success && data && data.results) {
+                    // Make the content items available to other widgets
+                    sakai_global.mylibrary.content_items = data.results;
                     mylibrary.totalItems = data.total;
                     var items = [];
                     if (mylibrary.totalItems === 0) {
@@ -327,10 +336,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             tags: formatTags(result["sakai:tags"]),
                             numPeopleUsing: getNumPeopleUsing(),
                             numGroupsUsing: getNumGroupsUsing(),
-                            numComments: getNumComments(result),
+                            numPlaces: sakai.api.Content.getPlaceCount(result),
+                            numComments: sakai.api.Content.getCommentCount(result),
                             mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                            description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
+                                    max_rows: 1,
+                                    whole_word: false
+                                }, "searchcontent_result_course_site_excerpt"),
                             fullResult: result
                         });
+                        mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
                     });
                     if (callback && typeof(callback) === "function") {
                         callback(true, items);
@@ -367,11 +382,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var json = {
                     items: items,
                     user_is_owner: function (item) {
-                        if (!item) return false;
+                        if (!item) {
+                            return false;
+                        }
                         return sakai.data.me.user.userid === item.ownerid && mylibrary.isOwnerViewing;
                     },
                     user_is_manager: function (item) {
-                        if (!item) return false;
+                        if (!item) {
+                            return false;
+                        }
                         return sakai.data.me.user.userid === item.ownerid;
                     }
                 };
@@ -383,20 +402,106 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_sortarea.show();
                 $mylibrary_empty.hide();
                 $("#mylibrary_title_bar").show();
-                $("#mylibrary_items", $rootel).html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
+                $mylibrary_items.show();
+                $mylibrary_items.html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
+
+                // Update dom with user display names
+                sakai.api.User.getMultipleUsers(mylibrary.userArray, function(users){
+                    for (var u in users) {
+                        if (users.hasOwnProperty(u)) {
+                            setUsername(u, users);
+                        }
+                    }
+                });
             } else {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();
                 $mylibrary_sortarea.hide();
-                $("#mylibrary_title_bar").hide();
+                //$("#mylibrary_title_bar").hide();
+                $mylibrary_items.hide();
                 $mylibrary_empty_note.html(getPersonalizedText("NO_ITEMS_IN_YOUR_LIBRARY"));
                 $mylibrary_empty.show();
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_addcontent.show();
                 }
             }
+        };
+
+        var setUsername = function(u, users) {
+            $(".mylibrary_item_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
+        };
+
+        /**
+         * Renders the used in filter
+         */
+        var initUsedInFilter = function (){
+            $mylibrary_groupfilter_selection.click(function (ev) {
+                if ($mylibrary_groupfilter_selection.hasClass("mylibrary_groupfilter_selection_open")) {
+                    $mylibrary_groupfilter_selection.removeClass("mylibrary_groupfilter_selection_open");
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_down");
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_up");
+                    $mylibrary_groupfilter_groups.hide();
+                } else {
+                    $mylibrary_groupfilter_selection.addClass("mylibrary_groupfilter_selection_open");
+                    $mylibrary_groupfilter_usedin_arrow.removeClass("mylibrary_groupfilter_usedin_arrow_up");
+                    $mylibrary_groupfilter_usedin_arrow.addClass("mylibrary_groupfilter_usedin_arrow_down");
+                    $mylibrary_groupfilter_groups.show();
+                }
+                return false;
+            });
+            $mylibrary_groupfilter_groups_button.live("click", function (ev) {
+                var groupId = $(this).data("groupid");
+                var groupTitle = $(this).attr("title");
+                if (!groupId){
+                    groupId = sakai.data.me.user.userid;
+                    groupTitle = getPersonalizedText("ALL");
+                }
+                $mylibrary_groupfilter_selection.find("button").attr("title", groupTitle);
+                $mylibrary_groupfilter_selection.find("button").text(groupTitle);
+
+                mylibrary.currentPagenum = 1;
+                getLibraryItems(groupId, renderLibraryItems);
+                sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
+                    isMe: mylibrary.isOwnerViewing,
+                    firstName: groupTitle
+                }, $("#mylibrary_title_container", $rootel));
+
+                $mylibrary_groupfilter_selection.click();
+            });
+
+            var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups);
+
+            // Truncate long group titles
+            for (var g in groups.entry) {
+                if (groups.entry.hasOwnProperty(g)) {
+                    if (groups.entry[g]["sakai:group-title"]) {
+                        groups.entry[g]["sakai:group-title"] = sakai.api.Util.applyThreeDots(groups.entry[g]["sakai:group-title"], 300, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                        groups.entry[g]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(groups.entry[g]["sakai:group-title"], 125, {
+                            max_rows: 1,
+                            whole_word: false
+                        }, "s3d-bold");
+                    }
+                }
+            }
+
+            var json = {
+                "groups": groups
+            };
+
+            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
+            //$mylibrary_groupfilter_wrapper.show();
+            $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length, 10) + 1) + ")");
         };
 
         /////////////////////////////
@@ -412,20 +517,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var contextId = "";
             var contextName = "";
             var isGroup = false;
-            if (sakai_global.currentgroup) {
-                contextId = sakai_global.currentgroup.id;
-                contextName = sakai_global.currentgroup.data.authprofile["sakai:group-title"];
-                isGroup = true;
-                if (sakai_global.currentgroup.manager) {
-                    mylibrary.isOwnerViewing = true;
-                }
+            if (widgetData && widgetData.mylibrary) {
+                contextId = widgetData.mylibrary.groupid;
+                sakai.api.Server.loadJSON("/system/userManager/group/" + contextId + ".json", function(success, data) {
+                    if (success){
+                        currentGroup = data;
+                        contextName = currentGroup.properties["sakai:group-title"];
+                        isGroup = true;
+                        mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties["sakai:group-id"], sakai.data.me, currentGroup.properties);
+                        finishInit(contextId, contextName, isGroup);
+                    }
+                });
             } else {
                 contextId = sakai_global.profile.main.data.userid;
                 contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
                 if (contextId === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;
+                    initUsedInFilter();
                 }
+                finishInit(contextId, contextName, isGroup);
             }
+        };
+        
+        var finishInit = function(contextId, contextName, isGroup){
             if (contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 $mylibrary_livefilter.val(mylibrary.default_search_text);

@@ -1,0 +1,18 @@
+{
+    "description":        "Sakai Docs",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/sakaidocs/bundles/default.properties"
+    },
+    "id":                 "sakaidocs",
+    "name":               "Sakai Docs",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "contrib",
+    "url":                "/devwidgets/sakaidocs/sakaidocs.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

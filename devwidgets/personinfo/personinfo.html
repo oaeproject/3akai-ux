@@ -1,0 +1,92 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/personinfo/css/personinfo.css" />
+
+<div id="personinfo_widget" style="display:none">
+    <!-- PERSONINFO DIALOG -->
+    <div id="personinfo" class="personinfo_dialog">
+        <!-- PERSONINFO HEADER -->
+        <div class="personinfo_header_arrow"></div>
+        <!-- PERSONINFO CONTENT -->
+        <div class="personinfo_outer clearfix">
+            <button id="personinfo_close_button" class="personinfo_close s3d-link-button" title="__MSG__CLOSE__"><div id="personinfo_close"></div></button>
+            <div class="personinfo_inner">
+                <div id="personinfo_container"></div>
+            </div>
+            <button id="personinfo_message" class="s3d-button s3d-button-link-2-state fl-force-left" type="button" style="display:none">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
+            </button>
+            <button id="personinfo_invite" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_CONNECTION__</span>
+            </button>
+            <button id="personinfo_pending" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none" disabled="disabled">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CONNECTION_REQUESTED__</span>
+            </button>
+            <button id="personinfo_invited" class="s3d-button s3d-button-link-2-state fl-force-right" type="button" style="display:none">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_CONNECTION_REQUEST__</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="personinfo_template" style="display:none"><!--
+    <div id="personinfo_user">
+        <span id="personinfo_user_picture">
+            <img src="${user.displayPicture}"/>
+        </span>
+        <span id="personinfo_user_info">
+            <span id="personinfo_user_name" class="s3d-bold s3d-regular-links"><a href="${user.homePath}" title="${user.displayName}">${user.displayName}</a></span>
+            <span id="personinfo_user_owns" class="s3d-regular-links">
+                <p class="personinfo_user_info">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</p>
+                <p class="personinfo_user_info">${user.counts.contactsCount} __MSG__CONTACTS__</p>
+                <p class="personinfo_user_info">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</p>
+            </span>
+        </span>
+    </div>
+    <div id="personinfo_content">
+        <ul id="personinfo_content_list">
+        {for i in user.contentItems.results}
+            {var mimeType = sakai.api.Content.getMimeType(i)}
+            {var thumbnail = sakai.api.Content.getThumbnail(i)}
+            <li id="${i["jcr:name"]}">
+                <div class="personinfo_content_list_left">
+                {if thumbnail && sakai.config.MimeTypes[mimeType]}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    <img src="${thumbnail}" alt="${mimeTypeDescription}" />
+                {elseif mimeType.substring(0,6)==="image/" && sakai.config.MimeTypes[mimeType]}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                {elseif sakai.config.MimeTypes[mimeType]}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                {else}
+                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                    <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                {/if}
+                </div>
+                <div class="personinfo_content_list_right">
+                    <a href="/content#content_path=/p/${i['jcr:name']}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
+                    {if mimeTypeDescription}
+                        <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
+                    {/if}
+                    {var placeCount = sakai.api.Content.getPlaceCount(i)}
+                    <p class="personinfo_content_text">__MSG__USED_IN__ ${placeCount} {if placeCount == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                    {var commentCount = sakai.api.Content.getCommentCount(i)}
+                    <p class="personinfo_content_text">${commentCount}{if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                    <span class="personinfo_content_plus">
+                        <button type="button" class="savecontent_trigger s3d-link-button s3d-action" data-entityid="${i['jcr:name']}" title="__MSG__SAVE_CONTENT__">+</button>
+                    </span>
+                </div>
+            </li>
+        {forelse}
+            <p class="personinfo_content_none">__MSG__NO_CONTENT_FOUND__</p>
+        {/for}
+        </ul>
+    </div>
+--></div>
+
+<div id="personinfo_loading_template" style="display:none"><!--
+    <div class="personinfo_loading"></div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/personinfo/javascript/personinfo.js"></script>

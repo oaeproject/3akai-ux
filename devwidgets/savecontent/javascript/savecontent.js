@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var loadSaveContent = function(contentId, clickedEl){
             hideSavecontent();
             toggleSavecontent(contentId, clickedEl);
-        }
+        };
 
         $(".savecontent_trigger").live("click", function(){
             var clickedEl = $(this);
@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             dataCache[contentId] = data;
                             loadSaveContent(contentId, clickedEl);
                         }
-                    })
+                    });
                 }
             }
         });

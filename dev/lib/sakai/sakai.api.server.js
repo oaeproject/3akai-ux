@@ -112,31 +112,31 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
          * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
          */
         bundleRequests : function(groupId, numRequests, requestId, request){
-            if (!this.initialRequests) {
-                this.initialRequests = this.initialRequests || {};
+            if (!sakaiServerAPI.initialRequests) {
+                sakaiServerAPI.initialRequests = sakaiServerAPI.initialRequests || {};
             }
-            if (!this.initialRequests[groupId]){
-                this.initialRequests[groupId] = {};
-                this.initialRequests[groupId].count = 0;
-                this.initialRequests[groupId].requests = [];
-                this.initialRequests[groupId].requestId = [];
+            if (!sakaiServerAPI.initialRequests[groupId]){
+                sakaiServerAPI.initialRequests[groupId] = {};
+                sakaiServerAPI.initialRequests[groupId].count = 0;
+                sakaiServerAPI.initialRequests[groupId].requests = [];
+                sakaiServerAPI.initialRequests[groupId].requestId = [];
             }
             if (request) {
-                this.initialRequests[groupId].requests.push(request);
-                this.initialRequests[groupId].requestId.push(requestId);
+                sakaiServerAPI.initialRequests[groupId].requests.push(request);
+                sakaiServerAPI.initialRequests[groupId].requestId.push(requestId);
             }
-            this.initialRequests[groupId].count++;
-            var that = this;
-            if (numRequests === this.initialRequests[groupId].count) {
-                this.batch(that.initialRequests[groupId].requests, function(success, data) {
+            sakaiServerAPI.initialRequests[groupId].count++;
+            if (numRequests === sakaiServerAPI.initialRequests[groupId].count) {
+                sakaiServerAPI.batch(sakaiServerAPI.initialRequests[groupId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
                             "groupId": groupId,
-                            "responseId": that.initialRequests[groupId].requestId,
+                            "responseId": sakaiServerAPI.initialRequests[groupId].requestId,
                             "responseData": data.results
                         };
                         $(window).trigger("complete.bundleRequest.Server.api.sakai", jsonData);
                     }
+                    delete sakaiServerAPI.initialRequests[groupId];
                 });
             }
         },
@@ -335,21 +335,28 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
 
 
         cleanUpSakaiDocObject: function(pagestructure){
+            // Convert the special objects to arrays
+            data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
             var id = pagestructure["jcr:path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
-            var toExclude = ["_ref", "_title", "_altTitle", "_order"];
+            var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable"];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
             if (pagestructure["structure0"] && typeof pagestructure["structure0"] === "string"){
                 pagestructure["structure0"] = $.parseJSON(pagestructure["structure0"]);
             }
-            if (id){
-                for (var i in pagestructure){
+            var removeServerFormating = function(structure, id){
+                for (var i in structure){
                     if (i.indexOf(id + "/") === 0){
-                        var newid = i.substring((id + "/").length);
-                        pagestructure[newid] = pagestructure[i];
-                        delete pagestructure[i];
+                        var newid = i.substring(i.lastIndexOf("/") + 1);
+                        structure[newid] = structure[i];
+                        delete structure[i];
+                        structure[newid] = removeServerFormating(structure[newid], id);
                     }
                 }
+                return structure;
+            };
+            if (id){
+                pagestructure = removeServerFormating(pagestructure, id);
             }
             return pagestructure;
         },

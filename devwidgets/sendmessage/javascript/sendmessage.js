@@ -85,7 +85,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var sendmessage_to = "#sendmessage_to",
                 sendmessage_subject = "#sendmessage_subject",
                 sendmessage_body = "#sendmessage_body",
-                send_message_cancel = "#send_message_cancel";
+                send_message_cancel = "#send_message_cancel",
+                $sendmessage_container = $("#sendmessage_container");
 
 
             ///////////////////////
@@ -116,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     bodyEl.addClass(invalidClass);
                 }
                 // check if there are recipients
-                if((recipients.length === 0 && !toUser) ||
+                if((recipients.length === 0 && !toUser.length) ||
                     recipients.length === 1 && recipients[0] === "") {
                     // no recipients are selected
                     valid = false;
@@ -133,7 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * It will clear any values or texts that might have been entered.
              */
             var resetView = function() {
-                $(dialogHeaderClass).show();
+                $(dialogHeaderClass, $sendmessage_container).show();
                 $(dialogBoxContainer).addClass(dialogBoxClass);
                 $(dialogFooterContainer).addClass(dialogFooterClass);
                 $(".sendmessage_dialog_footer_inner").addClass(dialogFooterInner);
@@ -179,7 +180,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if ($(messageDialogContainer).hasClass('dialog')) {
                     $(messageDialogContainer).jqmHide();
-                    setTimeout(resetView, 250);
                 }
 
                 // If we have a valid callback function we call that
@@ -211,20 +211,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($.isPlainObject(toUser) && toUser.uuid) {
                         preFill.push({
                             "name": toUser.username,
-                            "value": toUser.uuid,
-                            "type": usr.type
+                            "value": toUser.uuid
                         });
                     } else if (_.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 "name": usr.username,
-                                "value": usr.uuid,
-                                "type": usr.type
+                                "value": usr.uuid
                             });
                         });
                     }
-
-
                 }
                 $("#sendmessage_to_autoSuggest").autoSuggest("", {
                     asHtmlID: "sendmessage_to_autoSuggest",
@@ -333,7 +329,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         layover = false;
 
                         // Remove the dialog stuff.
-                        $(dialogHeaderClass).hide();
+                        $(dialogHeaderClass, $sendmessage_container).hide();
                         $(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
                         $(dialogBoxContainer).removeClass(dialogBoxClass);
                         $(dialogFooterContainer).removeClass(dialogFooterClass).find(".sendmessage_dialog_footer_inner").removeClass(dialogFooterInner);

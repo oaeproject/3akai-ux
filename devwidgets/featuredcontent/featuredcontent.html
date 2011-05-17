@@ -1,0 +1,99 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/featuredcontent/css/featuredcontent.css" />
+
+<div class="featuredcontent_widget">
+    <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
+    <div id="featuredcontent_content_container"><!----></div>
+    <div id="featuredcontent_footer" class="fl-push"></div>
+</div>
+
+<div id="featuredcontent_content_template"><!--
+    {if data && data.length}
+        {for item in data}
+            {if $.isArray(item)}
+                {for small in item}
+                    {if small_index %2 == 0}
+                        <div class="featuredcontent_content_small_container">
+                    {/if}
+                    <div class="featuredcontent_content featuredcontent_content_small">
+                        <div class="featuredcontent_content_actions">
+                            <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["jcr:name"]}"></div>
+                            {if !sakai.data.me.user.anon}
+                                <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["jcr:name"]}"></div>
+                            {/if}
+                            <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
+                        </div>
+                        <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
+                        {if small["sakai:tags"]}
+                            <span class="featuredcontent_content_tags">
+                                {for tag in small["sakai:tags"]}
+                                    {if tag_index < 2}
+                                        <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                    {/if}
+                                {/for}
+                            </span>
+                        {/if}
+                    </div>
+                    {if small_index %2 != 0}
+                        </div>
+                    {/if}
+                {/for}
+            {else}
+                <div class="featuredcontent_content featuredcontent_content_${item.mode}">
+                    <div class="featuredcontent_content_actions">
+                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["jcr:name"]}"></div>
+                        {if !sakai.data.me.user.anon}
+                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["jcr:name"]}"></div>
+                        {/if}
+                        <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
+                    </div>
+                    {if item.mode == "large"}
+                        <div id="featuredcontent_large_preview">
+                            {if item.image}
+                                <img src="/p/${item["jcr:name"]}"/>
+                            {else}
+                                <img src="/p/${item["jcr:name"]}.page1-small.png"/>
+                            {/if}
+                        </div>
+                    {/if}
+                    {if item.mode == "large"}
+                        <div class="featuredcontent_content_right_description">
+                    {/if}
+                        {if item.mode == "medium"}
+                            <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
+                        {/if}
+                        {if item.mode == "large"} {var size = 125} {else} {var size = 50} {/if}
+                        <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
+                        {if item["sakai:description"] && item.mode != "small"}
+                            {if item.mode == "large"} {var size = 500} {else} {var size = 125} {/if}
+                            <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], size)}</span>
+                        {/if}
+                        {if item["sakai:tags"]}
+                            <span class="featuredcontent_content_tags">
+                                {for tag in item["sakai:tags"]}
+                                    {if tag_index < 2}
+                                        <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                    {/if}
+                                {/for}
+                            </span>
+                        {/if}
+                    {if item.mode == "large"}
+                        </div>
+                    {/if}
+                </div>
+            {/if}
+        {/for}
+        <div id="featuredcontent_show_more_container">
+            <a href="/dev/allcategories.html" title="__MSG__SHOW_MORE__">
+                <button type="button" id="featuredcontent_show_more" class="s3d-button s3d-button-link-2-state">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
+                </button>
+            <a/>
+        </div>
+    {else}
+        __MSG__NO_FEATURED_CONTENT__
+    {/if}
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/featuredcontent/javascript/featuredcontent.js"></script>

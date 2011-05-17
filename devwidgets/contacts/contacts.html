@@ -18,37 +18,79 @@
 </div>
 
 <div id="contacts_template"><!--
-    <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.results.length} (${accepted.results.length}){/if}</div>
+    <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.total} (${accepted.total}){/if}</div>
     {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending" style="display:none;">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
-            {for pending in pending.results}
-                <div class="fl-container fl-fix contacts_item">
-                    <a href="/~${pending.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
+            {var count = 0}
+            {for p in pending.results}
+                {var count = count + 1}
+                <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
+                    <div class="contacts_item_left_filler"></div>
+                    <a href="/~${p.profile.userid}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(p.profile)}"></a>
                     <div class="contacts_list">
-                        <div class="contacts_name s3d-bold contacts_pending_name">
-                            <a href="/~${pending.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(pending.profile)}">${sakai.api.User.getDisplayName(pending.profile)}</a>
-                         </div>
-                     </div>
+                        <a href="/~${p.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(p.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(p.profile), 170, null, "s3d-bold")}</a>
+                        <div class="contacts_item_counts">
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=library" title="${p.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${p.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=contacts" title="${p.profile.counts.contactsCount} __MSG__CONTACTS__">${p.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=memberships" title="${p.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${p.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                        </div>
+                        {if p.profile.basic.elements && p.profile.basic.elements.description && p.profile.basic.elements.description.value}
+                            <div class="contacts_item_description"><span>${p.profile.basic.elements.description.value}</span></div>
+                        {/if}
+                        {if p.profile["sakai:tags"] && p.profile["sakai:tags"].length > 0}
+                            <div class="contacts_item_tags">
+                                <span class="contacts_item_icon contacts_item_tags_icon"></span>
+                                <p class="contacts_item_tags_list">
+                                    {for t in p.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                </p>
+                            </div>
+                        {/if}
+                    </div>
                 </div>
             {/for}
+            {if count > 0}
+                <div class="contacts_item_end"></div>
+            {/if}
         </div>
     {/if}
 
     {if invited && invited.results.length}
-        <div class="contacts_main" id="contacts_pending">
+        <div class="contacts_main" id="contacts_invited">
             <h2>__MSG__PENDING_CONTACT_REQUEST_FROM_OTHER_PEOPLE__</h2>
-            {for invited in invited.results}
-                <div class="fl-container fl-fix contacts_item">
-                    <a href="/~${invited.profile.userid}"><img alt="pending icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
+            {var count = 0}
+            {for i in invited.results}
+                {var count = count + 1}
+                <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
+                    <div class="contacts_item_left_filler">
+                        <button class="s3d-link-button contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">+</button>
+                        <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
+                    </div>
+                    <button class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${i.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" sakai-entitytype="user"></button>
+                    <a href="/~${i.profile.userid}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
                     <div class="contacts_list">
-                        <div class="contacts_name s3d-bold">
-                            <a href="/~${invited.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(invited.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(invited.profile), 170, null, "s3d-bold")}</a>
-                         </div>
-                         <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${invited.profile.userid}">__MSG__ADD_TO_CONTACTS__</button>
-                     </div>
+                        <a href="/~${i.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(i.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold")}</a>
+                        <div class="contacts_item_counts">
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=library" title="${i.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${i.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=contacts" title="${i.profile.counts.contactsCount} __MSG__CONTACTS__">${i.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=memberships" title="${i.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${i.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                        </div>
+                        {if i.profile.basic.elements && i.profile.basic.elements.description && i.profile.basic.elements.description.value}
+                            <div class="contacts_item_description"><span>${i.profile.basic.elements.description.value}</span></div>
+                        {/if}
+                        {if i.profile["sakai:tags"] && i.profile["sakai:tags"].length > 0}
+                            <div class="contacts_item_tags">
+                                <span class="contacts_item_icon contacts_item_tags_icon"></span>
+                                <p class="contacts_item_tags_list">
+                                    {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                </p>
+                            </div>
+                        {/if}
+                        <div style="display:none;">
+                            <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">__MSG__ADD_TO_CONTACTS__</button>
+                        </div>
+                    </div>
                 </div>
             {/for}
+            {if count > 0}
+                <div class="contacts_item_end"></div>
+            {/if}
         </div>
     {/if}
 
@@ -59,24 +101,48 @@
             {else}
                 <h2>${sakai_global.profile.main.data.basic.elements.firstName.value}'s __MSG__CONTACTS__</h2>
             {/if}
-            {for accepted in accepted.results}
-                <div class="fl-container fl-fix contacts_item contacts_accepted_items">
-                    <img alt="accepted icon" src="/dev/images/user_avatar_icon_32x32.png">
-                    <div class="contacts_list">
+            {var count = 0}
+            {for a in accepted.results}
+                {var count = count + 1}
+                <div class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
+                    <div class="contacts_item_left_filler" style="display:none;">
                         {if sakai_global.profile.main.mode.value !== "view"}
-                            <button type="button" class="s3d-button s3d-button-link-2-state contact_delete_button" id="contacts_delete_contact_${accepted.profile.userid}">
+                            <input type="checkbox" name="checkbox_${a.profile.userid}" />
+                        {/if}
+                    </div>
+                    <button class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" sakai-entitytype="user"></button>
+                    <a href="/~${a.profile.userid}"><img alt="accepted icon" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
+                    <div class="contacts_list">
+                        <a href="/~${a.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(a.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold")}</a>
+                        <div class="contacts_item_counts">
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=library" title="${a.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${a.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=contacts" title="${a.profile.counts.contactsCount} __MSG__CONTACTS__">${a.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=memberships" title="${a.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${a.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                        </div>
+                        {if a.profile.basic.elements && a.profile.basic.elements.description && a.profile.basic.elements.description.value}
+                            <div class="contacts_item_description"><span>${a.profile.basic.elements.description.value}</span></div>
+                        {/if}
+                        {if a.profile["sakai:tags"] && a.profile["sakai:tags"].length > 0}
+                            <div class="contacts_item_tags">
+                                <span class="contacts_item_icon contacts_item_tags_icon"></span>
+                                <p class="contacts_item_tags_list">
+                                    {for t in a.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                </p>
+                            </div>
+                        {/if}
+
+                    <div style="display:none;">
+                        {if sakai_global.profile.main.mode.value !== "view"}
+                            <button type="button" class="s3d-button s3d-button-link-2-state contact_delete_button" id="contacts_delete_contact_${a.profile.userid}">
                                 <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
                             </button>
                         {/if}
-                        <div class="contacts_name s3d-bold s3d-regular-links">
-                            <a href="/~${accepted.profile.userid}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(accepted.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(accepted.profile), 170, null, "s3d-bold")}</a>
-                         </div>
-                        <button type="button" class="s3d-link-button contacts_message s3d-bold sakai_sendmessage_overlay" sakai-entityid="${accepted.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(accepted.profile)}" sakai-entitytype="user">
-                            __MSG__MESSAGE__
-                        </button>
-                     </div>
-                 </div>
-             {/for}
+                    </div>
+
+                    </div>
+                </div>
+            {/for}
+            {if count > 0}
+                <div class="contacts_item_end"></div>
+            {/if}
          {else}
             {if sakai_global.profile.main.mode.value !== "view"}
                 <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">

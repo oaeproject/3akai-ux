@@ -1,18 +1,13 @@
 {
-    "description":        "Inbox widget",
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "description": "Inbox",
     "i18n": {
-        "default":        "/devwidgets/inbox/bundles/default.properties"
+        "default": "/devwidgets/inbox/bundles/default.properties"
     },
-    "id":                 "inbox",
-    "name":               "Inbox",
-    "personalportal":     false,
-    "showinsakaigoodies": false,
-    "type":               "core",
-    "url":                "/devwidgets/inbox/inbox.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "inbox",
+    "name": "inbox",
+    "personalportal":false,
+    "type": "sakai",
+    "enabled": true,
+    "url":"/devwidgets/inbox/inbox.html",
+    "hashParams": ["message", "newmessage", "reply", "iq"]
 }

@@ -104,14 +104,27 @@
 --></div>
 
 <div id="contentmetadata_details_template" style="display:none;"><!--
-        <div class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
-            <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"]) || sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
-        </div>
-        <div class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
-            <span>${data.data["_mimeType"]}</span>
-        </div>
+        {var mimeType = sakai.api.Content.getMimeType(data.data)}
+        {if mimeType === "x-sakai/link"}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+                <span>Link</span>
+            </div>
+        {elseif mimeType === "x-sakai/document"}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+                <span>Document</span>
+            </div>
+        {else}
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__SIZE__: </span>
+                <span>${sakai.api.Util.convertToHumanReadableFileSize(data.data["_length"]) || sakai.api.Util.convertToHumanReadableFileSize(data.data["length"])}</span>
+            </div>
+            <div class="contentmetadata_content_row">
+                <span class="contentmetadata_first_column">__MSG__TYPE__: </span>
+                <span>${data.data["_mimeType"]}</span>
+            </div>
+        {/if}
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>

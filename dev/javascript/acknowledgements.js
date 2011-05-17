@@ -20,48 +20,52 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.acknowledgements = function() {
         
-        var privdata = {}
-
         var pubdata = {	
         	"structure0": {
                 "featured": {
-                    "_ref": "1", 
+                    "_ref": "id1", 
                     "_title": "Featured",
+                    "_order": 0,
                     "main": {
-                        "_ref": "2",
+                        "_ref": "id2",
+                        "_order": 0,
                         "_title": "Featured"
                     }
                 },
                 "ui": {
-                    "_ref": "2", 
+                    "_ref": "id2", 
                     "_title": "UI Technologies",
+                    "_order": 1,
                     "main": {
-                        "_ref": "2",
+                        "_ref": "id2",
+                        "_order": 0,
                         "_title": "UI Technologies"
                     }
                 },
                 "nakamura": {
                     "_title": "Back-end Technologies", 
-                    "_ref": "3", 
+                    "_ref": "id3",
+                    "_order": 2,
                     "main": {
-                        "_ref": "3",
+                        "_ref": "id3",
+                        "_order": 0,
                         "_title": "Back-end Technologies"
                     }
                 }
             },
-        	"1": {
+        	"id1": {
         		"page": $("#acknowledgements_featured").html()
         	},
-        	"2": {
+        	"id2": {
         		"page": $("#acknowledgements_uitech").html()
         	},
-        	"3": {
+        	"id3": {
         		"page": $("#acknowledgements_backendtech").html()
         	}
         }
 
         var generateNav = function(){
-            $(window).trigger("lhnav.init", [pubdata, privdata]);
+            $(window).trigger("lhnav.init", [pubdata, {}, {}]);
         }
         
         var renderEntity = function(){

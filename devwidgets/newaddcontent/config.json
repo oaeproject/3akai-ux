@@ -3,7 +3,6 @@
     "description":"Add Resource to a Site",
     "name":"Add Resource",
     "id":"newaddcontent",
-    "img":"/devwidgets/newaddcontent/images/newaddcontent.png",
     "showinsakaigoodies":true,
     "type":"core",
     "enabled":true,
