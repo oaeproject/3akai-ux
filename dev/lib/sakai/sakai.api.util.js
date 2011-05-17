@@ -1101,6 +1101,12 @@ define(["jquery",
                 d = sakai_util.Datetime.toGMT(d);
                 return d.getTime();
             },
+            getCurrentTime : function(meData) {
+                var d = new Date();
+                d = sakai_util.Datetime.toGMT(d);
+                d = sakai_l10n.fromGMT(d, meData);
+                return d;
+            },
             parseDateString : function(dateString){
                 var d = new Date();
                 d.setFullYear(parseInt(dateString.substring(0,4),10));
