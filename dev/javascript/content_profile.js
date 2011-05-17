@@ -525,7 +525,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var init = function(){
             // Bind an event to window.onhashchange that, when the history state changes,
             // loads all the information for the current resource
-            $(window).bind('hashchange', function(){           	
+            $(window).bind('hashchange', function(){
                 handleHashChange();
             });
             handleHashChange();
