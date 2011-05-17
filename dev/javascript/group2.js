@@ -138,6 +138,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav();
         });
 
+        $(window).bind("sakai.addpeople.usersselected", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "user": data[user].userid,
+                    "permission": data[user].permission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.addUsersToGroup(groupId, false, members, sakai.api.User.data.me, false);
+            }
+        });
+
         ////////////////////
         // INITIALISATION //
         ////////////////////

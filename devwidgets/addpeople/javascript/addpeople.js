@@ -190,13 +190,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Removes all users that are selected from the list of users to be added as a member (manager or viewer)
          */
         var removeSelected = function(){
+            var usersToDelete = [];
             $.each($addpeopleSelectedContactsContainer.find("input:checked"), function(index, item){
+                usersToDelete.push({
+                    "userid": $(item)[0].id.split("_")[0],
+                    "permission": $(item).nextAll("select").val()
+                });
                 delete selectedUsers[$(item)[0].id.split("_")[0]];
                 $("#" + $(item)[0].id.split("_")[0] + "_chk").removeAttr("checked");
                 $addpeopleSelectAllContacts.removeAttr("checked");
                 $(item).parent().next().remove();
                 $(item).parent().remove();
             });
+            sakai.api.Groups.removeUsersFromGroup(sakai_global.group2.groupData["sakai:group-id"], false, usersToDelete, sakai.data.me);
             $addpeopleSelectAllSelectedContacts.removeAttr("checked");
             enableDisableControls();
         };
@@ -275,6 +281,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        var prepareSelectedContacts = function(success, data){
+            debug.log(data);
+            for(var role in data){
+                for(var user in data[role].results){
+                    var userObj = {
+                        userid: data[role].results[user]["rep:userId"],
+                        name: sakai.api.User.getDisplayName(data[role].results[user]),
+                        dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80),
+                        permission: role.toString()
+                    }
+                    if(data[role].results[user].picture){
+                        userObj.picture = "/~" + data[role].results[user]["rep:userId"] + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
+                    } else {
+                        if(data[role].results[user]["sakai:group-id"]){
+                            userObj.picture = "/dev/images/group_avatar_icon_32x32.png";
+                        }else{
+                            userObj.picture = "/dev/images/default_profile_picture_32.png";
+                        }
+                    }
+                    selectedUsers[userObj.userid] = userObj;
+                }
+            }
+            renderSelectedContacts();
+        }
+
+        var fetchMembers = function(){
+            sakai.api.Groups.getMembers(sakai_global.group2.groupData["sakai:group-id"], "", prepareSelectedContacts);
+        };
+
         /**
          * Initialize the modal dialog
          */
@@ -320,7 +355,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeopleFinishAdding.bind("click", finishAdding);
             $addpeopleRemoveSelected.bind("click", removeSelected);
         };
-        
+
         var loadRoles = function(){
             currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
             $("#addpeople_selected_all_permissions", rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
@@ -338,12 +373,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         widgetData = {
                             "category": sakai_global.group2.groupData["sakai:category"],
                             "id": sakai_global.group2.groupData["sakai:templateid"]
-                        }
+                        };
                     }
                     loadRoles();
                     addBinding();
                     fetchUsersGroups();
                     hasbeenInit = true;
+                }
+                if(sakai_global.group2){
+                    fetchMembers();
                 }
                 initializeJQM();
                 sakai.api.User.getContacts(renderContacts);

@@ -62,7 +62,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 }
             });
         },
-        
+
         /**
          * Get the data for the specified group
          *
@@ -152,13 +152,13 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     }
                 });
             };
-            
+
             var toProcess = [];
             var membershipsToProcess = [];
             var managershipsToProcess = [];
             var mainCallback = false;
             var mainGroupId = false;
-            
+
             var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, category, callback){
                 mainCallback = callback;
                 mainGroupId = groupid;
@@ -183,13 +183,13 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         "permission": ""
                     });
                 }
-                
+
                 // Get list of all subgroups
                 var subGroups = [];
                 for (var z = 0; z < template.roles.length; z++){
                     subGroups.push(groupid + "-" + template.roles[z].id);
                 }
-                
+
                 // First do the main maintenance groups
                 for (var q = 0; q < template.roles.length; q++){
                     if (template.roles[q].id === template.creatorRole){
@@ -209,7 +209,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         });
                     }
                 }
-                
+
                 // Other maintenance groups
                 for (var n = 0; n < template.roles.length; n++) {
                     if (template.roles[n].allowManage && template.roles[n].id !== template.creatorRole) {
@@ -225,7 +225,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         toProcess.push(gr);
                     }
                 }
-                
+
                 // Other Subgroups
                 for (var o = 0; o < template.roles.length; o++) {
                     if (!template.roles[o].allowManage) {
@@ -241,7 +241,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         toProcess.push(gr1);
                     }
                 }
-                
+
                 // Main group
                 var gr2 = {
                     groupid: groupid,
@@ -258,7 +258,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                         "permission": ""
                     });
                 }
-                
+
                 saveGroup(true);
             };
 
@@ -767,7 +767,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             // Construct the batch requests
             $.each(users, function(index, user) {
-                var url = "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json";
+                var url = "/system/userManager/group/" + groupID + "-" + user.permission.toLowerCase() + ".update.json";
                 if (!user.permission){
                     url = "/system/userManager/group/" + groupID + ".update.json";
                 }
@@ -858,14 +858,14 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             $.each(users, function(index, user) {
                 reqData.push({
-                    "url": "/system/userManager/group/" + groupID + ".update.json",
+                    "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
                     "method": "POST",
                     "parameters": {
                         "_charset_":"utf-8",
-                        ":member@Delete": user
+                        ":member@Delete": user.userid
                     }
                 });
-                if (user === medata.user.userid){
+                if (user.userid === medata.user.userid){
                     currentUserIncluded = true;
                 }
             });
@@ -921,7 +921,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 });
             }
         },
-        
+
         filterGroup: function(group){
             if (!group["sakai:group-title"] || group["sakai:excludeSearch"]) {
                 return false;
@@ -931,9 +931,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 } else {
                     return true;
                 }
-            } 
+            }
         },
-        
+
         getMemberships : function(groups){
             var newjson = {entry: []};
             for (var i = 0, il = groups.length; i < il; i++) {
@@ -943,7 +943,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             }
             return newjson;
         },
-        
+
         getTemplate: function(cat, id){
             var category = false;
             for (var i = 0; i < sakai_conf.worldTemplates.length; i++){
@@ -961,7 +961,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             }
             return template;
         }
-        
+
     };
     return sakaiGroupsAPI;
 });

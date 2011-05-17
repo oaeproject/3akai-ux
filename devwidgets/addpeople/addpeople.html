@@ -56,7 +56,7 @@
                 <a href="~${contact.userid}" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
                     {for role in roles}
-                        <option value="${role.id}" {if contact.permission == role.id} selected="selected" {/if}>${role.title}</option>
+                        <option value="${role.id}" {if contact.permission == role.id || contact.permission == role.title} selected="selected" {/if}>${role.title}</option>
                     {/for}
                 </select>
             </li>
