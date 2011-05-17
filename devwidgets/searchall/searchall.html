@@ -50,7 +50,7 @@
                     {for i in items}
                         {var count = count + 1}
                         {if i['sakai:pooled-content-file-name']}
-                            {var contentFound = true}
+                            {var resultFound = true}
                             <div class="fl-container fl-fix searchcontent_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     <button class="s3d-link-button searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['jcr:name']}">+</button>
@@ -61,7 +61,10 @@
                                 {var mimeType = sakai.api.Content.getMimeType(i)}
                                 {var thumbnail = sakai.api.Content.getThumbnail(i)}
                                 <a href="/content#content_path={if i['sakai:pooled-content-file-name']}/p/${i['jcr:name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
-                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                                    {if sakai.config.MimeTypes[mimeType]}
+                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                                    {/if}
                                     {if thumbnail}
                                         <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                                     {elseif mimeType.substring(0,6)==="image/"}
@@ -108,7 +111,7 @@
                                 </div>
                             </div>
                         {elseif i.userid}
-                            {var peopleFound = true}
+                            {var resultFound = true}
                             <div class="fl-container fl-fix searchpeople_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
@@ -159,7 +162,7 @@
                                 </div>
                             </div>
                         {elseif i['sakai:group-id']}
-                            {var groupsFound = true}
+                            {var resultFound = true}
                             <div class="fl-container fl-fix searchgroups_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     <div class="searchgroups_result_plus searchgroups_result_left_filler" data-entityid="${i['sakai:group-id']}">{if i.userMember}<img src="/dev/images/accept.png">{else}+{/if}</div>
@@ -208,6 +211,9 @@
                             </div>
                         {/if}
                     {/for}
+                    {if !resultFound}
+                        <div class="searchall_no_results">__MSG__NO_RESULTS_FOUND__</span>
+                    {/if}
                 --></div>
             </div>
         </div>

@@ -187,15 +187,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // We hide the pager if we don't have any results or
                 // they are less then the number we should display
                 results.total = Math.abs(results.total);
-                if (results.total <= resultsToDisplay) {
-                    $(searchConfig.global.pagerClass).hide();
-                }
-                else {
+                if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass).show();
                 }
-            }
-            else {
-                $(searchConfig.global.pagerClass).hide();
             }
 
             // Make the content items available to other widgets
@@ -253,6 +247,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         };
 
         var doSearch = function(){
+            $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);
