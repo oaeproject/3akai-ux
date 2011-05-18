@@ -22,30 +22,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var pageNotFoundErrorLoggedOutTemplate = "page_not_found_error_logged_out_template";
         var pageNotFoundErrorLoggedInTemplate = "page_not_found_error_logged_in_template";
-        var pageNotFoundError = "#page_not_found_error";
+        var pageNotFoundError = ".page_not_found_error";
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
-        var $signinbuttonwrapper = $('#error_sign_in_button');
-        var $signinbutton = $("button",$signinbuttonwrapper);
-        var $browsecatcount = $("#error_browse_category_number");
 
         var doInit = function(){
             var renderedTemplate = false;
-            var catcount = 0;
-            for (var i in sakai.config.Directory) {
-				if (sakai.config.Directory.hasOwnProperty(i)) {
-					catcount+=1;
-				}
-			}
-			$browsecatcount.text(catcount);
-            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-				var category = sakai.config.worldTemplates[c];
-            }
             if (sakai.data.me.user.anon){
-				$signinbuttonwrapper.show();
-				$signinbutton.click(function(){
-					$(".s3d-dropdown-menu").trigger("hover");
-				});	
-				
+
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
