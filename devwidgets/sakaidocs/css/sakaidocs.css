@@ -34,4 +34,4 @@
 #sakaidocs_insert_dropdown ul li button:hover{text-decoration:none;}
 .sakaidocs_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:0 !important;}
 .sakaidocs_insert_dropdown_header span{padding-left:12px;}
-#page_autosave_time{float:right;padding-right:30px;margin-top:3px;}
+#page_autosave_time{float:right;padding-right:60px;margin-top:3px;color:#424242;font-size:11px;font-weight:bold;}

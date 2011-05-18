@@ -343,24 +343,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
             var content = getPageContent(ref);
+            var pageContent = content && content.page ? content.page : "";
+            var lastModified = content && content._lastModified ? content._lastModified : null;
+            var autosave = content && content.autosave ? content.autosave : null;
+            var saveRef = ref;
+            if (saveRef.indexOf("-") !== -1){
+                saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
+            }
             currentPageShown = {
                 "ref": ref,
                 "path": path,
-                "content": content && content.page ? content.page : "",
+                "content": pageContent,
                 "savePath": savePath,
                 "pageSavePath": pageSavePath,
+                "saveRef": saveRef,
                 "canEdit": canEdit,
                 "widgetData": [privstructure.pages, pubstructure.pages],
                 "addArea": contextData.addArea,
                 "nonEditable": nonEditable,
-                "_lastModified": content && content._lastModified ? content._lastModified : null,
-                "autosave": content && content.autosave ? content.autosave : null
+                "_lastModified": lastModified,
+                "autosave": autosave
             };
-            if (ref.split("-").length > 1) {
-                currentPageShown.realSavePath = pageSavePath + "/" + ref.split("-")[1];
-            } else {
-                currentPageShown.realSavePath = pageSavePath + "/" + ref;
-            }
             if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
                 contextMenuHover = {
