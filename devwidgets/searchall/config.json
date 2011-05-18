@@ -7,7 +7,7 @@
     "i18n": {
         "default":        "/devwidgets/searchall/bundles/default.properties"
     },
-    "id":                 "searchall",
+    "id":                 "searchallold",
     "name":               "Search All",
     "personalportal":     false,
     "showinsakaigoodies": false,
