@@ -242,6 +242,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
+            $(".addpeople_init").click(function(){
+                $(window).trigger("init.addpeople.sakai", [tuid]);
+            })
+
         });
 
         $(window).bind("ready.contentpreview.sakai", function(){
