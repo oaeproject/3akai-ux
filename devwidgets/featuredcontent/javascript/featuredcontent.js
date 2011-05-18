@@ -47,25 +47,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredCategoryContentArr = [];
 
         var renderFeaturedContent = function(total){
-            if (featuredContentArr.length && !featuredContentArr[0].hasPreview && sakai_global.category) {
-                $featuredcontentWidget.hide();
+            if (!sakai_global.category) {
+                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
+                    "data": featuredContentArr,
+                    "sakai": sakai,
+                    "category": pageData.category
+                }));
             } else {
                 $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                     "data": featuredContentArr,
                     "sakai": sakai,
                     "category": pageData.category
                 }));
-                if(sakai_global.category){
-                    if (featuredCategoryContentArr.length) {
-                        $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
-                            "data": featuredCategoryContentArr,
-                            "sakai": sakai,
-                            "total": total,
-                            "category": pageData.category
-                        }));
-                    }
+                if (featuredCategoryContentArr.length) {
+                    featuredCategoryContentArr.splice(0, 1);
+                    $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
+                        "data": featuredCategoryContentArr,
+                        "sakai": sakai,
+                        "total": total,
+                        "category": pageData.category
+                    }));
                 }
-                $featuredcontentWidget.show();
             }
         };
 
@@ -123,12 +125,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (data.results[0]["sakai:tags"]) {
                             data.results[0]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[0]["sakai:tags"].toString());
                         }
-                        item.usedin = sakai.api.Content.getPlaceCount(item);
-                        item.commentcount = sakai.api.Content.getCommentCount(item);
+                        data.results[0].usedin = sakai.api.Content.getPlaceCount(data.results[0]);
+                        data.results[0].commentcount = sakai.api.Content.getCommentCount(data.results[0]);
                         candidate = data.results[0];
                     }
                     if(candidate){
                         featuredContentArr.push(candidate);
+                        featuredCategoryContentArr.push(candidate);
                         data.results.splice(i, 1);
                     }
                 }
@@ -174,6 +177,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
                 });
+                if(sakai_global.category && featuredCategoryContentArr && featuredCategoryContentArr[0] && !featuredCategoryContentArr[0].hasPreview){
+                    featuredCategoryContentArr[0].mode = "small";
+                    featuredCategoryContentArr[0] = featuredCategoryContentArr[0];
+                }
                 renderFeaturedContent(data.total);
             } else {
                 renderFeaturedContent(0);
