@@ -62,9 +62,9 @@
 #carousel_container .carousel_three_column_middle > img {max-width: 42px; max-height: 42px; float:left; margin-right: 10px;}
 
 #carousel_container .carousel_three_column_right {width: 160px; height: 192px; margin-left: 7px; float:left;}
-#carousel_container .carousel_three_column_right > div {width: 160px; height: 90px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
+#carousel_container .carousel_three_column_right > div {width: 160px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
 #carousel_container .carousel_three_column_right .carousel_two_high_top {margin-bottom: 6px; position:relative;}
-#carousel_container .carousel_three_column_right .carousel_two_high_top {position:relative;}
+#carousel_container .carousel_three_column_right .carousel_two_high_bottom {position:relative;}
 
 /* User Specific */
 #carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}
