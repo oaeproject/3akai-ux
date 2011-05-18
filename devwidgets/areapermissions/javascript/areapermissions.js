@@ -34,7 +34,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // Rendering group data //
          //////////////////////////
          
-         var loadGroupData = function(){
+         var loadGroupData = function(contextData){
              var groupData = sakai_global.group2.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
              
@@ -66,7 +66,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              // Render the list
              $("#areapermissions_content_container").html(sakai.api.Util.TemplateRenderer("areapermissions_content_template", {
                  "roles": roles,
-                 "visibility": visibility
+                 "visibility": visibility,
+                 "manager": contextData.isManager,
+                 "groupPermissions": sakai_global.group2.groupData["sakai:group-visible"]
              }));
          };
          
@@ -74,41 +76,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              $.ajax({
                  url: contextData.pageSavePath + ".infinity.json",
                  success: function(data){
-                     
+                     var manager = false;
+                     var managers = data["sakai:pooled-content-manager"];
+                     for (var i = 0; i < managers.length; i++) {
+                        if (managers[i] === sakai.data.me.user.userid || 
+                            sakai.api.Groups.isCurrentUserAMember(managers[i], sakai.data.me)) {
+                            manager = true;
+                        }
+                     }
+                     contextData.isManager = manager;
+                     loadGroupData(contextData);
                  }, error: function(data){
                      contextData.isManager = false;
+                     loadGroupData(contextData);
                  }
              });
-                             for (var ii in contentMembers.managers) {
-                                if (contentMembers.managers.hasOwnProperty(ii)) {
-                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
-                                            manager = true;
-                                        }
-                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
-                                        if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.managers[ii]["sakai:group-id"],
-                                            sakai.data.me)) {
-                                            manager = true;
-                                        }
-                                    }
-                                }
-                            }
-                            for (var jj in contentMembers.viewers) {
-                                if (contentMembers.viewers.hasOwnProperty(jj)) {
-                                    if (contentMembers.viewers[jj].hasOwnProperty("rep:userId")) {
-                                        if (contentMembers.viewers[jj]["rep:userId"] === sakai.data.me.user.userid) {
-                                            viewer = true;
-                                        }
-                                    } else if (contentMembers.viewers[jj].hasOwnProperty("sakai:group-id")) {
-                                        if (sakai.api.Groups.isCurrentUserAMember(
-                                            contentMembers.viewers[jj]["sakai:group-id"],
-                                            sakai.data.me)) {
-                                            viewer = true;
-                                        }
-                                    }
-                                }
-                            }*/
          };
          
          ////////////////////
@@ -141,7 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          /////////////////////////////////
          
          var initializeOverlay = function(contextData){
-             loadGroupData(contextData);
+             determineContentManager(contextData);
              $("#areapermissions_container").jqmShow();
          };
          
@@ -169,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          /////////////////////
          
          $(window).bind("permissions.area.trigger", function(ev, contextData){
-             determineContentManager(contextData);
+             initializeOverlay(contextData);
          });
 
     };
