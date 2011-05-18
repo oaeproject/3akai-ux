@@ -34,7 +34,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // Rendering group data //
          //////////////////////////
          
-         var loadGroupData = function(contextData){
+         var loadGroupData = function(){
              var groupData = sakai_global.group2.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
              
@@ -68,6 +68,47 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  "roles": roles,
                  "visibility": visibility
              }));
+         };
+         
+         var determineContentManager = function(contextData){
+             $.ajax({
+                 url: contextData.pageSavePath + ".infinity.json",
+                 success: function(data){
+                     
+                 }, error: function(data){
+                     contextData.isManager = false;
+                 }
+             });
+                             for (var ii in contentMembers.managers) {
+                                if (contentMembers.managers.hasOwnProperty(ii)) {
+                                    if (contentMembers.managers[ii].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.managers[ii]["rep:userId"] === sakai.data.me.user.userid) {
+                                            manager = true;
+                                        }
+                                    } else if (contentMembers.managers[ii].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.managers[ii]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            manager = true;
+                                        }
+                                    }
+                                }
+                            }
+                            for (var jj in contentMembers.viewers) {
+                                if (contentMembers.viewers.hasOwnProperty(jj)) {
+                                    if (contentMembers.viewers[jj].hasOwnProperty("rep:userId")) {
+                                        if (contentMembers.viewers[jj]["rep:userId"] === sakai.data.me.user.userid) {
+                                            viewer = true;
+                                        }
+                                    } else if (contentMembers.viewers[jj].hasOwnProperty("sakai:group-id")) {
+                                        if (sakai.api.Groups.isCurrentUserAMember(
+                                            contentMembers.viewers[jj]["sakai:group-id"],
+                                            sakai.data.me)) {
+                                            viewer = true;
+                                        }
+                                    }
+                                }
+                            }*/
          };
          
          ////////////////////
@@ -128,7 +169,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          /////////////////////
          
          $(window).bind("permissions.area.trigger", function(ev, contextData){
-             initializeOverlay(contextData);
+             determineContentManager(contextData);
          });
 
     };
