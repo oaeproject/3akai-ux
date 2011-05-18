@@ -1,22 +1,33 @@
 /*** LAYOUT ***/
-
+.creategroups_main {background-color:#EBEFF1;
+    border: 1px solid #EBEFF1;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */}
 .creategroups_widget #creategroups_no_creategroups_wrap{padding:0 20px;}
 
 .creategroups_main {padding-top:10px; padding-bottom:10px;}
 .creategroups_background {background-color:#EBEFF1!important; min-height : 50px;}
 .creategroups_title {color:#707E8C; display:block;}
-.creategroups_add_container {background-color:#FFFFFF; padding:10px 5px 0; margin: 5px 5px 15px 5px;}
-
+.creategroups_add_container {background-color:#FFFFFF; padding:10px 5px 5px 5px; margin: 5px 5px 15px 5px;font-size: 12px; text-align: center;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius: 5px; /* Safari */}
 .creategroups_item{margin:20px 0 20px 0; padding-left:5px;}
 .creategroups_item_info {margin:10px 0 20px 40px;}
-.creategroups_item_related_info {background-color:#D4DADE; padding:10px; margin:15px -10px 0 15px;}
+.creategroups_item_related_info {background-color:#D4DADE; padding:5px 10px 10px 10px; margin:15px -10px 0 15px;
+    border: 1px solid #D4DADE;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+   -webkit-border-radius: 5px; /* Safari */}
 .creategroups_item_border { border-right: 10px solid white; border-top: 10px solid #D4DADE; float: right; margin-right: -10px;}
 .creategroups_item_div {min-height:50px; margin-left:40px;}
 
-.creategroups_seeall_button {margin-top: 20px;}
+.creategroups_seeall_button {margin: 20px 10px 0 10px;text-align:right;}
 
 .creategroups_item_mime{display:block;}
-div.creategroups_item_img{margin-left:3px; margin-top:10px;}
+div.creategroups_item_img{margin-left:3px;}
 p.creategroups_item_title,p.creategroups_item_meta{margin:0;}
 p.creategroups_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
@@ -32,3 +43,6 @@ p.creategroups_error_msg{padding-left:15px;}
 
 /* Widget icon */
 .creategroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -620px -21px transparent;}
+
+/* Override widget content background colour */
+.creategroups.fl-widget .fl-widget-content {background-color: #ebeff1;}

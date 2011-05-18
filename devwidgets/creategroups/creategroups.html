@@ -6,7 +6,11 @@
        <!-- MAIN creategroups -->
         <div class="creategroups_main creategroups_background">
             <div class="creategroups_add_container">
-                <button class="s3d-button s3d-button-link-2-state creategroups_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_A_GROUP__</span></button>
+                <a href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_A_GROUP__">
+                    <button class="s3d-button s3d-button-link-2-state creategroups_button" type="button">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_A_GROUP__</span>
+                    </button>
+                </a>
                 <span>__MSG__START_SHARING_AND_COLLABORATING_WITH_ANYONE__</span>
             </div>
             <div class="creategroups_item"></div>
@@ -19,7 +23,7 @@
             </div>
             <div class="creategroups_item_info">
                 <p class="creategroups_item_title">
-                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="#">
+                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/~${entry[0].groupid}">
                         ${entry[0].groupid}
                     </a>
                 </p>
@@ -28,63 +32,74 @@
                 <p class="creategroups_item_meta">15 __MSG__COMMENTS__ </p>
             </div>
 
-            {if entry[0].relatedContent}
-            <div class="creategroups_item_related_info">
-                <p class="creategroups_item_meta_data">__MSG__LATEST_CONTENT_TO__ <span class="s3d-bold">${entry[0].groupid}</span></p>
-                <div class="creategroups_item_img fl-force-left">
-                <a href="#">
-                    <img class="s3d-icon-32" src="/dev/images/accept.png" />
-                </a>
-                </div>
-                <div class="creategroups_item_div">
-                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="#">
-                        ${entry[0].relatedContent.name}
-                    </a>
-                    ${entry[0].relatedContent.type} __MSG__BY__
-                    <div id="creategroups_related_content_author"></div>
-                </div>
-            </div>
-            <div class="creategroups_item_border"></div>
-            {/if}
+            <div id="creategroups_latest_content_container"></div>
 
-            {if entry[0].manager}
-            <div class="creategroups_item_related_info">
-                <p class="creategroups_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span class="s3d-bold">${entry[0].groupid}</span></p>
-                <div class="creategroups_item_img fl-force-left">
-                <a href="#">
-                    <img class="s3d-icon-32" src="/dev/images/accept.png" />
-                </a>
-                </div>
-                <div class="creategroups_item_div">
-                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="#">
-                        Study Group12
-                    </a>
-                    Study Group
-                </div>
-            </div>
-            <div class="creategroups_item_border"></div>
-            {/if}
-            
+            <div id="creategroups_item_member_container"></div>
 
             <div class="creategroups_seeall_button">
                 <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/dev/user.html#l=library">
-                    __MSG__SEE_ALL_MY_CONTENT__
+                    __MSG__SEE_ALL_MY_MEMBERSHIPS__
                 </a>
             </div>
             --></div>
         </div>
     </div>
 
-    <div id="creategroups_item_comment_author_template"><!--
-        <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
-            ${author.authorName}
-        </a>
+    <div id="creategroups_item_member_template"><!--
+        {if member}
+            <div class="creategroups_item_related_info">
+                <p class="creategroups_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span class="s3d-bold">${group.groupid}</span></p>
+                <div class="creategroups_item_img fl-force-left">
+                <a href="#">
+                    <img class="s3d-icon-32" src="/dev/images/accept.png" />
+                </a>
+                </div>
+                <div class="creategroups_item_div">
+                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}" title="${member.memberName}">
+                        ${member.memberName}
+                    </a>
+                    ${member.memberName}
+                </div>
+            </div>
+            <div class="creategroups_item_border"></div>
+        {/if}
     --></div>
 
-    <div id="creategroups_item_related_content_author_template"><!--
-        <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
-            ${author.authorName}
-        </a>
+    <div id="creategroups_latest_content_template"><!--
+        {if content}
+            <div class="creategroups_item_related_info">
+                <p class="creategroups_item_meta_data">__MSG__LATEST_CONTENT_TO__ <span class="s3d-bold">${group.groupid}</span></p>
+                <div class="creategroups_item_img fl-force-left">
+                    <a href="/content#content_path=/p/${content['jcr:name']}" title="${content.name}">
+                        {var mimeType = sakai.api.Content.getMimeType(content)}
+                        {var thumbnail = sakai.api.Content.getThumbnail(content)}
+                        {if thumbnail}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                        {elseif (mimeType.substring(0,6)=="image/")}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="/p/${content['jcr:name']}" alt="${mimeTypeDescription}" />
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {else}
+                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                        {/if}
+                    </a>
+                </div>
+                <div class="creategroups_item_div">
+                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/content#content_path=/p/${content['jcr:name']}">
+                        ${content.name}
+                    </a>
+                    ${content.type} __MSG__BY__
+                    <a class="creategroups_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
+                        ${author.authorName}
+                    </a>
+                </div>
+            </div>
+            <div class="creategroups_item_border"></div>
+        {/if}
     --></div>
 
     <div class="s3d-widget-no-options">

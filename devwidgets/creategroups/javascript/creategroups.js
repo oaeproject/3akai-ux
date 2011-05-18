@@ -47,7 +47,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM identifiers
         var rootel = $("#" + tuid);
-        var uploadLink = ".upload_link";
         var fileuploadContainer = "#fileupload_container";
         var creategroupsItemTemplate = "#creategroups_item_template";
         var creategroupsItem = ".creategroups_item";
@@ -55,20 +54,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
         // Utility functions //
         ///////////////////////
-
-        var renderTemplate = function(data){
-            var item = {author:{}};
-            item.author.authorId = data.userid;
-            item.author.authorName = sakai.api.User.getDisplayName(data);
-            $("#creategroups_author").html(sakai.api.Util.TemplateRenderer("#creategroups_item_comment_author_template",item));
-        };
-
-        var renderRelatedContentTemplate = function(success, data){
-            var item = {author:{}};
-            item.author.authorId = data.userid;
-            item.author.authorName = sakai.api.User.getDisplayName(data)
-            $("#creategroups_related_content_author").html(sakai.api.Util.TemplateRenderer("#creategroups_item_related_content_author_template",item));
-        };
 
         /**
          * Parses an individual JSON search result to be displayed in creategroups.html
@@ -127,9 +112,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var handlecreategroupsData = function(success, data) {
-            if(success) {
-                // get content and render it
-                getRelatedContent(data);
+            if(success && data.entry && data.entry.length > 0) {
+                getGroupInfo(data);
             }
         };
 
@@ -172,40 +156,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Retrieve the manager render it.
          */
-        var getManager = function (newjson){
-            sakai.api.Groups.getManagers(newjson.entry[0].groupid, function(success, managerData){
-                newjson.entry[0].manager = managerData[0];
-                console.log(newjson);
-                $(creategroupsItem, rootel).html(sakai.api.Util.TemplateRenderer(creategroupsItemTemplate,newjson));
+        var getMembers = function (newjson){
+            sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
+                if (success && memberList.Manager.results[0]) {
+                    newjson.entry[0].manager = memberList.Manager.results[0];
+                    var item = {
+                        member: {
+                            memberId: memberList.Manager.results[0].userid,
+                            memberName: sakai.api.User.getDisplayName(memberList.Manager.results[0])
+                        },
+                        group: newjson.entry[0]
+                    };
+                    $("#creategroups_item_member_container").html(sakai.api.Util.TemplateRenderer("#creategroups_item_member_template", item));
+                }
             });
         };
 
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(newjson){
+        var getGroupInfo = function(newjson){
+            $(creategroupsItem, rootel).html(sakai.api.Util.TemplateRenderer(creategroupsItemTemplate,newjson));
+
             // get related content for group
             var params = {
                 "userid" : newjson.entry[0].groupid,
                 "page" : 0,
-                "items" : 10,
+                "items" : 1,
                 "sortOn" :"_lastModified",
                 "sortOrder":"desc"
             };
-            var url = "/var/search/pool/manager-viewer.json";
+            var url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
             $.ajax({
                 url: url,
                 data: params,
-                success: function(relatedContent){
-                    if(relatedContent.results.length > 0){
-                        newjson.entry[0].relatedContent = parseDataResult(relatedContent.results[0]);    
-                        //get related content author
-                        sakai.api.User.getUser(relatedContent.results[0]["sakai:pool-content-created-for"],renderRelatedContentTemplate);
+                success: function(latestContent){
+                    if(latestContent.results.length > 0){
+                        newjson.entry[0].latestContent = parseDataResult(latestContent.results[0]);
+                        // get latest content author and render latest content template
+                        sakai.api.User.getUser(latestContent.results[0]["sakai:pool-content-created-for"],function(success, data){
+                            var item = {
+                                author: {
+                                    authorId: data.userid,
+                                    authorName: sakai.api.User.getDisplayName(data)
+                                },
+                                content: latestContent.results[0],
+                                group: newjson.entry[0],
+                                sakai: sakai
+                            };
+                            $("#creategroups_latest_content_container").html(sakai.api.Util.TemplateRenderer("#creategroups_latest_content_template",item));
+                        });
                     }
-                    // get manager information
-                    getManager(newjson);
                 }
             });
+
+            // get member information and render member template
+            getMembers(newjson);
         };
 
         /////////////////////////////
