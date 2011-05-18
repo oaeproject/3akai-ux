@@ -12,9 +12,10 @@
         {if t && t.length}
             {var tagArr = t.toString().split(',')}
             <div class="carousel_content_tags">
-            {for tag in tagArr}
-            <a class="s3d-action" href="/search#tag=/tags/${tag}">${tag}</a>{if tag_index < tagArr.length -1}, {/if}
-            {/for}
+                <img src="/devwidgets/entity/images/entity_tags_icon.png" alt="__MSG__TAGS__:">
+                {for tag in tagArr}
+                    <a class="s3d-action" href="/search#tag=/tags/${tag}">${tag}</a>{if tag_index < tagArr.length -1}, {/if}
+                {/for}
             </div>
         {/if}
     {/macro}
@@ -142,7 +143,6 @@
                                                     ${content2.title}
                                                 </a>
                                             </h2>
-                                            <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
                                             ${tags(content2.tags)}
                                             ${contentButtons(content2.id, content2.createdBy)}
                                         {/if}
@@ -155,7 +155,6 @@
                                                     ${content3.title}
                                                 </a>
                                             </h2>
-                                            <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
                                             ${tags(content3.tags)}
                                             ${contentButtons(content3.id, content3.createdBy)}
                                         {/if}
