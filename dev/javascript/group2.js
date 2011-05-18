@@ -152,6 +152,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        $(window).bind("sakai.addpeople.usersswitchedpermission", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "userid": data[user].userid,
+                    "permission": data[user].originalPermission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.removeUsersFromGroup(groupId, false, members, sakai.api.User.data.me, false);
+            }
+        });
+
         ////////////////////
         // INITIALISATION //
         ////////////////////
