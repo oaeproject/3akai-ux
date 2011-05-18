@@ -10,15 +10,20 @@
     <h1>__MSG__FEATURED__:</h1>
     {macro tags(t)}
         {if t && t.length}
-            <div class="carousel_content_tags">${t.toString().replace(/,/g,", ")}</div>
+            {var tagArr = t.toString().split(',')}
+            <div class="carousel_content_tags">
+            {for tag in tagArr}
+            <a class="s3d-action" href="/search#tag=/tags/${tag}">${tag}</a>{if tag_index < tagArr.length -1}, {/if}
+            {/for}
+            </div>
         {/if}
     {/macro}
 
     {macro contentButtons(id, uploader)}
         <span class="carousel_content_buttons" style="display:none">
-            <a href="#" class="carousel_sharecontent share_trigger_click" data-entityid="${id}">&gt;</a>
-            <a href="#" class="carousel_savecontent savecontent_trigger" data-entityid="${id}">+</a>
-            <img src="/dev/images/group_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
+            <img src="/devwidgets/featuredcontent/images/featuredcontent_share_icon.png" class="carousel_sharecontent share_trigger_click" data-entityid="${id}" />
+            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="carousel_savecontent savecontent_trigger" data-entityid="${id}" />
+            <img src="/devwidgets/featuredcontent/images/featuredcontent_author_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
         </span>
     {/macro}
 
@@ -99,8 +104,14 @@
                                 <div class="carousel_three_column_left">
                                     {var content0 = item.suggestions[0]}
                                     {if content0}
-                                        ${content0.preview}
-                                        <h2>${content0.title}</h1>
+                                        {if content0.preview}
+                                            ${content0.preview}
+                                        {/if}
+                                        <h2>
+                                            <a class="s3d-action" href="${content0.url}">
+                                                ${content0.title}
+                                            </a>
+                                        </h2>
                                         <p>${content0.description}</p>
                                         ${tags(content0.tags)}
                                         ${contentButtons(content0.id, content0.createdBy)}
@@ -109,8 +120,14 @@
                                 <div class="carousel_three_column_middle">
                                     {var content1 = item.suggestions[1]}
                                     {if content1}
-                                        ${content1.preview}
-                                        <h2>${content1.title}</h1>
+                                        {if content1.preview}
+                                            ${content1.preview}
+                                        {/if}
+                                        <h2>
+                                            <a class="s3d-action" href="${content1.url}">
+                                                ${content1.title}
+                                            </a>
+                                        </h2>
                                         <p>${content1.description}</p>
                                         ${tags(content1.tags)}
                                         ${contentButtons(content1.id, content1.createdBy)}
@@ -120,7 +137,11 @@
                                     <div class="carousel_two_high_top">
                                         {var content2 = item.suggestions[2]}
                                         {if content2}
-                                            <h2>${content2.title}</h1>
+                                            <h2>
+                                                <a class="s3d-action" href="${content2.url}">
+                                                    ${content2.title}
+                                                </a>
+                                            </h2>
                                             <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
                                             ${tags(content2.tags)}
                                             ${contentButtons(content2.id, content2.createdBy)}
@@ -129,7 +150,11 @@
                                     <div class="carousel_two_high_bottom">
                                         {var content3 = item.suggestions[3]}
                                         {if content3}
-                                            <h2>${content3.title}</h1>
+                                            <h2>
+                                                <a class="s3d-action" href="${content3.url}">
+                                                    ${content3.title}
+                                                </a>
+                                            </h2>
                                             <p>__MSG__DISCUSSED_IN__ 4 __MSG__PLACES__</p>
                                             ${tags(content3.tags)}
                                             ${contentButtons(content3.id, content3.createdBy)}

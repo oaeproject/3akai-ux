@@ -20,10 +20,9 @@
 #carousel_container {padding:5px 12px;}
 #carousel_container h1, #carousel_container h2{color: #424242;font-size: 13px;}
 #carousel_container h1{margin-bottom:10px;}
-#carousel_container h2{color:#1D5888;margin-top:0;}
-#carousel_container h2.carousel_header_no_bottom_margin {margin-bottom:0;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
-#carousel_container .carousel_content_tags {color: #4494c4; font-size: 10px; background: transparent url(/devwidgets/entity/images/entity_tags_icon.png) no-repeat scroll left top; padding-left: 15px;}
+#carousel_container .carousel_content_tags {background: transparent url(/devwidgets/entity/images/entity_tags_icon.png) no-repeat scroll left top; padding-left: 15px;}
+#carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
 #carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
 #carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
 #carousel_container .carousel_content_text {color:#424242;}
@@ -50,25 +49,23 @@
 #carousel_container .carousel_group_rh {width:238px !important;}
 
 /* Three column */
-#carousel_container h2 {color: #4494c4; font-size: 10px; margin-bottom: 2px; font-weight: bolder;}
-#carousel_container p {font-size: 10px; color: #5e5e5e;}
+#carousel_container p {font-size: 12px; color: #424242;}
 
 #carousel_container .carousel_content_buttons {position:absolute; bottom: 7px; width: 100%; right: 0;}
-#carousel_container .carousel_content_buttons a {color: #4494c4; font-size: 15px; font-weight: bolder;}
-#carousel_container .carousel_content_buttons a {text-decoration:none;}
-#carousel_container .carousel_content_buttons img {height: 10px; display: block; margin-left: auto; margin-right: auto;}
-#carousel_container .carousel_savecontent {float:left; margin-left: 10px;}
-#carousel_container .carousel_sharecontent {float:right; margin-right: 10px;}
+#carousel_container .carousel_content_buttons img {display: block; margin-left: auto; margin-right: auto; cursor: pointer;}
+#carousel_container .carousel_savecontent {float:left; padding-left: 10px;}
+#carousel_container .carousel_sharecontent {float:right; padding-right: 10px;}
 
-#carousel_container .carousel_three_column_left {width: 295px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
+#carousel_container .carousel_three_column_left {width: 312px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
 #carousel_container .carousel_three_column_left > img {max-width: 140px; max-height: 140px; float:left; margin-right: 10px;}
-#carousel_container .carousel_three_column_left h2 {font-size:13px; font-weight: bold;}
+#carousel_container .carousel_three_column_left h2 a {font-size:15px;}
 
-#carousel_container .carousel_three_column_middle {width: 143px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; margin-left: 7px; float:left; position:relative;}
+#carousel_container .carousel_three_column_middle {width: 160px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; margin-left: 7px; float:left; position:relative;}
 #carousel_container .carousel_three_column_middle > img {max-width: 42px; max-height: 42px; float:left; margin-right: 10px;}
+#carousel_container .carousel_three_column_middle h2 a {font-size:12px;}
 
-#carousel_container .carousel_three_column_right {width: 143px; height: 192px; margin-left: 7px; float:left;}
-#carousel_container .carousel_three_column_right > div {width: 143px; height: 90px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
+#carousel_container .carousel_three_column_right {width: 160px; height: 192px; margin-left: 7px; float:left;}
+#carousel_container .carousel_three_column_right > div {width: 160px; height: 90px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
 #carousel_container .carousel_three_column_right .carousel_two_high_top {margin-bottom: 6px; position:relative;}
 #carousel_container .carousel_three_column_right .carousel_two_high_top {position:relative;}
 

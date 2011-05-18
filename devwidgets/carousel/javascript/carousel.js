@@ -157,8 +157,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 easing: "swing",
                 size: dataArr.length,
                 initCallback: carouselBinding,
-                buttonNextHTML: "<div id=\"carousel_next_button\"></div>",
-                buttonPrevHTML: "<div id=\"carousel_prev_button\"></div>",
                 wrap: "circular",
                 itemFirstInCallback: {
                     onAfterAnimation: updateViewAfterAnimation
