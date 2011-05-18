@@ -139,3 +139,4 @@ a.searchpeople_results_part_title{color:#5a6a7c;}
 .searchpeople_result:hover {background-color: #f2f9fc;}
 .searchpeople_result:hover .searchpeople_result_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
 .searchpeople_result:hover .searchpeople_result_message_icon{cursor:pointer;}
+.searchpeople_result:hover .searchpeople_result_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}

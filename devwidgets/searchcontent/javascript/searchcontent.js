@@ -169,18 +169,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
                     for (var item in finaljson.items) {
                         if (finaljson.items.hasOwnProperty(item)) {
-                            if (finaljson.items[item]["sakai:description"]) {
-                                finaljson.items[item]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:description"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt");
-                            }
-                            if (finaljson.items[item]["sakai:pooled-content-file-name"]) {
-                                finaljson.items[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[item]["sakai:pooled-content-file-name"], $(".search_results").width() - $("#faceted_container").width() - 115, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "s3d-bold");
-                            }
+                            // if the content has an owner we need to add their ID to an array,
+                            // so we can lookup the users display name in a batch req
                             if (finaljson.items[item]["sakai:pool-content-created-for"]) {
                                 userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
                                 fetchUsers = true;
@@ -197,15 +187,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // We hide the pager if we don't have any results or
                 // they are less then the number we should display
                 results.total = Math.abs(results.total);
-                if (results.total <= resultsToDisplay) {
-                    $(searchConfig.global.pagerClass).hide();
-                }
-                else {
+                if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass).show();
                 }
-            }
-            else {
-                $(searchConfig.global.pagerClass).hide();
             }
 
             // Make the content items available to other widgets
@@ -263,6 +247,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         };
 
         var doSearch = function(){
+            $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);
