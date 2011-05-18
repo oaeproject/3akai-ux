@@ -39,8 +39,12 @@
                         </a>
                     </p>
                     <p class="createcontent_item_meta">${item.type} </p>
-                    <p class="createcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
-                    <p class="createcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                    {if item.usedin > 0}
+                        <p class="createcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                    {/if}
+                    {if item.totalcomment > 0}
+                        <p class="createcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                    {/if}
                 </div>
 
                 {if item.comment}
