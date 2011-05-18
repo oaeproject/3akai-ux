@@ -58,11 +58,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
 
-        
+
         //////////////////////////////
         // Rendering the navigation //
         //////////////////////////////
-        
+
         var renderData = function(){
             calculateOrder();
             var lhnavHTML = sakai.api.Util.TemplateRenderer("lhnavigation_template", {
@@ -78,17 +78,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////////
         // Data storage //
         //////////////////
-        
+
         var storeStructure = function(structure, savepath){
             sakai.api.Server.saveJSON(savepath, {
                 "structure0": $.toJSON(structure)
             });
         };
-        
+
         ////////////////////////////////////
         // Structure processing functions //
         ////////////////////////////////////
-        
+
         var getPageCount = function(pagestructure, pageCount){
             if (!pageCount){
                 pageCount = 0;
@@ -104,17 +104,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return pageCount;
         };
-        
+
         var getPageContent = function(ref){
             if (privstructure.pages[ref]) {
-                return privstructure.pages[ref].page;
-            } else if (pubstructure.pages[ref]){
-                return pubstructure.pages[ref].page;
+                return privstructure.pages[ref];
+            } else if (pubstructure.pages[ref]) {
+                return pubstructure.pages[ref];
             } else {
                 return false;
             }
         };
-        
+
         var includeChildCount = function(structure){
             var childCount = 0;
             for (var level in structure){
@@ -164,11 +164,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 finishProcessData(structure, data, callback);
             }
         };
-        
+
         ////////////////////////////////////////////
         // Insert referenced pooled content items //
         ////////////////////////////////////////////
-        
+
         var collectPoolIds = function(structure, refs){
             for (var level in structure) {
                 if (level && level.substring(0, 1) !== "_") {
@@ -181,7 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return refs;
         };
-        
+
         var insertDocStructure = function(structure0, docInfo, pid){
             for (var level in structure0){
                 if (structure0[level]._pid && structure0[level]._pid === pid){
@@ -203,7 +203,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return structure0;
         };
-        
+
         var insertDocPages = function(structure, docInfo, pid){
             for (var page in docInfo){
                 if (page.substring(0, 9) !== "structure"){
@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             return structure;
         };
-        
+
         var addDocUrlIntoStructure = function(structure, url){
             structure._poolpath = url;
             for (var i in structure){
@@ -256,11 +256,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 finishProcessData(structure, data, callback);
             });
         };
-        
+
         ///////////////////
         // Page ordering //
         ///////////////////
-        
+
         var orderItems = function(items){
             var orderedItems = [];
             var noLeft = false;
@@ -291,11 +291,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 pubstructure.orderedItems = orderItems(pubstructure.items);
             }
         };
-        
+
         //////////////////////////////
         // Rendering a content page //
         //////////////////////////////
-        
+
         var getFirstSelectablePage = function(structure){
             var selected = false;
             for (var i = 0; i < structure.orderedItems.length; i++) {
@@ -312,8 +312,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             return selected;
-        }
-        
+        };
+
         var selectPage = function(newPageMode){
             var state = $.bbq.getState("l");
             var selected = state || false;
@@ -340,40 +340,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
             }
         };
-        
+
         var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
             var content = getPageContent(ref);
+            var pageContent = content && content.page ? content.page : "";
+            var lastModified = content && content._lastModified ? content._lastModified : null;
+            var autosave = content && content.autosave ? content.autosave : null;
+            var saveRef = ref;
+            if (saveRef.indexOf("-") !== -1){
+                saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
+            }
             currentPageShown = {
                 "ref": ref,
                 "path": path,
-                "content": content,
+                "content": pageContent,
                 "savePath": savePath,
                 "pageSavePath": pageSavePath,
+                "saveRef": saveRef,
                 "canEdit": canEdit,
                 "widgetData": [privstructure.pages, pubstructure.pages],
                 "addArea": contextData.addArea,
-                "nonEditable": nonEditable
+                "nonEditable": nonEditable,
+                "_lastModified": lastModified,
+                "autosave": autosave
             };
             if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
-                    contextMenuHover = {
+                contextMenuHover = {
                     path: currentPageShown.path,
                     ref: currentPageShown.ref,
                     pageSavePath: currentPageShown.pageSavePath,
                     savePath: currentPageShown.savePath
-                }
+                };
                 editPageTitle();
             } else {
                 $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
             }
         };
-        
+
         /////////////////////////
         // Contextual dropdown //
         /////////////////////////
-        
+
         var contextMenuHover = false;
-        
+
         var onContextMenuHover = function($el){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
@@ -383,17 +393,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ref: $el.data("sakai-ref"),
                     pageSavePath: $el.data("sakai-pagesavepath"),
                     savePath: $el.data("sakai-savepath")
-                }
+                };
                 $(".lhnavigation_selected_submenu", $el).show();
             }
         };
-        
+
         var onContextMenuLeave = function(){
             if (!$("#lhnavigation_submenu").is(":visible")) {
                 $(".lhnavigation_selected_submenu").hide();
             }
         };
-        
+
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
             contextMenu.css("left", $clickedItem.position().left + contextMenu.width() - ($clickedItem.width() / 2) + "px");
@@ -409,15 +419,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contextMenu.toggle();
             }
         };
-        
+
         //////////////////////////////////
         // Adding a new page or subpage //
         //////////////////////////////////
-        
+
         var addTopPage = function(){
             var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = pubstructure.orderedItems.length;
-            
+
             var pageContent = "Default content";
             var pageToCreate = {
                 "_ref": newpageid,
@@ -436,19 +446,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "_poolpath": currentPageShown.savePath
                 },
                 "_childCount":1
-            }
-            
+            };
+
             pubstructure.pages[newpageid] = {};
             sakaiDocsInStructure[contextData.puburl][newpageid] = {};
-            
+
             pubstructure.pages[newpageid].page = pageContent;
             sakaiDocsInStructure[contextData.puburl][newpageid].page = pageContent;
-            
+
             pubstructure.items[newpageid] = pageToCreate;
             pubstructure.items._childCount++;
             sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
             sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
-            
+
             renderData();
             addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
@@ -457,11 +467,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "newPageMode": "true"
             }, 0);
         };
-        
+
         var addSubPage = function(){
             var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
-            
+
             var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
             var basePath = currentPageShown.path.split("/")[0];
 
@@ -483,7 +493,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "_poolpath": currentPageShown.pageSavePath
                 },
                 "_childCount":1
-            }
+            };
             var pageToCreate1 = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
@@ -501,20 +511,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "_poolpath": currentPageShown.pageSavePath
                 },
                 "_childCount":1
-            }
-            
+            };
+
             pubstructure.pages[fullRef] = {};
             sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = {};
-            
+
             pubstructure.pages[fullRef].page = pageContent;
             sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid].page = pageContent;
-            
+
             pubstructure.items[basePath][newpageid] = pageToCreate;
             pubstructure.items[basePath]._childCount++;
-            
+
             sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
             sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
-            
+
             renderData();
             addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
@@ -523,21 +533,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "newPageMode": "true"
             }, 0);
         };
-        
+
         /////////////////////
         // Renaming a page //
         /////////////////////
-        
+
         var changingPageTitle = false;
-        
+
         var editPageTitle = function(){
             // Select correct item
             var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "']");
             changingPageTitle = jQuery.extend(true, {}, contextMenuHover);
-            
+
             var pageTitle = $(".lhnavigation_page_title_value", menuitem);
             pageTitle.hide();
-            
+
             var inputArea = $(".lhnavigation_change_title", menuitem);
             inputArea.show();
             inputArea.val($.trim(pageTitle.text()));
@@ -546,17 +556,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Hide the dropdown menu
             toggleContextMenu(true);
         };
-        
+
         var savePageTitle = function(){
             var menuitem = $("li[data-sakai-path='" + changingPageTitle.path + "']");
-            
+
             var inputArea = $(".lhnavigation_change_title", menuitem);
             inputArea.hide();
-            
+
             var pageTitle = $(".lhnavigation_page_title_value", menuitem);
             pageTitle.text(inputArea.val());
             pageTitle.show();
-            
+
             // Change main structure
             var mainPath = changingPageTitle.path;
             if (changingPageTitle.path.indexOf("/") !== -1){
@@ -570,14 +580,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var structure = sakaiDocsInStructure[changingPageTitle.savePath];
             structure.structure0[mainPath]._title = inputArea.val();
             storeStructure(structure.structure0, changingPageTitle.savePath);
-            
+
             changingPageTitle = false;
         };
 
         /////////////////////
         // Deleting a page //
         /////////////////////
-        
+
         var pageToDelete = false;
 
         var deletePage = function(){
@@ -623,7 +633,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             } else {
                 $.bbq.pushState({
-                    "l": "", 
+                    "l": "",
                     "_": Math.random(),
                     "newPageMode": ""
                 }, 0);
@@ -651,20 +661,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 oldOrder = structure[path]._order;
                 delete structure[path];
                 orderedItems.splice(oldOrder, 1);
-                for (var i = oldOrder; i < orderedItems.length; i++){
-                    orderedItems[i]._order = i;
-                    structure[orderedItems[i]._id]._order = i;
+                for (var z = oldOrder; z < orderedItems.length; z++){
+                    orderedItems[z]._order = z;
+                    structure[orderedItems[z]._id]._order = z;
                 }
             }
             delete pageslist[ref];
         };
-        
+
         var confirmPageDelete = function(){
             pageToDelete = jQuery.extend(true, {}, contextMenuHover);
             $('#lhnavigation_delete_dialog').jqmShow();
             toggleContextMenu(true);
         };
-        
+
         // Init delete dialog
         $('#lhnavigation_delete_dialog').jqm({
             modal: true,
@@ -675,13 +685,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////////////////////
         // Add additional parameters to navigation //
         /////////////////////////////////////////////
-        
+
         var storeNavigationParameters = function(params){
             for (var p in params){
                 parametersToCarryOver[p] = params[p];
             }
             addParametersToNavigation();
-        }
+        };
 
         var addParametersToNavigation = function(){
             $("#lhnavigation_container a").each(function(index){
@@ -690,11 +700,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(this).attr("href", newHref);
             });
         };
-        
+
         //////////////////////////////
         // Handle navigation clicks //
         //////////////////////////////
-        
+
         var selectNavItem = function($clickedItem, $prevItem){
             // Remove selected class from previous selected page
             $prevItem.removeClass(navSelectedItemClass);
@@ -705,12 +715,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Open or close subnavigation if necessary
             showHideSubnav($clickedItem);
         };
-        
+
         var processNavigationClick = function($el, ev){
             if ($el.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
                 showHideSubnav($el);
             }
-        }
+        };
 
         var showHideSubnav = function($el, forceOpen){
             $el.children(".lhnavigation_selected_item_subnav").show();
@@ -729,7 +739,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //////////////////////////////////////
         // Prepare the navigation to render //
         //////////////////////////////////////
-        
+
         var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
@@ -753,15 +763,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         addParametersToNavigation();
                     }
                 });
-            });      
-        }
-        
+            });
+        };
+
         ///////////////////////////////////////
         // Initializing the Sakaidocs widget //
         ///////////////////////////////////////
-        
+
         var sakaiDocsInitialized = false;
-        
+
         var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             if (!sakaiDocsInitialized){
                 sakaiDocsInitialized = true;
@@ -772,29 +782,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
-            }          
+            }
         };
-        
+
         ////////////////////////////
         // Internal event binding //
         ////////////////////////////
-        
+
         $(".lhnavigation_selected_submenu").live("click", function(ev){
             showContextMenu($(this));
         });
-        
+
         $(".lhnavigation_menuitem").live("mouseenter", function(){
             onContextMenuHover($(this));
         });
-        
+
         $("#sakaidocs_addpage_top").live("click", function(){
             addTopPage();
         });
-        
+
         $("#sakaidocs_addpage_area").live("click", function(){
             addSubPage();
         });
-        
+
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
         });
@@ -802,27 +812,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(".lhnavigation_change_title").live("blur", function(ev){
             savePageTitle();
         });
-        
+
         $("#lhavigation_submenu_deletepage").live("click", function(ev){
             confirmPageDelete();
         });
-        
+
         $("#lhnavigation_delete_confirm").live("click", function(ev){
             deletePage();
         });
-        
+
         $(".lhnavigation_menuitem").live("mouseleave", function(){
             onContextMenuLeave();
         });
-        
+
         $(".lhnavigation_menu_list li").live("click", function(ev){
             processNavigationClick($(this), ev);
         });
-        
+
         ////////////////////////////
         // External event binding //
         ////////////////////////////
-        
+
         $(window).bind("lhnav.addHashParam", function(ev, params){
             storeNavigationParameters(params);
         });
@@ -834,11 +844,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
-        
+
         ///////////////////////
         // Widget has loaded //
         ///////////////////////
-        
+
         $(window).trigger("lhnav.ready");
 
     };
