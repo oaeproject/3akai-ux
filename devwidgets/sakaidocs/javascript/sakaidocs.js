@@ -19,16 +19,136 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.sakaidocs = function (tuid, showSettings) {
-        
+
         var currentPageShown = false;
         var bookmark = false;
 
-        // $(window).bind("editPage.sakaidocs.sakai", editPage);
+        var AUTOSAVE_INTERVAL = 15000, // 15 seconds
+            CONCURRENT_EDITING_TIMEOUT = 10000, // 10 seconds
+            CONCURRENT_EDITING_INTERVAL = 5000; // 5 seconds
+
+        var isEditingPage = false,
+            autosaveInterval = false,
+            editInterval = false,
+            lastAutosave = "",
+            autosaveDialogShown = false;
+
+        var $rootel = $("#"+tuid);
+
+        ///////////////
+        // Autosave //
+        //////////////
+
+        $('#autosave_dialog').jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
+
+        var clearIntervals = function() {
+            clearInterval(editInterval);
+            clearInterval(autosaveInterval);
+        };
+
+        var setAutosaveInterval = function() {
+            autosaveInterval = setInterval(autosave, AUTOSAVE_INTERVAL);
+        };
+
+        var setEditInterval = function() {
+            editInterval = setInterval(editing, CONCURRENT_EDITING_INTERVAL);
+        };
+
+        var revertAutosave = function() {
+            autosaveDialogShown = false;
+            if ($rootel.is(":visible")) {
+                setAutosaveInterval();
+                tinyMCE.get("elm1").setContent(currentPageShown.autosave.page, {format : 'raw'});
+                $('#autosave_dialog').jqmHide();
+            }
+        };
+
+        var keepAutosave = function() {
+            autosaveDialogShown = false;
+            setAutosaveInterval();
+        };
+
+        var checkAutosave = function(callback) {
+            var pageSavePath = currentPageShown.pageSavePath + "/" + currentPageShown.saveRef;
+            sakai.api.Server.loadJSON(pageSavePath + ".infinity.json", function(success, data) {
+                if (success) {
+                    // update the cached copy of autosave
+                    currentPageShown.autosave = data.autosave;
+                    currentPageShown.content = data.page;
+                    // if there is an editing flag and it is less than CONCURRENT_EDITING_TIMEOUT ago, and you aren't the most recent editor, then
+                    // someone else is editing the page right now.
+                    if (data.editing && sakai.api.Util.Datetime.getCurrentGMTTime() - data.editing.time < CONCURRENT_EDITING_TIMEOUT && data.editing._lastModifiedBy !== sakai.api.User.data.me.user.userid) {
+                        if ($.isFunction(callback)) {
+                            callback(false);
+                            return;
+                        }
+                    } else if (data.autosave && data.page && data.autosave._lastModified > data._lastModified) {
+                        $('#autosave_dialog').jqmShow();
+                        autosaveDialogShown = true;
+                        if ($.isFunction(callback)) {
+                            callback(true);
+                            return;
+                        }
+                    }
+                }
+                if ($.isFunction(callback)) {
+                    callback(true);
+                    return;
+                }
+            });
+        };
+
+        var editing = function() {
+            if (isEditingPage) {
+                var editingContent = {};
+                editingContent[currentPageShown.saveRef] = {
+                    "editing": {
+                        "time": sakai.api.Util.Datetime.getCurrentGMTTime()
+                    }
+                };
+                sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", editingContent);
+            } else {
+                clearInterval(editInterval);
+            }
+        };
+
+        var autosave = function() {
+            if (isEditingPage) {
+                // autosave
+                var autosaveContent = getTinyMCEContent(),
+                    autosavePostContent = {};
+
+                if (autosaveContent !== currentPageShown.content && autosaveContent !== lastAutosave) {
+                    lastAutosave = autosaveContent;
+                    // cache it locally so we don't have to re-retrieve it in order to use it
+                    currentPageShown.autosave = {
+                        page: autosaveContent,
+                        _lastModified: sakai.api.Util.Datetime.getCurrentGMTTime(),
+                        _lastModifiedBy: sakai.api.User.data.me.user.userid
+                    };
+                    autosavePostContent[currentPageShown.saveRef] = {
+                        autosave: {
+                            page: autosaveContent
+                        }
+                    };
+                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent);
+                    var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
+                    sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
+                }
+            } else {
+                clearInterval(autosaveInterval);
+                lastAutosave = "";
+            }
+        };
 
         /////////////////////
         // Widget Wrapping //
         /////////////////////
-        
+
         var setWrappingStyle = function(classToAdd) {
             var ed = tinyMCE.get('elm1');
             var $selected = $(ed.selection.getNode());
@@ -36,13 +156,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $selected.addClass(classToAdd);
             $('#wrapping_dialog').jqmHide();
         };
-        
+
         var showWrappingDialog = function(hash){
             $("#context_menu").hide();
             window.scrollTo(0,0);
             hash.w.show();
         };
-        
+
         $('#wrapping_dialog').jqm({
             modal: true,
             trigger: $('#context_appearance_trigger'),
@@ -50,19 +170,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             toTop: true,
             onShow: showWrappingDialog
         });
-        
+
         /////////////////////
         // Remove a widget //
         /////////////////////
-        
+
         var removeWidget = function(){
             tinyMCE.get("elm1").execCommand('mceInsertContent', false, '');
         };
-        
+
         //////////////////////////
         // Show widget settings //
         //////////////////////////
-        
+
         var renderWidgetSettings = function(){
             var ed = tinyMCE.get('elm1');
             var selected = ed.selection.getNode();
@@ -98,14 +218,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                 }
             }
-
             $("#context_menu").hide();
         };
-        
+
         ////////////////////////////
         // Insert widget dropdown //
         ////////////////////////////
-        
+
         var renderInsertDropdown = function(pageEmbedProperty){
             // Vars for media and goodies
             var media = {}; media.items = [];
@@ -141,7 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
         };
-        
+
         var selectWidgetFromDropdown = function($el){
             // hide dropdown
             showHideInsertDropdown(true);
@@ -161,18 +280,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 renderSelectedWidget(id);
             }
-        }
+        };
 
         var showHideInsertDropdown = function(hideOnly){
-            var el = $("#sakaidocs_insert_dropdown");
+            var el = $("#sakaidocs_insert_dropdown", $rootel);
             if (el) {
                 if ((el.css("display") && el.css("display").toLowerCase() !== "none") || hideOnly) {
-                    $("#sakaidocs_insert_dropdown_button").removeClass("clicked");
+                    $("#sakaidocs_insert_dropdown_button", $rootel).removeClass("clicked");
                     el.hide();
                 } else if (el.css("display")) {
-                    $("#sakaidocs_insert_dropdown_button").addClass("clicked");
-                    var x = $("#sakaidocs_insert_dropdown_button").position().left;
-                    var y = $("#sakaidocs_insert_dropdown_button").position().top;
+                    $("#sakaidocs_insert_dropdown_button", $rootel).addClass("clicked");
+                    var x = $("#sakaidocs_insert_dropdown_button", $rootel).position().left;
+                    var y = $("#sakaidocs_insert_dropdown_button", $rootel).position().top;
                     el.css({
                         "top": y + 28 + "px",
                         "left": x + "px"
@@ -180,14 +299,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
         };
-        
+
         ////////////////////////////////////////////
         // Deal with inserting widgets into pages //
         ////////////////////////////////////////////
-        
+
         var currentlySelectedWidget = false;
         var updatingExistingWidget = false;
-        
+
         var hideSelectedWidget = function(hash){
             hash.w.hide();
             hash.o.remove();
@@ -198,6 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderSelectedWidget = function(widgetid) {
             var $overlayContainer = $("#insert_dialog");
             var $dialog_content = $("#dialog_content", $overlayContainer);
+
             var widgetSettingsWidth = 650;
             $dialog_content.hide();
             if (sakai.widgets[widgetid]){
@@ -210,6 +330,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
                 $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/");
+
                 if (sakai.widgets[widgetid].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
                 }
@@ -220,11 +341,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
         };
-        
+
         ////////////////////////////////////////////////////////////////////
         // Functions that deal with saving and cancelling widget settings //
         ////////////////////////////////////////////////////////////////////
-        
+
         sakai_global.sakaidocs.widgetCancel = function(tuid){
             $('#insert_dialog').jqmHide();
         };
@@ -244,16 +365,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////
         // Page Edit Controls //
         ////////////////////////
-        
+
         var pageEditControlsInitialized = false;
-        
+
         var initializePageEditControls = function(){
             if (!pageEditControlsInitialized){
                 init_tinyMCE();
                 renderInsertDropdown("sakaidocs");
                 pageEditControlsInitialized = true;
             }
-        }
+        };
 
         var showPageEditControls = function(addArea){
             if (addArea){
@@ -274,7 +395,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////////////////////////////
         // Context menu for changing widget settings //
         ///////////////////////////////////////////////
-        
+
         $(document.body).append($("#context_menu"));
 
         var selectWidgetInEditor = function(){
@@ -305,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             content = content.replace(/src="..\/devwidgets\//g, 'src="/devwidgets/');
             return content;
         };
-    
+
         var init_tinyMCE = function(){
             if (window["tinyMCE"]) {
                 tinyMCE.init({
@@ -454,30 +575,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
         };
-        
+
         ///////////////////////////////////
         // Rendering a page in view mode //
         ///////////////////////////////////
-        
+
         var renderPage = function(reloadPage){
             stopEditPage();
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
             $("#s3d-page-container > div:visible").hide();
+            var $contentEl = null,
+                sanitizedContent = null;
             if ($("#" + currentPageShown.ref).length === 0) {
                 // Create the new element
                 var $el = $("<div>").attr("id", currentPageShown.ref);
                 // Add element to the DOM
                 $("#s3d-page-container").append($el);
-                var $contentEl = $("#" + currentPageShown.ref);
+                $contentEl = $("#" + currentPageShown.ref);
                 // Add sanitized content
-                var sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
             } else {
                 if (reloadPage) {
-                    var $contentEl = $("#" + currentPageShown.ref);
-                    var sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                    $contentEl = $("#" + currentPageShown.ref);
+                    sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
                     sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
@@ -493,36 +616,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hidePageEditControls();
             }
         };
-        
+
         ///////////////////////////////////
         // Rendering a page in edit mode //
         ///////////////////////////////////
-        
+
         var editPage = function(){
-            $("#sakaidocs-page-edit-mode").show();
-            $("#s3d-page-container").hide();
-            var content = currentPageShown.content || "";
-            tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+            checkAutosave(function(safeToEdit) {
+                if (safeToEdit) {
+                    isEditingPage = true;
+                    editing();
+                    setEditInterval();
+                    if (!autosaveDialogShown) {
+                        setAutosaveInterval();
+                    }
+                    $("#sakaidocs-page-edit-mode").show();
+                    $("#s3d-page-container").hide();
+                    var content = currentPageShown.content || "";
+                    tinyMCE.get("elm1").setContent(content, {format : 'raw'});
+                    lastAutosave = content;
+                } else {
+                    sakai.api.Util.notification.show("", $("#sakaidocs_concurrent_editing_message").text());
+                }
+            });
         };
-        
+
         /////////////////////////
         // Save an edited page //
         /////////////////////////
-        
+
         var savePage = function(){
+            clearIntervals();
             currentPageShown.content = getTinyMCEContent();
-            
+
             stopEditPage();
             renderPage(true);
-            
-            //Store the edited content
-            var resourceRef = currentPageShown.ref;
-            if (resourceRef.indexOf("-") !== -1){
-                resourceRef = resourceRef.substring(resourceRef.indexOf("-") + 1);
-            }
+
+            // Store the edited content
             var toStore = {};
-            toStore[resourceRef] = {
-                "page": currentPageShown.content
+            toStore[currentPageShown.saveRef] = {
+                page: currentPageShown.content
             };
             $.ajax({
                 url: currentPageShown.pageSavePath + ".resource",
@@ -538,51 +671,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
         };
-        
+
         /////////////////////////
         // Go out of edit mode //
         /////////////////////////
-        
+
         var stopEditPage = function(){
+            isEditingPage = false;
+            clearIntervals();
             $("#sakaidocs-page-edit-mode").hide();
+            $("#page_autosave_time").html("");
             $("#context_menu").hide();
             $("#s3d-page-container").show();
         };
-            
+
         ////////////////////////////
         // Internal event binding //
         ////////////////////////////
-        
+
         $("#sakaidocs_editpage").live("click", function(){
             editPage();
         });
-        
+
         $("#sakaidocs_edit_cancel_button").live("click", function(){
             stopEditPage();
         });
-        
+
         $("#sakaidocs_edit_save_button").live("click", function(){
             savePage();
         });
-        
+
         $("#context_settings").mousedown(function(ev){
             renderWidgetSettings();
         });
-        
+
         $("#context_remove").bind("mousedown", function(ev){
             removeWidget();
         });
-        
+
         $("#sakaidocs_insert_dropdown_button").live("click", function(){
             showHideInsertDropdown();
         });
-        
+
         $(".insert_dropdown_widget_link").live("click", function(){
             selectWidgetFromDropdown($(this));
         });
-        
+
         $("#wrapping_no").bind("click",function(ev){
-            setNewStyleClass("block_image");  
+            setNewStyleClass("block_image");
         });
 
         $("#wrapping_left").bind("click",function(ev){
@@ -592,26 +728,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#wrapping_right").bind("click",function(ev){
             setWrappingStyle("block_image_right");
         });
-            
+
+        $("#autosave_revert").die("click").live("click", revertAutosave);
+
+        $("#autosave_keep").die("click").live("click", keepAutosave);
+
         ////////////////////////////
         // External event binding //
         ////////////////////////////
-        
+
         $(window).bind("showpage.sakaidocs.sakai", function(ev, _currentPageShown){
             currentPageShown = _currentPageShown;
             renderPage();
         });
-        
+
         $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown){
             currentPageShown = _currentPageShown;
             renderPage();
             editPage();
         });
-            
+
         ///////////////////////
         // Widget has loaded //
         ///////////////////////
-        
+
         $(window).trigger("ready.sakaidocs.sakai");
 
     };
