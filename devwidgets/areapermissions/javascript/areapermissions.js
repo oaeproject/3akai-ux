@@ -37,10 +37,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          var loadGroupData = function(contextData){
              var groupData = sakai_global.group2.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
-             $("#areapermissions_content_container").html(sakai.api.Util.TemplateRenderer("areapermissions_content_template", {}));
-             debug.log(roles);
-             debug.log(contextData);
-             debug.log(sakai_global.group2.pubdata);
+             
+             // Calculate for each role what current permission is
+             var currentArea = sakai_global.group2.pubdata.structure0[contextData.path];
+             var editRoles = $.parseJSON(currentArea._edit);
+             var viewRoles = $.parseJSON(currentArea._view);
+             for (var i = 0; i < roles.length; i++){
+                 var role = roles[i];
+                 if ($.inArray("-" + role.id, editRoles) !== -1){
+                     role.value = "edit";
+                 } else if ($.inArray("-" + role.id, viewRoles) !== -1){
+                     role.value = "view";
+                 } else {
+                     role.value = "hidden";
+                 }
+             }
+             
+             var visibility = "selected";
+             if ($.inArray("anonymous", viewRoles) !== -1){
+                 visibility = "everyone";
+             } else if ($.inArray("everyone", viewRoles) !== -1){
+                 visibility = "loggedin";
+             }
+             
+             // Fill in area title
+             $("#areapermissions_area_title").text(currentArea._title);
+             
+             // Render the list
+             $("#areapermissions_content_container").html(sakai.api.Util.TemplateRenderer("areapermissions_content_template", {
+                 "roles": roles,
+                 "visibility": visibility
+             }));
+         };
+         
+         ////////////////////
+         // Checkbox logic //
+         ////////////////////
+         
+         var checkUncheckAll = function($el){
+             if ($el.is(':checked')){
+                 // Check all
+                 $("#areapermission_roles input").attr("checked", true);
+             } else {
+                 // Uncheck all
+                 $("#areapermission_roles input").attr("checked", false);
+             }
+         };
+         
+         var batchChangeSelection = function($el){
+             // Get value of current element
+             var changeValue = $el.val();
+             // Get checked items
+             var $els = $("#areapermission_roles input").filter(":checked");
+             $.each($els, function(index, el) { 
+                 var role = $(el).data("roleid");
+                 $("select[data-roleid='" + role + "']").val(changeValue);
+             });
          };
          
          /////////////////////////////////
@@ -57,6 +109,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              overlay: 20,
              toTop: true,
              zIndex: 3000
+         });
+         
+         /////////////////////
+         // Internal events //
+         /////////////////////
+         
+         $("#areapermissions_check_uncheck_all").live("change", function(){
+             checkUncheckAll($(this));
+         });
+         
+         $("#areapermissions_change_selected").live("change", function(){
+             batchChangeSelection($(this));
          });
          
          /////////////////////

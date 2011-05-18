@@ -4,7 +4,7 @@
 <div id="areapermissions_container" class="dialog" style="display:none;">
     <div id="areapermissions_container_header" class="dialog_header">
         <div class="dialog_header_inner">
-            <h1>Area Permissions</h1>
+            <h1>Area Permissions for <span id="areapermissions_area_title"></span></h1>
             <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">
                 __MSG__CLOSE_DIALOG__
             </button>
@@ -20,32 +20,41 @@
     <div class="areapermissions_visible_to">
         <span>Can be seen by:</span>
         <select>
-            <option>Everyone</option>
-            <option>Logged in people only</option>
-            <option>Selected roles only</option>
+            <option value="everyone" {if visibility === "everyone"} selected="true" {/if}>Everyone</option>
+            <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if}>Logged in people only</option>
+            <option value="selected" {if visibility === "selected"} selected="true" {/if}>Selected roles only</option>
         </select>
     </div>
-    <div class="areapermissions_role_list">Roles who can see or edit:</div>
-    <div >
-        
-        <input type="checkbox"/>
-        <select>
-            <option>Can edit</option>
-            <option>Can see</option>
-            <option>Don't show</option>
-        </select>
-        
-        <input type="checkbox"/>Teaching assistants
-        <select>
-            <option>Can edit</option>
-            <option>Can see</option>
-            <option>Don't show</option>
-        </select>
+    <div class="areapermissions_role_list_header">Roles who can see or edit:</div>
+    <div class="areapermissions_role_list">
+        <div class="areapermission_roles_controls">
+            <input type="checkbox" id="areapermissions_check_uncheck_all"/>
+            <select id="areapermissions_change_selected">
+                <option value="edit">Can edit</option>
+                <option value="view">Can see</option>
+                <option value="hidden">Don't show</option>
+            </select>
+        </div>
+        <div id="areapermission_roles">
+            {for role in roles}
+                <div class="areapermission_role_container">
+                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${role.title}</span>
+                    <select data-roleid="${role.id}">
+                        <option value="edit" {if role.value === "edit"} selected="true" {/if}>Can edit</option>
+                        <option value="view" {if role.value === "view"} selected="true" {/if}>Can see</option>
+                        <option value="hidden" {if role.value === "hidden"} selected="true" {/if}>Don't show</option>
+                    </select>
+                </div>
+            {/for}
+        </div>
     </div>
-    <div>
-        Cancel
-        <button>Apply permissions</button>
+    <div class="fl-force-right areapermissions_buttons">
+        <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-button-link-2-state areapermissions_apply_permissions" title="Apply permissions">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">Apply permissions</span>
+        </button>
     </div>
+    <div class="areapermissions_bottom_spacer"></div>
 --></div>
 
 <!-- JAVASCRIPT -->

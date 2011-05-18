@@ -25,4 +25,11 @@
 #areapermissions_container .areapermissions_visible_to {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 70px; border: 1px solid #b9b9b9; -moz-border-radius: 5px; border-radius: 5px;}
 #areapermissions_container span {margin-right: 10px;}
 #areapermissions_container select {border: 1px solid #cccccc;}
-#areapermissions_container areapermissions_role_list {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 70px; border: 1px solid #b9b9b9; -moz-border-radius: 5px; border-radius: 5px;}
+#areapermissions_container .areapermissions_role_list_header {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 25px; border: 1px solid #b9b9b9; -moz-border-top-right-radius: 5px; border-top-right-radius: 5px; -moz-border-top-left-radius: 5px; border-top-left-radius: 5px;}
+#areapermissions_container .areapermissions_role_list {height: 200px; border: 1px solid #cccccc; border-top: none; margin-bottom: 10px;}
+#areapermissions_container .areapermissions_bottom_spacer {clear: both;}
+#areapermissions_container .areapermissions_apply_permissions {margin-left: 20px;}
+#areapermissions_container .areapermission_role_container {border-top: 1px solid #e6e6e6; padding: 10px 20px 10px 10px; color: #2683bc; font-size: 12px;}
+#areapermissions_container input {margin-right: 5px;}
+#areapermissions_container .areapermissions_role_list select {float:right; margin-right: 5px;}
+#areapermissions_container .areapermission_roles_controls {padding: 5px 20px 5px 10px; border-bottom: 1px solid #e6e6e6;}
