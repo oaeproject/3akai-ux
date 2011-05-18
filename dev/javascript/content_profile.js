@@ -28,6 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var intervalId;
 
         var showPreview = true;
+        var filename = "";
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -45,7 +46,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
             if (content_path && document.location.pathname === "/content"){
-                document.location = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
+                document.location = "/dev/content_profile2.html#p=" + content_path.replace("/p/","") + filename;
                 return;            
             }  
             
@@ -287,8 +288,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
-            content_path = $.bbq.getState("p") || "";
+            content_path = $.bbq.getState("p") || "";console.log(document.location);
             content_path = "/p/" + content_path.split("/")[0];
+            filename = content_path.split("/")[1];
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
