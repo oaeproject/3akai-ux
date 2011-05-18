@@ -28,6 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var intervalId;
 
         var showPreview = true;
+        var filename = "";
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -45,12 +46,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
             if (content_path && document.location.pathname === "/content"){
-                document.location = "/dev/content_profile2.html#content_path=" + content_path;
-                return;
-            }
-
+                document.location = "/dev/content_profile2.html#p=" + content_path.replace("/p/","") + filename;
+                return;            
+            }  
+            
             if (content_path) {
-
+                
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
                     {
@@ -240,7 +241,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
-                            content_path: content_path,
+                            content_path: content_path.replace("/p/",""),
                             isManager: manager,
                             isViewer: viewer
                         };
@@ -287,7 +288,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
-            content_path = $.bbq.getState("content_path") || "";
+            content_path = $.bbq.getState("p") || "";console.log(document.location);
+            content_path = "/p/" + content_path.split("/")[0];
+            filename = content_path.split("/")[1];
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -335,8 +338,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("render.contentmetadata.sakai");
                             ready_event_fired++;
                         });
-                    }
-
+                    }                   
                     sakai.api.Security.showPage();
 
                     // rerender comments widget
