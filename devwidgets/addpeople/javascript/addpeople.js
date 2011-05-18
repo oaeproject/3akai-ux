@@ -120,23 +120,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Also hide the overlay
          */
         var finishAdding = function(){
-            var managerSelected = false;
-            var permissionsToDelete = [];
-            $.each(selectedUsers, function(index, user){
-                if(user.permission != user.originalPermission){
-                    permissionsToDelete.push(user);
-                }
-
-                $.each(currentTemplate.roles, function(i, role){
-                    if(user.permission == role.title || user.permission == role.id){
-                        user.permission = role.id
-                        if(role.allowManage){
-                            managerSelected = true;
-                        }
+            if (sakai_global.group2) {
+                var managerSelected = false;
+                var permissionsToDelete = [];
+                $.each(selectedUsers, function(index, user){
+                    if (user.permission != user.originalPermission) {
+                        permissionsToDelete.push(user);
                     }
-                })
-            });
-            if (managerSelected) {
+                    
+                    $.each(currentTemplate.roles, function(i, role){
+                        if (user.permission == role.title || user.permission == role.id) {
+                            user.permission = role.id
+                            if (role.allowManage) {
+                                managerSelected = true;
+                            }
+                        }
+                    })
+                });
+            }
+            if (managerSelected || !sakai_global.group2) {
                 $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid, permissionsToDelete]);
                 $(window).trigger("sakai.addpeople.usersselected", [tuid, selectedUsers]);
                 $addpeopleContainer.jqmHide();
