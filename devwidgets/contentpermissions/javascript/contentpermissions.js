@@ -383,17 +383,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 zIndex: 3000
             });
             
-            $(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
-                $contentpermissionsContainer.jqmShow();
-                setWidgetTitleAndRender();
-            });
-            /*
-            $('#ew_permissions>a').click(function(){
-                $contentpermissionsContainer.jqmShow();
-                setWidgetTitleAndRender();
-                $('#newentitywidget_widget').jqmHide();
-            });
-*/
+			$(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
+				$contentpermissionsContainer.jqmShow();
+				setWidgetTitleAndRender();
+			});
+
             $(contentpermissionsCancelButton).live("click", closeOverlay);
             $(contentpermissionsShareButton).live("click", doShare);
             $(contentpermissionsSaveAndCloseButton).live("click", doSave);

@@ -103,7 +103,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Function} callback the callback function for when the group save is complete. It will pass
          *                            two params, success {Boolean} and nameTaken {Boolean}
         */
-        createGroup : function(id, title, description, meData, template, callback) {
+        createGroup : function(id, title, description, meData, template, category, callback) {
             /**
              * Check if the group is created correctly and exists
              * @param {String} groupid
@@ -159,7 +159,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             var mainCallback = false;
             var mainGroupId = false;
             
-            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, callback){
+            var fillToProcess = function(groupid, grouptitle, groupdescription, meData, template, category, callback){
                 mainCallback = callback;
                 mainGroupId = groupid;
                 // Get list of all manager groups
@@ -199,6 +199,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
+                            category: category,
                             isSubgroup: true
                         };
                         toProcess.push(group);
@@ -217,6 +218,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                             grouptitle: grouptitle + " " + template.roles[n].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
                         };
@@ -226,12 +228,13 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                 
                 // Other Subgroups
                 for (var o = 0; o < template.roles.length; o++) {
-                    if (!template.roles[i].allowManage) {
+                    if (!template.roles[o].allowManage) {
                         var gr1 = {
                             groupid: groupid + "-" + template.roles[o].id,
                             grouptitle: grouptitle + " " + template.roles[o].title,
                             groupdescription: "",
                             basedGroup: groupid,
+                            category: category,
                             template: template,
                             isSubgroup: true
                         };
@@ -244,6 +247,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     groupid: groupid,
                     grouptitle: grouptitle,
                     groupdescription: groupdescription,
+                    category: category,
                     template: template,
                     isSubgroup: false
                 };
@@ -285,7 +289,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
 
             // check if the group exists
             if (!groupExists(id)) {
-                fillToProcess(id, title, description, meData, template, callback);
+                fillToProcess(id, title, description, meData, template, category, callback);
             } else {
                 if ($.isFunction(callback)) {
                     callback(false, true);
@@ -537,13 +541,31 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
          * @param {Object} meData the data from sakai.api.User.data.me
          * @return true if the current user is a manager, false otherwise
          */
-        isCurrentUserAManager : function(groupid, meData) {
-            if(!groupid || typeof(groupid) !== "string") {
-                return false;
+        isCurrentUserAManager : function(groupid, meData, groupinfo) {
+            if (groupinfo) {
+                var managementRoles = [];
+                var roles = $.parseJSON(groupinfo["sakai:roles"]);
+                for (var r = 0; r < roles.length; r++) {
+                    if (roles[r].allowManage) {
+                        managementRoles.push(roles[r].id);
+                    }
+                }
+                var canManage = false;
+                for (var i = 0; i < meData.groups.length; i++) {
+                    for (var r = 0; r < managementRoles.length; r++) {
+                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[r]) {
+                            canManage = true;
+                        }
+                    }
+                }
+                return canManage;
+            } else {
+                if (!groupid || typeof(groupid) !== "string") {
+                    return false;
+                }
+                var managersGroupId = groupid + "-managers";
+                return $.inArray(managersGroupId, meData.user.subjects) !== -1;
             }
-
-            var managersGroupId = groupid + "-managers";
-            return $.inArray(managersGroupId, meData.user.subjects) !== -1;
         },
 
 
@@ -560,7 +582,6 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
             if(!groupid || typeof(groupid) !== "string") {
                 return false;
             }
-
             return $.inArray(groupid, meData.user.subjects) !== -1;
         },
 
