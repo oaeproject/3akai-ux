@@ -127,4 +127,3 @@
         <script>require(["/dev/javascript/sakai.403.js"]);</script>
     </body>
 </html>
-
