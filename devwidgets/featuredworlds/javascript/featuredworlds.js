@@ -39,29 +39,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredworldsTemplate = "featuredworlds_template";
         var featuredworldsWorldsContentTemplate = "featuredworlds_worlds_content_template";
 
+        // Classes
+        var featuredworldsWorldsContent = "featuredworlds_worlds_content_";
+
         var tabs = [];
         var world = "";
 
-        var renderWorld = function(success, data){
-            $(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
+        var renderWorlds = function(success, data){
+            debug.log(data);
+            /*$(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
                 "data": data,
                 "world": world
-            }));
+            }));*/
         };
 
         var fetchWorldData = function(worldId, worldTitle){
-            world = worldTitle.toLowerCase();
+            var requests = [];
+            $(tabs).each(function(i, tab){
+                requests.push({
+                    "url": "/var/search/groups.infinity.json",
+                    "method": "GET",
+                    "parameters": {
+                        page: 0,
+                        items: 3,
+                        q: pageData.category,
+                        category: tab.id
+                    }
+                });
+            });
+            sakai.api.Server.batch(requests, renderWorlds)
+            /*world = worldTitle.toLowerCase();
             sakai.api.Server.loadJSON("/var/search/groups.infinity.json", renderWorld, {
                 page: 0,
                 items: 3,
                 q: pageData.category,
                 category: worldId,
-            });
+            });*/
         };
 
         var renderWorldTabs = function(data){
             $featuredworldsContainer.html(sakai.api.Util.TemplateRenderer(featuredworldsTemplate, {
                 "tabs": tabs,
+                "category":pageData.category
             }));
             fetchWorldData(tabs[0].id, tabs[0].title);
         };
