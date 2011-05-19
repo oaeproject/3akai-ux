@@ -241,8 +241,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                contextType = "contact_pending";
-                renderEntity();
+                if (qs.get("id") && qs.get("id") !== sakai.data.me.user.userid){
+                    contextType = "contact_pending";
+                    renderEntity();
+                }
             });
         });
 
