@@ -23,7 +23,7 @@
                             {/if}
                             <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                         </div>
-                        <a href="/content#content_path=/p/${small["jcr:name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
+                        <a href="/contentp=${small["jcr:name"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
                         {if small["sakai:tags"]}
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}
@@ -63,7 +63,7 @@
                             <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                         {/if}
                         {if item.mode == "large"} {var size = 125} {else} {var size = 50} {/if}
-                        <a href="/content#content_path=/p/${item["jcr:name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
+                        <a href="/content#p=${item["jcr:name"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
                         {if item["sakai:description"] && item.mode != "small"}
                             {if item.mode == "large"} {var size = 500} {else} {var size = 125} {/if}
                             <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], size)}</span>

@@ -26,7 +26,7 @@
                             {else}
                                 <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
                             {/if}
-                            <a href="/content#content_path=/p/${item.featuredcontent["jcr:path"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
+                            <a href="/content#p=${item.featuredcontent["jcr:path"]}/${item.featuredcontent["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
                             <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
                         {/if}
                         <hr class="fl-push fl-hidden"/>
