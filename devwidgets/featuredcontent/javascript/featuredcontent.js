@@ -124,11 +124,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var getFeaturedContent = function(){
-            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseFeaturedContent, {
+            sakai.api.Server.loadJSON("/var/search/public/random-content.json", parseFeaturedContent, {
                 page: 0,
                 items: 10,
-                sortOn: "_lastModified",
-                sortOrder: "desc",
                 q: "*"
             });
         };
