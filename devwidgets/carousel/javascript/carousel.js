@@ -253,6 +253,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (group.picture && group.picture.value && group.picture.value.length){
                     obj.picture = $.parseJSON(group.picture.value);
                 }
+                obj.counts = group.counts;
 
                 obj.contentType = "group";
                 obj.groupid = group["sakai:group-id"];
@@ -276,7 +277,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
             var suggested = {
                 contentType: "suggestedGroups",
-                suggestions: picDescTags.concat(picDesc, picTags, descTags, desc, tags, noPic)
+                suggestions: picDescTags.concat(picDesc, picTags, descTags, desc, tags, noPic).splice(0,6)
             };
 
             dataArr.push(suggested);

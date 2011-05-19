@@ -22,9 +22,9 @@
 #carousel_container h2{font-size: 12px;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
 #carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
-#carousel_container .carousel_user_counts {font-size: 11px;}
-#carousel_container .carousel_user_counts ul {margin: 0;}
-#carousel_container .carousel_user_counts ul li {list-style: none;}
+#carousel_container .carousel_counts {font-size: 11px;}
+#carousel_container .carousel_counts ul {margin: 0;}
+#carousel_container .carousel_counts ul li {list-style: none;}
 #carousel_container .carousel_result_detail_separator {color: #ccc;}
 #carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
 #carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
@@ -75,8 +75,11 @@
 #carousel_container .carousel_4x2_grid_container > div {width: 149px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float: left; margin: 0 0 7px 6px; position: relative;}
 #carousel_container .carousel_4x2_grid_container > div > img {height: 48px; float:left; margin-right: 10px;}
 #carousel_container .carousel_4x2_grid_container h2 {margin: 0}
+#carousel_container .sakai_joingroup_overlay,
 #carousel_container .sakai_addtocontacts_overlay {float:left; padding-left: 10px;}
 #carousel_container .sakai_sendmessage_overlay {float:right; padding-right: 10px;}
+
+#carousel_container .carousel_4x2_grid_container .carousel_4x2_tall {height: 192px;}
 
 /* User Specific */
 #carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}
