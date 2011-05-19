@@ -222,6 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Function} callback The callback function that will be executed after the request.
          */
         var initialize = function(user){
+            user.userid = user.userid || user.uuid;
             contactToAdd = user;
             fillInUserInfo(contactToAdd);
 

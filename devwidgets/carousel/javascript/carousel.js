@@ -264,7 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 obj.userid = user.profile.userid;
                 obj.contentType = "user";
                 obj.displayName = sakai.api.User.getDisplayName(user.profile);
-                obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 91);
+                obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
                 obj.counts = user.profile.counts;
 
                 user = user.profile.basic.elements;
