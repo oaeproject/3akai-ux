@@ -20,8 +20,15 @@
     <div class="areapermissions_visible_to">
         <span>Can be seen by:</span>
         <select>
-            <option value="everyone" {if visibility === "everyone"} selected="true" {/if}>Everyone</option>
-            <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if}>Logged in people only</option>
+            {if groupPermissions !== "public"}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">Everyone (Group must be public to do this)</option>
+            {elseif !manager}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">Everyone (You don't manage this document)</option>
+            {else}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if}>Everyone</option>
+            {/if}
+            
+            <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} {if groupPermissions !== "logged-in-only"} disabled="true" {/if}>Logged in people only</option>
             <option value="selected" {if visibility === "selected"} selected="true" {/if}>Selected roles only</option>
         </select>
     </div>
