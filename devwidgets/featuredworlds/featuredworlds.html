@@ -21,18 +21,22 @@
 --></div>
 
 <div id="featuredworlds_worlds_content_template"><!--
-    {if data.total}
-        {for item in data.results}
-            <div class="featuredworlds_content">
-                <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image"/>
-                <a href="/~${item["sakai:group-id"]}" class="s3d-bold s3d-regular-links">${item["sakai:group-title"]}</a>
-                <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
-                <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}</a>
-            </div>
-        {/for}
-    {else}
-        <span id="featuredworlds_no_worlds">__MSG__NO_FEATURED__ ${world}</span>
-    {/if}
+    {for tab in tabs}
+        <div id="featuredworlds_${tab.id}" class="featuredworlds_content_container" {if tab_index != 0} style="display:none;"{/if}>
+            {if data[tab.id].total}
+                {for item in data[tab.id].results}
+                    <div class="featuredworlds_content">
+                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image"/>
+                        <a href="/~${item["sakai:group-id"]}" class="s3d-bold s3d-regular-links">${item["sakai:group-title"]}</a>
+                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
+                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}</a>
+                    </div>
+                {/for}
+            {else}
+                <span id="featuredworlds_no_worlds">__MSG__NO_FEATURED__ ${tab.title}</span>
+            {/if}
+        </div>
+    {/for}
 --></div>
 
 <!-- JAVASCRIPT -->
