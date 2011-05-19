@@ -22,13 +22,45 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var pageNotFoundErrorLoggedOutTemplate = "page_not_found_error_logged_out_template";
         var pageNotFoundErrorLoggedInTemplate = "page_not_found_error_logged_in_template";
-        var pageNotFoundError = ".page_not_found_error";
+        var pageNotFoundError = "#page_not_found_error";
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
+        var $signinbuttonwrapper = $('#error_sign_in_button');
+        var $signinbutton = $("button",$signinbuttonwrapper);
+        var $browsecatcount = $("#error_browse_category_number");
+        var $secondcoltemplate = $("#error_second_column_links_template");
+        var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
+        var $goback = $("#error_goback");
+        var $searchinput = $("#errorsearch_text");
+        var $browsecatsbutton = $("#error_browse_categories_button");
 
         var doInit = function(){
             var renderedTemplate = false;
+            var catcount = 0;
+            for (var i in sakai.config.Directory) {
+                if (sakai.config.Directory.hasOwnProperty(i)) {
+                    catcount+=1;
+                }
+            }
+            $browsecatcount.text(catcount);
+            
+            // Create the world links in the second column after People, Content...
+            var worlds = [];
+            var obj = {};
+            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
+                var world = sakai.config.worldTemplates[c];
+                world.label = sakai.api.i18n.General.getValueForKey(world.title);
+                if(c===sakai.config.worldTemplates.length-1){world.last = true;}
+                worlds.push(world);
+            }
+            obj.worlds = worlds;
+            $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
+            
             if (sakai.data.me.user.anon){
-
+                $signinbuttonwrapper.show();
+                $signinbutton.click(function(){
+                    $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
+                }); 
+                
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
@@ -52,6 +84,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(pageNotFoundError).append(renderedTemplate);
                 $("#page_not_found_error").addClass("error_page_bringdown");
             }
+            $goback.click(function(){
+                window.history.go(-1);
+            });
+            $searchinput.live("keydown", function(ev){
+                if (ev.keyCode === 13) {
+                    document.location = "/dev/search2.html#q=" + $.trim($searchinput.val());
+                }
+            });
+            $browsecatsbutton.click(function(){
+                document.location = "/dev/allcategories.html";
+            });
             sakai.api.Security.showPage();
             document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
         };
@@ -61,3 +104,4 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     };
     sakai.api.Widgets.Container.registerForLoad("nopermissions");    
 });
+
