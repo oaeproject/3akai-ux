@@ -56,6 +56,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
             
             if (sakai.data.me.user.anon){
+                
                 $signinbuttonwrapper.show();
                 $signinbutton.click(function(){
                     $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
