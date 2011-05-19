@@ -26,19 +26,19 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai_global.createcontent
+     * @name sakai_global.recentchangedcontent
      *
-     * @class createcontent
+     * @class recentchangedcontent
      *
      * @description
-     * The 'createcontent' widget shows the most recent createcontent item, 
-     * including its latest comment and one related createcontent item
+     * The 'recentchangedcontent' widget shows the most recent recentchangedcontent item, 
+     * including its latest comment and one related recentchangedcontent item
      *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.createcontent = function(tuid, showSettings) {
+    sakai_global.recentchangedcontent = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -47,8 +47,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM identifiers
         var rootel = $("#" + tuid);
-        var createcontentItemTemplate = "#createcontent_item_template";
-        var createcontentItem = ".createcontent_item";
+        var recentchangedcontentItemTemplate = "#recentchangedcontent_item_template";
+        var recentchangedcontentItem = ".recentchangedcontent_item";
 
         ///////////////////////
         // Utility functions //
@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Parses an individual JSON search result (returned from the
          * /var/search/pool/me/manager.json data feed) to be displayed in
-         * mycreatecontent.html.
+         * myrecentchangedcontent.html.
          * @param {Object} result - individual result object from JSON data feed
          * @return {Object} object containing item.name, item.path, item.type (mimetype)
          *   and item.type_img_url (URL for mimetype icon) for the given result
@@ -67,7 +67,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["jcr:name"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
                 _mimeType: sakai.api.Content.getMimeType(result),
@@ -84,9 +83,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
                 }
             }
-            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
-            item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
-            item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".createcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
             if(result.hasOwnProperty("_length") && result["_length"]) {
@@ -121,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 item.totalcomment = totalcomment;
 
                 if (item.comment.comment) {
-                    item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $(".createcontent_widget").width() / 2, {
+                    item.comment.comment = sakai.api.Util.applyThreeDots(item.comment.comment, $(".recentchangedcontent_widget").width() / 2, {
                         max_rows: 5,
                         whole_word: false
                     });
@@ -141,11 +140,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         json.commentCreated = item.comment._created;
                     }
 
-                    $("#createcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",json));
+                    $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",json));
 
                     if (item.comment){
-                        $("#createcontent_item_comment_author_picture img").attr("src", json.author.authorPicture);
-                        $("#createcontent_item_comment_author_picture").show();
+                        $("#recentchangedcontent_item_comment_author_picture img").attr("src", json.author.authorPicture);
+                        $("#recentchangedcontent_item_comment_author_picture").show();
                     }
                 });
             }
@@ -166,9 +165,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     authorPicture: sakai.api.Util.constructProfilePicture(data)
                 }
             };
-            $("#createcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_comment_author_template",item));
-            $("#createcontent_item_comment_author_picture img").attr("src", item.author.authorPicture);
-            $("#createcontent_item_comment_author_picture").show();
+            $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",item));
+            $("#recentchangedcontent_item_comment_author_picture img").attr("src", item.author.authorPicture);
+            $("#recentchangedcontent_item_comment_author_picture").show();
         };
 
         var renderRelatedContentTemplate = function(success, data){
@@ -178,7 +177,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     authorName: sakai.api.User.getDisplayName(data)
                 }
             };
-            $("#createcontent_related_content_author").html(sakai.api.Util.TemplateRenderer("#createcontent_item_related_content_author_template",item));
+            $("#recentchangedcontent_related_content_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_related_content_author_template",item));
         };
 
 
@@ -190,12 +189,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} data - JSON data from /var/search/pool/me/manager.json
          * @return None
          */
-        var handlecreatecontentData = function(success, data) {
+        var handlerecentchangedcontentData = function(success, data) {
             if(success && data.results && data.results.length > 0) {
-                $("#createcontent_no_content").hide();
                 getRelatedContent(data.results[0]);
             } else {
-                $("#createcontent_no_content").show();
+                $(".recentchangedcontent_main").hide();
             }
         };
 
@@ -203,7 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind Events
          */
         var addBinding = function (){
-            $(".add_createcontent_button", rootel).click(function (ev) {
+            $(".add_recentchangedcontent_button", rootel).click(function (ev) {
                 $(window).trigger("init.newaddcontent.sakai");
                 return false;
             });
@@ -260,7 +258,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get related content for contentData
             // return some search results for now
             var params = {
-                "items" : "1"
+                "items" : "2"
             };
             var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             if (searchquery === '*' || searchquery === '**') {
@@ -272,15 +270,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 url: url,
                 data: params,
                 success: function(relatedContent){
-                    var createcontentjson = {items: []};
+                    var recentchangedcontentjson = {items: []};
                     var item = parseDataResult(contentData);
-                    if(relatedContent) {
-                        item.relatedContent = parseDataResult(relatedContent.results[0], true);
+                    var isRelatedContent = false;
+                    for (var i = 0; i < relatedContent.results.length; i++){
+                        if (relatedContent.results[i]["jcr:name"] !== contentData["jcr:name"]){
+                            isRelatedContent = relatedContent.results[i];
+                            break;
+                        }
                     }
-                    createcontentjson.items.push(item);
+                    if(isRelatedContent) {
+                        item.relatedContent = parseDataResult(isRelatedContent, true);
+                    }
+                    recentchangedcontentjson.items.push(item);
                     // pass the array to HTML view
-                    createcontentjson.sakai = sakai;
-                    $(createcontentItem, rootel).html(sakai.api.Util.TemplateRenderer(createcontentItemTemplate,createcontentjson));
+                    recentchangedcontentjson.sakai = sakai;
+                    $(recentchangedcontentItem, rootel).html(sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate,recentchangedcontentjson));
                 }
             });
             
@@ -291,14 +296,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         /**
-         * Initiates fetching createcontent data to be displayed in the My createcontent widget
+         * Initiates fetching recentchangedcontent data to be displayed in the My recentchangedcontent widget
          * @return None
          */
         var init = function() {
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
             addBinding();
 
-            // get list of createcontent items
+            // get list of recentchangedcontent items
             $.ajax({
                 url: "/var/search/pool/manager-viewer.json",
                 cache: false,
@@ -310,18 +315,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "desc"
                 },
                 success: function(data){
-                    handlecreatecontentData(true, data);
+                    handlerecentchangedcontentData(true, data);
                 },
                 error: function(data){
-                    $("#createcontent_no_content").show();
-                    handlecreatecontentData(false);
+                    $("#recentchangedcontent_no_content").show();
+                    handlerecentchangedcontentData(false);
                 }
             });
         };
 
-        // run init() function when sakai.createcontent object loads
+        // run init() function when sakai.recentchangedcontent object loads
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("createcontent");
+    sakai.api.Widgets.widgetLoader.informOnLoad("recentchangedcontent");
 });
