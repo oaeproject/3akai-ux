@@ -37,6 +37,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     groupData = {};
                     groupData.authprofile = data.properties;
                     sakai_global.group2.groupData = groupData.authprofile;
+                    sakai_global.group2.groupId = groupId;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
                             sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
@@ -93,23 +94,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         canView = true;
                     }
                 } else {
-                    // Check whether I can view
-                    for (var r = 0; r < view.length; r++){
-                        if (view[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)){
+                    // Check whether I'm a member
+                    var isMember = false;
+                    for (var r = 0; r < roles.length; r++) {
+                        if (sakai.api.Groups.isCurrentUserAMember(groupId + "-" + roles[r].id, sakai.data.me)){
+                            isMember = true;
+                        }
+                    }
+                    if (isMember) {
+                        // Check whether I can view
+                        for (var r = 0; r < view.length; r++) {
+                            if (view[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)) {
+                                canView = true;
+                            }
+                        }
+                        // Check whether I can manage
+                        for (var r = 0; r < edit.length; r++) {
+                            if (edit[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)) {
+                                canView = true;
+                                canSubedit = true;
+                            }
+                        }
+                    } else {
+                        // Check whether everyone can view
+                        if ($.inArray("everyone", view) !== -1) {
                             canView = true;
                         }
                     }
-                    // Check whether everyone can view
-                    if ($.inArray("everyone", view) !== -1){
-                        canView = true;
-                    }
-                    // Check whether I can manage
-                    for (var r = 0; r < edit.length; r++){
-                        if (edit[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)){
-                            canView = true;
-                            canSubedit = true;
-                        }
-                    }
+                    
                 }
                 pubdata.structure0[i]._canView = canView;
                 pubdata.structure0[i]._canSubedit = canSubedit;

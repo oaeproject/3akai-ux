@@ -1734,11 +1734,11 @@ define(function(){
                                         "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
-                                        //"_nonEditable": true,
+                                        "_nonEditable": true,
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
-                                            //"_nonEditable": true,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -1759,7 +1759,7 @@ define(function(){
                                 "_order": 0,
                                 "_docref": "${pid}0",
                                 "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-member"],
+                                "_view": ["everyone,", "anonymous", "-member"],
                                 "_edit": ["-manager"]
                             },
                             "participants": {

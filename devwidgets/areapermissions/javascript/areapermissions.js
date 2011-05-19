@@ -30,11 +30,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.areapermissions = function (tuid, showSettings) {
          
+         var contextData = false;
+         
          //////////////////////////
          // Rendering group data //
          //////////////////////////
          
-         var loadGroupData = function(contextData){
+         var loadGroupData = function(){
              var groupData = sakai_global.group2.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
              
@@ -54,9 +56,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }
              
              var visibility = "selected";
-             if ($.inArray("anonymous", viewRoles) !== -1){
+             if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group2.groupData["sakai:group-visible"] === "public"){
                  visibility = "everyone";
-             } else if ($.inArray("everyone", viewRoles) !== -1){
+             } else if ($.inArray("everyone", viewRoles) !== -1 && (sakai_global.group2.groupData["sakai:group-visible"] === "logged-in-only" || sakai_global.group2.groupData["sakai:group-visible"] === "public")){
                  visibility = "loggedin";
              }
              
@@ -72,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }));
          };
          
-         var determineContentManager = function(contextData){
+         var determineContentManager = function(){
              $.ajax({
                  url: contextData.pageSavePath + ".infinity.json",
                  success: function(data){
@@ -85,10 +87,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                      }
                      contextData.isManager = manager;
-                     loadGroupData(contextData);
+                     loadGroupData();
                  }, error: function(data){
                      contextData.isManager = false;
-                     loadGroupData(contextData);
+                     loadGroupData();
                  }
              });
          };
@@ -118,12 +120,67 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              });
          };
          
+         /////////////////////////////
+         // Storing new permissions //
+         /////////////////////////////
+         
+         var applyPermissions = function(){
+             var groupData = sakai_global.group2.groupData;
+             var roles = $.parseJSON(groupData["sakai:roles"]);
+             
+             var newView = [];
+             var newEdit = [];
+             
+             // Collect everyone and anonymous value
+             var generalVisibility = $("#areapermissions_area_general_visibility").val();
+             if (generalVisibility === "everyone"){
+                 newView.push("everyone"); 
+                 newView.push("anonymous");
+             } else if (generalVisibility === "loggedin"){
+                 newView.push("everyone");
+             }
+             
+             // Collect new view roles and new edit roles
+             for (var i = 0; i < roles.length; i++){
+                 var el = $("select[data-roleid='" + roles[i].id + "']");
+                 var selectedPermission = el.val();
+                 if (selectedPermission === "edit"){
+                     newEdit.push("-" + roles[i].id);
+                 } else if (selectedPermission === "view"){
+                     newView.push("-" + roles[i].id);
+                 }
+             }
+             
+             // Refetch docstructure information
+             $.ajax({
+                 url: "/~" + sakai_global.group2.groupId + "/docstructure.infinity.json",
+                 success: function(data){
+                     // Store view and edit roles
+                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
+                     pubdata.structure0[contextData.path]._view = $.toJSON(newView);
+                     pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
+                     sakai_global.group2.pubdata.structure0 = pubdata.structure0;
+                     sakai.api.Server.saveJSON("/~" + sakai_global.group2.groupId + "/docstructure", {
+                        "structure0": $.toJSON(pubdata.structure0)
+                    });
+                 }
+             });
+
+debug.log(newView);
+debug.log(newEdit);
+
+             // If I manage the document, add/remove appropriate roles from document
+             
+             $("#areapermissions_container").jqmHide();
+             
+         }
+         
          /////////////////////////////////
          // Modal dialog initialization //
          /////////////////////////////////
          
-         var initializeOverlay = function(contextData){
-             determineContentManager(contextData);
+         var initializeOverlay = function(){
+             determineContentManager();
              $("#areapermissions_container").jqmShow();
          };
          
@@ -146,12 +203,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              batchChangeSelection($(this));
          });
          
+         $("#areapermissions_apply_permissions").live("click", function(){
+             applyPermissions();
+         });
+         
          /////////////////////
          // External events //
          /////////////////////
          
-         $(window).bind("permissions.area.trigger", function(ev, contextData){
-             initializeOverlay(contextData);
+         $(window).bind("permissions.area.trigger", function(ev, _contextData){
+             contextData = _contextData
+             initializeOverlay();
+             debug.log(contextData);
          });
 
     };

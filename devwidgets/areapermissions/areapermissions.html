@@ -10,7 +10,16 @@
             </button>
         </div>
     </div>
-    <div id="areapermissions_content_container" class="dialog_content"><!----></div>
+    <div class="dialog_content">
+        <div id="areapermissions_content_container" ></div>
+        <div class="fl-force-right areapermissions_buttons">
+            <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-button s3d-button-link-2-state" id="areapermissions_apply_permissions" title="Apply permissions">
+                <span class="s3d-button-inner s3d-button-link-2-state-inner">Apply permissions</span>
+            </button>
+        </div>
+    <div class="areapermissions_bottom_spacer"></div>
+    </div>
     <div class="dialog_footer">
         <div class="dialog_footer_inner"><!-- --></div>
     </div>
@@ -19,16 +28,21 @@
 <div id="areapermissions_content_template" style="display:none"><!--
     <div class="areapermissions_visible_to">
         <span>Can be seen by:</span>
-        <select>
+        <select id="areapermissions_area_general_visibility" data-original-selection="${visibility}">
             {if groupPermissions !== "public"}
                 <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">Everyone (Group must be public to do this)</option>
             {elseif !manager}
-                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">Everyone (You don't manage this document)</option>
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">Everyone (You have to manage this document to change this)</option>
             {else}
                 <option value="everyone" {if visibility === "everyone"} selected="true" {/if}>Everyone</option>
             {/if}
-            
-            <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} {if groupPermissions !== "logged-in-only"} disabled="true" {/if}>Logged in people only</option>
+            {if groupPermissions !== "logged-in-only" && groupPermissions !== "public"}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} disabled="true">Logged in people only (Group must be open to logged in users to do this)</option>
+            {elseif !manager}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} disabled="true">Logged in people only (You have to manage this document to change this)</option>
+            {else}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if}>Logged in people only</option>
+            {/if}
             <option value="selected" {if visibility === "selected"} selected="true" {/if}>Selected roles only</option>
         </select>
     </div>
@@ -36,7 +50,7 @@
     <div class="areapermissions_role_list">
         <div class="areapermission_roles_controls">
             <input type="checkbox" id="areapermissions_check_uncheck_all"/>
-            <select id="areapermissions_change_selected">
+            <select class="areapermissions_role_select" id="areapermissions_change_selected">
                 <option value="edit">Can edit</option>
                 <option value="view">Can see</option>
                 <option value="hidden">Don't show</option>
@@ -46,8 +60,12 @@
             {for role in roles}
                 <div class="areapermission_role_container">
                     <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${role.title}</span>
-                    <select data-roleid="${role.id}">
-                        <option value="edit" {if role.value === "edit"} selected="true" {/if}>Can edit</option>
+                    <select class="areapermissions_role_select" data-original-selection="${role.value}" data-roleid="${role.id}">
+                        {if !manager}
+                            <option value="edit" {if role.value === "edit"} selected="true" {/if} disabled="true">Can edit (You have to manage this document to change this)</option>
+                        {else}
+                            <option value="edit" {if role.value === "edit"} selected="true" {/if}>Can edit</option>
+                        {/if}
                         <option value="view" {if role.value === "view"} selected="true" {/if}>Can see</option>
                         <option value="hidden" {if role.value === "hidden"} selected="true" {/if}>Don't show</option>
                     </select>
@@ -55,13 +73,6 @@
             {/for}
         </div>
     </div>
-    <div class="fl-force-right areapermissions_buttons">
-        <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-button-link-2-state areapermissions_apply_permissions" title="Apply permissions">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">Apply permissions</span>
-        </button>
-    </div>
-    <div class="areapermissions_bottom_spacer"></div>
 --></div>
 
 <!-- JAVASCRIPT -->
