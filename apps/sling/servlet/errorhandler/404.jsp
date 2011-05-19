@@ -49,7 +49,7 @@
                                 </div>          
                             </div>
                             <hr class="s3d-split-line fl-push">
-                             <div class="error_content_second_column_box_item_container">
+                            <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
                                     <a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=content">__MSG__CONTENT__</a>
                                 </div>          
