@@ -42,10 +42,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setupProfile = function(pub) {
             var firstWidgetRef = "";
-            var profilestructure = {};
-            profilestructure._title = pub.structure0.profile._title;
-            profilestructure._altTitle = pub.structure0.profile._altTitle;
-            profilestructure._order = pub.structure0.profile._order;
+            var profilestructure = {
+                _title: pub.structure0.profile._title,
+                _altTitle: pub.structure0.profile._altTitle,
+                _order: pub.structure0.profile._order,
+                _canEdit: true,
+                _canSubedit: true,
+                _nonEditable: true
+            };
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
                 var widgetID = sakai.api.Util.generateWidgetId();
@@ -54,7 +58,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _ref: widgetID,
                     _order: section.order,
                     _altTitle: section.label,
-                    _title: section.label
+                    _title: section.label,
+                    _canEdit: true,
+                    _canSubedit: true,
+                    _nonEditable: true
                 };
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
@@ -90,11 +97,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    setupProfile(pubdata);
+                    setupProfile(publicToStore);
                 } else {
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }
-                setupProfile(pubdata);
                 if (!isMe){
                     addCounts();
                 }
