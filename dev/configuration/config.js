@@ -22,6 +22,8 @@ define(function(){
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_32x32.png",
+            GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64.png",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
@@ -41,7 +43,7 @@ define(function(){
             SEARCH_PEOPLE_URL: "/search/people",
             SEARCH_GROUP_URL: "/search/groups",
             SEARCH_SITES_URL: "/search/sites",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
@@ -1566,12 +1568,12 @@ define(function(){
                         "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
-                            "name": "mycontent"
+                            "name": "recentchangedcontent"
                         }],
                         "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
-                            "name": "mygroups"
+                            "name": "recentmemberships"
                         }],
                         "column3": [{
                             "uid": "id7360391172040",
