@@ -49,7 +49,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
                 world.label = sakai.api.i18n.General.getValueForKey(world.title);
-                if(c===sakai.config.worldTemplates.length-1){world.last = true;}
+                if(c===sakai.config.worldTemplates.length-1){
+                	world.last = true;
+                }
                 worlds.push(world);
             }
             obj.worlds = worlds;
