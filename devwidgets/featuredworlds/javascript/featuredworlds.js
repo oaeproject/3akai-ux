@@ -46,10 +46,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var world = "";
 
         var renderWorlds = function(data){
-            /*$(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
+            $(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
                 "data": data,
-                "world": world
-            }));*/
+                "tabs": tabs
+            }));
         };
 
         var renderWorldTabs = function(data){
@@ -102,7 +102,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".featuredworlds_tab").live("click", function(){
                 if(!$(this).hasClass("featuredworlds_tab_selected")){
                     var worldId = $(this).attr("sakai-worldid");
-                    //fetchWorldData(worldId, $(this).text());
+                    $(".featuredworlds_content_container").hide();
+                    $("#featuredworlds_" + worldId).show();
                     $(".featuredworlds_tab_selected").removeClass("featuredworlds_tab_selected");
                     $(this).addClass("featuredworlds_tab_selected");
                 }
