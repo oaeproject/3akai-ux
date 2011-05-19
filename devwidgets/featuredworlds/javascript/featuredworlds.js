@@ -66,7 +66,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(tabs).each(function(i, tab){
                     worldData[tab.id] = $.parseJSON(data.results[i].body);
                 });
-                debug.log(worldData);
                 renderWorldTabs(worldData);
                 renderWorlds(worldData);
             }
