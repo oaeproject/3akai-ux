@@ -35,15 +35,39 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Container
         var $recentactivityActivityContainer = $("#recentactivity_activity_container");
 
+        var activityMap = {
+            CONTENT_ADDED_COMMENT: "comment",
+            CREATED_FILE: "upload",
+            GROUP_CREATED: "new",
+            JOINED_GROUP: "new",
+            SENT_MESSAGE: "upload",
+            UPDATE_FILE: "new",
+            UPLOADED_CONTENT: "upload",
+            USER_CREATED: "new"
+        };
+
+        var t = "";
+        var numItems = 0;
+        var numDiff = 0;
+
         var parseActivity = function(success, data){
             if (success) {
+                numDiff = data.total - numItems;
+                numItems = data.total;
                 $.each(data.results, function(index, item){
+                    if(index < numDiff){
+                        item.fadeIn = true;
+                    }
+                    item.showdetails = true;
+                    if(item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group"){
+                        item.showdetails = false;
+                    }
                     item.who.name = sakai.api.User.getDisplayName(item.who);
+                    item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
                     item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
                     if (item.who.picture) {
                         item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
-                    }
-                    else {
+                    } else {
                         item.who.picture = "/dev/images/user_avatar_icon_48x48.png";
                     }
                 });
@@ -52,10 +76,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "sakai": sakai
                 }));
             }
+
+            $(".recentactivity_activity_item_container:hidden").animate({display:"inline"},1000, 'easeOutBounce').toggle("slow");
+
+            t = setTimeout(fetchActivity, 8000);
         };
 
         var fetchActivity = function(){
-            sakai.api.Server.loadJSON("/devwidgets/recentactivity/activity.json", parseActivity);
+            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, parseActivity, {
+                "items": 6
+            });
         };
 
         var doInit = function(){

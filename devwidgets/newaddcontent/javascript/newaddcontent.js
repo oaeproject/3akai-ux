@@ -167,6 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             itemsUploaded = 0;
             disableAddToQueue();
             $newaddcontentContainerSelectedItemsContainer.html("");
+            $(".MultiFile-remove").click();
         };
 
         /**
