@@ -157,6 +157,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (mode == "medium") {
                                 item.mode = "medium";
                                 mode = "small";
+                                item.usedin = sakai.api.Content.getPlaceCount(item);
                                 if (item["sakai:tags"]) {
                                     item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                                 }
