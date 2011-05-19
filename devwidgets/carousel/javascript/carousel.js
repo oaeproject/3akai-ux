@@ -234,27 +234,53 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var parseGroups = function(data, dataArr){
+            var picDescTags = [];
+            var picDesc = [];
+            var picTags = [];
+            var descTags = [];
+            var desc = [];
+            var tags = [];
+            var noPic = [];
             $.each(data.groups.results, function (index, group){
-                if (group.members) {
-                    var obj = {};
+                var obj = {};
 
-                    if (group.members && group.members.length) {
-                        obj.members = group.members;
-                    }
-                    if (group["sakai:group-description"] && group["sakai:group-description"].length) {
-                        obj.description = group["sakai:group-description"];
-                    }
-                    if (group["sakai:tags"] && group["sakai:tags"].length) {
-                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
-                    }
+                if (group["sakai:group-description"] && group["sakai:group-description"].length) {
+                    obj.description = group["sakai:group-description"];
+                }
+                if (group["sakai:tags"] && group["sakai:tags"].length) {
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                }
+                if (group.picture && group.picture.value && group.picture.value.length){
+                    obj.picture = $.parseJSON(group.picture.value);
+                }
 
-                    obj.contentType = "group";
-                    obj.groupid = group["sakai:group-id"];
-                    obj.title = group["sakai:group-title"];
+                obj.contentType = "group";
+                obj.groupid = group["sakai:group-id"];
+                obj.title = group["sakai:group-title"];
 
-                    dataArr.push(obj);
+                if (obj.picture && obj.description && obj.tags) {
+                    picDescTags.push(obj);
+                } else if (obj.picture && obj.description) {
+                    picDesc.push(obj);
+                } else if (obj.picture && obj.tags) {
+                    picTags.push(obj);
+                } else if (obj.description && obj.tags) {
+                    descTags.push(obj);
+                } else if (obj.description) {
+                    desc.push(obj);
+                } else if (obj.tags) {
+                    tags.push(obj);
+                } else {
+                    noPic.push(obj);
                 }
             });
+            var suggested = {
+                contentType: "suggestedGroups",
+                suggestions: picDescTags.concat(picDesc, picTags, descTags, desc, tags, noPic)
+            };
+
+            dataArr.push(suggested);
+
         };
 
         var parseUsers = function(data, dataArr){
@@ -311,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var dataArr = [];
 
             parseContent(data, dataArr);
-            //parseGroups(data, dataArr);
+            parseGroups(data, dataArr);
             parseUsers(data, dataArr);
             if (dataArr.length) {
                 renderCarousel(dataArr);
@@ -337,6 +363,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     method: "GET",
                     cache: false,
                     dataType: "json"
+                },
+                {
+                    url: "/var/search/myrelatedgroups.json?items=11",
+                    method: "GET",
+                    cache: false,
+                    dataType: "json"
                 }
             ];
 
@@ -346,6 +378,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.content = $.parseJSON(data.results[0].body);
                     //users
                     dataArr.users = $.parseJSON(data.results[1].body);
+                    //groups
+                    dataArr.groups = $.parseJSON(data.results[2].body);
                 }
                 parseData(dataArr);
             });
