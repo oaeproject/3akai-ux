@@ -1,0 +1,14 @@
+{
+    "description":"My recent memberships",
+    "name":"My recent memberships",
+    "id":"recentmemberships",
+    "i18n": {
+        "default": "/devwidgets/recentmemberships/bundles/default.properties"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/recentmemberships/recentmemberships.html",
+    "deletable":true
+}

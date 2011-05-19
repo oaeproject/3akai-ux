@@ -1573,7 +1573,7 @@ define(function(){
                         "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
-                            "name": "mygroups"
+                            "name": "recentmemberships"
                         }],
                         "column3": [{
                             "uid": "id7360391172040",

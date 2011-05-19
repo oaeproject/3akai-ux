@@ -26,19 +26,19 @@
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
-     * @name sakai_global.creategroups
+     * @name sakai_global.recentmemberships
      *
-     * @class creategroups
+     * @class recentmemberships
      *
      * @description
-     * The 'creategroups' widget shows the most recent creategroups item, 
-     * including its latest comment and one related creategroups item
+     * The 'recentmemberships' widget shows the most recent recentmemberships item, 
+     * including its latest comment and one related recentmemberships item
      *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.creategroups = function(tuid, showSettings) {
+    sakai_global.recentmemberships = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -47,15 +47,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM identifiers
         var rootel = $("#" + tuid);
-        var creategroupsItemTemplate = "#creategroups_item_template";
-        var creategroupsItem = ".creategroups_item";
+        var recentmembershipsItemTemplate = "#recentmemberships_item_template";
+        var recentmembershipsItem = ".recentmemberships_item";
 
         ///////////////////////
         // Utility functions //
         ///////////////////////
 
         /**
-         * Parses an individual JSON search result to be displayed in creategroups.html
+         * Parses an individual JSON search result to be displayed in recentmemberships.html
          * 
          * @param {Object} result - individual result object from JSON data feed
          * @return {Object} object containing item.name, item.path, item.type (mimetype)
@@ -108,12 +108,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} data - JSON data from /var/search/pool/me/manager.json
          * @return None
          */
-        var handlecreategroupsData = function(success, data) {
+        var handlerecentmembershipsData = function(success, data) {
             if(success && data.entry && data.entry.length > 0) {
-                $("#creategroups_no_group").hide();
+                $("#recentmemberships_no_group").hide();
                 getGroupInfo(data);
             } else {
-                $("#creategroups_no_group").show();
+                $(".recentmemberships_main").hide();
             }
         };
 
@@ -121,8 +121,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind Events
          */
         var addBinding = function (){
-            $(".creategroups_button", rootel).die("click");
-            $(".creategroups_button", rootel).live("click", function(ev){
+            $(".recentmemberships_button", rootel).die("click");
+            $(".recentmemberships_button", rootel).live("click", function(ev){
                 $(window).trigger("sakai.overlays.createGroup"); 
             });
         };
@@ -158,27 +158,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getMembers = function (newjson){
             sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
-                if (success && memberList.Manager.results[0]) {
+                if (success) {
                     var id, name, picture;
-                    if (memberList.Manager.results[0].userid){
-                        id = memberList.Manager.results[0].userid;
-                        name = sakai.api.User.getDisplayName(memberList.Manager.results[0]);
-                        picture = sakai.api.User.getProfilePicture(memberList.Manager.results[0]);
-                    } else if (memberList.Manager.results[0].groupid){
-                        id = memberList.Manager.results[0].groupid;
-                        name = memberList.Manager.results[0]["sakai:group-title"];
-                        picture = sakai.api.Groups.getProfilePicture(memberList.Manager.results[0]);
+                    for (var role in memberList) {
+                        if (memberList[role].results.length > 0){
+                            var member = memberList[role].results[0];
+                             if (member.userid){
+                                id = member.userid;
+                                name = sakai.api.User.getDisplayName(member);
+                                picture = sakai.api.User.getProfilePicture(member);
+                            } else if (member.groupid){
+                                id = member.groupid;
+                                name = member["sakai:group-title"];
+                                picture = sakai.api.Groups.getProfilePicture(member);
+                            }
+                            newjson.entry[0].manager = member;
+                            var item = {
+                                member: {
+                                    memberId: id,
+                                    memberName: name,
+                                    memberPicture: picture,
+                                    roleName: role
+                                },
+                                group: newjson.entry[0]
+                            };
+                            $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
+                            break;
+                        }
                     }
-                    newjson.entry[0].manager = memberList.Manager.results[0];
-                    var item = {
-                        member: {
-                            memberId: id,
-                            memberName: name,
-                            memberPicture: picture
-                        },
-                        group: newjson.entry[0]
-                    };
-                    $("#creategroups_item_member_container").html(sakai.api.Util.TemplateRenderer("#creategroups_item_member_template", item));
                 }
             });
         };
@@ -187,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fetches the related content
          */
         var getGroupInfo = function(newjson){
-            $(creategroupsItem, rootel).html(sakai.api.Util.TemplateRenderer(creategroupsItemTemplate,newjson));
+            $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,newjson));
 
             // get related content for group
             var params = {
@@ -215,7 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 group: newjson.entry[0],
                                 sakai: sakai
                             };
-                            $("#creategroups_latest_content_container").html(sakai.api.Util.TemplateRenderer("#creategroups_latest_content_template",item));
+                            $("#recentmemberships_latest_content_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_latest_content_template",item));
                         });
                     }
                 }
@@ -230,18 +237,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         /**
-         * Initiates fetching creategroups data to be displayed in the My creategroups widget
+         * Initiates fetching recentmemberships data to be displayed in the My recentmemberships widget
          * @return None
          */
         var init = function() {
             addBinding();
             var data = sakai.api.Groups.getMemberships(sakai.data.me.groups);
-            handlecreategroupsData(true, data);
+            handlerecentmembershipsData(true, data);
         };
 
-        // run init() function when sakai.creategroups object loads
+        // run init() function when sakai.recentmemberships object loads
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("creategroups");
+    sakai.api.Widgets.widgetLoader.informOnLoad("recentmemberships");
 });
