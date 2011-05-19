@@ -4,15 +4,12 @@
 <div class="createcontent_widget">
     <div class="fl-widget-content s3d-widget-content">
        <!-- MAIN createcontent -->
-        <div class="createcontent_main createcontent_background">
-            <div class="createcontent_add_container">
-                <button class="s3d-button s3d-button-link-2-state add_createcontent_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
-                <span>__MSG__ADD_CONTENT_TO_LIBRARY__</span>
-            </div>
+        <div class="createcontent_main">
+            <div id="createcontent_no_content" style="display:none">__MSG__WHEN_CONTENT_IS_ADDED__</div>
             <div class="createcontent_item"></div>
             <div id="createcontent_item_template"><!--
-            <span class="s3d-bold createcontent_title">__MSG__MY_RECENT_CONTENT__</span>
             {for item in items}
+            <div class="createcontent_related_details">
                 <div class="createcontent_item_img fl-force-left">
                     {var mimeType = sakai.api.Content.getMimeType(item)}
                     {var thumbnail = sakai.api.Content.getThumbnail(item)}
@@ -38,7 +35,7 @@
                             ${item.nameShort}
                         </a>
                     </p>
-                    <p class="createcontent_item_meta">${item.type} </p>
+                    <p class="createcontent_item_meta createcontent_item_mime">${item.type} </p>
                     {if item.usedin > 0}
                         <p class="createcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
                     {/if}
@@ -92,7 +89,7 @@
                         <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.relatedContent.path}"  title="${item.relatedContent.name}">
                             ${item.relatedContent.nameRelatedShort}
                         </a>
-                        <span class="createcontent_mimetype">${item.relatedContent.type}</span>
+                        <span class="createcontent_related_mimetype createcontent_item_mime">${item.relatedContent.type}</span>
                         <div>__MSG__BY__
                             <span id="createcontent_related_content_author"></span>
                         </div>
@@ -100,6 +97,7 @@
                 </div>
                 <div class="createcontent_item_border"></div>
                 {/if}
+            </div>
 
             {/for}
             <div class="createcontent_button">
@@ -108,6 +106,10 @@
                 </a>
             </div>
             --></div>
+        </div>
+        <div class="createcontent_add_container">
+            <button class="s3d-button s3d-button-link-2-state add_createcontent_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
+            <div>__MSG__ADD_CONTENT_TO_LIBRARY__</div>
         </div>
     </div>
 

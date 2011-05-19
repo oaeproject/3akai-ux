@@ -47,8 +47,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM identifiers
         var rootel = $("#" + tuid);
-        var uploadLink = ".upload_link";
-        var fileuploadContainer = "#fileupload_container";
         var createcontentItemTemplate = "#createcontent_item_template";
         var createcontentItem = ".createcontent_item";
 
@@ -193,8 +191,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var handlecreatecontentData = function(success, data) {
-            if(success) {
+            if(success && data.results && data.results.length > 0) {
+                $("#createcontent_no_content").hide();
                 getRelatedContent(data.results[0]);
+            } else {
+                $("#createcontent_no_content").show();
             }
         };
 
@@ -312,6 +313,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     handlecreatecontentData(true, data);
                 },
                 error: function(data){
+                    $("#createcontent_no_content").show();
                     handlecreatecontentData(false);
                 }
             });
