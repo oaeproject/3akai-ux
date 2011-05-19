@@ -59,8 +59,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "sakai": sakai,
                     "category": pageData.category
                 }));
-                if (featuredCategoryContentArr.length) {
+                if (featuredCategoryContentArr && !featuredCategoryContentArr.hasPreview) {
                     featuredCategoryContentArr.splice(0, 1);
+                }
+                if (featuredCategoryContentArr.length) {
                     $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
                         "data": featuredCategoryContentArr,
                         "sakai": sakai,
