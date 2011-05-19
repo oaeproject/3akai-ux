@@ -35,7 +35,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var selectedCategory = "other";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
-            selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+                selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
             }
         }
 
@@ -134,7 +134,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         ///////////////
         // Functions //
         ///////////////
-
+        
+        $("#searchgroups_type_title, rootel").text(selectedCategory);
+    
         var pager_click_handler = function(pageclickednumber){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text, rootel).val(),

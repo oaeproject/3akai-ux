@@ -1,0 +1,116 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/recentmemberships/css/recentmemberships.css" />
+
+<div class="recentmemberships_widget">
+    <div class="fl-widget-content s3d-widget-content recentmemberships_content">
+       <div class="recentmemberships_add_container">
+           <a href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_A_GROUP__">
+               <button class="s3d-button s3d-button-link-2-state recentmemberships_button" type="button">
+                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_A_GROUP__</span>
+               </button>
+           </a>
+           <div>__MSG__START_COLLABORATING_AND_SHARING__</div>
+       </div>
+       <!-- MAIN recentmemberships -->
+        <div class="recentmemberships_main">
+            <div class="recentmemberships_item"></div>
+            <div id="recentmemberships_item_template"><!--
+                <div class="recentmemberships_item_img fl-force-left">
+                    <a href="#">
+                        <img class="s3d-icon-50" src="/dev/images/group_avatar_icon_64x64.png"/>
+                    </a>
+                </div>
+                <div class="recentmemberships_item_info">
+                    <p class="recentmemberships_item_title">
+                        <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${entry[0].groupid}">
+                            ${entry[0]["sakai:group-title"]}
+                        </a>
+                    </p>
+                    {if entry[0].counts && entry[0].counts.contentCount > 0}
+                        <p class="recentmemberships_item_meta">${entry[0].counts.contentCount}{if entry[0].counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</p>
+                    {/if}
+                    {if entry[0].counts.membersCount > 0}
+                        <p class="recentmemberships_item_meta">${entry[0].counts.membersCount}{if entry[0].counts.membersCount === 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</p>
+                    {/if}
+                </div>
+
+                <div class="recentmemberships_related_details">
+                    <div id="recentmemberships_latest_content_container"></div>
+                    <div id="recentmemberships_item_member_container"></div>
+                </div>
+
+                <div class="recentmemberships_seeall_button">
+                    <a class="recentmemberships_item_link s3d-widget-links" href="/dev/user.html#l=library">
+                        __MSG__SEE_ALL_MY_MEMBERSHIPS__
+                    </a>
+                </div>
+            --></div>
+        </div>
+    </div>
+
+    <div id="recentmemberships_item_member_template"><!--
+        {if member}
+            <div class="recentmemberships_item_related_info">
+                <p class="recentmemberships_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span>${group.groupid}</span></p>
+                <div class="fl-force-left">
+                <a href="/~${member.memberId}">
+                    <img class="s3d-icon-32" src="${member.memberPicture}" />
+                </a>
+                </div>
+                <div class="recentmemberships_item_div">
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}" title="${member.memberName}">
+                        ${member.memberName}
+                    </a>
+                    ${member.roleName.toUpperCase()}
+                </div>
+            </div>
+            <div class="recentmemberships_item_border"></div>
+        {/if}
+    --></div>
+
+    <div id="recentmemberships_latest_content_template"><!--
+        {if content}
+            <div class="recentmemberships_item_related_info">
+                <p class="recentmemberships_item_meta_data">__MSG__LATEST_CONTENT_TO__ <span>${group.groupid}</span></p>
+                <div class="fl-force-left">
+                    <a href="/content#content_path=/p/${content['jcr:name']}" title="${content.name}">
+                    <span>
+                        {var mimeType = sakai.api.Content.getMimeType(content)}
+                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                        {var thumbnail = sakai.api.Content.getThumbnail(content)}
+                        {if thumbnail}
+                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                        {elseif (mimeType.substring(0,6)=="image/")}
+                            <img class="s3d-icon-32" src="/p/${content['jcr:name']}" alt="${mimeTypeDescription}" />
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {else}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                        {/if}
+                    </span>
+                    </a>
+                </div>
+                <div class="recentmemberships_item_div">
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#content_path=/p/${content['jcr:name']}">
+                        ${content.name}
+                    </a>
+                    <span class="recentmemberships_content_mimetype">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
+                    <div>__MSG__BY__
+                        <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
+                            ${author.authorName}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recentmemberships_item_border"></div>
+        {/if}
+    --></div>
+
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/recentmemberships/javascript/recentmemberships.js"></script>
