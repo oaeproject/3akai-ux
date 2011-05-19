@@ -668,6 +668,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":replaceProperties": true,
                     "_charset_":"utf-8",
                     ":content": $.toJSON(toStore)
+                },
+                success: function(){
+                    // add pageContent in non-replace mode to support versioning
+                    $.ajax({
+                        url: currentPageShown.pageSavePath + "/pageContent.save.json",
+                        type: "POST",
+                        data: {
+                            "sling:resourceType": "sakai/pagecontent",
+                            "sakai:pagecontent": $.toJSON(toStore),
+                            "_charset_": "utf-8"
+                        },
+                        success: function (data) {
+                            debug.log("success");
+                        },
+                        error: function(a,b,c){
+                            debug.log(a,b,c);
+                        }
+                    });
                 }
             });
         };
