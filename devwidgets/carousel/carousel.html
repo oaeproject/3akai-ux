@@ -170,11 +170,20 @@
                                         {else}
                                             <img src="/dev/images/user_avatar_icon_48x48.png" />
                                         {/if}
-                                        <h2><a href="/~${user.userid}" class="s3d-action">${user.displayName}</a></h2>
+                                        <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
                                         <div class="carousel_user_counts">
-                                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="carousel_result_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a> <span class="carousel_result_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                            <ul>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        ${tags(user.tags)}
                                         <span class="carousel_bottom_buttons" style="display:none">
                                             <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
