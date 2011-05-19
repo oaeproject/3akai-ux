@@ -84,18 +84,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "structure0": {}
             };
 
-            var rnd =  Math.floor(Math.random() * 999999999);
+            var rnd =  sakai.api.Util.generateWidgetId();
             privdata["structure0"][navData.id] = {
-                "_id": navData.id,
                 "_order": 0,
                 "_ref": rnd,
                 "_title": navData.title
             };
 
             // featuredcontent, featured people and featuredworld random numbers
-            var fcRnd = Math.floor(Math.random() * 999999999);
-            var fpRnd = Math.floor(Math.random() * 999999999);
-            var fwRnd = Math.floor(Math.random() * 999999999);
+            var fcRnd = sakai.api.Util.generateWidgetId();
+            var fpRnd = sakai.api.Util.generateWidgetId();
+            var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
             }
@@ -114,7 +113,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             var count = 0;
             $.each(navData.children, function(index, item){
-                var rnd = Math.floor(Math.random() * 999999999);
+                var rnd = sakai.api.Util.generateWidgetId();
                 pubdata["structure0"][navData.id + "/" + index] = {
                     "_ref": rnd,
                     "_order": count,
@@ -127,9 +126,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
 
                 // featuredcontent, featured people and featuredworld random numbers
-                var fcRnd = Math.floor(Math.random() * 999999999);
-                var fpRnd = Math.floor(Math.random() * 999999999);
-                var fwRnd = Math.floor(Math.random() * 999999999);
+                var fcRnd = sakai.api.Util.generateWidgetId();
+                var fpRnd = sakai.api.Util.generateWidgetId();
+                var fwRnd = sakai.api.Util.generateWidgetId();
                 pubdata[rnd] = {
                     page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
                 }
@@ -149,6 +148,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 count++;
             });
             debug.log(pubdata);
+            debug.log(privdata);
             $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 

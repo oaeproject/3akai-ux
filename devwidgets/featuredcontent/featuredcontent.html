@@ -1,8 +1,9 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/featuredcontent/css/featuredcontent.css" />
 
-<div class="featuredcontent_widget" style="display:none;">
+<div class="featuredcontent_widget">
     <div id="featuredcontent_content_container"><!----></div>
+    <div id="featuredcontent_category_content_container"><!----></div>
 </div>
 
 <div id="featuredcontent_content_template"><!--
@@ -94,8 +95,6 @@
                     </button>
                 <a/>
             </div>
-        {else}
-            <div id="featuredcontent_category_content_container"></div>
         {/if}
     {else}
         {if sakai_global.category}
