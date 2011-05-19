@@ -41,7 +41,7 @@ define(function(){
             SEARCH_PEOPLE_URL: "/search/people",
             SEARCH_GROUP_URL: "/search/groups",
             SEARCH_SITES_URL: "/search/sites",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
             USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
@@ -88,6 +88,8 @@ define(function(){
             SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
             SDATA_FETCH: "/",
             // --
+            SEARCH_ALL_ENTITIES: "/var/search/general.json",
+            SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
