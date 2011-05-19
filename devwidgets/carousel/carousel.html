@@ -185,7 +185,9 @@
                                             </ul>
                                         </div>
                                         <span class="carousel_bottom_buttons" style="display:none">
-                                            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
+                                            {if !user.connected}
+                                                <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
+                                            {/if}
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
                                         </span>
                                     </div>

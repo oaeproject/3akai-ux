@@ -112,7 +112,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(container).bind("mouseleave", function(){
                     $(container + " .carousel_bottom_buttons").hide();
                 });
+            });
 
+            $(window).bind("sakai.addToContacts.requested", function(evObj, user){
+                var addbutton = $.grep($("#carousel_container .sakai_addtocontacts_overlay"), function(value, index) {
+                    return $(value).attr("sakai-entityid") === user.userid;
+                });
+                $(addbutton).remove();
             });
         };
 
@@ -167,7 +173,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
-            var numToSuggest = 4;
 
             $.each(data.content.results, function(index, item) {
                 var obj = {};
@@ -258,42 +263,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var hasTag = [];
             var noPicAndTag = [];
 
-            $.each(data.users.results, function (index, user){
-                var obj = {};
+            sakai.api.User.getContacts(function() {
+                $.each(data.users.results, function (index, user){
+                    var obj = {};
 
-                obj.userid = user.profile.userid;
-                obj.contentType = "user";
-                obj.displayName = sakai.api.User.getDisplayName(user.profile);
-                obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
-                obj.counts = user.profile.counts;
+                    obj.userid = user.profile.userid;
+                    obj.contentType = "user";
+                    obj.displayName = sakai.api.User.getDisplayName(user.profile);
+                    obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
+                    obj.counts = user.profile.counts;
 
-                user = user.profile.basic.elements;
-                if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"].value);
-                }
-                if (user.aboutme){
-                    obj.aboutme = user.aboutme.elements.aboutme.value;
-                }
-                if (user.picture && user.picture.value && user.picture.value.length){
-                    obj.picture = $.parseJSON(user.picture.value);
-                }
+                    user = user.profile.basic.elements;
+                    if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
+                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"].value);
+                    }
+                    if (user.aboutme){
+                        obj.aboutme = user.aboutme.elements.aboutme.value;
+                    }
+                    if (user.picture && user.picture.value && user.picture.value.length){
+                        obj.picture = $.parseJSON(user.picture.value);
+                    }
+                    // is the user a contact or pending contact
+                    if ($.grep(sakai.data.me.mycontacts, function(value, index){return value.target === obj.userid;}).length !== 0){
+                        obj.connected = true;
+                    }
 
-                if (obj.picture && obj.tags){
-                    hasPicAndTag.push(obj);
-                } else if (obj.picture) {
-                    hasPic.push(obj);
-                } else if (obj.tags) {
-                    hasTag.push(obj);
-                } else {
-                    noPicAndTag.push(obj);
-                }
+                    if (obj.picture && obj.tags){
+                        hasPicAndTag.push(obj);
+                    } else if (obj.picture) {
+                        hasPic.push(obj);
+                    } else if (obj.tags) {
+                        hasTag.push(obj);
+                    } else {
+                        noPicAndTag.push(obj);
+                    }
+                });
+
+                var suggested = {
+                    contentType: "suggestedUsers",
+                    suggestions: hasPicAndTag.concat(hasPic, hasTag, noPicAndTag).splice(0, 8)
+                };
+                dataArr.push(suggested);
             });
-
-            var suggested = {
-                contentType: "suggestedUsers",
-                suggestions: hasPicAndTag.concat(hasPic, hasTag, noPicAndTag).splice(0, 8)
-            };
-            dataArr.push(suggested);
         };
 
         var parseData = function(data){
