@@ -1568,7 +1568,7 @@ define(function(){
                         "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
-                            "name": "mycontent"
+                            "name": "recentchangedcontent"
                         }],
                         "column2": [{
                             "uid": "id9495917029618",
