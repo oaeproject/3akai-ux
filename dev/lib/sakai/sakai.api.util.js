@@ -1303,7 +1303,7 @@ define(["jquery",
             replaceURL : function(message){
                 // link is already wrap in anchor tag do nothing
                 // but if it is not wrap in the anchor tag, wrap in the anchor tag.
-                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+(\b|$))/g, function($0,$1){
+                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1){
                     return $1?$0:"<a href='"+$0+"' class='my_link s3d-regular-links s3d-bold' target='_blank'>"+$0+"</a>";
                 });
             },
