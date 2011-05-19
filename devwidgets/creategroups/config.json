@@ -1,6 +1,6 @@
 {
     "description":"create groups",
-    "name":"creategroups",
+    "name":"My recent memberships",
     "id":"creategroups",
     "i18n": {
         "default": "/devwidgets/creategroups/bundles/default.properties"

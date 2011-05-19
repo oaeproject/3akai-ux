@@ -47,7 +47,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // DOM identifiers
         var rootel = $("#" + tuid);
-        var fileuploadContainer = "#fileupload_container";
         var creategroupsItemTemplate = "#creategroups_item_template";
         var creategroupsItem = ".creategroups_item";
 
@@ -101,8 +100,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return item;
         };
 
-
-
         /**
          * This AJAX callback function handles the search result data returned from
          * /var/search/pool/me/manager.json.  If the call was successful, up to 5 of
@@ -113,7 +110,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handlecreategroupsData = function(success, data) {
             if(success && data.entry && data.entry.length > 0) {
+                $("#creategroups_no_group").hide();
                 getGroupInfo(data);
+            } else {
+                $("#creategroups_no_group").show();
             }
         };
 
@@ -159,11 +159,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getMembers = function (newjson){
             sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
                 if (success && memberList.Manager.results[0]) {
+                    var id, name, picture;
+                    if (memberList.Manager.results[0].userid){
+                        id = memberList.Manager.results[0].userid;
+                        name = sakai.api.User.getDisplayName(memberList.Manager.results[0]);
+                        picture = sakai.api.User.getProfilePicture(memberList.Manager.results[0]);
+                    } else if (memberList.Manager.results[0].groupid){
+                        id = memberList.Manager.results[0].groupid;
+                        name = memberList.Manager.results[0]["sakai:group-title"];
+                        picture = sakai.api.Groups.getProfilePicture(memberList.Manager.results[0]);
+                    }
                     newjson.entry[0].manager = memberList.Manager.results[0];
                     var item = {
                         member: {
-                            memberId: memberList.Manager.results[0].userid,
-                            memberName: sakai.api.User.getDisplayName(memberList.Manager.results[0])
+                            memberId: id,
+                            memberName: name,
+                            memberPicture: picture
                         },
                         group: newjson.entry[0]
                     };
@@ -200,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     authorId: data.userid,
                                     authorName: sakai.api.User.getDisplayName(data)
                                 },
-                                content: latestContent.results[0],
+                                content: newjson.entry[0].latestContent,
                                 group: newjson.entry[0],
                                 sakai: sakai
                             };

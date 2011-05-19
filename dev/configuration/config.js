@@ -22,6 +22,8 @@ define(function(){
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_32x32.png",
+            GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64.png",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",

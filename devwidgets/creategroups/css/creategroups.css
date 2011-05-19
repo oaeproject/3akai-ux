@@ -1,38 +1,29 @@
 /*** LAYOUT ***/
-.creategroups_main {background-color:#EBEFF1;
-    border: 1px solid #EBEFF1;
-    border-radius: 5px;
-    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
-    -webkit-border-radius: 5px; /* Safari */}
-.creategroups_widget #creategroups_no_creategroups_wrap{padding:0 20px;}
-
-.creategroups_main {padding-top:10px; padding-bottom:10px;}
-.creategroups_background {background-color:#EBEFF1!important; min-height : 50px;}
-.creategroups_title {color:#707E8C; display:block;}
-.creategroups_add_container {background-color:#FFFFFF; padding:10px 5px 5px 5px; margin: 5px 5px 15px 5px;font-size: 12px; text-align: center;
-    border: 1px solid #FFFFFF;
-    border-radius: 5px;
-    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
-    -webkit-border-radius: 5px; /* Safari */}
-.creategroups_item{margin:20px 0 20px 0; padding-left:5px;}
+.creategroups_main {padding-top:10px; background-color:#FFFFFF!important; min-height: 50px;}
+.creategroups_main img {margin: 3px 10px 0 0;}
+#creategroups_no_group{color: #878a8c;padding: 0 10px;}
+.creategroups_related_details{padding-left:5px;}
 .creategroups_item_info {margin:10px 0 20px 40px;}
-.creategroups_item_related_info {background-color:#D4DADE; padding:5px 10px 10px 10px; margin:15px -10px 0 15px;
-    border: 1px solid #D4DADE;
+.creategroups_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:15px -10px 0 5px;
+    border: 1px solid #ededed;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
    -webkit-border-radius: 5px; /* Safari */}
-.creategroups_item_border { border-right: 10px solid white; border-top: 10px solid #D4DADE; float: right; margin-right: -10px;}
+.creategroups_item_border { border-right: 10px solid white; border-top: 10px solid #ededed; float: right; margin-right: -10px;}
 .creategroups_item_div {min-height:50px; margin-left:40px;}
+.creategroups_content_mimetype{white-space:pre;}
 
-.creategroups_seeall_button {margin: 20px 10px 0 10px;text-align:right;}
+.creategroups_seeall_button {margin-top: 15px; padding: 10px; text-align:right; border-bottom: 1px solid #e1e1e1; background-color:#efefef;}
 
 .creategroups_item_mime{display:block;}
-div.creategroups_item_img{margin-left:3px;}
+div.creategroups_item_img{margin-left:10px;}
 p.creategroups_item_title,p.creategroups_item_meta{margin:0;}
 p.creategroups_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
 
-.creategroups_widget .creategroups_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;}
+.creategroups_add_container {background-color:#efefef; padding:5px 5px 0 5px; margin-bottom: 5px;font-size: 12px; text-align: center;}
+.creategroups_add_container div{color:#878a8c;}
+.creategroups_widget .creategroups_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:50%;}
 .creategroups_widget .creategroups_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
 .creategroups_widget .creategroups_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
 .creategroups_widget .creategroups_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
@@ -45,4 +36,4 @@ p.creategroups_error_msg{padding-left:15px;}
 .creategroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -620px -21px transparent;}
 
 /* Override widget content background colour */
-.creategroups.fl-widget .fl-widget-content {background-color: #ebeff1;}
+.creategroups.fl-widget .fl-widget-content {background-color: #efefef;}
