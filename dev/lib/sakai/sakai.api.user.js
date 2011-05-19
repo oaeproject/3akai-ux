@@ -397,7 +397,15 @@ define(["jquery",
             });
         },
 
-
+        /**
+         * Retrieves the profile picture for the user
+         *
+         * @param {Object} profile the users profile (data.me.profile for the current user)
+         * @return {String} the url for the profile picture
+         */
+        getProfilePicture : function(profile) {
+            return sakai_util.constructProfilePicture(profile, "user");
+        },
 
         /**
          * Retrieves the display name to use for the user from config
