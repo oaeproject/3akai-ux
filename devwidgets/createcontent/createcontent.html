@@ -1,0 +1,138 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/createcontent/css/createcontent.css" />
+
+<div class="createcontent_widget">
+    <div class="fl-widget-content s3d-widget-content">
+       <!-- MAIN createcontent -->
+        <div class="createcontent_main">
+            <div id="createcontent_no_content" style="display:none">__MSG__WHEN_CONTENT_IS_ADDED__</div>
+            <div class="createcontent_item"></div>
+            <div id="createcontent_item_template"><!--
+            {for item in items}
+            <div class="createcontent_related_details">
+                <div class="createcontent_item_img fl-force-left">
+                    {var mimeType = sakai.api.Content.getMimeType(item)}
+                    {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                    <a href="/content#content_path=/p/${item['jcr:name']}" title="${item.name}">
+                        {if thumbnail}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                        {elseif (mimeType.substring(0,6)=="image/")}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${item.path}" alt="${mimeTypeDescription}" />
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {else}
+                            {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                        {/if}
+                    </a>
+                </div>
+                <div class="createcontent_item_info">
+                    <p class="createcontent_item_title">
+                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}" title="${item.name}">
+                            ${item.nameShort}
+                        </a>
+                    </p>
+                    <p class="createcontent_item_meta createcontent_item_mime">${item.type} </p>
+                    {if item.usedin > 0}
+                        <p class="createcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                    {/if}
+                    {if item.totalcomment > 0}
+                        <p class="createcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                    {/if}
+                </div>
+
+                {if item.comment}
+                <div class="createcontent_item_related_info">
+                    <p class="createcontent_item_meta_data">__MSG__LAST_COMMENT_FOR__ <span class="s3d-bold">${item.nameShorter}</span></p>
+                    <div class="fl-force-left">
+                        <span id="createcontent_item_comment_author_picture" style="display:none;">
+                            <img class="s3d-icon-32" src="/dev/images/accept.png" />
+                        </span>
+                        <div class="createcontent_item_comment_arrow"></div>
+                    </div>
+                    <div class="createcontent_comment_background">
+                        <div id="createcontent_item_comment_author"></div>
+                        <p> ${item.comment.comment}</p>
+                    </div>
+                </div>
+                <div class="createcontent_item_border"></div>
+                {/if}
+
+                {if item.relatedContent}
+                <div class="createcontent_item_related_info">
+                    <p class="createcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.relatedContent.nameShorter}</span></p>
+                    <div class="fl-force-left">
+                    <a href="/content#content_path=/p/${item.relatedContent['jcr:name']}" title="${item.relatedContent.name}">
+                        <span>
+                            {var relatedMimeType = sakai.api.Content.getMimeType(item.relatedContent)}
+                            {var relatedThumbnail = sakai.api.Content.getThumbnail(item.relatedContent)}
+                            {if relatedThumbnail}
+                                {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
+                                <img class="s3d-icon-32" src="${relatedThumbnail} alt="${relatedMimeTypeDescription}" />
+                            {elseif (relatedMimeType.substring(0,6)=="image/")}
+                                {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
+                                <img class="s3d-icon-32" src="${item.path}" alt="${relatedMimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[relatedMimeType]}
+                                {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes[relatedMimeType].URL}" alt="${relatedMimeTypeDescription}" />
+                            {else}
+                                {var relatedMimeTypeDescription = sakai.config.MimeTypes["other"].description}
+                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${relatedMimeTypeDescription}" />
+                            {/if}
+                        </span>
+                    </a>
+                    </div>
+                    <div class="createcontent_item_div">
+                        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.relatedContent.path}"  title="${item.relatedContent.name}">
+                            ${item.relatedContent.nameRelatedShort}
+                        </a>
+                        <span class="createcontent_related_mimetype createcontent_item_mime">${item.relatedContent.type}</span>
+                        <div>__MSG__BY__
+                            <span id="createcontent_related_content_author"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="createcontent_item_border"></div>
+                {/if}
+            </div>
+
+            {/for}
+            <div class="createcontent_button">
+                <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/dev/user.html#l=library" title="__MSG__SEE_ALL_MY_CONTENT__">
+                    __MSG__SEE_ALL_MY_CONTENT__
+                </a>
+            </div>
+            --></div>
+        </div>
+        <div class="createcontent_add_container">
+            <button class="s3d-button s3d-button-link-2-state add_createcontent_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
+            <div>__MSG__ADD_CONTENT_TO_LIBRARY__</div>
+        </div>
+    </div>
+
+    <div id="createcontent_item_comment_author_template"><!--
+        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName}">
+            ${author.authorName}
+        </a>
+        {if commentCreated}
+            <span class="createcontent_timeago"> (${sakai.api.Datetime.getTimeAgo(commentCreated)} __MSG__AGO__)</span>
+        {/if}
+    --></div>
+
+    <div id="createcontent_item_related_content_author_template"><!--
+        <a class="createcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName}">
+            ${author.authorName}
+        </a>
+    --></div>
+
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/createcontent/javascript/createcontent.js"></script>
