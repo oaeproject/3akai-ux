@@ -36,7 +36,7 @@ p.recentchangedcontent_error_msg{padding-left:15px;}
 
 .recentchangedcontent_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
 .recentchangedcontent_add_container div{color: #878a8c;}
-.recentchangedcontent_widget .add_recentchangedcontent_button {margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;}
+.recentchangedcontent_widget .add_recentchangedcontent_button {margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%; max-width: 325px;}
 .recentchangedcontent_widget .add_recentchangedcontent_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
 .recentchangedcontent_widget .add_recentchangedcontent_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
 .recentchangedcontent_widget .add_recentchangedcontent_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}

@@ -26,7 +26,7 @@ p.recentcontactsnew_error_msg{padding-left:15px;}
 .recentcontactsnew_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
 .recentcontactsnew_add_container div{color:#878a8c;}
 .recentcontactsnew_add_container a {text-decoration: none;}
-.recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;}
+.recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}
 .recentcontactsnew_widget .recentcontactsnew_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
 .recentcontactsnew_widget .recentcontactsnew_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
 .recentcontactsnew_widget .recentcontactsnew_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
