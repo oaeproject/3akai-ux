@@ -1608,8 +1608,6 @@ define(function(){
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "_order": 0,
-                    "_canEdit": true,
-                    "_canSubedit": true,
                     "_nonEditable": true
                 },
                 "library": {
@@ -1617,7 +1615,6 @@ define(function(){
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
-                    "_canEdit": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
@@ -1630,7 +1627,6 @@ define(function(){
                     "_order": 2,
                     "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
-                    "_canEdit": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
@@ -1643,7 +1639,6 @@ define(function(){
                     "_order": 3,
                     "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
-                    "_canEdit": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",
