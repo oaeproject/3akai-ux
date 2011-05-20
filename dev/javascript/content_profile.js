@@ -561,24 +561,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
-        
+
         $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
             switchToOneColumnLayout(true);
         });
-        
-        var setManagerProperty = function(structure){
+
+        var setManagerProperty = function(structure, value){
             for (var i in structure){
-                structure[i]._canEdit = true;
-                structure[i]._canSubedit = true;
+                structure[i]._canEdit = value;
+                structure[i]._canSubedit = value;
             }
             return structure;
-        }
+        };
 
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            if (sakai_global.content_profile.content_data.isManager){
-                pagestructure.structure0 = setManagerProperty(pagestructure.structure0);
-            }
+            pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
             if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {

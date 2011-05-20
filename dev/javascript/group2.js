@@ -78,7 +78,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////
         // LOAD LEFT HAND SIDE //
         /////////////////////////
-        
+
         var filterOutUnwanted = function(){
             var roles = $.parseJSON(groupData.authprofile["sakai:roles"]);
             for (var i in pubdata.structure0){
