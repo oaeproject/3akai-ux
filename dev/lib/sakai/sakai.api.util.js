@@ -38,7 +38,7 @@ define(["jquery",
         "/dev/lib/jquery/plugins/jquery.ba-bbq.js"],
         function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
     
-    var util = {
+    var sakai_util = {
 
         startup : function() {
             // I know this is hideous
@@ -356,7 +356,7 @@ define(["jquery",
             $(newTags).each(function(i,val) {
                 val = $.trim(val.replace(/#/g,"").replace(/\s+/g, " "));
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
-                    if (util.Security.escapeHTML(val) === val && val.length) {
+                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -366,7 +366,7 @@ define(["jquery",
             $(currentTags).each(function(i,val) {
                 val = $.trim(val).replace(/#/g,"").replace(/\s+/g, " ");
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (util.Security.escapeHTML(val) === val && val.length) {
+                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -420,14 +420,19 @@ define(["jquery",
         /**
          * Check whether there is a valid picture for the user
          * @param {Object} profile The profile object that could contain the profile picture
+         * @param {String} type The type of profile we're getting the picture for (group or user)
          * @return {String}
          * The link of the profile picture
          * Will be an empty string if there is no picture
          */
-        constructProfilePicture : function(profile){
+        constructProfilePicture : function(profile, type){
             // profile.basic.elements object should not have picture information
             // if there is profile picture and userId
             // return the picture links
+            var imgUrl = sakai_conf.URL.USER_DEFAULT_ICON_URL;
+            if (type === "group"){
+                imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
+            }
             var id = null, picture_name = null;
             if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
                 if (profile["rep:userId"]){
@@ -457,10 +462,10 @@ define(["jquery",
                     //change string to json object and get name from picture object
                     return "/~" + id + "/public/profile/" + picture_name;
                 } else {
-                    return sakai_conf.URL.USER_DEFAULT_ICON_URL;
+                    return imgUrl;
                 }
             } else {
-                return sakai_conf.URL.USER_DEFAULT_ICON_URL;
+                return imgUrl;
             }
         },
 
@@ -894,7 +899,7 @@ define(["jquery",
             $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
-                    util.include.css(val);
+                    sakai_util.include.css(val);
                 });
             }
         },
@@ -1093,6 +1098,20 @@ define(["jquery",
             }
         },
         Datetime: {
+            /**
+             * Returns the current time in GMT milliseconds from the epoch
+             */
+            getCurrentGMTTime : function() {
+                var d = new Date();
+                d = sakai_util.Datetime.toGMT(d);
+                return d.getTime();
+            },
+            getCurrentTime : function(meData) {
+                var d = new Date();
+                d = sakai_util.Datetime.toGMT(d);
+                d = sakai_l10n.fromGMT(d, meData);
+                return d;
+            },
             parseDateString : function(dateString){
                 var d = new Date();
                 d.setFullYear(parseInt(dateString.substring(0,4),10));
@@ -1242,12 +1261,12 @@ define(["jquery",
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering failed: " + err);
+                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
-                render = util.Security.saneHTML(render);
+                render = sakai_util.Security.saneHTML(render);
             }
 
             // Check it there was an output element defined
@@ -1349,6 +1368,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
+                html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {
@@ -1475,7 +1495,7 @@ define(["jquery",
                 } else {
                     $('html').addClass("requireUser");
                 }
-                util.loadSkinsFromConfig();
+                sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
                 var pageTitle = require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.prefix);
@@ -1522,5 +1542,5 @@ define(["jquery",
 
     };
     
-    return util;
+    return sakai_util;
 });

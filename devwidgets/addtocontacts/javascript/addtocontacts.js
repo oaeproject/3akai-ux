@@ -98,7 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName).text(sakai.api.User.getDisplayName(user));
+                $(addToContactsInfoDisplayName).text(user.username);
                 user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 // Check for picture
                 if (user.pictureLink) {
@@ -222,6 +222,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Function} callback The callback function that will be executed after the request.
          */
         var initialize = function(user){
+            user.userid = user.userid || user.uuid;
             contactToAdd = user;
             fillInUserInfo(contactToAdd);
 

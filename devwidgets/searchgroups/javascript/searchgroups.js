@@ -35,7 +35,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var selectedCategory = "other";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
-            selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+                selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
             }
         }
 
@@ -134,7 +134,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         ///////////////
         // Functions //
         ///////////////
-
+        
+        $("#searchgroups_type_title, rootel").text(selectedCategory);
+    
         var pager_click_handler = function(pageclickednumber){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text, rootel).val(),
@@ -168,30 +170,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // If we have results we add them to the object.
                 if (results && results.results) {
                     finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
-                    for (var group in finaljson.items){
-                        if (finaljson.items.hasOwnProperty(group)) {
-                            if (finaljson.items[group]["sakai:group-title"]) {
-                                finaljson.items[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-title"]), $(".searchgroups_results", rootel).width() - 200, {max_rows: 1,whole_word: false}, "s3d-bold");
-                            }
-                            if (finaljson.items[group]["sakai:group-description"]) {
-                                finaljson.items[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(finaljson.items[group]["sakai:group-description"]), $(".searchgroups_results", rootel).width() + 200, {max_rows: 1,whole_word: false}, "search_result_course_site_excerpt");
-                            }
-                            var groupType = "OTHER";
-                            if (finaljson.items[group]["sakai:category"]){
-                                for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                                    if (sakai.config.worldTemplates[c].id === finaljson.items[group]["sakai:category"]){
-                                        groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
-                                    }
-                                }
-                            }
-                            finaljson.items[group].groupType = groupType;
-                            finaljson.items[group].created = "1305156244412";
-                            finaljson.items[group].userMember = false;
-                            if (sakai.api.Groups.isCurrentUserAManager(finaljson.items[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(finaljson.items[group]["sakai:group-id"], sakai.data.me)){
-                                finaljson.items[group].userMember = true;
-                            }
-                        }
-                    }
                 }
 
                 // if we're searching tags we need to hide the pager since it doesnt work too well
@@ -202,13 +180,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // We hide the pager if we don't have any results or
                 // they are less then the number we should display
                 results.total = Math.abs(results.total);
-                if (results.total <= resultsToDisplay) {
-                    $(searchConfig.global.pagerClass, rootel).hide();
-                } else {
+                if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass, rootel).show();
                 }
-            } else {
-                $(searchConfig.global.pagerClass, rootel).hide();
             }
 
             // Render the results.
@@ -243,6 +217,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         };
 
         var doSearch = function(){
+            $(searchConfig.global.pagerClass, rootel).hide();
 
             var params = sakai_global.data.search.getQueryParams();
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);

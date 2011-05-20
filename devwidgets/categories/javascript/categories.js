@@ -138,6 +138,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     toplevel["featuredcontent"] = data.results[count];
                     toplevel.id = i;
                 }
+                toplevel.id = i;
                 categoriesToRender.push(toplevel);
                 count++;
             });
