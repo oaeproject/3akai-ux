@@ -408,6 +408,28 @@ define(["jquery",
         },
 
         /**
+         * Retrieves the first name display to use for the user from config
+         * and parses it from the profile elements
+         *
+         * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @return {String} the first name to show for a user
+         */
+        getFirstName : function(profile) {
+            var configFirstName = [sakai_conf.Profile.userFirstNameDisplay];
+            var nameToReturn = "";
+
+            if (profile &&
+                profile.basic &&
+                profile.basic.elements &&
+                profile.basic.elements[configFirstName] !== undefined &&
+                profile.basic.elements[configFirstName].value !== undefined) {
+                nameToReturn += profile.basic.elements[configFirstName].value;
+            }
+
+            return unescape(sakai_util.Security.saneHTML($.trim(nameToReturn)));
+        },
+
+        /**
          * Retrieves the display name to use for the user from config
          * and parses it from the profile elements
          *
