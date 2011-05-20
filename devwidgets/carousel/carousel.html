@@ -21,7 +21,7 @@
     {/macro}
 
     {macro contentButtons(id, uploader)}
-        <span class="carousel_content_buttons" style="display:none">
+        <span class="carousel_bottom_buttons" style="display:none">
             <img src="/devwidgets/featuredcontent/images/featuredcontent_share_icon.png" class="carousel_sharecontent share_trigger_click" data-entityid="${id}" />
             <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="carousel_savecontent savecontent_trigger" data-entityid="${id}" />
             <img src="/devwidgets/featuredcontent/images/featuredcontent_author_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
@@ -160,6 +160,78 @@
                                         {/if}
                                     </div>
                                 </div>
+                            </div>
+                        {elseif item.contentType == "suggestedUsers"}
+                            <div class="carousel_4x2_grid_container">
+                                {for user in item.suggestions}
+                                    <div>
+                                        {if user.picture}
+                                            <img src="/~${user.userid}/public/profile/${user.picture.name}" />
+                                        {else}
+                                            <img src="/dev/images/user_avatar_icon_48x48.png" />
+                                        {/if}
+                                        <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
+                                        <div class="carousel_counts">
+                                            <ul>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span class="carousel_bottom_buttons" style="display:none">
+                                            {if !user.connected}
+                                                <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
+                                            {/if}
+                                            <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
+                                        </span>
+                                    </div>
+                                {/for}
+                            </div>
+                        {elseif item.contentType == "suggestedGroups"}
+                            <div class="carousel_4x2_grid_container">
+                                {for group in item.suggestions}
+                                    {var tall = group_index < 2}
+                                    <div class="carousel_4x2_{if tall}tall{else}short{/if}">
+                                        {if group.picture}
+                                            <img src="/~${group.groupid}/public/profile/${group.picture.name}" />
+                                        {else}
+                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" />
+                                        {/if}
+                                        <h2>
+                                            <a href="/~${group.groupid}" class="s3d-action">
+                                                ${group.title}
+                                            </a>
+                                        </h2>
+                                        {if tall}
+                                            <p>
+                                                ${group.description}
+                                            </p>
+                                        {/if}
+                                        <div class="carousel_counts">
+                                            <ul>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="#" title="${group.counts.contentCount} __MSG__CONTENT_ITEMS__">${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="#" title="${group.counts.membersCount} __MSG__PARTICIPANTS__">${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        ${tags(group.tags)}
+                                        <span class="carousel_bottom_buttons" style="display:none">
+                                            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_joingroup_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" />
+                                            <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group" />
+                                        </span>
+
+                                    </div>
+                                {/for}
                             </div>
                         {elseif item.contentType == "group"}
                             {if item && item.members}

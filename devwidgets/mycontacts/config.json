@@ -1,5 +1,5 @@
 {
-    "description":"My recent contacts",
+    "description":"My contacts",
     "id":"mycontacts",
     "multipleinstance": false,
     "i18n": {
@@ -7,7 +7,7 @@
         "en_US": "/devwidgets/mycontacts/bundles/en_US.properties",
         "zh_CN": "/devwidgets/mycontacts/bundles/zh_CN.properties"
     },
-    "name":"My recent contacts",
+    "name":"My contacts",
     "personalportal":true,
     "type":"sakai",
     "enabled":true,

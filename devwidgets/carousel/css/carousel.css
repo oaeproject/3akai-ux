@@ -19,9 +19,13 @@
 /* General */
 #carousel_container {padding:5px 12px;}
 #carousel_container h1{color: #424242;font-size: 13px; margin-bottom:10px;}
-#carousel_container h2{font-size: 12px;}
+#carousel_container h2{font-size: 12px; margin-top: 0px;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
 #carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
+#carousel_container .carousel_counts {font-size: 11px;}
+#carousel_container .carousel_counts ul {margin: 0;}
+#carousel_container .carousel_counts ul li {list-style: none;}
+#carousel_container .carousel_result_detail_separator {color: #ccc;}
 #carousel_container .carousel_content_description {color:#797979;margin-bottom: 10px;}
 #carousel_container .carousel_content_metadata {color:#424242;margin-bottom: 10px;}
 #carousel_container .carousel_content_text {color:#424242;}
@@ -50,8 +54,8 @@
 /* Three column */
 #carousel_container p {font-size: 12px; color: #424242;}
 
-#carousel_container .carousel_content_buttons {position:absolute; bottom: 7px; width: 100%; right: 0;}
-#carousel_container .carousel_content_buttons img {display: block; margin-left: auto; margin-right: auto; cursor: pointer;}
+#carousel_container .carousel_bottom_buttons {position:absolute; bottom: 7px; width: 100%; right: 0;}
+#carousel_container .carousel_bottom_buttons img {display: block; margin-left: auto; margin-right: auto; cursor: pointer;}
 #carousel_container .carousel_savecontent {float:left; padding-left: 10px;}
 #carousel_container .carousel_sharecontent {float:right; padding-right: 10px;}
 
@@ -65,6 +69,17 @@
 #carousel_container .carousel_three_column_right > div {width: 160px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px;}
 #carousel_container .carousel_three_column_right .carousel_two_high_top {margin-bottom: 6px; position:relative;}
 #carousel_container .carousel_three_column_right .carousel_two_high_bottom {position:relative;}
+
+/* 4x2 grid */
+
+#carousel_container .carousel_4x2_grid_container > div {width: 149px; height: 83px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float: left; margin: 0 0 7px 6px; position: relative;}
+#carousel_container .carousel_4x2_grid_container > div > img {height: 48px; float:left; margin-right: 10px;}
+#carousel_container .carousel_4x2_grid_container h2 {margin: 0}
+#carousel_container .sakai_joingroup_overlay,
+#carousel_container .sakai_addtocontacts_overlay {float:left; padding-left: 10px;}
+#carousel_container .sakai_sendmessage_overlay {float:right; padding-right: 10px;}
+
+#carousel_container .carousel_4x2_grid_container .carousel_4x2_tall {height: 192px;}
 
 /* User Specific */
 #carousel_container .carousel_user_image {width:100px; height:100px;float:left;margin:0 12px 12px 0;}

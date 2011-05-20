@@ -2,5 +2,5 @@
 #explore_navigation{height:40px;}
 #explore_navigation .s3d-contentpage-title{border-bottom:none;}
 #explore_content {padding: 12px;}
-#explore_content_first_column {width:75%;float:left;}
+#explore_content_first_column, .explore_content_first_column {width:75%;float:left;}
 #explore_content_second_column {float:right;width:23%;margin-top:12px;}

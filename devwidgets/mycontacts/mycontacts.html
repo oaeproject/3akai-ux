@@ -39,12 +39,14 @@
                 <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">${i.type.join(", ")}</a></div>
             </div>
         {forelse}
-            <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
-                <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
-                </button>
-            </a>
-            <span class="mycontacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
+            <div class="mycontacts_no_contacts">
+                <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
+                    <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
+                    </button>
+                </a>
+                <span class="mycontacts_no_contacts_text">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
+            </div>
         {/for}
     --></div>
 
