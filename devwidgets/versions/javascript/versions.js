@@ -198,8 +198,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(window).bind("init.versions.sakai", function(ev, cps){
             if ($(versionsContainer).is(":visible")) {
                 $(versionsContainer).hide();
-                $(versionsContainer).html("");
-            }else{
+            } else{
                 currentPageShown = cps;
                 doInit();
             }
@@ -211,6 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 doInit();
             }
         });
+
 
     };
 
