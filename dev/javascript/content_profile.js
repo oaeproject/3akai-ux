@@ -231,7 +231,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             saveddirectory : directory,
                             versions : versionInfo,
                             anon: anon,
-                            content_path: content_path.replace("/p/",""),
+                            content_path: content_path,
                             isManager: manager,
                             isViewer: viewer
                         };
