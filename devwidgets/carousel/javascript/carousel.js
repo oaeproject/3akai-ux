@@ -154,14 +154,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
         };
         
-		var toggleCarousel = function(e){
-			var state = $.bbq.getState("l") || "";
-			if (state==="dashboard") {
-				e.data.carousel.startAuto();
-			} else {
-				e.data.carousel.stopAuto();
-			}
-		};
+        var toggleCarousel = function(e){
+            var state = $.bbq.getState("l") || "";
+            if (state==="dashboard") {
+                e.data.carousel.startAuto();
+            } else {
+                e.data.carousel.stopAuto();
+            }
+        };
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
