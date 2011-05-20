@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
+        var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -490,6 +491,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 return false;
+            });
+            
+            $(topnavigationlogin).hover(function(){
+                $('#topnavigation_user_options_login_fields').show();
+            },
+            function(){
+                $('#topnavigation_user_options_login_fields').hide();
             });
         };
 
