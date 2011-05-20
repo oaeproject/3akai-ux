@@ -69,7 +69,7 @@
                     id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
                 <button class="s3d-link-button mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
                 <button class="s3d-link-button mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
-                <a href="${item.link}" title="__MSG__VIEW_THIS_ITEM__">
+                <a href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
                     {var thumbnail = sakai.api.Content.getThumbnail(item.fullResult)}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
                     {if sakai.config.MimeTypes[item.mimeType]}
@@ -85,7 +85,7 @@
                 </a>
                 <div class="mylibrary_item_right s3d-regular-links">
                     <div>
-                        <a class="s3d-bold s3d-regular-light-links" href="${item.link}" title="__MSG__VIEW_THIS_ITEM__">
+                        <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
                             ${item.filename}
                         </a>
                         {if mimeTypeDescription}

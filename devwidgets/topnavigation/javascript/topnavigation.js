@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
+        var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -206,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var tempFile = {
                         "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                         "name" : data.results[i]["sakai:pooled-content-file-name"],
-                        "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
+                        "url" : "/content#p=" + data.results[i]["jcr:name"]+"/"+data.results[i]["sakai:pooled-content-file-name"],
                         "css_class" : mimeType
                     };
                     files.push(tempFile);
@@ -474,8 +475,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
                 }, function(success){
                     if (success) {
+                        var qs = new Querystring();
                         // Go to You when you're on explore page
                         if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                            window.location = "/dev/me.html";
+                        // 403/404 and not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
+                            var url = qs.get("url");
+                            if (url){
+                                window.location = url;
+                            } else {
+                                location.reload(true);
+                            }
+                        // 500 not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                             window.location = "/dev/me.html";
                         } else {
                             // Just reload the page
@@ -490,6 +503,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
                 return false;
+            });
+            
+            $(topnavigationlogin).hover(function(){
+                $('#topnavigation_user_options_login_fields').show();
+            },
+            function(){
+                $('#topnavigation_user_options_login_fields').hide();
             });
         };
 

@@ -483,7 +483,7 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
             // we need to interact directly with the LiteBasicLTI servlet. It's 
             // also not a recursive servlet so we can't use the default .infinity.json
             // that is used under the covers for most of the calls.
-            var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
+            var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement + ".json";
             $.ajax({
                 type: "GET",
                 url: url,
