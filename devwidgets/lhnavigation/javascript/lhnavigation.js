@@ -336,6 +336,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var selectPage = function(newPageMode){
             var state = $.bbq.getState("l");
             var selected = state || false;
+            var jcarousel = $('#carousel_container');
+            if(jcarousel.data('jcarousel')){
+                jcarousel.data('jcarousel')[(state==="dashboard"?"start":"stop") + "Auto"]();
+            }
             // If no page is selected, select the first one from the nav
             if (!selected){
                 selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
