@@ -236,9 +236,9 @@
         {/if}
     </div>
     {if type && type == "group_managed"}
-        <div id="entity_group_image" class="s3d-dropdown-menu entity_other_profilepic">
+        <div id="entity_group_image" class="s3d-dropdown-menu">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
             <div class="s3d-dropdown-menu-arrow"></div>
             <div class="s3d-dropdown-container" style="display:none;">
@@ -250,7 +250,7 @@
     {else}
         <div id="entity_group_image" class="entity_other_profilepic">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
         </div>
     {/if}
