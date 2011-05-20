@@ -73,43 +73,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} is_manager  optional flag to set whether this user
          *     is a manager or not
          */
-        var push_member_to_list = function (member, list, is_manager) {
+        var push_member_to_list = function (member, list, role) {
             var picsrc = "/dev/images/default_profile_picture_32.png";
             if (member.basic.elements.picture &&
                 member.basic.elements.picture.name &&
                 member.basic.elements.picture.name.value) {
                 picsrc = member.basic.elements.picture.name.value;
             }
-            // if this user is already a manager don't re-add
-            var userInList = function() {
-                var filtered = $.grep(list, function(value, index){
-                    return (value.link === "/~" + member.userid);
-                });
-                return (filtered.length === 0);
-            };
-            if (userInList()) {
-                list.push({
-                    link: "/~" + member.userid,
-                    picsrc: picsrc,
-                    displayname: member.basic.elements.firstName.value +
-                        " " + member.basic.elements.lastName.value,
-                    manager: is_manager || false
-                });
-            }
+            list.push({
+                link: member.homePath,
+                picsrc: picsrc,
+                displayname: sakai.api.User.getDisplayName(member),
+                role: role
+            });
         };
 
         var getGroup = function(groupid, callback) {
             var group = {};
             // get batch group data for this group
             var batchRequests = [
-                {
-                    url: "/system/userManager/group/" + groupid + ".managers.json",
-                    method: "GET"
-                },
-                {
-                    url: "/system/userManager/group/" + groupid + ".members.json",
-                    method: "GET"
-                },
                 {
                     url: "/var/joinrequests/list.json?groupId=" + groupid,
                     method: "GET"
@@ -122,29 +104,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success && data && data.results && data.results.length) {
                     var participants = [];
-                    // managers
-                    if (data.results[0].body) {
-                        var managers = $.parseJSON(data.results[1].body);
-                        group.managerCount = managers.length;
-                        $.each(managers, function (i, manager) {
-                            push_member_to_list(manager, participants, true);
-                        });
-                    }
-                    // members
-                    if (data.results[1].body) {
-                        var members = $.parseJSON(data.results[0].body);
-                        $.each(members, function (i, member) {
-                            push_member_to_list(member, participants);
-                        });
-                    }
                     // join requests
-                    if (data.results[2].body) {
-                        var joinrequests = $.parseJSON(data.results[2].body);
+                    if (data.results[0].body) {
+                        var joinrequests = $.parseJSON(data.results[0].body);
                         group.joinrequests = joinrequests;
                     }
                     // joinability info
-                    if (data.results[3].body) {
-                        var groupdata = $.parseJSON(data.results[3].body);
+                    if (data.results[1].body) {
+                        var groupdata = $.parseJSON(data.results[1].body);
                         group.joinability =
                             groupdata.authprofile["sakai:group-joinable"];
                         group.title =
@@ -152,21 +119,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         group.id =
                             groupid;
                     }
+                    sakai.api.Groups.getMembers(groupid, false, function(success, members) {
+                        $.each(members, function(role, users) {
+                            $.each(users.results, function(index, user) {
+                                push_member_to_list(user, participants, role);
+                            });
+                        });
 
-                    group.totalParticipants = participants.length;
-                    if (participants.length > 1) {
-                        participants = participants.sort(participantSort);
-                    }
-                    if (participants.length > 5) {
-                        participants = participants.slice(0, 5);
-                        group.seeAll = true;
-                    } else {
-                        group.seeAll = false;
-                    }
-                    group.participants = participants;
-                    if ($.isFunction(callback)){
-                        callback(group);
-                    }
+                        group.totalParticipants = participants.length;
+                        if (participants.length > 1) {
+                            participants = participants.sort(participantSort);
+                        }
+                        if (participants.length > 5) {
+                            participants = participants.slice(0, 5);
+                            group.seeAll = true;
+                        } else {
+                            group.seeAll = false;
+                        }
+                        group.participants = participants;
+                        if ($.isFunction(callback)){
+                            callback(group);
+                        }
+                    });
                 } else {
                     debug.error("Batch request to fetch group (id: " + id + ") data failed.");
                 }

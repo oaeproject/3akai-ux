@@ -18,7 +18,7 @@
                     alt="__MSG__USER_PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
                     <td class="joingroup_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
                         class="joingroup_itemtitle">${p.displayname}</a></p>
-                        {if p.manager}<p>__MSG__GROUP_MANAGER__</p>{/if}
+                    <p>${p.role}</p>
                     </td>
                 </tr>
             {/for}
