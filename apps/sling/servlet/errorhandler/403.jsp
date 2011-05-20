@@ -80,9 +80,9 @@
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <button class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
+                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
                                 <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
-                            </button>
+                            </a>
                          </div>
                         </div>
                     </div>

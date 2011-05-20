@@ -31,7 +31,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $goback = $("#error_goback");
         var $searchinput = $("#errorsearch_text");
-        var $browsecatsbutton = $("#error_browse_categories_button");
 
         var doInit = function(){
             var renderedTemplate = false;
@@ -92,9 +91,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (ev.keyCode === 13) {
                     document.location = "/dev/search2.html#q=" + $.trim($searchinput.val());
                 }
-            });
-            $browsecatsbutton.click(function(){
-                document.location = "/dev/allcategories.html";
             });
         };
 
