@@ -4,7 +4,7 @@
 .recentcontactsnew_main img {margin: 0px 10px 0 0;}
 #recentcontactsnew_no_group{color: #878a8c;padding: 0 10px;}
 .recentcontactsnew_related_details{padding:1px 0 0 5px;}
-.recentcontactsnew_item_info {margin:10px 0 20px 40px;}
+.recentcontactsnew_item_info {margin:10px 0 0 40px; min-height: 50px;}
 .recentcontactsnew_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:10px -10px 0 5px;
     border: 1px solid #ededed;
     font-size: 11px;
