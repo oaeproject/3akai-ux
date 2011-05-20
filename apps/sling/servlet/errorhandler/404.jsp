@@ -76,7 +76,7 @@
                         <div id="error_content_second_column_box_browse_container">
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
-                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__</p>
+                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <span class="error_browse_cats"><span id="error_browse_category_number"></span> __MSG__CATEGORIES__</span> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
@@ -98,7 +98,7 @@
                                 <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
                                 <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
-                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
                             </ol>
                         --></div>
                         <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
