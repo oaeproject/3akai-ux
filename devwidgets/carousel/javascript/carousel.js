@@ -104,15 +104,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#carousel_view_toggle_" + carousel.last).removeClass("carousel_view_toggle_selected");
             $("#carousel_view_toggle_" + index).addClass("carousel_view_toggle_selected");
 
-            var contentButtonContainers = [".carousel_three_column_left", ".carousel_three_column_middle", ".carousel_two_high_top", ".carousel_two_high_bottom"];
+            var contentButtonContainers = [".carousel_three_column_left", ".carousel_three_column_middle", ".carousel_two_high_top", ".carousel_two_high_bottom", ".carousel_4x2_grid_container > div"];
             $.each(contentButtonContainers, function(index, container) {
-                $(container).bind("mouseover", function(){
-                    $(container + " .carousel_content_buttons").show();
+                $(container).bind("mouseover", function(evObj){
+                    $(evObj.target).find(".carousel_bottom_buttons").show();
                 });
                 $(container).bind("mouseleave", function(){
-                    $(container + " .carousel_content_buttons").hide();
+                    $(container + " .carousel_bottom_buttons").hide();
                 });
+            });
 
+            $(window).bind("sakai.addToContacts.requested", function(evObj, user){
+                var addbutton = $.grep($("#carousel_container .sakai_addtocontacts_overlay"), function(value, index) {
+                    return $(value).attr("sakai-entityid") === user.userid;
+                });
+                $(addbutton).remove();
             });
         };
 
@@ -167,7 +173,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
-            var numToSuggest = 4;
 
             $.each(data.content.results, function(index, item) {
                 var obj = {};
@@ -253,24 +258,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var parseUsers = function(data, dataArr){
-            $.each(data.users.results, function (index, user){
-                var obj = {};
+            var hasPicAndTag = [];
+            var hasPic = [];
+            var hasTag = [];
+            var noPicAndTag = [];
 
-                if (user["sakai:tags"] && user["sakai:tags"].length){
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"]);
-                }
-                if (user.aboutme){
-                    obj.aboutme = user.aboutme.elements.aboutme.value;
-                }
-                if (user.picture && user.picture.length){
-                    obj.picture = $.parseJSON(user.picture);
-                }
+            sakai.api.User.getContacts(function() {
+                $.each(data.users.results, function (index, user){
+                    var obj = {};
 
-                obj.contentType = "user";
-                obj.userid = user.userid;
-                obj.displayName = sakai.api.User.getDisplayName(user);
+                    obj.userid = user.profile.userid;
+                    obj.contentType = "user";
+                    obj.displayName = sakai.api.User.getDisplayName(user.profile);
+                    obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
+                    obj.counts = user.profile.counts;
 
-                dataArr.push(obj);
+                    user = user.profile.basic.elements;
+                    if (user["sakai:tags"] && user["sakai:tags"].value && user["sakai:tags"].value.length){
+                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(user["sakai:tags"].value);
+                    }
+                    if (user.aboutme){
+                        obj.aboutme = user.aboutme.elements.aboutme.value;
+                    }
+                    if (user.picture && user.picture.value && user.picture.value.length){
+                        obj.picture = $.parseJSON(user.picture.value);
+                    }
+                    // is the user a contact or pending contact
+                    if ($.grep(sakai.data.me.mycontacts, function(value, index){return value.target === obj.userid;}).length !== 0){
+                        obj.connected = true;
+                    }
+
+                    if (obj.picture && obj.tags){
+                        hasPicAndTag.push(obj);
+                    } else if (obj.picture) {
+                        hasPic.push(obj);
+                    } else if (obj.tags) {
+                        hasTag.push(obj);
+                    } else {
+                        noPicAndTag.push(obj);
+                    }
+                });
+
+                var suggested = {
+                    contentType: "suggestedUsers",
+                    suggestions: hasPicAndTag.concat(hasPic, hasTag, noPicAndTag).splice(0, 8)
+                };
+                dataArr.push(suggested);
             });
         };
 
@@ -279,7 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             parseContent(data, dataArr);
             //parseGroups(data, dataArr);
-            //parseUsers(data, dataArr);
+            parseUsers(data, dataArr);
             if (dataArr.length) {
                 renderCarousel(dataArr);
             }
@@ -298,6 +331,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     method: "GET",
                     cache: false,
                     dataType: "json"
+                },
+                {
+                    url: "/var/contacts/related-contacts.json?items=11",
+                    method: "GET",
+                    cache: false,
+                    dataType: "json"
                 }
             ];
 
@@ -305,6 +344,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (success) {
                     //content
                     dataArr.content = $.parseJSON(data.results[0].body);
+                    //users
+                    dataArr.users = $.parseJSON(data.results[1].body);
                 }
                 parseData(dataArr);
             });
