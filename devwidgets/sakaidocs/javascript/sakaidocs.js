@@ -672,18 +672,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(){
                     // add pageContent in non-replace mode to support versioning
                     $.ajax({
-                        url: currentPageShown.pageSavePath + "/pageContent.save.json",
+                        url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
                         type: "POST",
                         data: {
                             "sling:resourceType": "sakai/pagecontent",
                             "sakai:pagecontent": $.toJSON(toStore),
                             "_charset_": "utf-8"
-                        },
-                        success: function (data) {
-                            debug.log("success");
-                        },
-                        error: function(a,b,c){
-                            debug.log(a,b,c);
+                        }, success: function(){
+                            $(window).trigger("init.versions.sakai", currentPageShown);
                         }
                     });
                 }
@@ -747,6 +743,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setWrappingStyle("block_image_right");
         });
 
+        $("#sakaidocs_revisions").bind("click",function(ev){
+            $(window).trigger("init.versions.sakai", currentPageShown);
+        });
+
         $("#autosave_revert").die("click").live("click", revertAutosave);
 
         $("#autosave_keep").die("click").live("click", keepAutosave);
@@ -770,6 +770,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Widget has loaded //
         ///////////////////////
 
+        sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
         $(window).trigger("ready.sakaidocs.sakai");
 
     };
