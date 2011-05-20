@@ -1,0 +1,14 @@
+{
+    "description":"My recent contacts",
+    "name":"My recent contacts",
+    "id":"recentcontactsnew",
+    "i18n": {
+        "default": "/devwidgets/recentcontactsnew/bundles/default.properties"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/recentcontactsnew/recentcontactsnew.html",
+    "deletable":true
+}
