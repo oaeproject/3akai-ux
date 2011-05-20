@@ -85,20 +85,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var contentActivity = false;
                 var versionInfo = false;
 
-                // temporary request that returns data KERN-1768
-                $.ajax({
-                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
-                    type: "GET",
-                    "async":false,
-                    "cache":false,
-                    "dataType":"json",
-                    success: function(data){
-                        if (data.results.hasOwnProperty(0)) {
-                            contentActivity = data;
-                        }
-                    }
-                });
-
                 sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
@@ -151,6 +137,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                             versionInfo.versions = versions.reverse();
+                        }
+                        
+                        if (data.results.hasOwnProperty(3)) {
+                            contentActivity = $.parseJSON(data.results[3].body);;
                         }
 
                         var manager = false;

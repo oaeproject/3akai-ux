@@ -1261,7 +1261,7 @@ define(["jquery",
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering failed: " + err);
+                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
 
             // Run the rendered html through the sanitizer
