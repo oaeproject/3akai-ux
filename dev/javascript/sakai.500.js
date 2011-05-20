@@ -19,6 +19,8 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {
+        
+        sakai_global.nopermissions.error500 = true;
 
         var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
         var permissionsErrorLoggedInTemplate = "permission_error_logged_in_template";

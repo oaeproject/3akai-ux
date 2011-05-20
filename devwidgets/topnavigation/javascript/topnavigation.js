@@ -475,8 +475,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
                 }, function(success){
                     if (success) {
+                        var qs = new Querystring();
                         // Go to You when you're on explore page
                         if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                            window.location = "/dev/me.html";
+                        // 403/404 and not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
+                            var url = qs.get("url");
+                            if (url){
+                                window.location = url;
+                            } else {
+                                location.reload(true);
+                            }
+                        // 500 not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                             window.location = "/dev/me.html";
                         } else {
                             // Just reload the page

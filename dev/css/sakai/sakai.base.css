@@ -21,8 +21,6 @@
  * GLOBAL RULES
  */
 body, button{font-family:Arial, Helvetica, sans-serif;line-height:120%;}
-.requireUser{background:url(/dev/images/body_bg_sprite.png) repeat-x scroll left -91px #75ADD7;}
-.requireAnon{background:#093b52 url(/dev/images/page_bg_water.jpg) top left repeat-x;}
 .section_header{font-weight:bold;border-bottom:1px solid #ebebeb;font-size:17px;padding-bottom:3px;}
 
 /* adding a visible outline on focus for accessibility */
