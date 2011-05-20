@@ -77,7 +77,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 easing: "swing",
                 scroll: 3,
                 start: versions.length - 1,
-                initCallback: carouselBinding
+                initCallback: carouselBinding,
+                itemFallbackDimension: 123
             });
         };
 
@@ -103,7 +104,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         setUsername(u, users);
                     }
                 }
-                renderVersions();
+                if ($(versionsContainer).is(":visible")) {
+                    renderVersions();
+                } else {
+                    $(versionsContainer).show();
+                    renderVersions();
+                }
             });
         };
 
@@ -127,6 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $("#" + currentPageShown.saveRef).before("<div id=\"" + currentPageShown.saveRef + "_previewversion\"></div>");
             }
             $("#" + currentPageShown.saveRef + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
+            $("#" + currentPageShown.saveRef + "_previewversion").show();
             $("#" + currentPageShown.saveRef).hide();
         };
 
@@ -156,7 +163,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "sakai:pagecontent": $.toJSON(toStore),
                             "_charset_": "utf-8"
                         }, success: function(){
-                            $(window).trigger("init.versions.sakai", currentPageShown);
+                            $(window).trigger("update.versions.sakai", currentPageShown);
                         }
                     });
                 }
@@ -182,15 +189,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////
 
         var doInit = function(){
+            versions = [];
+            addBinding();
             getContext();
             getVersions();
         };
 
-        $(window).bind("init.versions.sakai", function(ev,cps){
-            currentPageShown = cps;
-            versions = [];
-            doInit();
-            addBinding();
+        $(window).bind("init.versions.sakai", function(ev, cps){
+            if ($(versionsContainer).is(":visible")) {
+                $(versionsContainer).hide();
+                $(versionsContainer).html("");
+            }else{
+                currentPageShown = cps;
+                doInit();
+            }
+        });
+
+        $(window).bind("update.versions.sakai", function(ev, cps){
+            if ($(versionsContainer).is(":visible")) {
+                currentPageShown = cps;
+                doInit();
+            }
         });
 
     };

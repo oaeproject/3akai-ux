@@ -679,7 +679,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "sakai:pagecontent": $.toJSON(toStore),
                             "_charset_": "utf-8"
                         }, success: function(){
-                            $(window).trigger("init.versions.sakai", currentPageShown);
+                            $(window).trigger("update.versions.sakai", currentPageShown);
                         }
                     });
                 }
