@@ -36,6 +36,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (success){
                     groupData = {};
                     groupData.authprofile = data.properties;
+                    groupData.authprofile.picture = sakai.api.Groups.getProfilePicture(groupData.authprofile);
                     sakai_global.group2.groupData = groupData.authprofile;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
