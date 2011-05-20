@@ -1,0 +1,122 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/recentcontactsnew/css/recentcontactsnew.css" />
+
+<div class="recentcontactsnew_widget">
+    <div class="fl-widget-content s3d-widget-content recentcontactsnew_content">
+       <div class="recentcontactsnew_add_container">
+           <a href="/dev/search2.html#l=people" title="__MSG__CREATE_A_GROUP__">
+               <button class="s3d-button s3d-button-link-2-state recentcontactsnew_button" type="button">
+                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
+               </button>
+           </a>
+           <div>__MSG__START_FORMING_NETWORK_OF_CONTACTS__</div>
+       </div>
+       <!-- MAIN recentcontactsnew -->
+        <div class="recentcontactsnew_main">
+            <div class="recentcontactsnew_item"></div>
+            <div id="recentcontactsnew_item_template"><!--
+                <div class="recentcontactsnew_item_img fl-force-left">
+                    <a href="#">
+                        <img class="s3d-icon-50" src="${profilePicture}"/>
+                    </a>
+                </div>
+                <div class="recentcontactsnew_item_info">
+                    <p class="recentcontactsnew_item_title">
+                        <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${profile.userid}">
+                            ${displayName}
+                        </a>
+                    </p>
+                    {if profile.counts && profile.counts.contentCount > 0}
+                        <p class="recentcontactsnew_item_meta">${profile.counts.contentCount}{if profile.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</p>
+                    {/if}
+                    {if profile.counts && profile.counts.contactsCount > 0}
+                        <p class="recentcontactsnew_item_meta">${profile.counts.contactsCount}{if profile.counts.contactsCount === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}</p>
+                    {/if}
+                    {if profile.counts.membershipsCount > 0}
+                        <p class="recentcontactsnew_item_meta">${profile.counts.membershipsCount}{if profile.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}</p>
+                    {/if}
+                </div>
+
+                <div class="recentcontactsnew_related_details">
+                    <div id="recentcontactsnew_latest_content_container"></div>
+                    <div id="recentcontactsnew_recent_connection_container"></div>
+                </div>
+
+                <div class="recentcontactsnew_seeall_button">
+                    <a class="recentcontactsnew_item_link s3d-widget-links" href="/dev/me.html#l=library">
+                        __MSG__SEE_ALL_MY_CONTACTS__
+                    </a>
+                </div>
+            --></div>
+        </div>
+    </div>
+
+    <div id="recentcontactsnew_recent_connection_template"><!--
+        {if connection}
+            <div class="recentcontactsnew_item_related_info">
+                <p class="recentcontactsnew_item_meta_data">${firstName} __MSG__RECENT_CONNECTION__</p>
+                <div class="fl-force-left">
+                <a href="/~${connection.connectionId}">
+                    <img class="s3d-icon-32" src="${connection.connectionPicture}" />
+                </a>
+                </div>
+                <div class="recentcontactsnew_item_div">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}" title="${connection.connectionName}">
+                        ${connection.connectionName}
+                    </a>
+                </div>
+            </div>
+            <div class="recentcontactsnew_item_border"></div>
+        {/if}
+    --></div>
+
+    <div id="recentcontactsnew_latest_content_template"><!--
+        {if content}
+            <div class="recentcontactsnew_item_related_info">
+                <p class="recentcontactsnew_item_meta_data">${author.authorName} __MSG__RECENT_UPLOAD__</p>
+                <div class="fl-force-left">
+                    <a href="/content#content_path=/p/${content['jcr:name']}" title="${content.name}">
+                    <span>
+                        {var mimeType = sakai.api.Content.getMimeType(content)}
+                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                        {var thumbnail = sakai.api.Content.getThumbnail(content)}
+                        {if thumbnail}
+                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                        {elseif (mimeType.substring(0,6)=="image/")}
+                            <img class="s3d-icon-32" src="/p/${content['jcr:name']}" alt="${mimeTypeDescription}" />
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {else}
+                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                        {/if}
+                    </span>
+                    </a>
+                </div>
+                <div class="recentcontactsnew_item_div">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#content_path=/p/${content['jcr:name']}">
+                        ${content.name}
+                    </a>
+                    <span class="recentcontactsnew_content_mimetype">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
+                    <div>
+
+                        {if content.placeCount > 0}
+                            <p class="recentcontactsnew_item_meta">__MSG__USED_IN__ ${content.placeCount}{if content.placeCount === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                        {/if}
+                        {if content.commentCount > 0}
+                            <p class="recentcontactsnew_item_meta">${content.commentCount}{if content.commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="recentcontactsnew_item_border"></div>
+        {/if}
+    --></div>
+
+    <div class="s3d-widget-no-options">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/recentcontactsnew/javascript/recentcontactsnew.js"></script>

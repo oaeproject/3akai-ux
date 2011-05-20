@@ -59,6 +59,7 @@ define(function(){
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
+            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
             DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -498,6 +499,11 @@ define(function(){
                     }
                 }
             },
+            /*
+             * set what name to display where only the first name is used
+             */
+            userFirstNameDisplay: "firstName",
+
             /*
              * set how the user's name is displayed across the entire system
              * - values can be compound, like "firstName lastName" or singular like "displayName"
