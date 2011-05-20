@@ -53,7 +53,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var privstructure = false;
         var pubstructure = false;
         var contextData = false;
-        var justDragged = false;
 
         var parametersToCarryOver = {};
         var sakaiDocsInStructure = {};
@@ -89,6 +88,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////////////
         // Structure processing functions //
         ////////////////////////////////////
+
+        /**
+         * Given a path to a page in a structure, return the page
+         *
+         * @param {String} path The path to the page, ie. "syllabus/week1"
+         * @param {Object} structure The structure to find the path in, ie. pubstructure.items
+         * @return {Object} the page
+         */
+        var getPage = function(path, structure) {
+            if (path.indexOf("/") > -1) {
+                structure = structure[path.split("/")[0]];
+                path = path.substring(path.indexOf("/")+1);
+                return getPage(path, structure);
+            } else if (structure[path]){
+                return structure[path];
+            } else {
+                return null;
+            }
+        };
 
         var getPageCount = function(pagestructure, pageCount){
             if (!pageCount){
@@ -721,13 +739,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var processNavigationClick = function($el, ev){
             // don't open if the click is a result of a sort operation
-            if (justDragged) {
-                justDragged = false;
-            } else {
-                var $elLI = $el.parent("li");
-                if ($elLI.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
-                    showHideSubnav($elLI);
-                }
+            var $elLI = $el.parent("li");
+            if ($elLI.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
+                showHideSubnav($elLI);
             }
         };
 
@@ -746,18 +760,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var handleReorder = function(e, ui) {
-            justDragged = true;
             // if its a sakaidoc in a world or content profile, we have to save
             // it differently
             if ($("body").hasClass("show")) {
-                var savePath = $(e.target).children("li:first").data("sakai-savepath");
+                var $target = $(e.target);
+                var savePath = $target.children("li:first").data("sakai-savepath");
                 var structure = sakaiDocsInStructure[savePath];
-                $(e.target).children("li").each(function(i, elt) {
+                var area = privstructure;
+                if ($target.data("sakai-space") === "public") {
+                    area = pubstructure;
+                }
+                $target.children("li").each(function(i, elt) {
                     var path = $(elt).data("sakai-path");
-                    if (path.indexOf("/") > -1) {
-                        path = path.split("/")[1];
+                    var struct0path = path;
+                    if (struct0path.indexOf("/") > -1) {
+                        struct0path = struct0path.split("/")[1];
                     }
-                    structure.structure0[path]._order = i;
+                    structure.structure0[struct0path]._order = i;
+                    var item = getPage(path, area.items);
+                    item._order = i;
                 });
                 storeStructure(structure.structure0, savePath);
             } else {
@@ -783,11 +804,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 });
                 sakai.api.Server.batch(reqs);
             }
+            e.stopImmediatePropagation();
         };
 
         var enableSorting = function() {
-            $(".lhnavigation_subnav, #lhnavigation_container ul.lhnavigation_menu_list").sortable({
-                items: "li[data-sakai-manage=true]",
+            $("#lhnavigation_container .lhnavigation_menu_list").sortable({
+                items: "li.lhnavigation_outer[data-sakai-manage=true]",
+                update: handleReorder
+            });
+            $("#lhnavigation_container .lhnavigation_subnav").sortable({
+                items: "li.lhnavigation_subnav_item[data-sakai-manage=true]",
                 update: handleReorder
             });
         };
