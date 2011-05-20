@@ -154,9 +154,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
         };
         
-        var toggleCarousel = function(e){
-            var state = $.bbq.getState("l");
-            if (state==="dashboard") {
+        var toggleCarousel = function(e, showing){
+            if (showing) {
                 e.data.carousel.startAuto();
             } else {
                 e.data.carousel.stopAuto();
