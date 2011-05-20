@@ -451,7 +451,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         //////////////////////
         // Area permissions //
         //////////////////////
-        
+
         var showAreaPermissions = function(){
             toggleContextMenu(true);
             $(window).trigger("permissions.area.trigger", [contextMenuHover]);

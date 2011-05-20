@@ -1786,7 +1786,7 @@ define(function(){
                                 "_order": 0,
                                 "_docref": "${pid}0",
                                 "_nonEditable": true,
-                                "_view": ["everyone,", "anonymous", "-member"],
+                                "_view": ["everyone", "anonymous", "-member"],
                                 "_edit": ["-manager"]
                             },
                             "participants": {
