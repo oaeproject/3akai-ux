@@ -155,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
         
         var toggleCarousel = function(e){
-            var state = $.bbq.getState("l") || "";
+            var state = $.bbq.getState("l");
             if (state==="dashboard") {
                 e.data.carousel.startAuto();
             } else {
