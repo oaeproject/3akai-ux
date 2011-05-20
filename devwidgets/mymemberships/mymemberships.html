@@ -58,6 +58,7 @@
                         {/if}
                     </span>
                 </span>
+                <a href="#"><img src="/dev/images/add_to_library_icon.png" class="sakai_joingroup_overlay" data-groupid="${group.id}" /></a>
                 <div class="mymemberships_imagearea">
                     <a href="${group.url}" title="__MSG__VIEW_GROUP__"><img
                         class="mymemberships_group_pic"
@@ -97,41 +98,6 @@
             </li>
         {/for}
     {/if}
-    --></div>
-
-    <div id="mymemberships_hover_template" style="display:none;"><!--
-        <div class="mymemberships_hover_top">
-            <p><span class="s3d-bold">${title}</span>
-            <br/>
-                <span class="mymemberships_hover_details">${totalParticipants}
-                    {if totalParticipants !== 1}__MSG__PARTICIPANTS__{else}__MSG__PARTICIPANT__{/if}</span>
-            </p>
-            <p>
-                <div id="mymemberships_joinrequestbuttons"></div>
-                <button type="button" id="mymemberships_msggroup_${id}"
-                    class="s3d-button s3d-button-link-2-state mymemberships_message_btn">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
-                </button>
-            </p>
-            <div class="fl-push"></div>
-        </div>
-        <table class="mymemberships_group_participants">
-            {for p in participants}
-                <tr><td class="mymemberships_userimg"><a href="${p.link}" title="__MSG__VIEW_PROFILE__"><img
-                    alt="__MSG__USER_PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
-                    <td class="mymemberships_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
-                        class="mymemberships_itemtitle">${p.displayname}</a></p>
-                        {if p.manager}<p>__MSG__GROUP_MANAGER__</p>{/if}
-                    </td>
-                </tr>
-            {/for}
-        </table>
-        {if seeAll}
-            <div class="mymemberships_people_footer">
-                <a class="mymemberships_see_all mymemberships_itemtitle" href="/~${id}"
-                    title="__MSG__VIEW_ALL_GROUP_MEMBERS__">__MSG__SEE_ALL_PARTICIPANTS__</a>
-            </div>
-        {/if}
     --></div>
 </div>
 
