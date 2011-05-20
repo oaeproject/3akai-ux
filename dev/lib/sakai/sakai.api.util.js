@@ -1261,7 +1261,7 @@ define(["jquery",
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering failed: " + err);
+                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
 
             // Run the rendered html through the sanitizer
@@ -1368,6 +1368,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
+                html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {

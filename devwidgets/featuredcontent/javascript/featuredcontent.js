@@ -27,23 +27,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.featuredcontent = function(tuid, showSettings){
+    sakai_global.featuredcontent = function(tuid, showSettings, pageData){
+
+        var $rootel = $("#"+tuid);
 
         // Containers
-        var $featuredcontentContentContainer = $("#featuredcontent_content_container");
+        var $featuredcontentContentContainer = $("#featuredcontent_content_container", $rootel);
+        var featuredcontentCategoryContentContainer = "#featuredcontent_category_content_container";
 
         // Templates
         var featuredcontentContentTemplate = "featuredcontent_content_template";
+        var featuredcontentCategoryContentTemplate= "featuredcontent_category_content_template";
+
+        var $featuredcontentWidget = $(".featuredcontent_widget", $rootel);
 
         var largeEnough = false;
 
         var featuredContentArr = [];
+        var featuredCategoryContentArr = [];
 
-        var renderFeaturedContent = function(data){
-            $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
-                "data": data,
-                "sakai": sakai
-            }));
+        var renderFeaturedContent = function(total){
+            if (!sakai_global.category) {
+                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
+                    "data": featuredContentArr,
+                    "sakai": sakai,
+                    "category": pageData.category
+                }));
+            } else {
+                $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
+                    "data": featuredContentArr,
+                    "sakai": sakai,
+                    "category": pageData.category
+                }));
+                if (featuredCategoryContentArr && !featuredCategoryContentArr.hasPreview) {
+                    featuredCategoryContentArr.splice(0, 1);
+                }
+                if (featuredCategoryContentArr.length) {
+                    $(featuredcontentCategoryContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredcontentCategoryContentTemplate, {
+                        "data": featuredCategoryContentArr,
+                        "sakai": sakai,
+                        "total": total,
+                        "category": pageData.category
+                    }));
+                }
+            }
         };
 
         var parseFeaturedContent = function(success, data){
@@ -67,6 +94,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (item["sakai:tags"]) {
                                 item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                             }
+                            item.usedin = sakai.api.Content.getPlaceCount(item);
+                            item.commentcount = sakai.api.Content.getCommentCount(item);
                             candidate = item;
                             i = index;
                         }
@@ -80,6 +109,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (item["sakai:tags"]) {
                             item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                         }
+                        item.usedin = sakai.api.Content.getPlaceCount(item);
+                        item.commentcount = sakai.api.Content.getCommentCount(item);
                         featuredContentArr.push(item);
                         data.results.splice(index, 1);
                         return false;
@@ -87,53 +118,104 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
 
                 if (!largeEnough) {
-                    featuredContentArr.push(candidate);
-                    data.results.splice(i, 1);
+                    if(!candidate && data.results.length){
+                        data.results[0].mode = "large";
+                        data.results[0].hasPreview = sakai.api.Content.hasPreview(data.results[0]);
+                        if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
+                            data.results[0].image = true;
+                        }
+                        if (data.results[0]["sakai:tags"]) {
+                            data.results[0]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[0]["sakai:tags"].toString());
+                        }
+                        data.results[0].usedin = sakai.api.Content.getPlaceCount(data.results[0]);
+                        data.results[0].commentcount = sakai.api.Content.getCommentCount(data.results[0]);
+                        candidate = data.results[0];
+                    }
+                    if(candidate){
+                        featuredContentArr.push(candidate);
+                        featuredCategoryContentArr.push(candidate);
+                        data.results.splice(i, 1);
+                    }
                 }
 
                 $.each(data.results, function(index, item){
-                    if (featuredContentArr.length != 7) {
-                        if (mode == "medium") {
-                            item.mode = "medium";
-                            mode = "small";
-                            if (item["sakai:tags"]) {
-                                item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
-                            }
-                            featuredContentArr.push(item);
-                        }
-                        else {
+                    if (sakai_global.category) {
+                        if (featuredCategoryContentArr.length != 6) {
                             item.mode = "small";
                             if (item["sakai:tags"]) {
                                 item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
                             }
-                            tempArr.push(item);
-                            numSmall++;
-                            if (numSmall == 2) {
-                                numSmall = 0;
-                                mode = "medium";
-                                featuredContentArr.push(tempArr);
-                                tempArr = [];
+                            if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                                item.image = true;
+                            }
+                            item.usedin = sakai.api.Content.getPlaceCount(item);
+                            item.commentcount = sakai.api.Content.getCommentCount(item);
+                            featuredCategoryContentArr.push(item);
+                        }
+                    } else {
+                        if (featuredContentArr.length != 7) {
+                            if (mode == "medium") {
+                                item.mode = "medium";
+                                mode = "small";
+                                item.usedin = sakai.api.Content.getPlaceCount(item);
+                                if (item["sakai:tags"]) {
+                                    item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                                }
+                                featuredContentArr.push(item);
+                            }
+                            else {
+                                item.mode = "small";
+                                if (item["sakai:tags"]) {
+                                    item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                                }
+                                tempArr.push(item);
+                                numSmall++;
+                                if (numSmall == 2) {
+                                    numSmall = 0;
+                                    mode = "medium";
+                                    featuredContentArr.push(tempArr);
+                                    tempArr = [];
+                                }
                             }
                         }
                     }
                 });
-                renderFeaturedContent(featuredContentArr);
+                if(sakai_global.category && featuredCategoryContentArr && featuredCategoryContentArr[0] && !featuredCategoryContentArr[0].hasPreview){
+                    featuredCategoryContentArr[0].mode = "small";
+                    featuredCategoryContentArr[0] = featuredCategoryContentArr[0];
+                }
+                renderFeaturedContent(data.total);
             } else {
-                renderFeaturedContent(false);
+                renderFeaturedContent(0);
             }
         };
 
         var getFeaturedContent = function(){
-            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseFeaturedContent, {
+            var items = 10;
+            var q = "";
+            var url = "/var/search/pool/all-all.json";
+            if(sakai_global.category){
+                items = 7;
+                q = pageData.category;;
+                url = "/var/search/pool/all.json"
+            }
+            sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
-                items: 10,
+                items: items,
                 sortOn: "_lastModified",
                 sortOrder: "desc",
-                q: "*"
+                q: q
             });
         };
 
+        var resetWidget = function(){
+            largeEnough = false;
+            featuredContentArr = [];
+            featuredCategoryContentArr = [];
+        };
+
         var doInit = function(){
+            resetWidget();
             getFeaturedContent();
         };
 

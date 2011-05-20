@@ -85,20 +85,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var contentActivity = false;
                 var versionInfo = false;
 
-                // temporary request that returns data KERN-1768
-                $.ajax({
-                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
-                    type: "GET",
-                    "async":false,
-                    "cache":false,
-                    "dataType":"json",
-                    success: function(data){
-                        if (data.results.hasOwnProperty(0)) {
-                            contentActivity = data;
-                        }
-                    }
-                });
-
                 sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
                         if (data.results.hasOwnProperty(0)) {
@@ -151,6 +137,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                             versionInfo.versions = versions.reverse();
+                        }
+                        
+                        if (data.results.hasOwnProperty(3)) {
+                            contentActivity = $.parseJSON(data.results[3].body);;
                         }
 
                         var manager = false;
@@ -561,24 +551,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
-        
+
         $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
             switchToOneColumnLayout(true);
         });
-        
-        var setManagerProperty = function(structure){
+
+        var setManagerProperty = function(structure, value){
             for (var i in structure){
-                structure[i]._canEdit = true;
-                structure[i]._canSubedit = true;
+                structure[i]._canEdit = value;
+                structure[i]._canSubedit = value;
             }
             return structure;
-        }
+        };
 
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            if (sakai_global.content_profile.content_data.isManager){
-                pagestructure.structure0 = setManagerProperty(pagestructure.structure0);
-            }
+            pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
             if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {

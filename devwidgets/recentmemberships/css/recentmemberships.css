@@ -3,8 +3,8 @@
 .recentmemberships_main {background-color:#FFFFFF!important; min-height: 50px;}
 .recentmemberships_main img {margin: 0px 10px 0 0;}
 #recentmemberships_no_group{color: #878a8c;padding: 0 10px;}
-.recentmemberships_related_details{padding-left:5px;}
-.recentmemberships_item_info {margin:10px 0 20px 40px;}
+.recentmemberships_related_details{padding-left: 5px;}
+.recentmemberships_item_info {margin:10px 0 30px 40px;}
 .recentmemberships_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:10px -10px 0 5px;
     border: 1px solid #ededed;
     font-size: 11px;
@@ -26,7 +26,7 @@ p.recentmemberships_error_msg{padding-left:15px;}
 .recentmemberships_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
 .recentmemberships_add_container div{color:#878a8c;}
 .recentmemberships_add_container a {text-decoration: none;}
-.recentmemberships_widget .recentmemberships_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;}
+.recentmemberships_widget .recentmemberships_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}
 .recentmemberships_widget .recentmemberships_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
 .recentmemberships_widget .recentmemberships_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
 .recentmemberships_widget .recentmemberships_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}

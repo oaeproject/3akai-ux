@@ -165,16 +165,80 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                  }
              });
-
-debug.log(newView);
-debug.log(newEdit);
-
+             
              // If I manage the document, add/remove appropriate roles from document
-             
+             if (contextData.isManager){
+                 
+                 // General visibility
+                 // Options are public, everyone or private
+                 var permissionsBatch = [];
+                 
+                 var $generalVisEl = $("#areapermissions_area_general_visibility");
+                 var generalValue = $generalVisEl.val();
+                 var originalGeneralValue = $generalVisEl.data("original-selection");
+                 var generalPermission = "";
+                 if (generalValue !== originalGeneralValue){
+                     if (generalValue === "everyone"){
+                         generalPermission = "public";
+                     } else if (generalValue === "loggedin"){
+                         generalPermission = "everyone";
+                     } else if (generalValue === "selected"){
+                         generalPermission = "private";
+                     }
+                 }
+                 permissionsBatch.push({
+                     "url": contextData.pageSavePath + ".json",
+                     "method": "POST",
+                     "parameters": {
+                         "sakai:permissions": generalPermission
+                     }
+                 });
+                 debug.log(generalValue + " ==== " + originalGeneralValue);
+                 
+                 
+                 // Per role visibility
+                 for (var i = 0; i < roles.length; i++) {
+                     var role = sakai_global.group2.groupId + "-" + roles[i].id;
+                     var el = $("select[data-roleid='" + roles[i].id + "']");
+                     var selectedPermission = el.val();
+                     var parameters = {
+                         ":viewer@Delete": role,
+                         ":manager@Delete": role
+                     }
+                     if (selectedPermission === "edit"){
+                         parameters = {
+                             ":viewer@Delete": role,
+                             ":manager": role
+                         }
+                     } else if (selectedPermission === "view"){
+                         parameters = {
+                             ":viewer": role,
+                             ":manager@Delete": role
+                         }
+                     }
+                     permissionsBatch.push({
+                         "url": contextData.pageSavePath + ".members.json",
+                         "method": "POST",
+                         "parameters": parameters
+                     });
+                 }
+                 
+                 // Send requests
+                 sakai.api.Server.batch(permissionsBatch, function(success, data){
+                     if (generalPermission) {
+                         sakai.api.Content.setFilePermissions([{
+                             "hashpath": contextData.pageSavePath.substring(3),
+                             "permissions": generalPermission
+                         }]);
+                     }
+                 });
+                 
+             }
+
              $("#areapermissions_container").jqmHide();
-             
+
          }
-         
+
          /////////////////////////////////
          // Modal dialog initialization //
          /////////////////////////////////

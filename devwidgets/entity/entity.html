@@ -236,9 +236,9 @@
         {/if}
     </div>
     {if type && type == "group_managed"}
-        <div id="entity_group_image" class="s3d-dropdown-menu entity_other_profilepic">
+        <div id="entity_group_image" class="s3d-dropdown-menu">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
             <div class="s3d-dropdown-menu-arrow"></div>
             <div class="s3d-dropdown-container" style="display:none;">
@@ -250,7 +250,7 @@
     {else}
         <div id="entity_group_image" class="entity_other_profilepic">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
         </div>
     {/if}
@@ -299,7 +299,7 @@
                         {if i.pictureUrl}
                             <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="entity_content_picture"/></a>
+                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
                             <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>

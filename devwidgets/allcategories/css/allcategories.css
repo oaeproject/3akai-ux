@@ -29,9 +29,9 @@
 .allcategories_widget .allcategories_item .allcategories_item_header .allcategories_item_raquo {background:url("/devwidgets/allcategories/images/allcategories_item_raquo.png") no-repeat top left transparent;width:15px;height:22px;float:right;}
 
 /* Content Style */
-.allcategories_widget .allcategories_item a.s3d-regular-links {font-size:12px;}
-.allcategories_widget .allcategories_item .allcategories_item_header a.s3d-regular-links {color:#FFF;text-decoration:none;}
-.allcategories_widget .allcategories_item a.allcategories_item_header_link{font-size: 17px;}
+.allcategories_widget .allcategories_item .s3d-regular-links {font-size:12px;}
+.allcategories_widget .allcategories_item .allcategories_item_header .s3d-regular-links {color:#FFF;text-decoration:none;}
+.allcategories_widget .allcategories_item .allcategories_item_header_link{font-size: 17px;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta {color:#fff;font-size:10px;display:block;}
 .allcategories_widget .allcategories_item .allcategories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}

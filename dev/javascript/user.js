@@ -42,10 +42,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var setupProfile = function(pub) {
             var firstWidgetRef = "";
-            var profilestructure = {};
-            profilestructure._title = pub.structure0.profile._title;
-            profilestructure._altTitle = pub.structure0.profile._altTitle;
-            profilestructure._order = pub.structure0.profile._order;
+            var profilestructure = {
+                _title: pub.structure0.profile._title,
+                _altTitle: pub.structure0.profile._altTitle,
+                _order: pub.structure0.profile._order,
+                _canEdit: true,
+                _canSubedit: true,
+                _nonEditable: true
+            };
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
                 var widgetID = sakai.api.Util.generateWidgetId();
@@ -54,7 +58,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _ref: widgetID,
                     _order: section.order,
                     _altTitle: section.label,
-                    _title: section.label
+                    _title: section.label,
+                    _nonEditable: true
                 };
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
@@ -90,13 +95,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    setupProfile(pubdata);
+                    setupProfile(publicToStore);
                 } else {
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }
-                setupProfile(pubdata);
                 if (!isMe){
                     addCounts();
+                    pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
                 }
                 if (isMe){
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
@@ -114,6 +121,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
                         addCounts();
+                        pubdata.structure0 = setManagerProperty(pubdata.structure0, true);
                         generateNav();
                     });
                 } else {
@@ -129,6 +137,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
                 addCount(privdata, "messages", sakai.data.me.messages.unread);
             }
+        };
+
+        var setManagerProperty = function(structure, value){
+            for (var i in structure){
+                if (i.substring(0, 1) !== "_" && typeof structure[i] === "object") {
+                    structure[i]._canEdit = value;
+                    structure[i]._canSubedit = value;
+                    structure[i] = setManagerProperty(structure[i], value);
+                }
+            }
+            return structure;
         };
 
         var addCount = function(pubdata, pageid, count){

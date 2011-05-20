@@ -171,7 +171,7 @@
                                             <img src="/dev/images/user_avatar_icon_48x48.png" />
                                         {/if}
                                         <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
-                                        <div class="carousel_user_counts">
+                                        <div class="carousel_counts">
                                             <ul>
                                                 <li>
                                                     <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
@@ -190,6 +190,46 @@
                                             {/if}
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
                                         </span>
+                                    </div>
+                                {/for}
+                            </div>
+                        {elseif item.contentType == "suggestedGroups"}
+                            <div class="carousel_4x2_grid_container">
+                                {for group in item.suggestions}
+                                    {var tall = group_index < 2}
+                                    <div class="carousel_4x2_{if tall}tall{else}short{/if}">
+                                        {if group.picture}
+                                            <img src="/~${group.groupid}/public/profile/${group.picture.name}" />
+                                        {else}
+                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" />
+                                        {/if}
+                                        <h2>
+                                            <a href="/~${group.groupid}" class="s3d-action">
+                                                ${group.title}
+                                            </a>
+                                        </h2>
+                                        {if tall}
+                                            <p>
+                                                ${group.description}
+                                            </p>
+                                        {/if}
+                                        <div class="carousel_counts">
+                                            <ul>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="#" title="${group.counts.contentCount} __MSG__CONTENT_ITEMS__">${group.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                </li>
+                                                <li>
+                                                    <a class="s3d-regular-light-links" href="#" title="${group.counts.membersCount} __MSG__PARTICIPANTS__">${group.counts.membersCount} __MSG__PARTICIPANTS__</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        ${tags(group.tags)}
+                                        <span class="carousel_bottom_buttons" style="display:none">
+                                            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_joingroup_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" />
+                                            <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group" />
+                                        </span>
+
                                     </div>
                                 {/for}
                             </div>

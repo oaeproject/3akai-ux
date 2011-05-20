@@ -23,7 +23,7 @@
 .s3d-header .s3d-fixed-container .s3d-decor {background: url("/dev/images/pageHeader_tr.png") no-repeat scroll 0 0 transparent;}
 
 /* Page titles */
-.s3d-contentpage-title {border-bottom:5px solid #E1E1E1; color:#333333; font-size:1.25em; padding:8px 0; margin-bottom: 15px;}
+.s3d-contentpage-title {border-bottom:5px solid #E1E1E1; color:#424242; font-size:1.25em; padding:8px 0; margin-bottom: 15px;}
 
 /* Page bottom */
 .s3d-bottom-spacer {clear: both; padding-bottom: 40px;}
