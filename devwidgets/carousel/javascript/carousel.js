@@ -150,7 +150,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(this).addClass("carousel_view_toggle_selected");
                 return false;
             });
+            
+            $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
         };
+        
+		var toggleCarousel = function(e){
+			var state = $.bbq.getState("l") || "";
+			if (state==="dashboard") {
+				e.data.carousel.startAuto();
+			} else {
+				e.data.carousel.stopAuto();
+			}
+		};
 
         var renderCarousel = function(dataArr){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
