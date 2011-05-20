@@ -138,7 +138,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 addCount(privdata, "messages", sakai.data.me.messages.unread);
             }
         };
-        
+
         var setManagerProperty = function(structure, value){
             for (var i in structure){
                 if (i.substring(0, 1) !== "_" && typeof structure[i] === "object") {
