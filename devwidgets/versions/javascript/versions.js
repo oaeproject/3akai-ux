@@ -48,6 +48,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var versionsVersionItem = ".versions_version_item";
         var versionsRestoreVersion = ".versions_restore_version";
 
+
         ///////////////
         // RENDERING //
         ///////////////
@@ -98,19 +99,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 userIds.push(version["_lastModifiedBy"]);
             });
             versions.reverse();
-            sakai.api.User.getMultipleUsers(userIds, function(users){
-                for (var u in users) {
-                    if (users.hasOwnProperty(u)) {
-                        setUsername(u, users);
+            if (userIds.length) {
+                sakai.api.User.getMultipleUsers(userIds, function(users){
+                    for (var u in users) {
+                        if (users.hasOwnProperty(u)) {
+                            setUsername(u, users);
+                        }
                     }
-                }
+                    if ($(versionsContainer).is(":visible")) {
+                        renderVersions();
+                    }
+                    else {
+                        $(versionsContainer).show();
+                        renderVersions();
+                    }
+                });
+            } else {
                 if ($(versionsContainer).is(":visible")) {
                     renderVersions();
                 } else {
                     $(versionsContainer).show();
                     renderVersions();
                 }
-            });
+            }
         };
 
 
@@ -168,8 +179,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     });
                 }
             });
-
         };
+
 
         /////////////
         // BINDING //
@@ -201,6 +212,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else{
                 currentPageShown = cps;
                 doInit();
+                if (cps.showByDefault) {
+                    $(versionsContainer).show();
+                }
             }
         });
 

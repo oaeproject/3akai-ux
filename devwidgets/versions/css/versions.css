@@ -31,6 +31,7 @@
 .versions_widget #versions_container ul li.versions_divider {border-right:1px solid #dadad9;}
 .versions_widget #versions_container ul li.versions_selected .s3d-button {visibility:visible;margin-top:5px;}
 .versions_widget #versions_container ul li .versions_date {display:block;clear:both;margin-bottom:1px;}
+.versions_widget #versions_container #versions_noversions{font-size:12px;font-weight:normal;margin-left:auto;margin-right:auto;margin-top:30px;text-align:center;width:200px;color:#c5c5c5;}
 
 /* Overriding button CSS */
 .versions_widget #versions_container ul li .s3d-button-link-2-state-inner{font-size:9px;}

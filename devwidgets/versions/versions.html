@@ -6,21 +6,27 @@
 </div>
 
 <div id="versions_template"><!--
-    <div id="versions_next" class="versions_controls"></div>
-    <div id="versions_prev" class="versions_controls"></div>
+    {if data.length}
+        <div id="versions_next" class="versions_controls"></div>
+        <div id="versions_prev" class="versions_controls"></div>
+    {/if}
     <div class="jcarousel-skin-tango s3d-bold" style="width:858px;">
-        <ul>
-            {for version in data}
-                <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-pageContent="${version.page}">
-                    {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
-                    <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
-                    <a href="~/${version["_lastModifiedBy"]}" class="s3d-regular-links versions_updater" title="__MSG__VIEW__ ${version["_lastModifiedBy"]}'s __MSG__PROFILE__">${version["_lastModifiedBy"]}</a>
-                    <button type="button" class="s3d-button s3d-button-link-2-state versions_restore_version">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__RESTORE_THIS_REVISION__</span>
-                    </button>
-                </li>
-            {/for}
-        </ul>
+        {if data.length}
+            <ul>
+                {for version in data}
+                    <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-pageContent="${version.page}">
+                        {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
+                        <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
+                        <a href="~/${version["_lastModifiedBy"]}" class="s3d-regular-links versions_updater" title="__MSG__VIEW__ ${version["_lastModifiedBy"]}'s __MSG__PROFILE__">${version["_lastModifiedBy"]}</a>
+                        <button type="button" class="s3d-button s3d-button-link-2-state versions_restore_version">
+                            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__RESTORE_THIS_REVISION__</span>
+                        </button>
+                    </li>
+                {/for}
+            </ul>
+        {else}
+            <div id="versions_noversions">No revisions</div>
+        {/if}
     </div>
 --></div>
 
