@@ -18,7 +18,7 @@
 
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
-     
+
     /**
      * @name sakai.worldsettings
      *
@@ -36,37 +36,58 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
+        var rootel = $("#" + tuid);
 
+        // Data Items in the Form
+        var $worldsettingsTitle = $('#worldsettings_title', rootel);
+        var $worldsettingsDescription = $('#worldsettings_description', rootel);
+        var $worldsettingsTags =  $('#worldsettings_tags', rootel);
+        var $worldsettingsCanBeFoundIn = $('#worldsettings_can_be_found_in', rootel);
+        var $worldsettingsMembership = $('#worldsettings_membership', rootel);
 
+        // Page Structure Elements
+        var $worldsettingsContainer = $('#worldsettings_container', rootel);
+        var $worldsettingsDialog = $('.worldsettings_dialog', rootel);
+        var $worldsettingsForm = $("#worldsettings_form", rootel);
+        var $worldsettingsApplyButton = $("#worldsettings_apply_button");
+        var $worldsettingsCancelButton = $("#worldsettings_cancel_button");
 
         ///////////////////////
         // Utility functions //
         ///////////////////////
-
-
-
-        /////////////////////////
-        // Main View functions //
-        /////////////////////////
-
-
-
-        /////////////////////////////
-        // Settings View functions //
-        /////////////////////////////
-
-
+        var closeDialog = function() {
+            if ($worldsettingsDialog.hasClass('dialog')) {
+                $worldsettingsDialog.jqmHide();
+            }
+        }
 
         ////////////////////
         // Event Handlers //
         ////////////////////
 
-        var bindEvents = function() {
-            $("#worldsettings_cancel_button").die("click");
-            $("#worldsettings_cancel_button").live("click", function() {
-                if ($('.worldsettings_dialog').hasClass('dialog')) {
-                    $('.worldsettings_dialog').jqmHide();
-                }
+        var bindEvents = function(worldId) {
+            $worldsettingsCancelButton.die("click");
+            $worldsettingsCancelButton.live("click", function() {
+                closeDialog();
+            });
+            $worldsettingsApplyButton.die("click");
+            $worldsettingsApplyButton.live("click", function() {
+                $worldsettingsForm.validate({submitHandler: function(form) {
+                    $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+                        $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+                        sakai.api.Groups.updateGroupProfile(worldId,
+                             {
+                                 "sakai:group-title" :  $worldsettingsTitle.val(),
+                                 "sakai:group-description": $worldsettingsDescription.val(),
+                                 "sakai:tags":  $worldsettingsTags.val(),
+                                 "sakai:group-visible": $worldsettingsCanBeFoundIn.val(),
+                                 "sakai:group-joinable": $worldsettingsMembership.val()
+                             }, function(success) {
+                                 // TODO What to do in case of failure?
+                                 closeDialog();
+                        });
+                }});
+                $worldsettingsForm.submit();
             });
         };
 
@@ -77,22 +98,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function () {
-            bindEvents();
-            // your widget initialization code here
-            $('.worldsettings_dialog').jqm({
+        var doInit = function (worldId) {
+            bindEvents(worldId);
+            var profile = sakai.api.Groups.getGroupData(worldId, function(success, data) {
+                $worldsettingsTitle.val(data.authprofile['sakai:group-title']);
+                $worldsettingsDescription.val(data.authprofile['sakai:group-description']);
+                $worldsettingsTags.val(data.authprofile['sakai:tags']);
+                $worldsettingsCanBeFoundIn.val(data.authprofile['sakai:group-visible']);
+                $worldsettingsMembership.val(data.authprofile['sakai:group-joinable']);
+            });
+            $worldsettingsDialog.jqm({
                 modal: true,
                 overlay: 20,
                 toTop: true
             });
-            $('.worldsettings_dialog').jqmShow();            
+            $worldsettingsDialog.jqmShow();
 
         };
         
         // run the initialization function when the widget object loads
-        //doInit();
-        $(window).bind("init.worldsettings.sakai", function(e, data) {
-            doInit();
+        $(window).bind("init.worldsettings.sakai", function(e, worldId) {
+            doInit(worldId);
         });
     };
 
