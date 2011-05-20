@@ -28,78 +28,85 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.allcategories = function(tuid, showSettings){
-
+    
         // Containers
         var $allcategoriesItemsContainer = $("#allcategories_items_container");
-
+        
         // Templates
         var allcategoriesItemsTemplate = "allcategories_items_template";
-
+        
         var directory = sakai.config.Directory;
         var allcategoriesToRender = [];
-
-
+        
+        
         ////////////////////////////
         // CAROUSEL AND RENDERING //
         ////////////////////////////
-
-        var renderallcategories = function(total){
+        
+        var renderallcategories = function(){
             $allcategoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(allcategoriesItemsTemplate, {
                 "directory": allcategoriesToRender,
                 "sakai": sakai,
-                "total":total
             }));
         };
-
+        
         /**
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
          * @param {Object} data contains featured content data
          */
         var parseDirectory = function(success, data){
-            var count = 0;
             $.each(directory, function(i, toplevel){
-                if (data.results[count]){
-                    if (data.results[count]["_mimeType"] && data.results[count]["_mimeType"].split("/")[0] == "image") {
-                        data.results[count].image = true;
+                var foundFilesForThisDirectory = []
+                $.each(data, function(j, file){
+                    var dirs = file["sakai:tags"];
+                    
+                    if ($.inArray('directory/' + i, dirs) != -1) {
+                        if (file["_mimeType"] && file["_mimeType"].split("/")[0] == 'image') {
+                            file.image = true;
+                        }
+                        file["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(file["sakai:tags"].toString());
+                        file.haspreview = sakai.api.Content.hasPreview(file);
+                        toplevel["featuredcontent"] = foundFilesForThisDirectory.push(file);
                     }
-                    if (data.results[count]["sakai:tags"]) {
-                        data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
-                    }
-                    data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
-                    toplevel["featuredcontent"] = data.results[count];
+                    
+                });
+                
+                if (foundFilesForThisDirectory.length) {
+                    var rnd = Math.floor(Math.random() * foundFilesForThisDirectory.length);
+                    toplevel["featuredcontent"] = foundFilesForThisDirectory[rnd];
                 }
+                
+                // TODO make this non dummy
+                // with the help of https://jira.sakaiproject.org/browse/KERN-1889
+                toplevel.count = Math.floor(Math.random() * 10);
+                
                 toplevel.id = i;
                 allcategoriesToRender.push(toplevel);
-                count++;
+                
             });
-            renderallcategories(data.total);
+            renderallcategories();
         };
-
+        
         /**
          * Get a feed of content to display in the carousel
          */
         var getCategoryContent = function(){
-            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseDirectory, {
-                page: 0,
-                items: 10,
-                sortOn: "_lastModified",
-                sortOrder: "desc"
-            });
+            sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
         };
-
-
+        
+        
         ////////////////
         // INITIALIZE //
         ////////////////
-
+        
         var doInit = function(){
             getCategoryContent();
         };
-
+        
         doInit();
-
+        
     };
-
+    
     sakai.api.Widgets.widgetLoader.informOnLoad("allcategories");
 });
