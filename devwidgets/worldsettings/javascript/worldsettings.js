@@ -75,16 +75,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $worldsettingsForm.validate({submitHandler: function(form) {
                     $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
                         $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+                        var worldTitle = $worldsettingsTitle.val();
                         sakai.api.Groups.updateGroupProfile(worldId,
                              {
-                                 "sakai:group-title" :  $worldsettingsTitle.val(),
+                                 "sakai:group-title" :  worldTitle,
                                  "sakai:group-description": $worldsettingsDescription.val(),
                                  "sakai:tags":  $worldsettingsTags.val(),
                                  "sakai:group-visible": $worldsettingsCanBeFoundIn.val(),
                                  "sakai:group-joinable": $worldsettingsMembership.val()
                              }, function(success) {
-                                 // TODO What to do in case of failure?
+                                 $(window).trigger("sakai.entity.updateTitle", worldTitle);
                                  closeDialog();
+                                 // TODO What to do in case of failure?   
                         });
                 }});
                 $worldsettingsForm.submit();
