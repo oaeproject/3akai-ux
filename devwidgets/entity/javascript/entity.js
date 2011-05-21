@@ -265,6 +265,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     saveRef: "",
                     showByDefault: true
                 });
+                $('#entity_contentsettings_dropdown').jqmHide();
             });
 
         });

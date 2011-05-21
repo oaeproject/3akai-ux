@@ -16,13 +16,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.versions_widget {clear:both;font-size:11px;}
+.versions_widget {clear:both;font-size:11px;margin-bottom:19px;}
 .versions_widget #versions_container {background:url("/devwidgets/versions/images/versions_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;}
 .versions_widget #versions_container .versions_controls {height:75px;width:31px;cursor:pointer;}
 .versions_widget #versions_container #versions_next {background:url("/devwidgets/versions/images/versions_next.png") no-repeat scroll left top transparent;float:right;}
 .versions_widget #versions_container #versions_prev {background:url("/devwidgets/versions/images/versions_prev.png") no-repeat scroll left top transparent;float:left;}
 .versions_widget #versions_container ul li {height:55px;padding:10px;width:123px;cursor:pointer;}
 .versions_widget #versions_container ul li:hover {background:url("/devwidgets/versions/images/versions_hover_bg.png") repeat-x scroll left top transparent;color:#fff;}
+.versions_widget #versions_container ul li a {text-decoration:none;}
 .versions_widget #versions_container ul li .versions_updater {text-decoration:none;}
 .versions_widget #versions_container ul li:hover .versions_updater {color:#fff;}
 .versions_widget #versions_container ul li:hover .s3d-button {visibility:visible;margin-top:5px;}

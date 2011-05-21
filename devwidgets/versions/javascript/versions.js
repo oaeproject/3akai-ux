@@ -34,8 +34,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // VARIABLES //
         ///////////////
 
+        var $rootel = $("#" + tuid);
+
         // Vars
         var contentPath = "";
+        var currentPageShown = "";
         var versions = [];
 
         // Containers
@@ -49,16 +52,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var versionsRestoreVersion = ".versions_restore_version";
 
 
-        ///////////////
-        // RENDERING //
-        ///////////////
-
         var carouselBinding = function(carousel){
-            $("#versions_next").live("click",function(){
+            $("#versions_next", $rootel).live("click",function(){
                 carousel.next();
             });
 
-            $("#versions_prev").live("click",function(){
+            $("#versions_prev", $rootel).live("click",function(){
                 carousel.prev();
             });
         };
@@ -69,11 +68,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////
 
         var renderVersions = function(){
-            $(versionsContainer).html(sakai.api.Util.TemplateRenderer(versionsTemplate, {
+            $(versionsContainer, $rootel).html(sakai.api.Util.TemplateRenderer(versionsTemplate, {
                 "data": versions,
-                "sakai": sakai
+                "sakai": sakai,
+                "currentPage": currentPageShown
             }));
-            $(versionsContainer).jcarousel({
+            $("#versions_carousel_container", $rootel).jcarousel({
                 animation: "slow",
                 easing: "swing",
                 scroll: 3,
@@ -84,7 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var setUsername = function(u, users) {
-            $(versions).each(function(index, val){
+            $(versions, $rootel).each(function(index, val){
                var userId = val["_lastModifiedBy"];
                if (userId === u){
                     val["_lastModifiedBy"] = sakai.api.User.getDisplayName(users[u]);
@@ -95,6 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseVersions = function(success, data){
             var userIds = [];
             $.each(data.versions, function(index, version){
+                version.versionId = index;
                 versions.push(version);
                 userIds.push(version["_lastModifiedBy"]);
             });
@@ -106,19 +107,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             setUsername(u, users);
                         }
                     }
-                    if ($(versionsContainer).is(":visible")) {
+                    if ($(versionsContainer, $rootel).is(":visible")) {
                         renderVersions();
-                    }
-                    else {
-                        $(versionsContainer).show();
+                    } else {
+                        $(versionsContainer, $rootel).show();
                         renderVersions();
                     }
                 });
             } else {
-                if ($(versionsContainer).is(":visible")) {
+                if ($(versionsContainer, $rootel).is(":visible")) {
                     renderVersions();
                 } else {
-                    $(versionsContainer).show();
+                    $(versionsContainer, $rootel).show();
                     renderVersions();
                 }
             }
@@ -137,18 +137,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             contentPath = $.bbq.getState("content_path");
         };
 
-        var previewVersion = function(){
-            $(".versions_selected").removeClass("versions_selected");
-            $(this).addClass("versions_selected");
-            if(!$("#" + currentPageShown.saveRef + "_previewversion").length){
-                $("#" + currentPageShown.saveRef).before("<div id=\"" + currentPageShown.saveRef + "_previewversion\"></div>");
+        var previewVersion = function(event){
+            event.stopPropagation();
+            if (sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+                $(".versions_selected", $rootel).removeClass("versions_selected");
+                $(this).addClass("versions_selected");
+                if (!$("#" + currentPageShown.saveRef + "_previewversion").length) {
+                    $("#" + currentPageShown.saveRef).before("<div id=\"" + currentPageShown.saveRef + "_previewversion\"></div>");
+                }
+                $("#" + currentPageShown.saveRef + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
+                $("#" + currentPageShown.saveRef + "_previewversion").show();
+                $("#" + currentPageShown.saveRef).hide();
+            } else{
+                window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
-            $("#" + currentPageShown.saveRef + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
-            $("#" + currentPageShown.saveRef + "_previewversion").show();
-            $("#" + currentPageShown.saveRef).hide();
         };
 
-        var restoreVersion = function(){
+        var restoreVersion = function(e){
             var toStore = {};
             toStore[currentPageShown.saveRef] = {
                 page: $(this).parent().attr("data-pageContent")
@@ -187,11 +192,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////
 
         var addBinding = function(){
-            $(versionsVersionItem).die("click", previewVersion);
-            $(versionsRestoreVersion).die("click", restoreVersion)
+            if (sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+                $(versionsVersionItem, $rootel).die("click", previewVersion);
+                $(versionsVersionItem, $rootel).live("click", previewVersion);
+            }
 
-            $(versionsVersionItem).live("click", previewVersion);
-            $(versionsRestoreVersion).live("click", restoreVersion)
+            $(versionsRestoreVersion, $rootel).die("click", restoreVersion)
+            $(versionsRestoreVersion, $rootel).live("click", restoreVersion)
         };
 
 
@@ -201,25 +208,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var doInit = function(){
             versions = [];
+            if (sakai_global.content_profile.content_data.data.mimeType != "x-sakai/document") {
+                $("#content_profile_preview_versions_container").show();
+            }else {
+                $("#content_profile_preview_versions_container").remove();
+            }
             addBinding();
             getContext();
             getVersions();
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
-            if ($(versionsContainer).is(":visible")) {
-                $(versionsContainer).hide();
+            if ($(versionsContainer, $rootel).is(":visible")) {
+                $(versionsContainer, $rootel).hide();
             } else{
                 currentPageShown = cps;
-                doInit();
                 if (cps.showByDefault) {
-                    $(versionsContainer).show();
+                    $(versionsContainer, $rootel).show();
                 }
+                doInit();
             }
         });
 
         $(window).bind("update.versions.sakai", function(ev, cps){
-            if ($(versionsContainer).is(":visible")) {
+            if ($(versionsContainer, $rootel).is(":visible")) {
                 currentPageShown = cps;
                 doInit();
             }
