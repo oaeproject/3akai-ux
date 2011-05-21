@@ -47,7 +47,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        // Containers
         var $uploadnewversionContainer = $("#uploadnewversion_container");
+
+        // Elements
+        var uploadnewversionUploadContentForm = "#uploadnewversion_upload_content_form";
+        var uploadnewversionDoUpload = ".uploadnewversion_doupload";
+
+
+        ////////////
+        // UPLOAD //
+        ////////////
+
+        var doUploadVersion = function(){
+            $.ajax({
+                url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
+                type: "POST",
+                dataType: "json",
+                success: function(){
+                    $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["jcr:name"]);
+                    $(uploadnewversionUploadContentForm).ajaxForm({
+                        success: function(data){
+                            $uploadnewversionContainer.jqmHide();
+                            $(window).trigger("updated.version.content.sakai");
+                        },
+                        error: function(err){
+                            debug.log(err);
+                        }
+                    });
+                    $(uploadnewversionUploadContentForm).submit();
+                }
+            });
+        };
 
 
         ////////////////////
@@ -79,8 +110,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $uploadnewversionContainer.jqmShow();
         };
 
+        var initializeMultiFile = function(){
+            $(uploadnewversionUploadContentForm + " input").MultiFile();
+        };
+
+        var addBinding = function(){
+            $(uploadnewversionDoUpload).bind("click", doUploadVersion);
+        };
+
         var doInit = function(){
             initializeJQM();
+            initializeMultiFile();
+            addBinding();
         };
 
         $(window).bind("init.uploadnewversion.sakai", doInit);

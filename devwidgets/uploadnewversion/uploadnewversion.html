@@ -8,12 +8,12 @@
     <div id="uploadnewversion_form_container">
         <form id="uploadnewversion_upload_content_form" method="POST" enctype="multipart/form-data">
             <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
-            <input name="fileData" id="multifile_upload" type="file" size="44"/>
+            <input name="fileData" id="multifile_upload" class="multi max-1" maxlength="1" type="file" size="44"/>
         </form>
     </div>
     <div id="uploadnewversion_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button title="__MSG__DONE_ADD_COLLECTED__" class="s3d-button s3d-button-link-2-state uploadnewversion_doupload" type="button">
+        <button title="__MSG__UPLOAD__" class="s3d-button s3d-button-link-2-state uploadnewversion_doupload" type="button">
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__UPLOAD__</span>
         </button>
     </div>

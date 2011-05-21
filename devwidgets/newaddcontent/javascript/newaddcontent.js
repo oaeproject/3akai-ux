@@ -652,7 +652,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var renderUploadNewContent = function(){
             showSelectedItem($(newaddcontentUploadContentTemplate));
-            $("input[type=file].multi").MultiFile({
+            $("#newaddcontent_upload_content_form input").MultiFile({
                 afterFileSelect: function(element, fileName, master_element){
                     var trashPrev = decideTrashPrev();
                     if (trashPrev){
