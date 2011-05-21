@@ -120,6 +120,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              });
          };
 
+         var checkGeneralDisable = function(){
+             if ($("#areapermission_roles input:checked").length > 0){
+                 $("#areapermissions_change_selected").removeAttr("disabled");
+             } else {
+                 $("#areapermissions_change_selected").attr("disabled", true);
+             }
+         };
+
          /////////////////////////////
          // Storing new permissions //
          /////////////////////////////
@@ -266,6 +274,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
          $("#areapermissions_apply_permissions").live("click", function(){
              applyPermissions();
+         });
+
+         $(".areapermissions_role_list input").live("change", function(){
+             checkGeneralDisable();
          });
 
          /////////////////////
