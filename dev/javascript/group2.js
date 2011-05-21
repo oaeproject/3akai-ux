@@ -65,6 +65,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var type = "group";
             if (canManage){
                 type = "group_managed";
+                $("#group_create_new_area").show();
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
         };
@@ -150,6 +151,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
+        });
+
+        /////////////////////
+        // Create new area //
+        /////////////////////
+        
+        $("#group_create_new_area").live("click", function(){
+            $(window).trigger("addarea.initiate.sakai");
         });
 
         ////////////////////

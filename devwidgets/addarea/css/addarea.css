@@ -19,7 +19,7 @@
 /* Dropdown */
 .addarea_widget .addarea_dropdown span.s3d-link-button {background-color:#fff;border-radius:5px 5px 0 0;border-top:1px solid #eee;box-shadow:0 10px 10px #888;color:#919191;font-size:12px;margin:12px 12px 0;padding:5px 10px;text-decoration:none;}
 .addarea_widget .addarea_dropdown .addarea_plus_icon {}
-.addarea_widget .addarea_dropdown_content {background-color:#fff;box-shadow:0 12px 10px #888;margin-left:12px;min-width:200px;padding:12px 12px 12px 0;position:absolute;z-index:999;}
+.addarea_widget .addarea_dropdown_content {background-color:#fff;box-shadow:0 12px 10px #888;min-width:200px;padding:12px 12px 12px 0;position:absolute;z-index:999; margin-left: 15px;margin-top: -14px;}
 
 /* Left hand nav list*/
 .addarea_widget ul.addarea_contents_list {margin:0 0 0 12px;float:left;}

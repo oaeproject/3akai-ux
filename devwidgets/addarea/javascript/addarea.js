@@ -139,6 +139,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addBinding();
             $(addareaContentsListFirstItem).click();
         };
+        
+        //////////
+        // Show //
+        //////////
+        
+        $(window).bind("addarea.initiate.sakai", function(){
+            $("#addarea_widget").toggle();
+        });
+        
+        ////////////////////
+        // Initialization //
+        ////////////////////
 
         doInit();
 
