@@ -1,0 +1,59 @@
+/*
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+/*
+ * The below CSS sections may not be necesary for your widget, but best practice
+ * is to organize your CSS into sections like these (or add new sections)
+ */
+
+/*
+ * Widget Container CSS
+ */
+
+/* padding around all your widget's content */
+.worldsettings_widget .s3d-widget-content {padding: 10px 20px;}
+
+/* widget icon (for widgets that may appear on a dashboard) 
+   icons are usually around 18 x 18 pixels */
+.worldsettings.s3d-widget .s3d-widget-titlebar .widget_title {
+    background: url('/devwidgets/worldsettings/images/worldsettings_icon.png') 
+        17px 18px no-repeat;
+}
+
+/* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
+
+/* Error */
+#worldsettings_container label.error {color:#9F3333 !important;}
+
+#worldsettings_form h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
+#worldsettings_form h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
+#worldsettings_container label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px;}
+#worldsettings_container input, #worldsettings_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
+#worldsettings_container textarea {height:50px;resize:none;}
+#worldsettings_container textarea#worldsettings_description{height:100px;}
+#worldsettings_container input#worldsettings_suggested_url {width:auto;}
+ 
+#worldsettings_container .worldsettings_section select {border:1px solid #A9A9A9;float:right;}
+#worldsettings_container .worldsettings_section label {display:inline;}
+#worldsettings_container .worldsettings_section {background:url("/devwidgets/newcreategroup/images/newcreategroup_section_bg.png") repeat-x scroll left top transparent;height: 22px;padding: 12px;margin-top:12px;-moz-border-radius:5px;border-radius:5px;-webkit-border-radius:5px;}
+#worldsettings_container hr {border:none;border-top:1px solid #E7E7E7;background:none;}
+#worldsettings_container #worldsettings_members_message {height: 120px;margin-top: 12px;}
+
+/* Actions */
+#worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}
+#worldsettings_container #worldsettings_group_actions .s3d-link-button {margin-right: 20px;}
