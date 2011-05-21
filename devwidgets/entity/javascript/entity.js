@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#ew_upload>a').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.fileupload.sakai");
+                $(window).trigger("init.uploadnewversion.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 

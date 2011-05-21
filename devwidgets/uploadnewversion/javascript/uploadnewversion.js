@@ -47,6 +47,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // CONFIGURATION VARIABLES //
         /////////////////////////////
 
+        var $uploadnewversionContainer = $("#uploadnewversion_container");
+
+
+        ////////////////////
+        // INITIALIZATION //
+        ////////////////////
+
+        /**
+         * Initialize the modal dialog
+         */
+        var initializeJQM = function(){
+            $uploadnewversionContainer.jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true
+            });
+
+            // position dialog box at users scroll position
+            var htmlScrollPos = $("html").scrollTop();
+            var docScrollPos = $(document).scrollTop();
+            if (htmlScrollPos > 0) {
+                $uploadnewversionContainer.css({
+                    "top": htmlScrollPos + 100 + "px"
+                });
+            } else if (docScrollPos > 0) {
+                $uploadnewversionContainer.css({
+                    "top": docScrollPos + 100 + "px"
+                });
+            }
+            $uploadnewversionContainer.jqmShow();
+        };
+
+        var doInit = function(){
+            initializeJQM();
+        };
+
+        $(window).bind("init.uploadnewversion.sakai", doInit);
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("uploadnewversion");
