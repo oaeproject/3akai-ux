@@ -49,6 +49,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Containers
         var $uploadnewversionContainer = $("#uploadnewversion_container");
+        var $uploadnewversionFormContainer = $("#uploadnewversion_form_container");
+
+        // Templates
+        var uploadnewversionFormTemplate = "uploadnewversion_form_template";
 
         // Elements
         var uploadnewversionUploadContentForm = "#uploadnewversion_upload_content_form";
@@ -111,7 +115,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var initializeMultiFile = function(){
-            $(uploadnewversionUploadContentForm + " input").MultiFile();
+            $uploadnewversionFormContainer.html(sakai.api.Util.TemplateRenderer(uploadnewversionFormTemplate,{}));
+            $(uploadnewversionUploadContentForm + " input").MultiFile('reset');
         };
 
         var addBinding = function(){

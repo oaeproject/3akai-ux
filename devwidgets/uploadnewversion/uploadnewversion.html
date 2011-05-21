@@ -5,12 +5,7 @@
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__UPLOAD_NEW_VERSION__</h1>
     __MSG__SELECT_A_NEW_FILE_THEN_UPLOAD__
-    <div id="uploadnewversion_form_container">
-        <form id="uploadnewversion_upload_content_form" method="POST" enctype="multipart/form-data">
-            <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
-            <input name="fileData" id="multifile_upload" class="multi max-1" maxlength="1" type="file" size="44"/>
-        </form>
-    </div>
+    <div id="uploadnewversion_form_container"></div>
     <div id="uploadnewversion_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
         <button title="__MSG__UPLOAD__" class="s3d-button s3d-button-link-2-state uploadnewversion_doupload" type="button">
@@ -18,6 +13,13 @@
         </button>
     </div>
 </div>
+
+<div id="uploadnewversion_form_template"><!--
+    <form id="uploadnewversion_upload_content_form" method="POST" enctype="multipart/form-data">
+        <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
+        <input name="fileData" id="multifile_upload" class="multi max-1" maxlength="1" type="file" size="44"/>
+    </form>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/uploadnewversion/javascript/uploadnewversion.js"></script>
