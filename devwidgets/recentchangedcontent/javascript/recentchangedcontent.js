@@ -67,6 +67,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["jcr:name"],
+                link: result["jcr:name"],
+                filename: result["sakai:pooled-content-file-name"],
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
                 _mimeType: sakai.api.Content.getMimeType(result),

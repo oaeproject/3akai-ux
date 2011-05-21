@@ -75,7 +75,7 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${author.authorName} __MSG__RECENT_UPLOAD__</p>
                 <div class="fl-force-left">
-                    <a href="/content#content_path=/p/${content['jcr:name']}" title="${content.name}">
+                    <a href="/content#p=${content['jcr:name']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
                     <span>
                         {var mimeType = sakai.api.Content.getMimeType(content)}
                         {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
@@ -93,7 +93,7 @@
                     </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#content_path=/p/${content['jcr:name']}">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['jcr:name']}/${content["sakai:pooled-content-file-name"]}">
                         ${content.name}
                     </a>
                     <span class="recentcontactsnew_content_mimetype">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>

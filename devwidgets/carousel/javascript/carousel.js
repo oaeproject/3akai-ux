@@ -213,7 +213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
                 obj.lastModifiedBy = item["_lastModifiedBy"];
-                obj.url = "/content#content_path=/p/" + item["jcr:name"];
+                obj.url = "/content#p=" + item["jcr:name"] + "/" + item["sakai:pooled-content-file-name"];
                 obj.contentType = "content";
                 obj.id = item["jcr:name"];
 
