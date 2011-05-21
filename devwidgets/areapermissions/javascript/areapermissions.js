@@ -242,6 +242,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
              $("#areapermissions_container").jqmHide();
 
+             // Show gritter notification
+             sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
+
          }
 
          /////////////////////////////////
