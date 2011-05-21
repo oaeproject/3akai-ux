@@ -332,7 +332,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             return selected;
         };
-        
+
         var getFirstSubPage = function(structure, selected){
             for (var i = 0; i < structure.orderedItems.length; i++) {
                 if (structure.orderedItems[i]._canView !== false && structure.orderedItems[i]._id === selected) {
@@ -344,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             return selected;
         };
-        
+
         var checkPageExists = function(structure, selected){
             var structureFoundIn = false;
             if (selected.indexOf("/") !== -1){
@@ -858,7 +858,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(e.target).children("li").each(function(i, elt) {
                     var url = $(elt).data("sakai-pagesavepath") + "structure0/" + $(elt).data("sakai-path");
                     var content = $.toJSON({"_order": i});
-
                     var req = {
                         "url": url,
                         "method": "POST",
@@ -962,7 +961,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
         });
-        
+
         $("#lhnavigation_submenu_permissions").live("click", function(ev){
             showAreaPermissions();
         });
