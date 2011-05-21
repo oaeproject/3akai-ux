@@ -131,26 +131,30 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var loadDocStructure = function(){
+        var loadDocStructure = function(forceOpenPage){
             $.ajax({
                 url: "/~" + groupId+ "/docstructure.infinity.json",
                 success: function(data){
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     filterOutUnwanted();
-                    generateNav();
+                    generateNav(forceOpenPage);
                 }
             });
         };
 
-        var generateNav = function(){
+        var generateNav = function(forceOpenPage){
             if (pubdata) {
-                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true}, "/~" + groupId+ "/docstructure"]);
+                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true, "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
                 sakai_global.group2.pubdata = pubdata;
             }
         };
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
+        });
+        
+        $(window).bind("rerender.group.sakai", function(ev, forceOpenPage){
+            loadDocStructure(forceOpenPage);
         });
 
         /////////////////////

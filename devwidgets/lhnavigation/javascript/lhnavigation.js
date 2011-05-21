@@ -332,31 +332,79 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             return selected;
         };
+        
+        var getFirstSubPage = function(structure, selected){
+            for (var i = 0; i < structure.orderedItems.length; i++) {
+                if (structure.orderedItems[i]._canView !== false && structure.orderedItems[i]._id === selected) {
+                    for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                        selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
+                        break;
+                    }
+                }
+            }
+            return selected;
+        };
+        
+        var checkPageExists = function(structure, selected){
+            var structureFoundIn = false;
+            if (selected.indexOf("/") !== -1){
+                var splitted = selected.split("/");
+                if (structure.items[splitted[0]] && structure.items[splitted[0]][splitted[1]]){
+                    structureFoundIn = structure;
+                }
+            } else {
+                if (structure.items[selected]){
+                    structureFoundIn = structure;
+                }
+            }
+            return structureFoundIn;
+        };
 
         var selectPage = function(newPageMode){
-            var state = $.bbq.getState("l");
-            var selected = state || false;
-            // If no page is selected, select the first one from the nav
-            if (!selected){
-                selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
-            }
-            // Select correct item
-            var menuitem = $("li[data-sakai-path='" + selected + "']");
-            if (menuitem){
-                if (selected.split("/").length > 1){
-                    var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
-                    showHideSubnav(par, true);
+            if (contextData.forceOpenPage) {
+                $.bbq.pushState({
+                    "l": contextData.forceOpenPage
+                }, 0);
+                contextData.forceOpenPage = false;
+            } else {
+                var state = $.bbq.getState("l");
+                var selected = state || false;
+                var structureFoundIn = false;
+                // Check whether this page exist
+                if (selected) {
+                    structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
+                    if (!structureFoundIn) {
+                        selected = false;
+                    }
                 }
-                var ref = menuitem.data("sakai-ref");
-                var savePath = menuitem.data("sakai-savepath") || false;
-                var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
-                var canEdit = menuitem.data("sakai-submanage") || false;
-                var nonEditable = menuitem.data("sakai-noneditable") || false;
-                if (!menuitem.hasClass(navSelectedItemClass)) {
-                    selectNavItem(menuitem, $(navSelectedItem));
+                // If it exists, check whether it has more than 1 subpage
+                if (selected && selected.indexOf("/") === -1) {
+                    if (structureFoundIn.items[selected]._childCount > 1) {
+                        selected = getFirstSubPage(structureFoundIn, selected);
+                    }
                 }
-                // Render page
-                preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                // If no page is selected, select the first one from the nav
+                if (!selected) {
+                    selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
+                }
+                // Select correct item
+                var menuitem = $("li[data-sakai-path='" + selected + "']");
+                if (menuitem) {
+                    if (selected.split("/").length > 1) {
+                        var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
+                        showHideSubnav(par, true);
+                    }
+                    var ref = menuitem.data("sakai-ref");
+                    var savePath = menuitem.data("sakai-savepath") || false;
+                    var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
+                    var canEdit = menuitem.data("sakai-submanage") || false;
+                    var nonEditable = menuitem.data("sakai-noneditable") || false;
+                    if (!menuitem.hasClass(navSelectedItemClass)) {
+                        selectNavItem(menuitem, $(navSelectedItem));
+                    }
+                    // Render page
+                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                }
             }
         };
 
@@ -409,7 +457,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#content_path=" + $elLI.data("sakai-pagesavepath"));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else {
@@ -653,6 +701,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             // Re-render the navigation
             renderData();
             addParametersToNavigation();
+            enableSorting();
 
             // Move away from the current page
             if (pageToDelete.path.indexOf("/") !== -1){
@@ -776,6 +825,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
+
+        ////////////////////////////
+        // Navigation re-ordering //
+        ////////////////////////////
 
         var handleReorder = function(e, ui) {
             // if its a sakaidoc in a world or content profile, we have to save

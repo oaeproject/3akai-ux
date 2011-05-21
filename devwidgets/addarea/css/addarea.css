@@ -37,17 +37,25 @@
 .addarea_widget #addarea_contents_container #addarea_contents_container_form label {margin-bottom:4px;color:#424242;display:block;clear:both;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form input, .addarea_widget #addarea_contents_container #addarea_contents_container_form select {border:1px solid #ccc;float:left;margin-bottom:12px;margin-right:12px;padding:2px;color:#424242;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form input {width:100%;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form select {padding:1px 0;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form select {padding:1px 0; max-width:150px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form .addarea_form_annotation {color:#424242;float:left;font-size:10px;line-height:10px;width:100px;}
 
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs {background-color:#FFF;border:1px solid #CCC;border-radius:5px;clear:both;display:block;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer {height:150px;overflow:auto;clear:both;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer ul {margin:0;display:block;clear:both;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer li {list-style:none;padding:5px 12px;clear:both;color:#424242;cursor:pointer;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer li {list-style:none;padding:8px 12px;clear:both;color:#424242;cursor:pointer;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search {padding:5px 0 8px 12px;border-bottom:1px solid #CCC;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search_clear {font-size:11px;margin-top:3px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs input#addarea_sakaidoc_searchfield {width:200px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_existingdocs_sort {float:right;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs .s3d-icon-16 {display:block;float:left;margin-right:5px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search label {color:#424242;font-size:12px;margin:3px 7px 0 0;clear:none;}
+
+/* Save button */
+.addarea_widget #addarea_action_buttons {clear: both; text-align: right; padding-top: 10px;}
+.addarea_widget #addarea_create_new_area {margin-left: 20px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form .addarea_divide_container {float:left;margin:12px 32px 0 0;width:218px;}
+
+/* Existing Doc Selection */
+.addarea_widget .s3d-split-line {margin: 0px 0px !important;}
+.addarea_widget .addarea_existing_sakaidoc_item_selected {background-color: #eee;}
