@@ -259,6 +259,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
+            $("#ew_revhistory").click(function(e){
+                $(window).trigger("init.versions.sakai", {
+                    pageSavePath: sakai_global.content_profile.content_data.content_path,
+                    saveRef: "",
+                    showByDefault: true
+                });
+            });
+
         });
 
         $(window).bind("ready.contentpreview.sakai", function(){
