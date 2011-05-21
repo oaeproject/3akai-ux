@@ -15,9 +15,8 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai){
 
     /**
      * @name sakai.WIDGET_ID
@@ -31,239 +30,193 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchall = function (tuid, showSettings) {
+    sakai_global.searchall = function(tuid, showSettings){
 
-        /////////////////
-        // CONFIG VARS //
-        /////////////////
+        //////////////////////
+        // Config variables //
+        //////////////////////
 
-        var peopleToSearch = 6;
-        var cmToSearch = 5;
-        var groupsToSearch = 5;
+        var resultsToDisplay = 10;
 
-        ///////////////
-        // HELP VARS //
-        ///////////////
-
-        var totalItemsFound = 0;
-
-        /////////////
-        // CSS IDs //
-        /////////////
-
+        // CSS IDs
         var search = "#searchall";
+
         var searchConfig = {
-            search : "#searchall",
-            global : {
-                resultTemp : search + "_result_temp",
-                thousands : search + "_result_thousands",
-                introductionText: "#introduction_text",
-                button : search + "_button",
-                text : search + '_text',
-                numberFound : search + '_numberFound',
-                searchTerm : search + "_mysearchterm",
-                tagTerm : search + "_mytagterm",
-                pagerClass : ".jq_pager",
-                messageClass : ".searchall_result_person_link_message",
-                messageID : "searchall_result_person_link_message_",
-                addToContactsLink : ".link_add_to_contacts",
-                addToContactsFiller : "link_add_to_contacts_",
-                addToContactsDialog : '#add_to_contacts_dialog',
-                sendmessageContainer : "#sendmessagecontainer",
-                resultTitle : "#searchall_result_title",
-                resultTagTitle : "#searchall_result_tag_title",
+            search: "#searchall",
+            global: {
+                resultTemp: search + "_result_temp",
+                resultExceed: search + "_result_exceed",
+                button: search + "_button",
+                text: search + '_text',
+                numberFound: search + '_numberFound',
+                searchTerm: search + "_mysearchterm",
+                tagTerm: search + "_mytagterm",
+                searchBarSelectedClass: "searchall_bar_selected",
+                pagerClass: ".jq_pager",
                 matchingLabel: "#searchall_result_extended_matching"
             },
-            people : {
-                displayMore : "#display_more_people",
-                displayMoreNumber : "#display_more_people_number",
-                searchResult : "#people_searchall_result",
-                searchResultTemplate : "people_searchall_result_template",
-                header : "#people_header"
+            filters: {
+                filter: search + "_filter",
+                sites: {
+                    filterSites: search + "_filter_my_sites",
+                    filterSitesTemplate: "searchall_filter_my_sites_template",
+                    ids: {
+                        entireCommunity: '#searchall_filter_community',
+                        allMySites: '#searchall_filter_all_my_sites',
+                        specificSite: '#searchall_filter_my_sites_'
+                    },
+                    values: {
+                        entireCommunity: 'entire_community',
+                        allMySites: "all_my_sites"
+                    }
+                }
             },
-            sites : {
-                displayMore : "#display_more_sites",
-                displayMoreNumber : "#display_more_sites_number",
-                searchResult : "#sites_searchall_result",
-                searchResultTemplate : "sites_searchall_result_template",
-                header : "#sites_header"
+            tabs: {
+                all: "#tab_search_all",
+                content: "#tab_search_content",
+                people: "#tab_search_people",
+                sites: "#tab_search_sites",
+                sakai2: "#tab_search_sakai2"
             },
-            cm : {
-                displayMore : "#display_more_cm",
-                displayMoreNumber : "#display_more_cm_number",
-                searchResult : "#cm_searchall_result",
-                searchResultTemplate : "cm_searchall_result_template",
-                header : "#cm_header"
+            results: {
+                container: search + '_results_container',
+                resultsContainer: search + '_results',
+                resultsContainerAnonClass: 'searchall_results_anon',
+                header: search + '_results_header',
+                tagHeader: search + '_results_tag_header',
+                template: 'searchall_results_template'
             }
         };
-
 
         ///////////////
         // Functions //
         ///////////////
 
-        var showSearchContent = function(params) {
-            // Set searching messages
-            $(searchConfig.global.searchTerm).html(sakai.api.Security.saneHTML(sakai.api.Security.escapeHTML(params.q)));
-            totalItemsFound = 0;
-            $(searchConfig.global.numberFound).text(totalItemsFound);
+        var pager_click_handler = function(pageclickednumber){
+            $.bbq.pushState({
+                "q": $(searchConfig.global.text).val(),
+                "page": pageclickednumber
+            }, 0);
+        };
 
+        var renderResults = function(results, success){
+            var params = sakai_global.data.search.getQueryParams();
+            var finaljson = {};
+            finaljson.items = [];
+            if (success) {
+
+                // Adjust display global total
+                // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
+                if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
+                    $(searchConfig.global.numberFound).text("" + results.total);
+                }
+                else 
+                    if (results.results.length <= 0) {
+                        $(searchConfig.global.numberFound).text(0);
+                    }
+                    else {
+                        $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
+                    }
+
+                // Reset the pager.
+                $(searchConfig.global.pagerClass).pager({
+                    pagenumber: params["page"],
+                    pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
+                    buttonClickCallback: pager_click_handler
+                });
+
+                var userArray = [];
+                var fetchUsers = false;
+
+                // If we have results we add them to the object.
+                if (results && results.results) {
+                    finaljson = sakai_global.data.search.prepareCMforRender(results.results, finaljson);
+                    finaljson = sakai_global.data.search.prepareGroupsForRender(results.results, finaljson);
+                    finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
+                    for (var item in finaljson.items) {
+                        if (finaljson.items.hasOwnProperty(item)) {
+                            // if the content has an owner we need to add their ID to an array,
+                            // so we can lookup the users display name in a batch req
+                            if (finaljson.items[item]["sakai:pool-content-created-for"]) {
+                                userArray.push(finaljson.items[item]["sakai:pool-content-created-for"]);
+                                fetchUsers = true;
+                            }
+                        }
+                    }
+                }
+
+                // if we're searching tags we need to hide the pager since it doesnt work too well
+                if (!results.total) {
+                    results.total = resultsToDisplay;
+                }
+
+                // We hide the pager if we don't have any results or
+                // they are less then the number we should display
+                results.total = Math.abs(results.total);
+                if (results.total > resultsToDisplay) {
+                    $(searchConfig.global.pagerClass).show();
+                }
+            }
+
+            // Make the content items available to other widgets
+            sakai_global.searchall.content_items = finaljson.items;
+
+            // Render the results.
+            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+            $(".searchall_results_container").show();
+
+            // display functions available to logged in users
+            if (!sakai.data.me.user.anon) {
+                $(".searchall_result_user_functions").show();
+                $(".searchall_result_anonuser").hide();
+            }
+
+            // Update dom with user display names
+            if (fetchUsers) {
+                sakai.api.User.getMultipleUsers(userArray, function(users){
+                    for (u in users) {
+                        if (users.hasOwnProperty(u)) {
+                            setUsername(u, users);
+                        }
+                    }
+                });
+            }
+        };
+
+        var setUsername = function(u, users) {
+            $(".searchcontent_result_username").each(function(index, val){
+               var userId = $(val).text();
+               if (userId === u){
+                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
+               }
+            });
+        };
+
+        /**
+         * This method will show all the appropriate elements for when a search is executed.
+         */
+        var showSearchAll = function(params){
             // Set search box values
-            if (!params.q || (params.q === "*" || params.q === "**")){
+            if (!params.q || (params.q === "*" || params.q === "**")) {
                 $(searchConfig.global.text).val("");
                 $(searchConfig.global.matchingLabel).hide();
-            } else {
+            }
+            else {
                 $(searchConfig.global.text).val(params.q);
                 $(searchConfig.global.matchingLabel).show();
             }
-
-            $(searchConfig.cm.displayMoreNumber).text("0");
-            $(searchConfig.people.displayMoreNumber).text("0");
-            $(searchConfig.sites.displayMoreNumber).text("0");
-
-            $(searchConfig.cm.searchResult).html($(searchConfig.global.resultTemp).html());
-            $(searchConfig.people.searchResult).html($(searchConfig.global.resultTemp).html());
-            $(searchConfig.sites.searchResult).html($(searchConfig.global.resultTemp).html());
-
-            // show the blocks
-            $(searchConfig.cm.header).show();
-            $(searchConfig.people.header).show();
-            $(searchConfig.sites.header).show();
-
-            $(searchConfig.global.resultTagTitle).hide();
-            $(searchConfig.global.introductionText).hide();
-            $(searchConfig.cm.displayMore).hide();
-            $(searchConfig.sites.displayMore).hide();
-            $(searchConfig.people.displayMore).hide();
-
-            $(searchConfig.global.resultTitle).show();
-        };
-
-        /**
-         * Updates the total number of search hits, and displays it
-         * @param: {Int} hitcount The number of elements found by a particular search
-         * @returns void
-         */
-        var updateTotalHitCount = function(hitcount) {
-
-            // Adjust total search result count
-            if (hitcount > 0) {
-                totalItemsFound += hitcount;
-            }
-
-            // Adjust display global total
-            // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume
-            if (totalItemsFound <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) {
-                $(searchConfig.global.numberFound).text(""+totalItemsFound);
-            } else {
-                $(searchConfig.global.numberFound).text($(searchConfig.global.thousands).html());
-            }
-
-        };
-
-        /**
-         * This will render the results for the found content and media. It will add the nr of results to the total
-         * If nessecary it will show the link to display more.
-         * @param {Object} results Response from the REST service.
-         */
-        var renderCM = function(foundCM) {
-            var finaljson = {};
-            finaljson.items = [];
-
-            // set required fields to default values in case foundCM is empty
-            // this can be the case when a search fails
-            foundCM.results = foundCM.results || [];
-            foundCM.total = foundCM.total || 0;
-
-            // Adjust total search result count
-            updateTotalHitCount(foundCM.results.length);
-
-            var params = sakai_global.data.search.getQueryParams();
-            $("#cm_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("cm_results_header_template", {"query_href":"#l=content&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundCM.total) > cmToSearch}));
-
-            if (foundCM && foundCM.results) {
-                finaljson = sakai_global.data.search.prepareCMforRender(foundCM.results, finaljson);
-            }
-            $(searchConfig.cm.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.cm.searchResultTemplate, finaljson));
-        };
-
-        /**
-         * This will render the results for the found sites. It will add the nr of results to the total
-         * If nessecary it will show the link to dispolay more.
-         * @param {Object} results Response from the REST service.
-         */
-        var renderGroups = function(foundGroups) {
-
-            var finaljson = {};
-            finaljson.items = [];
-
-            // set required fields to default values in case foundCM is empty
-               // this can be the case when a search fails
-            foundGroups.results = foundGroups.results || [];
-            foundGroups.total = foundGroups.total || 0;
-
-            // Adjust total search result count
-            updateTotalHitCount(foundGroups.results.length);
-            
-            var params = sakai_global.data.search.getQueryParams();
-            $("#sites_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("groups_results_header_template", {"query_href":"#l=groups&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(foundGroups.total) > groupsToSearch}));
-
-            if (foundGroups && foundGroups.results) {
-                finaljson = sakai_global.data.search.prepareGroupsForRender(foundGroups.results, finaljson);
-            }
-        
-            $(searchConfig.sites.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.sites.searchResultTemplate, finaljson));
-        
-        };
-
-
-        /**
-         * This will render the results for the people. It will add the nr of results to the total
-         * If nessecary it will show the link to dispolay more.
-         * @param {Object} results Response from the REST service.
-         */
-        var renderPeople = function(results) {
-
-            var finaljson = {};
-            finaljson.items = [];
-
-            // set required fields to default values in case foundCM is empty
-            // this can be the case when a search fails
-            results.results = results.results || [];
-            results.total = results.total || 0;
-
-            // Adjust total search result count
-            updateTotalHitCount(results.results.length);
-
-            var params = sakai_global.data.search.getQueryParams();
-            $("#people_header .searchall_results_part_header").html(sakai.api.Util.TemplateRenderer("people_results_header_template", {"query_href":"#l=people&q=" + params.q + "&page=" + params.page, "show_more":Math.abs(results.total) > peopleToSearch}));
-
-            if (results && results.results) {
-                finaljson = sakai_global.data.search.preparePeopleForRender(results.results, finaljson);
-            }
-
-            $(searchConfig.people.searchResult).html(sakai.api.Util.TemplateRenderer(searchConfig.people.searchResultTemplate, finaljson));
-
-         };
+            $(searchConfig.global.numberFound).text("0");
+            $(searchConfig.results.header).hide();
+            $(searchConfig.results.tagHeader).hide();
+            $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
+        }
 
         var doSearch = function(){
+            $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
-            showSearchContent(params);
             var urlsearchterm = sakai.api.Server.createSearchString(params.q);
-
-            // Set off the 3 AJAX requests
-            var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
-            var usersUrl = sakai.config.URL.SEARCH_USERS;
-            var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
-            if (urlsearchterm === "*" || urlsearchterm === "**") {
-                filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
-                usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
-                groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
-                $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
-            } else {
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
-            }
 
             // get the sort by
             var sortBy = $("#search_select_sortby option:first").val();
@@ -271,63 +224,38 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 sortBy = params["sortby"];
             }
 
-            // Content search
-            $.ajax({
-                url: filesUrl,
-                data: {
-                    "page": 0,
-                    "q" : urlsearchterm,
-                    "items" : cmToSearch,
-                    "sortOn": "_lastModified",
-                    "sortOrder": sortBy
-                },
-                cache: false,
-                success: function(data) {
-                    renderCM(data);
-                },
-                error: function() {
-                    renderCM({});
-                }
-            });
+            // Set all the input fields and paging correct.
+            showSearchAll(params);
 
-            // People Search
-            $.ajax({
-                cache: false,
-                url: usersUrl,
-                data: {
-                    "page": 0,
-                    "items": peopleToSearch,
-                    "q": urlsearchterm,
-                    "sortOn": "_lastModified",
-                    "sortOrder": sortBy
-                },
-                success: function(data) {
-                    renderPeople(data);
-                },
-                error: function() {
-                    renderPeople({});
-                }
-            });
+            var url = sakai.config.URL.SEARCH_ALL_ENTITIES;
+            if (urlsearchterm === '**' || urlsearchterm === '*') {
+                $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
+                url = sakai.config.URL.SEARCH_ALL_ENTITIES_ALL;
+            } else {
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
+            }
+            var requestParams = {
+                "page": (params["page"] - 1),
+                "items": resultsToDisplay,
+                "q": urlsearchterm,
+                "sortOn": "_lastModified",
+                "sortOrder": sortBy
+            };
 
-            // Groups search
-            $.ajax({
-                cache: false,
-                url: groupsUrl,
-                data: {
-                    "page": 0,
-                    "items": groupsToSearch,
-                    "q": urlsearchterm,
-                    "sortOn": "_lastModified",
-                    "sortOrder": sortBy
+            searchAjaxCall = $.ajax({
+                url: url,
+                data: requestParams,
+                success: function(data){
+                    renderResults(data, true);
+                    $(searchConfig.results.header).show();
                 },
-                success: function(data) {
-                    renderGroups(data);
-                },
-                error: function() {
-                    renderGroups({});
+                error: function(xhr, textStatus, thrownError){
+                    var json = {};
+                    renderResults(json, false);
+                    $(searchConfig.results.header).show();
                 }
             });
-        }
+        };
 
         ///////////////////
         // Event binding //
@@ -337,7 +265,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text).val(),
-                    "page": 1
+                    "page": 0
                 }, 0);
             }
         });
@@ -345,25 +273,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         $(searchConfig.global.button).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "page": 1
+                "page": 0
             }, 0);
-        });
-
-        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
-            sakai_global.data.search.getMyContacts();
-            $('.sakai_addtocontacts_overlay').each(function(index) {
-                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
-                    $(this).hide();
-                }
-            });
         });
 
         /////////////////////////
         // Initialise Function //
         /////////////////////////
 
+        if (sakai.data.me.user.anon){
+            $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
+        }
+
         $(window).bind("hashchange", function(ev){
-            if ($.bbq.getState("l") === "all" || !$.bbq.getState("l")) {
+            if (!$.bbq.getState("l") || $.bbq.getState("l") === "all") {
                 doSearch();
             }
         });

@@ -1,5 +1,5 @@
 <%
-  response.setStatus(404);
+response.setStatus(404);
 %><!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -11,116 +11,129 @@
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
-
-        <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.index.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />        
 
     </head>
 
     <body class="fl-centered error404 i18nable">
 
-        <!-- TOP BANNER -->
-        <div id="top_banner"><!-- --></div>
-
-        <div id="widget_topnavigation" class="widget_inline"></div>
-
-        <div class="index-container fl-centered page_not_found_error"><span style="display:none;"><br /></span>
-            <div id="page_not_found_error_logged_out_template" style="display:none;"><!--
-
-                <div class="index-container fl-centered">
-
-                <div id="widget_login" class="widget_inline"></div>
-
-
-                <div class="login-box fl-container">
-                    <div class="login-box-top">
-                    </div>
-                    <div class="login-box-content">
-                        <div class="preview-box fl-left">
-
-                            <div class="header-title">
-                                <p class="sakai_logo_index"></p>
-                            </div>
-
-                            <div class="header-byline">
-                                __MSG__HEADER_BYLINE__
-                            </div>
-
-
-                            <div id="page_not_found_error">
-                                <div class="preview-box">
-                                    <span id="error_title">__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</span>
-                                    <p>
-                                        __MSG__YOU_MAY_HAVE_CLICKED_A_BROKEN_LINK_OR_MISTYPED_THE_URL__
-                                    </p>
-                                    __MSG__YOU_CAN__
-                                    <ul>
-                                        <li>
-                                            __MSG__VERIFY_THE_LINK_IN_THE_ADDRESS_BAR__
-                                        </li>
-                                        <li>
-                                            __MSG__GO_BACK_TO_PREVIOUS_PAGE_CLICKING_BACK_BUTTON_IN_BROWSER__
-                                        </li>
-                                        <li>
-                                          __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
-                                        </li>
-                                    </ul>
-                                    <p>
-                                        __MSG__IF_YOU_CONTINUE_TO_RECEIVE_ERROR_PAGE_MAY_HAVE_BEEN_MOVED_OR_NO_LONDER_EXISTS__
-                                    </p>
-                                </div>
-                                <div class="login-container">
-                                    <div id="widget_login" class="widget_inline"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="login-box-bottom">
-                    </div>
+        <!-- HEADER -->
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_institutionalskinning" class="widget_inline"></div>
                 </div>
-                <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-            --></div>
-            <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
-                <div class="fl-container-flex header s3d-header">
-                    <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                        <div class="s3d-decor">
-                        </div>
-                        <div id="page_not_found_error">
-                            <div class="preview-box">
-                                <span id="error_title">__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</span>
-                                <p>
-                                    __MSG__YOU_MAY_HAVE_CLICKED_A_BROKEN_LINK_OR_MISTYPED_THE_URL__
-                                </p>
-                                __MSG__YOU_CAN__
-                                <ul>
-                                    <li>
-                                        __MSG__VERIFY_THE_LINK_IN_THE_ADDRESS_BAR__
-                                    </li>
-                                    <li>
-                                        __MSG__GO_BACK_TO_PREVIOUS_PAGE_CLICKING_BACK_BUTTON_IN_BROWSER__
-                                    </li>
-                                    <li>
-                                	    __MSG__TRY_TO_CONTACT_PAGE_ADMIN_REQUEST_ACCESS__
-                                    </li>
-                                </ul>
-                                <p>
-                                    __MSG__IF_YOU_CONTINUE_TO_RECEIVE_ERROR_PAGE_MAY_HAVE_BEEN_MOVED_OR_NO_LONDER_EXISTS__
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-                <div id="widget_chat" class="widget_inline"></div>
-            --></div>
+            </div>
         </div>
+        <div class="fl-fix fl-centered fixed-container s3d-main-container">
+            <div id="error_content">
+                <div id="error_content_second_column">
+                    <div id="error_sign_in_button">
+                        <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
+                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/dev/create_new_account2.html">__MSG__SIGN_UP__</a></p>
+                    </div>
+                    <div class="error_content_second_column_box">
+                        <div class="s3d-contentpage-title">__MSG__ARE_YOU_LOOKING_FOR__</div>
+                        <div id="error_content_second_column_box_container">
+                            <div class="error_content_second_column_box_item_container">
+                                <div class="error_content_second_column_box_item_content">
+                                    <a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=people">__MSG__PEOPLE__</a>
+                                </div>          
+                            </div>
+                            <hr class="s3d-split-line fl-push" />
+                            <div class="error_content_second_column_box_item_container">
+                                <div class="error_content_second_column_box_item_content">
+                                    <a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=content">__MSG__CONTENT__</a>
+                                </div>          
+                            </div>
+                            <hr class="s3d-split-line fl-push" />
+                            <div id="error_second_column_links_template" style="display:none"><!--
+							{for w in worlds}
+								<div class="error_content_second_column_box_item_container">
+									<div class="error_content_second_column_box_item_content">
+										<a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=${w.label}">${w.label}</a>
+									</div>          
+								</div>
+								{if !w.last}
+									<hr class="s3d-split-line fl-push" />
+								{/if}	
+							{/for}
+							<div class="error_content_second_column_box_footer"></div>
+                            --></div>                        
+                     </div>
+                    </div>
+                    
+                    <div class="error_content_second_column_box browse_cats">   
+                        <div class="s3d-contentpage-title">__MSG__BROWSE_CATEGORIES__</div>
+                        <div id="error_content_second_column_box_browse_container">
+                            <div class="error_content_second_column_box_item_container">
+                                <div class="error_content_second_column_box_item_content">
+                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <a href="/dev/allcategories.html"><span class="error_browse_cats"><span id="error_browse_category_number"></span> __MSG__CATEGORIES_LC__</span></a> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
+                                </div>          
+                            </div>              
+                         <div class="error_content_second_column_box_footer">
+                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
+                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            </a>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="error_content_first_column">
+                    <img src="/dev/images/404_sinking.png" alt="404 sinking" />
+                    <div id="error_content_first_column_content">
+                        <h1>__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</h1>
+                        <h3 class="first">__MSG__POSSIBLE_REASONS_FOR_THE_PAGE_NOT_BEING_FOUND__</h3>
+                        <div id="page_not_found_error"></div>
+                        <div id="page_not_found_error_logged_out_template" style="display:none;"><!--
+                            <ol>
+                                <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
+                                <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
+                                <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
+                            </ol>
+                        --></div>
+                        <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
+                            <ol>
+                                <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
+                                <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
+                                <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_IN__</li>
+                            </ol>
+                        --></div>                       
+                        <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
+                        <div>
+                            <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">
+                        </div>
+                                            
+                        <ul>
+                            <li><a class="s3d-regular-links s3d-bold" href="/dev/explore.html">__MSG__EXPLORE_THE_INSTITUTION__</a></li>
+                            <li><a class="s3d-regular-links s3d-bold" href="/dev/allcategories.html">__MSG__BROWSE_INSTITUTION_CATEGORIES__</a></li>
+                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VIEW_THE_INSTITUTION_WEBSITE__</a></li>
+                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VISIT_THE_SUPPORT_FORUM__</a></li>
+                            <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
+                        </ul>
+                        
+                        <h3>__MSG__GET_IN_TOUCH__</h3>
+                        <ul>
+                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__SEND_US_YOUR_FEEDBACK__</a></li>
+                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__CONTACT_SUPPORT__</a></li>
+                        </ul>
+                        
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER WIDGET -->
+        <div id="widget_footer" class="widget_inline footercontainer"></div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>

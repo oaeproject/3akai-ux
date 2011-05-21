@@ -1,4 +1,4 @@
-/* 403 and 404 error*/
+/* 403 and 404 and 500 error*/
 #permission_error #error_title,#page_not_found_error #error_title,#internal_user_error #error_title{padding-left:20px;color:#f00001;font-size:11pt;font-weight:bold;}
 #permission_error .preview-box,#page_not_found_error .preview-box,#internal_user_error .preview-box{margin:0 30px 0 0;padding-top:20px;}
 #permission_error p,#page_not_found_error p,#internal_user_error p{margin-top:20px;margin-bottom:12px;}
@@ -10,5 +10,39 @@
 #internal_user_error #error_title{background:url(/dev/images/500_exclamation.png) no-repeat;}
 .decor{padding-bottom:14px;}
 .error_page_bringdown{padding-top:12px;}
-.header .fixed-container{height:300px;}
+/* .header .fixed-container{height:300px;} */
 .login-box .login-box-bottom{display:none;}
+/* new design styles */
+.s3d-page-header{padding:0px;height:auto;width:960px;}
+#error_navigation{height:50px;}
+#error_content {padding: 20px;}
+#error_content_first_column {float:left;padding-bottom:20px;}
+#error_content_second_column {float:right;width:180px;margin:12px 0 10px;}
+#error_content_first_column > img {float:left;}
+#error_content_first_column_content{float:left;margin-left:16px;width:475px;}
+#error_content_first_column_content h1{width:400px;font-size:1.9em;font-weight:bold;color:#333;}
+#error_content_first_column_content h3{margin:20px 0 5px;padding-top:14px;color:#333;border-top:1px dotted #c8c8c8;}
+#error_content_first_column_content h3.first{padding-top:0;border:0;}
+#error_content_first_column_content ol{margin-top:0;color:#333;}
+#error_search{width:375px;margin-bottom:25px;border:1px solid #c8c8c8;background: #fff url("/devwidgets/topnavigation/images/topnav_search_icon.png") 355px 50% no-repeat;}
+
+/* second column styles*/
+.error_content_second_column_box {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px; margin-bottom: 10px;}
+.error_content_second_column_box .error_content_second_column_box_footer {background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;text-align:center; padding-bottom: 5px; padding-top: 5px;}
+.error_content_second_column_box .error_content_second_column_box_footer button{margin:5px 0;}
+#error_browse_categories_button .s3d-button-inner{color:#2683BC !important;}
+.error_content_second_column_box .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;}
+
+/* Activity Items */
+.error_content_second_column_box .error_content_second_column_box_item_content {clear:both;display:block;margin:8px 12px;}
+.error_content_second_column_box .error_content_second_column_box_item_content a {font-size:12px;}
+.error_content_second_column_box .error_content_second_column_box_item_content p {font-size:11px;color:#333;}
+.error_content_second_column_box .error_browse_cats{color:#2683bc; font-size: 11px !important;}
+body.error404 .s3d-contentpage-title, body.error403 .s3d-contentpage-title, body.error500 .s3d-contentpage-title {font-size:12px;color:#666;}
+.browse_cats{margin-top:10px 0;}
+#error_sign_in_button{display:none;}
+#error_sign_in_button p {margin-bottom:20px;text-align:center;color:#333;font-size:11px;}
+#error_sign_in_button p.error_signin_button{width:150px;margin:0 auto 8px;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);border-radius:8px;-webkit-border-radius:8px;-moz-border-radius:8px;height:25px;line-height:25px; cursor: hand; cursor: pointer;}
+#error_sign_in_button p.error_signin_button button{border:0;background:#fff;font-size:12px;font-weight:bold;cursor: hand; cursor: pointer;}
+#error_content_second_column_box_container hr:last-child{display:none;}
+#errorsearch_text{color:#6d6d6d;border:1px solid #ddd;margin:0 0 25px 0;height:22px;width:350px;font-size:1.2em;padding-left:5px;display:block;background:url(/devwidgets/topnavigation/images/topnav_search_icon.png) 99% 4px no-repeat;}

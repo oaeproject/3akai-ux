@@ -4,30 +4,34 @@
 <div class="sakaidocs_widget">
     <div class="s3d-widget-content">
 
-        <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title"></div>
-        <div id="s3d-page-main-content" style="padding-left: 10px;"></div>
-        <div id="sakaidocs-page-edit-mode"></div>
-
-        <div id="sakaidocs_editmode" style="display:none">
-            <div id="sakaidocs_buttonbar" style="display:none">
+   <!-- ///////////////
+        // Edit Mode //
+        /////////////// --> 
+        
+        <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title" style="display:none">
+            <div id="sakaidocs_buttonbar">
                 <div style="float:left">
                     <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_editpage">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Edit Page</span>
                     </button>
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Add Page</span>
+                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_top" style="display:none">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
+                    </button>
+                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_area" style="display:none">
+                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
                     </button>
                 </div>
                 <div style="float:right">
                     <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_revisions">
                         <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Page Revisions</span>
                     </button>
-                    <!-- <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_commentsrelated">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">See comments and related</span>
-                    </button> -->
                 </div>
                 <div style="clear:both;"><!-- --></div>
             </div>
+        </div>
+        <div id="sakaidocs-page-edit-mode" style="display:none">
+            <div id="sakaidocs_editmode">
+            
             <!-- WORK AREA -->
             <div class="edit_view" id="edit_view_container">
                 <div class="main_container content_container">
@@ -48,6 +52,11 @@
                                     <button id="sakaidocs_edit_cancel_button" class="s3d-link-button">__MSG__DONT_SAVE__</button>
                                     <button id="sakaidocs_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
                                 </div>
+
+                                <div id="page_autosave_time"></div>
+                                <div id="page_autosave_time_template"><!--
+                                    <span>__MSG__AUTOSAVED_AT__ ${time}</span>
+                                --></div>
 
                                 <!-- INSERT DROPDOWN MENU -->
                                 <span class="s3d-button s3d-button-inline" id="sakaidocs_insert_dropdown_button">
@@ -73,7 +82,6 @@
                             <div class="edit_contents_main">
                                 <div id="fl-tab-content-editor">
                                     <div id="placeholderforeditor" class="textarea">
-                                        <!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
                                         <textarea id="elm1" name="elm1" style="width: 100%; height:430px"></textarea>
                                     </div>
                                 </div>
@@ -98,6 +106,13 @@
                 </div>
             </div>
         </div>
+        
+   <!-- ////////////////////
+        // Page View Mode //
+        //////////////////// -->
+        <div id="s3d-page-container"></div>
+
+    </div>
 
         <!-- INSERT DIALOG -->
         <div id="insert_dialog" class="dialog">
@@ -166,6 +181,34 @@
             </div>
         </div>
 
+        <!-- AUTOSAVE DIALOG -->
+        <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
+            <div class="dialog_header">
+                <div class="dialog_header_inner">
+                <h1>__MSG__AUTO__ __MSG__SAVE__</h1>
+                <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+                </div>
+            </div>
+
+            <div class="dialog_content">
+
+                <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
+
+                <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
+
+                <div class="dialog_buttons">
+                    <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                    <button type="button" class="s3d-button jqmClose" id="autosave_keep"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                </div>
+            </div>
+
+            <!-- DIALOG FOOTER -->
+            <div class="dialog_footer">
+                <div class="dialog_footer_inner"><!-- --></div>
+            </div>
+        </div>
+
+
         <div class="s3d-sprites-buttons" id="context_menu" style="display:none">
             <button class="s3d-button s3d-button-inline" id="more_link">
                 <span class="s3d-button-inner"><span class="s3d-button-icon-left"></span><span class="s3d-button-inner-text">__MSG__WIDGET_OPTIONS__</span><span class="s3d-button-icon-right"></span></span>
@@ -192,5 +235,6 @@
     </div>
 </div>
 
+<div id="sakaidocs_concurrent_editing_message" style="display:none">__MSG__CONCURRENT_EDITING__</div>
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/sakaidocs/javascript/sakaidocs.js"></script>

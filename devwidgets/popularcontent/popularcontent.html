@@ -23,7 +23,7 @@
                 {var index = 0}
                 {for item in result.content}
                     {if index < 5}
-                        <li><a href="/content#content_path=/p/${item.id}" class="s3d-regular-links">${item.name}</a></li>
+                        <li><a href="/content#p=${item.id}/${item.filename}" class="s3d-regular-links">${item.name}</a></li>
                     {/if}
                     ${index++|eat}
                 {forelse}

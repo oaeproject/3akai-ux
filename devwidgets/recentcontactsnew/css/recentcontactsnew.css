@@ -1,0 +1,39 @@
+/*** LAYOUT ***/
+.recentcontactsnew_content {padding-top: 0px !important; padding-bottom: 0px !important;}
+.recentcontactsnew_main {background-color:#FFFFFF!important; min-height: 50px;}
+.recentcontactsnew_main img {margin: 0px 10px 0 0;}
+#recentcontactsnew_no_group{color: #878a8c;padding: 0 10px;}
+.recentcontactsnew_related_details{padding:1px 0 0 5px;}
+.recentcontactsnew_item_info {margin:10px 0 0 40px; min-height: 50px;}
+.recentcontactsnew_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:10px -10px 0 5px;
+    border: 1px solid #ededed;
+    font-size: 11px;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
+   -webkit-border-radius: 5px; /* Safari */}
+.recentcontactsnew_item_border { border-right: 10px solid white; border-top: 10px solid #ededed; float: right; margin-right: -10px;}
+.recentcontactsnew_item_div {min-height:35px; margin-left:40px;}
+.recentcontactsnew_content_mimetype{white-space:pre;}
+
+.recentcontactsnew_seeall_button {margin-top: 10px; padding: 10px; text-align:right; font-size: 12px; background-color:#efefef;}
+
+.recentcontactsnew_item_mime{display:block;}
+div.recentcontactsnew_item_img{margin-left:10px;}
+p.recentcontactsnew_item_title,p.recentcontactsnew_item_meta{margin:0;}
+p.recentcontactsnew_error_msg{padding-left:15px;}
+.creategroups .s3d-highlight_area_background{margin:0;}
+
+.recentcontactsnew_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
+.recentcontactsnew_add_container div{color:#878a8c;}
+.recentcontactsnew_add_container a {text-decoration: none;}
+.recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}
+.recentcontactsnew_widget .recentcontactsnew_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
+.recentcontactsnew_widget .recentcontactsnew_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
+.recentcontactsnew_widget .recentcontactsnew_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
+
+/*** TYPOGRAPHY ***/
+.recentcontactsnew_item_meta{font-size:0.9em;color:#444;line-height: 13px;}
+.recentcontactsnew_item_meta_data {color:#878A8C!important; margin-bottom:5px;}
+
+/* Widget icon */
+.recentcontactsnew.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}

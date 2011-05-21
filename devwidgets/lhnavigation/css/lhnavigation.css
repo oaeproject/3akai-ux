@@ -21,15 +21,18 @@
 #lhnavigation_container #lhnavigation_actions .s3d-button-inner{font-size:9px;}
 
 #lhnavigation_container ul{margin:6px 0 0;}
-#lhnavigation_container ul li{display:block; list-style:none;padding:3px 12px 2px 28px;}
+#lhnavigation_container ul li{display:block; list-style:none;}
+#lhnavigation_container ul li .lhnavigation_item_content, #lhnavigation_container ul li ul li div.lhnavigation_subnav_item_content{padding:3px 12px 2px 28px;}
 #lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;padding:5px 0 7px;display:block;}
 #lhnavigation_container ul li .lhnavigation_selected_submenu {margin-left:136px;margin-top:-21px;position:absolute;cursor:pointer;cursor:hand;}
-#lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-22px;position:absolute;width:11px;z-index:999;}
+#lhnavigation_container ul li .lhnavigation_selected_subsubmenu {margin-left: 124px;}
+#lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-22px;position:absolute;width:11px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top:7px;position: absolute;width: 12px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
 #lhnavigation_container .lhnavigation_change_title {margin: 4px 0 5px;padding: 2px 10px 2px 0;width: 115px;}
+#lhnavigation_container .lhnavigation_change_title_restricted_width {width: 100px !important;}
 
-#lhnavigation_container ul li.lhnavigation_selected_item{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
+#lhnavigation_container ul li.lhnavigation_selected_item.lhnavigation_outer, #lhnavigation_container ul li ul li.lhnavigation_selected_item div.lhnavigation_subnav_item_content{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_private{background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow{background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_arrow.png") no-repeat scroll left top transparent;height: 34px;margin-left: 145px;margin-top:-23px;position: absolute;width: 20px;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow_sub{margin-left:133px;}
@@ -41,7 +44,7 @@
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -843px -21px transparent;}
 #lhnavigation_container ul li ul {margin:0;}
 #lhnavigation_container .lhnavigation_subnav{margin:5px 0px;}
-#lhnavigation_container .lhnavigation_subnav li{padding-left:40px;}
+#lhnavigation_container .lhnavigation_subnav li div.lhnavigation_subnav_item_content{padding-left:40px;}
 
 #lhnavigation_submenu {position:absolute; background-color: #fff; border: 1px solid #aaa; width: 100px;}
 #lhnavigation_submenu ul {margin: 0em; padding: 5px 0px;}
