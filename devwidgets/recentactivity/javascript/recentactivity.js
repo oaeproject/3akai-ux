@@ -52,39 +52,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var parseActivity = function(success, data){
             if (success) {
+                var results = [];
                 numDiff = data.total - numItems;
                 numItems = data.total;
                 $.each(data.results, function(index, item){
-                    if(index < numDiff){
-                        item.fadeIn = true;
-                    }
-                    item.showdetails = true;
-                    if(item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group"){
-                        item.showdetails = false;
-                    }
-                    item.who.name = sakai.api.User.getDisplayName(item.who);
-                    item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
-                    item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
-                    if (item.who.picture) {
-                        item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
-                    } else {
-                        item.who.picture = "/dev/images/user_avatar_icon_48x48.png";
+                    if (item["sakai:pooled-content-file-name"]) {
+                        if (index < numDiff) {
+                            item.fadeIn = true;
+                        }
+                        item.showdetails = true;
+                        if (item["sakai:activity-type"] && item["sakai:activity-type"] == "message" || item["sakai:activity-type"] == "group") {
+                            item.showdetails = false;
+                        }
+                        item.who.name = sakai.api.User.getDisplayName(item.who);
+                        item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
+                        item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
+                        if (item.who.picture) {
+                            item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
+                        }
+                        else {
+                            item.who.picture = "/dev/images/user_avatar_icon_48x48.png";
+                        }
+                        item.usedin = sakai.api.Content.getPlaceCount(item);
+                        results.push(item);
                     }
                 });
                 $recentactivityActivityContainer.html(sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, {
-                    "data": data,
+                    "data": results,
                     "sakai": sakai
                 }));
             }
 
-            $(".recentactivity_activity_item_container:hidden").animate({display:"inline"},1000, 'easeOutBounce').toggle("slow");
+            $(".recentactivity_activity_item_container:hidden").animate({height:100},1000, 'easeOutBounce').toggle("slow");
 
             t = setTimeout(fetchActivity, 8000);
         };
 
         var fetchActivity = function(){
             sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, parseActivity, {
-                "items": 6
+                "items": 12
             });
         };
 

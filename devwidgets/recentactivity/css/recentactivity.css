@@ -22,6 +22,7 @@
 .recentactivity_widget .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;}
 
 /* Activity Items */
+.recentactivity_widget .recentactivity_activity_item_container{width:215px;height:100px;}
 .recentactivity_widget .recentactivity_activity_item_content {clear:both;display:block;margin:12px;}
 .recentactivity_widget .recentactivity_activity_item_content .recentactivity_activity_item_image {height:32px;margin:7px 7px 11px 7px;width:32px;float:left;}
 .recentactivity_widget .recentactivity_activity_item_content a {display:block;font-size:12px;padding-top:5px;}
