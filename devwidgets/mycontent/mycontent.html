@@ -17,7 +17,7 @@
                     <div class="mycontent_item_img fl-force-left">
                         {var mimeType = sakai.api.Content.getMimeType(item)}
                         {var thumbnail = sakai.api.Content.getThumbnail(item)}
-                        <a href="/content#content_path=/p/${item['jcr:name']}" title="${item['sakai:pooled-content-file-name']}">
+                        <a href="/content#p=${item['jcr:name']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
                             {if thumbnail}
                                 {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                 <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
@@ -35,7 +35,7 @@
                     </div>
                     <div class="mycontent_item_info">
                         <p class="mycontent_item_title">
-                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#content_path=${item.path}">
+                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['jcr:name']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}">
                                 ${item.name}
                             </a>
                         </p>
@@ -45,7 +45,7 @@
             {forelse}
                 <div id="mycontent_no_content_wrap">
                     <button class="s3d-button s3d-button-link-2-state add_content_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
-                    <span class="mycontent_no_content">__MSG__ADD_CONTENT_INSTRUCTIONS__</span>
+                    <span class="mycontent_no_content_text">__MSG__ADD_CONTENT_INSTRUCTIONS__</span>
                 </div>
             {/for}
         --></div>
