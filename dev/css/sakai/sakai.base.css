@@ -69,10 +69,10 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
 
 /* Change layout */
-#change_layout_dialog {width:475px !important;}
+#change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
 #change_layout_dialog .elf-right-up {padding: 25px 0}
 #change_layout_dialog .add-tools-right {width:100%;}
-#change_layout_dialog .layout_container {float:left;padding-left:25px;padding-right:13px;}
+#change_layout_dialog .layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
 #change_layout_dialog .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 #change_layout_dialog .layout_picker_item_column {border-right: 1px solid #3399CC;}
 #change_layout_dialog .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
@@ -83,11 +83,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #change_layout_dialog #layouts_list {display:block;}
 
 /* Add Sakai Goodies */
-#add_goodies_dialog {width:300px;height:374px;left:55%}
-#add_goodies_body ul {margin:0;}
-#add_goodies_body ul li{clear:both;height:25px;line-height:25px;list-style:none outside none;padding:2px 0;}
-#add_goodies_body ul li:hover {background-color:#f1f9fd;}
-#add_goodies_body ul li .remove_add_column {float:right;}
+#add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
 .add_goodies .s3d-button {margin:0; height:23px;}
 .add_goodies .dialog_body {height:308px; overflow-y:auto; overflow-x:hidden; position:relative; width:471px;}
 .add_goodies .dialog_body table {width: 471px; margin-bottom:0; border:1px solid #E5E5E5; border-spacing: 0; *border-collapse: collapse;}
@@ -201,6 +197,14 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .fl-col-flex2 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
 
 /*
+ * NO RESULTS VIEW (When a widget feed doesn't return any results)
+ */
+.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0 10px;}
+.s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
+.s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;}
+.s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:4px 12px 0;}
+
+/*
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container .s3d-decor-left{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll 0 -10px transparent;float:left;height:5px;margin-left:-20px;overflow:visible;width:5px;}
@@ -209,7 +213,7 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 
 
 /*
- * CHROME STYLES    
+ * CHROME STYLES
  * HEADINGS
  */
 .s3d-site-heading{padding:10px 0;font-weight:bold;color:#454A4F;}
@@ -395,7 +399,7 @@ label.error{color:#9f3333;font-weight:bold;}
  * NEW DIALOG LAYOUT
  */
 .s3d-dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
-.s3d-dialog-container {background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;padding:7px 20px 12px;box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;-webkit-box-shadow:0 0 10px #000;color:#424242;font-size:12px;width:auto;}
+.s3d-dialog-container {background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;padding:7px 20px 12px;box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;-webkit-box-shadow:0 0 10px #000;color:#424242;font-size:12px;}
 .s3d-dialog-container .s3d-dialog-close {background:url("/dev/images/dialog_close.png") no-repeat top left transparent;width:19px;height:17px;float:right;cursor:pointer;margin:-2px -15px 0 0;}
 .s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}
 

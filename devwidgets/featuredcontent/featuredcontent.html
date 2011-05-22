@@ -106,7 +106,10 @@
                 </div>
             </div>
         {else}
-            __MSG__NO_FEATURED_CONTENT__
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
+            </div>
         {/if}
     {/if}
     {if !sakai_global.category}
