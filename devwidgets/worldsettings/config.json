@@ -1,5 +1,5 @@
 {
-    "ca":true,
+    "ca":                 false,
     "description":        "Edit World Settings",
     "enabled":            true,
     "groupdashboard":     false,
@@ -14,7 +14,7 @@
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "core",
-    "url":                "/devwidgets/worldsettings/worldsettings.html"
+    "url":                "/devwidgets/worldsettings/worldsettings.html",
     "userdashboard":      false,
     "userpages":          false
 }
