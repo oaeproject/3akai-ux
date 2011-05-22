@@ -14,7 +14,7 @@
         {if data.length}
             <ul>
                 {for version in data}
-                    <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-pageContent="${version.page}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]}">
+                    <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]}">
                         {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
                         <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
                         <a href="/~${version["sakai:pool-content-created-for"]}" class="s3d-regular-links versions_updater" title="__MSG__VIEW__ ${version["username"]}'s __MSG__PROFILE__">${version["username"]}</a>

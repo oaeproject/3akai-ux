@@ -64,14 +64,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         var doUploadVersion = function(){
-            $.ajax({
-                url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
-                type: "POST",
-                dataType: "json",
-                success: function(){
-                    $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["jcr:name"]);
-                    $(uploadnewversionUploadContentForm).ajaxForm({
-                        success: function(data){
+            $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["jcr:name"]);
+            $(uploadnewversionUploadContentForm).ajaxForm({
+                success: function(data){
+                    $.ajax({
+                        url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
+                        type: "POST",
+                        dataType: "json",
+                        success: function(){
                             $uploadnewversionContainer.jqmHide();
                             $(window).trigger("updated.version.content.sakai");
                             $(window).trigger("update.versions.sakai", {
@@ -79,14 +79,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 saveRef: "",
                                 showByDefault: true
                             });
-                        },
-                        error: function(err){
+                        },error: function(err){
                             debug.log(err);
                         }
-                    });
-                    $(uploadnewversionUploadContentForm).submit();
+                    })
                 }
             });
+            $(uploadnewversionUploadContentForm).submit();
         };
 
 

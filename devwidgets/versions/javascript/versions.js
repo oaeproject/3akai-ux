@@ -35,7 +35,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////
 
         var $rootel = $("#" + tuid);
-        var init = true;
 
         // Vars
         var contentPath = "";
@@ -145,7 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (!$("#" + currentPageShown.ref + "_previewversion").length) {
                     $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
-                $("#" + currentPageShown.ref + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
+                $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
                 $("#" + currentPageShown.ref + "_previewversion").show();
                 $("#" + currentPageShown.ref).hide();
             } else{
@@ -156,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var restoreVersion = function(e){
             var toStore = {};
             toStore[currentPageShown.saveRef] = {
-                page: $(this).parent().attr("data-pageContent")
+                page: versions[$(this).parent().attr("data-versionId")].page
             }
             $.ajax({
                 url: currentPageShown.pageSavePath + ".resource",
@@ -225,17 +224,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 currentPageShown = cps;
                 $(versionsContainer, $rootel).show();
                 doInit();
-                init = false;
             }
         });
 
         $(window).bind("update.versions.sakai", function(ev, cps){
             if ($(versionsContainer, $rootel).is(":visible")) {
-                $(versionsContainer, $rootel).hide();
-            } else {
                 currentPageShown = cps;
                 doInit();
-                $(versionsContainer, $rootel).show();
             }
         });
 
