@@ -19,9 +19,11 @@
                                 <a href="#">__MSG__UPLOAD_NEW_VERSION__</a>
                             </li>
                             {/if}
-                            <li id="ew_revhistory">
-                                <a href="#">__MSG__REVISION_HISTORY__</a>
-                            </li>	
+                            {if sakai_global.content_profile.content_data.data["sakai:custom-mimetype"] != "x-sakai/document"}
+                                <li id="ew_revhistory">
+                                    <a href="#">__MSG__REVISION_HISTORY__</a>
+                                </li>
+                            {/if}
                             <li id="ew_content_preview_delete">
                                 <a href="#">__MSG__DELETE__</a>
                             </li>

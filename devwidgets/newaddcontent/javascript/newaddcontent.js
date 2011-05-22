@@ -416,6 +416,16 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             ":content": $.toJSON(content)
                         },
                         success: function() {
+                            // add pageContent in non-replace mode to support versioning
+                            $.ajax({
+                                url: "/p/" + data._contentItem.poolId + "/" + refID + ".save.json",
+                                type: "POST",
+                                data: {
+                                    "sling:resourceType": "sakai/pagecontent",
+                                    "sakai:pagecontent": content,
+                                    "_charset_": "utf-8"
+                                }
+                            });
                             sakai.api.Util.tagEntity("/p/" + data._contentItem.poolId, documentObj.tags.split(","));
                             checkUploadCompleted();
                         },
@@ -506,7 +516,14 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                                     },
                                     method: "POST"
                                 });
-                            }
+                            };
+
+                            // Set initial version
+                            objArr.push({
+                                "url": "/p/" + savedItem.hashpath + ".save.json",
+                                "method": "POST",
+                                "parameters": {}
+                            });
                         }
                     });
                 }
@@ -674,7 +691,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          */
         var renderUploadNewContent = function(){
             showSelectedItem($(newaddcontentUploadContentTemplate));
-            $("input[type=file].multi").MultiFile({
+            $("#newaddcontent_upload_content_form input").MultiFile({
                 afterFileSelect: function(element, fileName, master_element){
                     var trashPrev = decideTrashPrev();
                     if (trashPrev){

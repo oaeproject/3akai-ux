@@ -1,0 +1,18 @@
+{
+    "description":        "Upload New Version Widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/uploadnewversion/bundles/default.properties"
+    },
+    "id":                 "uploadnewversion",
+    "name":               "Upload New Version Widget",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/uploadnewversion/uploadnewversion.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
