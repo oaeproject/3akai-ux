@@ -1,65 +1,20 @@
-/**
- * config.json
- *
- * Sakai OAE reads this file to register each widget and render it properly.
- * Default values are provided in this template - you must be sure to change all
- * occurences of worldsettings with your widget's id for this config.json and your
- * widget to function properly.
- *
- * Following are descriptions of the properties you can set in config.json:
- *  - description {String} a short description of this widget that may be
- *    displayed to users
- *  - enabled {Boolean} sets whether or not this widget may be used by Sakai OAE
- *  - groupdashboard {Boolean} sets whether or not this widget can be placed in
- *    a group's dashboard pages
- *  - grouppages {Boolean} sets whether or not this widget can be placed in 
- *    a group's standard pages (showinsakaigoodies must also be enabled to
- *    access this widget from the page editor)
- *  - hasSettings {Boolean} sets whether or not this widget has a settings menu
- *    option to allow users to configure or change the widget's settings.
- *  - i18n {Object} sets the location of internationalization files for this
- *    widget.
- *  - id {String} a short, unique identifier for this widget. This ID should be
- *    used as the widget's directory name as well as the widget's main HTML
- *    template, CSS file and JavaScript file names.
- *  - name {String} a short name for the widget that is displayed to users.
- *  - personalportal {Boolean} sets whether or not this widget may be used on a
- *    user's personal portal (more commonly known as 'Home' or 'My Sakai').
- *  - showinsakaigoodies {Boolean} sets whether or not this widget may appear in
- *    the list of widgets that can be placed on either a standard group or user
- *    page (either grouppages or userpages must also be enabled to access this
- *    widget from the page editor)
- *  - type {String} ["core" | "sakai" | "contrib"] 'core' widgets are essential
- *    for Sakai OAE to function properly (i.e. login, uploadcontent).
- *    'sakai' widgets are not essential for Sakai OAE to function properly, but
- *    are shipped with the main codebase (i.e. discussion, video).
- *    'contrib' widgets are written by individuals and institutions outside the
- *    core Sakai OAE team and contributed back to the Sakai OAE project.
- *  - url {String} the location of the main HTML template that should be loaded
- *    when Sakai OAE wants to display the widget
- *  - userdashboard {Boolean} sets whether or not this widget can be placed in
- *    a user's dashboard pages
- *  - userpages {Boolean} sets whether or not this widget can be placed in 
- *    a user's standard pages (showinsakaigoodies must also be enabled to
- *    access this widget from the page editor)
- */
 {
     "ca":true,
     "description":        "Edit World Settings",
     "enabled":            true,
-/*    "groupdashboard":     true, 
-    "grouppages":         true,
-    "hasSettings":        true,
-    "sakaidocs":          true, */
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "sakaidocs":          false,
     "i18n": {
         "default":        "/devwidgets/worldsettings/bundles/default.properties"
     },
     "id":                 "worldsettings",
     "name":               "World Settings",
-/*    "personalportal":     true, */
-    "showinsakaigoodies": true,
+    "personalportal":     false,
+    "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/worldsettings/worldsettings.html"
-  /*  "userdashboard":      true,
-    "userpages":          true */
+    "userdashboard":      false,
+    "userpages":          false
 }
