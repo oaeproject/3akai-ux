@@ -32,6 +32,6 @@ define(function(){
         "<p class='MsoNormal'><span style='font-family:Helvetica;mso-bidi-font-family:Helvetica;color:#333333;mso-bidi-font-weight:bold' lang='EN-US'>Q: <b>Can I make a private Sakai Document for only myself and a selected list of other co-collaborators? </b><br> A: Yes, top right of the page there is a &quot;Settings&quot; drop down (Cog icon)," +
         "select, &quot;Permissions&quot; and choose &quot;Can be discovered by: Selected people and groups&quot;, then add these people to the &quot;Can see or edit&quot; list in the same prompt window. You can also set the same permission as you create a new Sakai Document from scratch, just look for the &quot;Permissions&quot; link</span><span style='font-family:Helvetica;mso-bidi-font-family:Helvetica;color:#333333' lang='EN-US'></span></p>" +
         "<p><span style='font-family:Helvetica;mso-bidi-font-family:Helvetica;color:#333333;mso-bidi-font-weight:bold' lang='EN-US'></span><span style='font-family:Helvetica;mso-bidi-font-family:Helvetica;color:#333333' lang='EN-US'></span></p>" +
-        "<p><img class='block_image_right' src='/dev/images/sakaidoc_default.png' alt='' height='151' width='289'></p>'";
+        "<p><img class='block_image_right' src='/dev/images/sakaidoc_default.png' alt='' height='151' width='289'></p>";
     return sakaidocConfig;
 });
