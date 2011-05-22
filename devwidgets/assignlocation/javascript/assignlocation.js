@@ -183,7 +183,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         };
                         break;
                     case "group":
-                        debug.log(sakai_global.group2.groupData.saveddirectory);
                         contextVariables = {
                             "saveddirectory": sakai_global.group2.groupData.saveddirectory,
                             "tags": sakai_global.group2.groupData["sakai:tags"],

@@ -252,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
                 .jqmShow();
             });
-            
+
             $("#ew_group_categories_link").click(function(){
                 $("#assignlocation_container").jqmShow();
                 $('#entity_groupsettings_dropdown').jqmHide();
