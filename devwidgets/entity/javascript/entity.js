@@ -273,15 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
-
-            $(".addpeople_init").click(function(){
-                $(window).trigger("init.addpeople.sakai", [tuid]);
-                $("#entity_groupsettings_dropdown").jqmHide();
-            })
-
-        });
-
-        $(window).bind("ready.contentpreview.sakai", function(){
+            
             $("#ew_content_preview_delete>a").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
@@ -298,6 +290,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 );
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
+
+            $(".addpeople_init").click(function(){
+                $(window).trigger("init.addpeople.sakai", [tuid]);
+                $("#entity_groupsettings_dropdown").jqmHide();
+            })
+
         });
 
         // An event to call from the worldsettings dialog so that we can
