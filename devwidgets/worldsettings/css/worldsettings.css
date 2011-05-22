@@ -42,6 +42,7 @@
 
 #worldsettings_form h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
 #worldsettings_form h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
+#worldsettings_container {left:57%;}
 #worldsettings_container label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px;}
 #worldsettings_container input, #worldsettings_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
 #worldsettings_container textarea {height:50px;resize:none;}

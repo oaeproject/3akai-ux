@@ -1,17 +1,10 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/worldsettings/css/worldsettings.css" />
 
-<div id="worldsettings_container" class="worldsettings_dialog dialog">
-    <!-- HEADER -->
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__SETTINGS_HEADER__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
-
+<div id="worldsettings_container" class="worldsettings_dialog s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__SETTINGS_HEADER__</h1>
     <!-- FORM -->
-    <div class="dialog_content">
       <form id="worldsettings_form">
         <label for="worldsettings_title">__MSG__TITLE__:</label>
         <input type="text" id="worldsettings_title" class="required"/><br/>
@@ -40,18 +33,11 @@
 
         <!-- BUTTONS -->
         <div class="dialog_buttons fl-force-right">
-            <button type="button" class="s3d-button" id="worldsettings_cancel_button"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
             <button type="button" class="s3d-button s3d-button-primary" id="worldsettings_apply_button"><span class="s3d-button-inner">__MSG__APPLY_SETTINGS__</span></button>
         </div>
         <hr class="fl-push fl-hidden"/>
       </form>
-    </div>
-
-    <!-- FOOTER -->
-    <div id="worldsettings_dialog_footer" class="dialog_footer">
-        <div class="dialog_footer_inner worldsettings_dialog_footer_inner"></div>
-    </div>
-
 </div>
 
 <!-- JAVASCRIPT -->

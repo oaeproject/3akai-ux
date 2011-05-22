@@ -19,6 +19,7 @@
 #assignlocation_container{margin-left:-450px;width:900px;}
 #assignlocation_jstree_container,#assignlocation_jstree_selected_container{background-color:#fff;float:left;padding:10px;margin:0 0 6px 1px;height:300px;border:1px solid #878A8C;overflow:auto;}
 #assignlocation_jstree_container{width:45%;}
+#assignlocation_container #assignlocation_container_search h1 {font-size:15px;font-weight:normal;}
 #assignlocation_jstree_selected_container{width:51%;padding:0;height:320px;}
 #assignlocation_jstree_selected_container ul{margin:0;}
 .assignlocation_secondcolumn_header{position:absolute;left:48%;}

@@ -103,24 +103,14 @@
 --></div>
 <div class="s3d-bottom-spacer"></div>
 
-<div id="lhnavigation_delete_dialog" class="dialog" style="width:400px; margin-left: -200px">
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__DELETE_A_PAGE__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
-    <div class="dialog_content">
-        <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__?</h4>
-        <p class="lhnavigation_delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
-        <div class="dialog_buttons delete_page_buttons">
-            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="lhnavigation_delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
-        </div>
-    </div>
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
+<div id="lhnavigation_delete_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__DELETE_A_PAGE__</h1>
+    <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__?</h4>
+    <p class="lhnavigation_delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
+    <div class="dialog_buttons delete_page_buttons">
+        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE__</span></button>
+        <button type="button" class="s3d-button s3d-button-primary" id="lhnavigation_delete_confirm"><span class="s3d-button-inner">__MSG__DELETE__</span></button>
     </div>
 </div>
 

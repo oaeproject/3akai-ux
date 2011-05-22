@@ -2,20 +2,12 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/assignlocation/css/assignlocation.css" />
 
 <!-- MAIN VIEW -->
-<div id="assignlocation_container" style="display:none" class="dialog">
-    <div id="assignlocation_container_header" class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__ASSIGN_A_LOCATION__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
+<div id="assignlocation_container" style="display:none" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__ASSIGN_A_LOCATION__</h1>
 
-    <div id="assignlocation_container_search" class="dialog_content">
-        <div class="s3d-highlight_area_background fl-push assignlocation_container_area">
-            <div class='s3d-highlight_area_background_tl'>
-                <div class='s3d-highlight_area_background_tinner'>
-                </div>
-            </div>
+    <div id="assignlocation_container_search">
+        <div class=" fl-push assignlocation_container_area">
             <h1 id="assignlocation_secondcolumn_header_content" class="assignlocation_secondcolumn_header" style="display:none">__MSG__CONTENT_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
             <h1 id="assignlocation_secondcolumn_header_group" class="assignlocation_secondcolumn_header" style="display:none">__MSG__GROUP_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1>
             <h1 id="assignlocation_secondcolumn_header_user" class="assignlocation_secondcolumn_header" style="display:none">__MSG__USER_WILL_BE_INCLUDED_IN_THESE_LOCATIONS__</h1><h1>__MSG__SELECT_LOCATION_OR_SEARCH__</h1>
@@ -32,17 +24,6 @@
                     <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
                 </button>
             </div>
-            <div class="s3d-highlight_area_background_bl">
-                <div class="s3d-highlight_area_background_binner">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner">
-            <!-- -->
         </div>
     </div>
 </div>
