@@ -99,6 +99,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var newaddcontentSelectedItemsEditPermissionsPermissions = "#newaddcontent_selecteditems_edit_permissions_permissions";
         var newaddcontentSelectedItemsEditPermissionsCopyright = "#newaddcontent_selecteditems_edit_permissions_copyright";
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
+        var newaddcontentSaveTo = "#newaddcontent_saveto";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -159,14 +160,23 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * Render the queue
          */
         var renderQueue = function(){
-            $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate,{"items": itemsToUpload, "sakai":sakai}));
+            var defaultLibrary = "";
+            if (sakai_global.group2 && sakai_global.group2.groupId){
+                defaultLibrary = sakai_global.group2.groupId;
+            }
+            $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
+                "items": itemsToUpload,
+                "sakai": sakai,
+                "me": sakai.data.me,
+                "defaultLibrary": defaultLibrary
+            }));
         };
 
         var resetQueue = function(){
             itemsToUpload = [];
             itemsUploaded = 0;
             disableAddToQueue();
-            $newaddcontentContainerSelectedItemsContainer.html("");
+            renderQueue();
         };
 
         /**
@@ -465,6 +475,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          */
         var setDataOnContent = function(data){
             var objArr = [];
+            var library = $(newaddcontentSaveTo).val();
             $.each(itemsToUpload, function(i,arrayItem){
                 if(arrayItem.type == "content"){
                     $.each(data, function(ii, savedItem){
@@ -472,7 +483,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             arrayItem.hashpath = savedItem.hashpath;
                             savedItem.permissions = arrayItem.permissions;
                             savedItem.hashpath = savedItem.hashpath.poolId;
-                            var obj = {
+
+                            objArr.push({
                                 "url": "/p/" + savedItem.hashpath,
                                 "method": "POST",
                                 "parameters": {
@@ -484,8 +496,17 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                                     "sakai:allowcomments": "true",
                                     "sakai:showcomments": "true"
                                 }
-                            };
-                            objArr.push(obj);
+                            });
+
+                            if(library !== "default"){
+                                objArr.push({
+                                    url: "/p/" + savedItem.hashpath + ".members.json",
+                                    parameters: {
+                                        ":viewer": library
+                                    },
+                                    method: "POST"
+                                });
+                            }
                         }
                     });
                 }

@@ -46,11 +46,18 @@
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;right:20px;top:206px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_documentsposition{top:306px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition{top:406px;}
+#newaddcontent_container input::-webkit-input-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container input:-moz-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container textarea::-webkit-input-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container textarea:-moz-placeholder {color:#aaa;font-style:italic;}
 
 /* Right selected items */
 #newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;border:1px #a9a9a9 solid;}
-#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;padding: 10px 12px;text-align:center;}
-#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header span{font-size:11px;font-weight:normal;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;padding:10px 12px 5px;}
+#newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_noselecteditems {color:#aaa;display:block;font-size:12px;font-style:italic;margin:7px 12px;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container {border-bottom: 1px solid #E5EAED;padding:10px 0;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container label {margin-left:12px;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container select#newaddcontent_saveto {border:1px solid #A9A9A9;width:165px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul {margin:0;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;list-style: none outside none;padding: 6px 20px 6px 30px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title {display:block;padding-left:2px;}
