@@ -1345,7 +1345,7 @@ define(function(){
                 }
             },
             easiaticlanguagesliterature: {
-                title: "Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects",
+                title: "Exotic Languages, Literature and related subjects",
                 children: {
                     chinesestudies: {
                         title: "Chinese studies"
