@@ -113,7 +113,15 @@
                         {/if}
                     {/for}
                     {if !peopleFound}
-                        <div class="searchpeople_no_results">__MSG__NO_PEOPLE_FOUND__</span>
+                        <div class="s3d-no-results-container">
+                            <div class="s3d-no-results-arrow-up"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+                            {if sakai.data.me.user.anon}
+                                <h1>
+                                    <a href="/dev/create_new_account2.html" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>
+                                </h1>
+                            {/if}
+                        </div>
                     {/if}
                 --></div>
             </div>
