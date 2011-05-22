@@ -114,7 +114,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var count = 0;
             $.each(navData.children, function(index, item){
                 var rnd = sakai.api.Util.generateWidgetId();
-                pubdata["structure0"][navData.id + "/" + index] = {
+                pubdata["structure0"][navData.id + "-" + index] = {
                     "_ref": rnd,
                     "_order": count,
                     "_title": item.title,
@@ -134,11 +134,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 pubdata[fcRnd] = {
                     navData: navData,
-                    category: navData.id + "/" + index
+                    category: navData.id + "-" + index
                 };
                 pubdata[fpRnd] = {
                     navData: navData,
-                    category: navData.id + "/" + index
+                    category: navData.id + "-" + index
                 };
                 pubdata[fwRnd] = {
                     navData: navData,
@@ -147,8 +147,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 count++;
             });
-            debug.log(pubdata);
-            debug.log(privdata);
             $(window).trigger("lhnav.init", [pubdata, privdata, {}]);
         };
 
@@ -159,9 +157,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var getCategory = function(){
             var category = $.bbq.getState("tag");
             if(!category){
-                category = $.bbq.getState("l").split("/");
+                category = $.bbq.getState("l").split("-");
             }else{
-                category = category.split("/");
+                category = category.split("-");
             }
             return category;
         };

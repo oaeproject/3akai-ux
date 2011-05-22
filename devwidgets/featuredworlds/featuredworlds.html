@@ -8,7 +8,7 @@
 <div id="featuredworlds_template"><!--
     <div class="s3d-contentpage-title">
         {for tab in tabs}
-            <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" sakai-worldid="${tab.id}">${tab.title} (<a href="/dev/search2.html#l=${tab.id}&q=${category}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">${data[tab.id].total}</a>)</div>
+            <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">${tab.title} (<a href="/dev/search2.html#l=${tab.id}&q=${category}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">${data[tab.id].total}</a>)</div>
         {/for}
     </div>
     <div id="featuredworlds_worlds_content_container">

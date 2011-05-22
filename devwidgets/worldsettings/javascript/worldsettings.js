@@ -86,18 +86,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                      // set new group permissions
                                      sakai.api.Groups.setPermissions(sakai_global.group2.groupId, joinable, visible);
                                      sakai_global.group2.groupData["sakai:group-visible"] = $worldsettingsCanBeFoundIn.val();
-                                    sakai_global.group2.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
+                                     sakai_global.group2.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
                                  }
 
                                  // Set the group tags
                                  // Collect tags
                                  var grouptags = $.trim($worldsettingsTags.val()).split(",");
+                                 grouptags.concat(sakai.api.Util.getDirectoryTags(sakai_global.group2.groupData["sakai:tags"], true));
                                  var groupProfileURL = "/~" + sakai_global.group2.groupId + "/public/authprofile";
                                  sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group2.groupData["sakai:tags"], function(){});
                                  sakai_global.group2.groupData["sakai:tags"] = grouptags;
 
                                  $(window).trigger("sakai.entity.updateTitle", worldTitle);
-                                 closeDialog();  
+                                 $worldsettingsDialog.jqmHide();  
                         });
                 }});
                 $worldsettingsForm.submit();
@@ -116,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var profile = sakai_global.group2.groupData;
             $worldsettingsTitle.val(profile['sakai:group-title']);
             $worldsettingsDescription.val(profile['sakai:group-description']);
-            $worldsettingsTags.val(profile['sakai:tags']);
+            $worldsettingsTags.val(sakai.api.Util.formatTagsExcludeLocation(profile['sakai:tags'].toString()));
             $worldsettingsCanBeFoundIn.val(profile['sakai:group-visible']);
             $worldsettingsMembership.val(profile['sakai:group-joinable']);
             $worldsettingsDialog.jqm({

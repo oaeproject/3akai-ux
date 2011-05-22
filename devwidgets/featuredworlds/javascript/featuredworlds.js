@@ -80,7 +80,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "parameters": {
                         page: 0,
                         items: 3,
-                        q: pageData.category,
+                        q: pageData.category.replace("-", "/"),
                         category: tab.id
                     }
                 });
@@ -101,7 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addBinding = function(){
             $(".featuredworlds_tab").live("click", function(){
                 if(!$(this).hasClass("featuredworlds_tab_selected")){
-                    var worldId = $(this).attr("sakai-worldid");
+                    var worldId = $(this).data("sakai-worldid");
                     $(".featuredworlds_content_container").hide();
                     $("#featuredworlds_" + worldId).show();
                     $(".featuredworlds_tab_selected").removeClass("featuredworlds_tab_selected");
