@@ -98,6 +98,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group_managed":
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", context));
+
+                    $('#ew_group_settings_edit_link').live("click", function(ev) {
+                        $(window).trigger("init.worldsettings.sakai", context.data.authprofile['sakai:group-id']);
+                        $('#entity_groupsettings_dropdown').jqmHide();
+                    });
+
                     $(entityGroupDropdown).hover(function(){
                         var $li = $(this);
                         var $subnav = $li.children(".s3d-dropdown-container");
@@ -268,6 +274,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
+            $(".addpeople_init").click(function(){
+                $(window).trigger("init.addpeople.sakai", [tuid]);
+                $("#entity_groupsettings_dropdown").jqmHide();
+            })
+
         });
 
         $(window).bind("ready.contentpreview.sakai", function(){
@@ -287,6 +298,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 );
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
+        });
+
+        // An event to call from the worldsettings dialog so that we can
+        // refresh the title if it's been saved.
+        $(window).bind("sakai.entity.updateTitle", function(e, title) {
+            $('#entity_name').html(title);
         });
 
         $(window).trigger("sakai.entity.ready");

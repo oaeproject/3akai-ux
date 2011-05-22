@@ -165,6 +165,36 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(window).trigger("addarea.initiate.sakai");
         });
 
+        $(window).bind("sakai.addpeople.usersselected", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "user": data[user].userid,
+                    "permission": data[user].permission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.addUsersToGroup(groupId, false, members, sakai.api.User.data.me, false, function(){
+                    $(window).trigger("usersselected.addpeople.sakai");
+                });
+            }
+        });
+
+        $(window).bind("sakai.addpeople.usersswitchedpermission", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "userid": data[user].userid,
+                    "permission": data[user].originalPermission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.removeUsersFromGroup(groupId, false, members, sakai.api.User.data.me, false);
+            }
+        });
+
         ////////////////////
         // INITIALISATION //
         ////////////////////
