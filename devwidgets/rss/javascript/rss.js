@@ -565,7 +565,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showHideSettings = function(show){
 
             if(show){
-
                 sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
                     if (success) {
                         resultJSON = data;
@@ -576,8 +575,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
 
-            }
-            else{
+            } else{
                 $(rssSettings,rootel).hide();
                 $(rssOutput,rootel).show();
 

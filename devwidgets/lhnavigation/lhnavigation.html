@@ -58,7 +58,7 @@
     <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list" data-sakai-space="public">
         {for level in public.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" {if level.canView === false} style="display:none;" {/if}>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" {if level.canView === false} style="display:none;" {/if}>
                     <div class="lhnavigation_item_content">
                         <div class="lhnavigation_has_subnav"></div>
                         <span class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
@@ -86,7 +86,7 @@
                     </ul>
                 </li>
             {else}
-                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_outer" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}" {if level._canView === false} style="display:none;" {/if}>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}" {if level._canView === false} style="display:none;" {/if}>
                     <div class="lhnavigation_item_content">
                         <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
@@ -125,10 +125,17 @@
 </div>
 
 <div style="display:none;" id="lhnavigation_submenu">
-    <ul>
-        <li><a href="javascript:;" id="lhavigation_submenu_edittitle">Change Name</a></li>
-        <li><a href="javascript:;" id="lhavigation_submenu_deletepage">Delete Page</a></li>
-    </ul>
+    <div class="lhnavigation_submenu_arrow"></div>
+    <div class="lhnavigation_submenu_container">
+        <div class="lhnavigation_submenu_container_inner">
+            <ul>
+                <li><a href="javascript:;" id="lhavigation_submenu_edittitle">__MSG__CHANGE_TITLE__</a></li>
+                <li><a href="javascript:;" id="lhavigation_submenu_deletepage">__MSG__DELETE_PAGE__</a></li>
+                <li id="lhnavigation_submenu_permissions_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_permissions">__MSG__PERMISSIONS__</a></li>
+                <li id="lhnavigation_submenu_profile_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_profile" target="_blank">__MSG__VIEW_PROFILE__</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 

@@ -8,54 +8,58 @@
         <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
         <div id="embedcontent_content" class="clearfix"><!-- --></div>
         <div id="embedcontent_content_html_template"><!--
-        {if embedmethod === "original"}
-            {var embedClass="embedcontent_large_content clearfix"}
+        {if showDefaultContent}
+            <img src="/devwidgets/embedcontent/images/defaultcontent.png"/>
         {else}
-            {var embedClass="embedcontent_thumbnail_content clearfix"}
-        {/if}
-        {if title || description}
-            <div class="s3d-highlight_area_background">
-            {if title}<h2>${title}</h2>{/if}
-            {if description}<p>${description}</p>{/if}
-        {/if}
-        {for item in items}
-            {if item.type === "notfound"}
-                <div class="s3d-highlight_area_background embedcontent_thumbnail_content clearfix ${layout}">
-                    <img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/>
-                    <div class="embedcontent_details">
-                        <span class="embedcontent_include_details">__MSG__NO_LONGER_AVAILABLE__</span>
-                    </div>
-                </div>
+            {if embedmethod === "original"}
+                {var embedClass="embedcontent_large_content clearfix"}
             {else}
-                <div class="${embedClass} ${layout}">
-                    {var mimeType = sakai.api.Content.getMimeType(item)}
-                    {var thumbnail = sakai.api.Content.getThumbnail(item)}
-                    {if embedmethod === "thumbnail" && thumbnail}
-                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                        <a href="/content#p=${item.link}">
-                            <img src="${thumbnail} alt="${mimeTypeDescription}" />
-                        </a>
-                    {elseif sakai.api.Content.hasPreview(item.fullresult)}
-                        <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
-                    {elseif sakai.config.MimeTypes[mimeType]}
-                        <a href="/content#p=${item.link}">
-                            <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
-                        </a>
-                    {else}
-                        <a href="/content#p=${item.path}">
-                            <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
-                        </a>
-                    {/if}
-                    <div class="embedcontent_details fl-push">
-                        {if name}<span><a href="/content#p=${item.link}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
-                        {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
-                        {if download}<span><a href={if item.extension}"${item.link}"{else}"${item.name}"{/if} class="s3d-action embedcontent_include_download" target="_blank">{if item.extension}__MSG__DOWNLOAD__{else}__MSG__OPEN_LINK__{/if}</a></span>{/if}
+                {var embedClass="embedcontent_thumbnail_content clearfix"}
+            {/if}
+            {if title || description}
+                <div class="s3d-highlight_area_background">
+                {if title}<h2>${title}</h2>{/if}
+                {if description}<p>${description}</p>{/if}
+            {/if}
+            {for item in items}
+                {if item.type === "notfound"}
+                    <div class="s3d-highlight_area_background embedcontent_thumbnail_content clearfix ${layout}">
+                        <img src="/dev/images/not_found.png" class="not_found" alt="__MSG__NOT_FOUND__"/>
+                        <div class="embedcontent_details">
+                            <span class="embedcontent_include_details">__MSG__NO_LONGER_AVAILABLE__</span>
+                        </div>
                     </div>
+                {else}
+                    <div class="${embedClass} ${layout}">
+                        {var mimeType = sakai.api.Content.getMimeType(item)}
+                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                        {if embedmethod === "thumbnail" && thumbnail}
+                            {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                            <a href="/content#p=${item.link}">
+                                <img src="${thumbnail} alt="${mimeTypeDescription}" />
+                            </a>
+                        {elseif sakai.api.Content.hasPreview(item.fullresult)}
+                            <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
+                        {elseif sakai.config.MimeTypes[mimeType]}
+                            <a href="/content#p=${item.link}">
+                                <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
+                            </a>
+                        {else}
+                            <a href="/content#p=${item.path}">
+                                <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
+                            </a>
+                        {/if}
+                        <div class="embedcontent_details fl-push">
+                            {if name}<span><a href="/content#p=${item.link}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                            {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
+                            {if download}<span><a href={if item.extension}"${item.link}"{else}"${item.name}"{/if} class="s3d-action embedcontent_include_download" target="_blank">{if item.extension}__MSG__DOWNLOAD__{else}__MSG__OPEN_LINK__{/if}</a></span>{/if}
+                        </div>
+                    </div>
+                {/if}
+            {/for}
+            {if title || description}
                 </div>
             {/if}
-        {/for}
-        {if title || description}
-            </div>
         {/if}
         --></div>
     </div>

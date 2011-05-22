@@ -127,6 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderWidget = function() {
             wData.sakai = sakai;
+            wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
                 var placement = "ecDocViewer" + tuid + value["jcr:name"] + index;
@@ -518,13 +519,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0, j = data.items.length; i < j; i++) {
                     if (processWidget(data.items[i], data.items)) {
                         if ($.isFunction(callback)) {
-                            callback();
+                            callback(true);
                         }
                     }
                 }
             } else {
                 if ($.isFunction(callback)) {
-                    callback();
+                    callback(false);
                 }
             }
         };
@@ -658,9 +659,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             });
         });
+        
+        var renderDefaultContent = function(){
+            $("#embedcontent_content", $rootel).html(sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
+                "showDefaultContent": true
+            }));
+        };
 
         var doInit = function() {
-            getWidgetData(function() {
+            getWidgetData(function(success) {
                 if (showSettings) {
                     if (sakai_global.sitespages &&
                         sakai_global.sitespages.site_info &&
@@ -675,6 +682,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     renderSettings();
                     $embedcontent_settings.show();
+                } else if (!success) {
+                    renderDefaultContent();
+                    $embedcontent_main_container.show();
                 } else {
                     $embedcontent_main_container.show();
                     renderWidget();
