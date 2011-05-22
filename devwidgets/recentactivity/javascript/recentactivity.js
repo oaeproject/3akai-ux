@@ -44,7 +44,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
                     }
                     else {
-                        item.who.picture = "/dev/images/user_avatar_icon_48x48.png";
+                        item.who.picture = "/dev/images/default_User_icon_50x50.png";
                     }
                 });
                 $recentactivityActivityContainer.html(sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, {
