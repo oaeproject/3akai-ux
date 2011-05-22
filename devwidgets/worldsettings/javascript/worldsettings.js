@@ -73,20 +73,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $worldsettingsApplyButton.die("click");
             $worldsettingsApplyButton.live("click", function() {
                 $worldsettingsForm.validate({submitHandler: function(form) {
-                    $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
+                        $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
                         $worldsettingsContainer.find("select, input, textarea").attr("disabled","disabled");
                         var worldTitle = $worldsettingsTitle.val();
+
+                        // Update group object
+                        sakai_global.group2.groupData["sakai:group-title"] = worldTitle;
+                        sakai_global.group2.groupData["sakai:group-description"] = $worldsettingsDescription.val();
+
                         sakai.api.Groups.updateGroupProfile(worldId,
                              {
                                  "sakai:group-title" :  worldTitle,
                                  "sakai:group-description": $worldsettingsDescription.val(),
-                                 "sakai:tags":  $worldsettingsTags.val(),
                                  "sakai:group-visible": $worldsettingsCanBeFoundIn.val(),
                                  "sakai:group-joinable": $worldsettingsMembership.val()
                              }, function(success) {
+                                 $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
+                                 $worldsettingsContainer.find("select, input, textarea").removeAttr("disabled");
+                                 // get current input values
+                                 var joinable = $("#worldsettings_membership").val();
+                                 var visible = $("#worldsettings_can_be_found_in").val();
+
+                                 // only POST if user has changed values
+                                 if(joinable !== sakai_global.group2.groupData["sakai:group-joinable"] ||
+                                     visible !== sakai_global.group2.groupData["sakai:group-visible"]) {
+                                     // set new group permissions
+                                     sakai.api.Groups.setPermissions(sakai_global.group2.groupId, joinable, visible);
+                                     sakai_global.group2.groupData["sakai:group-visible"] = $worldsettingsCanBeFoundIn.val();
+                                    sakai_global.group2.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
+                                 }
+
+                                 // Set the group tags
+                                 // Collect tags
+                                 var grouptags = $.trim($worldsettingsTags.val()).split(",");
+                                 var groupProfileURL = "/~" + sakai_global.group2.groupId + "/public/authprofile";
+                                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group2.groupData["sakai:tags"], function(){});
+                                 sakai_global.group2.groupData["sakai:tags"] = grouptags;
+
                                  $(window).trigger("sakai.entity.updateTitle", worldTitle);
-                                 closeDialog();
-                                 // TODO What to do in case of failure?   
+                                 closeDialog();  
                         });
                 }});
                 $worldsettingsForm.submit();
@@ -96,28 +121,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
-        
+
         /**
          * Initialization function DOCUMENTATION
          */
         var doInit = function (worldId) {
             bindEvents(worldId);
-            var profile = sakai.api.Groups.getGroupData(worldId, function(success, data) {
-                $worldsettingsTitle.val(data.authprofile['sakai:group-title']);
-                $worldsettingsDescription.val(data.authprofile['sakai:group-description']);
-                $worldsettingsTags.val(data.authprofile['sakai:tags']);
-                $worldsettingsCanBeFoundIn.val(data.authprofile['sakai:group-visible']);
-                $worldsettingsMembership.val(data.authprofile['sakai:group-joinable']);
-            });
+            var profile = sakai_global.group2.groupData;
+            $worldsettingsTitle.val(profile['sakai:group-title']);
+            $worldsettingsDescription.val(profile['sakai:group-description']);
+            $worldsettingsTags.val(profile['sakai:tags']);
+            $worldsettingsCanBeFoundIn.val(profile['sakai:group-visible']);
+            $worldsettingsMembership.val(profile['sakai:group-joinable']);
             $worldsettingsDialog.jqm({
                 modal: true,
                 overlay: 20,
                 toTop: true
             });
             $worldsettingsDialog.jqmShow();
-
         };
-        
+
         // run the initialization function when the widget object loads
         $(window).bind("init.worldsettings.sakai", function(e, worldId) {
             doInit(worldId);

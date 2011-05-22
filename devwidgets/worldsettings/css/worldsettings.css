@@ -45,7 +45,6 @@
 #worldsettings_container label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px;}
 #worldsettings_container input, #worldsettings_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
 #worldsettings_container textarea {height:50px;resize:none;}
-#worldsettings_container textarea#worldsettings_description{height:100px;}
 #worldsettings_container input#worldsettings_suggested_url {width:auto;}
  
 #worldsettings_container .worldsettings_section select {border:1px solid #A9A9A9;float:right;}

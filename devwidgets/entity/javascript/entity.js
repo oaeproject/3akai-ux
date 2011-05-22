@@ -101,6 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     $('#ew_group_settings_edit_link').live("click", function(ev) {
                         $(window).trigger("init.worldsettings.sakai", context.data.authprofile['sakai:group-id']);
+                        $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
                     $(entityGroupDropdown).hover(function(){
