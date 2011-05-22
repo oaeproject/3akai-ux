@@ -7,30 +7,40 @@
 </div>
 
 <div id="recentactivity_activity_item_template"><!--
-    {for activity in data.results}
-        <div class="recentactivity_activity_item_container">
+    {for activity in data}
+        <div class="recentactivity_activity_item_container" {if activity.fadeIn}style="display:none;"{/if}>
             <div class="recentactivity_activity_item_content">
-                <div class="recentactivity_activity_icon recentactivity_activity_${activity["sakai:activity-type"]}"></div>
+                <div class="recentactivity_activity_icon recentactivity_activity_${activity["sakai:activity-appid"]}"></div>
                 <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
                 <a href="/~${activity.who.userid}" title="View ${activity.who.name}'s Profile" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity.who.name, 150, null,"s3d-bold")}</a>
                 {if activity["sakai:activity-type"] == "comment"}
                     <span class="recentactivity_activity_item_description">${sakai.api.Util.applyThreeDots(activity["sakai:activity-comment"], 300)}</span>
                 {else}
-                    <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]}:</span>
+                    <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]}{if activity.showdetails}:{/if}</span>
                 {/if}
             </div>
-            <div class="recentactivity_activity_item_content">
-                {if activity["_mimeType"]}
-                    {var mimeType = activity["_mimeType"]}
-                {else}
-                    {var mimeType = activity["sakai:custom-mimetype"]}
-                {/if}
-                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="PDF" class="recentactivity_activity_item_image"/>
-                <a href="/content#p=${activity["jcr:name"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
-                <span class="recentactivity_activity_item_description">Used in 4 places </span>
-            </div>
+            {if activity.showdetails}
+                <div class="recentactivity_activity_item_content">
+                    {if activity["_mimeType"]}
+                        {var mimeType = activity["_mimeType"]}
+                    {else}
+                        {var mimeType = activity["sakai:custom-mimetype"]}
+                    {/if}
+                    {if mimeType.indexOf("image/") !== -1}
+                        <img src="/p/${activity["_path"]}" class="recentactivity_activity_item_image" alt="${activity["sakai:pooled-content-file-name"]}"/>
+                    {elseif activity["sakai:custom-mimetype"]}
+                        <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" class="recentactivity_activity_item_image"/>
+                    {elseif sakai.api.Content.hasPreview(activity)}
+                        <img src="/p/${activity["_path"]}.page1-small.png" class="recentactivity_activity_item_image" alt="${activity["sakai:pooled-content-file-name"]}"/>
+                    {else}
+                        <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="activity["sakai:pooled-content-file-name"]" class="recentactivity_activity_item_image"/>
+                    {/if}
+                    <a href="/content#p=${activity["_path"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
+                    <span class="recentactivity_activity_item_description">__MSG__USED_IN__ ${activity.usedin} {if activity.usedin == 1} __MSG__PLACE__ {else} __MSG__PLACES__{/if}</span>
+                </div>
+            {/if}
         </div>
-        {if activity_index != data.results.length - 1}
+        {if activity_index != data.length - 1}
             <hr class="s3d-split-line fl-push">
         {/if}
     {/for}
