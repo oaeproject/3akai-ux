@@ -10,38 +10,18 @@
 </div>
 
 <!-- DIALOG -->
-<div class="dialog" id="deletecontent_dialog">
-    <!-- HEADER -->
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__DELETE_CONTENT__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
+<div class="s3d-dialog s3d-dialog-container" id="deletecontent_dialog">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__DELETE_CONTENT__</h1>
+    <form id="deletecontent_form" method="post" action="#">
+        <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__?</h4>
+        <span>__MSG__DELETING_THIS_CONTENT_IS_PERMANENT__</span>
+        <div id="deletecontent_error_container" style="display:none;"><!-- --></div>
+        <div class="deletecontent_buttons">
+            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE_CONTENT__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="deletecontent_action_delete"><span class="s3d-button-inner">__MSG__DELETE_CONTENT__</span></button>
         </div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="dialog_content">
-
-        <form id="deletecontent_form" method="post" action="#">
-            
-            <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT__?</h4>
-
-            <span>__MSG__DELETING_THIS_CONTENT_IS_PERMANENT__</span>
-
-            <div id="deletecontent_error_container" style="display:none;"><!-- --></div>
-            
-            <div class="deletecontent_buttons">
-                <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE_CONTENT__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="deletecontent_action_delete"><span class="s3d-button-inner">__MSG__DELETE_CONTENT__</span></button>
-            </div>
-        </form>
-
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+    </form>
 </div>
 
 <!-- JAVASCRIPT -->

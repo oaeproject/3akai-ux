@@ -546,7 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $uploadContentLink.bind("click", function() {
-            $(window).trigger("init.fileupload.sakai");
+            $(window).trigger("init.newaddcontent.sakai");
             return false;
         });
 

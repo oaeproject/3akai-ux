@@ -1,28 +1,18 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/areapermissions/css/areapermissions.css" />
 
-<div id="areapermissions_container" class="dialog" style="display:none;">
-    <div id="areapermissions_container_header" class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__AREA_PERMISSIONS_FOR__ <span id="areapermissions_area_title"></span></h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">
-                __MSG__CLOSE_DIALOG__
-            </button>
-        </div>
+<div id="areapermissions_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__AREA_PERMISSIONS_FOR__ <span id="areapermissions_area_title"></span></h1>
+
+    <div id="areapermissions_content_container" ></div>
+    <div class="fl-force-right areapermissions_buttons">
+        <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="areapermissions_apply_permissions" title="Apply permissions">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__APPLY_PERMISSIONS__</span>
+        </button>
     </div>
-    <div class="dialog_content">
-        <div id="areapermissions_content_container" ></div>
-        <div class="fl-force-right areapermissions_buttons">
-            <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-button-link-2-state" id="areapermissions_apply_permissions" title="Apply permissions">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__APPLY_PERMISSIONS__</span>
-            </button>
-        </div>
-    <div class="areapermissions_bottom_spacer"></div>
-    </div>
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
-    </div>
+    <div class="fl-push"></div>
 </div>
 
 <div id="areapermissions_content_template" style="display:none"><!--

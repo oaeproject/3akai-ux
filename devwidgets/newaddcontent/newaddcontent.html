@@ -2,8 +2,9 @@
 <link  rel="stylesheet" type="text/css" href="/devwidgets/newaddcontent/css/newaddcontent.css" />
 
 <!-- CONTAINER -->
-<div id="newaddcontent_container" class="dialog">
-
+<div id="newaddcontent_container" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__ADD_CONTENT__</h1>
     <div id="newaddcontent_container_selecteditems">
         <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__ <span>(__MSG__TYPE_DIRECTLY_INTO_LIST__)</span></div>
         <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
@@ -49,7 +50,7 @@
             <div id="newaddcontent_upload_content_template" class="newaddcontent_newitem_container" style="display:none;">
                 <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
                 <form id="newaddcontent_upload_content_form" class="newaddcontent_form" method="POST" enctype="multipart/form-data">
-                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="39"/>
+                    <input name="fileData" id="multifile_upload" type="file" class="multi" size="42"/>
                 </form>
                 <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
                     <span class="newaddcontent_upload_content_originaltitle"><!----></span>

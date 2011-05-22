@@ -143,7 +143,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(sendmessage_to).show();
                 $(sendmessage_subject).show();
                 $(sendmessage_body).find("label").show();
-                $(messageForm).addClass('dialog_content');
                 // Clear the input fields
                 $(messageFieldSubject + ", " + messageFieldBody).val('');
 
@@ -333,7 +332,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
                         $(dialogBoxContainer).removeClass(dialogBoxClass);
                         $(dialogFooterContainer).removeClass(dialogFooterClass).find(".sendmessage_dialog_footer_inner").removeClass(dialogFooterInner);
-                        $(messageForm).removeClass('dialog_content');
                         // Altough this isnt strictly nescecary it is cleaner.
                         $rootel = $insertInId;
                         $rootel.append($(messageDialogContainer));

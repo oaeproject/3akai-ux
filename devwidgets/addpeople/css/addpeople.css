@@ -16,11 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General */
-#addpeople_container {width:750px; background-color:#f8f8f8; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;left:31%;padding:12px;left:41%;}
-#addpeople_container h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
+#addpeople_container {left:41%;width:750px;}
 
 /* Containers */
-#addpeople_container #addpeople_my_contacts, #addpeople_container #addpeople_members_container {border: 1px solid #E7E7E7;float: left;height: 400px;margin-top: 30px;width:300px;background-color:#fff;-moz-border-radius:0 2px 2px;-webkit-border-radius:0 2px 2px;border-radius:0 2px 2px;}
+#addpeople_container #addpeople_my_contacts, #addpeople_container #addpeople_members_container {border:1px solid #E7E7E7;float:left;height:400px;margin-top:30px;width:300px;background-color:#fff;-moz-border-radius:0 2px 2px;-webkit-border-radius:0 2px 2px;border-radius:0 2px 2px;}
 #addpeople_container #addpeople_members_container {float:right;width:410px;}
 #addpeople_container #addpeople_my_contacts #addpeople_my_contacts_raquo_container {background:none repeat scroll 0 0 #FFFFFF;height:50px;width:30px;position:absolute;right:430px;border:1px solid #E7E7E7;border-left:none;top:46%;background:url("/devwidgets/addpeople/images/addpeople_raquo.png") no-repeat scroll center center #fff;}
 
@@ -29,7 +28,7 @@
 #addpeople_container #addpeople_members_container .addpeople_tab {width:376px;border-bottom:1px solid #E7E7E7;}
 
 /* Autosuggest */
-#addpeople_container #addpeople_members_autosuggest {margin-top:-70px;position:absolute;width:397px;}
+#addpeople_container #addpeople_members_autosuggest {margin-top:-87px;position:absolute;width:397px;}
 #addpeople_container #addpeople_members_autosuggest label {float: left;margin:10px 12px 0 7px;color:#7C7C7C;}
 #addpeople_container #addpeople_members_autosuggest ul.as-selections {border: 1px solid #E7E7E7;padding: 0;box-shadow:none;}
 #addpeople_container #addpeople_members_autosuggest #addpeople_members_autosuggest_search_icon {background:url("/dev/images/search_icon.png") no-repeat scroll right center transparent;width:16px;height:16px;float:right;margin:10px 3px 0 5px;}

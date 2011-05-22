@@ -1,4 +1,3 @@
-#pickeradvanced_container{height:426px;margin-left:-384px;margin-top:-67px;padding:5px;width:768px;}
 #pickeradvanced_container #pickeradvanced_container_search{width:722px;height:379px;}
 
 /* HEADER */
@@ -16,10 +15,10 @@
 #pickeradvanced_container #pickeradvanced_footer_options{margin-top:15px;}
 
 /* CONTENT */
-#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:hidden;width:700px;}
+#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:hidden;width:700px;clear:both;}
 
 /* SEARCH */
-#pickeradvanced_content_search_form {vertical-align:middle;}
+#pickeradvanced_content_search_form {vertical-align:middle;margin-bottom:7px;}
 #pickeradvanced_content_search_form button {padding-left:5px;}
 
 /* LIST */

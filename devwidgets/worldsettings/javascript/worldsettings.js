@@ -50,26 +50,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $worldsettingsDialog = $('.worldsettings_dialog', rootel);
         var $worldsettingsForm = $("#worldsettings_form", rootel);
         var $worldsettingsApplyButton = $("#worldsettings_apply_button");
-        var $worldsettingsCancelButton = $("#worldsettings_cancel_button");
-
-        ///////////////////////
-        // Utility functions //
-        ///////////////////////
-        var closeDialog = function() {
-            if ($worldsettingsDialog.hasClass('dialog')) {
-                $worldsettingsDialog.jqmHide();
-            }
-        }
 
         ////////////////////
         // Event Handlers //
         ////////////////////
 
         var bindEvents = function(worldId) {
-            $worldsettingsCancelButton.die("click");
-            $worldsettingsCancelButton.live("click", function() {
-                closeDialog();
-            });
             $worldsettingsApplyButton.die("click");
             $worldsettingsApplyButton.live("click", function() {
                 $worldsettingsForm.validate({submitHandler: function(form) {
