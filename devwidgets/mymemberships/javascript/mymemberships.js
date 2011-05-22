@@ -413,7 +413,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     groupData.push({
                         id: group.groupid,
                         url: "/~" + group.groupid,
-                        picsrc: "/dev/images/group_emblem-lg.png",  // KERN?: should be part of the feed...
+                        picsrc: sakai.api.Groups.getProfilePicture(group),
                         edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                         title: group["sakai:group-title"],
                         titleShort: titleShort,

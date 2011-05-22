@@ -420,14 +420,19 @@ define(["jquery",
         /**
          * Check whether there is a valid picture for the user
          * @param {Object} profile The profile object that could contain the profile picture
+         * @param {String} type The type of profile we're getting the picture for (group or user)
          * @return {String}
          * The link of the profile picture
          * Will be an empty string if there is no picture
          */
-        constructProfilePicture : function(profile){
+        constructProfilePicture : function(profile, type){
             // profile.basic.elements object should not have picture information
             // if there is profile picture and userId
             // return the picture links
+            var imgUrl = sakai_conf.URL.USER_DEFAULT_ICON_URL;
+            if (type === "group"){
+                imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
+            }
             var id = null, picture_name = null;
             if (profile["rep:userId"] || profile["sakai:group-id"] || profile["uuid"] || profile["userid"]){
                 if (profile["rep:userId"]){
@@ -457,10 +462,10 @@ define(["jquery",
                     //change string to json object and get name from picture object
                     return "/~" + id + "/public/profile/" + picture_name;
                 } else {
-                    return sakai_conf.URL.USER_DEFAULT_ICON_URL;
+                    return imgUrl;
                 }
             } else {
-                return sakai_conf.URL.USER_DEFAULT_ICON_URL;
+                return imgUrl;
             }
         },
 
@@ -1256,7 +1261,7 @@ define(["jquery",
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering failed: " + err);
+                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
 
             // Run the rendered html through the sanitizer
@@ -1298,7 +1303,7 @@ define(["jquery",
             replaceURL : function(message){
                 // link is already wrap in anchor tag do nothing
                 // but if it is not wrap in the anchor tag, wrap in the anchor tag.
-                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+(\b|$))/g, function($0,$1){
+                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1){
                     return $1?$0:"<a href='"+$0+"' class='my_link s3d-regular-links s3d-bold' target='_blank'>"+$0+"</a>";
                 });
             },
@@ -1363,6 +1368,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
+                html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
                 // A slightly modified version of Caja's sanitize_html function to allow style="display:none;"
                 var sakaiHtmlSanitize = function(htmlText, opt_urlPolicy, opt_nmTokenPolicy) {

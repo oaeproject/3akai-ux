@@ -15,5 +15,15 @@
     "hasSettings": true,
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/ggadget/ggadget.html"
+    "url":"/devwidgets/ggadget/ggadget.html",
+    "defaultConfiguration": {
+        "ggadget": {
+            "border_color": "cccccc",
+	        "border_size": 0,
+            "height": 350,
+            "url": "http://www.gmodules.com/ig/ifr?url=http://static.die.net/moon/gadget.xml&up_size=medium&up_info=1&up_date=0&synd=open&w=320&h=170&title=Moon+Phase&border=%23ffffff%7C3px%2C1px+solid+%23999999&output=html",
+	        "width": 600,
+            "width_unit": "px"
+        }
+    }
 }

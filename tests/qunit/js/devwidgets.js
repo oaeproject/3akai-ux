@@ -62,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "entity",
         "faceted",
         "featuredcontent",
+        "featuredpeople",
         "filerevisions",
         "fileupload",
         "footer",

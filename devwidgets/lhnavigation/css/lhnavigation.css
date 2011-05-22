@@ -21,7 +21,8 @@
 #lhnavigation_container #lhnavigation_actions .s3d-button-inner{font-size:9px;}
 
 #lhnavigation_container ul{margin:6px 0 0;}
-#lhnavigation_container ul li{display:block; list-style:none;padding:3px 12px 2px 28px;}
+#lhnavigation_container ul li{display:block; list-style:none;}
+#lhnavigation_container ul li .lhnavigation_item_content, #lhnavigation_container ul li ul li div.lhnavigation_subnav_item_content{padding:3px 12px 2px 28px;}
 #lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;padding:5px 0 7px;display:block;}
 #lhnavigation_container ul li .lhnavigation_selected_submenu {margin-left:136px;margin-top:-21px;position:absolute;cursor:pointer;cursor:hand;}
 #lhnavigation_container ul li .lhnavigation_selected_subsubmenu {margin-left: 124px;}
@@ -31,7 +32,7 @@
 #lhnavigation_container .lhnavigation_change_title {margin: 4px 0 5px;padding: 2px 10px 2px 0;width: 115px;}
 #lhnavigation_container .lhnavigation_change_title_restricted_width {width: 100px !important;}
 
-#lhnavigation_container ul li.lhnavigation_selected_item{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
+#lhnavigation_container ul li.lhnavigation_selected_item.lhnavigation_outer, #lhnavigation_container ul li ul li.lhnavigation_selected_item div.lhnavigation_subnav_item_content{background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x left top transparent;color:#fff;}
 #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_private{background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow{background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_arrow.png") no-repeat scroll left top transparent;height: 34px;margin-left: 145px;margin-top:-23px;position: absolute;width: 20px;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow_sub{margin-left:133px;}
@@ -43,12 +44,16 @@
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -843px -21px transparent;}
 #lhnavigation_container ul li ul {margin:0;}
 #lhnavigation_container .lhnavigation_subnav{margin:5px 0px;}
-#lhnavigation_container .lhnavigation_subnav li{padding-left:40px;}
+#lhnavigation_container .lhnavigation_subnav li div.lhnavigation_subnav_item_content{padding-left:40px;}
 
-#lhnavigation_submenu {position:absolute; background-color: #fff; border: 1px solid #aaa; width: 100px;}
-#lhnavigation_submenu ul {margin: 0em; padding: 5px 0px;}
-#lhnavigation_submenu ul li {list-style:none;}
-#lhnavigation_submenu ul li a {padding: 2px 5px; width: 90px; display: block;}
-#lhnavigation_submenu ul li a:hover {background-color: #afe1ff; text-decoration: none;}
+#lhnavigation_submenu {position:absolute;}
+#lhnavigation_submenu .lhnavigation_submenu_container {background-color: #fff; border: 1px solid #aaa; width: 140px;}
+#lhnavigation_submenu .lhnavigation_submenu_container ul {margin: 0; padding: 5px 10px 10px;}
+#lhnavigation_submenu .lhnavigation_submenu_container ul li {list-style:none;padding:4px 0;border-bottom:1px solid #ccc;}
+#lhnavigation_submenu .lhnavigation_submenu_container ul li a {padding-left:6px;color:#369;font-size:13px;}
+#lhnavigation_submenu .lhnavigation_submenu_container ul li a:hover {color:#999;}
+#lhnavigation_submenu .lhnavigation_submenu_arrow {position:relative;float:left;z-index:100;margin-left:35px;font-size:0px;line-height:0%;width:0px;border-top:0;border-bottom: 15px solid #e4e3e3;border-left:15px solid transparent;border-right:15px solid transparent;}
+#lhnavigation_submenu .lhnavigation_submenu_container {padding-top: 3px; position:relative;clear:both;z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }
+#lhnavigation_submenu .lhnavigation_submenu_container_inner {margin: 0px 3px 3px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */}
 
 #lhnav_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}

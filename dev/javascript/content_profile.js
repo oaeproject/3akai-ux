@@ -28,6 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var intervalId;
 
         var showPreview = true;
+        var filename = "";
 
         ///////////////////////////////
         // PRIVATE UTILITY FUNCTIONS //
@@ -45,12 +46,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
             if (content_path && document.location.pathname === "/content"){
-                document.location = "/dev/content_profile2.html#content_path=" + content_path;
-                return;
-            }
-
+                var redirectURL = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
+                if (filename) {
+                    redirectURL += "/" + filename;
+                }
+                document.location = redirectURL;
+                return;            
+            }  
+            
             if (content_path) {
-
+                
                 // Get the content information, the members and managers and version information
                 var batchRequests = [
                     {
@@ -84,20 +89,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var contentMembers = false;
                 var contentActivity = false;
                 var versionInfo = false;
-
-                // temporary request that returns data KERN-1768
-                $.ajax({
-                    url: sakai.config.URL.POOLED_CONTENT_ACTIVITY_FEED + "?p=" + content_path  + "&items=1000",
-                    type: "GET",
-                    "async":false,
-                    "cache":false,
-                    "dataType":"json",
-                    success: function(data){
-                        if (data.results.hasOwnProperty(0)) {
-                            contentActivity = data;
-                        }
-                    }
-                });
 
                 sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
@@ -151,6 +142,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                             versionInfo.versions = versions.reverse();
+                        }
+                        
+                        if (data.results.hasOwnProperty(3)) {
+                            contentActivity = $.parseJSON(data.results[3].body);;
                         }
 
                         var manager = false;
@@ -287,7 +282,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         var handleHashChange = function() {
-            content_path = $.bbq.getState("content_path") || "";
+            content_path = $.bbq.getState("p") || "";
+            content_path = content_path.split("/");
+            if (content_path[1]) {
+                filename = content_path[1];
+            }
+            content_path = "/p/" + content_path[0];
+            
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -335,8 +336,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("render.contentmetadata.sakai");
                             ready_event_fired++;
                         });
-                    }
-
+                    }                   
                     sakai.api.Security.showPage();
 
                     // rerender comments widget
@@ -561,24 +561,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("sakai.contentauthoring.needsTwoColumns", function(){
             switchToTwoColumnLayout(true);
         });
-        
+
         $(window).bind("sakai.contentauthoring.needsOneColumn", function(){
             switchToOneColumnLayout(true);
         });
-        
-        var setManagerProperty = function(structure){
+
+        var setManagerProperty = function(structure, value){
             for (var i in structure){
-                structure[i]._canEdit = true;
-                structure[i]._canSubedit = true;
+                structure[i]._canEdit = value;
+                structure[i]._canSubedit = value;
             }
             return structure;
-        }
+        };
 
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
-            if (sakai_global.content_profile.content_data.isManager){
-                pagestructure.structure0 = setManagerProperty(pagestructure.structure0);
-            }
+            pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
             if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {

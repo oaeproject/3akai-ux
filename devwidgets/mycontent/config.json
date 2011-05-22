@@ -1,6 +1,6 @@
 {
-    "description":"My recent content",
-    "name":"My recent content",
+    "description":"My content",
+    "name":"My content",
     "id":"mycontent",
     "i18n": {
         "default": "/devwidgets/mycontent/bundles/default.properties"

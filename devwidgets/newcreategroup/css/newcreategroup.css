@@ -39,7 +39,7 @@
 #newcreategroup_container textarea#newcreategroup_description{height:100px;}
 #newcreategroup_container input#newcreategroup_suggested_url {width:auto;}
 
-#newcreategroup_container .newcreategroup_section select {border:1px solid #A9A9A9;float:right;}
+#newcreategroup_container .newcreategroup_section select {border:1px solid #A9A9A9;float:right; min-width: 160px;}
 #newcreategroup_container .newcreategroup_section label {display:inline;}
 #newcreategroup_container .newcreategroup_section {background:url("/devwidgets/newcreategroup/images/newcreategroup_section_bg.png") repeat-x scroll left top transparent;height: 22px;padding: 12px;margin-top:12px;-moz-border-radius:5px;border-radius:5px;-webkit-border-radius:5px;}
 #newcreategroup_container hr {border:none;border-top:1px solid #E7E7E7;background:none;}

@@ -1,0 +1,18 @@
+{
+    "description":        "Add Area Widget",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/addarea/bundles/default.properties"
+    },
+    "id":                 "addarea",
+    "name":               "Add Area Widget",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/addarea/addarea.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

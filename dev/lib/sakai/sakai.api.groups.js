@@ -29,7 +29,7 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], function($, sakai_conf, sakai_serv){
+define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sakai/sakai.api.util"], function($, sakai_conf, sakai_serv, sakai_util){
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
@@ -750,6 +750,16 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server"], fun
                     }
                 }
             });
+        },
+
+        /**
+         * Retrieves the profile picture for the group
+         *
+         * @param {Object} profile the groups profile (data.me.profile for the current user)
+         * @return {String} the url for the profile picture
+         */
+        getProfilePicture : function(profile) {
+            return sakai_util.constructProfilePicture(profile, "group");
         },
 
         /**

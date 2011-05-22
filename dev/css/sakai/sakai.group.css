@@ -1,11 +1,2 @@
-/* Heading */
-#group_heading h1{float:left;}
-#group_heading select{font-weight:normal;margin:7px 0 0 10px;}
-
-/* Footer */
-#group_footer{padding:30px 0 0;overflow:hidden;}
-.group_userlist_header h2{border-bottom:1px solid #EBEBEB;color:#5A6A7C;font-size:16px;font-weight:normal;margin:20px 0;padding:20px 0 5px 5px;clear:both;}
-.group_edit_section_container{margin:0 0 80px;}
-
-/* save or cancel buttons */
-.group_editing{margin-top:20px;}
+#group_create_new_area {margin-left: 12px; margin-top: 20px; margin-bottom: 10px;}
+#group_create_new_area span {color:#4b6b80; font-size: 10px;}

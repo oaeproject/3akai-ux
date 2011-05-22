@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
     /**
      * @name sakai_global.lhnavigation
@@ -88,6 +88,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////////////////////
         // Structure processing functions //
         ////////////////////////////////////
+
+        /**
+         * Given a path to a page in a structure, return the page
+         *
+         * @param {String} path The path to the page, ie. "syllabus/week1"
+         * @param {Object} structure The structure to find the path in, ie. pubstructure.items
+         * @return {Object} the page
+         */
+        var getPage = function(path, structure) {
+            if (path.indexOf("/") > -1) {
+                structure = structure[path.split("/")[0]];
+                path = path.substring(path.indexOf("/")+1);
+                return getPage(path, structure);
+            } else if (structure[path]){
+                return structure[path];
+            } else {
+                return null;
+            }
+        };
 
         var getPageCount = function(pagestructure, pageCount){
             if (!pageCount){
@@ -314,30 +333,78 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return selected;
         };
 
-        var selectPage = function(newPageMode){
-            var state = $.bbq.getState("l");
-            var selected = state || false;
-            // If no page is selected, select the first one from the nav
-            if (!selected){
-                selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
+        var getFirstSubPage = function(structure, selected){
+            for (var i = 0; i < structure.orderedItems.length; i++) {
+                if (structure.orderedItems[i]._canView !== false && structure.orderedItems[i]._id === selected) {
+                    for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                        selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
+                        break;
+                    }
+                }
             }
-            // Select correct item
-            var menuitem = $("li[data-sakai-path='" + selected + "']");
-            if (menuitem){
-                if (selected.split("/").length > 1){
-                    var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
-                    showHideSubnav(par, true);
+            return selected;
+        };
+
+        var checkPageExists = function(structure, selected){
+            var structureFoundIn = false;
+            if (selected.indexOf("/") !== -1){
+                var splitted = selected.split("/");
+                if (structure.items[splitted[0]] && structure.items[splitted[0]][splitted[1]]){
+                    structureFoundIn = structure;
                 }
-                var ref = menuitem.data("sakai-ref");
-                var savePath = menuitem.data("sakai-savepath") || false;
-                var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
-                var canEdit = menuitem.data("sakai-submanage") || false;
-                var nonEditable = menuitem.data("sakai-noneditable") || false;
-                if (!menuitem.hasClass(navSelectedItemClass)) {
-                    selectNavItem(menuitem, $(navSelectedItem));
+            } else {
+                if (structure.items[selected]){
+                    structureFoundIn = structure;
                 }
-                // Render page
-                preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+            }
+            return structureFoundIn;
+        };
+
+        var selectPage = function(newPageMode){
+            if (contextData.forceOpenPage) {
+                $.bbq.pushState({
+                    "l": contextData.forceOpenPage
+                }, 0);
+                contextData.forceOpenPage = false;
+            } else {
+                var state = $.bbq.getState("l");
+                var selected = state || false;
+                var structureFoundIn = false;
+                // Check whether this page exist
+                if (selected) {
+                    structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
+                    if (!structureFoundIn) {
+                        selected = false;
+                    }
+                }
+                // If it exists, check whether it has more than 1 subpage
+                if (selected && selected.indexOf("/") === -1) {
+                    if (structureFoundIn.items[selected]._childCount > 1) {
+                        selected = getFirstSubPage(structureFoundIn, selected);
+                    }
+                }
+                // If no page is selected, select the first one from the nav
+                if (!selected) {
+                    selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
+                }
+                // Select correct item
+                var menuitem = $("li[data-sakai-path='" + selected + "']");
+                if (menuitem) {
+                    if (selected.split("/").length > 1) {
+                        var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
+                        showHideSubnav(par, true);
+                    }
+                    var ref = menuitem.data("sakai-ref");
+                    var savePath = menuitem.data("sakai-savepath") || false;
+                    var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
+                    var canEdit = menuitem.data("sakai-submanage") || false;
+                    var nonEditable = menuitem.data("sakai-noneditable") || false;
+                    if (!menuitem.hasClass(navSelectedItemClass)) {
+                        selectNavItem(menuitem, $(navSelectedItem));
+                    }
+                    // Render page
+                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                }
             }
         };
 
@@ -384,15 +451,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var contextMenuHover = false;
 
-        var onContextMenuHover = function($el){
+        var onContextMenuHover = function($el, $elLI){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-            if ($el.data("sakai-manage")){
+            if ($elLI.data("sakai-manage")) {
+                var additionalOptions = $elLI.data("sakai-addcontextoption");
+                if (additionalOptions){
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
+                    $("#lhnavigation_submenu_profile_li").show();
+                    $("#lhnavigation_submenu_permissions_li").show();
+                } else {
+                    $("#lhnavigation_submenu_profile_li").hide();
+                    $("#lhnavigation_submenu_permissions_li").hide();
+                }
                 contextMenuHover = {
-                    path: $el.data("sakai-path"),
-                    ref: $el.data("sakai-ref"),
-                    pageSavePath: $el.data("sakai-pagesavepath"),
-                    savePath: $el.data("sakai-savepath")
+                    path: $elLI.data("sakai-path"),
+                    ref: $elLI.data("sakai-ref"),
+                    pageSavePath: $elLI.data("sakai-pagesavepath"),
+                    savePath: $elLI.data("sakai-savepath")
                 };
                 $(".lhnavigation_selected_submenu", $el).show();
             }
@@ -406,8 +482,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
-            contextMenu.css("left", $clickedItem.position().left + contextMenu.width() - ($clickedItem.width() / 2) + "px");
-            contextMenu.css("top", $clickedItem.position().top + "px");
+            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
+            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
             toggleContextMenu();
         };
 
@@ -418,6 +494,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 contextMenu.toggle();
             }
+        };
+
+        //////////////////////
+        // Area permissions //
+        //////////////////////
+
+        var showAreaPermissions = function(){
+            toggleContextMenu(true);
+            $(window).trigger("permissions.area.trigger", [contextMenuHover]);
         };
 
         //////////////////////////////////
@@ -466,6 +551,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "l": newpageid,
                 "newPageMode": "true"
             }, 0);
+            enableSorting();
         };
 
         var addSubPage = function(){
@@ -532,6 +618,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
                 "newPageMode": "true"
             }, 0);
+            enableSorting();
         };
 
         /////////////////////
@@ -614,6 +701,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Re-render the navigation
             renderData();
             addParametersToNavigation();
+            enableSorting();
 
             // Move away from the current page
             if (pageToDelete.path.indexOf("/") !== -1){
@@ -717,23 +805,87 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var processNavigationClick = function($el, ev){
-            if ($el.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
-                showHideSubnav($el);
+            // don't open if the click is a result of a sort operation
+            var $elLI = $el.parent("li");
+            if ($elLI.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
+                showHideSubnav($elLI);
             }
         };
 
         var showHideSubnav = function($el, forceOpen){
             $el.children(".lhnavigation_selected_item_subnav").show();
             if ($el.hasClass("lhnavigation_hassubnav")) {
-                if (!$el.next().is(":visible") || forceOpen) {
+                if (!$el.children("ul:first").is(":visible") || forceOpen) {
                     $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
-                    $el.next().show();
+                    $el.children("ul:first").show();
                 } else {
                     $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
-                    $el.next().hide();
+                    $el.children("ul:first").hide();
                 }
             }
             $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
+        };
+
+        ////////////////////////////
+        // Navigation re-ordering //
+        ////////////////////////////
+
+        var handleReorder = function(e, ui) {
+            // if its a sakaidoc in a world or content profile, we have to save
+            // it differently
+            if ($("body").hasClass("show")) {
+                var $target = $(e.target);
+                var savePath = $target.children("li:first").data("sakai-savepath");
+                var structure = sakaiDocsInStructure[savePath];
+                var area = privstructure;
+                if ($target.data("sakai-space") === "public") {
+                    area = pubstructure;
+                }
+                $target.children("li").each(function(i, elt) {
+                    var path = $(elt).data("sakai-path");
+                    var struct0path = path;
+                    if (struct0path.indexOf("/") > -1) {
+                        struct0path = struct0path.split("/")[1];
+                    }
+                    structure.structure0[struct0path]._order = i;
+                    var item = getPage(path, area.items);
+                    item._order = i;
+                });
+                storeStructure(structure.structure0, savePath);
+            } else {
+                // we're not dealing with sakaidocs and can save normally
+                var reqs = [];
+                $(e.target).children("li").each(function(i, elt) {
+                    var url = $(elt).data("sakai-pagesavepath") + "structure0/" + $(elt).data("sakai-path");
+                    var content = $.toJSON({"_order": i});
+                    var req = {
+                        "url": url,
+                        "method": "POST",
+                        "parameters": {
+                            ":operation": "import",
+                            ":contentType": "json",
+                            ":replace": true,
+                            ":replaceProperties": true,
+                            "_charset_":"utf-8",
+                            ":content": content
+                        }
+                    };
+                    reqs.push(req);
+                });
+                sakai.api.Server.batch(reqs);
+            }
+            e.stopImmediatePropagation();
+        };
+
+        var enableSorting = function() {
+            $("#lhnavigation_container .lhnavigation_menu_list").sortable({
+                items: "li.lhnavigation_outer[data-sakai-manage=true]",
+                update: handleReorder
+            });
+            $("#lhnavigation_container .lhnavigation_subnav").sortable({
+                items: "li.lhnavigation_subnav_item[data-sakai-manage=true]",
+                update: handleReorder
+            });
         };
 
         //////////////////////////////////////
@@ -758,6 +910,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     pubstructure = processedPub;
                     renderData();
                     selectPage();
+                    enableSorting();
                     if (cData.parametersToCarryOver) {
                         parametersToCarryOver = cData.parametersToCarryOver;
                         addParametersToNavigation();
@@ -793,8 +946,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             showContextMenu($(this));
         });
 
-        $(".lhnavigation_menuitem").live("mouseenter", function(){
-            onContextMenuHover($(this));
+        $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseenter", function(){
+            onContextMenuHover($(this), $(this).parent("li"));
         });
 
         $("#sakaidocs_addpage_top").live("click", function(){
@@ -809,6 +962,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             editPageTitle();
         });
 
+        $("#lhnavigation_submenu_permissions").live("click", function(ev){
+            showAreaPermissions();
+        });
+
         $(".lhnavigation_change_title").live("blur", function(ev){
             savePageTitle();
         });
@@ -821,11 +978,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             deletePage();
         });
 
-        $(".lhnavigation_menuitem").live("mouseleave", function(){
+        $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseleave", function(){
             onContextMenuLeave();
         });
 
-        $(".lhnavigation_menu_list li").live("click", function(ev){
+        $(".lhnavigation_item_content").live("click", function(ev){
             processNavigationClick($(this), ev);
         });
 

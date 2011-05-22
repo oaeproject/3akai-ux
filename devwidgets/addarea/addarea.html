@@ -1,0 +1,328 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/addarea/css/addarea.css" />
+
+<div class="addarea_widget" id="addarea_widget" style="display:none;">
+    <div class="addarea_dropdown">
+        <span class="addarea_plus_icon"><!----></span>
+        <div class="addarea_dropdown_content">
+            <ul class="addarea_contents_list">
+                <li id="addarea_contents_list_first_item" class="addarea_contents_list_item" data-context="pages">__MSG__PAGES__</li>
+                <li class="addarea_contents_list_item" data-context="sakaidoc">__MSG__CONTENT_AND_SAKAI_DOC__</li>
+                <li class="addarea_contents_list_item" data-context="dashboardoverview" style="display:none;">__MSG__DASHBOARD_OVERVIEW__</li>
+                <li class="addarea_contents_list_item" data-context="participantlist">__MSG__PARTICIPANT_LIST_PAGE__</li>
+                <li class="addarea_contents_list_item" data-context="timetable" style="display:none;">__MSG__TIMETABLE__</li>
+                <li class="addarea_contents_list_item" data-context="contentlibrary">__MSG__CONTENT_LIBRARY__</li>
+                <li class="addarea_contents_list_item" data-context="widgetpage">__MSG__WIDGET_PAGE__</li>
+                <li class="addarea_contents_list_item" data-context="sakaitwotool" style="display:none;">__MSG__SAKAI_2_TOOL__</li>
+            </ul>
+            <div id="addarea_contents_container">
+                <div id="addarea_contents_container_description"><!----></div>
+                <div id="addarea_contents_container_form" style="display:none;"><!----></div>
+            </div>
+            <div id="addarea_action_buttons" style="display:none;">
+                <button id="addarea_cancel_new_area" class="s3d-link-button s3d-bold" type="button">__MSG__CANCEL__</button>
+                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-button-link-2-state" title="__MSG__CREATE__">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE__</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addarea_existing_sakaidoc_visibility_template"><!--
+    {if group["sakai:group-visible"] === "public"}
+        {if canManage}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+    {elseif group["sakai:group-visible"] === "logged-in-only"}
+        {if canManage}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__YOU_MUST_MANAGE_DOCUMENT__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+    {else}
+        <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+        <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+        <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+    {/if}
+    <option value="advanced">__MSG__ADVANCED__</option> 
+--></div>
+
+<div id="addarea_existing_sakaidoc_template"><!--
+    <ul>
+        {for item in data.results}
+            {if item["sakai:custom-mimetype"] && item["sakai:custom-mimetype"] == "x-sakai/document"}
+                <li class="addarea_existing_sakaidoc_item" data-sakai-poolid="${item["jcr:name"]}" data-sakai-manage="${item.canManage}"><span class="icon-sakaidoc-sprite s3d-icon-16"></span>${item["sakai:pooled-content-file-name"]}</li>
+                {if item_index < data.results.length - 1}
+                    <hr class="s3d-split-line">
+                {/if}
+            {/if}
+        {/for}
+    </ul>    
+--></div>
+
+<div id="addarea_contents_container_description_template"><!--
+    <img src="/devwidgets/addarea/images/addarea_preview.png" id="addarea_preview_image"/>
+    <span id="addarea_preview_description">${areadescription}</span>
+    <button class="s3d-button s3d-button-link-2-state addarea_select_template" data-context="${context}" type="button">
+        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SELECT__</span>
+    </button>
+--></div>
+
+<div id="addarea_pages_form_template"><!--
+    <label for="addarea_pages_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_pages_page_name"/>
+
+    <label for="addarea_pages_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_pages_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+
+    <label for="addarea_pages_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
+    <select id ="addarea_pages_numberofpages">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+    <span class="addarea_form_annotation">__MSG__YOU_CAN_ADD_MORE_AND_NAME_THEM_LATER__</span>
+--></div>
+
+<div id="addarea_sakaidoc_form_template"><!--
+    <div id="addarea_sakaidoc_existingdocs">
+        <div id="addarea_sakaidoc_search">
+            <select id="addarea_sakaidoc_existingdocs_sort">
+                <option value="asc">__MSG__A_Z__</option>
+                <option value="desc">__MSG__Z_A__</option>
+            </select>
+            <label class="fl-force-right" for="addarea_sakaidoc_existingdocs_sort">__MSG__SORT_BY__</label>
+            <label class="fl-force-left" for="addarea_sakaidoc_searchfield">__MSG__SEARCH_EVERYWHERE__</label>
+            <input type="text" id="addarea_sakaidoc_searchfield"/>
+            <button id="addarea_sakaidoc_search_clear" class="s3d-link-button">__MSG__CLEAR__</button>
+        </div>
+        <div id="addarea_sakaidoc_existingdocscontainer"></div>
+    </div>
+
+    <div class="addarea_divide_container">
+        <label for="addarea_sakaidoc_page_name">__MSG__PLACEMENT_TITLE__:</label>
+        <input type="text" id="addarea_sakaidoc_page_name"/>
+    </div>
+
+    <div class="addarea_divide_container">
+        <label for="addarea_sakaidoc_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+        <select id="addarea_sakaidoc_permissions">
+            {if group["sakai:group-visible"] === "public"}
+                <option value="public">__MSG__PUBLIC__</option>
+                <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+                <option value="private">__MSG__MEMBERS_ONLY__</option>
+            {elseif group["sakai:group-visible"] === "logged-in-only"}
+                <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+                <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+                <option value="private">__MSG__MEMBERS_ONLY__</option>
+            {else}
+                <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+                <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+                <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+            {/if}
+            <option value="advanced">__MSG__ADVANCED__</option>
+        </select>
+    </div>
+--></div>
+
+<div id="addarea_dashboardoverview_form_template"><!--
+    <label for="addarea_dashboardoverview_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_dashboardoverview_page_name"/>
+
+    <label for="addarea_dashboardoverview_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_dashboardoverview_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
+
+<div id="addarea_participantlist_form_template"><!--
+    <label for="addarea_participantlist_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_participantlist_page_name"/>
+
+    <label for="addarea_participantlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_participantlist_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
+
+<div id="addarea_timetable_form_template"><!--
+    <label for="addarea_timetable_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_timetable_page_name"/>
+
+    <label for="addarea_timetable_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_timetable_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
+
+<div id="addarea_contentlibrary_form_template"><!--
+    <label for="addarea_contentlibrary_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_contentlibrary_page_name"/>
+
+    <label for="addarea_contentlibrary_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_contentlibrary_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
+
+<div id="addarea_widgetpage_form_template"><!--
+    <label for="addarea_widgetpage_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_widgetpage_page_name"/>
+
+    <label for="addarea_widgetpage_selectwidget">__MSG__SELECT_WIDGET__:</label>
+    <select id="addarea_widgetpage_selectwidget">
+        {for widget in data}
+            <option value="${widget.id}">${widget.name}</option>
+        {/for}
+    </select>
+
+    <label for="addarea_widgetpage_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_widgetpage_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+--></div>
+
+<div id="addarea_sakaitwotool_form_template"><!--
+    <label for="addarea_sakaitwotool_page_name">__MSG__PAGE_NAME__:</label>
+    <input type="text" id="addarea_sakaitwotool_page_name"/>
+
+    <label for="addarea_sakaitwotool_selecttool">__MSG__SELECT_SAKAI_2_TOOL__:</label>
+    <select id="addarea_sakaitwotool_selecttool">
+        <option value="sakai.announcements">__MSG__ANNOUNCEMENTS__</option>
+        <option value="sakai.assignment.grades">__MSG__ASSIGNMENTS__</option>
+        <option value="sakai.schedule">__MSG__CALENDAR__</option>
+        <option value="sakai.summary.calendar">__MSG__CALENDAR_SUMMARY__</option>
+        <option value="sakai.chat">__MSG__CHAT_ROOM__</option>
+        <option value="sakai.dropbox">__MSG__DROP_BOX__</option>
+        <option value="sakai.mailbox">__MSG__EMAIL_ARCHIVE__</option>
+        <option value="sakai.forums">__MSG__FORUMS__</option>
+        <option value="sakai.gradebook.tool">__MSG__GRADEBOOK__</option>
+        <option value="sakai.messages">__MSG__MESSAGES__</option>
+        <option value="sakai.news">__MSG__NEWS__</option>
+        <option value="sakai.poll">__MSG__POLLS__</option>
+        <option value="sakai.postem">__MSG__POSTEM__</option>
+        <option value="sakai.profile">__MSG__PROFILE__</option>
+        <option value="sakai.profile2">__MSG__PROFILE2__</option>
+        <option value="sakai.resources">__MSG__RESOURCES__</option>
+        <option value="sakai.site.roster">__MSG__ROSTER__</option>
+        <option value="sakai.rwiki">__MSG__RWIKI__</option>
+        <option value="sakai.singleuser">__MSG__SINGLE_USER__</option>
+        <option value="sakai.syllabus">__MSG__SYLLABUS__</option>
+        <option value="sakai.samigo">__MSG__TESTS_N_QUIZZES__</option>
+    </select>
+
+    <label for="addarea_sakaitwotool_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+    <select id="addarea_sakaitwotool_permissions">
+        {if group["sakai:group-visible"] === "public"}
+            <option value="public">__MSG__PUBLIC__</option>
+            <option value="everyone">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {elseif group["sakai:group-visible"] === "logged-in-only"}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" selected="true">__MSG__LOGGED_IN_ONLY__</option>
+            <option value="private">__MSG__MEMBERS_ONLY__</option>
+        {else}
+            <option value="public" disabled="true">__MSG__PUBLIC__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            <option value="everyone" disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_VISIBLE_TO_LOGGED_IN__)</option>
+            <option value="private" selected="true">__MSG__MEMBERS_ONLY__</option>
+        {/if}
+        <option value="advanced">__MSG__ADVANCED__</option>
+    </select>
+
+
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/addarea/javascript/addarea.js"></script>

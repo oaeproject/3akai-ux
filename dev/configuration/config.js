@@ -22,6 +22,8 @@ define(function(){
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
+            GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
@@ -57,6 +59,7 @@ define(function(){
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
+            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
             DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -496,6 +499,11 @@ define(function(){
                     }
                 }
             },
+            /*
+             * set what name to display where only the first name is used
+             */
+            userFirstNameDisplay: "firstName",
+
             /*
              * set how the user's name is displayed across the entire system
              * - values can be compound, like "firstName lastName" or singular like "displayName"
@@ -1492,6 +1500,8 @@ define(function(){
                     "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
+                    "_canEdit": true,
+                    "_nonEditable": true,
                     "main": {
                         "_ref": "id267187828",
                         "_order": 0,
@@ -1502,25 +1512,40 @@ define(function(){
                     "_title": "My Messages",
                     "_ref": "id1165301022",
                     "_order": 1,
+                    "_canEdit": true,
+                    "_canSubedit": true,
+                    "_nonEditable": true,
                     "inbox": {
                         "_ref": "id1165301022",
                         "_order": 0,
-                        "_title": "Inbox"
+                        "_title": "Inbox",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "id9867733100",
                         "_order": 1,
-                        "_title": "Invitations"
+                        "_title": "Invitations",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "id4253485084",
                         "_order": 2,
-                        "_title": "Sent"
+                        "_title": "Sent",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "id3915412565",
                         "_order": 3,
-                        "_title": "Trash"
+                        "_title": "Trash",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     }
                 }
             },
@@ -1566,17 +1591,17 @@ define(function(){
                         "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
-                            "name": "mycontent"
+                            "name": "recentchangedcontent"
                         }],
                         "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
-                            "name": "mygroups"
+                            "name": "recentmemberships"
                         }],
                         "column3": [{
                             "uid": "id7360391172040",
                             "visible": "block",
-                            "name": "mycontacts"
+                            "name": "recentcontactsnew"
                         }]
                     }
                 }
@@ -1588,13 +1613,15 @@ define(function(){
                 "profile": {
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0
+                    "_order": 0,
+                    "_nonEditable": true
                 },
                 "library": {
                     "_ref": "id9834611274",
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
                         "_order": 0,
@@ -1606,6 +1633,7 @@ define(function(){
                     "_order": 2,
                     "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
                         "_order": 0,
@@ -1617,6 +1645,7 @@ define(function(){
                     "_order": 3,
                     "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",
                         "_order": 0,
@@ -1732,11 +1761,11 @@ define(function(){
                                         "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
-                                        //"_nonEditable": true,
+                                        "_nonEditable": true,
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
-                                            //"_nonEditable": true,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }

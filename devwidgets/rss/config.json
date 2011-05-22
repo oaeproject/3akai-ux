@@ -18,5 +18,15 @@
         "en_US": "/devwidgets/rss/bundles/en_US.properties",
         "nl_NL": "/devwidgets/rss/bundles/nl_NL.properties"
     },
-    "indexFields": ["title"]
+    "indexFields": ["title"],
+    "defaultConfiguration": {
+        "rss": {
+            "displayHeadlines": false,
+            "displaySource": false,
+            "feeds": [],
+            "numEntries": 25,
+            "title": "The Sakai Project",
+            "urlFeeds": ["http://sakaiproject.org/rss.xml"]
+        }
+    }
 }

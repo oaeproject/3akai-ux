@@ -21,8 +21,6 @@
  * GLOBAL RULES
  */
 body, button{font-family:Arial, Helvetica, sans-serif;line-height:120%;}
-.requireUser{background:url(/dev/images/body_bg_sprite.png) repeat-x scroll left -91px #75ADD7;}
-.requireAnon{background:#093b52 url(/dev/images/page_bg_water.jpg) top left repeat-x;}
 .section_header{font-weight:bold;border-bottom:1px solid #ebebeb;font-size:17px;padding-bottom:3px;}
 
 /* adding a visible outline on focus for accessibility */
@@ -453,6 +451,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 /*
  * ICONS
  */
+.s3d-icon-16{width:16px; height:16px;}
 .s3d-icon-32{width:32px; height:32px;}
 .s3d-icon-40{width:40px; height:40px;}
 .s3d-icon-50{width:50px; height:50px;}
@@ -470,5 +469,5 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .icon-video-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1118px 0 transparent;}
 .icon-kmultiple-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -430px 0 transparent;}
 .icon-url-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -304px 0 transparent;}
-.icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1166px 0 transparent;}
+.icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1185px 0 transparent;}
 .icon-unknown-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -143px 0 transparent;}
