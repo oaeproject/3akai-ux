@@ -83,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} query  optional query string to limit search results
          */
         var reset = function (query) {
-            mylibrary.currentPagenum = 1;
+            mylibrary.currentPagenum = mylibrary.currentPagenum || 1;
             $mylibrary_items.html("");
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
