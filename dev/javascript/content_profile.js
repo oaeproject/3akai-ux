@@ -527,7 +527,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
                     parametersToCarryOver: {
-                        "content_path": sakai_global.content_profile.content_data.content_path
+                        "p": sakai_global.content_profile.content_data.content_path.replace("/p/", "")
                     }
                 }, sakai_global.content_profile.content_data.content_path]);
             }
