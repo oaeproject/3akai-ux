@@ -267,9 +267,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 pictureURL = "/~" + userid[1] + "/public/profile/" + userData.attributes.picture
             } else{
                 if(userid[0] == "group"){
-                    pictureURL = "/dev/images/group_avatar_icon_32x32.png";
+                    pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
                 }else{
-                    pictureURL = "/dev/images/default_profile_picture_32.png";
+                    pictureURL = "/dev/images/default_User_icon_35x35.png";
                 }
             }
             var userObj = {
@@ -342,9 +342,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         userObj.picture = "/~" + data[role].results[user]["rep:userId"] + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
                     } else {
                         if(data[role].results[user]["sakai:group-id"]){
-                            userObj.picture = "/dev/images/group_avatar_icon_32x32.png";
+                            userObj.picture = "/dev/images/group_avatar_icon_35x35_nob.png";
                         }else{
-                            userObj.picture = "/dev/images/default_profile_picture_32.png";
+                            userObj.picture = "/dev/images/default_User_icon_35x35.png";
                         }
                     }
                     selectedUsers[userObj.userid] = userObj;

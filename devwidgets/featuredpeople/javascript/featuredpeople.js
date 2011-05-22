@@ -50,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if(item.picture){
                         item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name;
                     }else{
-                        item.picture = "/dev/images/user_avatar_icon_48x48.png";
+                        item.picture = "/dev/images/default_User_icon_50x50.png";
                     }
                     item.name = sakai.api.User.getDisplayName(item);
                 });
