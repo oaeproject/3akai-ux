@@ -261,7 +261,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#ew_upload>a').click(function(e){
                 e.preventDefault();
-                $(window).trigger("init.fileupload.sakai");
+                $(window).trigger("init.uploadnewversion.sakai");
+                $('#entity_contentsettings_dropdown').jqmHide();
+            });
+
+            $("#ew_revhistory").click(function(e){
+                $(window).trigger("init.versions.sakai", {
+                    pageSavePath: sakai_global.content_profile.content_data.content_path,
+                    saveRef: "",
+                    showByDefault: true
+                });
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 

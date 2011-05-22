@@ -74,8 +74,9 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         var renderImagePreview = function(url, lastMod){
             $documentviewerPreview.html("");
             templateObject.contentURL = url;
-            if (lastMod){
-                templateObject.contentURL += "?_=" + lastMod;
+            var date = new Date();
+            if (date){
+                templateObject.contentURL += "?_=" + date.getTime();
             }
             sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#" + tuid + " #documentviewer_image_calculatesize"));
             var $imageRendered = $("#"+tuid+" #documentviewer_image_rendered");
