@@ -5,7 +5,7 @@
 <div id="newaddcontent_container" class="dialog">
 
     <div id="newaddcontent_container_selecteditems">
-        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__ <span>(__MSG__TYPE_DIRECTLY_INTO_LIST__)</span></div>
+        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__</div>
         <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
     </div>
 
@@ -54,13 +54,13 @@
                 <div id="newaddcontent_upload_content_fields" class="newaddcontent_form">
                     <span class="newaddcontent_upload_content_originaltitle"><!----></span>
                     <label for="newaddcontent_upload_content_title">__MSG__TITLE__:</label>
-                    <input type="text" id="newaddcontent_upload_content_title"/>
+                    <input placeholder="__MSG__TITLE__" type="text" id="newaddcontent_upload_content_title"/>
 
                     <label for="newaddcontent_upload_content_description">__MSG__DESCRIPTION__:</label>
-                    <textarea id="newaddcontent_upload_content_description"></textarea>
+                    <textarea placeholder="__MSG__DESCRIPTION_HELPS_FINDABILITY__" id="newaddcontent_upload_content_description"></textarea>
 
                     <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
-                    <input type="text" id="newaddcontent_upload_content_tags"/>
+                    <input type="text" placeholder="__MSG__SEPARATE_EACH_TAG__" id="newaddcontent_upload_content_tags"/>
 
                     <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
                     <select id="newaddcontent_upload_content_permissions">
@@ -193,22 +193,40 @@
 --></div>
 
 <div id="newaddcontent_selecteditems_template"><!--
-    <ul>
-    {for item in items}
-        <li id="newaddcontent_selecteditems_${item_index}">
-            <div class="newaddcontent_selecteditems_remove"></div>
-            <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
-            <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
-            {if item.type !== "existing"}
-                <span class="newaddcontent_selecteditems_actions">
-                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
-                    <span class="newaddcontent_selecteditems_split">|</span>
-                    <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
-                </span>
-            {/if}
-        </li>
-    {/for}
-    </ul>
+    {if items.length}
+        <div id="newaddcontent_saveto_container">
+            <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
+            <select id="newaddcontent_saveto">
+                <option value="default">__MSG__MY_LIBRARY__</option>
+                {for g in me.groups}
+                    {if g["sakai:group-title"]}
+                        {if !g["sakai:excludeSearch"]}
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == defaultLibrary} selected="selected"{/if}>${g["sakai:group-title"]}'s Library</option>
+                        {/if}
+                    {/if}
+                {/for}
+            </select>
+        </div>
+        <ul>
+        {for item in items}
+            <li id="newaddcontent_selecteditems_${item_index}">
+                <div class="newaddcontent_selecteditems_remove"></div>
+                <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
+                <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
+                {if item.type !== "existing"}
+                    <span class="newaddcontent_selecteditems_actions">
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                        <span class="newaddcontent_selecteditems_split">|</span>
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
+                    </span>
+                {/if}
+            </li>
+        {/for}
+        </ul>
+    {else}
+        <span class="newaddcontent_noselecteditems">__MSG__YOU_HAVENT_COLLECTED_ANY_CONTENT_YET__</span>
+        <span class="newaddcontent_noselecteditems">__MSG__ADD_VARIOUS_CONTENT_HERE__</span>
+    {/if}
 --></div>
 
 <div id="newaddcontent_existingitems_template"><!--
