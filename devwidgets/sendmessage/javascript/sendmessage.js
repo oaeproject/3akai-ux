@@ -71,9 +71,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var errorClass = "sendmessage_error_message";
             var normalClass = "sendmessage_normal_message";
             var dialogBoxClass = "dialogue_box";
-            var dialogFooterClass = "dialog_footer";
-            var dialogHeaderClass = ".dialog_header";
-            var dialogClass = ".dialog";
+            var dialogHeaderClass = ".s3d-dialog-header";
+            var dialogContainerClass = "s3d-dialog-container";
+            var dialogClass = ".s3d-dialog";
 
             var notificationSuccess = "#sendmessage_message_sent";
             var notificationError = "#sendmessage_message_error";
@@ -135,8 +135,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var resetView = function() {
                 $(dialogHeaderClass, $sendmessage_container).show();
+                $sendmessage_container.addClass(dialogContainerClass);
                 $(dialogBoxContainer).addClass(dialogBoxClass);
-                $(dialogFooterContainer).addClass(dialogFooterClass);
                 $(".sendmessage_dialog_footer_inner").addClass(dialogFooterInner);
                 $(messageDialogContainer).addClass(dialogClass.replace(/\./,''));
                 $(messageDialogContainer).show();
@@ -329,9 +329,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                         // Remove the dialog stuff.
                         $(dialogHeaderClass, $sendmessage_container).hide();
+                        $sendmessage_container.removeClass(dialogContainerClass);
                         $(messageDialogContainer).removeClass(dialogClass.replace(/\./,''));
                         $(dialogBoxContainer).removeClass(dialogBoxClass);
-                        $(dialogFooterContainer).removeClass(dialogFooterClass).find(".sendmessage_dialog_footer_inner").removeClass(dialogFooterInner);
                         // Altough this isnt strictly nescecary it is cleaner.
                         $rootel = $insertInId;
                         $rootel.append($(messageDialogContainer));
