@@ -101,7 +101,10 @@
             <div id="featuredcontent_category_content_border">
                 <div id="featuredcontent_category_content_container">
                     <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/dev/search2.html#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
-                    <span class="featuredcontent_no_content">__MSG__NO_FEATURED_CONTENT__</span>
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
+                    </div>
                     <div id="featuredcontent_category_content_footer"></div>
                 </div>
             </div>

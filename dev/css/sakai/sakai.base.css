@@ -199,7 +199,7 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
-.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0 10px;}
+.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 20px 10px;}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
 .s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;}
 .s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:4px 12px 0 0;}

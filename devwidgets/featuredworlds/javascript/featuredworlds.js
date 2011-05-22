@@ -48,7 +48,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var renderWorlds = function(data){
             $(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
                 "data": data,
-                "tabs": tabs
+                "tabs": tabs,
+                "sakai":sakai
             }));
         };
 
