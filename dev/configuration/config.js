@@ -2571,5 +2571,6 @@ define(function(){
             }
         ]
     };
+
     return config;
 });
