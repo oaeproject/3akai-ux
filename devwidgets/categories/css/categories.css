@@ -42,6 +42,15 @@
 .categories_widget .categories_item .categories_item_tags a.s3d-regular-links {font-size:11px;}
 .categories_widget .categories_vertical_divider {background-color:#5B5A5A;float:right;height:170px;margin-right:3px;margin-top:24px;width:1px;}
 .categories_widget .categories_item .categories_tag_divider {margin:0 3px 0 7px;}
+.categories_widget .categories_content_description {color: #CCCCCC;font-size: 12px;display:block;word-wrap:break-word;margin-bottom:10px; margin-top: 5px;}
+.categories_widget .categories_content_category_description {font-size:11px;color:#424242;display:block;}
+.categories_widget .categories_content_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
+.categories_widget .categories_content_icon {display:inline-block;height:10px;width:15px;margin-right:5px;}
+.categories_widget .categories_content_category_description {font-size:11px;color:#CCCCCC;display:block; margin-top: 5px;}
+.categories_widget .categories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
+.categories_widget .categories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#2683BC;padding-left:20px;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent; clear: both;}
+.categories_widget .categories_content_tags a {font-size:11px !important;font-weight:normal !important;}
+
 
 /* Carousel */
 .categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}

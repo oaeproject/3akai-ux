@@ -15,21 +15,38 @@
                             <div class="allcategories_item_header">
                                 <div class="allcategories_item_raquo"></div>
                                 <div class="allcategories_item_header_link s3d-regular-links s3d-bold">${item.title}</div>
-                                <span class="allcategories_item_header_meta">${total} content items</span>
+                                <span class="allcategories_item_header_meta">${item.count} content items</span>
                             </div>
                         </a>
-                        {if item.featuredcontent}
-                            {if item.featuredcontent.image}
-                                <img src="/p/${item.featuredcontent["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                            {elseif item.featuredcontent["sakai:custom-mimetype"]}
-                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
-                            {elseif item.featuredcontent.haspreview}
-                                <img src="/p/${item.featuredcontent["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.featuredcontent["sakai:pooled-content-file-name"]}"/>
-                            {else}
-                                <img src="${sakai.api.Content.getMimeTypeData(item.featuredcontent["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                        {if item.content}
+                            {if item.content["sakai:pooled-content-file-name"]}
+                                {if item.content.image}
+                                    <img src="/p/${item.content["jcr:name"]}" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                {elseif item.content["sakai:custom-mimetype"]}
+                                    <img src="${sakai.api.Content.getMimeTypeData(item.content["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
+                                {elseif item.content.haspreview}
+                                    <img src="/p/${item.content["jcr:name"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                {else}
+                                    <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                                {/if}
+                                <a href="/content#p=${item.content["jcr:path"]}/${item.content["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
+                                <span style="display:none"><span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
+                                {if item.content["sakai:description"]}
+                                    {var size = 125}
+                                    <span class="allcategories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
+                                {/if}
+                                <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
+                                {if item.content.commentcount}<span class="allcategories_content_category_description"><span class="allcategories_content_comments_icon allcategories_content_icon"></span><a href="/content#p=${item.content["jcr:name"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                                {if item.content["sakai:tags"]}
+                                    <span class="allcategories_content_tags">
+                                        {for tag in item.content["sakai:tags"]}
+                                            {if tag_index < 2}
+                                                <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item.content["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                            {/if}
+                                        {/for}
+                                    </span>
+                                {/if}
                             {/if}
-                            <a href="/content#p=${item.featuredcontent["jcr:path"]}/${item.featuredcontent["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pooled-content-file-name"]}</a>
-                            <span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.featuredcontent["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.featuredcontent["sakai:pool-content-created-for"]}</a>
                         {/if}
                         <hr class="fl-push fl-hidden"/>
                     </div>
