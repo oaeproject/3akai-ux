@@ -60,7 +60,7 @@
                             {var groupsFound = true}
                             <div class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
                                 <span class="searchgroups_result_user_functions" style="display:none;">
-                                    <div class="searchgroups_result_plus searchgroups_result_left_filler" data-entityid="${i['sakai:group-id']}">{if i.userMember}<img src="/dev/images/accept.png">{else}+{/if}</div>
+                                    <div class="searchgroups_result_plus searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}">{if i.userMember}<img src="/dev/images/accept.png">{else}+{/if}</div>
                                     <button class="s3d-link-button searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchgroups_result_anonuser"></span>
