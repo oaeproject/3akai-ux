@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.versions_widget {clear:both;font-size:11px;margin-bottom:19px;}
-.versions_widget #versions_container {background:url("/devwidgets/versions/images/versions_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;}
+.versions_widget {clear:both;font-size:11px;}
+.versions_widget #versions_container {background:url("/devwidgets/versions/images/versions_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin:10px 0;}
 .versions_widget #versions_container .versions_controls {height:75px;width:31px;cursor:pointer;}
 .versions_widget #versions_container #versions_next {background:url("/devwidgets/versions/images/versions_next.png") no-repeat scroll left top transparent;float:right;}
 .versions_widget #versions_container #versions_prev {background:url("/devwidgets/versions/images/versions_prev.png") no-repeat scroll left top transparent;float:left;}

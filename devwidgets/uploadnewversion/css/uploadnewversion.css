@@ -20,6 +20,7 @@
 #uploadnewversion_container #uploadnewversion_form_container {width:452px;height:80px;background:url("/devwidgets/uploadnewversion/images/uploadnewversion_form_bg.png") repeat-x top left transparent;border:1px solid #e2e2e2;margin-top:10px;-moz-border-radius:5px;border-radius:5px;padding:20px 15px 0;}
 #uploadnewversion_container #uploadnewversion_form_container input {margin-top:10px;}
 #uploadnewversion_container #uploadnewversion_actions {float:right;margin-top:15px;}
+#uploadnewversion_container #uploadnewversion_actions .uploadnewversion_doupload {margin-left:20px;}
 
 /* Override multifile CSS */
 #uploadnewversion_container #multifile_upload {top:auto !important;}

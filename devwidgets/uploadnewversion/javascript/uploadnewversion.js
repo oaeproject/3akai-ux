@@ -125,6 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addBinding = function(){
+            $(uploadnewversionDoUpload).unbind("click", doUploadVersion);
             $(uploadnewversionDoUpload).bind("click", doUploadVersion);
         };
 

@@ -35,6 +35,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ///////////////
 
         var $rootel = $("#" + tuid);
+        var init = true;
 
         // Vars
         var contentPath = "";
@@ -85,9 +86,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var setUsername = function(u, users) {
             $(versions, $rootel).each(function(index, val){
-               var userId = val["_lastModifiedBy"];
+               var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
                if (userId === u){
-                    val["_lastModifiedBy"] = sakai.api.User.getDisplayName(users[u]);
+                    val["username"] = sakai.api.User.getDisplayName(users[u]);
                }
             });
         };
@@ -97,7 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(data.versions, function(index, version){
                 version.versionId = index;
                 versions.push(version);
-                userIds.push(version["_lastModifiedBy"]);
+                userIds.push(version["sakai:pool-content-created-for"] || version["_lastModifiedBy"]);
             });
             versions.reverse();
             if (userIds.length) {
@@ -110,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if ($(versionsContainer, $rootel).is(":visible")) {
                         renderVersions();
                     } else {
-                        $(versionsContainer, $rootel).show();
+                        //$(versionsContainer, $rootel).show();
                         renderVersions();
                     }
                 });
@@ -118,7 +119,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if ($(versionsContainer, $rootel).is(":visible")) {
                     renderVersions();
                 } else {
-                    $(versionsContainer, $rootel).show();
                     renderVersions();
                 }
             }
@@ -139,15 +139,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var previewVersion = function(event){
             event.stopPropagation();
-            if (sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
                 $(".versions_selected", $rootel).removeClass("versions_selected");
                 $(this).addClass("versions_selected");
-                if (!$("#" + currentPageShown.saveRef + "_previewversion").length) {
-                    $("#" + currentPageShown.saveRef).before("<div id=\"" + currentPageShown.saveRef + "_previewversion\"></div>");
+                if (!$("#" + currentPageShown.ref + "_previewversion").length) {
+                    $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
-                $("#" + currentPageShown.saveRef + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
-                $("#" + currentPageShown.saveRef + "_previewversion").show();
-                $("#" + currentPageShown.saveRef).hide();
+                $("#" + currentPageShown.ref + "_previewversion").html("<div>" + $(this).attr("data-pageContent") + "</div>");
+                $("#" + currentPageShown.ref + "_previewversion").show();
+                $("#" + currentPageShown.ref).hide();
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
@@ -192,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /////////////
 
         var addBinding = function(){
-            if (sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
+            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
                 $(versionsVersionItem, $rootel).die("click", previewVersion);
                 $(versionsVersionItem, $rootel).live("click", previewVersion);
             }
@@ -208,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var doInit = function(){
             versions = [];
-            if (sakai_global.content_profile.content_data.data.mimeType != "x-sakai/document") {
+            if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType != "x-sakai/document") {
                 $("#content_profile_preview_versions_container").show();
             }else {
                 $("#content_profile_preview_versions_container").remove();
@@ -221,19 +221,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         $(window).bind("init.versions.sakai", function(ev, cps){
             if ($(versionsContainer, $rootel).is(":visible")) {
                 $(versionsContainer, $rootel).hide();
-            } else{
+            } else {
                 currentPageShown = cps;
-                if (cps.showByDefault) {
-                    $(versionsContainer, $rootel).show();
-                }
+                $(versionsContainer, $rootel).show();
                 doInit();
+                init = false;
             }
         });
 
         $(window).bind("update.versions.sakai", function(ev, cps){
             if ($(versionsContainer, $rootel).is(":visible")) {
+                $(versionsContainer, $rootel).hide();
+            } else {
                 currentPageShown = cps;
                 doInit();
+                $(versionsContainer, $rootel).show();
             }
         });
 

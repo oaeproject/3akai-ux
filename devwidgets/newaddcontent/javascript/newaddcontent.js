@@ -496,6 +496,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 }
                             };
                             objArr.push(obj);
+
+                            // Set initial version
+                            var versionObj = {
+                                "url": "/p/" + savedItem.hashpath + ".save.json",
+                                "method": "POST",
+                                "parameters": {}
+                            };
+                            objArr.push(versionObj);
                         }
                     });
                 }
