@@ -177,6 +177,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
+            $(".MultiFile-remove").click();
         };
 
         /**
