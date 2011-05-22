@@ -267,6 +267,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(".addpeople_init").click(function(){
                 $(window).trigger("init.addpeople.sakai", [tuid]);
+                $("#entity_groupsettings_dropdown").jqmHide();
             })
 
         });

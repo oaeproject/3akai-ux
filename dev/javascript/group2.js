@@ -175,7 +175,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 members.push(member);
             }
             if(members){
-                sakai.api.Groups.addUsersToGroup(groupId, false, members, sakai.api.User.data.me, false);
+                sakai.api.Groups.addUsersToGroup(groupId, false, members, sakai.api.User.data.me, false, function(){
+                    $(window).trigger("usersselected.addpeople.sakai");
+                });
             }
         });
 
