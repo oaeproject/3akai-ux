@@ -59,7 +59,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_livefilter = $("#mylibrary_livefilter", $rootel);
         var $mylibrary_sortarea = $("#mylibrary_sortarea", $rootel);
         var $mylibrary_empty = $("#mylibrary_empty", $rootel);
-        var $mylibrary_empty_note = $("#mylibrary_empty_note", $rootel);
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
         var $mylibrary_groupfilter_selection = $("#mylibrary_groupfilter_selection", $rootel);
@@ -422,7 +421,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_sortarea.hide();
                 //$("#mylibrary_title_bar").hide();
                 $mylibrary_items.hide();
-                $mylibrary_empty_note.html(getPersonalizedText("NO_ITEMS_IN_YOUR_LIBRARY"));
+                var who = "";
+                if(sakai_global.profile){
+                    who = sakai_global.profile.main.mode.value
+                }else if (sakai_global.group2){
+                    who = "group"
+                }
+                $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}))
                 $mylibrary_empty.show();
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_addcontent.show();

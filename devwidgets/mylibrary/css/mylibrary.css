@@ -113,3 +113,5 @@
 }
 .mylibrary_groupfilter_usedin_arrow_up{margin: 1px 0 0 2px;background: url("/devwidgets/mylibrary/images/up_arrow.png") no-repeat scroll left top transparent;display: inline;float: right;height: 17px;width: 17px;}
 .mylibrary_groupfilter_usedin_arrow_down{margin: 1px 0 0 2px;background: url("/devwidgets/mylibrary/images/down_arrow.png") no-repeat scroll left top transparent;display: inline;float: right;height: 17px;width: 17px;}
+
+.mylibrary_meta .s3d-no-results-container {font-style:normal;}
