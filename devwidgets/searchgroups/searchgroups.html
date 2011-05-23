@@ -64,9 +64,9 @@
                                     <button class="s3d-link-button searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchgroups_result_anonuser"></span>
-                                <a href="${i.homePath}" title="i['sakai:group-title']">
-                                    {if i.picture}
-                                        <img src="${i.picture.picPath}" alt="group name">
+                                <a href="${i.homePath}" title="${i['sakai:group-title']}">
+                                    {if i.picPath}
+                                        <img src="${i.picPath}" alt="${i['sakai:group-title']}">
                                     {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                     {/if}
