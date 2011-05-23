@@ -388,6 +388,14 @@
                         }
                         lis.removeClass("active");
                         start.addClass("active");
+                        if(start.length>0){
+							var scroll_holder = (start.index()+1)*start[0].offsetHeight;
+							if(scroll_holder>results_ul[0].offsetHeight){
+								results_ul.scrollTop(scroll_holder - results_ul[0].offsetHeight);
+							} else {
+								results_ul.scrollTop(0);
+							}
+                        }
                     }
                 }
                                     

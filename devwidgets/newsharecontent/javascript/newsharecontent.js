@@ -84,6 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (hash) {
                 hash.w.show();
             }
+            fetchUsersGroups();
             var tbx = $('#toolbox');
             if(tbx.find('a').length===0){
                 var svcs = {facebook: 'Facebook', twitter: 'Twitter', delicious:'Delicious', stumbleupon: 'StumbleUpon', blogger:'Blogger', wordpress:'Wordpress', google:'Google', expanded: 'More'};
@@ -108,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var fetchUsersGroups = function(){
             var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){
+            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){debug.log(data);
                 if (success) {
                     var suggestions = [];
                     var name, value, type;
@@ -252,7 +253,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var init = function(){
             addBinding();
-            fetchUsersGroups();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
             $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
