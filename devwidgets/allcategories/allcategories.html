@@ -37,11 +37,12 @@
                                 {/if}
                                 <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
                                 {if item.content.commentcount}<span class="allcategories_content_category_description"><span class="allcategories_content_comments_icon allcategories_content_icon"></span><a href="/content#p=${item.content["jcr:name"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
-                                {if item.content["sakai:tags"]}
+                                {if item.content["sakai:tags"] && sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"]).length > 0}
+                                    {var realTags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"])}
                                     <span class="allcategories_content_tags">
-                                        {for tag in item.content["sakai:tags"]}
+                                        {for tag in realTags}
                                             {if tag_index < 2}
-                                                <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item.content["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < realTags.length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>

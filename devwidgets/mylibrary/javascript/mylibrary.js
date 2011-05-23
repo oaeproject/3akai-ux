@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return null;
                 }
                 var formatted_tags = [];
-                $.each(tags, function (i, name) {
+                $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
                         link: "/search#tag=/tags/" + name
