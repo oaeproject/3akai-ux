@@ -188,10 +188,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.preview = false;
                 }
                 if (item["sakai:description"]) {
-                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], 700);
+                    var descWidth = 630;
+                    if (index === 1) {
+                        descWidth = 470;
+                    }
+                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], descWidth);
                 }
                 if (item["sakai:tags"]) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                    var tagWidth = 120;
+                    if (index > 0) {
+                        tagWidth = 60;
+                    }
+                    obj.tags = sakai.api.Util.applyThreeDots(sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]), tagWidth, {"ellipsis_string": "", "valid_delimiters": [","]}, "s3d-action");
                 }
                 if (item[item["jcr:name"] + "/comments"]) {
                     obj.comments = [];
