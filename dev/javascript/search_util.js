@@ -105,7 +105,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
                             }
                         }
-                    } else if (results[group].counts["sakai:category"]){
+                    }
+                    // KERN-1859 category seems to be stored under counts
+                    else if (results[group].counts["sakai:category"]){
                         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                             if (sakai.config.worldTemplates[c].id === results[group].counts["sakai:category"]){
                                 groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
