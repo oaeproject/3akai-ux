@@ -108,26 +108,30 @@ response.setStatus(404);
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
                                 <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_IN__</li>
                             </ol>
-                        --></div>                       
+                        --></div>
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
                         <div>
                             <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">
                         </div>
-                                            
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/explore.html">__MSG__EXPLORE_THE_INSTITUTION__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/allcategories.html">__MSG__BROWSE_INSTITUTION_CATEGORIES__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VIEW_THE_INSTITUTION_WEBSITE__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VISIT_THE_SUPPORT_FORUM__</a></li>
-                            <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
-                        </ul>
-                        
-                        <h3>__MSG__GET_IN_TOUCH__</h3>
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__SEND_US_YOUR_FEEDBACK__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__CONTACT_SUPPORT__</a></li>
-                        </ul>
-                        
+
+                        <div id="error_page_links_container"></div>
+                        <div id="error_page_links_template" style="display:none"><!--
+                            <ul>
+                                {for i in links.whatToDo}
+                                    <li><a class="s3d-regular-links s3d-bold" href="${i.url}">${sakai.api.i18n.General.getValueForKey(i.title)}</a></li>
+                                {/for}
+                                <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
+                            </ul>
+
+                            {if links.getInTouch.length > 0}
+                                <h3>__MSG__GET_IN_TOUCH__</h3>
+                                <ul>
+                                    {for i in links.getInTouch}
+                                        <li><a class="s3d-regular-links s3d-bold" href="${i.url}">${sakai.api.i18n.General.getValueForKey(i.title)}</a></li>
+                                    {/for}
+                                </ul>
+                            {/if}
+                        --></div>
                     </div>  
                 </div>
             </div>

@@ -29,6 +29,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $browsecatcount = $("#error_browse_category_number");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
+        var $errorPageLinksTemplate = $("#error_page_links_template");
+        var $errorPageLinksContainer = $("#error_page_links_container");
         var $goback = $("#error_goback");
         var $searchinput = $("#errorsearch_text");
 
@@ -55,7 +57,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             obj.worlds = worlds;
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
-            
+
+            // display the error page links
+            var linkObj = {
+                links: sakai.config.ErrorPage.Links,
+                sakai: sakai
+            };
+            $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
+
             if (sakai.data.me.user.anon){
                 $(window).bind("ready.login.sakai", function(e) {
                     $(window).trigger("relayout.login.sakai", false);
