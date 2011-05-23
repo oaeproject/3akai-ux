@@ -121,7 +121,7 @@
                                 <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
                             </ul>
 
-                            {if links.getInTouch.length > 0}
+                            {if links.getInTouch && links.getInTouch.length > 0}
                                 <h3>__MSG__GET_IN_TOUCH__</h3>
                                 <ul>
                                     {for i in links.getInTouch}
