@@ -120,7 +120,10 @@
                         {/if}
                     {/for}
                     {if !contentFound}
-                        <div class="searchcontent_padded_nocontent">__MSG__NO_CONTENT_AND_MEDIA_FOUND__</div>
+                        <div class="s3d-no-results-container">
+                            <div class="s3d-no-results-arrow-up"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>{/if}</h1>
+                        </div>
                     {/if}
                 --></div>
             </div>

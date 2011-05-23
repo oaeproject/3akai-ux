@@ -145,17 +145,15 @@
             {/if}
          {else}
             {if sakai_global.profile.main.mode.value !== "view"}
-                <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
-                    <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
-                    </button>
-                </a>
-                <span class="contacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT__ <a class="s3d-regular-links" href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__ADD_CONTACTS__">__MSG__ADD_CONTACTS__</a></h1>
+                </div>
             {else}
-                <span class="contacts_no_contacts">${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__HAS_NO_CONTACTS__</span>
-                <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button" style="display:none">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__ ${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__AS_A_CONTACT__</span>
-                </button>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+                </div>
             {/if}
          {/if}
     </div>
