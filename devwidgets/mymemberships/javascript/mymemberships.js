@@ -223,7 +223,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mymemberships_nogroups.hide();
                 $("#mymemberships_sortarea", $rootel).show();
                 $mymemberships_items.show();
-debug.log(json);
                 $("#mymemberships_items", $rootel).html(sakai.api.Util.TemplateRenderer(
                     $("#mymemberships_items_template", $rootel), json));
 
