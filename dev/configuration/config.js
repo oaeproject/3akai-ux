@@ -251,7 +251,14 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public", // Anyone on the Internet
                     "managers": "managers-only" // Group managers only
-                }
+                },
+                "defaultaccess": "public"
+            },
+            Content: {
+                "defaultaccess": "public"
+            },
+            Documents: {
+                "defaultaccess": "public"
             },
             Copyright: {
                 "creativecommons": {

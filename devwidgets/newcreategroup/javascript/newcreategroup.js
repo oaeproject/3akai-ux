@@ -378,6 +378,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
         $newcreategroupContainer.show();
         addBinding();
+        if (sakai.config.Permissions.Groups.defaultaccess){
+            $("#newcreategroup_can_be_found_in [value=" + sakai.config.Permissions.Groups.defaultaccess + "]").attr("selected", "selected");
+        }
     };
 
     $(window).bind("sakai.newcreategroup.init", function(){
