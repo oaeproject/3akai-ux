@@ -177,7 +177,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData, function(){
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", activityData, function(){
                 // update the entity widget with the new activity
                 $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
             });
@@ -240,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var userid = selectedUserId.substring(selectedUserId.indexOf("-") + 1, selectedUserId.length);
             if (permission !== "manager") {
                 item = {
-                    "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                     "method": "POST",
                     "parameters": {
                         ":viewer@Delete": userid
@@ -280,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
                 else {
                     item = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                         "method": "POST",
                         "parameters": {
                             ":manager@Delete": userid
@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var data = [];
             if (permission === "viewer") {
                 $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                     type: "POST",
                     data: {
                         ":viewer": memberid,
@@ -355,7 +355,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 });
             } else {
                 $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                     type: "POST",
                     data: {
                         ":manager": memberid,
@@ -397,10 +397,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             };
 
             sakai.api.Content.setFilePermissions(selectedVal, [{
-                "hashpath": sakai_global.content_profile.content_data.data["jcr:name"]
+                "hashpath": sakai_global.content_profile.content_data.data["_path"]
             }], function(){
                 $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".json",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json",
                     data: data,
                     traditional: true,
                     type: "POST",
@@ -629,7 +629,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             $.each(data.results, function(i) {
                                 if (pickerData.type === 'content') {
                                     name = data.results[i]['sakai:pooled-content-file-name'];
-                                    value = data.results[i]['jcr:name'];
+                                    value = data.results[i]['_path'];
                                     type = "file";
                                 } else if (data.results[i]["rep:userId"]) {
                                     name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
@@ -827,7 +827,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                   id = val["rep:userId"];
               } else if (val.entityType == "file") {
                   name = val["sakai:pooled-content-file-name"];
-                  id = val["jcr:name"];
+                  id = val["_path"];
               }
               $(sharecontent_search_query).autoSuggest.add_selected_item({"name": name, "value": id}, id);
               $sharecontent_add_button.removeAttr("disabled");

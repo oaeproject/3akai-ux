@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getRevisionInformationDetails = function(){
             $.ajax({
-                url: "/p/" + baseFileData.data["jcr:name"] + ".versions.json",
+                url: "/p/" + baseFileData.data["_path"] + ".versions.json",
 
                 type : "GET",
                 cache: false,

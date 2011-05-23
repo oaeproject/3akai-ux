@@ -31,7 +31,7 @@
 
                 <div class="comments_commentMessage s3d-regular-light-links">
                 <div class="comments_commentLinks">
-                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['jcr:path']}" />
+                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['_path']}" />
                     <ul>
                         {if i.canEdit && i.canEdit === true && i["sakai:deleted"] !== true}
                             <li><button type="button" class="comments_edit s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>

@@ -189,11 +189,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var thumbnail = sakai.api.Content.getThumbnail(item);
                 var mimeType = sakai.api.Content.getMimeType(item);
                 if (mimeType.substring(0, 6) === "image/") {
-                    obj.preview = renderImagePreview(item["jcr:name"], item["_lastModified"]);
+                    obj.preview = renderImagePreview(item["_path"], item["_lastModified"]);
                 }else if (isJwPlayerSupportedVideo(mimeType || "")) {
-                    obj.preview = renderVideoPlayer(item["jcr:name"]);
+                    obj.preview = renderVideoPlayer(item["_path"]);
                 } else if (thumbnail) {
-                    obj.preview = renderImagePreview(item["jcr:name"] + ".page1-small.jpg", item["_lastModified"]);
+                    obj.preview = renderImagePreview(item["_path"] + ".page1-small.jpg", item["_lastModified"]);
                 } else {
                     obj.preview = false;
                 }
@@ -203,11 +203,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (item["sakai:tags"]) {
                     obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                 }
-                if (item[item["jcr:name"] + "/comments"]) {
+                if (item[item["_path"] + "/comments"]) {
                     obj.comments = [];
-                    for (var prop in item[item["jcr:name"] + "/comments"]) {
-                        if (item[item["jcr:name"] + "/comments"][prop].hasOwnProperty("_id")) {
-                            obj.comments.push(item[item["jcr:name"] + "/comments"][prop]);
+                    for (var prop in item[item["_path"] + "/comments"]) {
+                        if (item[item["_path"] + "/comments"][prop].hasOwnProperty("_id")) {
+                            obj.comments.push(item[item["_path"] + "/comments"][prop]);
                         }
                     }
                 }
@@ -223,9 +223,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
                 obj.lastModifiedBy = item["_lastModifiedBy"];
-                obj.url = "/content#p=" + item["jcr:name"] + "/" + item["sakai:pooled-content-file-name"];
+                obj.url = "/content#p=" + item["_path"] + "/" + item["sakai:pooled-content-file-name"];
                 obj.contentType = "content";
-                obj.id = item["jcr:name"];
+                obj.id = item["_path"];
 
                 if (obj.preview) {
                     previewArr.push(obj);

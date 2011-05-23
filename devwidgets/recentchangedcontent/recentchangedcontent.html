@@ -67,7 +67,7 @@
                 <div class="recentchangedcontent_item_related_info">
                     <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
                     <div class="fl-force-left">
-                    <a href="/content#p=${item.relatedContent['jcr:name']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
+                    <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
                         <span>
                             {var relatedMimeType = sakai.api.Content.getMimeType(item.relatedContent)}
                             {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
@@ -85,7 +85,7 @@
                     </a>
                     </div>
                     <div class="recentchangedcontent_item_div">
-                        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['jcr:name']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
+                        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
                             ${item.relatedContent.nameRelatedShort}
                         </a>
                         <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(relatedMimeTypeDescription).toUpperCase()}</span>

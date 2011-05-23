@@ -300,7 +300,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 items = widgetSettings.perPage;
             }
 
-            var url = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".comments?sortOn=" + sortOn + "&sortOrder=" + sortOrder + "&page=" + (clickedPage - 1) + "&items=" + items;
 
             $.ajax({
                 url: url,
@@ -374,7 +374,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "comment": body
                 };
 
-                var url = "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".comments";
+                var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".comments";
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -387,7 +387,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         $(commentsNamePosterTxt, rootel).val("");
                         $(commentsMailPosterTxt, rootel).val("");
                         // Add an acitivty
-                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
+                        sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
                             if (success) {
                                 // update the entity widget with the new activity
                                 $(window).trigger("updateContentActivity.entity.sakai", "CONTENT_ADDED_COMMENT");
@@ -685,7 +685,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
 
                 $.ajax({
-                    url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                    url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                     type: "POST",
                     cache: false,
                     data: {
@@ -727,7 +727,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
 
             $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
                 cache: false,
                 data: {

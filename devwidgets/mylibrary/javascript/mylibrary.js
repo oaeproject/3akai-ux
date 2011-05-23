@@ -295,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (!item) {
                     return 0;
                 }
-                var id = item["jcr:path"];
+                var id = item["_path"];
                 var count = 0;
                 if (item[id + "/comments"]) {
                     $.each(item[id + "/comments"], function (param, value) {
@@ -323,9 +323,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.each(data.results, function (i, result) {
                         var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"] || result["sakai:custom-mimetype"]);
                         items.push({
-                            id: result["jcr:path"],
+                            id: result["_path"],
                             filename: result["sakai:pooled-content-file-name"],
-                            link: "/content#p=" + result["jcr:path"],
+                            link: "/content#p=" + result["_path"],
                             last_updated: $.timeago(new Date(result["_lastModified"])),
                             type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                             type_src: mimetypeObj.URL,

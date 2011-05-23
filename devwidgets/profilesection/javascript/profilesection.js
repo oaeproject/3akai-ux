@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 obj = obj[nodename.shift()];
             }
             if (middleName !== "") {
-                objCopy["jcr:name"] = middleName;
+                objCopy["_path"] = middleName;
             }
 
             return [obj, objCopy];
@@ -465,7 +465,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                                 }
 
                                 // add the property in if it doesn't already exist
-                                if (parentProp[0] && parentProp[1]["jcr:name"] == "elements" && prop === undefined) {
+                                if (parentProp[0] && parentProp[1]["_path"] == "elements" && prop === undefined) {
                                     parentProp[0][propName] = {};
                                     parentProp[0][propName].value = $selected_element.val();
                                 } else if (prop) { // it exists, just change its value
@@ -486,7 +486,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                                 }
                             } else {
                                 if (prop && $.isPlainObject(prop) && parentProp[0]) {
-                                    delete parentProp[0][prop["jcr:name"]];
+                                    delete parentProp[0][prop["_path"]];
                                 }
                             }
 
