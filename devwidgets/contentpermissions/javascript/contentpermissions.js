@@ -308,43 +308,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
-        ////////////
-        // SEARCH //
-        ////////////
-
-        /**
-         * Fetch the users and groups used in the autocomplete functionality of the widget
-         */
-        var fetchUsersGroups = function(){
-            var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                if (success) {
-                    var suggestions = [];
-                    var name, value, type;
-                    $.each(data.results, function(i){
-                        if (data.results[i]["rep:userId"] && sakai.data.me.user.userid != data.results[i]["rep:userId"]) {
-                            name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = "user/" + data.results[i]["rep:userId"];
-                            type = "user";
-                        }  else if (data.results[i]["sakai:group-id"]) {
-                                name = data.results[i]["sakai:group-title"];
-                                value = "group/" + data.results[i]["sakai:group-id"];
-                                type = "group";
-                            }
-                        suggestions.push({"value": value, "name": name, "type": type});
-                    });
-                    $(contentpermissionsMembersAutosuggest).autoSuggest(suggestions, {
-                        selectedItemProp: "name",
-                        searchObjProps: "name",
-                        startText: "Enter name here",
-                        asHtmlID: tuid,
-                        selectionAdded: addedUserGroup
-                    });
-                }
-            });
-        };
-
 
         //////////////
         // RENDERING //
@@ -358,7 +321,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "contentdata": sakai_global.content_profile.content_data,
                 "api": sakai.api
             }));
-            fetchUsersGroups();
+            sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup});
             enableDisableButtons(true);
         };
 
@@ -383,10 +346,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 zIndex: 3000
             });
             
-			$(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
-				$contentpermissionsContainer.jqmShow();
-				setWidgetTitleAndRender();
-			});
+            $(window).bind("init.contentpermissions.sakai", function(e, config, callbackFn){
+                $contentpermissionsContainer.jqmShow();
+                setWidgetTitleAndRender();
+            });
 
             $(contentpermissionsCancelButton).live("click", closeOverlay);
             $(contentpermissionsShareButton).live("click", doShare);

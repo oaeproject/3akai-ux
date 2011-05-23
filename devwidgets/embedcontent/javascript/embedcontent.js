@@ -224,7 +224,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
-            $embedcontent_content_input.autoSuggest("",{
+            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
+                asHtmlID: tuid,
+                retrieveLimit: 10,
+                selectionLimit: embedConfig.limit,
+                resultClick: function(data) {
+                    autosuggestSelectionAdded(data.attributes);
+                },
+                selectionRemoved: function(elem) {
+                    autosuggestSelectionRemoved(elem);
+                },
+                selectionAdded: function(elem) {
+                    if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
+                        elem.addClass("embedcontent_selection_notfound");
+                    }
+                },
                 source: function(query, add) {
                     var q = sakai.api.Server.createSearchString(query);
                     var options = {"page": 0, "items": 15};
@@ -252,22 +266,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             add(suggestions);
                         }
                     }, options);
-                },
-                retrieveLimit: 10,
-                asHtmlID: tuid,
-                selectedItemProp: "name",
-                searchObjProps: "name",
-                selectionLimit: embedConfig.limit,
-                resultClick: function(data) {
-                    autosuggestSelectionAdded(data.attributes);
-                },
-                selectionRemoved: function(elem) {
-                    autosuggestSelectionRemoved(elem);
-                },
-                selectionAdded: function(elem) {
-                    if (elem.attr("id").indexOf("as-selection-notfound") > -1) {
-                        elem.addClass("embedcontent_selection_notfound");
-                    }
                 }
             });
         };

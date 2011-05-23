@@ -98,8 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Do a reset of the embed screen
          */
         var doReset = function() {
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
+            sakai.api.Util.AutoSuggest.reset($contentpicker_content_input);
         };
 
         /**
@@ -139,7 +138,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
-            $contentpicker_content_input.autoSuggest("",{
+            sakai.api.Util.AutoSuggest.setup($contentpicker_content_input,{
+                asHtmlID: tuid,
+                retrieveLimit: 10,
+                selectionLimit: pickerConfig.limit,
+                resultClick: function(data) {
+                    selectedItems.push(data.attributes);
+                    $contentpicker_place_content.removeAttr("disabled");
+                },
+                selectionRemoved: function(elem) {
+                    removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
+                    elem.remove();
+                    if (selectedItems.length === 0) {
+                        $contentpicker_place_content.attr("disabled", "disabled");
+                    }
+                },
                 source: function(query, add) {
                     var q = sakai.api.Server.createSearchString(query);
                     var options = {"page": 0, "items": 15};
@@ -167,22 +180,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             add(suggestions);
                         }
                     }, options);
-                },
-                retrieveLimit: 10,
-                asHtmlID: tuid,
-                selectedItemProp: "name",
-                searchObjProps: "name",
-                selectionLimit: pickerConfig.limit,
-                resultClick: function(data) {
-                    selectedItems.push(data.attributes);
-                    $contentpicker_place_content.removeAttr("disabled");
-                },
-                selectionRemoved: function(elem) {
-                    removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
-                    elem.remove();
-                    if (selectedItems.length === 0) {
-                        $contentpicker_place_content.attr("disabled", "disabled");
-                    }
                 }
             });
         };
