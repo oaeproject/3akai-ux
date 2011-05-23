@@ -69,6 +69,8 @@
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
                         <option value="private">__MSG__PRIVATE__</option>
                     </select>
+
+                    <div id="newaddcontent_upload_content_copyright_container"></div>
                 </div>
             </div>
 
@@ -146,6 +148,14 @@
     <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
     <div id="newaddcontent_selecteditems_edit_permissions_container" style="display:none;"><!----></div>
 </div>
+
+<div id="newaddcontent_copyright_template"><!--
+    <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
+    <select id="newaddcontent_upload_content_copyright">
+    {for cr in copyright}
+        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+    {/for}
+--></div>
 
 <div id="newaddcontent_selecteditems_edit_data_template" style="display:none;"><!--
     <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
