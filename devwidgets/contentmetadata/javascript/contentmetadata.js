@@ -292,7 +292,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
                 renderTags(false);
                 // Create an activity
-                createActivity("__MSG__UPDATED_TAGS__");
+                createActivity("UPDATED_TAGS");
             });
         };
 
@@ -311,7 +311,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "sakai:description": description
                 },
                 success: function(){
-                    createActivity("__MSG__UPDATED_DESCRIPTION__");
+                    createActivity("UPDATED_DESCRIPTION");
                 }
             });
         };
@@ -342,7 +342,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "length": url.length
                 },
                 success: function(){
-                    createActivity("__MSG__UPDATED_URL__");
+                    createActivity("UPDATED_URL");
                     $(window).trigger("updated.version.content.sakai");
                 }
             });
@@ -363,7 +363,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     "sakai:copyright": $("#contentmetadata_copyright_copyright").val()
                 },
                 success: function(){
-                    createActivity("__MSG__UPDATED_COPYRIGHT__");
+                    createActivity("UPDATED_COPYRIGHT");
                 }
             });
         };
