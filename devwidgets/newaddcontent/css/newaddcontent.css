@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Left Hand nav */
-#newaddcontent_container {width:1018px; height:490px; background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;left:31%;padding:12px;}
+#newaddcontent_container {width:1018px; height:535px;left:31%;z-index:9999;}
 #newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;margin:0;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:212px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:204px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span {line-height:56px; color:#006E96;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul {margin:-10px 0 15px 30px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li {-moz-border-radius: 5px 0 0 5px;border-radius:5px 0 0 5px;clear: both;list-style: none outside none;margin-bottom: 0;padding: 5px 0 5px 7px;color:#424242;}
@@ -46,18 +46,25 @@
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list{position:absolute;right:20px;top:206px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_documentsposition{top:306px;}
 #newaddcontent_container #newaddcontent_container_newitem .newaddcontent_container_newitem_add_to_list_existingcontentposition{top:406px;}
+#newaddcontent_container input::-webkit-input-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container input:-moz-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container textarea::-webkit-input-placeholder {color:#aaa;font-style:italic;}
+#newaddcontent_container textarea:-moz-placeholder {color:#aaa;font-style:italic;}
 
 /* Right selected items */
 #newaddcontent_container #newaddcontent_container_selecteditems {height:443px;width:262px;float:right;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;border:1px #a9a9a9 solid;}
-#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;padding: 10px 12px;text-align:center;}
-#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header span{font-size:11px;font-weight:normal;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_header {background-color:#E5EAED;height:21px;-moz-border-radius: 5px 5px 0 0;border-radius:5px 5px 0 0;padding:10px 12px 5px;}
+#newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_noselecteditems {color:#aaa;display:block;font-size:12px;font-style:italic;margin:7px 12px;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container {border-bottom: 1px solid #E5EAED;padding:10px 0;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container label {margin-left:12px;}
+#newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_saveto_container select#newaddcontent_saveto {border:1px solid #A9A9A9;width:165px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul {margin:0;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;list-style: none outside none;padding: 6px 20px 6px 30px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title {display:block;padding-left:2px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_actions button {font-size:11px;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_container {height: 402px;overflow: auto;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_remove, #newaddcontent_container .newaddcontent_selecteditems_edit_data_close {background:url("/devwidgets/newaddcontent/images/newaddcontent_remove_icon.png") no-repeat top left transparent;width:13px;height:13px;float:right;margin-top:1px;cursor:pointer;}
-#newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_icon {height: 16px;margin-left: -17px;position: absolute;width: 16px;}
+#newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_icon {float:left;height: 16px;margin-left: -17px;width: 16px;}
 #newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_selecteditems_split {color:#E5EAED;}
 
 /* Right selected items edit popup */
@@ -71,12 +78,12 @@
 #newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_upload_content_permissions {border: 1px solid #A9A9A9;height: 20px;}
 
 /* Actions */
-#newaddcontent_container #newaddcontent_container_actions {bottom:0;margin:0 12px 12px 0;position:absolute;right:0;}
+#newaddcontent_container #newaddcontent_container_actions {bottom:0;margin:0 19px 12px 0;position:absolute;right:0;}
 #newaddcontent_container #newaddcontent_container_actions button {margin-left:20px;}
 
 /* Upload content */
 .newaddcontent_form label{display:block;margin:12px 0 7px 0;color:#424242;}
-.newaddcontent_form input, .newaddcontent_form textarea, .newaddcontent_existingitems_search {width:330px;border:1px solid #A9A9A9;margin-top:3px;height:20px;}
+.newaddcontent_form input[type="text"], .newaddcontent_form textarea, .newaddcontent_existingitems_search {width:330px;border:1px solid #A9A9A9;margin-top:3px;height:20px;}
 .newaddcontent_form textarea{height:60px;resize:none;}
 .MultiFile-list{display:none;}
 

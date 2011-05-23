@@ -408,8 +408,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function(){
-            if (widgetData.remotecontent){
-                processRemoteContent(true, widgetData.remotecontent);
+            if (widgetData.ggadget){
+                processRemoteContent(true, widgetData.ggadget);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, processRemoteContent);
             }

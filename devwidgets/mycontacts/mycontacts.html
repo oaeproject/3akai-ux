@@ -39,12 +39,17 @@
                 <div class="mycontacts_post"><a class="s3d-bold" href="/~${i.id}">${i.type.join(", ")}</a></div>
             </div>
         {forelse}
-            <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
-                <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
-                </button>
-            </a>
-            <span class="mycontacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
+            <div class="mycontacts_no_contacts">
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+                    {if !sakai.data.me.user.anon}
+                        <h1>
+                            <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>
+                        </h1>
+                    {/if}
+                </div>
+            </div>
         {/for}
     --></div>
 

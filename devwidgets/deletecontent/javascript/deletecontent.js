@@ -89,8 +89,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         method: "POST",
                         parameters: {":operation" : "delete"}
                     });
-                } else if (deletedata.path && typeof(deletedata.path) === "object"
-                    && deletedata.path.length) {
+                } else if (deletedata.path && typeof(deletedata.path) === "object" && deletedata.path.length) {
                     $.each(deletedata.path, function (i, url) {
                         batchRequests.push({
                             url: url,
@@ -154,8 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var load = function(data, callback){
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
-            if (deletedata.path && typeof(deletedata.path) === "object"
-                && deletedata.path.length > 1) {
+            if (deletedata.path && typeof(deletedata.path) === "object" && deletedata.path.length > 1) {
                 $deletecontent_form_heading.html(
                     sakai.api.i18n.Widgets.getValueForKey("deletecontent","",
                         "ARE_YOU_SURE_YOU_WANT_TO_DELETE_THESE_ITEMS") + "?"

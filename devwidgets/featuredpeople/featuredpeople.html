@@ -1,0 +1,30 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/featuredpeople/css/featuredpeople.css" />
+
+<div class="featuredpeople_widget">
+    <div id="featuredpeople_container"><!----></div>
+</div>
+
+<div id="featuredpeople_template"><!--
+    <div class="s3d-contentpage-title">__MSG__PEOPLE__ (<a href="/dev/search2.html#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
+    {for item in data.results}
+        <div class="featuredpeople_content">
+            <img src="${item.picture}" alt="${item.name}" class="featuredpeople_image"/>
+            <a href="/~${item.userid}" class="s3d-bold s3d-regular-links">${item.name}</a>
+            <a href="/dev/user.html?id=${item.userid}#l=library" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
+            <a href="/dev/user.html?id=${item.userid}#l=contacts" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contactsCount} {if item.counts.contactsCount != 1} __MSG__CONTACTS__{else} __MSG__CONTACT__{/if}</a>
+            <a href="/dev/user.html?id=${item.userid}#l=memberships" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.membershipsCount} {if item.counts.membershipsCount != 1} __MSG__MEMBERSHIPS__{else} __MSG__MEMBERSHIP__{/if}</a>
+        </div>
+    {/for}
+    {if !data.total}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/search2.html#l=people" title="__MSG__ADD_PEOPLE__" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>{/if}</h1>
+        </div>
+    {/if}
+    <hr class="fl-push fl-hidden"/>
+    <div id="featuredpeople_footer"></div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/featuredpeople/javascript/featuredpeople.js"></script>

@@ -229,7 +229,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
 
-                sakai.api.Groups.removeUsersFromGroup(groupid, listType, removeList, function(success) {
+                sakai.api.Groups.removeUsersFromGroup(groupid, listType, removeList, sakai.data.me, function(success) {
                     if (removeList.length > 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_removed_text").text()));
                     } else if (removeList.length == 1) {
@@ -274,7 +274,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {String} listType Identifier for the widget/type of user we're removing (member or a manager)
          */
         var addUsers = function(listType, users) {
-            sakai.api.Groups.addUsersToGroup(groupid, listType, users, function(success) {
+            sakai.api.Groups.addUsersToGroup(groupid, listType, users, sakai.data.me, function(success) {
                 if (success) {
                     if (users.length && users.length > 1) {
                         sakai.api.Util.notification.show(sakai.api.Security.saneHTML($("#group_edit_group_membership_text").text()), sakai.api.Security.saneHTML($("#group_edit_users_added_text").text()));

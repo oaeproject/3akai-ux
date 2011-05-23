@@ -1,0 +1,14 @@
+{
+    "description":"My recent content",
+    "name":"My recent content",
+    "id":"recentchangedcontent",
+    "i18n": {
+        "default": "/devwidgets/recentchangedcontent/bundles/default.properties"
+    },
+    "personalportal":true,
+    "hasSettings":false,
+    "type":"sakai",
+    "enabled":true,
+    "url":"/devwidgets/recentchangedcontent/recentchangedcontent.html",
+    "deletable":true
+}

@@ -1,11 +1,20 @@
 {
+    "sakaidocs": false,
     "ca":true,
+    "hasSettings": false,
     "description":"Sakai 2 Tools",
     "id":"sakai2tools",
+    "i18n": {
+        "default": "/devwidgets/sakai2tools/bundles/default.properties"
+    },
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",
     "name":"Sakai 2 Tools",
-    "showinsakaigoodies":true,
     "type":"sakai",
     "enabled":true,
-    "url":"/devwidgets/sakai2tools/sakai2tools.html"
+    "url":"/devwidgets/sakai2tools/sakai2tools.html",
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
+    "showinsakaigoodies":true
 }

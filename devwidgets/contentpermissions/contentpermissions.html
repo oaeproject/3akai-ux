@@ -1,20 +1,9 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentpermissions/css/contentpermissions.css" />
-<div id="contentpermissions_container" style="display:none" class="dialog">
-    <div id="contentpermissions_container_header" class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__CONTENT_PERMISSIONS__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">
-                __MSG__CLOSE_DIALOG__
-            </button>
-        </div>
-    </div>
-    <div id="contentpermissions_content_container" class="dialog_content"><!----></div>
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner">
-            <!-- -->
-        </div>
-    </div>
+<div id="contentpermissions_container" style="display:none" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__CONTENT_PERMISSIONS__</h1>
+    <div id="contentpermissions_content_container"><!----></div>
 </div>
 
 <div id="contentpermissions_content_template"><!--
@@ -68,7 +57,7 @@
                                     </select>
                                     <input type="checkbox" id="select_${member.groupid}" class="${memberArr_index}">
                                     <label for="select_${member.groupid}">
-                                        <img src="/dev/images/group_avatar_icon_32x32.png" alt="__MSG__USER_PICTURE__"/>
+                                        <img src="/dev/images/group_avatar_icon_35x35_nob.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                         <a href="/~${member.groupid}" title="__MSG__VIEW__ ${member["sakai:group-title"]}'s __MSG__PROFILE__">${member["sakai:group-title"]}</a>
                                     </label>
                                 </li>
@@ -80,7 +69,7 @@
                                     </select>
                                     <input type="checkbox" id="select_${member.userid}" class="${memberArr_index}">
                                     <label for="select_${member.userid}">
-                                        <img src="/dev/images/default_profile_picture_32.png" alt="__MSG__USER_PICTURE__"/>
+                                        <img src="/dev/images/default_User_icon_35x35.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
                                         <a href="/~${member.userid}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
                                     </label>
                                 </li>

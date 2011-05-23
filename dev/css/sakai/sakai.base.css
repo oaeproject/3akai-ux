@@ -21,8 +21,6 @@
  * GLOBAL RULES
  */
 body, button{font-family:Arial, Helvetica, sans-serif;line-height:120%;}
-.requireUser{background:url(/dev/images/body_bg_sprite.png) repeat-x scroll left -91px #75ADD7;}
-.requireAnon{background:#093b52 url(/dev/images/page_bg_water.jpg) top left repeat-x;}
 .section_header{font-weight:bold;border-bottom:1px solid #ebebeb;font-size:17px;padding-bottom:3px;}
 
 /* adding a visible outline on focus for accessibility */
@@ -199,6 +197,14 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .fl-col-flex2 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
 
 /*
+ * NO RESULTS VIEW (When a widget feed doesn't return any results)
+ */
+.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 20px 10px;}
+.s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
+.s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;}
+.s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:4px 12px 0 0;}
+
+/*
  * CONTENT LAYOUT 
  */
 .s3d-header .s3d-fixed-container .s3d-decor-left{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll 0 -10px transparent;float:left;height:5px;margin-left:-20px;overflow:visible;width:5px;}
@@ -207,7 +213,7 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 
 
 /*
- * CHROME STYLES    
+ * CHROME STYLES
  * HEADINGS
  */
 .s3d-site-heading{padding:10px 0;font-weight:bold;color:#454A4F;}
@@ -348,9 +354,10 @@ label.error{color:#9f3333;font-weight:bold;}
 .clearfix{overflow:auto;}
 
 
-/*
- * DIALOGS
- *//* Dialog */.dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
+ /*
+ * OLD DIALOG LAYOUT
+ */
+.dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
 .jqmOverlay{background-color:#000;}
 
 /* Dialog header */
@@ -388,6 +395,13 @@ label.error{color:#9f3333;font-weight:bold;}
 .dialog_tooltip_footer_inner{background:url(/dev/images/tour_sprite.png) no-repeat scroll left -40px transparent;height:14px;}
 .dialog_tooltip_footer_arrow{background:url(/dev/images/tour_sprite.png) no-repeat scroll -217px -80px transparent;width:35px;height:18px;margin:0 0 0 20px;}
 
+/*
+ * NEW DIALOG LAYOUT
+ */
+.s3d-dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
+.s3d-dialog-container {background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;padding:7px 20px 12px;box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;-webkit-box-shadow:0 0 10px #000;color:#424242;font-size:12px;}
+.s3d-dialog-container .s3d-dialog-close {background:url("/dev/images/dialog_close.png") no-repeat top left transparent;width:19px;height:17px;float:right;cursor:pointer;margin:-2px -15px 0 0;}
+.s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}
 
 /*
  * CHAT
@@ -453,6 +467,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 /*
  * ICONS
  */
+.s3d-icon-16{width:16px; height:16px;}
 .s3d-icon-32{width:32px; height:32px;}
 .s3d-icon-40{width:40px; height:40px;}
 .s3d-icon-50{width:50px; height:50px;}
@@ -470,5 +485,5 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .icon-video-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1118px 0 transparent;}
 .icon-kmultiple-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -430px 0 transparent;}
 .icon-url-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -304px 0 transparent;}
-.icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1166px 0 transparent;}
+.icon-sakaidoc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -1185px 0 transparent;}
 .icon-unknown-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -143px 0 transparent;}

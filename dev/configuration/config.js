@@ -22,6 +22,8 @@ define(function(){
             CONTENT_MEDIA_URL: "/dev/content_media.html",
             COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
+            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
+            GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
             GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
@@ -36,15 +38,16 @@ define(function(){
             PUBLIC_MY_DASHBOARD_URL: "/home",
             PUBLIC_PEOPLE_URL: "/dev/public_people.html",
             PUBLIC_SEARCH_URL: "/dev/public_search.html",
+            SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_CONTENT_URL: "/search/content",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_PEOPLE_URL: "/search/people",
             SEARCH_GROUP_URL: "/search/groups",
             SEARCH_SITES_URL: "/search/sites",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
-            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
-            USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
+            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
+            USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
             // Services
@@ -57,6 +60,7 @@ define(function(){
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
+            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
             DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
@@ -71,6 +75,7 @@ define(function(){
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
             MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
+            MESSAGE_BOXCATEGORY_ALL_SERVICE: "/var/message/boxcategory-all.json",
             POOLED_CONTENT_MANAGER: "/var/search/pool/me/manager.json",
             POOLED_CONTENT_MANAGER_ALL: "/var/search/pool/me/manager-all.json",
             POOLED_CONTENT_VIEWER: "/var/search/pool/me/viewer.json",
@@ -87,6 +92,8 @@ define(function(){
             SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
             SDATA_FETCH: "/",
             // --
+            SEARCH_ALL_ENTITIES: "/var/search/general.json",
+            SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
             SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
@@ -352,13 +359,6 @@ define(function(){
                                 "required": false,
                                 "display": true
                             },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea",
-                                "tagField": true
-                            },
                             "tags": {
                                 "label": "__MSG__TAGS__",
                                 "required": false,
@@ -501,6 +501,11 @@ define(function(){
                 }
             },
             /*
+             * set what name to display where only the first name is used
+             */
+            userFirstNameDisplay: "firstName",
+
+            /*
              * set how the user's name is displayed across the entire system
              * - values can be compound, like "firstName lastName" or singular like "displayName"
              */
@@ -597,15 +602,6 @@ define(function(){
         SystemTour: {
             "enableReminders": true,
             "reminderIntervalHours": "168"
-        },
-
-        Institution: {
-            /*
-             * Institution contact details are displayed in the footer
-             */
-            helpLinkText: "Contact Us",
-            helpLinkUrl: "http://www.sakaiproject.org/contact",
-            helpPhone: "212-555-1212"
         },
 
         // Set this to true if you have an authentication system such as CAS
@@ -845,7 +841,7 @@ define(function(){
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basicinfo",
+                "url": "/dev/me.html#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
@@ -883,13 +879,15 @@ define(function(){
             "anonymous": false,
             "label": "EXPLORE",
             "subnav": [{
+                "id": "subnavigation_explore_categories_link",
+                "label": "BROWSE_ALL_CATEGORIES",
+                "url": "/dev/allcategories.html"
+            },{
+                "id": "subnavigation_hr"
+            },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
@@ -901,13 +899,15 @@ define(function(){
             "anonymous": true,
             "label": "EXPLORE",
             "subnav": [{
+                "id": "subnavigation_explore_categories_link",
+                "label": "BROWSE_ALL_CATEGORIES",
+                "url": "/dev/allcategories.html"
+            },{
+                "id": "subnavigation_hr"
+            },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
                 "url": "/dev/search2.html#l=content"
-            }, {
-                "id": "subnavigation_explore_groups_link",
-                "label": "GROUPS",
-                "url": "/dev/search2.html#l=groups"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
@@ -957,1006 +957,503 @@ define(function(){
         displayDebugInfo: true,
 
         Directory: {
-            "indianauniversity": {
-                title: "Indiana University",
-                description: '<h3><img width="100" height="90" _mce_style="float: right;" style="float: right;" _mce_src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg" src="http://upload.wikimedia.org/wikipedia/commons/d/d6/StudentBuilding_IUBloomington.jpg"/>Indiana University is the flagship campus of the Indiana University system. It is also referred to as Indiana, or simply IU, and is located in Bloomington, Indiana, United States. The name Indiana University Bloomington is not an official campus name, and is only used for clarity.<br/></h3><p>Indiana University is among the top 100 universities in the world. In 2010, the Academic Ranking of World Universities gave Indiana University a world rank of 90 and a national rank of 50. Time named Indiana University its "2001 College of the Year" among major research universities. Indiana is one of 60 members of the Association of American Universities, the leading American research universities. Additionally, IU has over 110 academic programs ranked in the top twenty nationwide.</p><p>The tenth annual Newsweek-Kaplan College Guide, which appeared in the August 22, 2005 issue of Newsweek magazine, chose IU as its "Hottest Big State School" and extolled the campus&quot;s blend of tradition with emerging technologies.</p><p>In January 2010 Kiplinger&quot;s Personal Finance ranked Bloomington the 28th out of the "100 Best Values in Public Colleges 2009-10".</p><p><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Official Website</a><br/><a href="http://www.iub.edu/%7Eiubmap/IUBcampusmap.pdf" _mce_href="http://www.iub.edu/~iubmap/IUBcampusmap.pdf">Campus Map<br/></a></p>',
-                icon: "http://upload.wikimedia.org/wikipedia/en/2/26/Indiana_U_seal.png",
+            medicineanddentistry: {
+                title: "Medicine and Dentistry",
                 children: {
-                    "universityadministration": {
-                        title: "University Administration",
-                        description: "A description of University Administration",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {
-                            "planningandpolicy": {
-                                title: "Planning and Policy",
-                                description: "A description of Planning and Policy",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "internationalaffairs": {
-                                title: "International Affairs",
-                                description: "A description of International Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "publicaffairsandgovernmentrelations": {
-                                title: "Public Affairs and Government Relations",
-                                description: "A description of Public Affairs and Government Relations",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "economicdevelopmentandengagement": {
-                                title: "Economic Development and Engagement",
-                                description: "A description of Economic Development and Engagement",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "intercollegiateathletics": {
-                                title: "Intercollegiate Athletics",
-                                description: "A description of Intercollegiate Athletics",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "research": {
-                                title: "Research",
-                                description: "A description of Research",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "diversityequityandmulticulturalaffairs": {
-                                title: "Diversity, Equity and Multicultural Affairs",
-                                description: "A description of Diversity, Equity and Multicultural Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            }
-                        }
+                    preclinicalmedicine: {
+                        title: "Pre-clinical Medicine"
                     },
-                    "ipfwfortwayne": {
-                        title: "IPFW Fort Wayne",
-                        description: "A description of IPFW Fort Wayne",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    preclinicaldentistry: {
+                        title: "Pre-clinical Dentistry"
                     },
-                    "iubloomington": {
-                        title: "IU Bloomington",
-                        description: "A description of IU Bloomington",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    clinicalmedicine: {
+                        title: "Clinical Medicine"
                     },
-                    "iueast": {
-                        title: "IU East",
-                        description: "A description of IU East",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    clinicaldentistry: {
+                        title: "Clinical Dentistry"
                     },
-                    "iukokomo": {
-                        title: "IU Kokomo",
-                        description: "A description of IU Kokomo",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    othersinmedicineanddentistry: {
+                        title: "Others in Medicine and Dentistry"
+                    }
+                }
+            },
+            biologicalsciences: {
+                title: "Biological Sciences",
+                children: {
+                    biology: {
+                        title: "Biology"
                     },
-                    "iunorthwest": {
-                        title: "IU Northwest",
-                        description: "A description of IU Northwest",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    botany: {
+                        title: "Botany"
                     },
-                    "iusouthbend": {
-                        title: "IU South Bend",
-                        description: "A description of IU South Bend",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    zoology: {
+                        title: "Zoology"
                     },
-                    "iupusoutheast": {
-                        title: "IU Southeast",
-                        description: "A description of IU Southeast",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    genetics: {
+                        title: "Genetics"
                     },
-                    "iupucolumbus": {
-                        title: "IUPU Columbus",
-                        description: "A description of IUPU Columbus",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {}
+                    microbiology: {
+                        title: "Microbiology"
                     },
-                    "iupuiindianapolis": {
-                        title: "IUPUI Indianapolis",
-                        description: "A description of IUPUI Indianapolis",
-                        icon: "/dev/images/hierarchy.png",
-                        children: {
-                            "administration": {
-                                title: "Administration",
-                                description: "A description of Administration",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "academicaffairs": {
-                                        title: "Academic Affairs",
-                                        description: "A description of Academic Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "diversityequityandinclusion": {
-                                        title: "Diversity, Equity and Inclusion",
-                                        description: "A description of Diversity, Equity and Inclusion",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "externalaffairs": {
-                                        title: "External Affairs",
-                                        description: "A description of External Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "financeandadministration": {
-                                        title: "Finance and Administration",
-                                        description: "A description of Finance and Administration",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "planningandinstitutionalimprovement": {
-                                        title: "Planning and Institutional Improvement",
-                                        description: "A description of Planning and Institutional Improvement",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "studentlife": {
-                                        title: "Student Life",
-                                        description: "A description of Student Life",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "herronschoolofartanddesign": {
-                                title: "Herron School of Art and Design",
-                                description: "A description of Herron School of Art and Design",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "arteducation": {
-                                        title: "Art Education",
-                                        description: "A description of Art Education",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "arthistory": {
-                                        title: "Art History",
-                                        description: "A description of Art History",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "ceramics": {
-                                        title: "Ceramics",
-                                        description: "A description of Ceramics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "furnituredesign": {
-                                        title: "Furniture Design",
-                                        description: "A description of Furniture Design",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "generalfinearts": {
-                                        title: "General Fine Arts",
-                                        description: "A description of General Fine Arts",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "painting": {
-                                        title: "Painting",
-                                        description: "A description of Painting",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "photography": {
-                                        title: "Photography",
-                                        description: "A description of Photography",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "printmaking": {
-                                        title: "Printmaking",
-                                        description: "A description of Printmaking",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "sculpture": {
-                                        title: "Sculpture",
-                                        description: "A description of Sculpture",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "visualcommunication": {
-                                        title: "Visual Communication",
-                                        description: "A description of Visual Communication",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "kelleyschoolofbusiness": {
-                                title: "Kelley School of Business",
-                                description: "A description of Kelly School of Business",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "accounting": {
-                                        title: "Accounting",
-                                        description: "A description of Accounting",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "businessadministration": {
-                                        title: "Business Administration",
-                                        description: "A description of Business Administration",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerinformationsystems": {
-                                        title: "Computer Information Systems",
-                                        description: "A description of Computer Information Systems",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "finance": {
-                                        title: "Finance",
-                                        description: "A description of Finance",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "humanresourcemanagement": {
-                                        title: "Human Resource Management",
-                                        description: "A description of Human Resource Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "internationalstudies": {
-                                        title: "International Studies",
-                                        description: "A description of Human Resource Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "management": {
-                                        title: "Management",
-                                        description: "A description of Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "marketing": {
-                                        title: "Marketing",
-                                        description: "A description of Marketing",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "supplychainmanagement": {
-                                        title: "Supply Chain Management",
-                                        description: "A description of Supply Chain Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "shoolofcontinuingstudies": {
-                                title: "School of Continuing Studies",
-                                description: "A description of School of Continuing Studies",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "communitylearningnetwork": {
-                                        title: "Community Learning Network",
-                                        description: "A description of Community Learning Network",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "adulteducation": {
-                                        title: "Adult Education",
-                                        description: "A description of Adult Education",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "generalstudies": {
-                                        title: "General Studies",
-                                        description: "A description of General Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "graduateschool": {
-                                title: "Graduate School",
-                                description: "A description of Graduate School",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofdentistry": {
-                                title: "School of Dentistry",
-                                description: "A description of School of Dentistry",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "oralbiology": {
-                                        title: "Community Learning Network",
-                                        description: "A description of Community Learning Network",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "oralpathologymedicineandradiology": {
-                                        title: "Oral Pathology, Medicine & Radiology",
-                                        description: "A description of Oral Pathology, Medicine & Radiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "oralsurgeryandhospitaldentistry": {
-                                        title: "Oral Surgery & Hospital Dentistry",
-                                        description: "A description of Oral Surgery & Hospital Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "orthodonticsandoralfacialgenetics": {
-                                        title: "Orthodontics & Oral Facial Genetics",
-                                        description: "A description of Orthodontics & Oral Facial Genetics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pediatricdentistry": {
-                                        title: "Pediatric Dentistry",
-                                        description: "A description of Pediatric Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "periodonticsandallieddentalprograms": {
-                                        title: "Periodontics & Allied Dental Programs",
-                                        description: "A description of Periodontics & Allied Dental Programs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "preventiveandcommunitydentistry": {
-                                        title: "Preventive & Community Dentistry",
-                                        description: "A description of Preventive & Community Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "restorativedentistry": {
-                                        title: "Restorative Dentistry",
-                                        description: "A description of Restorative Dentistry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofeducation": {
-                                title: "School of Education",
-                                description: "A description of School of Education",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "purdueschoolofengineeringandtechnology": {
-                                title: "Purdue School of Engineering and Technology",
-                                description: "A description of Purdue School of Engineering and Technology",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "architecturaltechnology": {
-                                        title: "Architectural Technology",
-                                        description: "A description of Architectural Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biomedicalengineering": {
-                                        title: "Biomedical Engineering",
-                                        description: "A description of Biomedical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biomedicalengineeringtechnology": {
-                                        title: "Biomedical Engineering Technology",
-                                        description: "A description of Biomedical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerengineering": {
-                                        title: "Computer Engineering",
-                                        description: "A description of Computer Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerandinformationtechnology": {
-                                        title: "Computer and Information Technology",
-                                        description: "A description of Computer and Information Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computergraphicstechnology": {
-                                        title: "Computer Graphics Technology",
-                                        description: "A description of Computer Graphics Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "constructionengineeringmanagementtechnology": {
-                                        title: "Construction Engineering Management Technology",
-                                        description: "A description of Construction Engineering Management Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "electricalandcomputerengineering": {
-                                        title: "Electrical and Computer Engineering",
-                                        description: "A description of Electrical and Computer Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "electricalandcomputerengineeringtechnology": {
-                                        title: "Electrical and Computer Engineering Technology",
-                                        description: "A description of Electrical and Computer Engineering Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "interiordesigntechnology": {
-                                        title: "Interior Design Technology",
-                                        description: "A description of Interior Design Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mechanicalengineering": {
-                                        title: "Mechanical Engineering",
-                                        description: "A description of Mechanical Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mechanicalengineeringtechnology": {
-                                        title: "Mechanical Engineering Technology",
-                                        description: "A description of Mechanical Engineering Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "motorsportsengineering": {
-                                        title: "Motorsports Engineering",
-                                        description: "A description of Motorsports Engineering",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "musicandartstechnology": {
-                                        title: "Music and Arts Technology",
-                                        description: "A description of Music and Arts Technology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "organizationalleadershipandsupervision": {
-                                        title: "Organizational Leadership and Supervision",
-                                        description: "A description of Organizational Leadership and Supervision",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "technicalcommunications": {
-                                        title: "Technical Communications",
-                                        description: "A description of Technical Communications",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofhealthandrehabilitationsciences": {
-                                title: "School of Health and Rehabilitation Sciences",
-                                description: "A description of School of Health and Rehabilitation Sciences",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "healthsciences": {
-                                        title: "Health Sciences",
-                                        description: "A description of Health Sciences",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "nutritionanddietics": {
-                                        title: "Nutrition & Dietics",
-                                        description: "A description of Nutrition & Dietics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "occupationaltherapy": {
-                                        title: "Occupational Therapy",
-                                        description: "A description of Occupational Therapy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physicaltherapy": {
-                                        title: "Physical Therapy",
-                                        description: "A description of Physical Therapy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "iupuihonorscollege": {
-                                title: "IUPUI Honors College",
-                                description: "A description of IUPUI Honors College",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofinformatics": {
-                                title: "School of Informatics",
-                                description: "A description of School of Informatics",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "bioinformatics": {
-                                        title: "Bioinformatics",
-                                        description: "A description of Bioinformatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthinformatics": {
-                                        title: "Health Informatics",
-                                        description: "A description of Health Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthinformationadministration": {
-                                        title: "Health Information Administration",
-                                        description: "A description of Health Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "humancomputerinteraction": {
-                                        title: "Human Computer Interaction",
-                                        description: "A description of Human Computer Interaction",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "informatics": {
-                                        title: "Informatics",
-                                        description: "A description of Informatics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mediaartsandsciencenewmedia": {
-                                        title: "Media, Arts and Science (New Media)",
-                                        description: "A description of Media, Arts and Science (New Media)",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofjournalism": {
-                                title: "School of Journalism",
-                                description: "A description of School of Journalism",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schooloflaw": {
-                                title: "School of Law",
-                                description: "A description of School of Law",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "schoolofliberalarts": {
-                                title: "School of Liberal Arts",
-                                description: "A description of School of Liberal Arts",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "africanstudies": {
-                                        title: "African Studies",
-                                        description: "A description of African Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "americansignlanguage": {
-                                        title: "American Sign Language",
-                                        description: "A description of American Sign Language",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "anthropology": {
-                                        title: "Anthropology",
-                                        description: "A description of Anthropology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "chinese": {
-                                        title: "Chinese",
-                                        description: "A description of Chinese",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "classicalstudies": {
-                                        title: "Classical Studies",
-                                        description: "A description of Classical Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "communicationstudies": {
-                                        title: "Communication Studies",
-                                        description: "A description of Communication Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "economics": {
-                                        title: "Economics",
-                                        description: "A description of Economics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "english": {
-                                        title: "English",
-                                        description: "A description of English",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "french": {
-                                        title: "French",
-                                        description: "A description of French",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "geography": {
-                                        title: "Geography",
-                                        description: "A description of Geography",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "german": {
-                                        title: "German",
-                                        description: "A description of German",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "history": {
-                                        title: "History",
-                                        description: "A description of History",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "japanese": {
-                                        title: "Japanese",
-                                        description: "A description of Japanese",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalhumanities": {
-                                        title: "Medical Humanities",
-                                        description: "A description of Medical Humanities",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "museumstudies": {
-                                        title: "Museum Studies",
-                                        description: "A description of Museum Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "philanthropicstudies": {
-                                        title: "Philanthropic Studies",
-                                        description: "A description of Philanthropic Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "philosophy": {
-                                        title: "Philosophy",
-                                        description: "A description of Philosophy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "politicalscience": {
-                                        title: "Political Science",
-                                        description: "A description of Political Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "religiousstudies": {
-                                        title: "Religious Studies",
-                                        description: "A description of Religious Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "sociology": {
-                                        title: "Sociology",
-                                        description: "A description of Sociology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "spanish": {
-                                        title: "Spanish",
-                                        description: "A description of Spanish",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "womensstudies": {
-                                        title: "Women's Studies",
-                                        description: "A description of Women's Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "worldlanguagesandcultures": {
-                                        title: "World Languages and Cultures",
-                                        description: "A description of World Languages and Cultures",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofmedicine": {
-                                title: "School of Medicine",
-                                description: "A description of School of Medicine",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "anatomy": {
-                                        title: "Anatomy",
-                                        description: "A description of Anatomy",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "anesthesia": {
-                                        title: "Anesthesia",
-                                        description: "A description of Anesthesia",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "biochemistryandmolecularbiology": {
-                                        title: "Biochemistry and Molecular Biology",
-                                        description: "A description of Biochemistry and Molecular Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "cellularandintegrativephysiology": {
-                                        title: "Cellular and Integrative Physiology",
-                                        description: "A description of Cellular and Integrative Physiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "dermatology": {
-                                        title: "Dermatology",
-                                        description: "A description of Dermatology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "emergencymedicine": {
-                                        title: "Emergency Medicine",
-                                        description: "A description of Emergency Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "familymedicine": {
-                                        title: "Family Medicine",
-                                        description: "A description of Family Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "healthprofessionsprograms": {
-                                        title: "Health Professions Programs",
-                                        description: "A description of Health Professions Programs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalandmoleculargenetics": {
-                                        title: "Medical and Molecular Genetics",
-                                        description: "A description of Medical and Molecular Genetics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "medicalneuroscience": {
-                                        title: "Medical Neuroscience",
-                                        description: "A description of Medical Neuroscience",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "departmentofmedicine": {
-                                        title: "Department of Medicine",
-                                        description: "A description of Department of Medicine",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "microbiologyandimmunology": {
-                                        title: "Microbiology and Immunology",
-                                        description: "A description of Microbiology and Immunology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "neurology": {
-                                        title: "Neurology",
-                                        description: "A description of Neurology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "obstetricsandgynecology": {
-                                        title: "Obstetrics & Gynecology",
-                                        description: "A description of Obstetrics & Gynecology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "ophthalmology": {
-                                        title: "Ophthalmology",
-                                        description: "A description of Ophthalmology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "orthopaedicsurgery": {
-                                        title: "Orthopaedic Surgery",
-                                        description: "A description of Orthopaedic Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "otolaryngologyheadandnecksurgery": {
-                                        title: "Otolaryngology - Head and Neck Surgery",
-                                        description: "A description of Otolaryngology - Head and Neck Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pathology": {
-                                        title: "Pathology",
-                                        description: "A description of Pathology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pediatrics": {
-                                        title: "Pediatrics",
-                                        description: "A description of Pediatrics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "pharmacologyandtoxicology": {
-                                        title: "Pharmacology and Toxicology",
-                                        description: "A description of Pharmacology and Toxicology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physicalmedicineandrehabilitation": {
-                                        title: "Physical Medicine & Rehabilitation",
-                                        description: "A description of Physical Medicine & Rehabilitation",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "psychiatry": {
-                                        title: "Psychiatry",
-                                        description: "A description of Psychiatry",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publichealth": {
-                                        title: "Public Health",
-                                        description: "A description of Public Health",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "radiationoncology": {
-                                        title: "Radiation Oncology",
-                                        description: "A description of Radiation Oncology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "radiology": {
-                                        title: "Radiology",
-                                        description: "A description of Radiology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "surgery": {
-                                        title: "Surgery",
-                                        description: "A description of Surgery",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "urology": {
-                                        title: "Urology",
-                                        description: "A description of Urology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofpublicandenvironmentalaffairs": {
-                                title: "School of Public and Environmental Affairs",
-                                description: "A description of School of Public and Environmental Affairs",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "civicleadership": {
-                                        title: "Civic Leadership",
-                                        description: "A description of Civic Leadership",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "criminaljustice": {
-                                        title: "Criminal Justice",
-                                        description: "A description of Criminal Justice",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "management": {
-                                        title: "Management",
-                                        description: "A description of Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "nonprofitmanagement": {
-                                        title: "Nonprofit Management",
-                                        description: "A description of Nonprofit Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "policystudies": {
-                                        title: "Policy Studies",
-                                        description: "A description of Policy Studies",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publicaffairs": {
-                                        title: "Public Affairs",
-                                        description: "A description of Public Affairs",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "publicsafetymanagement": {
-                                        title: "Public Safety Management",
-                                        description: "A description of Public Safety Management",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "purdueschoolofscience": {
-                                title: "Purdue School of Science",
-                                description: "A description of School of Purdue School of Science",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {
-                                    "biology": {
-                                        title: "Biology",
-                                        description: "A description of Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "chemistryandchemicalbiology": {
-                                        title: "Chemistry and Chemical Biology",
-                                        description: "A description of Chemistry and Chemical Biology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "computerandinformationscience": {
-                                        title: "Computer and Information Science",
-                                        description: "A description of Computer and Information Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "earthsciencesformerlygeology": {
-                                        title: "Earth Sciences (formerly Geology)",
-                                        description: "A description of Earth Sciences (formerly Geology)",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "forensicandinvestigativescience": {
-                                        title: "Forensic & Investigative Science",
-                                        description: "A description of Forensic & Investigative Science",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "mathematicalsciences": {
-                                        title: "Mathematical Sciences",
-                                        description: "A description of Mathematical Sciences",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "physics": {
-                                        title: "Physics",
-                                        description: "A description of Physics",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    },
-                                    "psychology": {
-                                        title: "Psychology",
-                                        description: "A description of Psychology",
-                                        icon: "/dev/images/hierarchy.png",
-                                        children: {}
-                                    }
-                                }
-                            },
-                            "schoolofsocialwork": {
-                                title: "School of Social Work",
-                                description: "A description of School of Social Work",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            },
-                            "iupuiuniversitycollege": {
-                                title: "IUPUI University College",
-                                description: "A description of IUPUI University College",
-                                icon: "/dev/images/hierarchy.png",
-                                children: {}
-                            }
-                        }
+                    sportsscience: {
+                        title: "Sports Science"
+                    },
+                    molecularbiologybiophysicsandbiochemistry: {
+                        title: "Molecular Biology, Biophysics and Biochemistry"
+                    },
+                    psychology: {
+                        title: "Psychology"
+                    },
+                    othersinbiologicalsciences: {
+                        title: "Others in Biological Sciences"
+                    }
+                }
+            },
+            veterinarysciencesagriculture: {
+                title: "Veterinary Sciences and Agriculture",
+                children: {
+                    preclinicalveterinarymedicine: {
+                        title: "Pre-clinical Veterinary Medicine"
+                    },
+                    clinicalveterinarymedicineanddentistry: {
+                        title: "Clinical Veterinary Medicine and Dentistry"
+                    },
+                    animalscience: {
+                        title: "Animal Science"
+                    },
+                    agriculture: {
+                        title: "Agriculture"
+                    },
+                    forestry: {
+                        title: "Forestry"
+                    },
+                    foodandbeveragestudies: {
+                        title: "Food and Beverage studies"
+                    },
+                    agriculturalsciences: {
+                        title: "Agricultural Sciences"
+                    },
+                    others: {
+                        title: "Others in Veterinary Sciences and Agriculture"
+                    }
+                }
+            },
+            physicalsciences: {
+                title: "Physical Sciences",
+                children: {
+                    chemistry: {
+                        title: "Chemistry"
+                    },
+                    materialsscience: {
+                        title: "Materials Science"
+                    },
+                    physics: {
+                        title: "Physics"
+                    },
+                    forensicandarchaeologicalscience: {
+                        title: "Forensic and Archaeological Science"
+                    },
+                    astronomy: {
+                        title: "Astronomy"
+                    },
+                    geology: {
+                        title: "Geology"
+                    },
+                    oceansciences: {
+                        title: "Ocean Sciences"
+                    },
+                    others: {
+                        title: "Others in Physical Sciences"
+                    }
+                }
+            },
+            mathematicalandcomputersciences: {
+                title: "Mathematical and Computer Sciences",
+                children: {
+                    mathematics: {
+                        title: "Mathematics"
+                    },
+                    operationalresearch: {
+                        title: "Operational Research"
+                    },
+                    statistics: {
+                        title: "Statistics"
+                    },
+                    computerscience: {
+                        title: "Computer Science"
+                    },
+                    informationsystems: {
+                        title: "Information Systems"
+                    },
+                    softwareengineering: {
+                        title: "Software Engineering"
+                    },
+                    artificialintelligence: {
+                        title: "Artificial Intelligence"
+                    },
+                    others: {
+                        title: "Others in Mathematical and Computing Sciences"
+                    }
+                }
+            },
+            engineering: {
+                title: "Engineering",
+                children: {
+                    generalengineering: {
+                        title: "General Engineering"
+                    },
+                    civilengineering: {
+                        title: "Civil Engineering"
+                    },
+                    mechanicalengineering: {
+                        title: "Mechanical Engineering"
+                    },
+                    aerospaceengineering: {
+                        title: "Aerospace Engineering"
+                    },
+                    navalarchitecture: {
+                        title: "Naval Architecture"
+                    },
+                    electronicandelectricalengineering: {
+                        title: "Electronic and Electrical Engineering"
+                    },
+                    productionandmanufacturingengineering: {
+                        title: "Production and Manufacturing Engineering"
+                    },
+                    chemicalprocessandenergyengineering: {
+                        title: "Chemical, Process and Energy Engineering"
+                    },
+                    others: {
+                        title: "Others in Engineering"
+                    }
+                }
+            },
+            technologies: {
+                title: "Technologies",
+                children: {
+                    mineralstechnology: {
+                        title: "Minerals Technology"
+                    },
+                    metallurgy: {
+                        title: "Metallurgy"
+                    },
+                    ceramicsandglasses: {
+                        title: "Ceramics and Glasses"
+                    },
+                    polymersandtextiles: {
+                        title: "Polymers and Textiles"
+                    },
+                    materialstechnologynototherwisespecified: {
+                        title: "Materials Technology not otherwise specified"
+                    },
+                    maritimetechnology: {
+                        title: "Maritime Technology"
+                    },
+                    industrialbiotechnology: {
+                        title: "Industrial Biotechnology"
+                    },
+                    others: {
+                        title: "Others in Technology"
+                    }
+                }
+            },
+            architecturebuildingandplanning: {
+                title: "Architecture, Building and Planning",
+                children: {
+                    architecture: {
+                        title: "Architecture"
+                    },
+                    building: {
+                        title: "Building"
+                    },
+                    landscapedesign: {
+                        title: "Landscape Design"
+                    },
+                    planning: {
+                        title: "Planning (Urban, Rural and Regional)"
+                    },
+                    others: {
+                        title: "Others in Architecture, Building and Planning"
+                    }
+                }
+            },
+            socialstudies: {
+                title: "Social studies",
+                children: {
+                    economics: {
+                        title: "Economics"
+                    },
+                    politics: {
+                        title: "Politics"
+                    },
+                    sociology: {
+                        title: "Sociology"
+                    },
+                    socialpolicy: {
+                        title: "Social Policy"
+                    },
+                    socialwork: {
+                        title: "Social Work"
+                    },
+                    anthropology: {
+                        title: "Anthropology"
+                    },
+                    humanandsocialgeography: {
+                        title: "Human and Social Geography"
+                    },
+                    others: {
+                        title: "Others in Social studies"
+                    }
+                }
+            },
+            law: {
+                title: "Law",
+                children: {
+                    publiclaw: {
+                        title: "Public Law"
+                    },
+                    privatelaw: {
+                        title: "Private Law"
+                    },
+                    jurisprudence: {
+                        title: "Jurisprudence"
+                    },
+                    legalpractice: {
+                        title: "Legal Practice"
+                    },
+                    medicallaw: {
+                        title: "Medical Law"
+                    },
+                    othersinlaw: {
+                        title: "Others in law"
+                    }
+                }
+            },
+            businessandadministrativestudies: {
+                title: "Business and Administrative studies",
+                children: {
+                    businessstudies: {
+                        title: "Business studies"
+                    },
+                    managementstudies: {
+                        title: "Management studies"
+                    },
+                    finance: {
+                        title: "Finance"
+                    },
+                    accounting: {
+                        title: "Accounting"
+                    },
+                    marketing: {
+                        title: "Marketing"
+                    },
+                    humanresourcemanagement: {
+                        title: "Human Resource Management"
+                    },
+                    officeskills: {
+                        title: "Office skills"
+                    },
+                    tourismtransportandtravel: {
+                        title: "Tourism, Transport and Travel"
+                    },
+                    others: {
+                        title: "Others in Business and Administrative studies"
+                    }
+                }
+            },
+            masscommunicationsanddocumentation: {
+                title: "Mass Communications and Documentation",
+                children: {
+                    informationservices: {
+                        title: "Information Services"
+                    },
+                    publicitystudies: {
+                        title: "Publicity studies"
+                    },
+                    mediastudies: {
+                        title: "Media studies"
+                    },
+                    publishing: {
+                        title: "Publishing"
+                    },
+                    journalism: {
+                        title: "Journalism"
+                    },
+                    others: {
+                        title: "Others in Mass Communications and Documentation"
+                    }
+                }
+            },
+            linguisticsclassicsandrelatedsubjects: {
+                title: "Linguistics, Classics and related subjects",
+                children: {
+                    linguistics: {
+                        title: "Linguistics"
+                    },
+                    comparativeliterarystudies: {
+                        title: "Comparative Literary studies"
+                    },
+                    englishstudies: {
+                        title: "English studies"
+                    },
+                    ancientlanguagestudies: {
+                        title: "Ancient Language studies"
+                    },
+                    celticstudies: {
+                        title: "Celtic studies"
+                    },
+                    latinstudies: {
+                        title: "Latin studies"
+                    },
+                    classicalgreekstudies: {
+                        title: "Classical Greek studies"
+                    },
+                    classicalstudies: {
+                        title: "Classical studies"
+                    },
+                    others: {
+                        title: "Others in Linguistics, Classics and related subjects"
+                    }
+                }
+            },
+            europeanlanguagesliteratureandrelatedsubjects: {
+                title: "European Languages, Literature and related subjects",
+                children: {
+                    frenchstudies: {
+                        title: "French studies"
+                    },
+                    germanstudies: {
+                        title: "German studies"
+                    },
+                    italianstudies: {
+                        title: "Italian studies"
+                    },
+                    spanishstudies: {
+                        title: "Spanish studies"
+                    },
+                    portuguesestudies: {
+                        title: "Portuguese studies"
+                    },
+                    scandinavianstudies: {
+                        title: "Scandinavian studies"
+                    },
+                    russianandeasteuropeanstudies: {
+                        title: "Russian and East European studies"
+                    },
+                    others: {
+                        title: "Others in European Languages, Literature and related subjects"
+                    }
+                }
+            },
+            easiaticlanguagesliterature: {
+                title: "Exotic Languages, Literature and related subjects",
+                children: {
+                    chinesestudies: {
+                        title: "Chinese studies"
+                    },
+                    japanesestudies: {
+                        title: "Japanese studies"
+                    },
+                    southasianstudies: {
+                        title: "South Asian studies"
+                    },
+                    otherasianstudies: {
+                        title: "Other Asian studies"
+                    },
+                    africanstudies: {
+                        title: "African studies"
+                    },
+                    modernmiddleeasternstudies: {
+                        title: "Modern Middle Eastern studies"
+                    },
+                    americanstudies: {
+                        title: "American studies"
+                    },
+                    australasianstudies: {
+                        title: "Australasian studies"
+                    },
+                    others: {
+                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
+                    }
+                }
+            },
+            historicalandphilosophicalstudies: {
+                title: "Historical and Philosophical studies",
+                children: {
+                    historybyperiod: {
+                        title: "History by period"
+                    },
+                    historybyarea: {
+                        title: "History by area"
+                    },
+                    historybytopic: {
+                        title: "History by topic"
+                    },
+                    archaeology: {
+                        title: "Archaeology"
+                    },
+                    philosophy: {
+                        title: "Philosophy"
+                    },
+                    theologyandreligiousstudies: {
+                        title: "Theology and Religious studies"
+                    },
+                    others: {
+                        title: "Others in Historical and Philosophical studies"
+                    }
+                }
+            },
+            creativeartsanddesign: {
+                title: "Creative Arts and Design",
+                children: {
+                    fineart: {
+                        title: "Fine Art"
+                    },
+                    designstudies: {
+                        title: "Design studies"
+                    },
+                    music: {
+                        title: "Music"
+                    },
+                    drama: {
+                        title: "Drama"
+                    },
+                    dance: {
+                        title: "Dance"
+                    },
+                    cinematicsandphotography: {
+                        title: "Cinematics and Photography"
+                    },
+                    crafts: {
+                        title: "Crafts"
+                    },
+                    imaginativewriting: {
+                        title: "Imaginative Writing"
+                    },
+                    others: {
+                        title: "Others in Creative Arts and Design"
+                    }
+                }
+            },
+            education: {
+                title: "Education",
+                children: {
+                    trainingteachers: {
+                        title: "Training Teachers"
+                    },
+                    researchandstudyskillsineducation: {
+                        title: "Research and Study Skills in Education"
+                    },
+                    academicstudiesineducation: {
+                        title: "Academic studies in Education"
+                    },
+                    othersineducation: {
+                        title: "Others in Education"
                     }
                 }
             }
         },
+
         // Array of css files to load in each page
         skinCSS: [],
 
@@ -2001,94 +1498,111 @@ define(function(){
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
-                    "_ref": "267187828",
+                    "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
+                    "_canEdit": true,
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "267187828",
+                        "_ref": "id267187828",
                         "_order": 0,
                         "_title": "Dashboard"
                     }
                 },
                 "messages": {
                     "_title": "My Messages",
-                    "_ref": "1165301022",
+                    "_ref": "id1165301022",
                     "_order": 1,
+                    "_canEdit": true,
+                    "_canSubedit": true,
+                    "_nonEditable": true,
                     "inbox": {
-                        "_ref": "1165301022",
+                        "_ref": "id1165301022",
                         "_order": 0,
-                        "_title": "Inbox"
+                        "_title": "Inbox",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "invitations": {
-                        "_ref": "9867733100",
+                        "_ref": "id9867733100",
                         "_order": 1,
-                        "_title": "Invitations"
+                        "_title": "Invitations",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "sent": {
-                        "_ref": "4253485084",
+                        "_ref": "id4253485084",
                         "_order": 2,
-                        "_title": "Sent"
+                        "_title": "Sent",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     },
                     "trash": {
-                        "_ref": "3915412565",
+                        "_ref": "id3915412565",
                         "_order": 3,
-                        "_title": "Trash"
+                        "_title": "Trash",
+                        "_canEdit": true,
+                        "_canSubedit": true,
+                        "_nonEditable": true
                     }
                 }
             },
-            "267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_546341435' class='widget_inline'></div>"
+            "id267187828": {
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
-            "1165301022": {
-                "page": "<div id='widget_inbox_2024634737' class='widget_inline'/>"
+            "id1165301022": {
+                "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
             },
-            "9867733100": {
-                "page": "<div id='widget_inbox_3679202964' class='widget_inline'/>"
+            "id9867733100": {
+                "page": "<div id='widget_inbox_id3679202964' class='widget_inline'/>"
             },
-            "4253485084": {
-                "page": "<div id='widget_inbox_66582410046' class='widget_inline'/>"
+            "id4253485084": {
+                "page": "<div id='widget_inbox_id66582410046' class='widget_inline'/>"
             },
-            "3915412565": {
-                "page": "<div id='widget_inbox_3519294282' class='widget_inline'/>"
+            "id3915412565": {
+                "page": "<div id='widget_inbox_id3519294282' class='widget_inline'/>"
             },
-            "2024634737": {
+            "id2024634737": {
                 "box": "inbox",
                 "category": "message",
                 "title": "INBOX"
             },
-            "3679202964": {
+            "id3679202964": {
                 "box": "inbox",
                 "category": "invitation",
                 "title": "INVITATIONS"
             },
-            "66582410046": {
+            "id66582410046": {
                 "box": "outbox",
                 "category": "*",
                 "title": "SENT"
             },
-            "3519294282": {
+            "id3519294282": {
                 "box": "trash",
                 "category": "*",
                 "title": "TRASH"
             },
-            "546341435": {
+            "id546341435": {
                 "dashboard": {
                     "layout": "threecolumn",
                     "columns": {
                         "column1": [{
                             "uid": "id6902437615810",
                             "visible": "block",
-                            "name": "mycontent"
+                            "name": "recentchangedcontent"
                         }],
                         "column2": [{
                             "uid": "id9495917029618",
                             "visible": "block",
-                            "name": "mygroups"
+                            "name": "recentmemberships"
                         }],
                         "column3": [{
                             "uid": "id7360391172040",
                             "visible": "block",
-                            "name": "mycontacts"
+                            "name": "recentcontactsnew"
                         }]
                     }
                 }
@@ -2100,15 +1614,17 @@ define(function(){
                 "profile": {
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
-                    "_order": 0
+                    "_order": 0,
+                    "_nonEditable": true
                 },
                 "library": {
-                    "_ref": "9834611274",
+                    "_ref": "id9834611274",
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "9834611274",
+                        "_ref": "id9834611274",
                         "_order": 0,
                         "_title": "Content"
                     }
@@ -2116,10 +1632,11 @@ define(function(){
                 "memberships": {
                     "_title": "My Memberships",
                     "_order": 2,
-                    "_ref": "213623673",
+                    "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "213623673",
+                        "_ref": "id213623673",
                         "_order": 0,
                         "_title": "Memberships"
                     }
@@ -2127,24 +1644,25 @@ define(function(){
                 "contacts": {
                     "_title": "My Contacts",
                     "_order": 3,
-                    "_ref": "1193715035",
+                    "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_nonEditable": true,
                     "main": {
-                        "_ref": "1193715035",
+                        "_ref": "id1193715035",
                         "_order": 0,
                         "_title": "Contacts"
                     }
                 }
             },
-            "9834611274": {
+            "id9834611274": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
             },
-            "213623673": {
+            "id213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
                     "<div id='widget_tooltip' class='widget_inline'></div> " +
                     "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
-            "1193715035": {
+            "id1193715035": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
             }
         },
@@ -2166,16 +1684,6 @@ define(function(){
                     "name": "Three equal columns",
                     "widths": [33, 33, 33],
                     "siteportal": false
-                },
-                "fourcolumn": {
-                    "name": "Four equal columns",
-                    "widths": [25, 25, 25, 25],
-                    "siteportal": false
-                },
-                "fivecolumn": {
-                    "name": "Five equal columns",
-                    "widths": [20, 20, 20, 20, 20],
-                    "siteportal": false
                 }
             },
             "defaults": {
@@ -2193,7 +1701,7 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUP",
+                title : "GROUPS",
                 templates: [
                     {
                         id: "simplegroup",
@@ -2213,8 +1721,76 @@ define(function(){
                                 allowManage: true
                             }
                         ],
-                        joinRole: "student",
-                        creatorRole: "lecturer"
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Participants",
+                                        "_nonEditable": true,
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-member"],
+                                "_edit": ["-manager"]
+                            }
+                        },
+                        joinRole: "member",
+                        creatorRole: "manager"
                     }
                 ]
             },
@@ -2245,14 +1821,188 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "week1": {
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Week 1",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Week 1"
+                                        }
+                                    },
+                                    "week2":{
+                                        "_ref":"id569856425",
+                                        "_title":"Week 2",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id569856425",
+                                            "_order":0,
+                                            "_title":"Week 2"
+                                        }
+                                    },
+                                    "week3":{
+                                        "_ref":"id647321988",
+                                        "_title":"Week 3",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"id647321988",
+                                            "_order":0,
+                                            "_title":"Week 3"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
+                                },
+                                "id569856425": {
+                                    page: "<p>Week 2<br></p>"
+                                },
+                                "id647321988": {
+                                    page: "<p>Week 3<br></p>"
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "contact":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title": "Contact",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Contact"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    googlemaps: {
+                                        "mapinput": "16 Mill Lane, Cambridge, UK",
+                                        "mapzoom": "14",
+                                        "mapsize": "LARGE",
+                                        "lng": "0.11648790000003828",
+                                        "sling:resourceType": "sakai/widget-data",
+                                        "maphtml": "16 Mill Ln, Cambridge CB2 1, UK",
+                                        "lat": "52.201596"
+                                    }
+                                }
+                            },
+                            "${pid}2": {
+                                structure0: {
+                                    "about":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"About",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"About"
+                                        }
+                                    },
+                                    "prospective":{
+                                        "_ref":"id373710599",
+                                        "_title":"Prospective Students",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id373710599",
+                                            "_order":0,
+                                            "_title":"Prospective Students"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>This is some information about the course<br></p>"
+                                },
+                                "id373710599": {
+                                    page: "<p>This is some information for prospective students<br></p>"
+                                }
+                            },
+                            "${pid}3": {
+                                structure0: {
+                                    "organizationnotes":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_title":"Organization Notes",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_title":"Organization Notes"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
+                                }
+                            },
+                            "${pid}4": {
+                                structure0: {
+                                    "studentwiki":{
+                                        "_ref":"id849031890418",
+                                        "_order":0,
+                                        "_title":"Student Wiki",
+                                        "main":{
+                                            "_ref":"id849031890418",
+                                            "_order":0,
+                                            "_title":"Organization Notes"
+                                        }
+                                    }
+                                },
+                                "id849031890418": {
+                                    page: "<p>Student wiki editable by all members of this course<br></p>"
+                                }
+                            }
+                        },
+                        structure: {
+                            "syllabus": {
+                                "_title": "Syllabus",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_view": ["everyone", "-student", "-ta"],
+                                "_edit": ["-lecturer"]
+                            },
+                            "contactus": {
+                                "_title": "Contact us",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "coursewebsite": {
+                                "_title": "Course website",
+                                "_order": 2,
+                                "_docref": "${pid}2",
+                                "_view": ["everyone", "anonymous"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "organizationnotes": {
+                                "_title": "Organization Notes",
+                                "_order": 3,
+                                "_docref": "${pid}3",
+                                "_view": ["-ta"],
+                                "_edit": ["-lecturer"]
+                            },
+                            "studentwiki": {
+                                "_title": "Student Wiki",
+                                "_order": 4,
+                                "_docref": "${pid}4",
+                                "_view": [],
+                                "_edit": ["-lecturer", "-ta", "-student"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
                     {
                         id: "medicalscience",
                         title: "Medical science course",
-                        img: "/dev/images/worldtemplates/medicalscience.png",
-                        fullImg: "/dev/images/worldtemplates/medicalscience-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -2271,14 +2021,82 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
                     {
                         id: "physicscourse",
                         title: "Physics course",
-                        img: "/dev/images/worldtemplates/physicscourse.png",
-                        fullImg: "/dev/images/worldtemplates/physicscourse-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
                         roles: [
                             {
@@ -2297,6 +2115,262 @@ define(function(){
                                 allowManage: true
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "engineeringcourse",
+                        title: "Engineering course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
+                        joinRole: "student",
+                        creatorRole: "lecturer"
+                    },
+                    {
+                        id: "humanitiescourse",
+                        title: "Humanities course",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
+                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        roles: [
+                            {
+                                id: "student",
+                                title: "Student",
+                                allowManage: false
+                            },
+                            {
+                                id: "ta",
+                                title: "Teaching Assistant",
+                                allowManage: true
+                            },
+                            {
+                                id: "lecturer",
+                                title: "Lecturer",
+                                allowManage: true
+                            }
+                        ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     }
@@ -2309,8 +2383,8 @@ define(function(){
                     {
                         id: "researchproject",
                         title: "Group project",
-                        img: "/dev/images/worldtemplates/researchproject.png",
-                        fullImg: "/dev/images/worldtemplates/researchproject-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Collaborative student projects, Class projects, Reading clubs",
                         roles: [
                             {
@@ -2324,14 +2398,82 @@ define(function(){
                                 allowManage: false
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "lurker",
                         creatorRole: "participant"
                     },
                     {
                         id: "bidwriting",
                         title: "Bid writing",
-                        img: "/dev/images/worldtemplates/bidwriting.png",
-                        fullImg: "/dev/images/worldtemplates/bidwriting-full.png",
+                        img: "/dev/images/worldtemplates/mathcourse.png",
+                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Writing a collaborative research bid",
                         roles: [
                             {
@@ -2345,6 +2487,74 @@ define(function(){
                                 allowManage: false
                             }
                         ],
+                        docs: {
+                            "${pid}0": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"id9867543247",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"id9867543247",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "id9867543247": {
+                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id1367865652332": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}1": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"id6573920372",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"id6573920372",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "id6573920372": {
+                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "id439704665": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            }
+                        },
+                        structure: {
+                            "library": {
+                                "_title": "Library",
+                                "_order": 0,
+                                "_docref": "${pid}0",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 1,
+                                "_docref": "${pid}1",
+                                "_nonEditable": true,
+                                "_view": ["everyone", "anonymous", "-lurker"],
+                                "_edit": ["-participant"]
+                            }
+                        },
                         joinRole: "lurker",
                         creatorRole: "participant"
                     }
@@ -2352,5 +2562,6 @@ define(function(){
             }
         ]
     };
+
     return config;
 });

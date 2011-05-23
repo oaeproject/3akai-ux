@@ -58,7 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
         
-        $(".selecttemplate_templatelist_picktemplate", rootel).live("click", function(){
+        $(".selecttemplate_use_button", rootel).live("click", function(){
             var clicked = $(this);
             if (clicked.data("templateid")){
                 renderCreateWorld(tuid, clicked.data("templateid"));
@@ -66,22 +66,65 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var renderTemplateList = function(templates){
-            $("#selecttemplate_templatelist_container", rootel).show();
+            $("#selecttemplate_container", rootel).show();
             $("#selecttemplate_templatelist_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
+            $("#selecttemplate_type_name", rootel).text(sakai.api.i18n.General.getValueForKey(templates.title));
             $("#selecttemplate_createworld_container", rootel).hide();
+
+            $(".selecttemplate_preview_button", rootel).live("click", function(){
+                var clicked = $(this);
+                if (clicked.data("templateid")){
+                    renderPreview(tuid, clicked.data("templateid"), templates);
+                }
+            });
         };
 
         var renderCreateWorld = function(category, id){
-            $("#selecttemplate_templatelist_container", rootel).hide();
+            $("#selecttemplate_container", rootel).hide();
             var tuid = Math.round(Math.random() * 10000000);
             var toPassOn = {};
             toPassOn[tuid] = {
                 "category": category,
                 "id": id
-            }
+            };
             $("#selecttemplate_createworld_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
             sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
             $("#selecttemplate_createworld_container", rootel).show();
+        };
+
+        var renderPreview = function(category, id, templates){
+            var $selecttemplatePreviewDialog = $("#selecttemplate_preview_dialog");
+            var $selecttemplatePreviewDialogContainer = $("#selecttemplate_preview_dialog_container");
+            var selecttemplatePreviewDialogTemplate = "#selecttemplate_preview_dialog_template";
+
+            $selecttemplatePreviewDialog.jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+                top: "50px"
+            });
+
+            var template;
+            for (var t in templates.templates) {
+                if (templates.templates.hasOwnProperty(t)) {
+                    if (id === templates.templates[t].id) {
+                        template = templates.templates[t];
+                        break;
+                    }
+                }
+            }
+            $selecttemplatePreviewDialog.jqmShow();
+            var json = {
+                "template": template
+            };
+            sakai.api.Util.TemplateRenderer(selecttemplatePreviewDialogTemplate, json, $selecttemplatePreviewDialogContainer);
+            $(".selecttemplate_use_button", $selecttemplatePreviewDialog).live("click", function(){
+                var clicked = $(this);
+                if (clicked.data("templateid")){
+                    renderCreateWorld(tuid, clicked.data("templateid"));
+                    $selecttemplatePreviewDialog.jqmHide();
+                }
+            });
         };
 
         $(window).bind("hashchange", function(){
@@ -90,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         doInit();
         
-    }
+    };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("selecttemplate");
 

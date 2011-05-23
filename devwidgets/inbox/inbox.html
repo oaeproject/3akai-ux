@@ -30,7 +30,7 @@
               <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-button-link-2-state inbox-message-list-view" disabled="disabled" style="display:none">
                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MARK_AS_READ__</span>
               </button>
-              <button type="button" id="inbox_back_to_messages" class="inbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
+              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="inbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
               </button>
               <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
@@ -44,8 +44,11 @@
 
             <!-- Inbox Item Template -->
             <div id="inbox_message_list_item_template"><!--
+                {if search}
+                <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
+                {/if}
                 {for message in data.results}
-                    <div class="fl-container fl-fix inbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
+                    <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
                         <div class="inbox_items_inner">
                             <div class="inbox_left_col inbox_col">
                                 <div class="inbox_placeholder"><input type="checkbox"/></div>
@@ -54,7 +57,7 @@
                             <div class="inbox_middle_col inbox_col">
                                 <div class="inbox_message_data">
                                   <div class="inbox_name">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                    <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                     <span class="inbox_to_list">__MSG__TO__: ${_.first(message.toList, 3).join(", ")}{if message.toList.length > 3} + ${message.toList.length-3} __MSG__OTHERS__{/if}</span>
                                   </div>
                                   <div class="inbox_date">
@@ -70,10 +73,10 @@
                             </div>
                             <div class="inbox_right_col inbox_col">
                                 <div class="inbox_delete fl-force-right">
-                                  <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button">
+                                  <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button inbox_action_button">
                                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
                                   </button>
-                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state inbox_reply_button">
+                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state inbox_reply_button inbox_action_button">
                                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
                                   </a>
                                 </div>
@@ -82,7 +85,10 @@
                     </div>
                 {forelse}
                     <div class="fl-container fl-fix" id="inbox_no_messages">
-                        <p>__MSG__NO_MESSAGES__</p>
+                        <div class="s3d-no-results-container">
+                            <div class="s3d-no-results-arrow-up"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+                        </div>
                     </div>
                 {/for}
             --></div>
@@ -103,7 +109,7 @@
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">
                                         <div class="inbox_name">
-                                          <a href="#" class="s3d-regular-links s3d-bold personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</a>
+                                          <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                           {if !reply}<span class="inbox_to_list">__MSG__TO__: ${message.toList.join(", ")}</span>{/if}
                                         </div>
                                         <div class="inbox_date">

@@ -2,6 +2,11 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/lhnavigation.css" />
 <link rel="stylesheet" type="text/css" href="/devwidgets/lhnavigation/css/sitespages.css"></link>
 
+<span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
+
+<div id="lhnavigation_sakaidocs_declaration">
+    <div id="widget_sakaidocs" class="widget_inline"></div>
+</div>
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
     <div id="lhnavigation_actions" style="display:none">
@@ -9,88 +14,118 @@
             <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PAGE__</span>
         </button>
     </div>
-    <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list">
+    <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list" data-sakai-space="private">
         {for level in private.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}">
-            <div class="lhnavigation_has_subnav"></div>
-                <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
-            <div class="lhnavigation_private"></div>
-            <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
-            </li>
-            <ul class="lhnavigation_subnav" style="display:none;">
-                {var index = 0;}
-                {for sublevel in level._elements}
-                    {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
-                        {if index != 0}<hr class="s3d-split-line"/>{/if}
-                        <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level._id}/${sublevel._id}">
-                            <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
-                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                {if sublevel._count} (${sublevel._count}){/if}
-                            </a><div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
-                        </li>
-                        {var index = index + 1}
-                    {/if}
-                {/for}
-            </ul>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}">
+                    <div class="lhnavigation_item_content">
+                        <div class="lhnavigation_has_subnav"></div>
+                        <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if} {if level._count} (${level._count}){/if}</span>
+                        <div class="lhnavigation_private"></div>
+                        <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                    </div>
+                    <ul class="lhnavigation_subnav" style="display:none;" data-sakai-space="private">
+                        {for sublevel in level._elements}
+                            {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
+                                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${sublevel._poolpath}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
+                                    <div class="lhnavigation_subnav_item_content">
+                                        <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
+                                            {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                            {if sublevel._count} (${sublevel._count}){/if}
+                                        </a>
+                                        <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
+                                    </div>
+                                    <hr class="s3d-split-line"/>
+                                </li>
+                            {/if}
+                        {/for}
+                    </ul>
+                </li>
             {else}
-                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.privurl}" data-sakai-path="${level._id}">
-                    <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
-                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                        {if level._count} (${level._count}){/if}
-                    </a>
-                    <div class="lhnavigation_private"></div>
-                    <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_outer" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}">
+                    <div class="lhnavigation_item_content">
+                        <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
+                            {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                            {if level._count} (${level._count}){/if}
+                        </a>
+                        <div class="lhnavigation_private"></div>
+                        <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                    </div>
                 </li>
             {/if}
         {/for}
     </ul>
-    <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list">  
+    <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list" data-sakai-space="public">
         {for level in public.orderedItems}
             {if level._childCount > 1}
-                <li class="lhnavigation_hoverable_item lhnavigation_hassubnav" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}">
-            <div class="lhnavigation_has_subnav"></div>
-                <span class="s3d-bold lhnavigation_toplevel">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
-            <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
-            <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
-            </li>
-            <ul class="lhnavigation_subnav" style="display:none;">
-                {var index = 0}
-                {for sublevel in level._elements}
-                    {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
-                        {if index != 0}<hr class="s3d-split-line"/>{/if}
-                        <li class="lhnavigation_hoverable_item" data-sakai-ref="${sublevel._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level._id}/${sublevel._id}">
-                            <a href="#l=${level._id}/${sublevel._id}" title="${sublevel._title}" class="s3d-regular-links" data-reset-hash="true">
-                                {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                {if sublevel._count} (${sublevel._count}){/if}
-                            </a>
-                            <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
-                            <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
-                        </li>
-                        {var index = index + 1}
-                    {/if}
-                {/for}
-            </ul>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" {if level.canView === false} style="display:none;" {/if}>
+                    <div class="lhnavigation_item_content">
+                        <div class="lhnavigation_has_subnav"></div>
+                        <span class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
+                        <input class="lhnavigation_change_title" type="text" style="display:none;"/>
+                        <div class="lhnavigation_selected_submenu"  id="lhnavigtation_submenu_${level._id}" style="display:none;"><img class="lhnavigation_selected_submenu_image" src="/dev/images/lefthandnav_options.png"/></div>
+                        <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                    </div>
+                    <ul class="lhnavigation_subnav" style="display:none;" data-sakai-space="public">
+                        {for sublevel in level._elements}
+                            {if sublevel._id.substring(0,1) !== "_" && sublevel._title}
+                                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${sublevel._poolpath}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
+                                    <div class="lhnavigation_subnav_item_content">
+                                        <a href="#l=${level._id}/${sublevel._id}" title="${sublevel._title}" class="s3d-regular-links lhnavigation_page_title_value" data-reset-hash="true">
+                                            {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
+                                            {if sublevel._count} (${sublevel._count}){/if}
+                                        </a>
+                                        <input class="lhnavigation_change_title lhnavigation_change_title_restricted_width" type="text" style="display:none;"/>
+                                        <div class="lhnavigation_selected_submenu lhnavigation_selected_subsubmenu" id="lhnavigtation_submenu_${level._id}/${sublevel._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
+                                        <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
+                                    </div>
+                                    <hr class="s3d-split-line"/>
+                                </li>
+                            {/if}
+                        {/for}
+                    </ul>
+                </li>
             {else}
-                <li class="lhnavigation_hoverable_item" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-path="${level._id}">
-                    <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
-                        {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                        {if level._count} (${level._count}){/if}
-                    </a>
-                    <input class="lhnavigation_change_title" type="text" style="display:none;"/>
-                    <div class="lhnavigation_selected_submenu" style="display:none;"><img src="/dev/images/lefthandnav_options.png"/></div>
-                    <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-ref="${level._ref}" data-sakai-savepath="${contextData.puburl}" data-sakai-noneditable="${level._nonEditable}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}" {if level._canView === false} style="display:none;" {/if}>
+                    <div class="lhnavigation_item_content">
+                        <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value" data-reset-hash="true">
+                            {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
+                            {if level._count} (${level._count}){/if}
+                        </a>
+                        <input class="lhnavigation_change_title" type="text" style="display:none;"/>
+                        <div class="lhnavigation_selected_submenu" id="lhnavigtation_submenu_${level._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
+                        <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
+                    </div>
                 </li>
             {/if}
         {/for}
     </ul>
 --></div>
+<div class="s3d-bottom-spacer"></div>
+
+<div id="lhnavigation_delete_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__DELETE_A_PAGE__</h1>
+    <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__?</h4>
+    <p class="lhnavigation_delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
+    <div class="dialog_buttons delete_page_buttons">
+        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE__</span></button>
+        <button type="button" class="s3d-button s3d-button-primary" id="lhnavigation_delete_confirm"><span class="s3d-button-inner">__MSG__DELETE__</span></button>
+    </div>
+</div>
 
 <div style="display:none;" id="lhnavigation_submenu">
-    <ul>
-        <li><a href="javascript:;" id="lhavigation_submenu_edittitle">Change Name</a></li>
-        <li><a href="javascript:;" id="lhavigation_submenu_deletepage">Delete Page</a></li>
-    </ul>
+    <div class="lhnavigation_submenu_arrow"></div>
+    <div class="lhnavigation_submenu_container">
+        <div class="lhnavigation_submenu_container_inner">
+            <ul>
+                <li><a href="javascript:;" id="lhavigation_submenu_edittitle">__MSG__CHANGE_TITLE__</a></li>
+                <li><a href="javascript:;" id="lhavigation_submenu_deletepage">__MSG__DELETE_PAGE__</a></li>
+                <li id="lhnavigation_submenu_permissions_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_permissions">__MSG__PERMISSIONS__</a></li>
+                <li id="lhnavigation_submenu_profile_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_profile" target="_blank">__MSG__VIEW_PROFILE__</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 

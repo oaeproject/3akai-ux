@@ -176,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addcontent_container_show_box_profile.bind("click", function(){
 
                 // Redirect the user to the profile page
-                document.location = "/content#content_path=" + json.url.replace(sakai.config.SakaiDomain, "/");
+                document.location = "/content#p=" + json.url.replace(sakai.config.SakaiDomain, "/");
 
             });
         };

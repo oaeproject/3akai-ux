@@ -17,3 +17,21 @@
  */
 
 #sakaidocs_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}
+
+/** Insert Dropdown **/
+#sakaidocs_insert_dropdown_button{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -284px transparent;}
+#sakaidocs_insert_dropdown_button.clicked{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -342px transparent;}
+#sakaidocs_insert_dropdown_button .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -255px transparent;}
+#sakaidocs_insert_dropdown_button.clicked .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -313px transparent;color:#fff;}
+#sakaidocs_insert_dropdown_button .s3d-button-inner .s3d-button-icon-left{background-position:-31px -235px;}
+#sakaidocs_insert_dropdown_button.clicked .s3d-button-inner .s3d-button-icon-left{background-position:-51px -235px;}
+#sakaidocs_insert_dropdown_button{width:90px;}
+#sakaidocs_insert_dropdown_button_inner {margin-left:15px;width:40px;}
+#sakaidocs_insert_dropdown{width:150px;border-width:1px;border-style:solid;border-color:#cbd0d4;padding-bottom:4px;z-index:70000}
+#sakaidocs_insert_dropdown ul{border:none;}
+#sakaidocs_insert_dropdown ul li{width:100%; padding-left: 0px !important; padding-right: 0px !important;}
+#sakaidocs_insert_dropdown ul li button{width:100%;color:#006e96;padding: 0px 10px;font-weight:bold; font-size: 12px !important;}
+#sakaidocs_insert_dropdown ul li button:hover{text-decoration:none;}
+.sakaidocs_insert_dropdown_header{color:#aaaaaa;cursor:default !important;background-color:#FFFFFF !important;padding:0 !important;}
+.sakaidocs_insert_dropdown_header span{padding-left:12px;}
+#page_autosave_time{float:right;padding-right:60px;margin-top:3px;color:#424242;font-size:11px;font-weight:bold;}

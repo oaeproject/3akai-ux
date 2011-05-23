@@ -18,7 +18,7 @@
 </div>
 
 <div id="contacts_template"><!--
-    <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.results.length} (${accepted.results.length}){/if}</div>
+    <div class="s3d-contentpage-title">__MSG__CONTACTS__ {if accepted.total} (${accepted.total}){/if}</div>
     {if pending && pending.results.length}
         <div class="contacts_main" id="contacts_pending" style="display:none;">
             <h2>__MSG__PENDING_CONTACT_REQUEST_TO_OTHER_PEOPLE__</h2>
@@ -31,7 +31,7 @@
                     <div class="contacts_list">
                         <a href="/~${p.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(p.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(p.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=library" title="${p.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${p.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=contacts" title="${p.profile.counts.contactsCount} __MSG__CONTACTS__">${p.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=memberships" title="${p.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${p.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                         </div>
                         {if p.profile.basic.elements && p.profile.basic.elements.description && p.profile.basic.elements.description.value}
                             <div class="contacts_item_description"><span>${p.profile.basic.elements.description.value}</span></div>
@@ -69,7 +69,7 @@
                     <div class="contacts_list">
                         <a href="/~${i.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(i.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=library" title="${i.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${i.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=contacts" title="${i.profile.counts.contactsCount} __MSG__CONTACTS__">${i.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=memberships" title="${i.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${i.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                         </div>
                         {if i.profile.basic.elements && i.profile.basic.elements.description && i.profile.basic.elements.description.value}
                             <div class="contacts_item_description"><span>${i.profile.basic.elements.description.value}</span></div>
@@ -115,7 +115,7 @@
                     <div class="contacts_list">
                         <a href="/~${a.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(a.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=library" title="64 __MSG__CONTENT_ITEMS__">64 __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=contacts" title="28 __MSG__CONTACTS__">28 __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=memberships" title="4 __MSG__MEMBERSHIPS__">4 __MSG__MEMBERSHIPS__</a>
+                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=library" title="${a.profile.counts.contentCount} __MSG__CONTENT_ITEMS__">${a.profile.counts.contentCount} __MSG__CONTENT_ITEMS__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=contacts" title="${a.profile.counts.contactsCount} __MSG__CONTACTS__">${a.profile.counts.contactsCount} __MSG__CONTACTS_LC__</a> <span class="contacts_item_detail_separator">|</span> <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=memberships" title="${a.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__">${a.profile.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                         </div>
                         {if a.profile.basic.elements && a.profile.basic.elements.description && a.profile.basic.elements.description.value}
                             <div class="contacts_item_description"><span>${a.profile.basic.elements.description.value}</span></div>
@@ -145,17 +145,15 @@
             {/if}
          {else}
             {if sakai_global.profile.main.mode.value !== "view"}
-                <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="contacts_no_contacts">
-                    <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
-                    </button>
-                </a>
-                <span class="contacts_no_contacts">__MSG__FIND_PEOPLE_AND_ADD_THEM__</span>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT__ <a class="s3d-regular-links" href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__ADD_CONTACTS__">__MSG__ADD_CONTACTS__</a></h1>
+                </div>
             {else}
-                <span class="contacts_no_contacts">${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__HAS_NO_CONTACTS__</span>
-                <button type="button" class="s3d-button s3d-button-link-2-state contact_search_button" style="display:none">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__ ${sakai_global.profile.main.data.basic.elements.firstName.value} __MSG__AS_A_CONTACT__</span>
-                </button>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+                </div>
             {/if}
          {/if}
     </div>

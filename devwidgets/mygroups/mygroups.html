@@ -16,8 +16,12 @@
                 </li>
             {forelse}
                 <div id="mygroups_error_nosites">
-                    <button type="button" class="mygroups_create_new_group s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_A_GROUP__</span></button>
-                    <span>__MSG__CREATE_A_GROUP_INSTRUCTIONS__</span>
+                    <a class="mygroups_no_memberships" title="Create new" href="/dev/createnew.html">
+                        <button class="s3d-button s3d-button-link-2-state mygroups_create_new_group" type="button">
+                            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_A_GROUP__</span>
+                        </button>
+                    </a>
+                    <span class="mygroups_error_nosites_text">__MSG__CREATE_A_GROUP_INSTRUCTIONS__</span>
                 </div>
             {/for}
         </ul>

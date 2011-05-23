@@ -1,5 +1,5 @@
 #mymemberships_actionbar {height:13px;padding:5px 0 10px;}
-#mymemberships_actionbar, .mymemberships_item {border-bottom:1px solid #DDDDDD;}
+#mymemberships_actionbar {border-bottom:1px solid #DDDDDD;}
 #mymemberships_sortarea {float:right;}
 #mymemberships_items {margin:0;}
 #mymemberships_items li.mymemberships_item {list-style:none outside none;
@@ -11,19 +11,35 @@
 .mymemberships_itemtitle {font-weight:bold;color:#006E96;}
 .mymemberships_item_desc {margin-bottom:5px;}
 #mymemberships_nogroups {text-align:center;font-style:italic;color:#aaa;}
-#mymemberships_joinrequestbuttons {float:right;}
 .mymemberships_message_btn {float:left;margin-bottom:10px;}
-.mymemberships_hover_details {color:#888888;font-weight:bold;}
-.mymemberships_hover_top {padding:10px 10px 0;border-bottom:1px solid #EAEBEC;}
-.mymemberships_group_participants {padding:0 10px;width:225px;}
-.mymemberships_group_participants td {padding-top:10px;}
-.mymemberships_userimg {width:32px;vertical-align:top;}
-.mymemberships_userinfo {vertical-align:top;padding-left:10px;}
-.mymemberships_userinfo p {margin:0 0 3px 0;}
-.mymemberships_people_footer {background-color:#E6EAEE;height:26px;}
-.mymemberships_see_all {float:right;margin:6px 6px 0 0;}
 .mymemberships_item_hovered {background-color:#C3E7FD;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
+.mymemberships_no_memberships {text-decoration:none;}
+
+/* groups list */
+.mymemberships_item{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}
+.mymemberships_imagearea{float:left;padding:0 10px 10px 0;}
+.mymemberships_imagearea img {width:50px;}
+.mymemberships_item_first{border-top: 1px dotted #cccccc;}
+.mymemberships_item_right{margin-left:60px;}
+.mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
+.mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
+.mymemberships_item_right_buttons{display: inline-block;float:right;}
+.mymemberships_item_message_icon{height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.mymemberships_item_edit {display:block;margin:30px 0 10px 10px;}
+.mymemberships_item_usedin{font-size: 11px;padding:3px 0;}
+.mymemberships_item_detail_separator {color:#cccccc;padding: 0 5px;}
+.mymemberships_item_description{color:#333;font-size:.90em;padding:3px 0 6px 0;}
+.mymemberships_item_tags{padding-top:3px;}
+.mymemberships_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
+.mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
+.mymemberships_item_tags_dot{color: #999999;}
+.mymemberships_item:hover {background-color: #f2f9fc;}
+.mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
+
+.mymemberships_item .sakai_joingroup_overlay {float: left; margin-right: 10px;}
+
+.mymemberships_widget .s3d-no-results-container {font-style:normal;}

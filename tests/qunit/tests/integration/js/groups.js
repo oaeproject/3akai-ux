@@ -73,7 +73,7 @@ require(
                 ok(success, "The user has been successfully created");
                 if (success) {
                     // add the user to the group
-                    sakai.api.Groups.addUsersToGroup(group_id, "members", [user_random], function(success) {
+                    sakai.api.Groups.addUsersToGroup(group_id, "members", sakai.data.me, [user_random], function(success) {
                         ok(success, "User was added to group");
                         if (success) {
                             setTimeout(function() {
@@ -95,7 +95,7 @@ require(
 
         // remove the user from the group
         asyncTest("Removing user from the group's members", function() {
-            sakai.api.Groups.removeUsersFromGroup(group_id, "members", [user_random], function(success) {
+            sakai.api.Groups.removeUsersFromGroup(group_id, "members", [user_random], sakai.data.me, function(success) {
                 ok(success, "Removing a user was successful");
                 if (success) {
                     // check to see that they've been removed from the group
@@ -113,7 +113,7 @@ require(
         // create a user to add to the group as a manager
         asyncTest("Adding the user to the group as a manager", function() {
             // add the user to the group
-            sakai.api.Groups.addUsersToGroup(group_id, "managers", [user_random], function(success) {
+            sakai.api.Groups.addUsersToGroup(group_id, "managers", [user_random], sakai.data.me, function(success) {
                 ok(success, "User was added to group");
                 if (success) {
                     // check to see that they've been added to the group
@@ -135,7 +135,7 @@ require(
 
         // remove the user from the group
         asyncTest("Removing user from the group's managers", function() {
-            sakai.api.Groups.removeUsersFromGroup(group_id, "managers", [user_random], function(success) {
+            sakai.api.Groups.removeUsersFromGroup(group_id, "managers", [user_random], sakai.data.me, function(success) {
                 ok(success, "Removing a user was successful");
                 if (success) {
                     // check to see that they've been removed from the group

@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
     /**
      * @name sakai_global.lhnavigation
@@ -46,7 +46,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var navSelectedItemArrow = ".lhnavigation_selected_item_arrow";
         var navSelectedItem = ".lhnavigation_selected_item";
 
-
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -56,81 +55,230 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
 
         var parametersToCarryOver = {};
+        var sakaiDocsInStructure = {};
+        var currentPageShown = {};
 
-        var bookmark = false;
 
-        ////////////////////
-        // UTIL FUNCTIONS //
-        ////////////////////
+        //////////////////////////////
+        // Rendering the navigation //
+        //////////////////////////////
 
-        var showHideSubnav = function($el, forceOpen){
-            if ($el.hasClass("lhnavigation_hassubnav")) {
-                if (!$el.next().is(":visible") || forceOpen) {
-                    $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
-                    $el.next().show();
-                } else {
-                    $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
-                    $el.next().hide();
-                }
-            }
-            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
+        var renderData = function(){
+            calculateOrder();
+            var lhnavHTML = sakai.api.Util.TemplateRenderer("lhnavigation_template", {
+                "private": privstructure,
+                "public": pubstructure,
+                "contextData": contextData,
+                "parametersToCarryOver": parametersToCarryOver
+            });
+            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
+            $("#lhnavigation_container").html(lhnavHTML);
         };
 
-        ////////////
-        // Events //
-        ////////////
+        //////////////////
+        // Data storage //
+        //////////////////
 
-        /**
-         * Adjust the left hand navigation to include a set of given hash
-         * parameters and re-render the navigation
-         */
-        $(window).bind("lhnav.addHashParam", function(ev, params){
-            for (var p in params){
-                parametersToCarryOver[p] = params[p];
-            }
-        });
-
-        var rerenderNavigation = function(){
-            $("#lhnavigation_container a").each(function(index){
-                var oldHref =  $(this).attr("href");
-                var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
-                $(this).attr("href", newHref);
+        var storeStructure = function(structure, savepath){
+            sakai.api.Server.saveJSON(savepath, {
+                "structure0": $.toJSON(structure)
             });
         };
 
-        /////////////////////
-        // MENU NAVIGATION //
-        /////////////////////
+        ////////////////////////////////////
+        // Structure processing functions //
+        ////////////////////////////////////
 
         /**
-         * Apply and remove classes when a new item is clicked in the navigation
-         * @param {Object} $clickedItem The navigation item that has been clicked
-         * @param {Object} $prevItem The previously active navigation item
+         * Given a path to a page in a structure, return the page
+         *
+         * @param {String} path The path to the page, ie. "syllabus/week1"
+         * @param {Object} structure The structure to find the path in, ie. pubstructure.items
+         * @return {Object} the page
          */
-        var selectNavItem = function($clickedItem, $prevItem){
-            $clickedItem.children(".lhnavigation_selected_item_subnav").show();
-            hideSubMenu();
-            if (contextData.isEditMode) {
-                $clickedItem.children(".lhnavigation_selected_submenu").show();
+        var getPage = function(path, structure) {
+            if (path.indexOf("/") > -1) {
+                structure = structure[path.split("/")[0]];
+                path = path.substring(path.indexOf("/")+1);
+                return getPage(path, structure);
+            } else if (structure[path]){
+                return structure[path];
+            } else {
+                return null;
             }
-
-            $prevItem.removeClass(navSelectedItemClass);
-            $prevItem.addClass(navHoverableItemClass);
-            //$prevItem.children(navSelectedItemArrow).css("visibility","hidden");
-
-            $clickedItem.removeClass(navHoverableItemClass);
-            $clickedItem.addClass(navSelectedItemClass);
-            //$clickedItem.children(navSelectedItemArrow).css("visibility","visible");
-
-            showHideSubnav($clickedItem);
-
-            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
         };
 
-        var hideSubMenu = function(){
-            $(".lhnavigation_selected_submenu").hide();
-            $("#lhnavigation_submenu").hide();
+        var getPageCount = function(pagestructure, pageCount){
+            if (!pageCount){
+                pageCount = 0;
+            }
+            for (var tl in pagestructure){
+                if (pagestructure.hasOwnProperty(tl) && tl.substring(0, 1) !== "_"){
+                    pageCount++;
+                    if (pageCount >= 3) {
+                        return 3;
+                    }
+                    pageCount = getPageCount(pagestructure[tl], pageCount);
+                }
+            }
+            return pageCount;
         };
+
+        var getPageContent = function(ref){
+            if (privstructure.pages[ref]) {
+                return privstructure.pages[ref];
+            } else if (pubstructure.pages[ref]) {
+                return pubstructure.pages[ref];
+            } else {
+                return false;
+            }
+        };
+
+        var includeChildCount = function(structure){
+            var childCount = 0;
+            for (var level in structure){
+                if (level && level.substring(0,1) !== "_"){
+                    childCount++;
+                    structure[level] = includeChildCount(structure[level]);
+                } else if (level && level === "_altTitle"){
+                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                }
+            }
+            structure._childCount = childCount;
+            return structure;
+        };
+
+        var finishProcessData = function(structure, data, callback){
+            // Include the childcounts for the pages
+            structure.items = includeChildCount(structure.items);
+            for (var page in data){
+                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
+                    structure.pages[page] = data[page];
+                }
+            }
+            callback(structure);
+        };
+
+        var processData = function(data, docURL, callback){
+            var structure = {};
+            structure.items = {};
+            structure.pages = {};
+            if (data["structure0"]){
+                if (typeof data["structure0"] === "string") {
+                    structure.items = $.parseJSON(data["structure0"]);
+                } else {
+                    structure.items = data["structure0"];
+                }
+                for (var i in structure.items) {
+                    structure.items[i] = addDocUrlIntoStructure(structure.items[i], docURL);
+                }
+                // Get a list of all Sakai Docs that have to be "added"
+                var pids = collectPoolIds(structure.items, []);
+                if (pids.length === 0){
+                    finishProcessData(structure, data, callback);
+                } else {
+                    continueProcessData(structure, data, pids, callback);
+                }
+            } else {
+                finishProcessData(structure, data, callback);
+            }
+        };
+
+        ////////////////////////////////////////////
+        // Insert referenced pooled content items //
+        ////////////////////////////////////////////
+
+        var collectPoolIds = function(structure, refs){
+            for (var level in structure) {
+                if (level && level.substring(0, 1) !== "_") {
+                    refs = collectPoolIds(structure[level], refs);
+                } else if (level && level === "_pid" && structure["_canView"] !== false) {
+                    if ($.inArray(structure[level], refs) == -1) {
+                        refs.push(structure[level]);
+                    }
+                }
+            }
+            return refs;
+        };
+
+        var insertDocStructure = function(structure0, docInfo, pid){
+            for (var level in structure0){
+                if (structure0[level]._pid && structure0[level]._pid === pid){
+                    var docStructure = docInfo.structure0;
+                    if (typeof docStructure === "string"){
+                        docStructure = $.parseJSON(docStructure);
+                    }
+                    structure0[level] = $.extend(true, structure0[level], docStructure);
+                    for (var sublevel in structure0[level]){
+                        if (structure0[level][sublevel]._ref){
+                            structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
+                        }
+                    }
+                    for (var subpage in docStructure){
+                        structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
+                        break;
+                    }
+                }
+            }
+            return structure0;
+        };
+
+        var insertDocPages = function(structure, docInfo, pid){
+            for (var page in docInfo){
+                if (page.substring(0, 9) !== "structure"){
+                    structure.pages[pid + "-" + page] = docInfo[page];
+                }
+            }
+            return structure;
+        };
+
+        var addDocUrlIntoStructure = function(structure, url){
+            structure._poolpath = url;
+            for (var i in structure){
+                if (i.substring(0,1) !== "_" && typeof structure[i] !== "string"){
+                    structure[i] = addDocUrlIntoStructure(structure[i], url);
+                }
+            }
+            return structure;
+        };
+
+        var continueProcessData = function(structure, data, pids, callback){
+            // Prepare a batch request
+            var batchRequests = [];
+            for (var i = 0; i < pids.length; i++) {
+                batchRequests.push({
+                    "url": "/p/" + pids[i] + ".infinity.json",
+                    "method": "GET"
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function(success, data) {
+                if (success) {
+                    for (var i = 0; i < pids.length; i++){
+                        if (data.results[i].status === 404 || data.results[i].status === 403) {
+                            for (var level in structure.items) {
+                                if (structure.items[level]._pid && structure.items[level]._pid === pids[i]) {
+                                    structure.items[level]._canView = false;
+                                    structure.items[level]._canEdit = false;
+                                    structure.items[level]._canSubedit = false;
+                                }
+                            }
+                        } else {
+                            var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
+                            docInfo.orderedItems = orderItems(docInfo.structure0);
+                            sakaiDocsInStructure["/p/" + pids[i]] = docInfo;
+                            addDocUrlIntoStructure(docInfo.structure0, "/p/" + pids[i]);
+                            structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
+                            structure = insertDocPages(structure, docInfo, pids[i]);
+                        }
+                    }
+                }
+                finishProcessData(structure, data, callback);
+            });
+        };
+
+        ///////////////////
+        // Page ordering //
+        ///////////////////
 
         var orderItems = function(items){
             var orderedItems = [];
@@ -163,460 +311,701 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var renderData = function(){
-            calculateOrder();
-            var lhnavHTML = sakai.api.Util.TemplateRenderer("lhnavigation_template", {
-                "private": privstructure,
-                "public": pubstructure,
-                "contextData": contextData,
-                "parametersToCarryOver": parametersToCarryOver
-            });
-            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
-            $("#lhnavigation_container").html(lhnavHTML);
+        //////////////////////////////
+        // Rendering a content page //
+        //////////////////////////////
+
+        var getFirstSelectablePage = function(structure){
+            var selected = false;
+            for (var i = 0; i < structure.orderedItems.length; i++) {
+                if (structure.orderedItems[i]._canView !== false) {
+                    if (structure.orderedItems[i]._childCount > 1) {
+                        for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                            selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
+                            break;
+                        }
+                    } else {
+                        selected = structure.orderedItems[i]._id;
+                    }
+                    break;
+                }
+            }
+            return selected;
         };
 
-        var includeChildCount = function(structure){
-            var childCount = 0;
-            for (var level in structure){
-                if (level && level.substring(0,1) !== "_"){
-                    childCount++;
-                    structure[level] = includeChildCount(structure[level]);
-                } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
-                }
-            }
-            structure._childCount = childCount;
-            return structure;
-        };
-        
-        var collectPoolIds = function(structure, refs){
-            for (var level in structure) {
-                if (level && level.substring(0, 1) !== "_") {
-                    refs = collectPoolIds(structure[level], refs);
-                } else if (level && level === "_pid") {
-                    if ($.inArray(structure[level], refs) == -1) {
-                        refs.push(structure[level]);
-                    }
-                }
-            }
-            return refs;
-        };
-        
-        var insertDocStructure = function(structure0, docInfo, pid){
-            for (var level in structure0){
-                if (structure0[level]._pid && structure0[level]._pid === pid){
-                    var docStructure = docInfo.structure0;
-                    if (typeof docStructure === "string"){
-                        docStructure = $.parseJSON(docStructure);
-                    }
-                    structure0[level] = $.extend(true, structure0[level], docStructure);
-                    for (var sublevel in structure0[level]){
-                        if (structure0[level][sublevel]._ref){
-                            structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
-                        }
-                    }
-                    for (var subpage in docStructure){
-                        structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
+        var getFirstSubPage = function(structure, selected){
+            for (var i = 0; i < structure.orderedItems.length; i++) {
+                if (structure.orderedItems[i]._canView !== false && structure.orderedItems[i]._id === selected) {
+                    for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                        selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
                         break;
                     }
                 }
             }
-            return structure0;
+            return selected;
         };
-        
-        var insertDocPages = function(structure, docInfo, pid){
-            for (var page in docInfo){
-                if (page.substring(0, 9) !== "structure"){
-                    structure.pages[pid + "-" + page] = docInfo[page];
-                }
-            }
-            return structure;
-        };
-        
-        var continueProcessData = function(structure, data, pids, callback){
-            // Prepare a batch request
-            var batchRequests = [];
-            for (var i = 0; i < pids.length; i++) {
-                batchRequests.push({
-                    "url": "/p/" + pids[i] + ".infinity.json",
-                    "method": "GET"
-                });
-            }
-            sakai.api.Server.batch(batchRequests, function(success, data) {
-                if (success) {
-                    for (var i = 0; i < pids.length; i++){
-                        var docInfo = sakai.api.Server.cleanUpSakaiDocObject($.parseJSON(data.results[i].body));
-                        structure.items = insertDocStructure(structure.items, docInfo, pids[i]);
-                        structure = insertDocPages(structure, docInfo, pids[i]);
-                    }
-                }
-                finishProcessDave(structure, data, callback);
-            });
-        }
-        
-        var finishProcessDave = function(structure, data, callback){
-            // Include the childcounts for the pages
-            structure.items = includeChildCount(structure.items);
-            for (var page in data){
-                if (page.substring(0,9) !== "structure" && page.substring(0,1) !== "_"){
-                    structure.pages[page] = data[page];
-                }
-            }
-            debug.log(structure);
-            callback(structure);
-        }
 
-        var processData = function(data, callback){
-            var structure = {};
-            structure.items = {};
-            structure.pages = {};
-            if (data["structure0"]){
-                if (typeof data["structure0"] === "string") {
-                    structure.items = $.parseJSON(data["structure0"]);
-                } else {
-                    structure.items = data["structure0"];
-                }
-                // Get a list of all Sakai Docs that have to be "added"
-                var pids = collectPoolIds(structure.items, []);
-                if (pids.length == 0){
-                    finishProcessDave(structure, data, callback);
-                } else {
-                    continueProcessData(structure, data, pids, callback);
+        var checkPageExists = function(structure, selected){
+            var structureFoundIn = false;
+            if (selected.indexOf("/") !== -1){
+                var splitted = selected.split("/");
+                if (structure.items[splitted[0]] && structure.items[splitted[0]][splitted[1]]){
+                    structureFoundIn = structure;
                 }
             } else {
-                finishProcessDave(structure, data, callback);
+                if (structure.items[selected]){
+                    structureFoundIn = structure;
+                }
+            }
+            return structureFoundIn;
+        };
+
+        var selectPage = function(newPageMode){
+            if (contextData.forceOpenPage) {
+                $.bbq.pushState({
+                    "l": contextData.forceOpenPage
+                }, 0);
+                contextData.forceOpenPage = false;
+            } else {
+                var state = $.bbq.getState("l");
+                var selected = state || false;
+                var structureFoundIn = false;
+                // Check whether this page exist
+                if (selected) {
+                    structureFoundIn = checkPageExists(privstructure, selected) || checkPageExists(pubstructure, selected);
+                    if (!structureFoundIn) {
+                        selected = false;
+                    }
+                }
+                // If it exists, check whether it has more than 1 subpage
+                if (selected && selected.indexOf("/") === -1) {
+                    if (structureFoundIn.items[selected]._childCount > 1) {
+                        selected = getFirstSubPage(structureFoundIn, selected);
+                    }
+                }
+                // If no page is selected, select the first one from the nav
+                if (!selected) {
+                    selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
+                }
+                // Select correct item
+                var menuitem = $("li[data-sakai-path='" + selected + "']");
+                if (menuitem) {
+                    if (selected.split("/").length > 1) {
+                        var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
+                        showHideSubnav(par, true);
+                    }
+                    var ref = menuitem.data("sakai-ref");
+                    var savePath = menuitem.data("sakai-savepath") || false;
+                    var pageSavePath = menuitem.data("sakai-pagesavepath") || false;
+                    var canEdit = menuitem.data("sakai-submanage") || false;
+                    var nonEditable = menuitem.data("sakai-noneditable") || false;
+                    if (!menuitem.hasClass(navSelectedItemClass)) {
+                        selectNavItem(menuitem, $(navSelectedItem));
+                    }
+                    // Render page
+                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                }
             }
         };
 
-        var selectPage = function(){
-            var state = $.bbq.getState("l");
-            var selected = state || false;
-            // If no page is selected, select the first one from the nav
-            if (!selected){
-                for (var first = 0; first < privstructure.orderedItems.length; first++){
-                    if (privstructure.orderedItems[first]._childCount > 1) {
-                        for (var second = 0; second < privstructure.orderedItems[first]._elements.length; second++){
-                            selected = privstructure.orderedItems[first]._id + "/" + privstructure.orderedItems[first]._elements[second]._id;
-                            break;
-                        }
-                    } else {
-                        selected = privstructure.orderedItems[first]._id;
-                    }
-                    break;
-                }
-            }
-            if (!selected){
-                for (var first1 = 0; first1 < pubstructure.orderedItems.length; first1++){
-                    if (pubstructure.orderedItems[first1]._childCount > 1) {
-                        for (var second1 = 0; second1 < pubstructure.orderedItems[first1]._elements.length; second1++){
-                            selected = pubstructure.orderedItems[first1]._id + "/" + pubstructure.orderedItems[first1]._elements[second1]._id;
-                            break;
-                        }
-                    } else {
-                        selected = pubstructure.orderedItems[first1]._id;
-                    }
-                    break;
-                }
-            }
-            // Select correct item
-            var menuitem = $("li[data-sakai-path='" + selected + "']");
-            if (menuitem){
-                if (selected.split("/").length > 1){
-                    var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
-                    showHideSubnav(par, true);
-                }
-                var ref = menuitem.attr("data-sakai-ref");
-                var savePath = menuitem.attr("data-sakai-savepath") || false;
-                if (!menuitem.hasClass(navSelectedItemClass)) {
-                    selectNavItem(menuitem, $(navSelectedItem));
-                }
-                // Render page
-                renderPage(ref, selected, savePath);
-            }
-
-        };
-
-        var renderPage = function(ref, path, savePath, reload){
-            sakai.api.Widgets.nofityWidgetShown("#s3d-page-main-content > div:visible", false);
-            $("#s3d-page-main-content > div:visible").hide();
+        var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
             var content = getPageContent(ref);
-            sakai_global.lhnavigation.currentPageShown = {
+            var pageContent = content && content.page ? content.page : "";
+            var lastModified = content && content._lastModified ? content._lastModified : null;
+            var autosave = content && content.autosave ? content.autosave : null;
+            var saveRef = ref;
+            if (saveRef.indexOf("-") !== -1){
+                saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
+            }
+            currentPageShown = {
                 "ref": ref,
                 "path": path,
-                "content": content,
-                "savePath": savePath
+                "content": pageContent,
+                "savePath": savePath,
+                "pageSavePath": pageSavePath,
+                "saveRef": saveRef,
+                "canEdit": canEdit,
+                "widgetData": [privstructure.pages, pubstructure.pages],
+                "addArea": contextData.addArea,
+                "nonEditable": nonEditable,
+                "_lastModified": lastModified,
+                "autosave": autosave
             };
-            $(window).trigger("changePage.lhnavigation.sakai", sakai_global.lhnavigation.currentPageShown);
-            if ($("#s3d-page-main-content #" + ref).length > 0){
-                if (reload){
-                    createPageToShow(ref, path, content, savePath);
+            if (newPageMode) {
+                $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
+                contextMenuHover = {
+                    path: currentPageShown.path,
+                    ref: currentPageShown.ref,
+                    pageSavePath: currentPageShown.pageSavePath,
+                    savePath: currentPageShown.savePath
+                };
+                editPageTitle();
+            } else {
+                $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
+            }
+        };
+
+        /////////////////////////
+        // Contextual dropdown //
+        /////////////////////////
+
+        var contextMenuHover = false;
+
+        var onContextMenuHover = function($el, $elLI){
+            $(".lhnavigation_selected_submenu").hide();
+            $("#lhnavigation_submenu").hide();
+            if ($elLI.data("sakai-manage")) {
+                var additionalOptions = $elLI.data("sakai-addcontextoption");
+                if (additionalOptions){
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
+                    $("#lhnavigation_submenu_profile_li").show();
+                    $("#lhnavigation_submenu_permissions_li").show();
+                } else {
+                    $("#lhnavigation_submenu_profile_li").hide();
+                    $("#lhnavigation_submenu_permissions_li").hide();
                 }
-                $("#s3d-page-main-content #" + ref).show();
-                sakai.api.Widgets.nofityWidgetShown("#"+ref, true);
+                contextMenuHover = {
+                    path: $elLI.data("sakai-path"),
+                    ref: $elLI.data("sakai-ref"),
+                    pageSavePath: $elLI.data("sakai-pagesavepath"),
+                    savePath: $elLI.data("sakai-savepath")
+                };
+                $(".lhnavigation_selected_submenu", $el).show();
+            }
+        };
+
+        var onContextMenuLeave = function(){
+            if (!$("#lhnavigation_submenu").is(":visible")) {
+                $(".lhnavigation_selected_submenu").hide();
+            }
+        };
+
+        var showContextMenu = function($clickedItem){
+            var contextMenu = $("#lhnavigation_submenu");
+            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
+            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
+            toggleContextMenu();
+        };
+
+        var toggleContextMenu = function(forceHide){
+            var contextMenu = $("#lhnavigation_submenu");
+            if (forceHide) {
+                contextMenu.hide();
             } else {
-                createPageToShow(ref, path, content, savePath);
+                contextMenu.toggle();
             }
         };
 
-        var getPageContent = function(ref){
-            if (privstructure.pages[ref]) {
-                return privstructure.pages[ref].page;
-            } else if (pubstructure.pages[ref]){
-                return pubstructure.pages[ref].page;
-            } else {
-                return false;
-            }
+        //////////////////////
+        // Area permissions //
+        //////////////////////
+
+        var showAreaPermissions = function(){
+            toggleContextMenu(true);
+            $(window).trigger("permissions.area.trigger", [contextMenuHover]);
         };
 
-        sakai_global.lhnavigation.currentPageShown = {};
-        var isEditingNewPage = false;
+        //////////////////////////////////
+        // Adding a new page or subpage //
+        //////////////////////////////////
 
-        var createPageToShow = function(ref, path, content, savePath){
-            if ($("#" + ref).length === 0) {
-                // Create the new element
-                var $el = $("<div>").attr("id", ref);
-                // Add element to the DOM
-                $("#s3d-page-main-content").append($el);
-            }
-            var $contentEl = $("#" + ref);
-            // Add sanitized content
-            var sanitizedContent = sakai.api.Security.saneHTML(content);
-            $contentEl.html(sanitizedContent);
-            // Insert widgets
-            sakai.api.Widgets.widgetLoader.insertWidgets(ref,false,savePath + "/",[privstructure.pages, pubstructure.pages]);
-        };
-
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        // Temporarily deal with pages as documents here //
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-        ///////////////////////////////////////////////////
-
-        var addPage = function(){
-            var newpageid = Math.round(Math.random() * 1000000000);
+        var addTopPage = function(){
+            var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = pubstructure.orderedItems.length;
-            pubstructure.pages[newpageid] = {};
-            pubstructure.pages[newpageid].page = "Default content";
-            pubstructure.items[newpageid] = {
+
+            var pageContent = "Default content";
+            var pageToCreate = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
                 "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.savePath,
                 "main":{
                     "_ref": newpageid,
                     "_order": 0,
                     "_title": "Untitled Page",
-                    "_childCount": 0
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.savePath
                 },
                 "_childCount":1
             };
+
+            pubstructure.pages[newpageid] = {};
+            sakaiDocsInStructure[contextData.puburl][newpageid] = {};
+
+            pubstructure.pages[newpageid].page = pageContent;
+            sakaiDocsInStructure[contextData.puburl][newpageid].page = pageContent;
+
+            pubstructure.items[newpageid] = pageToCreate;
+            pubstructure.items._childCount++;
+            sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
+            sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
+
             renderData();
+            addParametersToNavigation();
             $(window).trigger("sakai.contentauthoring.needsTwoColumns");
             $.bbq.pushState({
-                "l": newpageid
+                "l": newpageid,
+                "newPageMode": "true"
             }, 0);
-            selectPage();
-            $(window).trigger("editPage.sakaidocs.sakai");
-            rerenderNavigation();
-            editPageTitle();
-            isEditingNewPage = true;
+            enableSorting();
         };
 
-        $(window).bind("addPage.lhnavigation.sakai", function(){
-            addPage();
-        });
+        var addSubPage = function(){
+            var newpageid = sakai.api.Util.generateWidgetId();
+            var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
 
-        /**
-         * Submenu for nav items
-         */
-        $(".lhnavigation_selected_submenu").live("click", function(ev){
-            var clickedItem = $(this);
-            var submenu = $("#lhnavigation_submenu");
-            submenu.css("left", clickedItem.position().left + submenu.width() - (clickedItem.width() / 2) + "px");
-            submenu.css("top", clickedItem.position().top + "px");
-            toggleSubmenu();
-        });
+            var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
+            var basePath = currentPageShown.path.split("/")[0];
 
-        var toggleSubmenu = function(forceHide){
-            var submenu = $("#lhnavigation_submenu");
-            if (forceHide) {
-                submenu.hide();
+            var pageContent = "Default content";
+            var pageToCreate = {
+                "_ref": fullRef,
+                "_title": "Untitled Page",
+                "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.pageSavePath,
+                "main":{
+                    "_ref": fullRef,
+                    "_order": 0,
+                    "_title": "Untitled Page",
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.pageSavePath
+                },
+                "_childCount":1
+            };
+            var pageToCreate1 = {
+                "_ref": newpageid,
+                "_title": "Untitled Page",
+                "_order": neworder,
+                "_canSubedit": true,
+                "_canEdit": true,
+                "_poolpath": currentPageShown.pageSavePath,
+                "main":{
+                    "_ref": newpageid,
+                    "_order": 0,
+                    "_title": "Untitled Page",
+                    "_childCount": 0,
+                    "_canSubedit": true,
+                    "_canEdit": true,
+                    "_poolpath": currentPageShown.pageSavePath
+                },
+                "_childCount":1
+            };
+
+            pubstructure.pages[fullRef] = {};
+            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = {};
+
+            pubstructure.pages[fullRef].page = pageContent;
+            sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid].page = pageContent;
+
+            pubstructure.items[basePath][newpageid] = pageToCreate;
+            pubstructure.items[basePath]._childCount++;
+
+            sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
+            sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
+
+            renderData();
+            addParametersToNavigation();
+            $(window).trigger("sakai.contentauthoring.needsTwoColumns");
+            $.bbq.pushState({
+                "l": currentPageShown.path.split("/")[0] + "/" + newpageid,
+                "newPageMode": "true"
+            }, 0);
+            enableSorting();
+        };
+
+        /////////////////////
+        // Renaming a page //
+        /////////////////////
+
+        var changingPageTitle = false;
+
+        var editPageTitle = function(){
+            // Select correct item
+            var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "']");
+            changingPageTitle = jQuery.extend(true, {}, contextMenuHover);
+
+            var pageTitle = $(".lhnavigation_page_title_value", menuitem);
+            pageTitle.hide();
+
+            var inputArea = $(".lhnavigation_change_title", menuitem);
+            inputArea.show();
+            inputArea.val($.trim(pageTitle.text()));
+            inputArea.focus();
+
+            // Hide the dropdown menu
+            toggleContextMenu(true);
+        };
+
+        var savePageTitle = function(){
+            var menuitem = $("li[data-sakai-path='" + changingPageTitle.path + "']");
+
+            var inputArea = $(".lhnavigation_change_title", menuitem);
+            inputArea.hide();
+
+            var pageTitle = $(".lhnavigation_page_title_value", menuitem);
+            pageTitle.text(inputArea.val());
+            pageTitle.show();
+
+            // Change main structure
+            var mainPath = changingPageTitle.path;
+            if (changingPageTitle.path.indexOf("/") !== -1){
+                var parts = changingPageTitle.path.split("/");
+                mainPath = parts[1];
+                pubstructure.items[parts[0]][parts[1]]._title = inputArea.val();
             } else {
-                submenu.toggle();
+                pubstructure.items[changingPageTitle.path]._title = inputArea.val();
+            }
+            // Look up appropriate doc and change that structure
+            var structure = sakaiDocsInStructure[changingPageTitle.savePath];
+            structure.structure0[mainPath]._title = inputArea.val();
+            storeStructure(structure.structure0, changingPageTitle.savePath);
+
+            changingPageTitle = false;
+        };
+
+        /////////////////////
+        // Deleting a page //
+        /////////////////////
+
+        var pageToDelete = false;
+
+        var deletePage = function(){
+            // Look up appropriate doc and change that structure
+            var structure = sakaiDocsInStructure[pageToDelete.savePath];
+            var realRef = pageToDelete.ref;
+            if (pageToDelete.ref.indexOf("-") !== -1){
+                realRef = pageToDelete.ref.split("-")[1];
+            }
+            var realPath = pageToDelete.path;
+            if (pageToDelete.path.indexOf("/") !== -1){
+                realPath = pageToDelete.path.split("/")[1];
+            }
+            updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
+            structure.orderedItems = orderItems(structure.structure0);
+            storeStructure(structure.structure0, pageToDelete.savePath);
+
+            // Change the main structure
+            updateCountsAfterDelete(pubstructure.items, pubstructure.pages, pubstructure.orderedItems, pageToDelete.ref, pageToDelete.path);
+            if (getPageCount(pubstructure.items) < 3){
+                $(window).trigger("sakai.contentauthoring.needsOneColumn");
+            }
+
+            // Re-render the navigation
+            renderData();
+            addParametersToNavigation();
+            enableSorting();
+
+            // Move away from the current page
+            if (pageToDelete.path.indexOf("/") !== -1){
+                if (getPageCount(structure.structure0) < 3) {
+                    $.bbq.pushState({
+                        "l": pageToDelete.path.split("/")[0],
+                        "_": Math.random(),
+                        "newPageMode": ""
+                    }, 0);
+                } else {
+                    var selected = getFirstSelectablePage(structure);
+                    $.bbq.pushState({
+                        "l": pageToDelete.path.split("/")[0] + "/" + selected,
+                        "_": Math.random(),
+                        "newPageMode": ""
+                    }, 0);
+                }
+            } else {
+                $.bbq.pushState({
+                    "l": "",
+                    "_": Math.random(),
+                    "newPageMode": ""
+                }, 0);
+            }
+            $('#lhnavigation_delete_dialog').jqmHide();
+        };
+
+        var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
+            var oldOrder = 0;
+            if (path.indexOf("/") !== -1){
+                var parts = path.split("/");
+                oldOrder = structure[parts[0]][parts[1]]._order;
+                delete structure[parts[0]][parts[1]];
+                for (var i = 0; i < orderedItems.length; i++){
+                    if (orderedItems[i]._pid === ref.split("-")[0]){
+                        orderedItems[i]._elements.splice(oldOrder, 1);
+                        orderedItems[i]._childCount--;
+                        for (var o = oldOrder; o < orderedItems[i]._elements.length; o++){
+                            orderedItems[i]._elements[o]._order = o;
+                            structure[orderedItems[i]._id][orderedItems[i]._elements[o]._id]._order = o;
+                        }
+                    }
+                }
+            } else {
+                oldOrder = structure[path]._order;
+                delete structure[path];
+                orderedItems.splice(oldOrder, 1);
+                for (var z = oldOrder; z < orderedItems.length; z++){
+                    orderedItems[z]._order = z;
+                    structure[orderedItems[z]._id]._order = z;
+                }
+            }
+            delete pageslist[ref];
+        };
+
+        var confirmPageDelete = function(){
+            pageToDelete = jQuery.extend(true, {}, contextMenuHover);
+            $('#lhnavigation_delete_dialog').jqmShow();
+            toggleContextMenu(true);
+        };
+
+        // Init delete dialog
+        $('#lhnavigation_delete_dialog').jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
+
+        /////////////////////////////////////////////
+        // Add additional parameters to navigation //
+        /////////////////////////////////////////////
+
+        var storeNavigationParameters = function(params){
+            for (var p in params){
+                parametersToCarryOver[p] = params[p];
+            }
+            addParametersToNavigation();
+        };
+
+        var addParametersToNavigation = function(){
+            $("#lhnavigation_container a").each(function(index){
+                var oldHref =  $(this).attr("href");
+                var newHref = sakai.api.Widgets.createHashURL(parametersToCarryOver, oldHref);
+                $(this).attr("href", newHref);
+            });
+        };
+
+        //////////////////////////////
+        // Handle navigation clicks //
+        //////////////////////////////
+
+        var selectNavItem = function($clickedItem, $prevItem){
+            // Remove selected class from previous selected page
+            $prevItem.removeClass(navSelectedItemClass);
+            $prevItem.addClass(navHoverableItemClass);
+            // Add selected class to currently selected page
+            $clickedItem.removeClass(navHoverableItemClass);
+            $clickedItem.addClass(navSelectedItemClass);
+            // Open or close subnavigation if necessary
+            showHideSubnav($clickedItem);
+        };
+
+        var processNavigationClick = function($el, ev){
+            // don't open if the click is a result of a sort operation
+            var $elLI = $el.parent("li");
+            if ($elLI.hasClass("lhnavigation_hassubnav") && !$(ev.target).hasClass("lhnavigation_selected_submenu_image")) {
+                showHideSubnav($elLI);
             }
         };
 
-        /**
-         * Rename a page
-         * @param {Object} ev
-         */
+        var showHideSubnav = function($el, forceOpen){
+            $el.children(".lhnavigation_selected_item_subnav").show();
+            if ($el.hasClass("lhnavigation_hassubnav")) {
+                if (!$el.children("ul:first").is(":visible") || forceOpen) {
+                    $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
+                    $el.children("ul:first").show();
+                } else {
+                    $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
+                    $el.children("ul:first").hide();
+                }
+            }
+            $(".s3d-page-column-right").css("min-height", $(".s3d-page-column-left").height());
+        };
+
+        ////////////////////////////
+        // Navigation re-ordering //
+        ////////////////////////////
+
+        var handleReorder = function(e, ui) {
+            // if its a sakaidoc in a world or content profile, we have to save
+            // it differently
+            if ($("body").hasClass("show")) {
+                var $target = $(e.target);
+                var savePath = $target.children("li:first").data("sakai-savepath");
+                var structure = sakaiDocsInStructure[savePath];
+                var area = privstructure;
+                if ($target.data("sakai-space") === "public") {
+                    area = pubstructure;
+                }
+                $target.children("li").each(function(i, elt) {
+                    var path = $(elt).data("sakai-path");
+                    var struct0path = path;
+                    if (struct0path.indexOf("/") > -1) {
+                        struct0path = struct0path.split("/")[1];
+                    }
+                    structure.structure0[struct0path]._order = i;
+                    var item = getPage(path, area.items);
+                    item._order = i;
+                });
+                storeStructure(structure.structure0, savePath);
+            } else {
+                // we're not dealing with sakaidocs and can save normally
+                var reqs = [];
+                $(e.target).children("li").each(function(i, elt) {
+                    var url = $(elt).data("sakai-pagesavepath") + "structure0/" + $(elt).data("sakai-path");
+                    var content = $.toJSON({"_order": i});
+                    var req = {
+                        "url": url,
+                        "method": "POST",
+                        "parameters": {
+                            ":operation": "import",
+                            ":contentType": "json",
+                            ":replace": true,
+                            ":replaceProperties": true,
+                            "_charset_":"utf-8",
+                            ":content": content
+                        }
+                    };
+                    reqs.push(req);
+                });
+                sakai.api.Server.batch(reqs);
+            }
+            e.stopImmediatePropagation();
+        };
+
+        var enableSorting = function() {
+            $("#lhnavigation_container .lhnavigation_menu_list").sortable({
+                items: "li.lhnavigation_outer[data-sakai-manage=true]",
+                update: handleReorder
+            });
+            $("#lhnavigation_container .lhnavigation_subnav").sortable({
+                items: "li.lhnavigation_subnav_item[data-sakai-manage=true]",
+                update: handleReorder
+            });
+        };
+
+        //////////////////////////////////////
+        // Prepare the navigation to render //
+        //////////////////////////////////////
+
+        var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+            cData.puburl = mainPubUrl;
+            cData.privurl = mainPrivUrl;
+            if (mainPubUrl) {
+                sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
+                sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
+            }
+            if (mainPrivUrl) {
+                sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
+                sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
+            }
+            contextData = cData;
+            processData(privdata, cData.privurl, function(processedPriv){
+                privstructure = processedPriv;
+                processData(pubdata, cData.puburl, function(processedPub){
+                    pubstructure = processedPub;
+                    renderData();
+                    selectPage();
+                    enableSorting();
+                    if (cData.parametersToCarryOver) {
+                        parametersToCarryOver = cData.parametersToCarryOver;
+                        addParametersToNavigation();
+                    }
+                });
+            });
+        };
+
+        ///////////////////////////////////////
+        // Initializing the Sakaidocs widget //
+        ///////////////////////////////////////
+
+        var sakaiDocsInitialized = false;
+
+        var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+            if (!sakaiDocsInitialized){
+                sakaiDocsInitialized = true;
+                $("#s3d-page-main-content").append($("#lhnavigation_sakaidocs_declaration"));
+                $(window).bind("ready.sakaidocs.sakai", function(){
+                    renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+                });
+                sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
+            } else {
+                renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+            }
+        };
+
+        ////////////////////////////
+        // Internal event binding //
+        ////////////////////////////
+
+        $(".lhnavigation_selected_submenu").live("click", function(ev){
+            showContextMenu($(this));
+        });
+
+        $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseenter", function(){
+            onContextMenuHover($(this), $(this).parent("li"));
+        });
+
+        $("#sakaidocs_addpage_top").live("click", function(){
+            addTopPage();
+        });
+
+        $("#sakaidocs_addpage_area").live("click", function(){
+            addSubPage();
+        });
+
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
+        });
+
+        $("#lhnavigation_submenu_permissions").live("click", function(ev){
+            showAreaPermissions();
         });
 
         $(".lhnavigation_change_title").live("blur", function(ev){
             savePageTitle();
         });
 
-        var editPageTitle = function(){
-            // Select correct item
-            var menuitem = $("li[data-sakai-path='" + sakai_global.lhnavigation.currentPageShown.path + "']");
-            var inputArea = $(".lhnavigation_change_title", menuitem);
-            var pageTitle = $(".lhnavigation_toplevel", menuitem);
-
-            pageTitle.hide();
-            inputArea.show();
-            inputArea.val($.trim(pageTitle.text()));
-            inputArea.focus();
-
-            // Hide the dropdown menu
-            toggleSubmenu(true);
-        };
-
-        var storeStructure = function(structure){
-            sakai.api.Server.saveJSON(sakai_global.lhnavigation.currentPageShown.savePath, {
-                "structure0": $.toJSON(structure.items)
-            });
-        };
-
-        var savePageTitle = function(){
-            var menuitem = $("li[data-sakai-path='" + sakai_global.lhnavigation.currentPageShown.path + "']");
-            var inputArea = $(".lhnavigation_change_title", menuitem);
-            var pageTitle = $(".lhnavigation_toplevel", menuitem);
-            inputArea.hide();
-            pageTitle.text(inputArea.val());
-            pageTitle.show();
-
-            pubstructure.items[sakai_global.lhnavigation.currentPageShown.path]._title = inputArea.val();
-            storeStructure(pubstructure);
-        };
-
-        var savePage = function() {
-            if (pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
-            } else if (privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref].page = sakai_global.lhnavigation.currentPageShown.content;
-            }
-            renderPage(sakai_global.lhnavigation.currentPageShown.ref, sakai_global.lhnavigation.currentPageShown.path, sakai_global.lhnavigation.currentPageShown.savePath, true);
-            if (isEditingNewPage){
-                storeStructure(pubstructure);
-            }
-        };
-
-        $(window).bind("savePage.lhnavigation.sakai", savePage);
-
-        /**
-         * Delete a page
-         */
         $("#lhavigation_submenu_deletepage").live("click", function(ev){
+            confirmPageDelete();
+        });
+
+        $("#lhnavigation_delete_confirm").live("click", function(ev){
             deletePage();
         });
 
-        var updateCountsAfterDelete = function(structure, ref, path){
-            var oldOrder = structure.items[path]._order;
-            delete structure.pages[ref];
-            delete structure.items[path];
-            structure.orderedItems.splice(oldOrder, 1);
-            for (var i = oldOrder; i < structure.orderedItems.length; i++){
-                structure.orderedItems[i]._order = i;
-                structure.items[structure.orderedItems[i]._id]._order = i;
-            }
-        };
+        $(".lhnavigation_item_content, .lhnavigation_subnav_item_content").live("mouseleave", function(){
+            onContextMenuLeave();
+        });
 
-        var deletePage = function(){
-            if (pubstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                updateCountsAfterDelete(pubstructure, sakai_global.lhnavigation.currentPageShown.ref, sakai_global.lhnavigation.currentPageShown.path);
-                if (getPageCount(pubstructure.items) < 3){
-                    $(window).trigger("sakai.contentauthoring.needsOneColumn");
-                }
-            } else if (privstructure.pages[sakai_global.lhnavigation.currentPageShown.ref]){
-                updateCountsAfterDelete(privstructure, sakai_global.lhnavigation.currentPageShown.ref, sakai_global.lhnavigation.currentPageShown.path);
-                if (getPageCount(privstructure.pages) < 3){
-                    $(window).trigger("sakai.contentauthoring.needsOneColumn");
-                }
-            }
-            renderData();
-            rerenderNavigation();
-            $.bbq.pushState({"l": "", "_": Math.random()}, 0);
-            isEditingNewPage = false;
-            $.ajax({
-                url: sakai_global.lhnavigation.currentPageShown.savePath,
-                type: "POST",
-                dataType: "json",
-                data: {
-                    "structure0": $.toJSON(pubstructure.items)
-                }
-            });
-        };
+        $(".lhnavigation_item_content").live("click", function(ev){
+            processNavigationClick($(this), ev);
+        });
 
-        var getPageCount = function(pagestructure){
-            var pageCount = 0;
-            for (var tl in pagestructure){
-                if (pagestructure.hasOwnProperty(tl)){
-                    pageCount++;
-                    if (pageCount >= 3){
-                        return 3;
-                    }
-                    for (var ll in pagestructure[tl]){
-                        if (ll.substring(0,1) !== "_"){
-                            pageCount++;
-                            if (pageCount >= 3){
-                                return 3;
-                            }
-                        }
-                    }
-                }
-            }
-            return pageCount;
-        };
+        ////////////////////////////
+        // External event binding //
+        ////////////////////////////
 
-        /////////////
-        // BINDING //
-        /////////////
-
-        /**
-         * Add binding to the elements
-         */
-        var addBinding = function(){
-            $(".lhnavigation_menu_list li").bind("click", function(){
-                var el = $(this);
-                if (el.hasClass("lhnavigation_hassubnav")) {
-                    showHideSubnav(el);
-                }
-            });
-        };
-
-        ////////////////////
-        // INITIALISATION //
-        ////////////////////
-
-        var renderNavigation = function(pubdata, privdata, cData, puburl, privurl){
-            cData.puburl = puburl;
-            cData.privurl = privurl;
-            contextData = cData;
-            processData(privdata, function(processedPriv){
-                privstructure = processedPriv;
-                processData(pubdata, function(processedPub){
-                    pubstructure = processedPub;
-                    renderData();
-                    addBinding();
-                    selectPage();
-                    if (cData.parametersToCarryOver) {
-                        parametersToCarryOver = cData.parametersToCarryOver;
-                        rerenderNavigation();
-                    }
-                });
-            });            
-        };
+        $(window).bind("lhnav.addHashParam", function(ev, params){
+            storeNavigationParameters(params);
+        });
 
         $(window).bind("hashchange", function(e, data){
-            selectPage();
+            selectPage($.bbq.getState("newPageMode") === "true");
         });
 
-        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, puburl, privurl){
-            renderNavigation(pubdata, privdata, cData, puburl, privurl);
+        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+            prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
+
+        ///////////////////////
+        // Widget has loaded //
+        ///////////////////////
+
         $(window).trigger("lhnav.ready");
 
     };

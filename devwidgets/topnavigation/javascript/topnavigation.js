@@ -51,6 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavExplore = ".topnavigation_explore";
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
+        var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -151,6 +152,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavUserInboxMessages).text("(" + sakai.data.me.messages.unread + ")");
         };
 
+        var renderResults = function(){
+            renderObj.sakai = sakai;
+            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
+            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
+            $("#topnavigation_search_results").show();
+        };
 
         var renderPeople = function(data) {
             var people = [];
@@ -166,13 +173,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             renderObj.people = people;
             renderObj.peopletotal = data.total;
-
-            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-            $("#topnavigation_search_results").show();
+            renderResults();
         };
 
-        var renderGroups = function(data) {
+        var renderGroups = function(data, category) {
             var groups = [];
             for(var i in data.results){
                 if(data.results.hasOwnProperty(i)){
@@ -189,12 +193,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     groups.push(tempGroup);
                 }
             }
-            renderObj.groups = groups;
-            renderObj.groupstotal = data.total;
-
-            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-            $("#topnavigation_search_results").show();
+            renderObj.groups = renderObj.groups || {};
+            renderObj.groups[category] = groups;
+            renderObj.groups[category + "total"] = data.total;
+            renderResults();
         };
 
         var renderContent = function(data) {
@@ -205,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var tempFile = {
                         "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                         "name" : data.results[i]["sakai:pooled-content-file-name"],
-                        "url" : "/content#content_path=/p/" + data.results[i]["jcr:name"],
+                        "url" : "/content#p=" + data.results[i]["jcr:name"]+"/"+data.results[i]["sakai:pooled-content-file-name"],
                         "css_class" : mimeType
                     };
                     files.push(tempFile);
@@ -213,10 +215,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             renderObj.files = files;
             renderObj.filestotal = data.total;
-
-            $(topnavSearchResultsContainer).html(sakai.api.Util.TemplateRenderer(searchTemplate, renderObj));
-            $(topnavSearchResultsBottomContainer).html(sakai.api.Util.TemplateRenderer(searchBottomTemplate, renderObj));
-            $("#topnavigation_search_results").show();
+            renderResults();
         };
 
 
@@ -241,36 +240,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderObj.query = searchText;
             var requests = [];
             requests.push({
-                "url": usersUrl,
-                "method": "GET",
-                "parameters": {
-                    "page": 0,
-                    "items": 4,
-                    "sortOn": "lastName",
-                    "sortOrder": "asc",
-                    "q": searchText
-            }});
-            requests.push({
-                "url": groupsUrl,
-                "method": "GET",
-                "parameters": {
-                    "page": 0,
-                    "items": 4,
-                    "q": searchText
-            }});
-            requests.push({
                 "url": filesUrl,
                 "method": "GET",
                 "parameters": {
                     "page": 0,
-                    "items": 4,
+                    "items": 3,
                     "q": searchText
-            }});
+                }
+            });
+            requests.push({
+                "url": usersUrl,
+                "method": "GET",
+                "parameters": {
+                    "page": 0,
+                    "items": 3,
+                    "sortOn": "lastName",
+                    "sortOrder": "asc",
+                    "q": searchText
+                }
+            });
+            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
+                var category = sakai.config.worldTemplates[c];
+                requests.push({
+                    "url": groupsUrl,
+                    "method": "GET",
+                    "parameters": {
+                        "page": 0,
+                        "items": 3,
+                        "q": searchText,
+                        "category": category.id
+                    }
+                });                        
+            }
+            
 
             sakai.api.Server.batch(requests, function(success, data) {
-                renderPeople($.parseJSON(data.results[0].body));
-                renderGroups($.parseJSON(data.results[1].body));
-                renderContent($.parseJSON(data.results[2].body));
+                renderContent($.parseJSON(data.results[0].body));
+                renderPeople($.parseJSON(data.results[1].body));
+                for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
+                    renderGroups($.parseJSON(data.results[2 + c].body), sakai.config.worldTemplates[c].id);
+                }
             });
         };
 
@@ -315,6 +324,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
                         "url": "/dev/createnew.html#l=categories/" + category.id
+                    });
+                }
+            } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
+                for (var x = 0; x < sakai.config.worldTemplates.length; x++){
+                    var categoryx = sakai.config.worldTemplates[x];
+                    sakai.config.Navigation[i].subnav.push({
+                        "id": "subnavigation_explore_" + categoryx.id + "_link",
+                        "label": categoryx.title,
+                        "url": "/dev/search2.html#l=" + categoryx.id
                     });
                 }
             }
@@ -457,8 +475,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
                 }, function(success){
                     if (success) {
+                        var qs = new Querystring();
                         // Go to You when you're on explore page
                         if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                            window.location = "/dev/me.html";
+                        // 403/404 and not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
+                            var url = qs.get("url");
+                            if (url){
+                                window.location = url;
+                            } else {
+                                location.reload(true);
+                            }
+                        // 500 not logged in
+                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                             window.location = "/dev/me.html";
                         } else {
                             // Just reload the page
@@ -474,6 +504,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 return false;
             });
+            
+            $(topnavigationlogin).hover(function(){
+                $('#topnavigation_user_options_login_fields').show();
+            },
+            function(){
+                $('#topnavigation_user_options_login_fields').hide();
+            });
         };
 
 
@@ -484,14 +521,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderOverlays = function(){
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
         };
-
-        // Create a group
-
-        $(window).bind("sakai.overlays.createGroup", function(ev){
-            $("#creategroupcontainer").show();
-            // Load the creategroup widget.
-            $(window).trigger("init.creategroup.sakai");
-        });
 
         // Add content
 
@@ -531,6 +560,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "picture": el.attr("sakai-entitypicture") || false
                 };
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
+            }
+        });
+
+        // Join group
+
+        $(".sakai_joingroup_overlay").live("click", function(ev){
+            var el = $(this);
+            if (el.attr("data-groupid")){
+                $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
 

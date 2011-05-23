@@ -168,12 +168,22 @@ define(["jquery",
             });
         },
 
+        /**
+         * @param {Array} userArray Array of userIds to fetch
+         * @param {Function} callback Callback function to call when the request is complete
+         */
         getMultipleUsers: function(userArray, callback){
-            // this method could be checking for and removing duplicate users
+            var uniqueUserArray = [];
+
             for (var i in userArray) {
-                if (userArray.hasOwnProperty(i)) {
-                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", userArray.length, userArray[i], {
-                        "url": "/~" + userArray[i] + "/public/authprofile",
+                if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
+                    uniqueUserArray.push(userArray[i]);
+                }
+            }
+            for (var ii in uniqueUserArray) {
+                if (uniqueUserArray.hasOwnProperty(ii)) {
+                    sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
+                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile",
                         "method": "GET"
                     });
                 }
@@ -183,9 +193,9 @@ define(["jquery",
             $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
                 if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
                     var users = {};
-                    for (i in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(i) && reqData.responseData[i]) {
-                            users[reqData.responseId[i]] = $.parseJSON(reqData.responseData[i].body);
+                    for (var j in reqData.responseId) {
+                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
                         }
                     }
                     callback(users);
@@ -387,7 +397,37 @@ define(["jquery",
             });
         },
 
+        /**
+         * Retrieves the profile picture for the user
+         *
+         * @param {Object} profile the users profile (data.me.profile for the current user)
+         * @return {String} the url for the profile picture
+         */
+        getProfilePicture : function(profile) {
+            return sakai_util.constructProfilePicture(profile, "user");
+        },
 
+        /**
+         * Retrieves the first name display to use for the user from config
+         * and parses it from the profile elements
+         *
+         * @param {Object} profile the user's profile (data.me.profile for the current user)
+         * @return {String} the first name to show for a user
+         */
+        getFirstName : function(profile) {
+            var configFirstName = [sakai_conf.Profile.userFirstNameDisplay];
+            var nameToReturn = "";
+
+            if (profile &&
+                profile.basic &&
+                profile.basic.elements &&
+                profile.basic.elements[configFirstName] !== undefined &&
+                profile.basic.elements[configFirstName].value !== undefined) {
+                nameToReturn += profile.basic.elements[configFirstName].value;
+            }
+
+            return unescape(sakai_util.Security.saneHTML($.trim(nameToReturn)));
+        },
 
         /**
          * Retrieves the display name to use for the user from config
@@ -692,6 +732,23 @@ define(["jquery",
                     }
                 });
             }
+        },
+
+        getUpdatedCounts : function(medata, callback) {
+            $.ajax({
+                url: medata.profile.homePath + "/public/authprofile.json",
+                success: function(profile){
+                    medata.profile.counts = profile.counts;
+                    if ($.isFunction(callback)){
+                        callback(true);
+                    }
+                },
+                error: function(){
+                    if ($.isFunction(callback)){
+                        callback(false);
+                    }
+                }
+            });
         }
 
     };
