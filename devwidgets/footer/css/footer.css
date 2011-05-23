@@ -24,7 +24,7 @@
 .footer_main #footer_debug_info{margin:5px 0 0 81px;}
 .footer_main .footer_clickable{cursor:pointer;}
 #footer_contactinfo p{float:right;margin-top:-12px;}
-#footer_divider {font-weight:bold;}
+#footer_divider{font-weight:bold;}
 
 /* Fixed Container */
 .footer_main .fixed-container{background:transparent;padding:16px 0 10px;width:960px;border-bottom:1px dotted #d1d1d1;}
