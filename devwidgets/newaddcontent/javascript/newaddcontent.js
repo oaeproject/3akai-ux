@@ -37,8 +37,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.newaddcontent = function(tuid, showSettings){
-
+    sakai_global.newaddcontent = function(tuid, showSettings) {
 
         /////////////////////////////
         // CONFIGURATION VARIABLES //
@@ -668,14 +667,13 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 var val = $.trim($(this).val());
                 if (val) {
                     enableAddToQueue();
-                }
-                else {
+                } else {
                     disableAddToQueue();
                 }
-            }else{
+            } else {
                 if ($(newaddcontentExistingContentForm + " input[type=checkbox]:checked").length) {
                     enableAddToQueue();
-                }else{
+                } else {
                     disableAddToQueue();
                 }
             }
@@ -849,7 +847,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 case "newaddcontent_add_link":
                     renderAddLink();
                     break;
-                case "": // No ID found on class -> subnav present
+                default: // No ID found on class -> subnav present
                     switch ($(this).children("ul").children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {
                         case "newaddcontent_existing_content_everything":
                             renderExistingContent("everything", $newaddcontentExistingItemsSearch.val());

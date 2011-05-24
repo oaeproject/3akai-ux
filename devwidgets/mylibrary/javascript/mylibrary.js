@@ -456,7 +456,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setUsername = function(u, users) {
             $(".mylibrary_item_username").each(function(index, val){
                var userId = $(val).text();
-               if (userId === u){
+               if (userId === u) {
                    $(val).text(sakai.api.User.getDisplayName(users[u]));
                    $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
                }
