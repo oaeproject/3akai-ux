@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("init.fileupload.sakai", {
                     newVersion: true,
                     isLink: sakai.api.Content.getMimeType(data["_mimeType"]) === "x-sakai/link",
-                    contentPath: sakai_global.content_profile.content_data.data["jcr:name"]
+                    contentPath: sakai_global.content_profile.content_data.data["_path"]
                 });
             });
             $("#upload_content").bind("click", function(){

@@ -12,7 +12,7 @@
 
 <div id="categories_items_template"><!--
     <div id="categories_items_scroll">
-        <a href="/dev/categories.html" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
+        <a href="/dev/allcategories.html" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
             <button type="button" class="s3d-button s3d-button-link-2-state" id="categories_view_all">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__VIEW_ALL__</span>
             </button>
@@ -43,22 +43,22 @@
                             {if item.content["sakai:pooled-content-file-name"]}
                                 <hr class="s3d-split-line fl-push">
                                 {if item.content.image}
-                                    <img src="/p/${item.content["jcr:name"]}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    <img src="/p/${item.content["_path"]}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
                                 {elseif item.content["sakai:custom-mimetype"]}
                                     <img src="${sakai.api.Content.getMimeTypeData(item.content["sakai:custom-mimetype"]).URL}" class="categories_item_content_preview"/>
                                 {elseif item.content.haspreview}
-                                    <img src="/p/${item.content["jcr:name"]}.page1-small.png" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    <img src="/p/${item.content["_path"]}.page1-small.png" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="categories_item_content_preview"/>
                                 {/if}
-                                <a href="/content#p=${item.content["jcr:path"]}/${item.content["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
+                                <a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
                                 <span style="display:none"><span class="categories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
                                 {if item.content["sakai:description"]}
                                     {var size = 125}
                                     <span class="categories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                 {/if}
                                 <span class="categories_content_category_description"><span class="categories_content_usedin_icon categories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                                {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["jcr:name"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                                {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                                 {if item.content["sakai:tags"]}
                                     <span class="categories_content_tags">
                                         {for tag in item.content["sakai:tags"]}

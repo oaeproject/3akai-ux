@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var captchaContainer = $("#captcha_container", $rootel).get()[0];
                     Recaptcha.create(data["public-key"], captchaContainer,
                         {
-                            theme: "blackglass"
+                            theme: "clean"
                         }
                     );
                 }

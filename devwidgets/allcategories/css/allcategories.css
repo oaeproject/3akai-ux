@@ -17,7 +17,7 @@
  */
 
 /* General */
-.allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:278px;height:156px;float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
+.allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:278px;height:156px; overflow: hidden; float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
 .allcategories_widget .allcategories_item:hover {background:#d7eff7;}
 .allcategories_widget .allcategories_item .allcategories_item_header {background:url("/devwidgets/allcategories/images/allcategories_item_header_bg.png") repeat-x scroll left top #2a2a2a;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:8px;margin-bottom:12px;cursor:pointer;}
 .allcategories_widget .allcategories_item .allcategories_item_header:hover {background:url("/devwidgets/allcategories/images/allcategories_item_header_hover_bg.png") repeat-x scroll left top #3572a7;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;}

@@ -47,14 +47,14 @@
         {for i in user.contentItems.results}
             {var mimeType = sakai.api.Content.getMimeType(i)}
             {var thumbnail = sakai.api.Content.getThumbnail(i)}
-            <li id="${i["jcr:name"]}">
+            <li id="${i["_path"]}">
                 <div class="personinfo_content_list_left">
                 {if thumbnail && sakai.config.MimeTypes[mimeType]}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                 {elseif mimeType.substring(0,6)==="image/" && sakai.config.MimeTypes[mimeType]}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                    <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                    <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
                 {elseif sakai.config.MimeTypes[mimeType]}
                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
@@ -64,7 +64,7 @@
                 {/if}
                 </div>
                 <div class="personinfo_content_list_right">
-                    <a href="/content#p=${i['jcr:name']}/${i["sakai:pooled-content-file-name"]}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
+                    <a href="/content#p=${i['_path']}/${i["sakai:pooled-content-file-name"]}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
                     {if mimeTypeDescription}
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}
@@ -73,7 +73,7 @@
                     {var commentCount = sakai.api.Content.getCommentCount(i)}
                     <p class="personinfo_content_text">${commentCount}{if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
                     <span class="personinfo_content_plus">
-                        <button type="button" class="savecontent_trigger s3d-link-button s3d-action" data-entityid="${i['jcr:name']}" title="__MSG__SAVE_CONTENT__">+</button>
+                        <button type="button" class="savecontent_trigger s3d-link-button s3d-action" data-entityid="${i['_path']}" title="__MSG__SAVE_CONTENT__">+</button>
                     </span>
                 </div>
             </li>

@@ -225,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else if (result.name) {
                         result.listgeneral.name = result.name;
                     } else {
-                        result.listgeneral.name = result["jcr:name"];
+                        result.listgeneral.name = result["_path"];
                     }
 
                     // Get description
@@ -246,23 +246,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         pagePath = result.data["sling:resourceType"].replace(/\/_pages/g, "");
                         pagePath = pagePath.replace(/\/pageContent/g, "");
                         pagePath = pagePath.replace(/\//g,"");
-                        pagePath = result.site["jcr:path"] + "#" + pagePath;
+                        pagePath = result.site["_path"] + "#" + pagePath;
                         result.listgeneral.pagePath = pagePath;
                     } else {
                         // Or just use site path if it's site root
-                        result.listgeneral.pagePath = result["jcr:path"];
+                        result.listgeneral.pagePath = result["_path"];
                     }
 
                     // Eval picture object if exists either in site or in main result. If not use a default one.
                     if (result.picture) {
                         result.picture = $.parseJSON(result.picture);
-                        result.listgeneral.avatar = result["jcr:path"] + "/" + result.picture.name;
+                        result.listgeneral.avatar = result["_path"] + "/" + result.picture.name;
                     } else if (result.site && result.site.picture) {
                         result.site.picture = $.parseJSON(result.site.picture);
-                        result.listgeneral.avatar = result.site["jcr:path"] + "/" + result.site.picture.name;
+                        result.listgeneral.avatar = result.site["_path"] + "/" + result.site.picture.name;
                     } else if (result.space && result.space.picture) {
                         result.space.picture = $.parseJSON(result.space.picture);
-                        result.listgeneral.avatar = result.space["jcr:path"] + "/" + result.space.picture.name;
+                        result.listgeneral.avatar = result.space["_path"] + "/" + result.space.picture.name;
                     } else {
                         result.listgeneral.avatar = "/dev/images/mimetypes/html.png";
                     }
