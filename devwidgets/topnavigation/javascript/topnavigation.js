@@ -429,6 +429,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Search binding (don't fire on following keyup codes: shift)
             $("#topnavigation_search_input").focus(function(){
                 $(this).keyup();
+                if ($("#topnavigation_search_input").val()){
+                    $("#topnavigation_search_results").show();
+                }
+            });
+
+            // Make sure that the results only disappear when you click outside
+            // of the search box and outside of the results box
+            $(window).click(function(ev){
+                if (ev.target.id !== "topnavigation_search_input") {
+                    $("#topnavigation_search_results").hide();
+                }
             });
 
             $("#subnavigation_preferences_link").live("click", function(){
