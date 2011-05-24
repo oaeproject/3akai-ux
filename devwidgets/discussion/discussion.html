@@ -4,310 +4,376 @@
 <!-- MAIN VIEW -->
 <div id="discussion_main_container" style="display:none">
     <div class="fl-widget-content s3d-widget-content">
-        <div id="discussion_widget_header_wrapper">
-            <div id="discussion_widget_title_wrapper">
-                <h3 id="discussion_widget_header" style="display:none">__MSG__WIDGET_TITLE__</h3>
-                <div id="discussion_widget_options_container">
-                    <button id="discussion_add_newtopic" class="s3d-button s3d-button-primary" type="button" style="display:none">
-                        <span class="s3d-button-inner">__MSG__ADD_NEW_TOPIC__</span>
-                    </button>
-                    <div class="discussion_view_options fl-force-right s3d-regular-light-links">
-                        <button type="button" id="discussion_compact_link" title="__MSG__COMPACT_VIEW_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__C_COMPACT_VIEW__</button>
-                        <button type="button" id="discussion_full_link" title="__MSG__FULL_VIEW_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__C_FULL_VIEW__</button>
-                        <button type="button" id="discussion_expand_link" title="__MSG__SHOW_ALL_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__SHOW_ALL__</button>
-                        <button type="button" id="discussion_collapse_link" title="__MSG__HIDE_ALL_ALT__" class="s3d-link-button s3d-action s3d-bold">__MSG__HIDE_ALL__</button>
-                    </div>
-                </div>
-                <hr class="fl-hidden fl-push"/>
-            </div>
-            <!-- ADD TOPIC CONTAINER -->
-            <div id="discussion_add_container" style="display:none;">
-                <form>
-                    <label for="discussion_add_subject">__MSG__ADD_SUBJECT__</label>
-                    <input type="text" id="discussion_add_subject" class="required" /><br />
-                    <label for="discussion_add_body">__MSG__MESSAGE_TEXT__</label>
-                    <textarea id="discussion_add_body" class="required"></textarea><br />
+        <!-- MAIN CONTAINER FOR BBS -->
+        <div id="discussion_container">
+            <!-- Show that no initial posts are made -->
+            <div id="discussion_no_initial_topic"><!-- --></div>
 
+            <!-- Show the create new topic screen -->
+            <div id="discussion_create_new_topic" style="display:none;">
+                <form>
+                    <label for="discussion_create_new_topic_title" class="s3d-bold">
+                        __MSG__TOPIC_TITLE__
+                    </label>
+                    <input type="text" id="discussion_create_new_topic_title" class="required"/>
+                    <label for="discussion_create_new_topic_message_text" class="s3d-bold">
+                        __MSG__MESSAGE_TEXT__
+                    </label>
+                    <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text"></textarea>
                     <div class="dialog_buttons">
-                        <button class="s3d-button s3d-button-primary submit_button" id="discussion_add_submit" type="submit"><span class="s3d-button-inner">__MSG__ADD_TOPIC__</span></button>
-                        <button class="s3d-button cancel-button" id="discussion_add_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
+                        <button type="button" class="s3d-button" id="discussion_dont_add_topic">
+                            <span class="s3d-button-inner">__MSG__DONT_ADD_TOPIC__</span>
+                        </button>
+                        <button type="submit" class="s3d-button s3d-button-primary" id="discussion_add_topic">
+                            <span class="s3d-button-inner">__MSG__ADD_TOPIC__</span>
+                        </button>
+                        <hr class="fl-push fl-hidden"/>
                     </div>
                 </form>
             </div>
+
+            <!-- Show the topics and replies -->
+            <div id="discussion_list_topics" style="display:none;">
+                <div id="discussion_list_topics_container"><!-- --></div>
+            </div>
         </div>
-
-        <!-- MAIN CONTAINER FOR DISCUSSIONS -->
-        <div id="discussion_container" class="s3d-regular-light-links">
-
-        </div>
-
-        <!-- COMPACT DISCUSSION TEMPLATE -->
-        <div id="discussion_compact_container_template" style="display:none"><!--
-        {macro displayPost(o, first, current)}
-                <div class="discussion_compact_post_link">
-                    <a href="#" id="post_${o.post["sakai:id"]}" title="Click to expand this post"><span class="discussion_content_compact_subject">${o.post["sakai:subject"]}</span></a> - <span>by ${o.post.profile.fullName}</span> __MSG__ON__ <span>${o.post.date}</span>
-                </div>
-
-                <div class="discussion_post discussion_compact_post" id="discussion_post${o.post["sakai:id"]}">
-                    <div class="discussion_header">
-                        <div class="discussion_left">
-                            {if o.post.profile.picture !== ""}
-                                <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                            {else}
-                                <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
-                            {/if}
-                            <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                            <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                            <span class="discussion_date">__MSG__POSTED_THIS_ON__ ${o.post.date}</span>
-                            {if o.post.editters !== undefined}
-                                <br />
-                                <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                                <span class="discussion_date">__MSG__EDITED_THIS_ON__ ${o.post.editedByDate}</span>
-                             {/if}
-                        </div>
-                     </div>
-                    <div class="discussion_content">
-                        <div id="discussion_content_container_${o.post["sakai:id"]}">
-                            {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
-                                <p class="discussion_content_infoDeleted">
-                                {if o.post["sakai:deletedByID"] === current.user.userid}
-                                    __MSG__YOU_DELETED_THIS_POST__.
-                                {else}
-                                    __MSG__THIS_POST_HAS_BEEN_DELETED_BY__ ${o.post["sakai:deletedBy"]}. __MSG__ONLY_MANAGERS_CAN_SEE_THIS_POST__.
-                                {/if}
-                                {if o.post.canDelete && o.post.canDelete === true}
-                                    <br/>__MSG__YOU_CAN_RETURN_IT_BY_UNDELETING__.
-                                {/if}
-                                </p>
-                            {/if}
-                            <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
-                        </div>
-                        {if loggedIn}
-                            <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
-                                <ul>
-                                    <li class="discussion_content_no_border"><button type="button" id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply s3d-link-button s3d-action">__MSG__REPLY__</button></li>
-                                    {if o.post.canEdit}
-                                        <li><button type="button" id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit s3d-link-button s3d-action">__MSG__EDIT__</button></li>
-                                    {/if}
-                                    {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
-                                        {if o.post["sakai:deleted"]}
-                                            <li><button type="button" id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete s3d-link-button s3d-action">__MSG__UNDELETE__</button></li>
-                                        {else}
-                                             <li><button type="button" id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete s3d-link-button s3d-action">__MSG__DELETE__</button></li>
-                                        {/if}
-                                    {/if}
-                                </ul>
-                            </div>
-                        {/if}
-                    </div>
-                </div>
-
-                <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
-                    {for reply in o.replies}
-                        ${displayPost(reply, false, current)}
-                    {/for}
-                 </div>
-        {/macro}
-
-        {if posts.length == 0}
-            __MSG__NO_POSTS_YET__.
-        {else}
-            {for post in posts}
-                ${displayPost(post, true, curr)}
-            {/for}
-        {/if}
-    --></div></div>
-        <div class="s3d-widget-no-options">
-            <div class="s3d-widget-no-options-inner"></div>
-        </div>
-
-        <div id="discussion_container_template" style="display:none"><!--
-        {macro displayPost(o, first, current)}
-
-            <div class="discussion_post" id="discussion_post${o.post["sakai:id"]}">
-                <div class="discussion_header">
-                    <div class="discussion_left">
-                        {if o.post.profile.picture !== ""}
-                            <img alt="avatar" class="discussion_avatar" src="${o.post.profile.picture}" />
-                        {else}
-                            <img alt="avatar" class="discussion_avatar" src="user_avatar_icon_32x32.png" />
-                        {/if}
-                        <p class="discussion_content_subject" id="discussion_content_subject_${o.post["sakai:id"]}">${o.post["sakai:subject"]}</p>
-                        <a href="/~${o.post["sakai:from"]}"><span class="discussion_username">${o.post.profile.fullName}</span></a>
-                        <span class="discussion_date">__MSG__POSTED_THIS_ON__ ${o.post.date}</span>
-                        {if o.post.editters !== undefined}
-                            <br />
-                            <a href="/~${o.post.editedByUserid}"><span class="discussion_username_edited">${o.post.editedByName}</span></a>
-                            <span class="discussion_date">__MSG__EDITED_THIS_ON__ ${o.post.editedByDate}</span>
-                         {/if}
-                    </div>
-                    <span class="discussion_right">
-                        <span class="discussion_totalReplies">${o.post.nrOfReplies}</span>
-                        {if o.post.nrOfReplies == "1"}
-                            <span class="discussion_countReplies"> __MSG__REPLY__ </span>
-                        {else}
-                            <span class="discussion_countReplies"> __MSG__REPLIES__ </span>
-                        {/if}
-                        {if o.post.nrOfReplies != "0"}
-                            <span class="discussion_showAllContainer">
-                            (<button type="button" class="discussion_toggle_showhideall s3d-link-button s3d-action" id="discussion_toggle_showhideall_${o.post["sakai:id"]}">
-                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}">__MSG__HIDE_ALL__</span>
-                                <span class="discussion_toggle_showhideall_text${o.post["sakai:id"]}" style="display:none;">__MSG__SHOW_ALL__</span>
-                            </button>)
-                            </span>
-                        {/if}
-                    </span>
-                 </div>
-                <div class="discussion_content">
-                    <div id="discussion_content_container_${o.post["sakai:id"]}">
-                        {if o.post["sakai:deleted"] && o.post["sakai:deleted"] === true}
-                            <p class="discussion_content_infoDeleted">
-                            {if o.post["sakai:deletedByID"] === current.user.userid}
-                                __MSG__YOU_DELETED_THIS_POST__.
-                            {else}
-                                __MSG__THIS_POST_HAS_BEEN_DELETED_BY__ ${o.post["sakai:deletedBy"]}. __MSG__ONLY_MANAGERS_CAN_SEE_THIS_POST__.
-                            {/if}
-                            {if o.post.canDelete && o.post.canDelete === true}
-                                <br/>__MSG__YOU_CAN_RETURN_IT_BY_UNDELETING__.
-                            {/if}
-                            </p>
-                        {/if}
-                        <div id="discussion_content_message_${o.post["sakai:id"]}">${o.post["sakai:body"]}</div>
-                    </div>
-                    {if loggedIn}
-                        <div id="discussion_content_actions_${o.post["sakai:id"]}" class="discussion_content_actions link">
-                            <ul>
-                                <li class="discussion_content_no_border"><button type="button" id="discussion_content_reply_${o.post["sakai:id"]}" class="discussion_content_reply s3d-link-button s3d-action">__MSG__REPLY__</button></li>
-                                {if o.post.canEdit}
-                                    <li><button type="button" id="discussion_content_edit_${o.post["sakai:id"]}" class="discussion_content_edit s3d-link-button s3d-action">__MSG__EDIT__</button></li>
-                                {/if}
-                                {if o.post.canDelete && first !== true && o.post["sakai:initialpost"] !== true}
-                                    {if o.post["sakai:deleted"]}
-                                        <li><button type="button" id="discussion_content_undelete_${o.post["sakai:id"]}" class="discussion_content_undelete s3d-link-button s3d-action">__MSG__UNDELETE__</button></li>
-                                    {else}
-                                         <li><button id="discussion_content_delete_${o.post["sakai:id"]}" class="discussion_content_delete s3d-link-button s3d-action">__MSG__DELETE__</button></li>
-                                    {/if}
-                                {/if}
-                            </ul>
-                        </div>
-                    {/if}
-                </div>
-            </div>
-
-            <div class="discussion_posts" id="discussion_posts${o.post["sakai:id"]}">
-                {for reply in o.replies}
-                    ${displayPost(reply, false, current)}
-                {/for}
-             </div>
-        {/macro}
-
-        {if posts.length == 0}
-            __MSG__NO_POSTS_YET__.
-        {else}
-            {for post in posts}
-                ${displayPost(post, true, curr)}
-            {/for}
-         {/if}
-    --></div>
-
-    <!-- EDIT CONTAINER -->
-    <div id="discussion_edit_container" style="display:none;">
-        <form>
-            <input type="text" id="discussion_edit_subject" class="required"/><br />
-            <textarea id="discussion_edit_message" class="required"></textarea><br />
-            <div class="dialog_buttons">
-                <button type="button" class="s3d-button s3d-button-primary" id="discussion_edit_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                <button type="button" class="s3d-button" id="discussion_edit_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
-            </div>
-        </form>
-    </div>
-
-    <!-- REPLY CONTAINER -->
-    <div id="discussion_reply_container" style="display:none;">
-        <form>
-            <label for="discussion_reply_subject">__MSG__SUBJECT__</label>
-            <input type="text" id="discussion_reply_subject" class="required"/><br />
-            <label for="discussion_reply_body">__MSG__MESSAGE_TEXT__</label>
-            <textarea id="discussion_reply_body" class="required"></textarea><br />
-
-            <div class="dialog_buttons">
-                <button type="button" class="s3d-button s3d-button-primary" id="discussion_reply_submit"><span class="s3d-button-inner">__MSG__REPLY__</span></button>
-                <button type="button" class="s3d-button" id="discussion_reply_cancel"><span class="s3d-button-inner">__MSG__DONT_REPLY__</span></button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- SETTINGS VIEW -->
-<div id="discussion_settings" style="display:none">
-    <div class="fl-widget-content s3d-widget">
-        <form>
-            <div class="s3d-primary-tabs">
-                <ul class="fl-tabs fl-tabs-right">
-                    <li class="fl-tabs-active"><button type="button" class="discussion_settings_tab_selected s3d-link-button s3d-action s3d-bold" id="discussion_settings_new_tab">__MSG__POST_NEW__</button></li>
-                    <li><button type="button" class="discussion_settings_tab s3d-link-button s3d-action s3d-bold" id="discussion_settings_existing_tab">__MSG__INSERT_EXISTING__</button></li>
-                    <li><button type="button" class="discussion_settings_tab s3d-link-button s3d-action s3d-bold" id="discussion_settings_display_options_tab">__MSG__DISPLAY_OPTIONS__</button></li>
-                </ul>
-            </div>
-            <div id="discussion_tab_content_top">
-                <div id="discussion_tab_content_top_inner"><!-- --></div>
-            </div>
-            <div id="discussion_tab_content">
-                <div id="discussion_settings_new_container" class="discussion_settings_container">
-
-                        <label for="discussion_settings_new_subject">__MSG__SUBJECT__</label><br />
-                        <input type="text" id="discussion_settings_new_subject" /><br />
-
-                        <label for="discussion_settings_new_body">__MSG__MESSAGE_TEXT__</label><br />
-                        <textarea id="discussion_settings_new_body"></textarea><br />
-
-                </div>
-                <div id="discussion_settings_existing_container" class="discussion_settings_container" style="display:none;">
-                    <div id="discussion_no_discussions">
-                        __MSG__NO_DISCUSSIONS_YET__
-                    </div>
-                </div>
-                <div id="discussion_settings_existing_container_template" ><!--
-                    <label>Select existing discussion</label>
-                    {if results.length == 0}
-                        <span>__MSG__NO_DISCUSSIONS_YET__.</span>
-                    {else}
-                    <div class="discussion_settings_list">
-                        {for i in results}
-                            <div id="discussion_settings_list_item_${i['sakai:id']}" class="discussion_settings_list_item">
-                                ${i['sakai:subject']}
-                            </div>
-                        {/for}
-                    </div>
-                    {/if}
-                --></div>
-                <div id="discussion_settings_display_options_container" class="discussion_settings_container" style="display:none;">
-                    <p><input id="discussion_settings_link_display_button" type="radio" name="discussion_display_option" /><label for="discussion_settings_link_display_button">__MSG__MIMIMAL_VIEW__</label></p>
-                    <p><input id="discussion_settings_inline_display_button" type="radio" name="discussion_display_option" checked="checked" /><label for="discussion_settings_inline_display_button">__MSG__FULL_VIEW__</label></p>
-                </div>
-                <div id="discussion_settings_visibility">
-                    <div id="discussion_settings_visibility_user" style="display:none"><p>__MSG__USER_VISIBILITY__</p></div>
-                    <div id="discussion_settings_visibility_group" style="display:none"><p>__MSG__GROUP_VISIBILITY__</p></div>
-                </div>
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit"><span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span></button>
-                    <button type="button" class="s3d-button" id="discussion_settings_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
-                </div>
-            </div>
-            <div class="s3d-no-options">
-                <div class="s3d-no-options-inner"><!-- --></div>
-            </div>
-        </form>
     </div>
     <div class="s3d-widget-no-options">
         <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
 
-<div id="discussion_notifications" style="display:none">
-    <span id="discussion_discussion">__MSG__DISCUSSION__</span>
-    <span id="discussion_post_to_new_discussion">__MSG__POST_TO_NEW_DISCUSSION__</span>
+<div id="discussion_no_initial_topic_template"><!--
+    {if settings.addtopic == true}
+        <a href="javascript:;" id="discussion_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a>
+        <hr class="discussion_horizontal_rule"/>
+        __MSG__NO_TOPICS_TO_DISPLAY_CLICK_TO_ADD__
+    {else}
+        __MSG__NO_TOPICS_TO_DISPLAY__
+    {/if}
+--></div>
+
+<div id="discussion_topic_reply_template"><!--
+    {if typeof(postId) != "undefined"}<a href="javascript:;" name="reply_${postId}" style="display:hidden">&nbsp;</a>{/if}
+    {if quoted}
+        <span id="discussion_topic_reply_quoted_user" style="display:none;">${quotedUser}</span>
+        <label for="discussion_topic_reply_text" class="s3d-bold">
+            __MSG__QUOTED_TEXT__
+        </label>
+        <textarea id="discussion_topic_quoted_text" class="required" rows="4" name="quoted_text">${quotedMessage}</textarea>
+    {/if}
+    <label for="discussion_topic_reply_text" class="s3d-bold">
+        __MSG__MESSAGE_TEXT__
+    </label>
+    <textarea id="discussion_topic_reply_text" class="required" rows="6" name="message_text">{if edit == true}${body}{/if}</textarea>
+    <div class="dialog_buttons">
+        {if edit == true}
+            <button type="button" class="s3d-button" id="discussion_dont_save_edit">
+                <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+            </button>
+            <button type="submit" class="s3d-button s3d-button-primary" id="discussion_save_edit">
+                <span class="s3d-button-inner">__MSG__SAVE__</span>
+            </button>
+            <hr class="fl-push fl-hidden"/>
+        {else}
+            <button type="button" class="s3d-button" id="discussion_dont_add_reply">
+                <span class="s3d-button-inner">__MSG__DONT_REPLY__</span>
+            </button>
+            <button type="submit" class="s3d-button s3d-button-primary" id="discussion_add_reply">
+                <span class="s3d-button-inner">__MSG__REPLY__</span>
+            </button>
+            <hr class="fl-push fl-hidden"/>
+        {/if}
+    </div>
+--></div>
+
+<div id="discussion_topic_newly_posted_reply_template"><!--
+    <div class="s3d-highlight_area_background" id="${post.message["_path"]}">
+        <div class="s3d-highlight_area_background_tl">
+            <div class="s3d-highlight_area_background_tinner"></div>
+        </div>
+        <div class="discussion_entity_container">
+            <img src="${post.message.profile.pictureImg}" alt="${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}" class="discussion_entity_picture"/>
+            <span class="discussion_poster_name">${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}</span>
+            <span class="discussion_posting_date">${post.message["sakai:createdOn"]}<span class="discussion_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
+            <hr class="fl-push fl-hidden"/>
+        </div>
+
+        <div class="discussion_reply_contents">
+            {if post.message["sakai:quoted"]}
+                <div class="discussion_quoted_text_container s3d-highlight_area_background">
+                    <div class="s3d-highlight_area_background_white_content_tl">
+                        <div class="s3d-highlight_area_background_white_content_tinner"></div>
+                    </div>
+                    <p><span class="discussion_reply_contents_text_quoted">${post.message["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
+                    <p class="discussion_reply_contents_text">${post.message["sakai:quoted"].quote}</p>
+                    <div class="s3d-highlight_area_background_white_content_bl">
+                        <div class="s3d-highlight_area_background_white_content_binner"></div>
+                    </div>
+                </div>
+            {/if}
+
+            <div><span class="discussion_post_message">${post.message["sakai:body"]}</span></div>
+
+            {if settings.anon != true && settings.canreply == true}
+                <span class="discussion_message_options">
+                    <a href="javascript:;" class="discussion_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                    {if post.message["sakai:from"] == settings.userid || settings.ismanager}
+                        <span class="discussion_pipe_divider">|</span>
+                        <a href="javascript:;" class="discussion_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                    {/if}
+                    {if settings.ismanager}
+                        <span class="discussion_pipe_divider">|</span>
+                        <a href="javascript:;" class="discussion_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                    {/if}
+                </span>
+            {/if}
+        </div>
+
+        <div class="discussion_edit_container"></div>
+
+        <div class="s3d-highlight_area_background_bl">
+            <div class="s3d-highlight_area_background_binner"></div>
+        </div>
+    </div>
+--></div>
+
+<div id="discussion_list_topics_template"><!--
+    {if settings.addtopic == true}
+        <a href="javascript:;" id="discussion_add_new_topic" class="s3d-bold s3d-regular-links">__MSG__ADD_NEW_TOPIC__</a><span class="discussion_pipe_divider">|</span>
+    {/if}
+    <a href="javascript:;" id="discussion_expand_all" class="s3d-bold s3d-regular-links discussion_collapse_all">__MSG__COLLAPSE_ALL__</a>
+    <hr class="discussion_horizontal_rule"/>
+    {for topic in postData}
+        <div id="discussion_post_${topic.post["sakai:id"]}" class="discussion_topic_container">
+            {if settings.anon != true && settings.canreply == true}
+                <button type="button" class="s3d-button discussion_reply_topic" id="discussion_reply_topic">
+                    <span class="s3d-button-inner">__MSG__REPLY__</span>
+                </button>
+            {/if}
+            <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]}</h1>
+            <a href="javascript:;" class="discussion_show_topic_replies"><div class="discussion_replies_icon discussion_show_replies_icon"></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></a>
+
+            <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
+                <div class="s3d-highlight_area_background_tl">
+                    <div class="s3d-highlight_area_background_tinner"></div>
+                </div>
+                <div class="discussion_entity_container">
+                    <img src="${topic.post.profile[0].pictureImg}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="discussion_entity_picture"/>
+                    <span class="discussion_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
+                    <span class="discussion_posting_date">${topic.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !topic.post["sakai:editedOn"]}style="display:none;"{/if}>{if topic.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${topic.post["sakai:editedBy"]} ${topic.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
+                    <hr class="fl-push fl-hidden"/>
+                </div>
+
+                <div class="discussion_reply_contents">
+                    <div class="discussion_ellipsis_container">
+                        <span class="discussion_post_message discussion_ellipsis_text">${topic.post["sakai:body"]}</span>
+                    </div>
+                    {if settings.anon != true && settings.canreply == true}
+                        <span class="discussion_message_options">
+                            <a href="javascript:;" class="discussion_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                            {if topic.post["sakai:from"] == settings.userid || settings.ismanager == true}
+                                <span class="discussion_pipe_divider">|</span>
+                                <a href="javascript:;" class="discussion_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                            {/if}
+                        </span>
+                    {/if}
+                </div>
+
+                <div class="discussion_edit_container"></div>
+
+                <div class="s3d-highlight_area_background_bl">
+                    <div class="s3d-highlight_area_background_binner"></div>
+                </div>
+            </div>
+
+            <div class="discussion_topic_replies_container" style="display:none;">
+                {for reply in topic.replies}
+                    <div {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"} class="s3d-highlight_area_background discussion_deleted_reply"{else} class="s3d-highlight_area_background"{/if}id="${reply.post["_path"]}">
+                        <div class="s3d-highlight_area_background_tl">
+                            <div class="s3d-highlight_area_background_tinner"></div>
+                        </div>
+                        <div class="discussion_entity_container">
+                            {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
+                                <a href="javascript:;" class="discussion_hide_reply s3d-bold s3d-regular-links"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></a>
+                            {/if}
+                            <img src="${reply.post.profile[0].pictureImg}" alt="${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}" class="discussion_entity_picture"/>
+                            <span class="discussion_poster_name">${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}</span>
+                            <span class="discussion_posting_date">${reply.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !reply.post["sakai:editedOn"]}style="display:none;"{/if}>{if reply.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${reply.post["sakai:editedBy"]} ${reply.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
+                            {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
+                                <span class="discussion_delete_date">(__MSG__DELETED_BY__ ${reply.post["sakai:deletedBy"]} ${reply.post["sakai:deletedOn"]})</span>
+                            {/if}
+                            <hr class="fl-push fl-hidden"/>
+                        </div>
+
+                        <div class="discussion_reply_contents">
+                            {if reply.post["sakai:quoted"]}
+                                <div class="discussion_quoted_text_container s3d-highlight_area_background">
+                                    <div class="s3d-highlight_area_background_white_content_tl">
+                                        <div class="s3d-highlight_area_background_white_content_tinner">
+                                        </div>
+                                    </div>
+                                    <p><span class="discussion_reply_contents_text_quoted">${reply.post["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
+                                    <p class="discussion_reply_contents_text">${reply.post["sakai:quoted"].quote}</p>
+                                    <div class="s3d-highlight_area_background_white_content_bl">
+                                        <div class="s3d-highlight_area_background_white_content_binner">
+                                        </div>
+                                    </div>
+                                </div>
+                            {/if}
+
+                            <div><span class="discussion_post_message">${reply.post["sakai:body"]}</span></div>
+
+                            {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
+                                <span class="discussion_deleted_message">
+                                    {if settings.ismanager}
+                                        <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
+                                        <a href="javascript:;" class="discussion_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
+                                    {elseif reply.post["sakai:from"] == settings.userid}
+                                        <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
+                                    {else}
+                                        <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__</p>
+                                    {/if}
+                                </span>
+                            {else}
+                                {if settings.anon != true && settings.canreply == true}
+                                    <span class="discussion_message_options">
+                                        <a href="javascript:;" class="discussion_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+                                        {if reply.post["sakai:from"] == settings.userid || settings.ismanager}
+                                            <span class="discussion_pipe_divider">|</span>
+                                            <a href="javascript:;" class="discussion_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+                                        {/if}
+                                        {if settings.ismanager}
+                                            <span class="discussion_pipe_divider">|</span>
+                                            <a href="javascript:;" class="discussion_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+                                        {/if}
+                                    </span>
+                                {/if}
+                            {/if}
+                        </div>
+
+                        <div class="discussion_edit_container"></div>
+
+                        <div class="s3d-highlight_area_background_bl">
+                            <div class="s3d-highlight_area_background_binner"></div>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+
+            <div id="discussion_topic_reply_container" style="display:none;"></div>
+            {if settings.anon != true && settings.canreply == true}
+                <button type="button" class="s3d-button discussion_reply_topic discussion_reply_topic_bottom" id="discussion_reply_topic" style="display:none;">
+                    <span class="s3d-button-inner">__MSG__REPLY__</span>
+                </button>
+            {/if}
+            <hr class="discussion_horizontal_rule fl-push"/>
+        </div>
+    {/for}
+--></div>
+
+<div id="discussion_restored_post_actions_template"><!--
+    <a href="javascript:;" class="discussion_quote s3d-bold s3d-regular-links">__MSG__QUOTE__</a>
+    <span class="discussion_pipe_divider">|</span>
+    <a href="javascript:;" class="discussion_edit s3d-bold s3d-regular-links">__MSG__EDIT__</a>
+    <span class="discussion_pipe_divider">|</span>
+    <a href="javascript:;" class="discussion_delete s3d-bold s3d-regular-links">__MSG__DELETE__</a>
+--></div>
+
+<div id="discussion_deleted_post_entity_info_template" style="display:none;"><!--
+    <span class="discussion_delete_date">(__MSG__DELETED_BY__ ${deletedBy} ${deletedOn})</span>
+--></div>
+
+<div id="discussion_deleted_post_actions_template" style="display:none;"><!--
+    <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
+    <a href="javascript:;" class="discussion_restore s3d-bold s3d-regular-links">__MSG__RESTORE__</a>
+--></div>
+
+<!-- SETTINGS VIEW -->
+<div id="discussion_settings" style="display:none">
+    <div class="fl-widget-content s3d-widget-content">
+        <div id="discussion_tab_content_top">
+            <div id="discussion_tab_content_top_inner">
+                <!-- -->
+            </div>
+        </div>
+        <div id="discussion_tab_content">
+            <div id="discussion_tab_content_settings_container">
+                <!-- -->
+            </div>
+            <div class="dialog_buttons">
+                <button type="button" class="s3d-button s3d-button-primary" id="discussion_settings_submit">
+                    <span class="s3d-button-inner">__MSG__SAVE_SETTINGS__</span>
+                </button>
+                <button type="button" class="s3d-button" id="discussion_settings_cancel">
+                    <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
+                </button>
+                <hr class="fl-push fl-hidden"/>
+            </div>
+        </div>
+        <div class="s3d-no-options">
+            <div class="s3d-no-options-inner">
+                <!-- -->
+            </div>
+        </div>
+    </div>
+    <div class="s3d-widget-no-options fl-fix">
+        <div class="s3d-widget-no-options-inner"></div>
+    </div>
 </div>
+
+<div id="discussion_tab_content_settings_template"><!--
+    <h1>__MSG__PERMISSIONS__</h1>
+    <div id="discussion_settings_permissions_container" class="discussion_settings_container">
+        <span>__MSG__WHO_CAN_ADD_NEW_TOPIC__:</span>
+        <ul id="discussion_settings_permissions_add_new">
+            <li>
+                <input type="radio" id="discussion_settings_permissions_add_new_managers_only" name="discussion_settings_permissions_add_new" value="managers_only" {if settings["sakai:whocanaddtopic"] == "managers_only"}checked{/if}/>
+                <label for="discussion_settings_permissions_add_new_managers_only">
+                    {if type === "user"}
+                        __MSG__MYSELF_ONLY__
+                    {else}
+                        __MSG__MANAGERS_ONLY__
+                    {/if}
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="discussion_settings_permissions_add_new_managers_and_members" name="discussion_settings_permissions_add_new" value="managers_and_members" {if settings["sakai:whocanaddtopic"] == "managers_and_members" || settings["sakai:whocanaddtopic"] == undefined}checked{/if}/>
+                <label for="discussion_settings_permissions_add_new_managers_and_members">
+                    {if type === "user"}
+                        __MSG__MYSELF_AND_CONTACTS__
+                    {else}
+                        __MSG__MANAGERS_AND_MEMBERS__
+                    {/if}
+                </label>
+            </li>
+        </ul>
+        <span>__MSG__WHO_CAN_REPLY__:</span>
+        <ul id="discussion_settings_permissions_who_can_reply">
+            <li>
+                <input type="radio" id="discussion_settings_permissions_who_can_reply_managers_and_members" name="discussion_settings_permissions_who_can_reply" value="managers_and_members" {if settings["sakai:whocanreply"] == "managers_and_members"}checked{/if}/>
+                <label for="discussion_settings_permissions_who_can_reply_managers_and_members">
+                    {if type === "user"}
+                        __MSG__MYSELF_AND_CONTACTS__
+                    {else}
+                        __MSG__MANAGERS_AND_MEMBERS_ONLY__
+                    {/if}
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="discussion_settings_permissions_who_can_reply_everyone" name="discussion_settings_permissions_who_can_reply" value="everyone" {if settings["sakai:whocanreply"] == "everyone" || settings["sakai:whocanreply"] == undefined}checked{/if}/>
+                <label for="discussion_settings_permissions_who_can_reply_everyone">
+                    __MSG__ALL_LOGGED_IN_PEOPLE__
+                </label>
+            </li>
+        </ul>
+    </div>
+--></div>
+
+<div id="discussion_i18n_expand_all" style="display:none;">__MSG__EXPAND_ALL__</div>
+<div id="discussion_i18n_collapse_all" style="display:none;">__MSG__COLLAPSE_ALL__</div>
+<div id="discussion_i18n_hide" style="display:none;">__MSG__HIDE__</div>
+<div id="discussion_i18n_show" style="display:none;">__MSG__SHOW__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/discussion/javascript/discussion.js"></script>
