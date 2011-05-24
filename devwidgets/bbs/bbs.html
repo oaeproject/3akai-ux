@@ -88,7 +88,7 @@
 --></div>
 
 <div id="bbs_topic_newly_posted_reply_template"><!--
-    <div class="s3d-highlight_area_background" id="${post.message["jcr:name"]}">
+    <div class="s3d-highlight_area_background" id="${post.message["_path"]}">
         <div class="s3d-highlight_area_background_tl">
             <div class="s3d-highlight_area_background_tinner"></div>
         </div>
@@ -189,7 +189,7 @@
 
             <div class="bbs_topic_replies_container" style="display:none;">
                 {for reply in topic.replies}
-                    <div {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"} class="s3d-highlight_area_background bbs_deleted_reply"{else} class="s3d-highlight_area_background"{/if}id="${reply.post["jcr:name"]}">
+                    <div {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"} class="s3d-highlight_area_background bbs_deleted_reply"{else} class="s3d-highlight_area_background"{/if}id="${reply.post["_path"]}">
                         <div class="s3d-highlight_area_background_tl">
                             <div class="s3d-highlight_area_background_tinner"></div>
                         </div>

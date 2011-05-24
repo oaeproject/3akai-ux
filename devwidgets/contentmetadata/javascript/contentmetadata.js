@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $("#entity_name").text($("#entity_name_text").val());
                     $("#entity_name").show();
                     $.ajax({
-                        url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                        url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                         type: "POST",
                         cache: false,
                         data: {
@@ -217,7 +217,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], "content", "default", activityData, function(responseData, success){
+            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", activityData, function(responseData, success){
                 if (success) {
                     // update the entity widget with the new activity
                     $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
@@ -288,7 +288,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
 
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["jcr:name"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
+            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
                 sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
                 renderTags(false);
                 // Create an activity
@@ -304,7 +304,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["sakai:description"] = description;
             renderDescription(false);
             $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
                 cache: false,
                 data: {
@@ -330,7 +330,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["length"] = url.length;
             renderUrl(false);
             $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
                 cache: false,
                 data: {
@@ -356,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
             renderCopyright(false);
             $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".html",
+                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
                 type: "POST",
                 cache: false,
                 data: {

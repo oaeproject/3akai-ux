@@ -43,8 +43,8 @@
             <option value="rating" data-sortorder="desc">__MSG__LOWEST_RATED__</option>
             <option value="_created" data-sortorder="asc">__MSG__NEWEST__</option>
             <option value="_created" data-sortorder="desc">__MSG__OLDEST__</option>
-            <option value="jcr:name" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
-            <option value="jcr:name" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
+            <option value="_path" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
+            <option value="_path" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
         </select>
     </div>
 
@@ -56,8 +56,8 @@
             <option value="rating" data-sortorder="desc">__MSG__LOWEST_RATED__</option>
             <option value="_created" data-sortorder="asc">__MSG__NEWEST__</option>
             <option value="_created" data-sortorder="desc">__MSG__OLDEST__</option>
-            <option value="jcr:name" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
-            <option value="jcr:name" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
+            <option value="_path" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
+            <option value="_path" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
         </select>
     </div>
 
@@ -70,8 +70,8 @@
             <option value="filesize">__MSG__FILE_SIZE__</option>
             <option value="_created" data-sortorder="asc">__MSG__NEWEST__</option>
             <option value="_created" data-sortorder="desc">__MSG__OLDEST__</option>
-            <option value="jcr:name" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
-            <option value="jcr:name" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
+            <option value="_path" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
+            <option value="_path" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
         </select>
     </div>
 
@@ -94,8 +94,8 @@
             <option value="rating" data-sortorder="desc">__MSG__LOWEST_RATED__</option>
             <option value="_created" data-sortorder="asc">__MSG__NEWEST__</option>
             <option value="_created" data-sortorder="desc">__MSG__OLDEST__</option>
-            <option value="jcr:name" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
-            <option value="jcr:name" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
+            <option value="_path" data-sortorder="asc">__MSG__ALPHABETICAL_AZ__</option>
+            <option value="_path" data-sortorder="desc">__MSG__ALPHABETICAL_ZA__</option>
         </select>
     </div>
 
@@ -122,8 +122,8 @@
                 {/if}
                 {if i.listgeneral.resultType === "content"}
                     <li class="listgeneral_result">
-                        <a class="listgeneral_avatarcontainer" href="${i['jcr:path']}"><img src="${i.listgeneral.avatar}" alt="__MSG__SITE_LOGO__" class="listgeneral_avatar"/></a>
-                        <a class="listgeneral_name" href="${i['jcr:path']}">${i['jcr:name']}</a>{if i.listgeneral.mimeTypeDescripton !== ""}, <span class="listgeneral_mimetype">${i.listgeneral.mimeTypeDescripton}</span>{/if}
+                        <a class="listgeneral_avatarcontainer" href="${i['_path']}"><img src="${i.listgeneral.avatar}" alt="__MSG__SITE_LOGO__" class="listgeneral_avatar"/></a>
+                        <a class="listgeneral_name" href="${i['_path']}">${i['_path']}</a>{if i.listgeneral.mimeTypeDescripton !== ""}, <span class="listgeneral_mimetype">${i.listgeneral.mimeTypeDescripton}</span>{/if}
                         <p class="listgeneral_description">${i.listgeneral.description}</p>
                         <div class="listgeneral_rating"></div>
                     </li>
