@@ -83,7 +83,7 @@
                 var selections_holder = $("#as-selections-"+x);
                 var org_li = $("#as-original-"+x);              
                 var results_holder = $('<div class="as-results" id="as-results-'+x+'"></div>').hide();
-                var results_ul =  $('<ul class="as-list"></ul>'); 
+                var results_ul =  $('<ul class="as-list"></ul>');
                 var values_input = $('<input type="hidden" class="as-values" name="as_values_'+x+'" id="as-values-'+x+'" />');
                 var prefill_value = "";
                 if(typeof opts.preFill == "string"){
@@ -340,10 +340,10 @@
                     results_holder.show();
                     opts.resultsComplete.call(this);
                     if(opts.scrollresults && matchCount > 1){ //don't bother building the array if only one list item since we won't be scrolling
-						results_ul.children().each(function(i){
-							var h = this.offsetHeight + ((i>0) ? results_li_heights[i-1]: 0);
-							results_li_heights.push(h);
-						});                    
+                        results_ul.children().each(function(i){
+                            var h = this.offsetHeight + ((i>0) ? results_li_heights[i-1]: 0);
+                            results_li_heights.push(h);
+                        });                    
                     }
                 }
 
@@ -399,12 +399,12 @@
                         start.addClass("active");
                         //scroll the results if they are longer than the container
                         if(opts.scrollresults && start.length>0 && results_li_heights.length>0){
-							var scroll_holder = results_li_heights[start.index()];
-							if(scroll_holder>results_ul[0].offsetHeight){
-								results_ul.scrollTop(scroll_holder - results_ul[0].offsetHeight);
-							} else {
-								results_ul.scrollTop(0);
-							}
+                            var scroll_holder = results_li_heights[start.index()];
+                            if(scroll_holder>results_ul[0].offsetHeight){
+                                results_ul.scrollTop(scroll_holder - results_ul[0].offsetHeight);
+                            } else {
+                                results_ul.scrollTop(0);
+                            }
                         }
                     }
                 }
