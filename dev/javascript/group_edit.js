@@ -294,7 +294,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             for (var i in fileList.items) {
                 if (fileList.items.hasOwnProperty(i)) {
                     fileList.items[i]["sling:resourceType"] = "sakai/pooled-content";
-                    fileList.items[i]["jcr:name"] = fileList.items[i].value;
+                    fileList.items[i]["_path"] = fileList.items[i].value;
                     fileList.items[i]["jcr:mimeType"] = fileList.items[i].mimetype;
                     fileList.items[i]["sakai:pooled-content-file-name"] = fileList.items[i].name;
                 }

@@ -235,7 +235,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $.each(data.results, function(i) {
                                 if (pickerData.type === 'content') {
                                     name = data.results[i]['sakai:pooled-content-file-name'];
-                                    value = data.results[i]['jcr:name'];
+                                    value = data.results[i]['_path'];
                                     type = "file";
                                 } else if (data.results[i]["rep:userId"]) {
                                     name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
@@ -295,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                   id = val["rep:userId"];
               } else if (val.entityType == "file") {
                   name = val["sakai:pooled-content-file-name"];
-                  id = val["jcr:name"];
+                  id = val["_path"];
               }
               $pickeruser_search_query.autoSuggest.add_selected_item({"name": name, "value": id}, id);
               $pickeruser_add_button.removeAttr("disabled");

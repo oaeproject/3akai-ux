@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         contextVariables = {
                             "saveddirectory": sakai_global.content_profile.content_data.saveddirectory,
                             "tags": sakai_global.content_profile.content_data.data["sakai:tags"],
-                            "path": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"],
+                            "path": "/p/" + sakai_global.content_profile.content_data.data["_path"],
                             "context" : "content"
                         };
                         break;

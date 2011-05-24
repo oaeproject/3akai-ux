@@ -141,9 +141,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             for (var current_url_title in site_object) {
 
-                if (site_object[current_url_title]["jcr:path"]) {
+                if (site_object[current_url_title]["_path"]) {
 
-                    var raw_path_elements = site_object[current_url_title]["jcr:path"].split("/");
+                    var raw_path_elements = site_object[current_url_title]["_path"].split("/");
                     var path_elements = [];
                     var raw_path_element = "";
 
@@ -171,8 +171,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jcr_path;
             for (var i in sakai_global.sitespages.site_info._pages) {
                 if (sakai_global.sitespages.site_info._pages.hasOwnProperty(i)) {
-                    if (sakai_global.sitespages.site_info._pages[i]["jcr:path"]) {
-                        jcr_path = sakai_global.sitespages.site_info._pages[i]["jcr:path"];
+                    if (sakai_global.sitespages.site_info._pages[i]["_path"]) {
+                        jcr_path = sakai_global.sitespages.site_info._pages[i]["_path"];
                     } else {
                         continue;
                     }
@@ -279,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             ajaxArray = [];
             $(pagesArray).each(function(){
                 var ajaxObject = {
-                    "url": this['jcr:path'],
+                    "url": this['_path'],
                     "method": "POST",
                     "parameters": {
                         'pagePosition':this.pagePosition
@@ -689,13 +689,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Source data - the element being moved
                 var src_url_name = $moved_node.attr("id").replace("nav_","");
-                var src_url = sakai_global.sitespages.site_info._pages[src_url_name]["jcr:path"];
+                var src_url = sakai_global.sitespages.site_info._pages[src_url_name]["_path"];
                 var src_url_title = sakai_global.sitespages.site_info._pages[src_url_name]["pageURLTitle"];
                 var src_url_depth = sakai_global.sitespages.site_info._pages[src_url_name]["pageDepth"];
 
                 // Reference data - the element being moved next to
                 var ref_url_name = $reference_node.attr("id").replace("nav_","");
-                var ref_url = sakai_global.sitespages.site_info._pages[ref_url_name]["jcr:path"];
+                var ref_url = sakai_global.sitespages.site_info._pages[ref_url_name]["_path"];
                 var ref_url_title = sakai_global.sitespages.site_info._pages[ref_url_name]["pageURLTitle"];
                 var ref_url_depth = sakai_global.sitespages.site_info._pages[ref_url_name]["pageDepth"];
 

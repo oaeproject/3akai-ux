@@ -493,7 +493,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#entity_content_add_to_library").live("click", function(){
-            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(){
+            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["_path"], sakai.data.me.user.userid, function(){
                 $("#entity_content_add_to_library").hide();
                 sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
             });

@@ -403,7 +403,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
         getThumbnail : function(content){
             var thumbnail = "";
             if (content['_mimeType/page1-small']) {
-                thumbnail="/p/" + content['jcr:name'] + ".page1-small.jpg";
+                thumbnail="/p/" + content['_path'] + ".page1-small.jpg";
             }
             return thumbnail;
         },
@@ -451,9 +451,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
 
         getCommentCount : function(content){
             var count = 0;
-            if (content[content["jcr:path"] + "/comments"]) {
-                $.each(content[content["jcr:path"] + "/comments"], function(key, val){
-                    var regex = new RegExp(content["jcr:path"] + "/comments/");
+            if (content[content["_path"] + "/comments"]) {
+                $.each(content[content["_path"] + "/comments"], function(key, val){
+                    var regex = new RegExp(content["_path"] + "/comments/");
                     if (key.match(regex)) {
                         count++;
                     }

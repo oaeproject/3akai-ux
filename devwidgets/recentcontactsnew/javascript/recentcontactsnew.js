@@ -67,13 +67,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 name: result["sakai:pooled-content-file-name"],
                 commentCount: sakai.api.Content.getCommentCount(result),
                 placeCount: sakai.api.Content.getPlaceCount(result),
-                path: "/p/" + result["jcr:name"],
+                path: "/p/" + result["_path"],
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
                 _mimeType: sakai.api.Content.getMimeType(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
-                "jcr:name": result["jcr:name"]
+                "_path": result["_path"]
             };
             var mimetypeData = sakai.api.Content.getMimeTypeData(result);
             // set the mimetype and corresponding image
