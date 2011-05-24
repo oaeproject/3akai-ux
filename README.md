@@ -47,7 +47,7 @@ Then you can set up an instance with the following Terminal commands on a Unix/M
 `cd ~/sakai3`
 
 2. Check out the latest Nakamura code. This will create an "open-experiments" folder
-`git clone git@github.com:sakaiproject/nakamura.git`
+`git clone https://github.com/sakaiproject/nakamura.git`
 `cd nakamura`
 
 3. Now build the kernel:
@@ -67,7 +67,7 @@ If you would like to do UI/UX development you will need to additionally to the f
 `cd ~/sakai3`
 
 2. Check out the UX code from Github, this will create a "3akai-ux" folder:
-`git clone git@github.com:sakaiproject/3akai-ux.git`
+`git clone https://github.com/sakaiproject/3akai-ux.git`
 
 3. Go to the kernel's Felix console by typing the following address into the browser's address bar (preferably with an alternative browser from the one you are using from development):
 "http://localhost:8080/system/console"
