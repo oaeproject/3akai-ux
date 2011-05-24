@@ -46,7 +46,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
 
             if (content_path && document.location.pathname === "/content"){
-                document.location = "/dev/content_profile2.html#p=" + content_path.replace("/p/","") + "/" + filename;
+                var redirectURL = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
+                if (filename) {
+                    redirectURL += "/" + filename;
+                }
+                document.location = redirectURL;
                 return;            
             }  
             
@@ -280,7 +284,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var handleHashChange = function() {
             content_path = $.bbq.getState("p") || "";
             content_path = content_path.split("/");
-            filename = content_path[1];
+            if (content_path[1]) {
+                filename = content_path[1];
+            }
             content_path = "/p/" + content_path[0];
             
             if (content_path != previous_content_path) {
@@ -487,7 +493,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#entity_content_add_to_library").live("click", function(){
-            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["jcr:path"], sakai.data.me.user.userid, function(){
+            sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data["_path"], sakai.data.me.user.userid, function(){
                 $("#entity_content_add_to_library").hide();
                 sakai.api.Util.notification.show($("#content_profile_add_library_title").html(), $("#content_profile_add_library_body").html());
             });
@@ -521,7 +527,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
                     parametersToCarryOver: {
-                        "content_path": sakai_global.content_profile.content_data.content_path
+                        "p": sakai_global.content_profile.content_data.content_path.replace("/p/", "")
                     }
                 }, sakai_global.content_profile.content_data.content_path]);
             }

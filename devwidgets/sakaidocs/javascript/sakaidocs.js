@@ -582,6 +582,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderPage = function(reloadPage){
             stopEditPage();
+            $("#versions_container").hide();
             sakai.api.Widgets.nofityWidgetShown("#s3d-page-container > div:visible", false);
             $("#s3d-page-container > div:visible").hide();
             var $contentEl = null,
@@ -603,7 +604,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/");
                     $contentEl.show();
                 } else {
                     $("#s3d-page-container #" + currentPageShown.ref).show();
@@ -668,6 +669,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":replaceProperties": true,
                     "_charset_":"utf-8",
                     ":content": $.toJSON(toStore)
+                },
+                success: function(){
+                    // add pageContent in non-replace mode to support versioning
+                    $.ajax({
+                        url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
+                        type: "POST",
+                        data: {
+                            "sling:resourceType": "sakai/pagecontent",
+                            "sakai:pagecontent": $.toJSON(toStore),
+                            "_charset_": "utf-8"
+                        }, success: function(){
+                            $(window).trigger("update.versions.sakai", currentPageShown);
+                        }
+                    });
                 }
             });
         };
@@ -729,6 +744,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setWrappingStyle("block_image_right");
         });
 
+        $("#sakaidocs_revisions").bind("click",function(ev){
+            $(window).trigger("init.versions.sakai", currentPageShown);
+        });
+
         $("#autosave_revert").die("click").live("click", revertAutosave);
 
         $("#autosave_keep").die("click").live("click", keepAutosave);
@@ -752,6 +771,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Widget has loaded //
         ///////////////////////
 
+        sakai.api.Widgets.widgetLoader.insertWidgets("#"+tuid);
         $(window).trigger("ready.sakaidocs.sakai");
 
     };

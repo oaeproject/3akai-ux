@@ -8,7 +8,7 @@
 <div id="featuredworlds_template"><!--
     <div class="s3d-contentpage-title">
         {for tab in tabs}
-            <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" sakai-worldid="${tab.id}">${tab.title} (<a href="/dev/search2.html#l=${tab.id}&q=${category}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">${data[tab.id].total}</a>)</div>
+            <div class="featuredworlds_tab {if tab_index == 0} featuredworlds_tab_selected{/if}" data-sakai-worldid="${tab.id}">${tab.title} (<a href="/dev/search2.html#l=${tab.id}&q=${category}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">${data[tab.id].total}</a>)</div>
         {/for}
     </div>
     <div id="featuredworlds_worlds_content_container">
@@ -33,7 +33,10 @@
                     </div>
                 {/for}
             {else}
-                <span id="featuredworlds_no_worlds">__MSG__NO_FEATURED__ ${tab.title}</span>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <h1>__MSG__WHEN_CATEGORY_ITEMS_FOR__ '${tab.title}' __MSG__ARE_CREATED__{if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=categories/${tab.id}" title="__MSG__ADD__ ${tab.title}" class="s3d-regular-links">__MSG__ADD__ ${tab.title}</a>{/if}</h1>
+                </div>
             {/if}
         </div>
     {/for}

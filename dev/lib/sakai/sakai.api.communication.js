@@ -357,7 +357,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
                 newMsg.id = msg.id;
                 newMsg.read = msg["sakai:read"];
-                newMsg.path = msg["jcr:path"];
+                newMsg.path = msg["_path"];
                 if (msg.previousMessage) {
                     newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
                     $.each(newMsg.previousMessage, function(i,val){

@@ -193,17 +193,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var getFeaturedContent = function(){
             var items = 10;
             var q = "";
-            var url = "/var/search/pool/all-all.json";
+            var url = "/var/search/public/random-content.json";
             if(sakai_global.category){
                 items = 7;
-                q = pageData.category;;
+                q = pageData.category.replace("-", "/");
                 url = "/var/search/pool/all.json"
             }
             sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
                 items: items,
-                sortOn: "_lastModified",
-                sortOrder: "desc",
                 q: q
             });
         };

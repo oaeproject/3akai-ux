@@ -23,7 +23,7 @@
     {macro contentButtons(id, uploader)}
         <span class="carousel_bottom_buttons" style="display:none">
             <img src="/devwidgets/featuredcontent/images/featuredcontent_share_icon.png" class="carousel_sharecontent share_trigger_click" data-entityid="${id}" />
-            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="carousel_savecontent savecontent_trigger" data-entityid="${id}" />
+            <img src="/dev/images/add_to_library_icon.png" class="carousel_savecontent savecontent_trigger" data-entityid="${id}" />
             <img src="/devwidgets/featuredcontent/images/featuredcontent_author_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
         </span>
     {/macro}
@@ -168,7 +168,7 @@
                                         {if user.picture}
                                             <img src="/~${user.userid}/public/profile/${user.picture.name}" />
                                         {else}
-                                            <img src="/dev/images/user_avatar_icon_48x48.png" />
+                                            <img src="/dev/images/default_User_icon_50x50.png" />
                                         {/if}
                                         <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
                                         <div class="carousel_counts">
@@ -186,7 +186,7 @@
                                         </div>
                                         <span class="carousel_bottom_buttons" style="display:none">
                                             {if !user.connected}
-                                                <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
+                                                <img src="/dev/images/add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
                                             {/if}
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
                                         </span>
@@ -226,7 +226,7 @@
                                         </div>
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons" style="display:none">
-                                            <img src="/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png" class="sakai_joingroup_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" />
+                                            <img src="/dev/images/add_to_library_icon.png" class="sakai_joingroup_overlay" data-groupid="${group.groupid}" />
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group" />
                                         </span>
 

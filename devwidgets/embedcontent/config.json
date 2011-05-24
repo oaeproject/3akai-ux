@@ -8,7 +8,7 @@
     "i18n": {
         "default": "/devwidgets/embedcontent/bundles/default.properties"
     },
-    "name":"Embed Content",
+    "name":"Files and documents",
     "img":"/devwidgets/embedcontent/images/content.png",
     "type":"core",
     "enabled":true,

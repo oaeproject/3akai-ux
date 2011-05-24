@@ -1,0 +1,42 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/versions/css/versions.css" />
+
+<div class="versions_widget">
+    <div id="versions_container" style="display:none;"><!----></div>
+</div>
+
+<div id="versions_template"><!--
+    {if data.length}
+        <div id="versions_next" class="versions_controls"></div>
+        <div id="versions_prev" class="versions_controls"></div>
+    {/if}
+    <div id="versions_carousel_container" class="jcarousel-skin-tango s3d-bold">
+        {if data.length}
+            <ul>
+                {for version in data}
+                    <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]}">
+                        {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
+                        <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
+                        <a href="/~${version["_lastModifiedBy"]}" class="s3d-regular-links versions_updater" title="__MSG__VIEW__ ${version["username"]}'s __MSG__PROFILE__">${version["username"]}</a>
+                        {if !sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document"}
+                            <button type="button" class="s3d-button s3d-button-link-2-state versions_restore_version">
+                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__RESTORE_THIS_REVISION__</span>
+                            </button>
+                        {else}
+                            <a href="${currentPage.pageSavePath}.version.,${version.versionId},/${version["sakai:pooled-content-file-name"]}" target="_blank">
+                                <button type="button" class="s3d-button s3d-button-link-2-state">
+                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DOWNLOAD_THIS_REVISION__</span>
+                                </button>
+                            </a>
+                        {/if}
+                    </li>
+                {/for}
+            </ul>
+        {else}
+            <div id="versions_noversions">No revisions</div>
+        {/if}
+    </div>
+--></div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/versions/javascript/versions.js"></script>

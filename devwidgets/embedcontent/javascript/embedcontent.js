@@ -127,9 +127,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderWidget = function() {
             wData.sakai = sakai;
+            wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
-                var placement = "ecDocViewer" + tuid + value["jcr:name"] + index;
+                var placement = "ecDocViewer" + tuid + value["_path"] + index;
                 wData.items[index].placement = placement;
                 docData[placement] = {
                     data : value.fullresult,
@@ -178,17 +179,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var createDataObject = function(result, name) {
             var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
-                "value": name || result['jcr:name'],
+                "value": name || result['_path'],
                 "name": result['sakai:pooled-content-file-name'],
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
                 "_mimeType": mimetype,
                 "description": result["sakai:description"] || "",
-                "path": "/p/" + (name || result['jcr:name']),
+                "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
+                "link": (name || result['_path']) + "/" + result['sakai:pooled-content-file-name'],
                 "extension": result['sakai:fileextension'],
-                "jcr:name": result['jcr:name'],
+                "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
             };
@@ -341,7 +342,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(".as-selection-item").remove();
             }
             $.each(files, function(i,val) {
-                var newObj = createDataObject(val, val["jcr:name"]);
+                var newObj = createDataObject(val, val["_path"]);
                 autosuggestSelectionAdded(newObj);
                 $embedcontent_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
             });
@@ -518,13 +519,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0, j = data.items.length; i < j; i++) {
                     if (processWidget(data.items[i], data.items)) {
                         if ($.isFunction(callback)) {
-                            callback();
+                            callback(true);
                         }
                     }
                 }
             } else {
                 if ($.isFunction(callback)) {
-                    callback();
+                    callback(false);
                 }
             }
         };
@@ -545,7 +546,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $uploadContentLink.bind("click", function() {
-            $(window).trigger("init.fileupload.sakai");
+            $(window).trigger("init.newaddcontent.sakai");
             return false;
         });
 
@@ -658,9 +659,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             });
         });
+        
+        var renderDefaultContent = function(){
+            $("#embedcontent_content", $rootel).html(sakai.api.Util.TemplateRenderer("embedcontent_content_html_template", {
+                "showDefaultContent": true
+            }));
+        };
 
         var doInit = function() {
-            getWidgetData(function() {
+            getWidgetData(function(success) {
                 if (showSettings) {
                     if (sakai_global.sitespages &&
                         sakai_global.sitespages.site_info &&
@@ -675,6 +682,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     renderSettings();
                     $embedcontent_settings.show();
+                } else if (!success) {
+                    renderDefaultContent();
+                    $embedcontent_main_container.show();
                 } else {
                     $embedcontent_main_container.show();
                     renderWidget();

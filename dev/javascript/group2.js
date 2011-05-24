@@ -38,6 +38,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     groupData.authprofile = data.properties;
                     groupData.authprofile.picture = sakai.api.Groups.getProfilePicture(groupData.authprofile);
                     sakai_global.group2.groupData = groupData.authprofile;
+                    var directory = [];
+                    // When only one tag is put in this will not be an array but a string
+                    // We need an array to parse and display the results
+                    if (sakai_global.group2.groupData && sakai_global.group2.groupData['sakai:tags']) {
+                        sakai_global.group2.groupData.saveddirectory = sakai.api.Util.getDirectoryTags(sakai_global.group2.groupData["sakai:tags"].toString());
+                    }
+                    sakai_global.group2.groupId = groupId;
                     sakai.api.Security.showPage(function() {
                         if (groupData.authprofile["sakai:customStyle"]) {
                             sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
@@ -64,6 +71,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var type = "group";
             if (canManage){
                 type = "group_managed";
+                $("#group_create_new_area").show();
             }
             $(window).trigger("sakai.entity.init", [context, type, groupData]);
         };
@@ -94,23 +102,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         canView = true;
                     }
                 } else {
-                    // Check whether I can view
-                    for (var r = 0; r < view.length; r++){
-                        if (view[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)){
+                    // Check whether I'm a member
+                    var isMember = false;
+                    for (var r = 0; r < roles.length; r++) {
+                        if (sakai.api.Groups.isCurrentUserAMember(groupId + "-" + roles[r].id, sakai.data.me)){
+                            isMember = true;
+                        }
+                    }
+                    if (isMember) {
+                        // Check whether I can view
+                        for (var r = 0; r < view.length; r++) {
+                            if (view[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)) {
+                                canView = true;
+                            }
+                        }
+                        // Check whether I can manage
+                        for (var r = 0; r < edit.length; r++) {
+                            if (edit[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)) {
+                                canView = true;
+                                canSubedit = true;
+                            }
+                        }
+                    } else {
+                        // Check whether everyone can view
+                        if ($.inArray("everyone", view) !== -1) {
                             canView = true;
                         }
                     }
-                    // Check whether everyone can view
-                    if ($.inArray("everyone", view) !== -1){
-                        canView = true;
-                    }
-                    // Check whether I can manage
-                    for (var r = 0; r < edit.length; r++){
-                        if (edit[r].substring(0,1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)){
-                            canView = true;
-                            canSubedit = true;
-                        }
-                    }
+                    
                 }
                 pubdata.structure0[i]._canView = canView;
                 pubdata.structure0[i]._canSubedit = canSubedit;
@@ -118,25 +137,68 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var loadDocStructure = function(){
+        var loadDocStructure = function(forceOpenPage){
             $.ajax({
                 url: "/~" + groupId+ "/docstructure.infinity.json",
                 success: function(data){
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     filterOutUnwanted();
-                    generateNav();
+                    generateNav(forceOpenPage);
                 }
             });
         };
 
-        var generateNav = function(){
+        var generateNav = function(forceOpenPage){
             if (pubdata) {
-                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true}, "/~" + groupId+ "/docstructure"]);
+                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true, "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
+                sakai_global.group2.pubdata = pubdata;
             }
         };
 
         $(window).bind("lhnav.ready", function(){
             generateNav();
+        });
+        
+        $(window).bind("rerender.group.sakai", function(ev, forceOpenPage){
+            loadDocStructure(forceOpenPage);
+        });
+
+        /////////////////////
+        // Create new area //
+        /////////////////////
+        
+        $("#group_create_new_area").live("click", function(){
+            $(window).trigger("addarea.initiate.sakai");
+        });
+
+        $(window).bind("sakai.addpeople.usersselected", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "user": data[user].userid,
+                    "permission": data[user].permission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.addUsersToGroup(groupId, false, members, sakai.api.User.data.me, false, function(){
+                    $(window).trigger("usersselected.addpeople.sakai");
+                });
+            }
+        });
+
+        $(window).bind("sakai.addpeople.usersswitchedpermission", function(e, widgetid, data){
+            var members = [];
+            for(var user in data){
+                var member = {
+                    "userid": data[user].userid,
+                    "permission": data[user].originalPermission
+                };
+                members.push(member);
+            }
+            if(members){
+                sakai.api.Groups.removeUsersFromGroup(groupId, false, members, sakai.api.User.data.me, false);
+            }
         });
 
         ////////////////////

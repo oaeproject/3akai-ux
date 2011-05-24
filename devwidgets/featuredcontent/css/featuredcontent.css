@@ -38,6 +38,7 @@
 .featuredcontent_widget .featuredcontent_content_right_description {height:186px;width:134px;float:right;margin-bottom:10px;}
 .featuredcontent_widget #featuredcontent_show_more_container {width:680px;clear:both;padding: 12px 0;}
 .featuredcontent_widget #featuredcontent_show_more_container button {margin-left:auto;margin-right:auto;display:block;}
+.featuredcontent_widget .s3d-no-results-icon {background:url("/devwidgets/featuredcontent/images/featuredcontent_noresults_icon.png") no-repeat top left transparent;}
 
 /* Content box actions */
 .featuredcontent_widget .featuredcontent_content:hover .featuredcontent_content_actions {display:block;}
@@ -46,7 +47,7 @@
 .featuredcontent_widget .featuredcontent_content_medium .featuredcontent_content_actions {margin-top:195px;}
 .featuredcontent_widget .featuredcontent_content_small .featuredcontent_content_actions {margin-top:75px;}
 .featuredcontent_widget .featuredcontent_content_actions div {width:16px;height:16px;cursor:pointer;}
-.featuredcontent_widget .featuredcontent_content_actions_addtolibrary {background:url("/devwidgets/featuredcontent/images/featuredcontent_add_to_library_icon.png") no-repeat top left transparent;float:left;}
+.featuredcontent_widget .featuredcontent_content_actions_addtolibrary {background:url("/dev/images/add_to_library_icon.png") no-repeat top left transparent;float:left;}
 .featuredcontent_widget .featuredcontent_content_actions_authorinfo {background:url("/devwidgets/featuredcontent/images/featuredcontent_author_icon.png") no-repeat scroll left top transparent;margin-left:auto;margin-right:auto;}
 .featuredcontent_widget .featuredcontent_content_actions_share {background:url("/devwidgets/featuredcontent/images/featuredcontent_share_icon.png") no-repeat scroll left top transparent;float:right;}
 .featuredcontent_widget .featuredcontent_content_actions_addtolibrary.disabled {display:none;}

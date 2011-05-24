@@ -28,24 +28,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.categories = function(tuid, showSettings){
-
+    
         // Containers
         var $categoriesItemsContainer = $("#categories_items_container");
-
+        
         // Templates
         var categoriesItemsTemplate = "categories_items_template";
-
+        
         // Elements
         var $categoriesExpandContract = $("#categories_expand_contract");
-
+        
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
-
-
+        
+        
         /////////////
         // BINDING //
         /////////////
-
+        
         /**
          * Expand or collapse the widget
          */
@@ -53,11 +53,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $categoriesItemsContainer.toggle("display");
             $categoriesExpandContract.children("div").toggle();
         };
-
+        
         var addBinding = function(){
             $categoriesExpandContract.bind("click", toggleWidgetvisibility)
         };
-
+        
         /**
          * Add binding to the carousel action buttons after rendering and initializing the carousel
          * @param {Object} carousel reference to the carousel instance
@@ -65,9 +65,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var carouselBinding = function(carousel){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
                 var clickedId = parseInt($(this)[0].id.split("scroll_")[1]);
-                if(clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1]) && $(this)[0].id !== "categories_view_next_raquo"){
+                if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1]) && $(this)[0].id !== "categories_view_next_raquo") {
                     carousel.prev();
-                }else{
+                }
+                else {
                     carousel.next();
                 }
                 if ($(this)[0].id !== "categories_view_next_raquo") {
@@ -75,7 +76,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $(".categories_items_scroll_selected").removeClass("categories_items_scroll_selected");
                     $(this).removeClass("categories_items_scroll_deselected");
                     $(this).addClass("categories_items_scroll_selected");
-                } else {
+                }
+                else {
                     if ($(".categories_items_scroll_selected").next()[0]) {
                         var $next = $(".categories_items_scroll_selected").next();
                         var $this = $(".categories_items_scroll_selected");
@@ -88,12 +90,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 return false;
             });
         };
-
-
+        
+        
         ////////////////////////////
         // CAROUSEL AND RENDERING //
         ////////////////////////////
-
+        
         /**
          * Initialize the carousel after rendering the items
          */
@@ -105,72 +107,69 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 wrap: "circular",
                 initCallback: carouselBinding
             });
-            $categoriesItemsContainer.css("display","none");
+            $categoriesItemsContainer.css("display", "none");
         };
-
-        var renderCategories = function(total){
+        
+        var renderCategories = function(){
             $categoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
                 "directory": categoriesToRender,
-                "sakai": sakai,
-                "total":total
+                "sakai": sakai
             }));
             addCarousel();
             $(".categories_widget").css("visibility", "visible");
         };
-
+        
         /**
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
          * @param {Object} data contains featured content data
-         */
+         */   
         var parseDirectory = function(success, data){
-            var count = 0;
             $.each(directory, function(i, toplevel){
-                if (data.results[count]){
-                    if (data.results[count]["_mimeType"] && data.results[count]["_mimeType"].split("/")[0] == "image") {
-                        data.results[count].image = true;
+                if (data[i] && data[i].content){
+                    toplevel.content = data[i].content;
+                    toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
+                    toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
+                    
+                    var mimeType = sakai.api.Content.getMimeType(toplevel.content);
+                    if (mimeType.indexOf("image/") !== -1){
+                        toplevel.content.image = true;
                     }
-                    if (data.results[count]["sakai:tags"]) {
-                        data.results[count]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(data.results[count]["sakai:tags"].toString());
+                    if (sakai.api.Content.getThumbnail(toplevel.content)){
+                        toplevel.content.haspreview = true;
                     }
-                    data.results[count].haspreview = sakai.api.Content.hasPreview(data.results[count]);
-                    data.results[count].usedby = sakai.api.Content.getPlaceCount(data.results[count]);
-                    toplevel["featuredcontent"] = data.results[count];
-                    toplevel.id = i;
+                    
                 }
+                // TODO make this non dummy
+                // with the help of https://jira.sakaiproject.org/browse/KERN-1889
+                toplevel.count = Math.floor(Math.random() * 10);
                 toplevel.id = i;
                 categoriesToRender.push(toplevel);
-                count++;
+                
             });
-            renderCategories(data.total);
+            renderCategories();
         };
-
+        
         /**
          * Get a feed of content to display in the carousel
          */
         var getCategoryContent = function(){
-            sakai.api.Server.loadJSON("/var/search/pool/all-all.json", parseDirectory, {
-                page: 0,
-                items: 10,
-                sortOn: "_lastModified",
-                sortOrder: "desc",
-                q: "*"
-            });
+            sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
         };
-
-
+        
+        
         ////////////////
         // INITIALIZE //
         ////////////////
-
+        
         var doInit = function(){
             addBinding();
             getCategoryContent();
         };
-
+        
         doInit();
-
+        
     };
-
+    
     sakai.api.Widgets.widgetLoader.informOnLoad("categories");
 });

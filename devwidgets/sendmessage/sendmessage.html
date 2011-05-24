@@ -7,19 +7,12 @@
 <span id="sendmessage_data_error" style="display:none;">__MSG__FAILED_TO_RETRIEVE_DATA__</span>
 <span id="sendmessage_fields_error" style="display:none;">__MSG__PLEASE_FILL_IN_ALL_FIELDS__.</span>
 
-<div id="sendmessage_container" class="dialog message_dialog">
-
-    <!-- HEADER -->
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1>__MSG__SEND_MESSAGE__</h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
+<div id="sendmessage_container" class="s3d-dialog s3d-dialog-container message_dialog">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__SEND_MESSAGE__</h1>
 
     <!-- FORM -->
-    <div id="message_form" class="dialog_content">
-
+    <div id="message_form">
         <div id="sendmessage_dialog_box" class="send_message dialogue_box fl-centered">
             <form class="compose-form" action="" method="post">
 
@@ -51,12 +44,6 @@
             </form>
             <hr class="fl-push fl-hidden"/>
         </div>
-
-    </div>
-
-    <!-- FOOTER -->
-    <div id="sendmessage_dialog_footer" class="dialog_footer">
-        <div class="dialog_footer_inner sendmessage_dialog_footer_inner"></div>
     </div>
     <span id="sendmessage_message_sent" style="display:none;">__MSG__YOUR_MESSAGE_HAS_BEEN_SENT__.</span>
     <span id="sendmessage_message_error" style="display:none;"><b>__MSG__AN_ERROR_HAS_OCCURRED__.</b> __MSG__PLEASE_TRY_AGAIN_LATER__.</span>

@@ -371,7 +371,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "replies": []
                         };
                         postData.post["profile"] = [me.profile];
-                        postData.post["jcr:path"] = widgeturl + "/message/inbox/" + postData.post["jcr:name"];
+                        postData.post["_path"] = widgeturl + "/message/inbox/" + postData.post["_path"];
                         postData.post["canDelete"] = true;
                         postData.post["canEdit"] = true;
                         if (widgetSettings && widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {

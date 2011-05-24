@@ -11,7 +11,6 @@
         {/if}
     --></div>
     <!-- Action bar -->
-    <div id="mylibrary_title_bar" class="mylibrary_title_bar">
         <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder"
             style="display:none; width: auto;">
             __MSG__SORT_BY__: <select id="mylibrary_sortby">
@@ -48,14 +47,26 @@
         </div>
     </div>
 
-    <div id="mylibrary_empty" class="fl-container fl-fix mylibrary_item" style="display:none;">
-        <div class="mylibrary_meta mylibrary_center"><span id="mylibrary_empty_note"></span>
-            <button type="button" id="mylibrary_addcontent"
-                class="s3d-button s3d-button-link-2-state" style="display:none;">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span>
-            </button>
-        </div>
-    </div>
+    <div id="mylibrary_empty" class="fl-container fl-fix" style="display:none;"><!----></div>
+
+    <div id="mylibrary_empty_template"><!--
+        {if who == "edit"}
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a id="mylibrary_addcontent" class="s3d-regular-links" href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a></h1>
+            </div>
+        {elseif who == "group"}
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_GROUP__</h1>
+            </div>
+        {else}
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+            </div>
+        {/if}
+    --></div>
 
     <!-- Library Items -->
     <div id="mylibrary_items"><!-- TEMPLATE HERE --></div>

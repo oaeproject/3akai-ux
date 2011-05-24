@@ -38,6 +38,7 @@ define(function(){
             PUBLIC_MY_DASHBOARD_URL: "/home",
             PUBLIC_PEOPLE_URL: "/dev/public_people.html",
             PUBLIC_SEARCH_URL: "/dev/public_search.html",
+            SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_CONTENT_URL: "/search/content",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_PEOPLE_URL: "/search/people",
@@ -45,8 +46,8 @@ define(function(){
             SEARCH_SITES_URL: "/search/sites",
             TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
-            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/user_avatar_icon_32x32.png",
-            USER_DEFAULT_ICON_URL: "/dev/images/user_avatar_icon_48x48.png",
+            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
+            USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
             USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
             // Services
@@ -1345,7 +1346,7 @@ define(function(){
                 }
             },
             easiaticlanguagesliterature: {
-                title: "Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects",
+                title: "Exotic Languages, Literature and related subjects",
                 children: {
                     chinesestudies: {
                         title: "Chinese studies"
@@ -1683,16 +1684,6 @@ define(function(){
                     "name": "Three equal columns",
                     "widths": [33, 33, 33],
                     "siteportal": false
-                },
-                "fourcolumn": {
-                    "name": "Four equal columns",
-                    "widths": [25, 25, 25, 25],
-                    "siteportal": false
-                },
-                "fivecolumn": {
-                    "name": "Five equal columns",
-                    "widths": [20, 20, 20, 20, 20],
-                    "siteportal": false
                 }
             },
             "defaults": {
@@ -1761,11 +1752,11 @@ define(function(){
                                         "_ref":"id6573920372",
                                         "_order":0,
                                         "_title":"Participants",
-                                        //"_nonEditable": true,
+                                        "_nonEditable": true,
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
-                                            //"_nonEditable": true,
+                                            "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
@@ -2571,5 +2562,6 @@ define(function(){
             }
         ]
     };
+
     return config;
 });

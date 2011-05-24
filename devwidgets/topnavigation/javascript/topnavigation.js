@@ -207,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var tempFile = {
                         "dottedname" : sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                         "name" : data.results[i]["sakai:pooled-content-file-name"],
-                        "url" : "/content#p=" + data.results[i]["jcr:name"]+"/"+data.results[i]["sakai:pooled-content-file-name"],
+                        "url" : "/content#p=" + data.results[i]["_path"]+"/"+data.results[i]["sakai:pooled-content-file-name"],
                         "css_class" : mimeType
                     };
                     files.push(tempFile);
@@ -560,6 +560,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "picture": el.attr("sakai-entitypicture") || false
                 };
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
+            }
+        });
+
+        // Join group
+
+        $(".sakai_joingroup_overlay").live("click", function(ev){
+            var el = $(this);
+            if (el.attr("data-groupid")){
+                $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
         });
 

@@ -328,7 +328,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     pickerData["selected"][$(this).attr("id")].entityType = "user";
                                 } else if (rawData.results[i]['sakai:group-id']) {
                                     pickerData["selected"][$(this).attr("id")].entityType = "group";
-                                } else if (rawData.results[i]['jcr:name']) {
+                                } else if (rawData.results[i]['_path']) {
                                     pickerData["selected"][$(this).attr("id")].entityType = "file";
                                 }
                                 if ($pickeradvanced_add_button.is(":disabled")) {
@@ -363,7 +363,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                                 pickerData.selectCount += 1;
                                                 pickerData["selected"][$(this).attr("id")] = rawData.results[j];
                                                 pickerData["selected"][$(this).attr("id")].entityType = "group";
-                                            } else if (rawData.results[j]['jcr:name'] && rawData.results[j]['jcr:name'] == [$(this).attr("id")]) {
+                                            } else if (rawData.results[j]['_path'] && rawData.results[j]['_path'] == [$(this).attr("id")]) {
                                                 pickerData.selectCount += 1;
                                                 pickerData["selected"][$(this).attr("id")] = rawData.results[j];
                                                 pickerData["selected"][$(this).attr("id")].entityType = "file";

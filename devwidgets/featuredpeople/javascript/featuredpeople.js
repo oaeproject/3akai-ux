@@ -40,7 +40,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var renderPeople = function(data){
                 $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
                     "data": data,
-                    "category": pageData.category
+                    "category": pageData.category,
+                    "sakai": sakai
                 }));
         }
 
@@ -50,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if(item.picture){
                         item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name;
                     }else{
-                        item.picture = "/dev/images/user_avatar_icon_48x48.png";
+                        item.picture = "/dev/images/default_User_icon_50x50.png";
                     }
                     item.name = sakai.api.User.getDisplayName(item);
                 });
@@ -61,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var fetchPeople = function(){
             var q = "";
             if(pageData){
-                q = pageData.category;
+                q = pageData.category.replace("-", "/");
             }
             sakai.api.Server.loadJSON("/var/search/users.infinity.json", parsePeople, {
                 page: 0,

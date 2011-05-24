@@ -1,0 +1,72 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/areapermissions/css/areapermissions.css" />
+
+<div id="areapermissions_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__AREA_PERMISSIONS_FOR__ <span id="areapermissions_area_title"></span></h1>
+
+    <div id="areapermissions_content_container" ></div>
+    <div class="fl-force-right areapermissions_buttons">
+        <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-button-link-2-state" id="areapermissions_apply_permissions" title="Apply permissions">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__APPLY_PERMISSIONS__</span>
+        </button>
+    </div>
+    <div class="fl-push"></div>
+</div>
+
+<div id="areapermissions_content_template" style="display:none"><!--
+    <div class="areapermissions_visible_to">
+        <span>__MSG__CAN_BE_SEEN_BY__:</span>
+        <select id="areapermissions_area_general_visibility" data-original-selection="${visibility}">
+            {if groupPermissions !== "public"}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">__MSG__EVERYONE__ (__MSG__GROUP_MUST_BE_PUBLIC__)</option>
+            {elseif !manager}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if} disabled="true">__MSG__EVERYONE__ (__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</option>
+            {else}
+                <option value="everyone" {if visibility === "everyone"} selected="true" {/if}>__MSG__EVERYONE__</option>
+            {/if}
+            {if groupPermissions !== "logged-in-only" && groupPermissions !== "public"}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__GROUP_MUST_BE_OPEN__)</option>
+            {elseif !manager}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if} disabled="true">__MSG__LOGGED_IN_ONLY__ (__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</option>
+            {else}
+                <option value="loggedin" {if visibility === "loggedin"} selected="true" {/if}>__MSG__LOGGED_IN_ONLY__</option>
+            {/if}
+            <option value="selected" {if visibility === "selected"} selected="true" {/if}>__MSG__SELECTED_ROLES_ONLY__</option>
+        </select>
+    </div>
+    <div class="areapermissions_role_list_header">__MSG__ROLES_WHO_CAN_SEE_OR_EDIT__:</div>
+    <div class="areapermissions_role_list">
+        <div class="areapermission_roles_controls">
+            <input type="checkbox" id="areapermissions_check_uncheck_all"/>
+            <select class="areapermissions_role_select" id="areapermissions_change_selected" disabled="true">
+                <option value="edit">__MSG__CAN_EDIT__</option>
+                <option value="view">__MSG__CAN_SEE__</option>
+                <option value="hidden">__MSG__DONT_SHOW__</option>
+            </select>
+        </div>
+        <div id="areapermission_roles">
+            {for role in roles}
+                <div class="areapermission_role_container">
+                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${role.title}</span>
+                    <select class="areapermissions_role_select" data-original-selection="${role.value}" data-roleid="${role.id}">
+                        {if !manager}
+                            <option value="edit" {if role.value === "edit"} selected="true" {/if} disabled="true">__MSG__CAN_EDIT__ (__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</option>
+                        {else}
+                            <option value="edit" {if role.value === "edit"} selected="true" {/if}>__MSG__CAN_EDIT__</option>
+                        {/if}
+                        <option value="view" {if role.value === "view"} selected="true" {/if}>__MSG__CAN_SEE__</option>
+                        <option value="hidden" {if role.value === "hidden"} selected="true" {/if}>__MSG__DONT_SHOW__</option>
+                    </select>
+                </div>
+            {/for}
+        </div>
+    </div>
+--></div>
+
+<span style="display:none" id="areapermissions_notification_title">__MSG__AREA_PERMISSIONS__</span>
+<span style="display:none" id="areapermissions_notification_body">__MSG__AREA_PERMISSIONS_SUCCESSFULLY_CHANGED__</span>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/areapermissions/javascript/areapermissions.js"></script>

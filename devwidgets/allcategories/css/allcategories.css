@@ -17,7 +17,7 @@
  */
 
 /* General */
-.allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:278px;height:156px;float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
+.allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:278px;height:156px; overflow: hidden; float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
 .allcategories_widget .allcategories_item:hover {background:#d7eff7;}
 .allcategories_widget .allcategories_item .allcategories_item_header {background:url("/devwidgets/allcategories/images/allcategories_item_header_bg.png") repeat-x scroll left top #2a2a2a;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:8px;margin-bottom:12px;cursor:pointer;}
 .allcategories_widget .allcategories_item .allcategories_item_header:hover {background:url("/devwidgets/allcategories/images/allcategories_item_header_hover_bg.png") repeat-x scroll left top #3572a7;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;}
@@ -34,5 +34,13 @@
 .allcategories_widget .allcategories_item .allcategories_item_header_link{font-size: 17px;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .allcategories_widget .allcategories_item .allcategories_item_header_meta {color:#fff;font-size:10px;display:block;}
-.allcategories_widget .allcategories_item .allcategories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px;}
+.allcategories_widget .allcategories_item .allcategories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px; margin-left: 3px;}
 .allcategories_widget .allcategories_item .allcategories_item_descriptive_text {color:#424242;font-size:11px;}
+.allcategories_widget .allcategories_content_description {color: #424242;font-size: 12px;display:block;word-wrap:break-word;margin-bottom:10px; margin-top: 5px;}
+.allcategories_widget .allcategories_content_category_description {font-size:11px;color:#424242;display:block;}
+.allcategories_widget .allcategories_content_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
+.allcategories_widget .allcategories_content_icon {display:inline-block;height:10px;width:15px;margin-right:5px;}
+.allcategories_widget .allcategories_content_category_description {font-size:11px;color:#424242;display:block; margin-top: 5px;}
+.allcategories_widget .allcategories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
+.allcategories_widget .allcategories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#424242;padding-left:20px;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent; clear: both;}
+.allcategories_widget .allcategories_content_tags a {font-size:11px !important;font-weight:normal !important;}

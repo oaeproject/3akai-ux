@@ -45,13 +45,13 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         var templateObject = {};
 
         var getPath = function(data) {
-            return "/p/" + data["jcr:name"];
+            return "/p/" + data["_path"];
         };
 
         var renderDocumentPreview = function(data){
             var url = window.location.protocol + '//' + window.location.host + getPath(data);
             var pdfDoc = {
-                id: data['jcr:name'],
+                id: data['_path'],
                 title: data['sakai:pooled-content-file-name'],
                 pages: data['sakai:pagecount'],
                 resources: {
@@ -74,8 +74,9 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         var renderImagePreview = function(url, lastMod){
             $documentviewerPreview.html("");
             templateObject.contentURL = url;
-            if (lastMod){
-                templateObject.contentURL += "?_=" + lastMod;
+            var date = new Date();
+            if (date){
+                templateObject.contentURL += "?_=" + date.getTime();
             }
             sakai.api.Util.TemplateRenderer("documentviewer_image_template", templateObject, $("#" + tuid + " #documentviewer_image_calculatesize"));
             var $imageRendered = $("#"+tuid+" #documentviewer_image_rendered");
