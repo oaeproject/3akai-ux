@@ -225,6 +225,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("init.newaddcontent.sakai");
                 return false;
             });
+            $(window).bind("done.newaddcontent.sakai", function(e, newContent) {
+                getRelatedContent(newContent[0]);
+            });
         };
 
         /**

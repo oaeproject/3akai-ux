@@ -119,6 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handleContentData = function(success, data) {
             if(success) {
+                data = sakai_global.newaddcontent.getNewList(data, 0, 5);
                 // parse & render data
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
@@ -151,9 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
-        // Listen for complete.fileupload.sakai event (from the fileupload widget)
-        // to refresh this widget's file listing
-        $(window).bind("complete.fileupload.sakai", function() {
+        $(window).bind("done.newaddcontent.sakai", function() {
             init();
         });
 

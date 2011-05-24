@@ -113,6 +113,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         // List Variables
         var itemsToUpload = [];
         var itemsUploaded = 0;
+        var brandNewContent = [];
+        var lastUpload = [];
 
         // Paths
         var uploadPath = "/system/pool/createfile";
@@ -129,6 +131,34 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var contentUploaded = false;
         var hideAfterContentUpload = false;
 
+
+        ////////////////////////////////
+        // Get newly uploaded content //
+        ////////////////////////////////
+
+        sakai_global.newaddcontent.getNewList = function(_data, offset, max) {
+            var data = $.extend({}, _data);
+            if (brandNewContent.length) {
+                var newContent = $.merge([], brandNewContent);
+                // only use the amount from the current page number
+                newContent = _.rest(newContent, offset * max);
+                $.each(newContent, function(i, elt) {
+                    var exists = false;
+                    $.each(data.results, function(j, result) {
+                        if (result._path === elt._path) {
+                            exists = true;
+                        }
+                    });
+                    if (!exists) {
+                        // put the element as the first result
+                        data.results = $.merge([elt], data.results);
+                        // modify the results to be the proper length
+                        data.results = _.first(data.results, max);
+                    }
+                });
+            }
+            return data;
+        };
 
         /////////////////
         // ITEMS QUEUE //
@@ -357,13 +387,15 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                         itemsUploaded++;
                     }
                 });
-            }else{
+            } else {
                 itemsUploaded++;
             }
-            if(itemsToUpload.length == itemsUploaded){
+            if(itemsToUpload.length === itemsUploaded) {
+                $(window).trigger("done.newaddcontent.sakai", [lastUpload]);
+                _.uniq($.merge(brandNewContent, lastUpload));
+                lastUpload = [];
                 $newaddcontentContainer.jqmHide();
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
-                window.setTimeout("$(window).trigger(\"complete.fileupload.sakai\")", 1000);
             }
         };
 
@@ -398,11 +430,12 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 data: document,
                 type: "POST",
                 dataType: "json",
-                success: function(data){
+                success: function(data) {
+                    lastUpload.push(data._contentItem.item);
                     var content = {};
                     content[refID] = {
                         "page": sakaidocConfig.defaultContent
-                    }
+                    };
                     $.ajax({
                         url: "/p/" + data._contentItem.poolId + ".resource",
                         type: "POST",
@@ -467,7 +500,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
-                    linkObj.hashpath = data["_contentItem"].poolId;
+                    lastUpload.push(data._contentItem.item);
+                    linkObj.hashpath = data._contentItem.poolId;
                     sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
                         checkUploadCompleted();
@@ -516,7 +550,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                                     },
                                     method: "POST"
                                 });
-                            };
+                            }
 
                             // Set initial version
                             objArr.push({
@@ -561,19 +595,15 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var uploadContent = function(){
             $newaddcontentUploadContentForm.attr("action", uploadPath);
             $newaddcontentUploadContentForm.ajaxForm({
+                dataType: "json",
                 success: function(data){
-                    var responseData = {};
-                    if (jQuery.browser.webkit) {
-                        responseData = $.parseJSON(data.split(">")[1].split("<")[0]);
-                    } else {
-                        responseData = $.parseJSON(data.replace(/<pre>/i, "").replace(/<\/pre>/i, ""));
-                    }
                     var extractedData = [];
-                    for (var i in responseData) {
-                        if (responseData.hasOwnProperty(i)) {
+                    for (var i in data) {
+                        if (data.hasOwnProperty(i)) {
+                            lastUpload.push(data[i].item);
                             var obj = {};
                             obj.filename = i;
-                            obj.hashpath = responseData[i];
+                            obj.hashpath = data[i];
                             extractedData.push(obj);
                         }
                     }

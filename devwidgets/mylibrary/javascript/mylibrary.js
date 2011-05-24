@@ -230,6 +230,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
+        // Listen for newly the newly added content event
+        $(window).bind("done.newaddcontent.sakai", function() {
+            reset();
+        });
+
         ////////////////////////////////////////////
         // Data retrieval and rendering functions //
         ////////////////////////////////////////////
@@ -371,9 +376,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             };
 
+            var handleResponse = function(success, data) {
+                if (sakai_global.newaddcontent) {
+                    data = sakai_global.newaddcontent.getNewList(data, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
+                }
+                handleLibraryItems(success, data);
+            };
+
             // fetch the data
             sakai.api.Server.loadJSON("/var/search/pool/manager-viewer.json",
-                handleLibraryItems, {
+                handleResponse, {
                     userid: userid,
                     page: mylibrary.currentPagenum - 1,
                     items: mylibrary.itemsPerPage,
@@ -581,12 +593,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // run the initialization function when the widget object loads
         doInit();
-
-        // Listen for complete.fileupload.sakai event (from the fileupload widget)
-        // to refresh this widget's file listing
-        $(window).bind("complete.fileupload.sakai", function(){
-            var t = setTimeout(reset, 2000);
-        });
 
     };
 
