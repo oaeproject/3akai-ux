@@ -400,8 +400,9 @@
                         //scroll the results if they are longer than the container
                         if(opts.scrollresults && start.length>0 && results_li_heights.length>0){
                             var scroll_holder = results_li_heights[start.index()];
-                            if(scroll_holder>results_ul[0].offsetHeight){
-                                results_ul.scrollTop(scroll_holder - results_ul[0].offsetHeight);
+                            var results_height = results_ul[0].offsetHeight;
+                            if(scroll_holder>results_height){
+                                results_ul.scrollTop(scroll_holder - results_height);
                             } else {
                                 results_ul.scrollTop(0);
                             }
