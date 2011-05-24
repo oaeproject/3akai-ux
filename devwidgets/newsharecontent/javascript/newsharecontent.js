@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var fetchUsersGroups = function(){
             var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){debug.log(data);
+            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){
                 if (success) {
                     var suggestions = [];
                     var name, value, type;
@@ -129,7 +129,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         selectedItemProp: "name",
                         searchObjProps: "name",
                         startText: "Enter name here",
-                        asHtmlID: tuid
+                        asHtmlID: tuid,
+                        scrollresults:true
                     });
                 }
             });
@@ -229,7 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "data": data,
                             "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["_path"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
                         };
-                        if (window.hasOwnProperty('addthis')) {
+                        if ('addthis' in window) {
                             $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
                             $newsharecontentContainer.jqmShow();
                         }

@@ -49,7 +49,8 @@
             retrieveComplete: function(data){ return data; },
             resultClick: function(data){},
             resultsComplete: function(){},
-            source: false // function to take over processing the query
+            source: false, // function to take over processing the query
+            scrollresults: false //set to true if you result list is in a container with overflow and it should scroll with up/down keyboard navigation
         };
         var opts = $.extend(defaults, options);     
         
@@ -75,13 +76,14 @@
                 var input = $(this);
                 input.attr("autocomplete","off").addClass("as-input").attr("id",x_id).val(opts.startText);
                 var input_focus = false;
+                var results_li_heights = []; //for calculating scrolling results if they overflow
                 
                 // Setup basic elements and render them to the DOM
                 input.wrap('<ul class="as-selections" id="as-selections-'+x+'"></ul>').wrap('<li class="as-original" id="as-original-'+x+'"></li>');
                 var selections_holder = $("#as-selections-"+x);
                 var org_li = $("#as-original-"+x);              
                 var results_holder = $('<div class="as-results" id="as-results-'+x+'"></div>').hide();
-                var results_ul =  $('<ul class="as-list"></ul>');
+                var results_ul =  $('<ul class="as-list"></ul>'); 
                 var values_input = $('<input type="hidden" class="as-values" name="as_values_'+x+'" id="as-values-'+x+'" />');
                 var prefill_value = "";
                 if(typeof opts.preFill == "string"){
@@ -269,6 +271,7 @@
                     if (!opts.matchCase){ query = query.toLowerCase(); }
                     var matchCount = 0;
                     results_holder.html(results_ul.html("")).hide();
+                    results_li_heights = [];
                     for(var i=0;i<d_count;i++){             
                         var num = i;
                         num_count++;
@@ -336,6 +339,12 @@
                     results_ul.css("width", selections_holder.outerWidth());
                     results_holder.show();
                     opts.resultsComplete.call(this);
+                    if(opts.scrollresults && matchCount > 1){ //don't bother building the array if only one list item since we won't be scrolling
+						results_ul.children().each(function(i){
+							var h = this.offsetHeight + ((i>0) ? results_li_heights[i-1]: 0);
+							results_li_heights.push(h);
+						});                    
+                    }
                 }
 
                 /**
@@ -388,8 +397,9 @@
                         }
                         lis.removeClass("active");
                         start.addClass("active");
-                        if(start.length>0){
-							var scroll_holder = (start.index()+1)*start[0].offsetHeight;
+                        //scroll the results if they are longer than the container
+                        if(opts.scrollresults && start.length>0 && results_li_heights.length>0){
+							var scroll_holder = results_li_heights[start.index()];
 							if(scroll_holder>results_ul[0].offsetHeight){
 								results_ul.scrollTop(scroll_holder - results_ul[0].offsetHeight);
 							} else {
