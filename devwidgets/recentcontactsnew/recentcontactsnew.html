@@ -4,13 +4,11 @@
 <div class="recentcontactsnew_widget">
     <div class="fl-widget-content s3d-widget-content recentcontactsnew_content">
        <div class="recentcontactsnew_add_container">
-           <a href="/dev/search2.html#l=people" title="__MSG__CREATE_A_GROUP__">
-               <button class="s3d-button s3d-button-link-2-state recentcontactsnew_button" type="button">
-                   <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__FIND_CONTACTS__</span>
-               </button>
-           </a>
-           <div>__MSG__START_FORMING_NETWORK_OF_CONTACTS__</div>
-       </div>
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a></h1>
+            </div>
+        </div>
        <!-- MAIN recentcontactsnew -->
         <div class="recentcontactsnew_main">
             <div class="recentcontactsnew_item"></div>
@@ -75,7 +73,7 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${author.authorName} __MSG__RECENT_UPLOAD__</p>
                 <div class="fl-force-left">
-                    <a href="/content#p=${content['jcr:name']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
+                    <a href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
                     <span>
                         {var mimeType = sakai.api.Content.getMimeType(content)}
                         {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
@@ -83,7 +81,7 @@
                         {if thumbnail}
                             <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
                         {elseif (mimeType.substring(0,6)=="image/")}
-                            <img class="s3d-icon-32" src="/p/${content['jcr:name']}" alt="${mimeTypeDescription}" />
+                            <img class="s3d-icon-32" src="/p/${content['_path']}" alt="${mimeTypeDescription}" />
                         {elseif sakai.config.MimeTypes[mimeType]}
                             <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                         {else}
@@ -93,7 +91,7 @@
                     </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['jcr:name']}/${content["sakai:pooled-content-file-name"]}">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}">
                         ${content.name}
                     </a>
                     <span class="recentcontactsnew_content_mimetype">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>

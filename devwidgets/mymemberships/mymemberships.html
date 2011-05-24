@@ -24,14 +24,15 @@
 
     <div id="mymemberships_nogroups_template" style="display:none"><!--
         {if isMe}
-            __MSG__YOU_ARE_NOT_A_MEMBER__
-            <a class="mymemberships_no_memberships" title="Create new" href="/dev/createnew.html">
-                <button type="button" id="mymemberships_addgroup" class="s3d-button s3d-button-link-2-state">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE_GROUP__</span>
-                </button>
-            </a>
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__ADD_GROUP__" class="s3d-regular-links">__MSG__ADD_GROUP__</a></h1>
+            </div>
         {else}
-            __MSG__THIS_USER_IS_NOT_A_MEMBER__
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
+            </div>
         {/if}
     --></div>
 
