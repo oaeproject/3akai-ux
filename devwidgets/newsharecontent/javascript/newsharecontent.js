@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var activityData = {
                 "sakai:activityMessage": activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + contentObj.data["jcr:name"], "content", "default", activityData, function(){
+            sakai.api.Activity.createActivity("/p/" + contentObj.data["_path"], "content", "default", activityData, function(){
                 $(window).trigger("load.content_profile.sakai", function(){
                     $(window).trigger("render.entity.sakai", ["content", contentObj]);
                 });
@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 userList.list = toAddList;
                 if (toAddList.length) {
                     sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "I_WANT_TO_SHARE") + " \"" + contentObj.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
-                    sakai.api.Content.addToLibrary(contentObj.data["jcr:name"], toAddList);
+                    sakai.api.Content.addToLibrary(contentObj.data["_path"], toAddList);
                     sakai.api.Util.notification.show(false, sakai.api.Security.saneHTML($("#newsharecontent_users_added_text").text()) + " " + userList.toAddNames.join(", "), "");
                     createActivity("__MSG__ADDED_A_MEMBER__");
                     $newsharecontentContainer.hide();
@@ -226,7 +226,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (success) {
                         contentObj = {
                             "data": data,
-                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["jcr:name"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
+                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["_path"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
                         };
                         if (window.hasOwnProperty('addthis')) {
                             $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});

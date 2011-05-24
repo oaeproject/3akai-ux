@@ -41,3 +41,5 @@
 .mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
 
 .mymemberships_item .sakai_joingroup_overlay {float: left; margin-right: 10px;}
+
+.mymemberships_widget .s3d-no-results-container {font-style:normal;}

@@ -23,7 +23,7 @@ p.recentcontactsnew_item_title,p.recentcontactsnew_item_meta{margin:0;}
 p.recentcontactsnew_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
 
-.recentcontactsnew_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
+.recentcontactsnew_add_container {padding:5px 10px 10px;}
 .recentcontactsnew_add_container div{color:#878a8c;}
 .recentcontactsnew_add_container a {text-decoration: none;}
 .recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}
@@ -37,3 +37,5 @@ p.recentcontactsnew_error_msg{padding-left:15px;}
 
 /* Widget icon */
 .recentcontactsnew.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}
+
+.recentcontactsnew.fl-widget .s3d-no-results-container {margin:30px 0 10px;}

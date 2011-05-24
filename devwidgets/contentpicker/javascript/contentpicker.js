@@ -121,15 +121,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var createDataObject = function(result, name) {
             var mimetype = getMimeType(result);
             var dataObj = {
-                "value": name || result['jcr:name'],
+                "value": name || result['_path'],
                 "name": result['sakai:pooled-content-file-name'],
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
                 "mimetype": mimetype,
                 "description": result["sakai:description"] || "",
-                "path": "/p/" + (name || result['jcr:name']),
+                "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": "/p/" + (name || result['jcr:name']) + "/" + result['sakai:pooled-content-file-name'],
+                "link": "/p/" + (name || result['_path']) + "/" + result['sakai:pooled-content-file-name'],
                 "extension": result['sakai:fileextension']
             };
             return dataObj;
@@ -219,7 +219,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $contentpicker_place_content.removeAttr("disabled");
             }
             $.each(files, function(i,val) {
-                var newObj = createDataObject(val, val["jcr:name"]);
+                var newObj = createDataObject(val, val["_path"]);
                 selectedItems.push(newObj);
                 $contentpicker_content_input.autoSuggest.add_selected_item(newObj, newObj.value);
             });
