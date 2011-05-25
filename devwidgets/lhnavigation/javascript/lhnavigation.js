@@ -413,7 +413,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var pageContent = content && content.page ? content.page : "";
             var lastModified = content && content._lastModified ? content._lastModified : null;
             var autosave = content && content.autosave ? content.autosave : null;
-            var saveRef = ref;
+            var saveRef = "" + ref;
             if (saveRef.indexOf("-") !== -1){
                 saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
             }
