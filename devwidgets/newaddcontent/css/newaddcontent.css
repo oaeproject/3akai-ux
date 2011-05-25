@@ -75,7 +75,7 @@
 #newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input{width:237px;margin:0 0 2px;padding:2px;}
 #newaddcontent_selecteditems_edit_data_fields textarea {color: #424242;font-size: 11px;}
 #newaddcontent_selecteditems_edit_data_fields label, #newaddcontent_selecteditems_edit_permissions_fields label {margin:2px 0 0;}
-#newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_upload_content_permissions {border: 1px solid #A9A9A9;height: 20px;}
+#newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_container_newitem_fields select {border: 1px solid #A9A9A9;height: 20px;}
 
 /* Actions */
 #newaddcontent_container #newaddcontent_container_actions {bottom:0;margin:0 19px 12px 0;position:absolute;right:0;}
