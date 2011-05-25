@@ -737,7 +737,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             existingIDs.push(item.id);
                         }
                     });
-                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs}));
+                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs, "context":context}));
                 },
                 error: function(err){
 
