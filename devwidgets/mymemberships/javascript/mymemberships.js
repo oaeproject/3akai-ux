@@ -204,6 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // display functions available to logged in users
                 if (!sakai.data.me.user.anon) {
+                    $(".mymemberships_item_anonuser").hide();
                     $(".mymemberships_item_user_functions").show();
                 }
             } else {
