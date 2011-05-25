@@ -21,10 +21,9 @@
 
 /* groups list */
 .mymemberships_item{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}
-.mymemberships_imagearea{float:left;padding:0 10px 10px 0;}
-.mymemberships_imagearea img {width:50px;}
+.mymemberships_item a img{float:left;padding:0 10px 10px 0;width:50px;}
 .mymemberships_item_first{border-top: 1px dotted #cccccc;}
-.mymemberships_item_right{margin-left:60px;}
+.mymemberships_item_right{float:left;}
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
 .mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
 .mymemberships_item_right_buttons{display: inline-block;float:right;}
@@ -37,6 +36,10 @@
 .mymemberships_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
 .mymemberships_item_tags_dot{color: #999999;}
+.mymemberships_item_anonuser{display:inline;float:left;height:15px;width:15px;}
+.mymemberships_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
+.mymemberships_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
+.mymemberships_item:hover .mymemberships_item_plus{cursor:pointer;color:#42a2dc;}
 .mymemberships_item:hover {background-color: #f2f9fc;}
 .mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
 
