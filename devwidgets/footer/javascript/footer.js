@@ -172,7 +172,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             
             if (!sakai.data.me.user.anon){
-                $("#footer_langdoc").show();
+                $(".footer_langloc").show();
             }
 
             // Set the end year of the copyright notice
