@@ -390,9 +390,9 @@
                         var active = $("li.active:first", results_holder);
                         if(active.length > 0){
                             if(direction == "down"){
-                            start = active.next();
+                                start = active.next().length>0?active.next():active;
                             } else {
-                                start = active.prev();
+                                start = active.prev().length>0?active.prev():active;
                             }   
                         }
                         lis.removeClass("active");
