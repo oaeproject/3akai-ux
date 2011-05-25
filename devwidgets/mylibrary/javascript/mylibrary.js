@@ -339,6 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             numPlaces: sakai.api.Content.getPlaceCount(result),
                             numComments: sakai.api.Content.getCommentCount(result),
                             mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                            thumbnail: sakai.api.Content.getThumbnail(result),
                             description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
                                     max_rows: 1,
                                     whole_word: false

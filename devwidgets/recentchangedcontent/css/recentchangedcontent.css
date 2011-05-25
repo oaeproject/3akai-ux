@@ -12,8 +12,7 @@
     -webkit-border-radius: 5px; /* Safari */
 }
 .recentchangedcontent_title {color:#707E8C; display:block;margin-top:20px;}
-.recentchangedcontent_related_mimetype {white-space:pre;}
-.recentchangedcontent_item_mime{color:#878a8c !important; font-size: 11px;}
+.recentchangedcontent_mimetype_desc {white-space:pre;color:#878a8c !important; font-size: 11px;text-transform: uppercase;}
 .recentchangedcontent_timeago {font-size: 11px; color:#878a8c; display:block;}
 
 .recentchangedcontent_related_details{padding-left:5px;}
