@@ -507,7 +507,8 @@
 					if(s) { obj.children("ul").css("display","none"); }
 					obj.removeClass("jstree-closed").addClass("jstree-open").children("a").removeClass("jstree-loading");
 					if(s) { obj.children("ul").stop(true).slideDown(s, function () { this.style.display = ""; }); }
-					this.__callback({ "obj" : obj });
+                    // SAKIII-2809
+                    //this.__callback({ "obj" : obj });
 					if(callback) { callback.call(); }
 				}
 			},
