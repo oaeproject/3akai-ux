@@ -60,14 +60,14 @@
                             {var contentFound = true}
                             <div class="fl-container fl-fix searchcontent_result{if count == 1} searchcontent_result_first{/if}">
                                 <span class="searchcontent_result_user_functions" style="display:none;">
-                                    <button class="s3d-link-button searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['jcr:name']}">+</button>
+                                    <button class="s3d-link-button searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}">+</button>
                                     <button class="s3d-link-button searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
-                                    <button class="s3d-link-button searchcontent_result_share_icon share_trigger_click" data-entityid="${i['jcr:name']}"></button>
+                                    <button class="s3d-link-button searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
                                 </span>
                                 <span class="searchcontent_result_anonuser"></span>
                                 {var mimeType = sakai.api.Content.getMimeType(i)}
                                 {var thumbnail = sakai.api.Content.getThumbnail(i)}
-                                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['jcr:name']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                                     {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
                                     {if sakai.config.MimeTypes[mimeType]}
                                         {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
@@ -75,7 +75,7 @@
                                     {if thumbnail}
                                         <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                                     {elseif mimeType.substring(0,6)==="image/"}
-                                        <img src="/p/${i['jcr:name']}" alt="${mimeTypeDescription}" />
+                                        <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
                                     {elseif sakai.config.MimeTypes[mimeType]}
                                         <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                                     {else}
@@ -84,9 +84,9 @@
                                 </a>
                                 <div class="searchcontent_result_right">
                                     <div>
-                                        <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['jcr:name']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['jcr:path']}" title="${i['jcr:name']}"{/if}>
+                                        <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                                             {if i['sakai:pooled-content-file-name']}
-                                                ${i['sakai:pooled-content-file-name']}{elseif i['jcr:name']}${i['jcr:name']}{/if}</a>
+                                                ${i['sakai:pooled-content-file-name']}{elseif i['_path']}${i['_path']}{/if}</a>
                                         {if mimeTypeDescription}
                                             <span class="searchcontent_result_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                                         {/if}
@@ -120,7 +120,10 @@
                         {/if}
                     {/for}
                     {if !contentFound}
-                        <div class="searchcontent_padded_nocontent">__MSG__NO_CONTENT_AND_MEDIA_FOUND__</div>
+                        <div class="s3d-no-results-container">
+                            <div class="s3d-no-results-arrow-up"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>{/if}</h1>
+                        </div>
                     {/if}
                 --></div>
             </div>

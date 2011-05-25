@@ -64,7 +64,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         var doUploadVersion = function(){
-            $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["jcr:name"]);
+            $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["_path"]);
             $(uploadnewversionUploadContentForm).ajaxForm({
                 success: function(data){
                     $.ajax({

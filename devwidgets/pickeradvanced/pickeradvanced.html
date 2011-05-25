@@ -111,17 +111,17 @@
                         {/if}
                     </li>
                     {elseif i["sakai:pooled-content-file-name"]}
-                    <li id="${i["jcr:name"]}">
-                        <input type="checkbox" name="selected" value="${i["jcr:name"]}" />
+                    <li id="${i["_path"]}">
+                        <input type="checkbox" name="selected" value="${i["_path"]}" />
                         {var mimetype = i["_mimeType"]}
                         {if mimetype == "image/jpg" || mimetype == "image/jpeg" || mimetype == "image/png" || mimetype == "image/gif" || mimetype == "image/bmp" }
-                            <img src="/p/${i["jcr:name"]}/${i["sakai:pooled-content-file-name"]}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
+                            <img src="/p/${i["_path"]}/${i["sakai:pooled-content-file-name"]}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
                         {elseif sakai.config.MimeTypes[mimetype]}
                             <img src="${sakai.config.MimeTypes[mimetype].URL}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
                         {else}
                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/dev/content_profile.html#p=${i["jcr:name"]}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                        <a class="pickeradvanced_name" href="/dev/content_profile.html#p=${i["_path"]}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
                         {if i["sakai:description"]}
                             {if i["sakai:description"].length > 125}

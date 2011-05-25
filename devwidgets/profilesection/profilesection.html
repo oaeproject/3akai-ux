@@ -103,7 +103,11 @@
         <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_locations}">__MSG__LOCATIONS__:</label>
         <ul class="{if sakai_global.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
         {for i in data.elements}
-            <li>${i.locationtitle.title}</li>
+            <li>
+                <a href="/search#tag=/tags/${i.locationtitle.value}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${i.locationtitle.title}">
+                    ${i.locationtitle.title}
+                </a>
+            </li>
         {/for}
         </ul>
     {/if}

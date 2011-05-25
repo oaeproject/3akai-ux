@@ -137,7 +137,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var userToDelete = {};
                 if (manager) {
                     userToDelete = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                         "method": "POST",
                         "parameters": {
                             ":manager@Delete": userid
@@ -146,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     numberOfManagersToDelete++;
                 }else{
                     userToDelete = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                         "method": "POST",
                         "parameters": {
                             ":viewer@Delete": userid
@@ -270,7 +270,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         if (newPermission == "manager") {
                             atLeastOneManager = true;
                             p = {
-                                "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                                "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                                 "method": "POST",
                                 "parameters": {
                                     ":manager": userId,
@@ -280,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             permissionsBatch.push(p);
                         } else {
                             p = {
-                                "url": "/p/" + sakai_global.content_profile.content_data.data["jcr:name"] + ".members.json",
+                                "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
                                 "method": "POST",
                                 "parameters": {
                                     ":viewer": userId,
@@ -294,7 +294,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         // Do the Batch request
                         sakai.api.Server.batch(permissionsBatch, function(success, data){
                             sakai.api.Content.setFilePermissions([{
-                                "hashpath": sakai_global.content_profile.content_data.data["jcr:name"],
+                                "hashpath": sakai_global.content_profile.content_data.data["_path"],
                                 "permissions": $(contentpermissionsGlobalPermissions).val()
                             }], function(){
                                 closeOverlay();

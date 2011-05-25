@@ -23,7 +23,7 @@ p.recentmemberships_item_title,p.recentmemberships_item_meta{margin:0;}
 p.recentmemberships_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
 
-.recentmemberships_add_container {background-color:#efefef; padding:5px 10px 10px; font-size: 11px; text-align: center;}
+.recentmemberships_add_container {padding:5px 10px 10px;}
 .recentmemberships_add_container div{color:#878a8c;}
 .recentmemberships_add_container a {text-decoration: none;}
 .recentmemberships_widget .recentmemberships_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}
@@ -37,3 +37,5 @@ p.recentmemberships_error_msg{padding-left:15px;}
 
 /* Widget icon */
 .recentmemberships.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -600px -20px transparent;}
+
+.recentmemberships.fl-widget .s3d-no-results-container {margin:30px 0 10px;}
