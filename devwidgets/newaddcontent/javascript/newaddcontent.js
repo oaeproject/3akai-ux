@@ -648,6 +648,9 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * @param {String} fileName Name of the selected file
          */
         var preFillContentFields = function(fileName){
+            if (fileName.indexOf("\\") !== -1){
+                fileName = fileName.split("\\")[fileName.split("\\").length - 1];
+            }
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentTitle).val(fileName);
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentOriginalTitle)[0].id = fileName;
         };
