@@ -66,14 +66,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // initialize parsed item with default values
             var item = {
                 name: result["sakai:pooled-content-file-name"],
-                path: "/p/" + result["jcr:name"],
-                link: result["jcr:name"],
+                path: "/p/" + result["_path"],
+                link: result["_path"],
                 filename: result["sakai:pooled-content-file-name"],
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
                 _mimeType: sakai.api.Content.getMimeType(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
-                "jcr:name": result["jcr:name"]
+                "_path": result["_path"]
             };
 
             // set file name without the extension
@@ -95,13 +95,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var usedin = 0;
             usedin = result["sakai:pooled-content-manager"].length;
-            for(var i =0;i<result["sakai:pooled-content-viewer"].length;i++){
-                if(result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone")
-                usedin++;
+            if (result["sakai:pooled-content-viewer"]) {
+                for (var i = 0; i < result["sakai:pooled-content-viewer"].length; i++) {
+                    if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") 
+                        usedin++;
+                }
             }
 
             item.usedin = usedin;
-            var path = result["jcr:path"];
+            var path = result["_path"];
             if (result[path + "/comments"]) {
                 var totalcomment = 0; // store total number of comments realted to content
                 var commentpath = ""; // store the path of the comment to display
@@ -276,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var item = parseDataResult(contentData);
                     var isRelatedContent = false;
                     for (var i = 0; i < relatedContent.results.length; i++){
-                        if (relatedContent.results[i]["jcr:name"] !== contentData["jcr:name"]){
+                        if (relatedContent.results[i]["_path"] !== contentData["_path"]){
                             isRelatedContent = relatedContent.results[i];
                             break;
                         }

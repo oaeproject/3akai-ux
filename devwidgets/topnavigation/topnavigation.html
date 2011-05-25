@@ -85,10 +85,8 @@
 
 <div id="search_bottom_template" style="display:none;"><!--
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
-        <a href="/search#q=${query}&filter=&facet=&page=1">
-            <button id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
-            </button>
+        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
         </a>
     {/if}
     <span id="topnavigation_search_results_bottom_content">
@@ -142,7 +140,7 @@
         </a>
         <ul id="topnavigation_user_options_list">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
-                <a href="#" id="topnavigation_user_options_name" class="s3d-bold"></a>
+                <a href="/dev/me.html#l=profile" id="topnavigation_user_options_name" class="s3d-bold"></a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
                     <ul>
                         <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>

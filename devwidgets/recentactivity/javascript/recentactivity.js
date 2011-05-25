@@ -42,7 +42,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             JOINED_GROUP: "new",
             SENT_MESSAGE: "upload",
             UPDATED_CONTENT: "new",
+            UPDATED_DESCRIPTION: "new",
             UPLOADED_CONTENT: "upload",
+            UPDATED_COPYRIGHT: "new",
+            UPDATED_DESCRIPTION: "new",
+            UPDATED_URL: "new",
+            UPDATED_TAGS: "new",
             USER_CREATED: "new"
         };
 
@@ -57,7 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 numItems = data.total;
                 var total = 0;
                 $.each(data.results, function(index, item){
-                    if (item["sakai:pooled-content-file-name"] && total < 5) {
+                    if (item["sakai:pooled-content-file-name"] && activityMap[item["sakai:activityMessage"]] && total < 5) {
                         if (index < numDiff) {
                             item.fadeIn = true;
                         }

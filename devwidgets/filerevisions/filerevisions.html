@@ -43,7 +43,7 @@
             </li>
             {var versions = data.revisionFileDetails.versions}
             <li>
-                <a {if linkrevision} href="${versions["1.0"]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["jcr:path"]}.version.,1.0,/${versions["1.0"]["sakai:pooled-content-file-name"]}{if versions["1.0"]["sakai:pooled-content-file-name"].substring(versions["1.0"]["sakai:pooled-content-file-name"].lastIndexOf("."), versions["1.0"]["sakai:pooled-content-file-name"].length) !== versions["1.0"]["sakai:fileextension"]}${versions["1.0"]["sakai:fileextension"]}{/if}"{/if} title="Show original version" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
+                <a {if linkrevision} href="${versions["1.0"]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["_path"]}.version.,1.0,/${versions["1.0"]["sakai:pooled-content-file-name"]}{if versions["1.0"]["sakai:pooled-content-file-name"].substring(versions["1.0"]["sakai:pooled-content-file-name"].lastIndexOf("."), versions["1.0"]["sakai:pooled-content-file-name"].length) !== versions["1.0"]["sakai:fileextension"]}${versions["1.0"]["sakai:fileextension"]}{/if}"{/if} title="Show original version" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                 <span class="filerevisions_lefthand_description">__MSG__CREATED__</span>
                 <span class="filerevisions_list_content">${parseDate(data.data["_created"])} ${by(data.data["sakai:pool-content-created-for"])}</span>
             </li>
@@ -52,7 +52,7 @@
                 {if count != 0}
                     <li class="{if Math.round(count % 2) != 1}s3d-highlight_area_background{/if}">
                         {var j = "1." + count}
-                        <a {if linkrevision} href="${versions[j]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["jcr:path"]}.version.,${j},/${versions[j]["sakai:pooled-content-file-name"]}{if versions[j]["sakai:pooled-content-file-name"].substring(versions[j]["sakai:pooled-content-file-name"].lastIndexOf("."), versions[j]["sakai:pooled-content-file-name"].length) !== versions[j]["sakai:fileextension"]}${versions[j]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${count}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
+                        <a {if linkrevision} href="${versions[j]["sakai:pooled-content-revurl"]}" {else} href="/p/${data.data["_path"]}.version.,${j},/${versions[j]["sakai:pooled-content-file-name"]}{if versions[j]["sakai:pooled-content-file-name"].substring(versions[j]["sakai:pooled-content-file-name"].lastIndexOf("."), versions[j]["sakai:pooled-content-file-name"].length) !== versions[j]["sakai:fileextension"]}${versions[j]["sakai:fileextension"]}{/if}"{/if} title="__MSG__SHOW_VERSION__ ${count}" target="_blank" class="filerevisions_download_version">{if linkrevision} __MSG__OPEN_THIS_LINK__{else} __MSG__DOWNLOAD__{/if}</a>
                         <span class="filerevisions_lefthand_description">__MSG__REVISED__</span>
                         <span class="filerevisions_list_content">${parseDate(versions[j]["_bodyLastModified"])} ${by(versions[j]["_lastModifiedBy"])}</span>
                     </li>

@@ -56,13 +56,14 @@
 .topnavigation_user_container #topnavigation_user_inbox_container {float:left;}
 .topnavigation_user_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;display: inline;float: left;height: 15px;margin: 2px 7px 0 0;width: 15px;}
 
-#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -182px;margin-top: 9px;position: absolute;width: 241px;z-index: 999;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -182px;margin-top: 9px;position: absolute;width: 241px;z-index: 11000;}
 #topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form input{background: none repeat scroll 0 0 transparent;border: 1px solid #424242;height: 20px;width: 100%;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;margin-bottom:5px;}
-#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login .s3d-button-inner, .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all .s3d-button-inner{color:#2683bc !important;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login .s3d-button-inner, .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all span {color:#2683bc !important;}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all:hover span {color:#fff !important;}
 #topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:5px 12px 8px 0;}
 #topnavigation_user_options_login_fields_bottom_container #topnavigation_user_options_login_button{margin-top: 3px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_error {border-radius: 2px 2px 0 0;height: 25px;margin-left: -12px;margin-top: 0;padding: 7px 12px 0;position: absolute;width:217px;background-color:#f8dc92;}

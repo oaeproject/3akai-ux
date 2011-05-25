@@ -500,7 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var createBatchReadObject = function(message) {
             return {
-                "url": message["jcr:path"],
+                "url": message["_path"],
                 "method": "POST",
                 "parameters": {
                     "sakai:read": true

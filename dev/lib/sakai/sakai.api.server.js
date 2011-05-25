@@ -337,7 +337,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
         cleanUpSakaiDocObject: function(pagestructure){
             // Convert the special objects to arrays
             data = sakaiServerAPI.convertObjectToArray(pagestructure, null, null);
-            var id = pagestructure["jcr:path"];
+            var id = pagestructure["_path"];
             var toFilter = ["_", "jcr:", "sakai:", "sling:"];
             var toExclude = ["_ref", "_title", "_altTitle", "_order", "_pid", "_count", "_view", "_edit", "_canView", "_canEdit", "_canSubedit", "_nonEditable", "_lastModified", "_lastModifiedBy"];
             pagestructure = sakaiServerAPI.removeServerCreatedObjects(pagestructure, toFilter, toExclude);
@@ -548,7 +548,7 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
             });
         },
 
-        JCRPropertiesToDelete : ["rep:policy", "jcr:path"],
+        JCRPropertiesToDelete : ["rep:policy", "_path"],
 
         filterJCRProperties : function(data) {
             $(this.JCRPropertiesToDelete).each(function(i,val) {

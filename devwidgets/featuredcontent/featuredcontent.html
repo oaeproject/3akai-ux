@@ -1,6 +1,8 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/featuredcontent/css/featuredcontent.css" />
 
+<div style="display:none">__MSG__IE_PLACEHOLDER__</div>
+
 <div class="featuredcontent_widget">
     <div id="featuredcontent_content_container"><!----></div>
     <div id="featuredcontent_category_content_container"><!----></div>
@@ -19,13 +21,13 @@
                     {/if}
                     <div class="featuredcontent_content featuredcontent_content_small">
                         <div class="featuredcontent_content_actions">
-                            <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["jcr:name"]}"></div>
+                            <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
                             {if !sakai.data.me.user.anon}
-                                <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["jcr:name"]}"></div>
+                                <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
                             {/if}
                             <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                         </div>
-                        <a href="/content#p=${small["jcr:name"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
+                        <a href="/content#p=${small["_path"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
                         {if small["sakai:tags"]}
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}
@@ -43,18 +45,18 @@
             {else}
                 <div class="featuredcontent_content featuredcontent_content_${item.mode} {if sakai_global.category} featuredcontent_category_content_large{/if}">
                     <div class="featuredcontent_content_actions">
-                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["jcr:name"]}"></div>
+                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}"></div>
                         {if !sakai.data.me.user.anon}
-                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["jcr:name"]}"></div>
+                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}"></div>
                         {/if}
                         <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
                     </div>
                     {if item.mode == "large"}
                         <div id="featuredcontent_large_preview">
                             {if item.image}
-                                <img src="/p/${item["jcr:name"]}"/>
+                                <img src="/p/${item["_path"]}"/>
                             {else}
-                                <img src="/p/${item["jcr:name"]}.page1-small.png"/>
+                                <img src="/p/${item["_path"]}.page1-small.png"/>
                             {/if}
                         </div>
                     {/if}
@@ -65,13 +67,13 @@
                         <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                     {/if}
                     {if item.mode == "large"} {if sakai_global.category} {var size = 190} {else} {var size = 125} {/if} {else} {var size = 50} {/if}
-                    <a href="/content#p=${item["jcr:name"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
+                    <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
                     {if item["sakai:description"] && item.mode != "small"}
                         {if item.mode == "large"} {if sakai_global.category} {var size = 1000} {else} {var size = 500} {/if} {else} {var size = 125} {/if}
                         <span class="featuredcontent_content_description">${sakai.api.Util.applyThreeDots(item["sakai:description"], size)}</span>
                     {/if}
                     <span class="featuredcontent_content_category_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${item.usedin} {if item.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                    {if item.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${item["jcr:name"]}/${item["sakai:pooled-content-file-name"]}" title="${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                    {if item.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                     {if item["sakai:tags"]}
                         <span class="featuredcontent_content_tags">
                             {for tag in item["sakai:tags"]}
@@ -89,10 +91,8 @@
         {/for}
         {if !sakai_global.category}
             <div id="featuredcontent_show_more_container">
-                <a href="/dev/allcategories.html" title="__MSG__SHOW_MORE__">
-                    <button type="button" id="featuredcontent_show_more" class="s3d-button s3d-button-link-2-state">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
-                    </button>
+                <a class="s3d-button s3d-button-link-2-state" href="/dev/allcategories.html" title="__MSG__SHOW_MORE__">
+                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
                 <a/>
             </div>
         {/if}
@@ -126,20 +126,20 @@
             {for small in data}
                 <div class="featuredcontent_content featuredcontent_content_small">
                     <div class="featuredcontent_content_actions">
-                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["jcr:name"]}"></div>
+                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
                         {if !sakai.data.me.user.anon}
-                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["jcr:name"]}"></div>
+                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
                         {/if}
                         <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                     </div>
                     {if small.image}
-                        <img src="/p/${small["jcr:name"]}" class="featuredcontent_thumbnail_image"/>
+                        <img src="/p/${small["_path"]}" class="featuredcontent_thumbnail_image"/>
                     {else}
                         <img src="${sakai.api.Content.getMimeTypeData(small["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                     {/if}
-                    <a href="/content#p=${small["jcr:name"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 90)}</a>
+                    <a href="/content#p=${small["_path"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 90)}</a>
                     <span class="featuredcontent_content_category_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${small.usedin} {if small.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                    {if small.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${small["jcr:name"]}/${small["sakai:pooled-content-file-name"]}" title="${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                    {if small.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${small["_path"]}/${small["sakai:pooled-content-file-name"]}" title="${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                 </div>
                 {if small_index == 2 && data.length > 3}
                     <hr class="s3d-split-line fl-push ">
