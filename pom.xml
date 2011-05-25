@@ -100,6 +100,20 @@
          </releases>
        </repository>
   </repositories>
+  <pluginRepositories> 
+    <pluginRepository>
+      <id>default</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
   <properties>
     <ant.target>dev_light</ant.target>
     <dev.content>
