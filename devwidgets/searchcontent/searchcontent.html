@@ -111,7 +111,7 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}

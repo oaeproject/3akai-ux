@@ -89,7 +89,7 @@
                         <div class="mymemberships_item_tags">
                             <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
                             <p class="mymemberships_item_tags_list">
-                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                             </p>
                         </div>
                     {/if}
