@@ -102,6 +102,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             hash.w.hide();
         };
 
+        var myShow = function(hash){
+            window.scrollTo(0, 0);
+            hash.w.show();
+        }
+
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -353,6 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             modal: true,
             overlay: 20,
             toTop: true,
+            onShow: myShow,
             onHide: myClose
         });
 
