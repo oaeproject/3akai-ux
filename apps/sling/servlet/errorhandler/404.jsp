@@ -59,7 +59,7 @@ response.setStatus(404);
 							{for w in worlds}
 								<div class="error_content_second_column_box_item_container">
 									<div class="error_content_second_column_box_item_content">
-										<a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=${w.label}">${w.label}</a>
+										<a class="s3d-regular-links s3d-bold" href="/dev/search2.html#l=\${w.label}">\${w.label}</a>
 									</div>          
 								</div>
 								{if !w.last}
@@ -117,8 +117,8 @@ response.setStatus(404);
                         <div id="error_page_links_container"></div>
                         <div id="error_page_links_template" style="display:none"><!--
                             <ul>
-                                {for i in links.whatToDo}
-                                    <li><a class="s3d-regular-links s3d-bold" href="${i.url}">${sakai.api.i18n.General.getValueForKey(i.title)}</a></li>
+                                {for w in links.whatToDo}
+                                    <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
                                 {/for}
                                 <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
                             </ul>
@@ -126,8 +126,8 @@ response.setStatus(404);
                             {if links.getInTouch && links.getInTouch.length > 0}
                                 <h3>__MSG__GET_IN_TOUCH__</h3>
                                 <ul>
-                                    {for i in links.getInTouch}
-                                        <li><a class="s3d-regular-links s3d-bold" href="${i.url}">${sakai.api.i18n.General.getValueForKey(i.title)}</a></li>
+                                    {for g in links.getInTouch}
+                                        <li><a class="s3d-regular-links s3d-bold" href="\${g.url}">\${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
                                     {/for}
                                 </ul>
                             {/if}
