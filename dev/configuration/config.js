@@ -1701,7 +1701,8 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUPS",
+                title: "GROUPS",
+                titleSing: "GROUP",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1797,6 +1798,7 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                titleSing: "COURSE",
                 templates: [
                     {
                         id: "mathcourse",
@@ -2379,6 +2381,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                titleSing: "RESEARCH",
                 templates: [
                     {
                         id: "researchproject",
