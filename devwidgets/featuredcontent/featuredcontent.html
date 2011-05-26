@@ -53,18 +53,29 @@
                     </div>
                     {if item.mode == "large"}
                         <div id="featuredcontent_large_preview">
-                            {if item.image}
-                                <img src="/p/${item["_path"]}"/>
-                            {else}
-                                <img src="/p/${item["_path"]}.page1-small.png"/>
-                            {/if}
+                            <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
+                                {if item.image}
+                                    <img src="/p/${item["_path"]}"/>
+                                {elseif item.thumbnail}
+                                    <img src="${item.thumbnail}"/>
+                                {/if}
+                            </a>
                         </div>
                     {/if}
                     {if item.mode == "large"}
                         <div class="featuredcontent_content_right_description">
                     {/if}
+                    {var mimeType = sakai.api.Content.getMimeType(item)}
                     {if item.mode == "medium"}
-                        <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
+                        <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
+                            {if item.image}
+                                <img src="/p/${item["_path"]}" class="featuredcontent_thumbnail_image"/>
+                            {elseif item.thumbnail}
+                                <img src="${item.thumbnail}" class="featuredcontent_thumbnail_image"/>
+                            {else}
+                                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" class="featuredcontent_thumbnail_image"/>
+                            {/if}
+                        </a>
                     {/if}
                     {if item.mode == "large"} {if sakai_global.category} {var size = 190} {else} {var size = 125} {/if} {else} {var size = 50} {/if}
                     <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>

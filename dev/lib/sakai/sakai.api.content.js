@@ -404,6 +404,10 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
             var thumbnail = "";
             if (content['_mimeType/page1-small']) {
                 thumbnail="/p/" + content['_path'] + ".page1-small.jpg";
+            } else if (content["sakai:preview-url"]){
+                if (content["sakai:preview-avatar"]){
+                    thumbnail = content["sakai:preview-avatar"];
+                }
             }
             return thumbnail;
         },
