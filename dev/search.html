@@ -10,274 +10,46 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search_b.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
     </head>
-
-    <body id="root" class="fl-centered fl-container i18nable search-container">
-
-        <!-- TOP BANNER -->
-        <div id="top_banner"><!-- --></div>
-
-        <!-- NAVIGATION -->
-        <div id="widget_topnavigation" class="widget_inline"></div>
-        <div id="widget_filemanager" class="widget_inline"></div>
-
-        <!-- CONTENT -->
-        <div class="fl-container fl-container-flex content content_search s3d-regular-links s3d-header">
+    <body class="fl-centered show i18nable">
+        <!-- HEADER -->
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-decor-left"><!-- --></div>
-                <div class="s3d-decor"><!-- --></div>
-                <!-- TITLE -->
-                <h1 class="title">__MSG__SEARCH_ALL__</h1>
-                <!-- TAB NAVIGATION -->
-                <div class="s3d-primary-tabs">
-                    <ul class="fl-tabs fl-tabs-right">
-                        <li class="fl-tabs-active"><a id="tab_search_all" href="/search">__MSG__ALL__</a></li>
-                        <li><a href="/search/content" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
-                        <li><a href="/search/groups" id="tab_search_sites">__MSG__GROUPS__</a></li>
-                        <li><a href="/search/sakai2" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
-                        <li><a href="/search/people" id="tab_search_people">__MSG__PEOPLE__</a></li>
-                    </ul>
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_entity" class="widget_inline"></div>
                 </div>
+            </div>
+        </div>
 
-                <!-- TAB CONTENT -->
-                <div class="fl-centered fl-container fl-tab-content search_content_wrapper">
-                    <div class="search_tab_content_top">
-                        <div class="search_tab_content_top_inner"><!-- --></div>
-                    </div>
-
-                    <div class="search_content_main s3d-content">
-
-                        <!-- SEARCH BAR -->
-                        <div class="fl-left fl-container fl-fix search_bar">
-                            <div class="fl-left fl-container" id="introduction_text">
-                                <h4>__MSG__FIND_CONTENT_MEDIA_GROUPS_AND_PEOPLE_ON_SAKAI_3__</h4>
-                                <p> __MSG__YOULL_FIND_PAGES_AND_SITES_OF_YOUR_INTEREST_AND_PEOPLE_WITH_WHO_YOU_CAN_CONNECT__. </p>
-                            </div>
-                            <div id="search_form" >
-                                <!-- <select class="skinned_select" title="__MSG__SEARCH_SCOPE__">
-                                    <option value="entire_community">__MSG__ENTIRE_SAKAI_NETWORK__</option>
-                                    <option value="friends">__MSG__FRIENDS__</option>
-                                </select> -->
-
-                                <input type="text" id="search_text" maxlength="255" class="input" title="__MSG__INSERT_NAME_OR_KEYWORD__" value="__MSG__INSERT_NAME_OR_KEYWORD__ ..." />
-                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
-                            </div>
-                        </div>
-                        <div class="fl-left fl-container search_result_title" id="search_result_title" style="display:none">__MSG__FOUND__ <strong id="search_numberFound">0</strong> __MSG__RESULTS_MATCHING_YOUR_SEARCH_FOR__ <span class="keyword"><strong id="search_mysearchterm"></strong></span></div>
-                        <div class="fl-left fl-container search_result_title" id="search_result_tag_title" style="display:none"><span class="keyword"><strong id="search_mytagterm"></strong></span></div>
-
-                        <div id="search_result_results_tagged_under" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span></div>
-                        <div id="search_result_results_located_in" style="display:none;"><span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span></div>
-
-                        <!-- TEMPORARY SEARCH TEXT -->
-                        <span id="search_result_temp" style="display:none;"><b>__MSG__SEARCHING__ ...</b></span>
-
-                        <!-- EXCEED SEARCH LIMIT -->
-                        <span id="search_result_thousands" style="display:none;"><b>__MSG__THOUSANDS_OF__</b></span>
-
-                        <!-- SEARCH RESULTS -->
-                        <div class="fl-container search_results">
-
-                        <!-- CONTENT / MEDIA PART -->
-                        <div id="cm_results_header_template" style="display:none;"><!--
-                            <a href="${query_href}" id="search_content_title" class="search_results_part_title">__MSG__CONTENT_AND_MEDIA__</a>
-                            <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_cm" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_CONTENT_AND_MEDIA_RESULTS__ &raquo;</small></a>
-                        --></div>
-                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="cm_header">
-                            <div class='s3d-highlight_area_background_tl'>
-                                <div class='s3d-highlight_area_background_tinner'>
-                                </div>
-                            </div>
-                            <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> </div>
-                                <div id="cm_search_result"></div>
-                                <div id="cm_search_result_template"><!--
-                                {for i in items}
-                                    {if i['sakai:pooled-content-file-name']}
-                                    {var contentFound = true}
-                                    <div class="fl-container fl-fix search_result">
-                                        {if i['_mimeType']}
-                                            {var mimeType = i['_mimeType']}
-                                        {elseif i.file && i.file['_mimeType']}
-                                            {var mimeType = i.file['_mimeType']}
-                                        {elseif i['jcr:content'] && i['jcr:content']['_mimeType']}
-                                            {var mimeType = i['jcr:content']['_mimeType']}
-                                        {elseif i['jcr:primaryType'] === "sling:Folder"}
-                                            {var mimeType = 'folder'}
-                                        {/if}
-                                        <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
-                                        {if (mimeType=="image/jpg" || mimeType=="image/png" || mimeType=="image/gif") && sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                                            <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
-                                        {elseif sakai.config.MimeTypes[mimeType]}
-                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                                            <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
-                                        {else}
-                                            {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                                            <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
-                                        {/if}
-                                        </a>
-                                        <div class="search_result_right">
-                                            <div class="search_result_content_title s3d-bold">
-                                                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
-                                                    {if i['sakai:pooled-content-file-name']}
-                                                        ${i['sakai:pooled-content-file-name']}
-                                                    {elseif i['_path']}
-                                                        ${i['_path']
-                                                    {/if}
-                                                </a>
-                                            </div>
-                                            {if i["sakai:description"]}<div class="search_result_description">${i["sakai:description"]}</div>{/if}
-                                            {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                                                <div class="search_result_tags">__MSG__TAGS__:
-                                                    {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0},{/if} ${t}{/if}{/for}
-                                                </div>
-                                            {/if}
-                                            {if mimeTypeDescription}<div class="search_result_type s3d-content-type-link"><a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}{else}${i['_path']}{/if}">${mimeTypeDescription}</a></div>{/if}
-                                        </div>
-                                    </div>
-                                    {/if}
-                                {/for}
-                                {if !contentFound}
-                                    __MSG__NO_CONTENT_AND_MEDIA_FOUND__.
-                                {/if}
-                                --></div>
-                                <div class="search_results_part_footer"><!-- --></div>
-                            </div>
-
-                            <div class="s3d-highlight_area_background_bl">
-                                <div class="s3d-highlight_area_background_binner">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- GROUPS -->
-                        <div id="groups_results_header_template" style="display:none;"><!--
-                            <a href="${query_href}" id="search_groups_title" class="search_results_part_title">__MSG__GROUPS__</a>
-                            <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_sites" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_GROUP_RESULT__ &raquo;</small></a>
-                        --></div>
-                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="sites_header">
-                            <div class='s3d-highlight_area_background_tl'>
-                                <div class='s3d-highlight_area_background_tinner'>
-                                </div>
-                            </div>
-                            <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> </div>
-                                <div id="sites_search_result"> </div>
-                                <div id="sites_search_result_template"><!--
-                                    {for i in items}
-                                        {if i['sakai:group-id']}
-                                        {var groupsFound = true}
-                                        <div class="fl-container fl-fix search_result">
-                                            <a href="/~${i.pagepath}">
-                                            {if i.picture}
-                                            <img src="${i.picture.picPath}" alt="__MSG__GROUP_NAME__">
-                                            {else}
-                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__GROUP__NAME">
-                                            {/if}
-                                            </a>
-                                            <div class="search_result_course_site_title"><a class="s3d-regular-links s3d-bold" href="/~${i.pagepath}">${i["sakai:group-title"]}</a></div>
-                                            <div class="search_result_course_site_url"><a href="/~${i.pagepath}">${i.dottedpagepath}</a></div>
-                                            <div class="search_result_course_site_excerpt">${i["sakai:group-description"]}</div>
-                                        </div>
-                                        {/if}
-                                    {/for}
-                                    {if !groupsFound}
-                                        __MSG__NO_GROUPS_FOUND__.
-                                    {/if}
-                                --></div>
-                            </div>
-                            <div class="s3d-highlight_area_background_bl">
-                                <div class="s3d-highlight_area_background_binner">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PEOPLE PART -->
-                        <div id="people_results_header_template" style="display:none"><!--
-                            <a href="${query_href}" id="search_people_title" class="search_results_part_title">__MSG__PEOPLE__</a>
-                            <a href="${query_href}" class="fl-force-right display_more_link" id="display_more_people" {if !show_more}style="display:none"{/if}><small>__MSG__VIEW_MORE_PEOPLE_RESULTS__ &raquo;</small></a>
-                        --></div>
-                        <div class="fl-container fl-fix search_results_container s3d-highlight_area_background" style="display:none" id="people_header">
-                            <div class='s3d-highlight_area_background_tl'>
-                                <div class='s3d-highlight_area_background_tinner'>
-                                </div>
-                            </div>
-                            <div class="fl-container fl-fix search_results_part">
-                                <div class="fl-container fl-fix search_results_part_header"> </div>
-                                <div id="people_search_result"> </div>
-                                <div id="people_search_result_template"><!--
-                                {for i in items}
-                                    {if !i.isAnonymous && i.userid}
-                                        {var peopleFound = true}
-                                        <div class="fl-container fl-fix search_result_person">
-                                            {if ! i.picture}
-                                                <a href="/~${i.userid}" class="fl-icon search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
-                                            {else}
-                                                <a href="/~${i.userid}" class="search_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img src="{if i.picture}${i.picture}{else}/dev/images/person_icon.jpg{/if}" alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" width="48px" height="48px"/></a>
-                                            {/if}
-                                            <a href="/~${i.userid}" class="search_result_person_name">${i.name}</a>
-                                           {if i.extra}
-                                                <span class="search_result_person_dept">${i.extra}</span>
-                                            {else}
-                                                <span class="search_result_person_dept">&nbsp;</span>
-                                            {/if}
-                                            {if ! i.isMe && ! sakai.data.me.user.anon}
-                                            <div class="search_result_person_links">
-                                                {if !i.connected}
-                                                    <button type="button" class="search_result_person_link link_add_to_contacts s3d-link-button s3d-action" id="link_add_to_contacts_${i.userid}">__MSG__ADD_TO_CONTACTS__</button>
-                                                    <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
-                                                {elseif i.invited}
-                                                    <button type="button" class="search_result_person_link link_accept_invitation s3d-link-button s3d-action" id="link_accept_invitation_${i.userid}">__MSG__ACCEPT_INVITATION__</button>
-                                                    <span id="link_add_to_contacts_${i.userid}_divider" class="search_result_person_link search_result_person_divider">|</span>
-                                                {/if}
-                                                <button type="button" class="search_result_person_link search_result_person_link_message s3d-link-button s3d-action" id="search_result_person_link_message_${i.userid}">__MSG__MESSAGE__</button>
-                                            </div>
-                                            {/if}
-                                        </div>
-                                    {/if}
-                                {/for}
-                                {if !peopleFound}
-                                    __MSG__NO_PEOPLE_FOUND__.
-                                {/if}
-                                --></div>
-                            </div>
-                            <div class="s3d-highlight_area_background_bl">
-                                <div class="s3d-highlight_area_background_binner">
-                                </div>
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-
-                    <div class="s3d-no-options">
-                        <div class="s3d-no-options-inner"><!-- --></div>
-                    </div>
+        <!-- HEADER -->
+        <div class="fl-container-flex">
+            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
+                <div class="s3d-page-column-left">
+                    <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
-
+                <div class="s3d-page-column-right">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;">
+                </div>
+                <div class="s3d-bottom-spacer"></div>
             </div>
         </div>
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <!-- CHAT -->
-        <div id="widget_chat" class="widget_inline"></div>
-
-        <div id="sendmessagecontainer" style="display:none; width:100%">
-            <div id="widget_sendmessage" class="widget_inline" style="width:100%"></div>
-        </div>
-        <div id="addtocontactscontainer" style="width:100%">
-            <div id="widget_addtocontacts" class="widget_inline" style="width:100%"></div>
-        </div>
-        <div style="margin-bottom: 50px"><!-- --></div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
-        <script>require(["/dev/javascript/history/search_history.js", "/dev/javascript/search_main.js", "/dev/javascript/search.js"]);</script>
+        
+        <!-- GROUP JS -->
+        <script>require(["/dev/javascript/search.js"]);</script>
+        
     </body>
 </html>
