@@ -598,6 +598,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                // Tell MathJax the element is updated
+                sakai.api.Util.renderMath(currentPageShown.ref);
             } else {
                 if (reloadPage) {
                     $contentEl = $("#" + currentPageShown.ref);
@@ -605,6 +607,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
                     sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/");
+                    // Tell MathJax the element is updated
+                    sakai.api.Util.renderMath(currentPageShown.ref);
                     $contentEl.show();
                 } else {
                     $("#s3d-page-container #" + currentPageShown.ref).show();
