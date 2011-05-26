@@ -66,9 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_groupfilter_wrapper = $("#mylibrary_groupfilter_wrapper", $rootel);
         var $mylibrary_groupfilter_usedin_count = $("#mylibrary_groupfilter_usedin_count", $rootel);
         var $mylibrary_groupfilter_groups_container = $("#mylibrary_groupfilter_groups_container", $rootel);
-        var $mylibrary_groupfilter_groups_template = $("#mylibrary_groupfilter_groups_template", $rootel);
         var $mylibrary_groupfilter_groups_button = $("#mylibrary_groupfilter_groups button", $rootel);
         var $mylibrary_groupfilter_usedin_arrow = $("#mylibrary_groupfilter_usedin_arrow", $rootel);
+
+        var mylibrary_groupfilter_groups_template = "mylibrary_groupfilter_groups_template";
 
         var currentGroup = false;
 
@@ -403,7 +404,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_empty.hide();
                 $("#mylibrary_title_bar").show();
                 $mylibrary_items.show();
-                $mylibrary_items.html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
+                $mylibrary_items.html(sakai.api.Util.TemplateRenderer("mylibrary_items_template", json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
 
@@ -505,7 +506,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "groups": groups
             };
 
-            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
+            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer(mylibrary_groupfilter_groups_template, json));
             //$mylibrary_groupfilter_wrapper.show();
             $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length, 10) + 1) + ")");
         };
