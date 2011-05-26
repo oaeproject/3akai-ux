@@ -84,9 +84,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var candidate = false;
                 var i = 0;
                 $.each(data.results, function(index, item){
-                    item.hasPreview = sakai.api.Content.hasPreview(item);
+                    item.thumbnail = sakai.api.Content.getThumbnail(item);
                     if (!candidate) {
-                        if (item.hasPreview && !largeEnough) {
+                        if (item.thumbnail && !largeEnough) {
                             item.mode = "large";
                             if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
                                 item.image = true;
@@ -100,7 +100,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             i = index;
                         }
                     }
-                    if (item.hasPreview && item["sakai:description"] && !largeEnough) {
+                    if (item.thumbnail && item["sakai:description"] && !largeEnough) {
                         largeEnough = true;
                         item.mode = "large";
                         if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
@@ -120,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (!largeEnough) {
                     if(!candidate && data.results.length){
                         data.results[0].mode = "large";
-                        data.results[0].hasPreview = sakai.api.Content.hasPreview(data.results[0]);
+                        data.results[0].thumbnail = sakai.api.Content.getThumbnail(data.results[0]);
                         if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
                             data.results[0].image = true;
                         }
@@ -157,9 +157,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             if (mode == "medium") {
                                 item.mode = "medium";
                                 mode = "small";
+                                item.thumbnail = sakai.api.Content.getThumbnail(item);
                                 item.usedin = sakai.api.Content.getPlaceCount(item);
                                 if (item["sakai:tags"]) {
                                     item["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"].toString());
+                                }
+                                if (item["_mimeType"] && item["_mimeType"].split("/")[0] == "image") {
+                                    item.image = true;
                                 }
                                 featuredContentArr.push(item);
                             }
@@ -180,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
                 });
-                if(sakai_global.category && featuredCategoryContentArr && featuredCategoryContentArr[0] && !featuredCategoryContentArr[0].hasPreview){
+                if(sakai_global.category && featuredCategoryContentArr && featuredCategoryContentArr[0] && !featuredCategoryContentArr[0].thumbnail){
                     featuredCategoryContentArr[0].mode = "small";
                     featuredCategoryContentArr[0] = featuredCategoryContentArr[0];
                 }
