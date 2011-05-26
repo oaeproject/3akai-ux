@@ -177,7 +177,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var errorMsg = $(notificationError).text();
                     sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
                 }
-                if ($(messageDialogContainer).hasClass('dialog')) {
+                if ($(messageDialogContainer).hasClass('s3d-dialog')) {
                     $(messageDialogContainer).jqmHide();
                 }
 
@@ -421,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 $(send_message_cancel).die("click");
                 $(send_message_cancel).live("click", function() {
-                    if ($(messageDialogContainer).hasClass('dialog')) {
+                    if ($(messageDialogContainer).hasClass('s3d-dialog')) {
                         $(messageDialogContainer).jqmHide();
                     }
                     if ($.isFunction(callbackWhenDone)) {

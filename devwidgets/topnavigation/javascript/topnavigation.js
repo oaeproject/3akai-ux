@@ -339,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
                         "label": categoryx.title,
-                        "url": "/dev/search2.html#l=" + categoryx.id
+                        "url": "/search#l=" + categoryx.id
                     });
                 }
             }
@@ -409,7 +409,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($(topnavSearchResultsContainer).find("li.selected").length) {
                 document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
             } else {
-                document.location = "/dev/search2.html#q=" + $.trim($("#topnavigation_search_input").val());
+                document.location = "/search#q=" + $.trim($("#topnavigation_search_input").val());
             }
         };
 
