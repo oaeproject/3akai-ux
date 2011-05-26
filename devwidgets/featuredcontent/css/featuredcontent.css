@@ -15,12 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.featuredcontent_widget {margin: 12px 0;}
-.featuredcontent_widget .s3d-contentpage-title{background: url("/devwidgets/featuredcontent/images/featuredcontent_header_bg.png") no-repeat scroll center bottom transparent;border-bottom: medium none;height: 25px;margin: 0 12px;}
+.featuredcontent_widget .s3d-contentpage-title{background: url("/devwidgets/featuredcontent/images/featuredcontent_header_bg.png") no-repeat scroll center bottom transparent;border-bottom: medium none;height: 25px;}
 .featuredcontent_widget #featuredcontent_footer {background: url("/devwidgets/featuredcontent/images/featuredcontent_footer_bg.png") no-repeat scroll center bottom transparent;height:9px;}
 
 /* Content boxes */
-.featuredcontent_widget {margin:0 10px;}
 .featuredcontent_widget .featuredcontent_content_small_container div:first-child {margin-bottom:10px;}
 .featuredcontent_widget .featuredcontent_content {float:left;background:url("/devwidgets/featuredcontent/images/featuredcontent_content_bg.png") repeat-x bottom left #f0f0ee;margin:5px;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;padding: 12px;overflow:hidden;}
 .featuredcontent_widget .featuredcontent_content_large {height:206px;width:302px;}
@@ -55,7 +53,7 @@
 .featuredcontent_widget #featuredcontent_category_content_container {clear:both;}
 .featuredcontent_widget #featuredcontent_category_content_border {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 .featuredcontent_widget #featuredcontent_category_content_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-.featuredcontent_widget .featuredcontent_category_content_large {margin:0 0 15px 0;width:686px;}
+.featuredcontent_widget .featuredcontent_category_content_large {margin:0 0 15px 0;width:708px;}
 .featuredcontent_widget .featuredcontent_category_content_large .featuredcontent_content_actions {width:690px;}
 .featuredcontent_widget .featuredcontent_category_content_large .featuredcontent_content_right_description {width:430px;}
 .featuredcontent_widget .featuredcontent_category_content_large #featuredcontent_large_preview {max-width:250px;}

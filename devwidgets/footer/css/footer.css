@@ -17,7 +17,7 @@
  */
 
 /* General */
-.footer_main{color:#454a4f;margin:0 auto;padding:0 0 10px;width:960px;background:transparent url(/devwidgets/footer/images/footer_shadow.png) 50% 0 no-repeat;}
+.footer_main{color:#454a4f;margin:0 auto;padding:0 0 10px;width:970px;background:transparent url(/devwidgets/footer/images/footer_shadow.png) 50% 0 no-repeat;}
 .footer_main.footer_index{width:955px;}
 #footer_logo{background:url(/devwidgets/footer/images/footer_logo.png) no-repeat scroll 0 0 transparent;width:43px;height:28px;float:left;margin-right:15px;}
 #footer_logo_button{float:left;margin-left:-2px;padding-left:2px;}

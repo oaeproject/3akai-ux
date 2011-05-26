@@ -86,13 +86,14 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
 .add_goodies .s3d-button {margin:0; height:23px;}
 .add_goodies .dialog_body {height:308px; overflow-y:auto; overflow-x:hidden; position:relative; width:471px;}
-.add_goodies .dialog_body table {width: 471px; margin-bottom:0; border:1px solid #E5E5E5; border-spacing: 0; *border-collapse: collapse;}
-.add_goodies .dialog_body td {padding: 5px; border-bottom: 1px solid #efefef;}
-.add_goodies .dialog_body .dialog_add_goodies_description {color:#333;font-size:13px;font-weight:normal;}
-.add_goodies .dialog_body .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:bold;}
-.add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
-.add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
-.add_goodies .remove_add_column {text-align:right; width:100px;}
+.add_goodies  ul {margin:0;}
+.add_goodies  ul li{border-bottom: 1px solid #efefef;line-height:30px;list-style:none;padding:0 12px;}
+.add_goodies  ul li:hover{background-color:#dbeefc;}
+.add_goodies .dialog_add_goodies_description {color:#333;font-size:13px;font-weight:normal;}
+.add_goodies .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:bold;}
+.add_goodies .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
+.add_goodies .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
+.add_goodies .remove_add_column {float:right;width:100px;}
 
 /* D&D Classes */
 .ui-draggable, .orderable-hover {cursor:move;}
@@ -191,10 +192,10 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-widget .s3d-widget-no-options,.s3d-no-options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;padding:0 5px 0 0;margin:0;}
 .s3d-widget .s3d-widget-no-options-inner,.s3d-no-options-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;margin:0;height:6px;}
 
-.fl-col-flex5 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex4 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex3 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex2 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
+.fl-col-flex2 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:355px;margin-right:22px;}
+.fl-col-flex2 .fl-col:last-child {margin-right:0;}
+.fl-col-flex3 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:229px;margin-right:22px;}
+.fl-col-flex3 .fl-col:last-child {margin-right:0;}
 
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
