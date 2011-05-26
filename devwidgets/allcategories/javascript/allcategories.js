@@ -57,11 +57,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var parseDirectory = function(success, data){
             $.each(directory, function(i, toplevel){
+                toplevel.count = 0
                 if (data[i] && data[i].content){
                     toplevel.content = data[i].content;
                     toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                     toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                    
                     var mimeType = sakai.api.Content.getMimeType(toplevel.content);
                     if (mimeType.indexOf("image/") !== -1){
                         toplevel.content.image = true;
@@ -69,11 +69,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (sakai.api.Content.getThumbnail(toplevel.content)){
                         toplevel.content.haspreview = true;
                     }
-                    
+                    toplevel.count = data[i]["sakai:tag-count"];
                 }
-                // TODO make this non dummy
-                // with the help of https://jira.sakaiproject.org/browse/KERN-1889
-                toplevel.count = Math.floor(Math.random() * 10);
                 toplevel.id = i;
                 allcategoriesToRender.push(toplevel);
             });

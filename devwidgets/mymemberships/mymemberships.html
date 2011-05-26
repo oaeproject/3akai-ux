@@ -50,6 +50,7 @@
             {var count = count + 1}
             <li id="mymemberships_item_${group.id}" class="mymemberships_item fl-push{if count == 1} mymemberships_item_first{/if}">
                 <span class="mymemberships_item_user_functions" style="display:none;">
+                    <div class="mymemberships_item_plus mymemberships_item_left_filler sakai_joingroup_overlay" data-groupid="${group.id}">+</div>
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                         {if user_manages(group)}
@@ -59,12 +60,10 @@
                         {/if}
                     </span>
                 </span>
-                <a href="#"><img src="/dev/images/add_to_library_icon.png" class="sakai_joingroup_overlay" data-groupid="${group.id}" /></a>
-                <div class="mymemberships_imagearea">
-                    <a href="${group.url}" title="__MSG__VIEW_GROUP__"><img
-                        class="mymemberships_group_pic"
-                        src="${group.picsrc}" /></a>
-                </div>
+                <span class="mymemberships_item_anonuser"></span>
+                <a href="${group.url}" title="__MSG__VIEW_GROUP__">
+                    <img class="mymemberships_group_pic" src="${group.picsrc}" />
+                </a>
                 <div class="mymemberships_item_right">
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="/~${group.id}" title="${group.title}">
@@ -75,7 +74,7 @@
                         {/if}
                     </div>
                     <div class="mymemberships_item_usedin">
-                        __MSG__CREATED__ ${sakai.api.Datetime.getTimeAgo(group.created)} __MSG__AGO__
+                        __MSG__CHANGED__ ${jQuery.timeago(new Date(group.lastModified))}
                         {if group.contentCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
                             <a class="s3d-regular-light-links" href="${group.url}" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
@@ -90,7 +89,7 @@
                         <div class="mymemberships_item_tags">
                             <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
                             <p class="mymemberships_item_tags_list">
-                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                             </p>
                         </div>
                     {/if}

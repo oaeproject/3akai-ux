@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         groups.push(group);
                     }
                     groupData.results[0] = {"groups": groups};
-                    groupData.moreLink = "/search/groups#tag=/tags/directory/" + selected;
+                    groupData.moreLink = "/search#q=" + selected;
                     callback();
                 }
             });
@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 cache: false,
                 success: function(data){
                     groupData = data;
-                    groupData.moreLink = "/search/groups";
+                    groupData.moreLink = "/search";
                     callback();
                 }
             });

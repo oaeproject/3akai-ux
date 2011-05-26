@@ -100,7 +100,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
-                    document.location = "/dev/search2.html#q=" + $.trim($searchinput.val());
+                    document.location = "/search#q=" + $.trim($searchinput.val());
                 }
             });
             sakai.api.Security.showPage();
