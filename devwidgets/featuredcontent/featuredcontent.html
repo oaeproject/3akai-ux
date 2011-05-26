@@ -32,7 +32,7 @@
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}
                                     {if tag_index < 2}
-                                        <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                        <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                     {/if}
                                 {/for}
                             </span>
@@ -89,7 +89,7 @@
                         <span class="featuredcontent_content_tags">
                             {for tag in item["sakai:tags"]}
                                 {if tag_index < 2}
-                                    <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                    <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                 {/if}
                             {/for}
                         </span>
