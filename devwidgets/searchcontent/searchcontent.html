@@ -86,7 +86,7 @@
                                         {/if}
                                     </div>
                                     <div class="searchcontent_result_by">
-                                        __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']}" title="${i['sakai:pool-content-created-for']}">${i['sakai:pool-content-created-for']}</a> <span class="searchcontent_result_detail_separator">|</span> ${sakai.api.Datetime.getTimeAgo(i._lastModified)}
+                                        __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']}" title="${i['sakai:pool-content-created-for']}">${i['sakai:pool-content-created-for']}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
                                     {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
                                     <div class="searchcontent_result_usedin">
@@ -105,7 +105,7 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}

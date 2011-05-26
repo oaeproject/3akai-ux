@@ -17,7 +17,7 @@
             <ul>
                 <li><a href="/people">__MSG__VIEW_AND_EDIT_ALL_MY_CONTACTS__</a></li>
                 <li><span class="pipe_divider">|</span></li>
-                <li><a id="mycontacts_footer_search" href="/search/people#q=*&page=1">__MSG__SEARCH_PEOPLE__</a></li>
+                <li><a id="mycontacts_footer_search" href="/search#l=people">__MSG__SEARCH_PEOPLE__</a></li>
                 <li><a href="/people" class="mycontacts_requests" id="mycontacts_requests"></a></li>
             </ul>
 
@@ -45,7 +45,7 @@
                     <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
                     {if !sakai.data.me.user.anon}
                         <h1>
-                            <a href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>
+                            <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>
                         </h1>
                     {/if}
                 </div>

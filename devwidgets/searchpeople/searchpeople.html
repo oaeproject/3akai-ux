@@ -104,7 +104,7 @@
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/for}
+                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/for}
                                             </p>
                                         </div>
                                     {/if}

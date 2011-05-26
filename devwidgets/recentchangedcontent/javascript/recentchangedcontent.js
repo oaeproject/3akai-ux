@@ -103,9 +103,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             var usedin = 0;
             usedin = result["sakai:pooled-content-manager"].length;
-            for(var i =0;i<result["sakai:pooled-content-viewer"].length;i++){
-                if(result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone")
-                usedin++;
+            if (result["sakai:pooled-content-viewer"]) {
+                for (var i = 0; i < result["sakai:pooled-content-viewer"].length; i++) {
+                    if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") 
+                        usedin++;
+                }
             }
 
             item.usedin = usedin;

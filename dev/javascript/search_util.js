@@ -110,20 +110,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (results[group]["sakai:category"]){
                         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                             if (sakai.config.worldTemplates[c].id === results[group]["sakai:category"]){
-                                groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+                                groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].titleSing);
                             }
                         }
                     }
                     results[group].groupType = groupType;
-                    results[group].created = "1305156244412";
+                    results[group].lastModified = results[group].lastModified;
+                    results[group].picPath = sakai.api.Groups.getProfilePicture(results[group]);
                     results[group].userMember = false;
                     if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
                         results[group].userMember = true;
-                    }
-
-                    if (results[group].picture && typeof results[group].picture === "string") {
-                        results[group].picture = $.parseJSON(results[group].picture);
-                        results[group].picture.picPath = "/~" + results[group]["sakai:group-id"] + "/public/profile/" + results[group].picture.name;
                     }
 
                     finaljson.items.push(results[group]);
