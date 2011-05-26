@@ -253,7 +253,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                         "description": $contentForm.find(newaddcontentUploadContentDescription).val(),
                         "tags": $contentForm.find(newaddcontentUploadContentTags).val(),
                         "permissions": $contentForm.find(newaddcontentUploadContentPermissions).val(),
-                        "copyright": "creativecommons",
+                        "copyright": $("#newaddcontent_upload_content_copyright").val(),
                         "css_class": sakai.config.MimeTypes[sakai.config.Extensions[(originalTitle).slice(originalTitle.lastIndexOf(".") + 1, originalTitle.length).toLowerCase()] || "other"].cssClass || "icon-unknown-sprite",
                         "type": "content"
                     };
@@ -648,6 +648,9 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * @param {String} fileName Name of the selected file
          */
         var preFillContentFields = function(fileName){
+            if (fileName.indexOf("\\") !== -1){
+                fileName = fileName.split("\\")[fileName.split("\\").length - 1];
+            }
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentTitle).val(fileName);
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentOriginalTitle)[0].id = fileName;
         };
@@ -704,6 +707,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     enableAddToQueue();
                 }
             });
+            $("#newaddcontent_upload_content_copyright_container").html(sakai.api.Util.TemplateRenderer("newaddcontent_copyright_template", {
+                copyright: sakai.config.Permissions.Copyright,
+                sakai: sakai
+            }));
         };
 
         /**

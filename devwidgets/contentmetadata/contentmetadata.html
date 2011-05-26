@@ -141,10 +141,6 @@
             <span class="contentmetadata_first_column">__MSG__LAST_MODIFIED__: </span>
             <span>${sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(data.data["_lastModified"]), sakai.data.me)}</span>
         </div>
-        <div class="contentmetadata_content_row">
-            <span class="contentmetadata_first_column">__MSG__REVISIONS__: </span>
-            <span>{if data.versions.total <= 0}__MSG__NO_REVISIONS__{else}<button type="button" id="contentmetadata_view_revisions" class="{if data.data["_mimeType"] === "x-sakai/link"}link_revision {/if}s3d-link-button s3d-action s3d-bold">${data.versions.total} __MSG__VERSIONS__</button> __MSG__AVAILABLE__{/if}</span>
-        </div>
 --></div>
 
 <!-- JAVASCRIPT -->
