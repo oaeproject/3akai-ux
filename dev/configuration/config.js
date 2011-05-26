@@ -252,13 +252,23 @@ define(function(){
                     "public": "public", // Anyone on the Internet
                     "managers": "managers-only" // Group managers only
                 },
-                "defaultaccess": "public"
+                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role descriptio)
             },
             Content: {
-                "defaultaccess": "public"
+                /*
+                 * public - anyone
+                 * everyone - logged in users
+                 * private - private
+                 */
+                "defaultaccess": "public" // public, everyone or private (see above for role descriptio)
             },
             Documents: {
-                "defaultaccess": "public"
+                /*
+                 * public - anyone
+                 * everyone - logged in users
+                 * private - private
+                 */
+                "defaultaccess": "public" // public, everyone or private (see above for role descriptio)
             },
             Copyright: {
                 "creativecommons": {
