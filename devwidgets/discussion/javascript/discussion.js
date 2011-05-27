@@ -38,8 +38,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.discussion = function(tuid, showSettings){
-
+    sakai_global.discussion = function(tuid, showSettings, widgetData){
 
         /////////////////////////////
         // Configuration variables //
@@ -53,6 +52,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         // Each post gets a marker which is basicly the widget ID.
         // If we are using another discussion this marker will be the ID of that widget.
         var marker = tuid;
+        var addTopics = false,
+            addReplies = false;
 
         // Containers
         var $discussionContainer = $("#discussion_container", $rootel);
@@ -143,7 +144,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
 
         var continueInit = function(){
             getWidgetSettings();
-
             if (showSettings) {
                 $discussionMainContainer.hide();
                 $discussionSettings.show();
@@ -201,22 +201,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
          */
         var parseDate = function(dateInput){
             if (dateInput !== null) {
-                // Use the sakai API function to parse the date and convert to the users local time
-                if (/^\d+$/.test(dateInput)) {
-                    //1302736568747
-                    return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
-                } else {
-                    //2009-08-19 11:29:53+0100
-                    //2009-08-19T10:58:27
-                    return sakai.api.l10n.parseDateString(dateInput, sakai.data.me);
-                }
+                return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
             }
             return null;
         };
 
         var parseQuote = function(message){
             var quote = false;
-            if(message.substring(0,6) == "[quote"){
+            if (message.substring(0,6) === "[quote") {
                 // Parse the quoted message
                 quote = message.split("[/quote]")[0];
                 quote = quote.substring(quote.indexOf("]") + 1, quote.length);
@@ -224,7 +216,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 var by = message.split("[/quote]")[0];
                 by = by.substring(by.indexOf("\"") + 1, by.indexOf("]") - 1);
                 return {"quote":quote, "by":by};
-            }else{
+            } else {
                 return quote;
             }
         };
@@ -323,8 +315,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(discussionTabContentSettingsTemplate, {
-                "settings":widgetSettings,
-                "type":sakai_global.show.type
+                "settings":widgetSettings
             }, $(discussionTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $discussionMainContainer.hide();
@@ -348,65 +339,50 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
 
         var parseSettings = function(data){
             var contact = false;
-            if (sakai_global.show.type === "user" && sakai_global.show.id !== sakai.data.me.user.userid){
-                // determine if user is a contact of the profile user
-                if (sakai.api.User.checkIfConnected(sakai_global.show.id)){
-                    contact = true;
-                }
-            }
-            parsedSettings["ismanager"] = false;
-            if (sakai._isAnonymous) {
+            var canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            parsedSettings["ismanager"] = canEditPage;
+            // Anonymous can't do anything
+            if (sakai.api.User.isAnonymous(sakai.data.me)) {
                 parsedSettings["addtopic"] = false;
                 parsedSettings["canreply"] = false;
                 parsedSettings["anon"] = true;
             } else {
                 parsedSettings["anon"] = false;
                 parsedSettings["userid"] = sakai.data.me.user.userid;
-                if (sakai_global.show.type === "user" && sakai_global.show.id === sakai.data.me.user.userid) {
-                    // User is on their own profile page, grant all permissions
+
+                // Check for who can add topics
+                if (data["whocanaddtopic"] === "managers_only") {
+                    if (canEditPage) {
+                        parsedSettings["addtopic"] = true;
+                    } else {
+                        parsedSettings["addtopic"] = false;
+                    }
+                } else {
                     parsedSettings["addtopic"] = true;
-                    parsedSettings["ismanager"] = true;
-                } else if (data["sakai:whocanaddtopic"] == "managers_only") {
-                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
-                        // Grant all permissions
-                        parsedSettings["addtopic"] = true;
-                        parsedSettings["ismanager"] = true;
-                    }
-                    else {
-                        parsedSettings["addtopic"] = false;
-                    }
                 }
-                else {
-                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
-                        // Grant all permissions
-                        parsedSettings["addtopic"] = true;
-                        parsedSettings["ismanager"] = true;
-                    }
-                    else {
-                        // Check if the user is a member
-                        parsedSettings["addtopic"] = false;
-                        if (sakai_global.currentgroup.member || contact) {
-                            parsedSettings["addtopic"] = true;
-                        }
-                    }
-                }
-                if (data["sakai:whocanreply"] == "everyone") {
+
+                // Check for who can add replies
+                if (data["whocanreply"] === "anyone") {
                     parsedSettings["canreply"] = true;
-                }
-                else {
-                    if (sakai_global.currentgroup && sakai_global.currentgroup.manager) {
-                        // Grant all permissions
+                } else {
+                    if (canEditPage) {
                         parsedSettings["canreply"] = true;
-                        parsedSettings["ismanager"] = true;
-                    }
-                    else {
-                        // Check if the user is a member
-                        parsedSettings["canreply"] = false;
-                        if (sakai_global.currentgroup.member || contact) {
-                            parsedSettings["canreply"] = true;
-                        }
                     }
                 }
+            }
+        };
+
+        var processWidgetData = function(data) {
+            widgetSettings = $.extend(true, {}, data);
+            if (widgetSettings.marker !== undefined) {
+                marker = widgetSettings.marker;
+            }
+            if (showSettings) {
+                displaySettings();
+            } else {
+                // Parse these settings to be usable in templates
+                parseSettings(data);
+                getPosts();
             }
         };
 
@@ -414,28 +390,21 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
          * Fetches the widget settings and places it in the widgetSettings var.
          */
         var getWidgetSettings = function(){
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
-                if (success) {
-                    widgetSettings = $.extend(data, {}, true);
-                    if (widgetSettings.marker !== undefined) {
-                        marker = widgetSettings.marker;
-                    }
-                    if (showSettings) {
-                        displaySettings();
+            if (widgetData.discussion) {
+                processWidgetData(widgetData.discussion);
+            } else {
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                    if (success) {
+                        processWidgetData(data);
                     } else {
-                        // Parse these settings to be usable in templates
-                        parseSettings(data);
-                        getPosts();
+                        // We don't have settings for this widget yet.
+                        if (showSettings) {
+                            displaySettings();
+                        }
                     }
-                }
-                else {
-                    // We don't have settings for this widget yet.
-                    if (showSettings) {
-                        displaySettings();
-                    }
-                }
 
-            });
+                });
+            }
         };
 
         /**
@@ -452,9 +421,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
         var saveSettings = function(callback){
             var data = widgetSettings;
 
-            widgetSettings['sakai:replytype'] = $("#discussion_settings_reply_options input[type='radio']:checked", $rootel).val();
-            widgetSettings['sakai:whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val();
-            widgetSettings['sakai:whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val();
+            widgetSettings['replytype'] = $("#discussion_settings_reply_options input[type='radio']:checked", $rootel).val();
+            widgetSettings['whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val();
+            widgetSettings['whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val();
             widgetSettings['marker'] = marker;
 
             // JCR properties are not necessary.
@@ -473,7 +442,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             var postData = {
                 "sakai:type": "discussion",
                 "sling:resourceType": "sakai/message",
-                "sakai:to": "discussion:w-" + store,
+                "sakai:to": "discussion:" + store,
                 'sakai:subject': $(discussionCreateNewTopicTitle, $rootel).val(),
                 'sakai:body': $(discussionCreateNewTopicMessageText, $rootel).val(),
                 'sakai:initialpost': true,
@@ -522,7 +491,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                 "sakai:replyon": id,
                 "sakai:messagebox": "pending",
                 "sakai:sendstate": "pending",
-                "sakai:to": "discussion:w-" + store,
+                "sakai:to": "discussion:" + store,
                 "sakai:deleted": false,
                 "_charset_": "utf-8"
             };
