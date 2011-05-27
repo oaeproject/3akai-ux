@@ -526,7 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Make up for IE8 to submit login on Enter
             // http://www.thefutureoftheweb.com/blog/submit-a-form-in-ie-with-enter
             $(topnavUserOptionsLoginForm + " input").keydown(function(e){
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     $(this).parents('form').submit();
                     return false;
                 }
