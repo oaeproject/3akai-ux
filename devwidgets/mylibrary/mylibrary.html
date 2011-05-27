@@ -1,6 +1,8 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mylibrary/css/mylibrary.css" />
 
+<div style="display:none">__MSG__IE_PLACEHOLDER__</div>
+
 <div class="mylibrary_widget">
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
@@ -11,27 +13,23 @@
         {/if}
     --></div>
     <!-- Action bar -->
-        <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder"
-            style="display:none; width: auto;">
-            __MSG__SORT_BY__: <select id="mylibrary_sortby">
+        <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder" style="display:none; width: auto;">
+            __MSG__SORT_BY__: 
+            <select id="mylibrary_sortby">
                 <option value="lastModified_desc">__MSG__NEWEST__</option>
-                <option value="lastModified_asc">__MSG__OLDEST__</option>
-                <!--<option value="atoz">__MSG__A_TO_Z__</option>
-                <option value="ztoa">__MSG__Z_TO_A__</option>-->
+                <option value="lastModified_asc">__MSG__OLDEST__</option> 
             </select>
         </div>
         <input id="mylibrary_livefilter" class="mylibrary_meta" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
-            <div class="mylibrary_placeholder"><input id="mylibrary_check_all"
-                type="checkbox" /></div>
-            <button type="button" id="mylibrary_remove"
-                class="s3d-button s3d-button-link-2-state" disabled="disabled">
+            <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
+            <button type="button" id="mylibrary_remove" class="s3d-button s3d-button-link-2-state" disabled="disabled">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
             </button>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
-                __MSG__USED_IN__: <span id="mylibrary_groupfilter_selection"><button type="button" class="s3d-link-button s3d-action s3d-bold" title="__MSG__ALL__">__MSG__ALL__</button> <span id="mylibrary_groupfilter_usedin_count"></span><span id="mylibrary_groupfilter_usedin_arrow" class="mylibrary_groupfilter_usedin_arrow_up"></span></span>
+                __MSG__USED_IN__: <span id="mylibrary_groupfilter_selection"><button type="button" class="s3d-link-button s3d-action s3d-bold" title="__MSG__ALL__">__MSG__ALL__</button> <span id="mylibrary_groupfilter_usedin_count"><!-- --></span><span id="mylibrary_groupfilter_usedin_arrow" class="mylibrary_groupfilter_usedin_arrow_up"><!-- --></span></span>
             </div>
             <div id="mylibrary_groupfilter_groups" style="display:none;">
                 <div id="mylibrary_groupfilter_groups_container"><!-- --></div>
@@ -45,10 +43,8 @@
                 --></div>
             </div>
         </div>
-    </div>
 
     <div id="mylibrary_empty" class="fl-container fl-fix" style="display:none;"><!----></div>
-
     <div id="mylibrary_empty_template"><!--
         {if who == "edit"}
             <div class="s3d-no-results-container">
@@ -107,7 +103,7 @@
                         {/if}
                     </div>
                     <div class="mylibrary_item_by">
-                        __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> ${item.last_updated}
+                        __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
                     </div>
                     {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
                     <div class="mylibrary_item_usedin">

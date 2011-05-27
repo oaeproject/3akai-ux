@@ -76,7 +76,7 @@
                         {/if}
                     </div>
                     <div class="mymemberships_item_usedin">
-                        __MSG__CREATED__ ${sakai.api.Datetime.getTimeAgo(group.created)} __MSG__AGO__
+                        __MSG__CHANGED__ ${jQuery.timeago(new Date(group.lastModified))}
                         {if group.contentCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
                             <a class="s3d-regular-light-links" href="${group.url}" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
@@ -91,7 +91,7 @@
                         <div class="mymemberships_item_tags">
                             <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
                             <p class="mymemberships_item_tags_list">
-                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                             </p>
                         </div>
                     {/if}

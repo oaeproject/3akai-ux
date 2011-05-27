@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "data": dataArr
             }, $(carouselContainer), false);
             $(carouselContainer).jcarousel({
-                auto: 5,
+                auto: 8,
                 animation: "slow",
                 scroll: 1,
                 easing: "swing",
@@ -403,29 +403,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 parseData(dataArr);
             });
 
-            /*
-            $.ajax({
-                url: "/var/search/groups-all.json?page=0&items=50&q=*",
-                cache: false,
-                success: function(data){
-                    $.each(data.results, function(index, group) {
-                        data.results[group] = data.results[group] || false;
-                        if (data.results[group].groupid) {
-                            $.ajax({
-                                url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=50",
-                                cache: false,
-                                async: false,
-                                success: function(memberData){
-                                    data.results[group].members = memberData;
-                                }
-                            });
-                        }
-                    });
-                    dataArr.groups = data;
-                    checkDataParsable(dataArr);
-                }
-            });
-            */
         };
 
         var doInit = function(){

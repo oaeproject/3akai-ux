@@ -32,7 +32,7 @@
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}
                                     {if tag_index < 2}
-                                        <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                        <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                     {/if}
                                 {/for}
                             </span>
@@ -53,18 +53,29 @@
                     </div>
                     {if item.mode == "large"}
                         <div id="featuredcontent_large_preview">
-                            {if item.image}
-                                <img src="/p/${item["_path"]}"/>
-                            {else}
-                                <img src="/p/${item["_path"]}.page1-small.png"/>
-                            {/if}
+                            <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
+                                {if item.image}
+                                    <img src="/p/${item["_path"]}"/>
+                                {elseif item.thumbnail}
+                                    <img src="${item.thumbnail}"/>
+                                {/if}
+                            </a>
                         </div>
                     {/if}
                     {if item.mode == "large"}
                         <div class="featuredcontent_content_right_description">
                     {/if}
+                    {var mimeType = sakai.api.Content.getMimeType(item)}
                     {if item.mode == "medium"}
-                        <img src="${sakai.api.Content.getMimeTypeData(item["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
+                        <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
+                            {if item.image}
+                                <img src="/p/${item["_path"]}" class="featuredcontent_thumbnail_image"/>
+                            {elseif item.thumbnail}
+                                <img src="${item.thumbnail}" class="featuredcontent_thumbnail_image"/>
+                            {else}
+                                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" class="featuredcontent_thumbnail_image"/>
+                            {/if}
+                        </a>
                     {/if}
                     {if item.mode == "large"} {if sakai_global.category} {var size = 190} {else} {var size = 125} {/if} {else} {var size = 50} {/if}
                     <a href="/content#p=${item["_path"]}/${item["sakai:pooled-content-file-name"]}" title="${item["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], size)}</a>
@@ -78,7 +89,7 @@
                         <span class="featuredcontent_content_tags">
                             {for tag in item["sakai:tags"]}
                                 {if tag_index < 2}
-                                    <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                    <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                 {/if}
                             {/for}
                         </span>
@@ -100,7 +111,7 @@
         {if sakai_global.category}
             <div id="featuredcontent_category_content_border">
                 <div id="featuredcontent_category_content_container">
-                    <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/dev/search2.html#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
+                    <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
@@ -122,7 +133,7 @@
 
 <div id="featuredcontent_category_content_template"><!--
         <div id="featuredcontent_category_content_border">
-            <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/dev/search2.html#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">${total}</a>)</div>
+            <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">${total}</a>)</div>
             {for small in data}
                 <div class="featuredcontent_content featuredcontent_content_small">
                     <div class="featuredcontent_content_actions">

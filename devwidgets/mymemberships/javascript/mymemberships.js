@@ -171,6 +171,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 {max_rows: 2, whole_word: false},
                                 "s3d-bold"
                             ) : false;
+                    var groupType = sakai.api.i18n.General.getValueForKey("OTHER");
+                    if (group["sakai:category"]){
+                        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
+                            if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
+                                groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                            }
+                        }
+                    }
+
+                    var tags = group["sakai:tags"];
+                    if (!tags){
+                        if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]){
+                            tags = group.basic.elements["sakai:tags"].value;
+                        }
+                    }
+
                     groupData.push({
                         id: group.groupid,
                         url: "/~" + group.groupid,
@@ -179,11 +195,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         title: group["sakai:group-title"],
                         titleShort: titleShort,
                         desc: desc,
-                        type: "Course",
-                        created: "1305156244412",
-                        contentCount: "5",
-                        membersCount: "4",
-                        tags: []
+                        type: groupType,
+                        lastModified: group.lastModified,
+                        contentCount: group.counts.contentCount,
+                        membersCount: group.counts.membersCount,
+                        tags: tags
                     });
                 });
                 var json = {

@@ -38,7 +38,7 @@
 
 <div id="search_template" style="display:none"><!--
         {if files && files.length}
-            <a href="/dev/search2.html#l=content&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
+            <a href="/search#l=content&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
             <ul>
                {for file in files}
                     <li>
@@ -52,7 +52,7 @@
             </ul>
         {/if}
         {if people && people.length}
-            <a href="/dev/search2.html#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
+            <a href="search#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
             <ul>
                 {for person in people}
                     <li>
@@ -67,7 +67,7 @@
         {/if}
         {for c in sakai.config.worldTemplates}
             {if groups[c.id] && groups[c.id].length}
-                <a href="/dev/search2.html#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.General.getValueForKey(c.title)}</a>
+                <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.General.getValueForKey(c.title)}</a>
                 <ul>
                     {for group in groups[c.id]}
                         <li>
