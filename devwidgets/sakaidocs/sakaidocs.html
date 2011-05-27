@@ -174,29 +174,16 @@
         </div>
 
         <!-- AUTOSAVE DIALOG -->
-        <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__AUTO__ __MSG__SAVE__</h1>
-                <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
+        <div id="autosave_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+            <div class="s3d-dialog-close jqmClose"></div>
+            <h1 id="entity_content_users_dialog_heading" class="s3d-dialog-header">__MSG__AUTOSAVE__</h1>
+            <div>
                 <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
-
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
-
                 <div class="dialog_buttons">
                     <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
                     <button type="button" class="s3d-button jqmClose" id="autosave_keep"><span class="s3d-button-inner">__MSG__NO__</span></button>
                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
 
