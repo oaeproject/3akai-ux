@@ -168,8 +168,9 @@ a.s3d-button {text-decoration:none;}
 
 
 /* Overlay buttons */
-
-
+.s3d-button.s3d-overlay-button {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;border:none;color:#FFFFFF;font-size:14px;font-weight:bold;height:32px;}
+.s3d-button.s3d-overlay-button:hover {background:url("/dev/images/button_overlay_hover.png") repeat-x scroll left top transparent;border:none;color:#666;border:1px solid #e7e7e7;padding:0 11px;}
+.s3d-button.s3d-header-button[disabled]:hover {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;cursor:auto;}
 
 /* Browse inly 'view all button' buttons */
 
