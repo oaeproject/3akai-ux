@@ -15,7 +15,7 @@
                     <a href="/~${activity.who.userid}" title="View ${activity.who.name}'s Profile" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">
                         <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
                     </a>
-                    <a href="/~${activity.who.userid}" title="View ${activity.who.name}'s Profile" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity.who.name, 150, null,"s3d-bold")}</a>
+                    <a href="/~${activity.who.userid}" title="View ${activity.who.name}'s Profile" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity.who.name, 104, undefined,"s3d-bold")}</a>
                     {if activity["sakai:activity-type"] == "comment"}
                         <span class="recentactivity_activity_item_description">${sakai.api.Util.applyThreeDots(activity["sakai:activity-comment"], 300)}</span>
                     {else}
@@ -29,7 +29,7 @@
                         {else}
                             {var mimeType = activity["sakai:custom-mimetype"]}
                         {/if}
-                        <a href="/content#p=${activity["_path"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">
+                        <a href="/content#p=${activity["_path"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="s3d-bold">
                             {if mimeType.indexOf("image/") !== -1}
                                 <img src="/p/${activity["_path"]}" class="recentactivity_activity_item_image" alt="${activity["sakai:pooled-content-file-name"]}"/>
                             {elseif activity["sakai:custom-mimetype"]}
@@ -40,7 +40,7 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="activity["sakai:pooled-content-file-name"]" class="recentactivity_activity_item_image"/>
                             {/if}
                         </a>
-                        <a href="/content#p=${activity["_path"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 150, null, "s3d-bold")}</a>
+                        <a href="/content#p=${activity["_path"]}/${activity["sakai:pooled-content-file-name"]}" title="View ${activity["sakai:pooled-content-file-name"]}" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(activity["sakai:pooled-content-file-name"], 104, undefined, "recentactivity_activity_item_title s3d-regular-links s3d-bold")}</a>
                         <span class="recentactivity_activity_item_description">__MSG__USED_IN__ ${activity.usedin} {if activity.usedin == 1} __MSG__PLACE__ {else} __MSG__PLACES__{/if}</span>
                     </div>
                 {/if}
