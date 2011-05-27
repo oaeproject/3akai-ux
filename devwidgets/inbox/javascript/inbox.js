@@ -481,7 +481,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai: sakai,
                     _: _,
                     data: data,
-                    search: searchTerm
+                    search: searchTerm,
+                    widgetData: widgetData
                 }, $inbox_message_list);
 
                 formatMessageList();
