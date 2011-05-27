@@ -740,6 +740,18 @@ define(["jquery",
             }
         },
 
+        canEditContainer: function(widgetData) {
+            if (widgetData &&
+                widgetData.data &&
+                widgetData.data.currentPageShown &&
+                widgetData.data.currentPageShown.canEdit &&
+                !widgetData.data.currentPageShown.nonEditable) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         /**
          * Notify widgets when they have been shown or hidden, given a root element
          *
