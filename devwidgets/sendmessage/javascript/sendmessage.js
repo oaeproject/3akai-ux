@@ -229,6 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     keyDelay: "200",
                     retrieveLimit: 10,
                     preFill: preFill,
+                    scrollresults:true,
                     formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class

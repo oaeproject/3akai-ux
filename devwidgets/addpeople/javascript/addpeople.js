@@ -284,45 +284,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".as-close").click();
         };
 
-        /**
-         * Fetch the users and groups used in the autocomplete functionality of the widget
-         */
-        var fetchUsersGroups = function(){
-            var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                if (success) {
-                    var suggestions = [];
-                    var name, value, type, picture;
-                    $.each(data.results, function(i){
-                        if (data.results[i]["rep:userId"] && sakai.data.me.user.userid != data.results[i]["rep:userId"]) {
-                            name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = "user/" + data.results[i]["rep:userId"];
-                            type = "user";
-                            if (data.results[i].picture){
-                                picture = $.parseJSON(data.results[i].picture).name;
-                            }
-                        } else if (data.results[i]["sakai:group-id"]) {
-                            name = data.results[i]["sakai:group-title"];
-                            value = "group/" + data.results[i]["sakai:group-id"];
-                            type = "group";
-                            if (data.results[i].picture){
-                                picture = $.parseJSON(data.results[i].picture).name;
-                            }
+        var initAutosuggest = function(){
+            $addpeopleMembersAutoSuggestField.autoSuggest("", {
+                selectedItemProp: "name",
+                searchObjProps: "name",
+                startText: "",
+                asHtmlID: tuid,
+                resultClick: createAutoSuggestedUser,
+                scrollresults:true,
+                source: function(query, add) {
+                    var q = sakai.api.Server.createSearchString(query);
+                    var options = {"page": 0, "items": 15};
+                    var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
+                    if (q === '*' || q === '**') {
+                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
+                    } else {
+                        options['q'] = q;
+                    }
+                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                        if (success) {
+                            var suggestions = [];
+                            $.each(data.results, function(i) {
+                                if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai.data.me.user.userid) {
+                                    suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
+                                } else if (data.results[i]["sakai:group-id"]) {
+                                    suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                }
+                            });
+                            add(suggestions);
                         }
-                        suggestions.push({"value": value, "name": name, "type": type, "picture": picture});
-                    });
-                    $addpeopleMembersAutoSuggestField.autoSuggest(suggestions, {
-                        selectedItemProp: "name",
-                        searchObjProps: "name",
-                        startText: "",
-                        asHtmlID: tuid,
-                        resultClick: createAutoSuggestedUser
-                    });
-                    $addpeopleMembersAutoSuggest.show();
+                    }, options);
                 }
             });
+            $addpeopleMembersAutoSuggest.show();
         };
+
 
         var prepareSelectedContacts = function(success, data){
             for(var role in data){
@@ -425,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     loadRoles();
                     addBinding();
-                    fetchUsersGroups();
+                    initAutosuggest();
                     hasbeenInit = true;
                 }
                 if(sakai_global.group2){
