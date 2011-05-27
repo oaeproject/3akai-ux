@@ -35,7 +35,7 @@
             {for item in directory}
                 <li>
                     <div class="categories_item">
-                        <a href="/dev/category.html#tag=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
+                        <a href="/dev/category.html#l=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${item.count} content items</span>
                         {if item.content}
                             {if item.content["sakai:pooled-content-file-name"]}
@@ -61,7 +61,7 @@
                                     <span class="categories_content_tags">
                                         {for tag in item.content["sakai:tags"]}
                                             {if tag_index < 2}
-                                                <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item.content["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < item.content["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>

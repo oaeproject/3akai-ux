@@ -543,8 +543,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Add content
 
         $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
-            //$(window).trigger("init.fileupload.sakai");
             $(window).trigger("init.newaddcontent.sakai");
+            return false;
         });
 
         // Send a message

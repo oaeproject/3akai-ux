@@ -4,101 +4,102 @@
 <div class="recentchangedcontent_widget">
     <div class="fl-widget-content s3d-widget-content recentchangedcontent_content">
         <div class="recentchangedcontent_add_container">
-            <div class="s3d-no-results-container">
-                <div class="s3d-no-results-arrow-up"></div>
-                <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="add_recentchangedcontent_button s3d-regular-links" href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a></h1>
+            <div id="recentchangedcontent_no_results_container" style="display:none;">
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-content-small"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a id="mylibrary_addcontent" class="s3d-regular-links sakai_add_content_overlay" href="#" title="__MSG__ADD_CONTENT__">__MSG__ADD_CONTENT__</a></h1>
+                </div>
             </div>
         </div>
        <!-- MAIN recentchangedcontent -->
         <div class="recentchangedcontent_main">
-            <div class="recentchangedcontent_item"></div>
+            <div class="recentchangedcontent_item"><!----></div>
             <div id="recentchangedcontent_item_template"><!--
             {for item in items}
-            <div class="recentchangedcontent_related_details">
-                <div class="recentchangedcontent_item_img fl-force-left">
-                    {var mimeType = sakai.api.Content.getMimeType(item)}
-                    {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                    {var thumbnail = sakai.api.Content.getThumbnail(item)}
-                    <a href="/content#p=${item.link}/${item.filename}" title="${item.name}">
-                        {if thumbnail}
-                            <img class="s3d-icon-50" src="${thumbnail} alt="${mimeTypeDescription}" />
-                        {elseif (mimeType.substring(0,6)=="image/")}
-                            <img class="s3d-icon-50" src="${item.path}" alt="${mimeTypeDescription}" />
-                        {elseif sakai.config.MimeTypes[mimeType]}
-                            <img class="s3d-icon-50" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
-                        {else}
-                            <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
-                        {/if}
-                    </a>
-                </div>
-                <div class="recentchangedcontent_item_info">
-                    <p class="recentchangedcontent_item_title">
-                        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename}" title="${item.name}">
-                            ${item.nameShort}
-                        </a>
-                        <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
-                    </p>
-                    {if item.usedin > 0}
-                        <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
-                    {/if}
-                    {if item.totalcomment > 0}
-                        <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
-                    {/if}
-                </div>
-
-                {if item.comment}
-                <div class="recentchangedcontent_item_related_info">
-                    <p class="recentchangedcontent_item_meta_data">__MSG__LAST_COMMENT_FOR__ <span class="s3d-bold">${item.nameShorter}</span></p>
-                    <div class="fl-force-left">
-                        <span id="recentchangedcontent_item_comment_author_picture" style="display:none;">
-                            <img class="s3d-icon-32" src="/dev/images/accept.png" />
-                        </span>
-                        <div class="recentchangedcontent_item_comment_arrow"></div>
-                    </div>
-                    <div class="recentchangedcontent_comment_background">
-                        <div id="recentchangedcontent_item_comment_author"></div>
-                        <p>${item.comment.comment}</p>
-                    </div>
-                </div>
-                <div class="recentchangedcontent_item_border"></div>
-                {/if}
-
-                {if item.relatedContent}
-                <div class="recentchangedcontent_item_related_info">
-                    <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
-                    <div class="fl-force-left">
-                    <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
-                        <span>
-                            {var relatedMimeType = sakai.api.Content.getMimeType(item.relatedContent)}
-                            {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
-                            {var relatedThumbnail = sakai.api.Content.getThumbnail(item.relatedContent)}
-                            {if relatedThumbnail}
-                                <img class="s3d-icon-32" src="${relatedThumbnail} alt="${relatedMimeTypeDescription}" />
-                            {elseif (relatedMimeType.substring(0,6)=="image/")}
-                                <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${relatedMimeTypeDescription}" />
-                            {elseif sakai.config.MimeTypes[relatedMimeType]}
-                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes[relatedMimeType].URL}" alt="${relatedMimeTypeDescription}" />
+                <div class="recentchangedcontent_related_details">
+                    <div class="recentchangedcontent_item_img fl-force-left">
+                        {var mimeType = sakai.api.Content.getMimeType(item)}
+                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
+                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
+                        <a href="/content#p=${item.link}/${item.filename}" title="${item.name}">
+                            {if thumbnail}
+                                <img class="s3d-icon-50" src="${thumbnail} alt="${mimeTypeDescription}" />
+                            {elseif (mimeType.substring(0,6)=="image/")}
+                                <img class="s3d-icon-50" src="${item.path}" alt="${mimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[mimeType]}
+                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                             {else}
-                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${relatedMimeTypeDescription}" />
+                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                             {/if}
-                        </span>
-                    </a>
-                    </div>
-                    <div class="recentchangedcontent_item_div">
-                        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
-                            ${item.relatedContent.nameRelatedShort}
                         </a>
-                        <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(relatedMimeTypeDescription).toUpperCase()}</span>
-                        <div>__MSG__BY__
-                            <span id="recentchangedcontent_related_content_author"></span>
+                    </div>
+                    <div class="recentchangedcontent_item_info">
+                        <p class="recentchangedcontent_item_title">
+                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename}" title="${item.name}">
+                                ${item.nameShort}
+                            </a>
+                            <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
+                        </p>
+                        {if item.usedin > 0}
+                            <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
+                        {/if}
+                        {if item.totalcomment > 0}
+                            <p class="recentchangedcontent_item_meta">${item.totalcomment}{if item.totalcomment === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</p>
+                        {/if}
+                    </div>
+
+                    {if item.comment}
+                    <div class="recentchangedcontent_item_related_info">
+                        <p class="recentchangedcontent_item_meta_data">__MSG__LAST_COMMENT_FOR__ <span class="s3d-bold">${item.nameShorter}</span></p>
+                        <div class="fl-force-left">
+                            <span id="recentchangedcontent_item_comment_author_picture" style="display:none;">
+                                <img class="s3d-icon-32" src="/dev/images/accept.png" />
+                            </span>
+                            <div class="recentchangedcontent_item_comment_arrow"></div>
+                        </div>
+                        <div class="recentchangedcontent_comment_background">
+                            <div id="recentchangedcontent_item_comment_author"></div>
+                            <p>${item.comment.comment}</p>
                         </div>
                     </div>
-                </div>
-                <div class="recentchangedcontent_item_border"></div>
-                {/if}
-                
-            </div>
+                    <div class="recentchangedcontent_item_border"></div>
+                    {/if}
 
+                    {if item.relatedContent}
+                    <div class="recentchangedcontent_item_related_info">
+                        <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
+                        <div class="fl-force-left">
+                        <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
+                            <span>
+                                {var relatedMimeType = sakai.api.Content.getMimeType(item.relatedContent)}
+                                {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
+                                {var relatedThumbnail = sakai.api.Content.getThumbnail(item.relatedContent)}
+                                {if relatedThumbnail}
+                                    <img class="s3d-icon-32" src="${relatedThumbnail} alt="${relatedMimeTypeDescription}" />
+                                {elseif (relatedMimeType.substring(0,6)=="image/")}
+                                    <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${relatedMimeTypeDescription}" />
+                                {elseif sakai.config.MimeTypes[relatedMimeType]}
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[relatedMimeType].URL}" alt="${relatedMimeTypeDescription}" />
+                                {else}
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${relatedMimeTypeDescription}" />
+                                {/if}
+                            </span>
+                        </a>
+                        </div>
+                        <div class="recentchangedcontent_item_div">
+                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
+                                ${item.relatedContent.nameRelatedShort}
+                            </a>
+                            <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(relatedMimeTypeDescription).toUpperCase()}</span>
+                            <div>__MSG__BY__
+                                <span id="recentchangedcontent_related_content_author"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recentchangedcontent_item_border"></div>
+                    {/if}
+                </div>
             {/for}
             <div class="recentchangedcontent_button">
                 <a class="recentchangedcontent_item_link s3d-widget-links" href="/dev/me.html#l=library" title="__MSG__SEE_ALL_MY_CONTENT__">

@@ -159,28 +159,19 @@
         {var peopleCount = data.members.counts.people}
         <span class="entity_number">
             <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
-            Used by (<a href="#" title="${peopleCount}
-            {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
-            class="entity_content_people">${peopleCount}</a>)
-        </span>
-        <a href="#" title="${peopleCount}
-        {if peopleCount == 1} __MSG__PERSON__{else} __MSG__PEOPLE__{/if}"
-        class="entity_content_people">
-        {if peopleCount == 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a> and
-        {var groupCount = data.members.counts.groups}
-        <span class="entity_number">
-            ({if groupCount}<a href="#" title="${groupCount}
-            {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}"
-            class="entity_content_group">${groupCount}</a>{else}<span title="0 __MSG__GROUPS__">0</span>{/if})
-        </span>
-        {if groupCount}
-            <a href="#" title="${groupCount}
-                {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}"
-                class="entity_content_group">
-                {if groupCount == 1} __MSG__GROUP__{else} __MSG__GROUPS__{/if}
+            Used by
+            <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
+                ${peopleCount}
+                {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
             </a>
-        {else}
-            <span title="0 __MSG__GROUPS__">__MSG__GROUPS__</span>
+        </span>
+        {var groupCount = data.members.counts.groups}
+        {if groupCount}
+            and
+            <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}" class="entity_content_group">
+                ${groupCount}
+                {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
+            </a>
         {/if}
         <span class="entity_comments">
             <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="comments-icon" />
@@ -254,15 +245,10 @@
 <!-- <div id="entity_group_image" class="entity_group_image {if type && type == "group_managed"} entity_user_image_pointer{/if} "></div> -->
 
 <!-- DIALOG BOX FOR CONTENT PROFILE USERS -->
-<div id="entity_content_users_dialog" class="dialog" style="width:500px; margin-left: -200px">
-    <div class="dialog_header">
-        <div class="dialog_header_inner">
-            <h1 id="entity_content_users_dialog_heading"><!-- --></h1>
-            <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-        </div>
-    </div>
-
-    <div class="dialog_content">
+<div id="entity_content_users_dialog" class="s3d-dialog s3d-dialog-container" style="width:500px; margin-left: -250px">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 id="entity_content_users_dialog_heading" class="s3d-dialog-header"><!-- --></h1>
+    <div>
         <!-- CONTAINER -->
         <div id="entity_content_users_dialog_list_container"><!-- --></div>
 
@@ -318,11 +304,6 @@
             <button type="button" class="s3d-button s3d-button-primary jqmClose"><span class="s3d-button-inner">__MSG__CLOSE__</span></button>
         </div>
         <hr class="fl-push fl-hidden">
-    </div>
-
-    <!-- DIALOG FOOTER -->
-    <div class="dialog_footer">
-        <div class="dialog_footer_inner"><!-- --></div>
     </div>
 </div>
 
