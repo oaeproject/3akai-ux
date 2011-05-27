@@ -65,6 +65,8 @@
         }
         if((d_type == "object" && d_count > 0) || d_type == "string"){
             return this.each(function(x){
+            	var _this = $(this);
+            	_this.data("autosuggest",{});
                 if(!opts.asHtmlID){
                     x = x+""+Math.floor(Math.random()*100); //this ensures there will be unique IDs on the page if autoSuggest() is called multiple times
                     var x_id = "as-input-"+x;
@@ -177,7 +179,7 @@
                             }
                             if(input.val().length == 1){
                                 results_holder.hide();
-                                 prev = "";
+                                 _this.data("autosuggest").prev = prev = "";
                             }
                             if($(":visible",results_holder).length > 0){
                                 if (timeout){ clearTimeout(timeout); }
@@ -228,8 +230,9 @@
                     // ignore if the following keys are pressed: [del] [shift] [capslock]
                     if( lastKeyPressCode == 46 || (lastKeyPressCode > 8 && lastKeyPressCode < 32) ){ return results_holder.hide(); }
                     var string = input.val().replace(/[\\]+|[\/]+/g,"");
+                    prev = _this.data("autosuggest").prev;
                     if (string == prev) return;
-                    prev = string;
+                    _this.data("autosuggest").prev = prev = string;
                     if (string.length >= opts.minChars) {
                         selections_holder.addClass("loading");
                         if(d_type == "string"){
@@ -300,7 +303,7 @@
                                     if($("#as-selection-"+number, selections_holder).length <= 0 && !tab_press){
                                         var data = raw_data.attributes;
                                         input.val("").focus();
-                                        prev = "";
+                                        _this.data("autosuggest").prev = prev = "";
                                         add_selected_item(data, number);
                                         opts.resultClick.call(this, raw_data);
                                         $("li", results_ul).removeClass("active");

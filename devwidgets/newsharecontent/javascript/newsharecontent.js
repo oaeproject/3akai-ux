@@ -222,6 +222,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('#newsharecontent_cancel').bind('click',function(){
+            	$(".as-close").click();
+            	$(".as-input",$newsharecontentContainer).val("");
                 $newsharecontentContainer.hide();
             });
 

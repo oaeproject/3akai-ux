@@ -322,13 +322,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
-        var resetAutosuggest = function(h){
+        var resetAutosuggest = function(h){console.log($addpeopleMembersAutoSuggestField.data("autosuggest"));
         	$(".as-close").click();
         	$(".as-input",$addpeopleMembersAutoSuggest).val("");
         	h.w.hide();
         	if (h.o) {
         		h.o.remove();
         	}
+        	$addpeopleMembersAutoSuggestField.data("autosuggest").prev = "";
         }
 
 
