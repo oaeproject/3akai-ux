@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var obj = {};
 
                 if (group["sakai:group-description"] && group["sakai:group-description"].length) {
-                    obj.description = group["sakai:group-description"];
+                    obj.description = sakai.api.Util.applyThreeDots(group["sakai:group-description"], 450);
                 }
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
                     obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
@@ -266,7 +266,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
                 obj.contentType = "group";
                 obj.groupid = group["sakai:group-id"];
-                obj.title = group["sakai:group-title"];
+                obj.title = sakai.api.Util.applyThreeDots(group["sakai:group-title"], 45, undefined, "s3d-action");
 
                 if (obj.picture && obj.description && obj.tags) {
                     picDescTags.push(obj);
