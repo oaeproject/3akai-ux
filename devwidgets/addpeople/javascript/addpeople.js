@@ -318,6 +318,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $addpeopleMembersAutoSuggest.show();
         };
+        
+        /**
+         * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
+         */
+        var resetAutosuggest = function(h){
+        	$(".as-close").click();
+        	$(".as-input",$addpeopleMembersAutoSuggest).val("");
+        	h.w.hide();
+        	if (h.o) {
+        		h.o.remove();
+        	}
+        }
 
 
         var prepareSelectedContacts = function(success, data){
@@ -360,7 +372,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeopleContainer.jqm({
                 modal: true,
                 overlay: 20,
-                toTop: true
+                toTop: true,
+                onHide: resetAutosuggest
             });
 
             // position dialog box at users scroll position
