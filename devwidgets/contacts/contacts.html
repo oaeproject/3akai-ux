@@ -147,11 +147,13 @@
             {if sakai_global.profile.main.mode.value !== "view"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT__ <a class="s3d-regular-links" href="/search#l=people" title="__MSG__ADD_CONTACTS__">__MSG__ADD_CONTACTS__</a></h1>
+                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__ADD_CONTACTS__">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
                 </div>
             {else}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
                     <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
                 </div>
             {/if}
