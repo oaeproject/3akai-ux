@@ -115,9 +115,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
                         }
                         if (publicToStore) {
+                            if (typeof publicToStore.structure0 === "object") {
+                                publicToStore.structure0 = $.toJSON(publicToStore.structure0);
+                            }
                             sakai.api.Server.saveJSON(puburl, publicToStore);
                         }
                         if (privateToStore) {
+                            if (typeof privateToStore.structure0 === "object") {
+                                privateToStore.structure0 = $.toJSON(privateToStore.structure0);
+                            }
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
                         addCounts();

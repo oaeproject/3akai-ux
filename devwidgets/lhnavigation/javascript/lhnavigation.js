@@ -629,23 +629,23 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var editPageTitle = function(){
             // Select correct item
-            var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "']");
+            var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "'] > div");
             changingPageTitle = jQuery.extend(true, {}, contextMenuHover);
 
             var pageTitle = $(".lhnavigation_page_title_value", menuitem);
-            pageTitle.hide();
-
             var inputArea = $(".lhnavigation_change_title", menuitem);
             inputArea.show();
             inputArea.val($.trim(pageTitle.text()));
-            inputArea.focus();
+            
+            pageTitle.hide();
 
             // Hide the dropdown menu
             toggleContextMenu(true);
+            inputArea.focus();
         };
 
         var savePageTitle = function(){
-            var menuitem = $("li[data-sakai-path='" + changingPageTitle.path + "']");
+            var menuitem = $("li[data-sakai-path='" + changingPageTitle.path + "'] > div");
 
             var inputArea = $(".lhnavigation_change_title", menuitem);
             inputArea.hide();
@@ -831,49 +831,33 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////////
 
         var handleReorder = function(e, ui) {
-            // if its a sakaidoc in a world or content profile, we have to save
-            // it differently
-            if ($("body").hasClass("show")) {
-                var $target = $(e.target);
-                var savePath = $target.children("li:first").data("sakai-savepath");
-                var structure = sakaiDocsInStructure[savePath];
-                var area = privstructure;
-                if ($target.data("sakai-space") === "public") {
-                    area = pubstructure;
-                }
-                $target.children("li").each(function(i, elt) {
-                    var path = $(elt).data("sakai-path");
-                    var struct0path = path;
+            var $target = $(e.target);
+            var savePath = $target.children("li:first").data("sakai-savepath");
+            var structure = sakaiDocsInStructure[savePath];
+            var area = privstructure;
+            if ($target.data("sakai-space") === "public") {
+                area = pubstructure;
+            }
+            $target.children("li").each(function(i, elt) {
+                var path = $(elt).data("sakai-path");
+                var struct0path = path;
+                if ($(elt).data("sakai-ref").indexOf("-") === -1) {
+                    if (struct0path.indexOf("/") > -1) {
+                        var split = struct0path.split("/");
+                        structure.structure0[split[0]][split[1]]._order = i;
+                    } else {
+                        structure.structure0[struct0path]._order = i;
+                    }
+                } else {
                     if (struct0path.indexOf("/") > -1) {
                         struct0path = struct0path.split("/")[1];
                     }
                     structure.structure0[struct0path]._order = i;
-                    var item = getPage(path, area.items);
-                    item._order = i;
-                });
-                storeStructure(structure.structure0, savePath);
-            } else {
-                // we're not dealing with sakaidocs and can save normally
-                var reqs = [];
-                $(e.target).children("li").each(function(i, elt) {
-                    var url = $(elt).data("sakai-pagesavepath") + "structure0/" + $(elt).data("sakai-path");
-                    var content = $.toJSON({"_order": i});
-                    var req = {
-                        "url": url,
-                        "method": "POST",
-                        "parameters": {
-                            ":operation": "import",
-                            ":contentType": "json",
-                            ":replace": true,
-                            ":replaceProperties": true,
-                            "_charset_":"utf-8",
-                            ":content": content
-                        }
-                    };
-                    reqs.push(req);
-                });
-                sakai.api.Server.batch(reqs);
-            }
+                }
+                var item = getPage(path, area.items);
+                item._order = i;
+            });
+            storeStructure(structure.structure0, savePath);
             e.stopImmediatePropagation();
         };
 
@@ -886,6 +870,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 items: "li.lhnavigation_subnav_item[data-sakai-manage=true]",
                 update: handleReorder
             });
+            $(".lhnavigation_menuitem[data-sakai-manage=true]").addClass("lhnavigation_move_cursor");
         };
 
         //////////////////////////////////////
