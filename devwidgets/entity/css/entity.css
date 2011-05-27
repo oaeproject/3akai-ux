@@ -35,8 +35,6 @@
 
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
-#entity_container .entity_user_contact_pending {background:#fff; border:1px solid #ccc; display:inline-block; font-size:0.9em;margin:0 5px 5px 0;overflow:visible;padding:0 15px;position:relative;top: -1px; height: 23px; line-height: 23px;}
-#entity_container .entity_user_contact_pending_inner {color:#333333 !important;font-size:11px;margin:0 !important;}
 #entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
 #entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}

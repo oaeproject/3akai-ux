@@ -69,7 +69,7 @@
                 {elseif type == "contact_invited"}
                     <button type="button" id="entity_user_accept_invitation" class="s3d-button s3d-header-button">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
                 {elseif type == "contact_pending"}
-                    <button type="button" class="s3d-button s3d-header-button entity_user_contact_pending">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></span></button>
+                    <button type="button" class="s3d-button s3d-header-button entity_user_contact_pending" disabled="disabled">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></span></button>
                 {/if}
                 <button type="button" id="entity_user_message" class="s3d-button s3d-header-button sakai_sendmessage_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></button>
             {/if}
