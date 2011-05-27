@@ -216,7 +216,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.icon = sakai.config.MimeTypes.other.URL;
                 }
 
-                obj.title = item["sakai:pooled-content-file-name"];
+                var titleWidth = 65;
+                if (index === 1) {
+                    titleWidth = 45;
+                }
+                obj.title = sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], titleWidth, undefined, "s3d-action");
                 obj.mimeType = mimeType || "";
                 obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
                 obj.createdBy = item["sakai:pool-content-created-for"];
