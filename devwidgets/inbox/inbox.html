@@ -11,9 +11,9 @@
               <span id="inbox_box_title" class="inbox-message-list-view inbox-message-detail-view inbox-new-message-view"></span> <span id="inbox_title_total_wrapper" class="inbox-message-list-view" style="display:none">(<span id="inbox_title_total"></span>)</span>
             </div>
             <div id="inbox_message_header">
-              <div class="s3d-button s3d-button-link-2-state inbox-message-list-view" id="inbox_select" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner"><input type="checkbox" id="inbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
-              </div>
+            <button type="button" id="inbox_select" class="s3d-button s3d-button-no-text s3d-header-button inbox-message-list-view">
+                <span><input type="checkbox" id="inbox_select_checkbox"/> __MSG__DOWN_ARROW__</span>
+            </button>
               <div id="inbox_select_options" style="display:none">
                 <ul>
                   <li>
@@ -24,17 +24,15 @@
                   </li>
                 </ul>
               </div>
-              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-button-link-2-state inbox-message-list-view" disabled="disabled" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DELETE_SELECTED__</span>
+              
+              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button inbox-message-list-view" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
+              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button inbox-message-list-view" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
+              
+              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-button" style="display:none">
+                  __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
               </button>
-              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-button-link-2-state inbox-message-list-view" disabled="disabled" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MARK_AS_READ__</span>
-              </button>
-              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="inbox-message-detail-view s3d-button s3d-button-link-2-state" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__</span>
-              </button>
-              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-button s3d-button-link-2-state fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
-                  <span class="s3d-button-inner s3d-button-link-2-state-inner" data-state="default">__MSG__CREATE_NEW_MESSAGE__</span>
+              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-header-button fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
+                  __MSG__CREATE_NEW_MESSAGE__
               </a>
               <input type="text" id="inbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="inbox-message-list-view" style="display:none"/>
             </div>
@@ -45,7 +43,7 @@
             <!-- Inbox Item Template -->
             <div id="inbox_message_list_item_template"><!--
                 {if search}
-                <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
+                    <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
                 {/if}
                 {for message in data.results}
                     <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">

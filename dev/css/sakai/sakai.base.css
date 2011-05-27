@@ -137,7 +137,8 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .s3d-margin-top-10 {margin-top: 10px !important;}
 .s3d-margin-top-15 {margin-top: 15px !important;}
 .s3d-margin-top-20 {margin-top: 20px !important;}
-
+.s3d-button.s3d-margin-top-5 {height:18px !important;padding-top:5px !important;}
+.s3d-button.s3d-no-margin-top {margin-top:0;height:18px !important;padding-top:5px !important;}
 /* 
  * LINKS
  */
@@ -175,6 +176,30 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-link-button {margin:0; padding:0;background: none repeat scroll 0 0 transparent;border: medium none;color: #2683bc;font-family: Arial,Helvetica,sans-serif;font-size: 13px;display: inline-block;text-align:left;}
 .s3d-link-button:hover {cursor:pointer; text-decoration:underline;}
 
+
+/* New button style */
+/* General */
+.s3d-button {border-radius:5px 5px 5px 5px;color:#666;height:25px;padding:0 12px;cursor:pointer;font-weight:normal;font-size:10px;}
+a.s3d-button {text-decoration:none;}
+
+
+
+/* Header buttons */
+.s3d-button.s3d-header-button {background:#fff;;border:1px solid #e7e7e7;box-shadow:0 2px 1px #FFFFFF inset;}
+.s3d-button.s3d-header-button:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left top transparent;}
+.s3d-button.s3d-header-button[disabled]:hover {background:#fff;}
+
+/* In-page pop-over and right hand module buttons */
+
+
+/* Overlay buttons */
+
+
+/* Browse inly 'view all button' buttons */
+
+
+/* No text buttons */
+.s3d-button.s3d-button-no-text {padding:0;}
 
 /*
  * WIDGET LAYOUT
@@ -241,11 +266,9 @@ a.s3d-action-seeall{font-size:11px!important;}
 /*
  * BUTTONS
  */
-.s3d-button{display:inline-block;position:relative;border:none;margin:0;
-    padding:0 7px 0 0;cursor:pointer;overflow:visible;/* removes extra side padding in IE */
-    background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;zoom:1;}
+/*.s3d-button{display:inline-block;position:relative;border:none;margin:0;padding:0 7px 0 0;cursor:pointer;overflow:visible;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -30px transparent;font-size:.9em;font-weight:bold;zoom:1;}
 .s3d-button:hover,.s3d-button-hover{background-position:right -70px;}
-.s3d-button::-moz-focus-inner{border:none;/* overrides extra padding in Firefox */}
+.s3d-button::-moz-focus-inner{border:none;}
 .s3d-button .s3d-button-inner{position:relative;display:block;background:url(/dev/images/dashboard_sprite.png) no-repeat scroll left -30px transparent;margin:0;height:23px;line-height:23px;white-space:nowrap!important;padding:0 0 0 9px;color:#fff;}
 .s3d-button:hover .s3d-button-inner,.s3d-button-hover .s3d-button-inner{background-position:left -70px;color:#FFF;}
 .s3d-button[disabled],.s3d-disabled{background-position:right -150px;cursor:default;}
@@ -255,7 +278,7 @@ a.s3d-action-seeall{font-size:11px!important;}
 .s3d-button-icon-right,.s3d-button-icon-left{display:block;background-repeat:no-repeat;background-attachment:scroll;background-color:transparent;}
 .s3d-button-icon-right{background-position:right center;padding-right:18px;}
 .s3d-button-icon-left{background-position:left center;padding-left:18px;}
-html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the white-space fix on IE6 */}
+html > body .s3d-button .s3d-button-inner{white-space:normal;}*/
 
 /* Link button */
 .s3d-button-link-2-state{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;}
@@ -273,6 +296,12 @@ html > body .s3d-button .s3d-button-inner{white-space:normal;/* only do the whit
 .s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-up {background-position:-544px -396px;}
 .s3d-button-link-2-state:hover .s3d-button-link-2-state-inner .s3d-button-arrow-down {background-position:-514px -396px;}
 a.s3d-button-link-2-state{text-decoration:none;}
+
+
+
+/* New button styles */
+/* Overlay button */
+.s3d-button-overlay-style {}
 
 /* Primary button */
 .s3d-button-primary{background-position:right -110px;}
