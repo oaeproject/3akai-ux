@@ -85,7 +85,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(results[i]);
                     finaljson.items[i].mimeType = mimeType;
-                    finaljson.items[i].mimeTypeDescription = sakai.config.MimeTypes["other"].description;
+                    finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
                     if (sakai.config.MimeTypes[mimeType]){
                         finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
