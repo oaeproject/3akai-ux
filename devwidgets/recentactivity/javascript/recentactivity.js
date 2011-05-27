@@ -83,15 +83,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         total++;
                     }
                 });
-                $recentactivityActivityContainer.html(sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, {
+                var json = {
                     "data": results,
                     "sakai": sakai
-                }));
+                };
+                sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, json, $recentactivityActivityContainer);
+                applyThreeDots();
             }
 
-            $(".recentactivity_activity_item_container:hidden").animate({height:100},1000, 'easeOutBounce').toggle("slow");
+            $(".recentactivity_activity_item_container:hidden").animate({height:100},1000, 'easeOutBounce').toggle("slow", applyThreeDots);
 
             t = setTimeout(fetchActivity, 8000);
+        };
+
+        var applyThreeDots = function(){
+            $.each($(".recentactivity_activity_item_text"), function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("a").find("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class")));
+            });
+            $.each($(".recentactivity_activity_item_description"), function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("a").find("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, undefined, $el.attr("class")));
+            });
+        };
+
+        var effectiveWidth = function(container, floated) {
+            var eWidth = $(container).width();
+            $.each(floated, function(index, floater) {
+                eWidth -= $(floater).outerWidth(true);
+            });
+            return eWidth;
         };
 
         var fetchActivity = function(){
