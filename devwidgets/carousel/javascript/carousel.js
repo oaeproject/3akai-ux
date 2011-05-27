@@ -186,17 +186,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $.each(data.content.results, function(index, item) {
                 var obj = {};
-                var thumbnail = sakai.api.Content.getThumbnail(item);
                 var mimeType = sakai.api.Content.getMimeType(item);
-                if (mimeType.substring(0, 6) === "image/") {
-                    obj.preview = renderImagePreview(item["_path"], item["_lastModified"]);
-                }else if (isJwPlayerSupportedVideo(mimeType || "")) {
-                    obj.preview = renderVideoPlayer(item["_path"]);
-                } else if (thumbnail) {
-                    obj.preview = renderImagePreview(item["_path"] + ".page1-small.jpg", item["_lastModified"]);
-                } else {
-                    obj.preview = false;
-                }
+                obj.preview = sakai.api.Content.getThumbnail(item);
                 if (item["sakai:description"]) {
                     var descWidth = 630;
                     if (index === 1) {

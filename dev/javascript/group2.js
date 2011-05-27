@@ -140,6 +140,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var loadDocStructure = function(forceOpenPage){
             $.ajax({
                 url: "/~" + groupId+ "/docstructure.infinity.json",
+                cache: false,
                 success: function(data){
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     filterOutUnwanted();

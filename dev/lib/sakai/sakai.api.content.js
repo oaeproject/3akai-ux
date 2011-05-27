@@ -403,12 +403,14 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
         getThumbnail : function(content){
             var thumbnail = "";
             if (content['_mimeType/page1-small']) {
-                thumbnail="/p/" + content['_path'] + ".page1-small.jpg";
-            } else if (content["sakai:preview-url"]){
-                if (content["sakai:preview-avatar"]){
-                    thumbnail = content["sakai:preview-avatar"];
+                thumbnail = "/p/" + content['_path'] + ".page1-small.jpg";
+            } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
+                thumbnail = "/p/" + content['_path'];
+            } else if (content["sakai:preview-url"]) {
+                    if (content["sakai:preview-avatar"]) {
+                        thumbnail = content["sakai:preview-avatar"];
+                    }
                 }
-            }
             return thumbnail;
         },
 

@@ -37,7 +37,7 @@
 .featuredcontent_widget img.featuredcontent_thumbnail_image {float:left;height:32px;width:32px;margin:0 8px 12px 0;}
 .featuredcontent_widget .featuredcontent_content_right_description {height:186px;width:134px;float:right;margin-bottom:10px;}
 .featuredcontent_widget #featuredcontent_show_more_container {width:680px;clear:both;padding: 12px 0; text-align: center;}
-.featuredcontent_widget .s3d-no-results-icon {background:url("/devwidgets/featuredcontent/images/featuredcontent_noresults_icon.png") no-repeat top left transparent;}
+.featuredcontent_widget #featuredcontent_show_more_container button {margin-left:auto;margin-right:auto;display:block;}
 
 /* Content box actions */
 .featuredcontent_widget .featuredcontent_content:hover .featuredcontent_content_actions {display:block;}

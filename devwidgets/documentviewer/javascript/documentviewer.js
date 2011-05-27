@@ -114,7 +114,11 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
         var renderVideoPlayer = function(url, preview_avatar){
             var so = createSWFObject(false, {}, {});
             so.addVariable('file', url);
-            so.addVariable('provider', 'video');
+            if (url.indexOf("youtube") !== -1){
+                so.addVariable('provider', 'youtube');
+            } else {
+                so.addVariable('provider', 'video');
+            }
             if (preview_avatar) {
                 so.addVariable('image', preview_avatar);
             }
