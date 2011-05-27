@@ -358,7 +358,7 @@ label.error{color:#9f3333;font-weight:bold;}
  * OLD DIALOG LAYOUT
  */
 .dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
-.jqmOverlay{background-color:#000;}
+.jqmOverlay{background-color:#000;opacity:0.6 !important}
 
 /* Dialog header */
 .dialog_header{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -641px transparent;padding:0 8px 0 0;}
