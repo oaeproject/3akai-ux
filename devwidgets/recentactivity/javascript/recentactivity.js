@@ -45,7 +45,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             UPDATED_DESCRIPTION: "new",
             UPLOADED_CONTENT: "upload",
             UPDATED_COPYRIGHT: "new",
-            UPDATED_DESCRIPTION: "new",
             UPDATED_URL: "new",
             UPDATED_TAGS: "new",
             USER_CREATED: "new"
