@@ -624,7 +624,7 @@ define(["jquery",
                                     if (success){
                                         var userString = sakai_user.getDisplayName(meData.profile)
                                         var groupString = groupData.authprofile["sakai:group-title"];
-                                        var systemString = "Sakai";
+                                        var systemString = sakai_i18n.General.getValueForKey("SAKAI");
                                         var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
                                         var acceptLink = sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" + groupData.authprofile["sakai:group-id"];
                                         var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
