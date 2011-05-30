@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ") membership");
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me.user.userid, groupid,
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid,
             function (success) {
                 if (success) {
                     // show a notification and change the button

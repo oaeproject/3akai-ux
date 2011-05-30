@@ -29,7 +29,14 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sakai/sakai.api.util"], function($, sakai_conf, sakai_serv, sakai_util){
+define(["jquery",
+        "/dev/configuration/config.js",
+        "sakai/sakai.api.server",
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.i18n",
+        "sakai/sakai.api.user",
+        "sakai/sakai.api.communication"],
+        function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
@@ -588,13 +595,14 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
         /**
          * Creates a join request for the given user for the specified group
          *
-         * @param {String} userID ID of the user that wants to join the group
+         * @param {Object} meData User object for the user that wants to join the group
          * @param {String} groupID ID of the group to the user wants to join
          * @param {Function} callback Callback function executed at the end of the
          * operation - callback args:
          *  -- {Boolean} success True if operation succeeded, false otherwise
          */
-        addJoinRequest : function(userID, groupID, callback) {
+        addJoinRequest : function(meData, groupID, callback) {
+            var userID = meData.user.userid;
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
@@ -604,6 +612,36 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                         userid: userID
                     },
                     success: function (data) {
+                        sakaiGroupsAPI.getMembers(groupID, false, function(success, members) {
+                            if (success){
+                                var managerArray = [];
+                                for (var i in members.Manager.results){
+                                    if (members.Manager.results.hasOwnProperty(i)) {
+                                        managerArray.push(members.Manager.results[i].userid);
+                                    }
+                                }
+                                sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
+                                    if (success){
+                                        var userString = sakai_user.getDisplayName(meData.profile)
+                                        var groupString = groupData.authprofile["sakai:group-title"];
+                                        var systemString = "Sakai";
+                                        var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
+                                        var acceptLink = sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" + groupData.authprofile["sakai:group-id"];
+                                        var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                                            .replace(/\$\{sender\}/g, userString)
+                                            .replace(/\$\{group\}/g, groupString);
+                                        var body = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                                            .replace(/\$\{sender\}/g, userString)
+                                            .replace(/\$\{group\}/g, groupString)
+                                            .replace(/\$\{system\}/g, systemString)
+                                            .replace(/\$\{profilelink\}/g, profileLink)
+                                            .replace(/\$\{acceptlink\}/g, acceptLink)
+                                            .replace(/\$\{br\}/g,"\n");
+                                        sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,false,"join_request");
+                                    }
+                                });
+                            }
+                        });
                         if ($.isFunction(callback)) {
                             callback(true);
                         }

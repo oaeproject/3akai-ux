@@ -100,7 +100,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "~" + meData.user.userid + 
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
                         "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
                         break;
                     case "group_invitation":
