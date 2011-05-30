@@ -52,8 +52,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Variables
         var alreadyAssignedLocations = [];
-        var newlyAssignedLocations = [];
         var contextVariables = {};
+        var initiallySelected = [],
+            initiallyRendered = [],
+            initial = 0;
 
         // i18n
         var assignlocationLocationSaved = $("#assignlocation_location_saved");
@@ -66,9 +68,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Elements
         var $assignlocationAjaxLoader = $("#assignlocation_ajax_loader");
 
-        var renderSelected = function(init) {
+        var renderSelected = function() {
             var locations = {
-                "newlyAssignedLocations" : newlyAssignedLocations,
+                "selections" : initiallyRendered,
                 sakai: sakai
             };
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
@@ -81,25 +83,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
                 return false;
             });
-
-            // Check the boxes that were previously saved
-            if (init) {
-                var initiallySelect = [];
-                for (var location in contextVariables.saveddirectory){
-                    if (contextVariables.saveddirectory.hasOwnProperty(location)) {
-                        $.jstree._reference($assignlocationJSTreeContainer).change_state($("#" + contextVariables.saveddirectory[location][contextVariables.saveddirectory[location].length - 1]), false);
-                    }
-                }
-            }
         };
 
-        var addTreebinding = function(){
+        var addTreeBinding = function(){
             $assignlocationJSTreeContainer.bind("change_state.jstree", function(ev){
-                newlyAssignedLocations = [];
-                $(".jstree-checked>a").each(function(index, val){
-                    newlyAssignedLocations.push($(val).attr("href").split("=")[1]);
-                });
-                renderSelected();
+                if (initial > 0) {
+                    initial--;
+                } else {
+                    initiallyRendered = [];
+                    $(".jstree-checked>a").each(function(index, val) {
+                        initiallyRendered.push($(val).attr("data-path"));
+                    });
+                    renderSelected();
+                }
             });
         };
 
@@ -112,22 +108,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 locations.push("directory/" + $(val)[0].id);
             });
 
+            var originalTags = [],
+                newTags = [];
+
+            // Fetch original tags and directory locations
+            if (contextVariables.data["sakai:tags"]){
+                originalTags = $.merge([], contextVariables.data["sakai:tags"]);
+            }
+
             // Concatenate the tags with the new locations
-            var newTags = [];
-            if (contextVariables.tags) {
-                newTags = sakai.api.Util.formatTagsExcludeLocation(contextVariables.tags.toString());
+            if (originalTags) {
+                newTags = sakai.api.Util.formatTagsExcludeLocation(originalTags);
             }
             newTags = newTags.concat(locations);
 
-            // Fetch original tags and directory locations
-            var originalTags = [];
-            if (contextVariables.tags){
-                originalTags = contextVariables.tags;
-            }
-
-            sakai.api.Util.tagEntity(contextVariables.path, newTags, originalTags, function(){
-                contextVariables.tags = newTags;
-                contextVariables.saveddirectory = sakai.api.Util.getDirectoryTags(newTags.toString());
+            sakai.api.Util.tagEntity(contextVariables.path, newTags, originalTags, function(success, tags){
+                contextVariables.data["sakai:tags"] = tags;
+                contextVariables.data.saveddirectory = sakai.api.Util.getDirectoryTags(tags);
                 $assignlocationContainer.jqmHide();
                 sakai.api.Util.notification.show($(assignlocationLocationSaved).html(), $(assignlocationLocationSuccessfullySaved).html());
                 $(window).trigger("renderlocations.contentmetadata.sakai", contextVariables);
@@ -170,46 +167,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var determineContext = function(){
-            var context = sakai.api.Util.getPageContext();
-            if (context) {
-                $("#assignlocation_secondcolumn_header_" + context).show();
-                switch (context) {
-                    case "user":
-                        contextVariables = {
-                            "saveddirectory": sakai.data.me.profile.saveddirectory,
-                            "tags": sakai.data.me.profile["sakai:tags"],
-                            "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
-                            "context" : "user"
-                        };
-                        break;
-                    case "group":
-                        contextVariables = {
-                            "saveddirectory": sakai_global.group2.groupData.saveddirectory,
-                            "tags": sakai_global.group2.groupData["sakai:tags"],
-                            "path": "/~" + sakai_global.group2.groupId + "/public/authprofile",
-                            "context": "group"
-                        };
-                        break;
-                    case "content":
-                        contextVariables = {
-                            "saveddirectory": sakai_global.content_profile.content_data.saveddirectory,
-                            "tags": sakai_global.content_profile.content_data.data["sakai:tags"],
-                            "path": "/p/" + sakai_global.content_profile.content_data.data["_path"],
-                            "context" : "content"
-                        };
-                        break;
+            if ($.isEmptyObject(contextVariables)) {
+                var context = sakai.api.Util.getPageContext();
+                if (context) {
+                    $("#assignlocation_secondcolumn_header_" + context).show();
+                    switch (context) {
+                        case "user":
+                            contextVariables = {
+                                "data": sakai.data.me.profile,
+                                "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                                "context" : "user"
+                            };
+                            break;
+                        case "group":
+                            contextVariables = {
+                                "data": sakai_global.group2.groupData,
+                                "path": "/~" + sakai_global.group2.groupId + "/public/authprofile",
+                                "context": "group"
+                            };
+                            break;
+                        case "content":
+                            contextVariables = {
+                                "data": sakai_global.content_profile.content_data,
+                                "path": "/p/" + sakai_global.content_profile.content_data.data["_path"],
+                                "context" : "content"
+                            };
+                            break;
+                    }
                 }
+                determineInitiallySelected();
                 initTree();
-                addTreebinding();
+                addTreeBinding();
                 addWidgetBinding();
             }
         };
 
-        var initTree = function(){
+        var determineInitiallySelected = function() {
+            initiallySelected = [];
+            initiallyRendered = [];
+            for (var location in contextVariables.data.saveddirectory) {
+                if (contextVariables.data.saveddirectory.hasOwnProperty(location)) {
+                    var jstreeID = contextVariables.data.saveddirectory[location][contextVariables.data.saveddirectory[location].length - 1];
+                    var initialRender = contextVariables.data.saveddirectory[location].join("/");
+                    initiallySelected.push(jstreeID);
+                    initiallyRendered.push(initialRender);
+                }
+            }
+            initial = initiallySelected.length;
+        };
 
+        var initTree = function(){
             // set up new jstree for directory
-            var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox"];
+            var jsonData = sakai.api.Util.getDirectoryStructure();
+            var pluginArray = ["themes", "json_data", "cookies", "search", "checkbox", "ui"];
+            $assignlocationJSTreeContainer.jstree("destroy");
             $assignlocationJSTreeContainer.jstree({
+                "plugins": pluginArray,
                 "core": {
                     "animation": 0,
                     "html_titles": true
@@ -218,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "save_selected": true
                 },
                 "json_data": {
-                    "data": sakai.api.Util.getDirectoryStructure
+                    "data": jsonData
                 },
                 "themes": {
                     "dots": false,
@@ -227,10 +240,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "search" : {
                     "case_insensitive" : true
                 },
-                "checkbox": {
-                    "multi_select": false
-                },
-                "plugins": pluginArray
+                "ui": {
+                    "initially_select": initiallySelected,
+                    "preventDefault": true
+                }
             });
         };
 

@@ -485,9 +485,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(window).trigger("load.content_profile.sakai", renderDetails);
         });
 
-        $(window).bind("renderlocations.contentmetadata.sakai", function(ev, val){
-            sakai_global.content_profile.content_data.saveddirectory = val.saveddirectory;
-            sakai_global.content_profile.content_data.data["sakai:tags"] = val.tags;
+        $(window).bind("renderlocations.contentmetadata.sakai", function(ev){
             renderLocations(false);
         });
 

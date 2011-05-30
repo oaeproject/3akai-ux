@@ -227,14 +227,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding(obj);
             $('#entity_contentsettings_dropdown').jqm({
                 modal: false,
-                overlay: 1,
+                overlay: 0,
                 toTop: true,
                 zIndex: 3000
             });
 
             $('#entity_groupsettings_dropdown').jqm({
                 modal: false,
-                overlay: 1,
+                overlay: 0,
                 toTop: true,
                 zIndex: 3000
             });

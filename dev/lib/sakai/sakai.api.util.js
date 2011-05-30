@@ -383,8 +383,6 @@ define(["jquery",
             $(tags).each(function(i,val) {
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
-                } else if ($.trim(val.split("/")[0]) === "directory" || $.trim(val) === "") {
-                    tags.splice(tags.indexOf(val), 1);
                 }
             });
             deleteTags(tagLocation, tagsToDelete, function() {
@@ -939,7 +937,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "#location=" + item;
+                        var url = item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }
@@ -977,7 +975,7 @@ define(["jquery",
                     data: {
                         title: p_title,
                         attr: {
-                            "href": url,
+                            "data-path": url,
                             "title": p_title
                         }
                     },
