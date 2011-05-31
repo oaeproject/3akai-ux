@@ -33,81 +33,13 @@
         <ul>
             {for item in data}
                 <li>
-                    {if $.isArray(item)}
-                        {for noPrev in item}
-                            {if noPrev.contentType == "content"}
-                                <div class="carousel_two_column_content_container">
-                                    <img src="${noPrev.icon}" class="carousel_no_preview_icon"/>
-                                    <div class="carousel_two_column_content_container_rh">
-                                        <a href="${noPrev.url}"><h2>${noPrev.title}</h2></a>
-                                        {if noPrev.description && noPrev.description.length}
-                                            <div class="carousel_content_description">__MSG__SUMMARY__: ${noPrev.description}</div>
-                                        {/if}
-                                        {if noPrev.tags && noPrev.tags.length}
-                                            <div class="carousel_content_description">__MSG__TAGS__: ${noPrev.tags.toString().replace(/,/g,", ")}</div>
-                                        {/if}
-                                        <div class="carousel_content_metadata">
-                                            ${noPrev.mimeType} | __MSG__ADDED_ON__ ${noPrev.created} | __MSG__ADDED_BY__: <a href="/~${noPrev.createdBy}" class="s3d-regular-links s3d-bold">${noPrev.createdBy}</a>
-                                            <br/>
-                                            __MSG__LAST_UPDATED_BY__: <a href="/~${noPrev.lastModifiedBy}" class="s3d-regular-links s3d-bold">${noPrev.lastModifiedBy}</a>
-                                        </div>
-                                        {if noPrev.comments && noPrev.comments.length}
-                                            <a href="#" class="carousel_content_comments s3d-regular-links">${noPrev.comments.length} __MSG__COMMENTS__</a>
-                                        {/if}
-                                    </div>
-                                </div>
-                            {elseif noPrev.contentType == "message"}
-                                <div class="carousel_single_column_content_container">
-                                    <div class="fl-container fl-fix inbox_items">
-                                        <div class="inbox_right_div">
-                                            <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button">
-                                                <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
-                                            </button>
-                                        </div>
-                                        <a href="/~${noPrev.from}"><img alt="person icon" src="/dev/images/user_avatar_icon_32x32.png"></a>
-                                        <div class="inbox_name">
-                                            <div>
-                                                <a href="/~${noPrev.from}" class="s3d-regular-links s3d-bold">${noPrev.from}</a>
-                                            </div>
-                                            <span>__MSG__DATE__:${noPrev.date}</span>
-                                        </div>
-                                        <div class="inbox_subject">
-                                            <span>__MSG__SUBJECT__:</span>
-                                            <div>
-                                                <a href="/~test" class="s3d-regular-links s3d-bold">${noPrev.subject}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {/if}
-                        {/for}
-                    {else}
-                        {if item.contentType == "content"}
-                            <div class="carousel_single_column_content_container">
-                                <div id="carousel_single_column_content_preview">${item.preview}</div>
-                                <a href="${item.url}"><h2>${item.title}</h2></a>
-                                {if item.description && item.description.length}
-                                    <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
-                                {/if}
-                                {if item.tags && item.tags.length}
-                                    <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
-                                {/if}
-                                <div class="carousel_content_metadata">
-                                    ${item.mimeType} | __MSG__ADDED_ON__ ${item.created} | __MSG__ADDED_BY__: <a href="/~${item.createdBy}" class="s3d-regular-links s3d-bold">${item.createdBy}</a>
-                                    <br/>
-                                    __MSG__LAST_UPDATED_BY__: <a href="/~${item.lastModifiedBy}" class="s3d-regular-links s3d-bold">${item.lastModifiedBy}</a>
-                                </div>
-                                {if item.comments && item.comments.length}
-                                    <a href="#" class="carousel_content_comments s3d-regular-links">${item.comments.length} __MSG__COMMENTS__</a>
-                                {/if}
-                            </div>
-                        {elseif item.contentType == "suggestedContent"}
+                        {if item.contentType == "suggestedContent"}
                             <div class="carousel_three_column_container">
                                 <div class="carousel_three_column_left">
                                     {var content0 = item.suggestions[0]}
                                     {if content0}
                                         {if content0.preview}
-                                            ${content0.preview}
+                                            <img src="${content0.preview}"/>
                                         {/if}
                                         <h2>
                                             <a class="s3d-action" href="${content0.url}">
@@ -123,7 +55,7 @@
                                     {var content1 = item.suggestions[1]}
                                     {if content1}
                                         {if content1.preview}
-                                            ${content1.preview}
+                                            <img src="${content1.preview}"/>
                                         {/if}
                                         <h2>
                                             <a class="s3d-action" href="${content1.url}">
@@ -234,65 +166,7 @@
                                     </div>
                                 {/for}
                             </div>
-                        {elseif item.contentType == "group"}
-                            {if item && item.members}
-                                <div class="carousel_single_column_content_container">
-                                    <div class="carousel_two_column_content_container carousel_content_text carousel_group_lh">
-                                        <div class="carousel_two_column_content_container_lh"></div>
-                                        <div class="carousel_two_column_content_container_rh">
-                                            <a href="/~${item.groupid}" title="${item.title}"><h2 class="carousel_header_no_bottom_margin">${item.title}</h2></a>
-                                            <div class="carousel_content_metadata">(<a href="#" class="s3d-regular-links">21</a>) __MSG__UPLOADS__ (<a href="#" class="s3d-regular-links">16</a>) __MSG__DISCUSSIONS__ (<a href="#" class="s3d-regular-links">36</a>) __MSG__PAGES__ (<a href="#" class="s3d-regular-links">7</a>) __MSG__SUBMISSIONS__</div>
-                                            {if item.description && item.description.length}
-                                                <div class="carousel_content_description">__MSG__SUMMARY__: ${item.description}</div>
-                                            {/if}
-                                            {if item.tags && item.tags.length}
-                                                <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
-                                            {/if}
-                                        </div>
-                                    </div>
-                                    <div class="carousel_two_column_content_container carousel_group_rh">
-                                        <h2>${item.members.length} __MSG__MEMBERS__</h2>
-                                        {for member in item.members}
-                                            <a href="/~${member["rep:userId"]}" title="__MSG__VIEW__ ${member.basic.elements.firstName.value} ${member.basic.elements.lastName.value}"><div class="carousel_user_icon"></div></a>
-                                        {/for}
-                                    </div>
-                                </div>
-                            {/if}
-                        {elseif item.contentType == "user"}
-                            <div class="carousel_single_column_content_container">
-                                {if item.picture}
-                                    <img src="/~${item.userid}/public/profile/${item.picture.name}" alt="${item.displayName}" class="carousel_user_image"/>
-                                {else}
-                                    <img src="/dev/images/default_profile_picture_128.png" alt="${item.displayName}" class="carousel_user_image"/>
-                                {/if}
-                                <a href="/~${item.userid}" title="__MSG__VIEW__ ${item.displayName}'s __MSG__PROFILE__"><h2>${item.displayName}</h2></a>
-                                {if item.aboutme}
-                                    <div class="carousel_content_description">__MSG__ABOUT_ME__: ${item.aboutme}</div>
-                                {/if}
-                                {if item.tags && item.tags.length}
-                                    <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
-                                {/if}
-                            </div>
-                        {else}
-                            <div class="carousel_single_column_content_container">
-                                {if item.picture}
-                                    <img src="/~${item.userid}/public/profile/${item.picture.name}" alt="${item.displayName}" class="carousel_user_image"/>
-                                {else}
-                                    <img src="/dev/images/default_profile_picture_128.png" alt="${item.displayName}" class="carousel_user_image"/>
-                                {/if}
-                                <a href="/~${item.userid}" title="__MSG__VIEW__ ${item.displayName}'s __MSG__PROFILE__"><h2>${item.displayName}</h2></a>
-                                {if item.aboutme}
-                                    <div class="carousel_content_description">__MSG__ABOUT_ME__: ${item.aboutme}</div>
-                                {/if}
-                                {if item.tags && item.tags.length}
-                                    <div class="carousel_content_description">__MSG__TAGS__: ${item.tags.toString().replace(/,/g,", ")}</div>
-                                {/if}
-                                <button type="button" class="s3d-link-button s3d-bold carousel_add_to_contacts" id="contacts_add_to_contacts_${item.userid}">
-                                    __MSG__ADD_TO_CONTACTS__
-                                </button>
-                           </div>
                         {/if}
-                    {/if}
                 </li>
             {/for}
         </ul>

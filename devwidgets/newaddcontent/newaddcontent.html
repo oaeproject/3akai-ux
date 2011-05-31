@@ -254,7 +254,25 @@
                     </li>
                 {/for}
             {else}
-                <span id="newaddcontent_existingitems_no_items_found">__MSG__NO_CONTENT_FOUND__</span>
+                {if context == "everything"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_EVERYTHING__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {elseif context == "my_content"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_MY_LIBRARY__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {elseif context == "shared_with_me"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_SHARED_WITH_ME__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {/if}
             {/if}
         </ul>
     </form>

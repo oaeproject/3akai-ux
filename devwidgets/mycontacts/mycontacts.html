@@ -42,8 +42,9 @@
             <div class="mycontacts_no_contacts">
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-contact"></div>
                     <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
-                    {if !sakai.data.me.user.anon}
+                    {if !anon}
                         <h1>
                             <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>
                         </h1>

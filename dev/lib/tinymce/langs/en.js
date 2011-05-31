@@ -145,7 +145,7 @@ text_linebreaks:"Keep linebreaks",
 word_title:"Use CTRL+V on your keyboard to paste the text into the window."
 },
 table:{
-desc:"Inserts a new table",
+desc:"Insert/Modify table",
 row_before_desc:"Insert row before",
 row_after_desc:"Insert row after",
 delete_row_desc:"Delete row",

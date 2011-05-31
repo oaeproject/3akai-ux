@@ -68,32 +68,6 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #widget_settings_menu ul {padding: 0;margin: 0;}
 #widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
 
-/* Change layout */
-#change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
-#change_layout_dialog .elf-right-up {padding: 25px 0}
-#change_layout_dialog .add-tools-right {width:100%;}
-#change_layout_dialog .layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
-#change_layout_dialog .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
-#change_layout_dialog .layout_picker_item_column {border-right: 1px solid #3399CC;}
-#change_layout_dialog .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
-#change_layout_dialog .layout_container_unselected {float:left; padding-left:25px; padding-right:13px;}
-#change_layout_dialog .layout_picker_item_unselected {width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8;}
-#change_layout_dialog .layout_picker_item_column_unselected {border-right: 1px solid #dddfe1;}
-#change_layout_dialog .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
-#change_layout_dialog #layouts_list {display:block;}
-
-/* Add Sakai Goodies */
-#add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
-.add_goodies .s3d-button {margin:0; height:23px;}
-.add_goodies .dialog_body {height:308px; overflow-y:auto; overflow-x:hidden; position:relative; width:471px;}
-.add_goodies .dialog_body table {width: 471px; margin-bottom:0; border:1px solid #E5E5E5; border-spacing: 0; *border-collapse: collapse;}
-.add_goodies .dialog_body td {padding: 5px; border-bottom: 1px solid #efefef;}
-.add_goodies .dialog_body .dialog_add_goodies_description {color:#333;font-size:13px;font-weight:normal;}
-.add_goodies .dialog_body .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:bold;}
-.add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
-.add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
-.add_goodies .remove_add_column {text-align:right; width:100px;}
-
 /* D&D Classes */
 .ui-draggable, .orderable-hover {cursor:move;}
 .orderable-dragging {opacity:0.2; width:auto;}
@@ -201,8 +175,25 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
  */
 .s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 20px 10px;}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
-.s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;}
-.s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:4px 12px 0 0;}
+.s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;margin:5px 0 10px 0 !important;}
+.s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:0 12px 0 0;}
+.s3d-no-results-container .s3d-no-results-icon.less-margin {margin:-8px 12px 0 0;}
+
+.s3d-no-results-container .s3d-no-results-magnifier {background:url("/dev/images/magnifier_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-world {background:url("/dev/images/world_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-people {background:url("/dev/images/person_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-content {background:url("/dev/images/content_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-content-small {background:url("/dev/images/content_icon_42x46.png") no-repeat top left transparent;width:46px;height:42px;}
+.s3d-no-results-container .s3d-no-results-memberships {background:url("/dev/images/memberships_icon_60x55.png") no-repeat top left transparent;width:60px;}
+.s3d-no-results-container .s3d-no-results-memberships-small {background:url("/dev/images/memberships_icon_42x46.png") no-repeat top left transparent;width:46px;height:42px;}
+.s3d-no-results-container .s3d-no-results-contacts {background:url("/dev/images/contacts_icon_60x55.png") no-repeat top left transparent;width:60px;}
+.s3d-no-results-container .s3d-no-results-contacts-small {background:url("/dev/images/contacts_icon_42x46.png") no-repeat top left transparent;width:46px;height:42px;}
+.s3d-no-results-container .s3d-no-results-replied {background:url("/dev/images/replied_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-trash {background:url("/dev/images/trash_icon_55x55.png") no-repeat top left transparent;}
+.s3d-no-results-container .s3d-no-results-upload {background:url("/dev/images/upload_icon_42x46.png") no-repeat top left transparent;width:46px;height:42px;}
+.s3d-no-results-container .s3d-no-results-search-world {background:url("/dev/images/world_search_icon_55x55.png") no-repeat scroll left top transparent;}
+.s3d-no-results-container .s3d-no-results-search-people {background:url("/dev/images/people_search_icon_55x55.png") no-repeat scroll left top transparent;}
+.s3d-no-results-container .s3d-no-results-search-content {background:url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;}
 
 /*
  * CONTENT LAYOUT 
@@ -358,7 +349,7 @@ label.error{color:#9f3333;font-weight:bold;}
  * OLD DIALOG LAYOUT
  */
 .dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
-.jqmOverlay{background-color:#000;}
+.jqmOverlay{background-color:#000;opacity:0.6 !important}
 
 /* Dialog header */
 .dialog_header{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -641px transparent;padding:0 8px 0 0;}
