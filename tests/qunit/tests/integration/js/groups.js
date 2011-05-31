@@ -168,7 +168,7 @@ require(
                 "password": "test"
             }, function(success, data) {
                 if (success) {
-                    sakai.api.Groups.addJoinRequest(user_random, group_id, function(success) {
+                    sakai.api.Groups.addJoinRequest(user_random, group_id, false, function(success) {
                         ok(success, "Added a join request for the user");
                         if (success) {
                             // check to see that the user is now a member of the group

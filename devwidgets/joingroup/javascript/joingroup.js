@@ -19,6 +19,10 @@
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
+    sakai_global.joingroup = sakai_global.joingroup || {};
+    sakai_global.joingroup.groupdata = sakai_global.joingroup.groupdata || {};
+    sakai_global.joingroup.groupmembers = sakai_global.joingroup.groupmembers || {};
+
     /**
      * @name sakai_global.joingroup
      *
@@ -112,6 +116,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
+
+                        // add group data to global object so it can be accessed by the joinrequestbuttons widget
+                        sakai_global.joingroup.groupdata = groupdata;
+
                         group.joinability =
                             groupdata.authprofile["sakai:group-joinable"];
                         group.title =
@@ -120,6 +128,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, false, function(success, members) {
+                        // add results to global object so it can be accessed by the joinrequestbuttons widget
+                        sakai_global.joingroup.groupmembers = members;
+
                         $.each(members, function(role, users) {
                             $.each(users.results, function(index, user) {
                                 push_member_to_list(user, participants, role);

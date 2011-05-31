@@ -212,7 +212,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ") membership");
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid,
+            var groupData = false;
+            if (sakai_global.joingroup && sakai_global.joingroup.groupdata && sakai_global.joingroup.groupmembers) {
+                groupData = {
+                    "groupProfile": sakai_global.joingroup.groupdata.authprofile,
+                    "groupMembers": sakai_global.joingroup.groupmembers
+                }
+            }
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, groupData,
             function (success) {
                 if (success) {
                     // show a notification and change the button

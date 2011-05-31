@@ -597,11 +597,49 @@ define(["jquery",
          *
          * @param {Object} meData User object for the user that wants to join the group
          * @param {String} groupID ID of the group to the user wants to join
+         * @param {Object} groupData Optional group data object containing profile and managers for the group
          * @param {Function} callback Callback function executed at the end of the
          * operation - callback args:
          *  -- {Boolean} success True if operation succeeded, false otherwise
          */
-        addJoinRequest : function(meData, groupID, callback) {
+        addJoinRequest : function(meData, groupID, groupData, callback) {
+            var groupProfile = false;
+            var groupManagers = false;
+
+            /**
+             * Sends a join request message to the managers
+             * @return None
+             */
+            var sendJoinRequestMessage = function() {
+                var managerArray = [];
+                for (var i in groupManagers){
+                    if (groupManagers.hasOwnProperty(i)) {
+                        managerArray.push(groupManagers[i].userid);
+                    }
+                }
+                var userString = sakai_user.getDisplayName(meData.profile)
+                var groupString = groupProfile["sakai:group-title"];
+                var systemString = sakai_i18n.General.getValueForKey("SAKAI");
+                var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
+                var acceptLink = sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" + groupProfile["sakai:group-id"];
+                var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                     .replace(/\$\{sender\}/g, userString)
+                     .replace(/\$\{group\}/g, groupString);
+                var body = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                     .replace(/\$\{sender\}/g, userString)
+                     .replace(/\$\{group\}/g, groupString)
+                     .replace(/\$\{system\}/g, systemString)
+                     .replace(/\$\{profilelink\}/g, profileLink)
+                     .replace(/\$\{acceptlink\}/g, acceptLink)
+                    .replace(/\$\{br\}/g,"\n");
+                sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,false,"join_request");
+            };
+
+            if (groupData && groupData.groupMembers && groupData.groupMembers.Manager){
+                groupProfile = groupData.groupProfile;
+                groupManagers = groupData.groupMembers.Manager.results;
+            }
+
             var userID = meData.user.userid;
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
@@ -612,36 +650,22 @@ define(["jquery",
                         userid: userID
                     },
                     success: function (data) {
-                        sakaiGroupsAPI.getMembers(groupID, false, function(success, members) {
-                            if (success){
-                                var managerArray = [];
-                                for (var i in members.Manager.results){
-                                    if (members.Manager.results.hasOwnProperty(i)) {
-                                        managerArray.push(members.Manager.results[i].userid);
-                                    }
+                        if (groupProfile && groupManagers) {
+                            sendJoinRequestMessage();
+                        } else {
+                            sakaiGroupsAPI.getMembers(groupID, false, function(success, members){
+                                if (success) {
+                                    sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
+                                        if (success) {
+                                            groupProfile = groupData.authprofile;
+                                            groupManagers = members.Manager.results;
+                                            sendJoinRequestMessage();
+                                        }
+                                    });
                                 }
-                                sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
-                                    if (success){
-                                        var userString = sakai_user.getDisplayName(meData.profile)
-                                        var groupString = groupData.authprofile["sakai:group-title"];
-                                        var systemString = sakai_i18n.General.getValueForKey("SAKAI");
-                                        var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
-                                        var acceptLink = sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" + groupData.authprofile["sakai:group-id"];
-                                        var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
-                                            .replace(/\$\{sender\}/g, userString)
-                                            .replace(/\$\{group\}/g, groupString);
-                                        var body = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_BODY")
-                                            .replace(/\$\{sender\}/g, userString)
-                                            .replace(/\$\{group\}/g, groupString)
-                                            .replace(/\$\{system\}/g, systemString)
-                                            .replace(/\$\{profilelink\}/g, profileLink)
-                                            .replace(/\$\{acceptlink\}/g, acceptLink)
-                                            .replace(/\$\{br\}/g,"\n");
-                                        sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,false,"join_request");
-                                    }
-                                });
-                            }
-                        });
+                            });
+                        }
+
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
