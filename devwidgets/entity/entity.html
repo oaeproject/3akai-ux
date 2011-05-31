@@ -130,10 +130,10 @@
     <div id="entity_actions">
         {if !anon}
             {if type && type == "content_managed"}
-                <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-button"><span class="entity_permissions_icon"></span></button>
+                <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
             {/if}
             <button type="button" id="entity_content_save" class="s3d-button s3d-header-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
-            <button type="button" id="entity_content_share" class="s3d-button s3d-header-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__SHARE__<span class="entity_share_content"></span></button>
+            <button type="button" id="entity_content_share" class="s3d-button s3d-header-button share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__<span class="entity_share_content"></span></button>
         {/if}
         {if data.data.mimeType === "x-sakai/link"}
             <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">

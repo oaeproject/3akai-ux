@@ -24,9 +24,7 @@
                 <option value="managers">__MSG__CAN_EDIT__</option>
                 <option value="viewers">__MSG__CAN_VIEW__</option>
             </select>
-            <button type="button" class="s3d-button fl-force-right" id="contentpermissions_share_button">
-                <span class="s3d-button-inner">__MSG__SHARE__</span>
-            </button>
+            <button type="button" id="contentpermissions_share_button" class="s3d-button s3d-header-button fl-force-right">__MSG__SHARE__</button>
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>
@@ -37,12 +35,9 @@
                 <option value="viewer">__MSG__CAN_VIEW__</option>
             </select>
             <input type="checkbox" id="contentpermissions_newmember_checkall"/>
-            <button id="contentpermissions_remove_button" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
-            </button>
-            <button id="contentpermissions_message_button" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__</span>
-            </button>
+            
+            <button type="button" id="contentpermissions_remove_button" class="s3d-button s3d-header-button">__MSG__REMOVE__</button>
+            <button type="button" id="contentpermissions_message_button" class="s3d-button s3d-header-button">__MSG__MESSAGE__</button>
         </div>
         <div id="contentpermissions_members_list">
             <ul>
@@ -81,9 +76,7 @@
         </div>
     </div>
     <div id="contentpermissions_save_actions">
-        <button type="button" class="s3d-button fl-force-right" id="contentpermissions_save_and_close_button">
-            <span class="s3d-button-inner">__MSG__APPLY_PERMISSIONS__</span>
-        </button>
+        <button type="button" id="contentpermissions_save_and_close_button" class="s3d-button s3d-overlay-button fl-force-right">__MSG__APPLY_PERMISSIONS__</button>
         <button type="button" class="s3d-link-button s3d-bold" id="contentpermissions_cancel_button">__MSG__CANCEL__</button>
     </div>
     <hr class="fl-push fl-hidden"/>

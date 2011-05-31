@@ -30,7 +30,7 @@
 
               <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-button" style="display:none">
                   __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
-              </button>
+              </a>
               <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-header-button fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
                   __MSG__CREATE_NEW_MESSAGE__
               </a>
@@ -71,11 +71,9 @@
                             </div>
                             <div class="inbox_right_col inbox_col">
                                 <div class="inbox_delete fl-force-right">
-                                  <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button inbox_action_button">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                                  </button>
-                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-button-link-2-state inbox_reply_button inbox_action_button">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REPLY_ICON__</span>
+                                    <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button">&nbsp;&nbsp;__MSG__X__&nbsp;&nbsp;</button>
+                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button">
+                                    &nbsp;&nbsp;__MSG__REPLY_ICON__&nbsp;&nbsp;
                                   </a>
                                 </div>
                             </div>
@@ -147,9 +145,7 @@
                                 <div class="inbox_right_col inbox_col">
                                 {if !reply}
                                     <div class="inbox_delete fl-force-right">
-                                        <button type="button" class="s3d-button s3d-button-link-2-state inbox_delete_button">
-                                            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__X__</span>
-                                        </button>
+                                        <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button">&nbsp;&nbsp;__MSG__X__&nbsp;&nbsp;</button>
                                     </div>
                                 {/if}
                                 </div>
