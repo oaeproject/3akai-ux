@@ -538,6 +538,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             function(){
                 $('#topnavigation_user_options_login_fields').hide();
             });
+
+            $(window).bind("read.message.sakai", setCountUnreadMessages);
         };
 
 

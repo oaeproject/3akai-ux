@@ -297,6 +297,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("complete.fileupload.sakai", determineContext);
 
+        $(window).bind("read.message.sakai", determineContext);
+
         determineContext();
         renderEntity();
         generateNav();

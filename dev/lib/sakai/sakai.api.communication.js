@@ -300,6 +300,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
+                    sakai_user.data.me.messages.unread -= messagePaths.length;
+                    $(window).trigger("read.message.sakai");
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
