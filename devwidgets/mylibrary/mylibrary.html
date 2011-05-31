@@ -86,17 +86,12 @@
                 <button class="s3d-link-button mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
                 <button class="s3d-link-button mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
                 <a href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
-                    {var thumbnail = sakai.api.Content.getThumbnail(item.fullResult)}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                    {if sakai.config.MimeTypes[item.mimeType]}
-                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description)}
-                    {/if}
-                    {if thumbnail}
-                        <img src="${thumbnail}" alt="${mimeTypeDescription}" />
+                    {if item.thumbnail}
+                        <img src="${item.thumbnail}" alt="${item.type}" />
                     {elseif (item.mimeType.substring(0,6)=="image/")}
-                        <img class="s3d-icon-40" src="/p/${item.id}" alt="${mimeTypeDescription}" />
+                        <img class="s3d-icon-40" src="/p/${item.id}" alt="${item.type}" />
                     {else}
-                        <img alt="item type icon" src="${item.type_src}" />
+                        <img alt="${item.type}" src="${item.type_src}" />
                     {/if}
                 </a>
                 <div class="mylibrary_item_right s3d-regular-links">
@@ -104,8 +99,8 @@
                         <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
                             ${item.filename}
                         </a>
-                        {if mimeTypeDescription}
-                            <span class="mylibrary_item_mimetype">${mimeTypeDescription.toUpperCase()}</span>
+                        {if item.type}
+                            <span class="mylibrary_item_mimetype">${item.type}</span>
                         {/if}
                     </div>
                     <div class="mylibrary_item_by">
