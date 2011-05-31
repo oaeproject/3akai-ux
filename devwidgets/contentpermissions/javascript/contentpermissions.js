@@ -343,7 +343,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         }
                     }, options);
                 }
-            });        
+            });
         };
 
 
