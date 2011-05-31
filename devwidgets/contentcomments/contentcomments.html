@@ -114,7 +114,11 @@
         </div>
         {forelse}
             {if sakai.data.me.user.anon}
-                <div class="comments_noComments">__MSG__THERE_ARE_NO_COMMENTS__</div>
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-search-content"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+                </div>
             {/if}
         {/for}
     </div>

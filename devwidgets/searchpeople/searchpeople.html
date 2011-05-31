@@ -104,7 +104,7 @@
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/for}
+                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -115,12 +115,8 @@
                     {if !peopleFound}
                         <div class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
-                            {if sakai.data.me.user.anon}
-                                <h1>
-                                    <a href="/dev/create_new_account2.html" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>
-                                </h1>
-                            {/if}
+                            <div class="s3d-no-results-icon s3d-no-results-search-people less-margin"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/dev/create_new_account2.html" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}</h1>
                         </div>
                     {/if}
                 --></div>

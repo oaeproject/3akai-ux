@@ -64,9 +64,9 @@
                                     <button class="s3d-link-button searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchgroups_result_anonuser"></span>
-                                <a href="${i.homePath}" title="i['sakai:group-title']">
-                                    {if i.picture}
-                                        <img src="${i.picture.picPath}" alt="group name">
+                                <a href="${i.homePath}" title="${i['sakai:group-title']}">
+                                    {if i.picPath}
+                                        <img src="${i.picPath}" alt="${i['sakai:group-title']}">
                                     {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                     {/if}
@@ -81,7 +81,7 @@
                                         {/if}
                                     </div>
                                     <div class="searchgroups_result_usedin">
-                                        __MSG__CREATED__ ${sakai.api.Datetime.getTimeAgo(i.created)} __MSG__AGO__
+                                        __MSG__CHANGED__ ${jQuery.timeago(new Date(i.lastModified))}
                                         {var contentItemCount = i.counts.contentCount}
                                         {if contentItemCount > 0}
                                             <span class="searchgroups_result_detail_separator"> | </span>
@@ -98,7 +98,7 @@
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                             <p class="searchgroups_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -109,7 +109,8 @@
                     {if !groupsFound}
                         <div class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a>{/if}</h1>
+                            <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=categories/${categoryid}" title="__MSG__ADD__ ${category}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
                         </div>
                     {/if}
                 --></div>

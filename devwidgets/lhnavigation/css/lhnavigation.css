@@ -57,3 +57,7 @@
 #lhnavigation_submenu .lhnavigation_submenu_container_inner {margin: 0px 3px 3px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */}
 
 #lhnav_edit_cancel_button {font-size: 12px !important; margin-right: 10px; font-weight: bold;}
+
+#lhnavigation_container .lhnavigation_move_cursor {cursor: move !important;}
+#lhnavigation_container .lhnavigation_page_title_value {cursor: pointer; cursor: hand;}
+#lhnavigation_container .lhnavigation_has_subnav {cursor: pointer; cursor: hand;}

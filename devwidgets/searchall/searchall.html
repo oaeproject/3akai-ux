@@ -85,7 +85,7 @@
                                         {/if}
                                     </div>
                                     <div class="searchcontent_result_by">
-                                        __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']}" title="${i['sakai:pool-content-created-for']}">${i['sakai:pool-content-created-for']}</a> <span class="searchcontent_result_detail_separator">|</span> ${sakai.api.Datetime.getTimeAgo(i._lastModified)}
+                                        __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']}" title="${i['sakai:pool-content-created-for']}">${i['sakai:pool-content-created-for']}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
                                     {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
                                     <div class="searchcontent_result_usedin">
@@ -104,7 +104,7 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -155,7 +155,7 @@
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/for}
+                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -169,9 +169,9 @@
                                     <button class="s3d-link-button searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchall_result_anonuser"></span>
-                                <a href="${i.homePath}" title="i['sakai:group-title']">
-                                    {if i.picture}
-                                        <img src="${i.picture.picPath}" alt="group name">
+                                <a href="${i.homePath}" title="${i['sakai:group-title']}">
+                                    {if i.picPath}
+                                        <img src="${i.picPath}" alt="${i['sakai:group-title']}">
                                     {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                     {/if}
@@ -186,7 +186,7 @@
                                         {/if}
                                     </div>
                                     <div class="searchgroups_result_usedin">
-                                        __MSG__CREATED__ ${sakai.api.Datetime.getTimeAgo(i.created)} __MSG__AGO__
+                                        __MSG__CHANGED__ ${jQuery.timeago(new Date(i.lastModified))}
                                         {var contentItemCount = i.counts.contentCount}
                                         {if contentItemCount > 0}
                                             <span class="searchgroups_result_detail_separator"> | </span>
@@ -203,7 +203,7 @@
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                             <p class="searchgroups_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -214,7 +214,8 @@
                     {if !resultFound}
                         <div class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/dev/create_new_account2.html" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="/dev/createnew.html" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>{/if}</h1>
+                            <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/dev/create_new_account2.html" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=cateogories/group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
                         </div>
                     {/if}
                 --></div>

@@ -40,7 +40,7 @@
                             <div class="contacts_item_tags">
                                 <span class="contacts_item_icon contacts_item_tags_icon"></span>
                                 <p class="contacts_item_tags_list">
-                                    {for t in p.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                    {for t in p.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                 </p>
                             </div>
                         {/if}
@@ -78,7 +78,7 @@
                             <div class="contacts_item_tags">
                                 <span class="contacts_item_icon contacts_item_tags_icon"></span>
                                 <p class="contacts_item_tags_list">
-                                    {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                    {for t in i.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                 </p>
                             </div>
                         {/if}
@@ -124,7 +124,7 @@
                             <div class="contacts_item_tags">
                                 <span class="contacts_item_icon contacts_item_tags_icon"></span>
                                 <p class="contacts_item_tags_list">
-                                    {for t in a.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                    {for t in a.profile["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="contacts_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
                                 </p>
                             </div>
                         {/if}
@@ -147,11 +147,13 @@
             {if sakai_global.profile.main.mode.value !== "view"}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT__ <a class="s3d-regular-links" href="/search/people#q=*&filter=&facet=&page=1" title="__MSG__ADD_CONTACTS__">__MSG__ADD_CONTACTS__</a></h1>
+                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people" title="__MSG__ADD_CONTACTS__">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
                 </div>
             {else}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
+                    <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
                     <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
                 </div>
             {/if}

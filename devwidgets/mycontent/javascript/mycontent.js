@@ -75,17 +75,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
-                _mimeType: sakai.api.Content.getMimeType(result),
+                mimeType: sakai.api.Content.getMimeType(result),
+                thumbnail: sakai.api.Content.getThumbnail(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "_path": result["_path"]
             };
 
-            var mimetypeData = sakai.api.Content.getMimeTypeData(result);
             // set the mimetype and corresponding image
-            if(item._mimeType) {
+            if(item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
-                item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
+                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description);
+                item.type_img_url = sakai.config.MimeTypes[item.mimeType].URL;
             }
 
             // set file name without the extension

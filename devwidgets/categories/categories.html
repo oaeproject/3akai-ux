@@ -12,10 +12,8 @@
 
 <div id="categories_items_template"><!--
     <div id="categories_items_scroll">
-        <a href="/dev/allcategories.html" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
-            <button type="button" class="s3d-button s3d-button-link-2-state" id="categories_view_all">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__VIEW_ALL__</span>
-            </button>
+        <a href="/dev/allcategories.html" title="__MSG__VIEW_ALL__" class="s3d-button s3d-button-link-2-state categories_view_all_link" id="categories_view_all">
+            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__VIEW_ALL__</span>
         </a>
         <div id="categories_view_next_raquo"></div>
         <div id="categories_items_scroll_buttons">
@@ -37,7 +35,7 @@
             {for item in directory}
                 <li>
                     <div class="categories_item">
-                        <a href="/dev/category.html#tag=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
+                        <a href="/dev/category.html#l=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${item.count} content items</span>
                         {if item.content}
                             {if item.content["sakai:pooled-content-file-name"]}
@@ -59,11 +57,12 @@
                                 {/if}
                                 <span class="categories_content_category_description"><span class="categories_content_usedin_icon categories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
                                 {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
-                                {if item.content["sakai:tags"]}
+                                {var tags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"].join(","))}
+                                {if tags}
                                     <span class="categories_content_tags">
-                                        {for tag in item.content["sakai:tags"]}
+                                        {for tag in tags}
                                             {if tag_index < 2}
-                                                <a href="/search#tag=/tags/${tag}" class="s3d-action">${tag}</a>{if tag_index < item.content["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>

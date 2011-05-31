@@ -65,10 +65,12 @@
 
                     <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
                     <select id="newaddcontent_upload_content_permissions">
-                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
                         <option value="private">__MSG__PRIVATE__</option>
                     </select>
+
+                    <div id="newaddcontent_upload_content_copyright_container"></div>
                 </div>
             </div>
 
@@ -91,7 +93,7 @@
 
                     <label for="newaddcontent_add_document_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                     <select id="newaddcontent_add_document_permissions">
-                        <option value="public" selected="selected">__MSG__PUBLIC__</option>
+                        <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
                         <option value="private">__MSG__PRIVATE__</option>
                     </select>
@@ -146,6 +148,14 @@
     <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
     <div id="newaddcontent_selecteditems_edit_permissions_container" style="display:none;"><!----></div>
 </div>
+
+<div id="newaddcontent_copyright_template"><!--
+    <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
+    <select id="newaddcontent_upload_content_copyright">
+    {for cr in copyright}
+        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+    {/for}
+--></div>
 
 <div id="newaddcontent_selecteditems_edit_data_template" style="display:none;"><!--
     <span style="display:none" id="${i}" class="newaddcontent_selecteditems_edit_index"></span>
@@ -244,7 +254,25 @@
                     </li>
                 {/for}
             {else}
-                <span id="newaddcontent_existingitems_no_items_found">__MSG__NO_CONTENT_FOUND__</span>
+                {if context == "everything"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_EVERYTHING__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {elseif context == "my_content"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_MY_LIBRARY__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {elseif context == "shared_with_me"}
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-arrow-up"></div>
+                        <div class="s3d-no-results-icon s3d-no-results-upload"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_SHARED_WITH_ME__ <a class="s3d-regular-links" href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-regular-links">__MSG__UPLOAD_CONTENT__</a>, <a class="s3d-regular-links" href="#" title="__MSG__CREATE_A_NEW_DOCUMENT__" class="s3d-regular-links">__MSG__CREATE_A_NEW_DOCUMENT__</a> __MSG__OR_CHECK_OTHER_EXISTING_CONTENT_OPTIONS__</h1>
+                    </div>
+                {/if}
             {/if}
         </ul>
     </form>

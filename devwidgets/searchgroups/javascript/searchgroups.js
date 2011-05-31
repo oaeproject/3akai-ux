@@ -33,9 +33,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
     sakai_global.searchgroups = function(tuid, showSettings, widgetData){
 
         var selectedCategory = "other";
+        var selectedCategoryId = "";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
                 selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+                selectedCategoryId = sakai.config.worldTemplates[c].id;
             }
         }
 
@@ -135,7 +137,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Functions //
         ///////////////
         
-        $("#searchgroups_type_title, rootel").text(selectedCategory);
+        $("#searchgroups_type_title", rootel).text(selectedCategory);
     
         var pager_click_handler = function(pageclickednumber){
             $.bbq.pushState({
@@ -187,6 +189,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // Render the results.
             finaljson.category = selectedCategory.toLowerCase();
+            finaljson.categoryid = selectedCategoryId;
             $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".searchgroups_results_container", rootel).show();
 

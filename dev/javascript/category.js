@@ -155,12 +155,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @return {Array} Array of strings representing the selected hierarchy
          */
         var getCategory = function(){
-            var category = $.bbq.getState("tag");
-            if(!category){
-                category = $.bbq.getState("l").split("-");
-            }else{
-                category = category.split("-");
-            }
+            var category = $.bbq.getState("l").split("-");
             return category;
         };
 

@@ -41,10 +41,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
 
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
-            // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
-
             if (content_path && document.location.pathname === "/content"){
                 var redirectURL = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
                 if (filename) {
@@ -260,17 +256,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var initEntityWidget = function(){
-            var context = "content";
-            if (sakai.data.me.user.anon){
-                type = "content_anon";
-            } else if (sakai_global.content_profile.content_data.isManager){
-                type = "content_managed";
-            } else if (sakai_global.content_profile.content_data.isViewer){
-                type = "content_shared";
-            } else {
-                type = "content_not_shared";
+            if (sakai_global.content_profile.content_data) {
+                var context = "content";
+                if (sakai.data.me.user.anon) {
+                    type = "content_anon";
+                } else if (sakai_global.content_profile.content_data.isManager) {
+                    type = "content_managed";
+                } else if (sakai_global.content_profile.content_data.isViewer) {
+                    type = "content_shared";
+                } else {
+                    type = "content_not_shared";
+                }
+                $(window).trigger("sakai.entity.init", [context, type, sakai_global.content_profile.content_data]);
             }
-            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data]);
         };
 
         $(window).bind("sakai.entity.ready", function(){

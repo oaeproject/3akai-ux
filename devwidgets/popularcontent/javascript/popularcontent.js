@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], func
                         content.push(item);
                     }
                     contentData.results[0] = {"content": content};
-                    contentData.moreLink = "/search/content#tag=/tags/directory/" + selected;
+                    contentData.moreLink = "/search#l=content&q=" + selected;
                     callback();
                 }
             });
