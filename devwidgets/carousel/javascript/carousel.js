@@ -180,6 +180,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        var calcEffectiveWidth= function(container, floatedArr){
+            var eWidth = container.width();
+            $.each(floatedArr, function(index, value) {
+                eWidth -= value.width();
+            });
+            return eWidth;
+        };
+
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
@@ -189,9 +197,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var mimeType = sakai.api.Content.getMimeType(item);
                 obj.preview = sakai.api.Content.getThumbnail(item);
                 if (item["sakai:description"]) {
-                    var descWidth = 630;
-                    if (index === 1) {
-                        descWidth = 470;
+                    //var descWidth = 630;
+                    var descWidth = 0;
+                    switch (index){
+                        case 0:
+                            descWidth = calcEffectiveWidth($(".carousel_three_column_left"), [$(".carousel_threecolumn_left img")]);
+                            break;
+                        case 1:
+                            //descWidth = 470;
+                            descWidth = calcEffectiveWidth($(".carousel_threecolumn_middle"), [$(".carousel_threecolumn_middle img")]);
+                            break;
+                        default:
+                            descWidth = $(".carousel_two_high_top").width();
                     }
                     obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], descWidth);
                 }
