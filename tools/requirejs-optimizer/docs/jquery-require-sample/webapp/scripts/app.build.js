@@ -1,20 +1,19 @@
 ({
     appDir: "../",
-    baseUrl: "scripts/",
+    baseUrl: "scripts",
     dir: "../../webapp-build",
     //Comment out the optimize line if you want
-    //the code minified by Closure Compiler using
-    //the "simple" optimizations mode
-    //optimize: "none",
-
-    paths: {
-        "jquery": "require-jquery"
-    },
+    //the code minified by UglifyJS
+    optimize: "none",
 
     modules: [
         {
-            name: "main",
-            exclude: ["jquery"]
+            //If you have multiple pages in your app, you may
+            //want jQuery cached separately from the optimized
+            //main module. In that case, uncomment the exclude
+            //directive below.
+            //exclude: ["jquery"],
+            name: "main"
         }
     ]
 })

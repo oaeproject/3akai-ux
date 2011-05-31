@@ -1,11 +1,13 @@
 require({
         baseUrl: require.isBrowser ? "./" : "./anon/",
         paths: {
-            require: "../../require"
+            text: "../../text",
+            i18n: "../../i18n"
         }
     },
     ["require", "magenta", "red", "blue", "green", "yellow", "a", "c"],
     function(require, magenta, red, blue, green, yellow, a, c) {
+
         doh.register(
             "anonSimple",
             [
@@ -23,6 +25,7 @@ require({
                 }
             ]
         );
+        doh.run();
 
         //Also try a require call after initial page
         //load that uses already loaded modules,
