@@ -262,18 +262,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var createAutoSuggestedUser = function(userData) {
             var pictureURL = "";
-            var userid = userData.attributes.value.split("/");
+            var userid = userData.attributes.value;
             if(userData.attributes.picture){
-                pictureURL = "/~" + userid[1] + "/public/profile/" + userData.attributes.picture
+                pictureURL = "/~" + userid + "/public/profile/" + userData.attributes.picture
             } else{
-                if(userid[0] == "group"){
+                if(userData.attributes.type=== "group"){
                     pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
                 }else{
                     pictureURL = "/dev/images/default_User_icon_35x35.png";
                 }
             }
             var userObj = {
-                userid: userid[1],
+                userid: userid,
                 name: userData.attributes.name,
                 dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
                 permission: currentTemplate.joinRole,
@@ -322,14 +322,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
-        var resetAutosuggest = function(h){console.log($addpeopleMembersAutoSuggestField.data("autosuggest"));
-        	$(".as-close").click();
-        	$(".as-input",$addpeopleMembersAutoSuggest).val("");
-        	h.w.hide();
-        	if (h.o) {
-        		h.o.remove();
-        	}
-        	$addpeopleMembersAutoSuggestField.data("autosuggest").prev = "";
+        var resetAutosuggest = function(h){
+            $(".as-close").click();
+            $(".as-input",$addpeopleMembersAutoSuggest).val("").trigger("keydown");
+            h.w.hide();
+            if (h.o) {
+                h.o.remove();
+            }
         }
 
 
