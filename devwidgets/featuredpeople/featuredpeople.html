@@ -21,7 +21,8 @@
     {if !data.total}
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
-            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/search#l=people" title="__MSG__ADD_PEOPLE__" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>{/if}</h1>
+            <div class="s3d-no-results-icon s3d-no-results-people"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/search2.html#l=people" title="__MSG__ADD_PEOPLE__" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>{/if}</h1>
         </div>
     {/if}
     <hr class="fl-push fl-hidden"/>

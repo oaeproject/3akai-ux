@@ -110,9 +110,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handlerecentmembershipsData = function(success, data) {
             if(success && data.entry && data.entry.length > 0) {
-                $("#recentmemberships_no_group").hide();
+                $("#recentmemberships_no_results_container").hide();
                 getGroupInfo(data);
             } else {
+                $("#recentmemberships_no_results_container").show();
                 $(".recentmemberships_main").hide();
             }
         };

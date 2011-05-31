@@ -115,6 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handlerecentcontactsnewData = function(data) {
             if(data && data.length > 0) {
+                $("#recentcontactsnew_no_results_container").hide();
                 var contactArray = []
                 for (var i in data){
                     if (data.hasOwnProperty(i) && data[i].details && data[i].details["sakai:state"] === "ACCEPTED") {
@@ -129,6 +130,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(".recentcontactsnew_main").hide();
                 }
             } else {
+                $("#recentcontactsnew_no_results_container").show();
                 $(".recentcontactsnew_main").hide();
             }
         };

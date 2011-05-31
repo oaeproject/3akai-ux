@@ -427,13 +427,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(sakai_global.profile){
                     who = sakai_global.profile.main.mode.value
                 }else if (sakai_global.group2){
-                    who = "group"
+                    if (mylibrary.isOwnerViewing) {
+                        who = "group_managed";
+                    } else {
+                        who = "group"
+                    }
                 }
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}))
                 $mylibrary_empty.show();
-                if (mylibrary.isOwnerViewing) {
-                    $mylibrary_addcontent.show();
-                }
             }
         };
 

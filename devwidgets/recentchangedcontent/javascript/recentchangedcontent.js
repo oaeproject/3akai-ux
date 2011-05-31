@@ -204,8 +204,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handlerecentchangedcontentData = function(success, data) {
             if(success && data.results && data.results.length > 0) {
                 getRelatedContent(data.results[0]);
+                $("#recentchangedcontent_no_results_container").hide();
             } else {
                 $(".recentchangedcontent_main").hide();
+                $("#recentchangedcontent_no_results_container").show();
             }
         };
 

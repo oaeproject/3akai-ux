@@ -43,4 +43,5 @@ p.recentchangedcontent_error_msg{padding-left:15px;}
 /* Widget icon */
 .recentchangedcontent.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -620px -21px transparent;}
 
-.recentchangedcontent.fl-widget .s3d-no-results-container {margin:30px 0 10px;}
+.recentchangedcontent.fl-widget .s3d-no-results-container {margin:30px 0 10px;padding:20px 20px 5px;}
+.recentchangedcontent.fl-widget .s3d-no-results-container h1 {font-size:14px;margin:-8px 0 10px !important;}

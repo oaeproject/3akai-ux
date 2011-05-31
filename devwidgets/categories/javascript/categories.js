@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
         
         var addBinding = function(){
-            $categoriesExpandContract.bind("click", toggleWidgetvisibility)
+            $categoriesExpandContract.bind("click", toggleWidgetvisibility);
         };
         
         /**
@@ -64,8 +64,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var carouselBinding = function(carousel){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
-                var clickedId = parseInt($(this)[0].id.split("scroll_")[1]);
-                if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1]) && $(this)[0].id !== "categories_view_next_raquo") {
+                var clickedId = parseInt($(this)[0].id.split("scroll_")[1], 10);
+                if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1], 10) && $(this)[0].id !== "categories_view_next_raquo") {
                     carousel.prev();
                 }
                 else {
