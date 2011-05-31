@@ -297,7 +297,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("complete.fileupload.sakai", determineContext);
 
-        $(window).bind("read.message.sakai", determineContext);
+        $(window).bind("read.message.sakai", function(){
+            $(window).trigger("updated.counts.lhnav.sakai");
+        });
 
         determineContext();
         renderEntity();
