@@ -507,8 +507,7 @@
 					if(s) { obj.children("ul").css("display","none"); }
 					obj.removeClass("jstree-closed").addClass("jstree-open").children("a").removeClass("jstree-loading");
 					if(s) { obj.children("ul").stop(true).slideDown(s, function () { this.style.display = ""; }); }
-                    // SAKIII-2809
-                    //this.__callback({ "obj" : obj });
+                    this.__callback({ "obj" : obj });
 					if(callback) { callback.call(); }
 				}
 			},
@@ -2364,7 +2363,7 @@
 					c = obj.find("> ul > li").length;
 
 				if(c === 0) { if(obj.hasClass("jstree-undetermined")) { this.check_node(obj); } }
-				else if(a === 0 && b === 0) { this.uncheck_node(obj); }
+				else if(a === 0 && b === 0 && !obj.hasClass("jstree-checked")) { this.uncheck_node(obj); }
 				else if(a === c) { this.check_node(obj); }
 				else { 
 					obj.parentsUntil(".jstree","li").removeClass("jstree-checked jstree-unchecked").addClass("jstree-undetermined");
