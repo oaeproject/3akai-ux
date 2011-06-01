@@ -494,6 +494,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Cleans up or sets the polling interval for new messages
          */
         var handleShown = function(e, showing) {
+            if (widgetData.box !== "inbox") {
+                $("#inbox_title_total_wrapper").hide();
+            }
             if (showing) {
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             } else {
