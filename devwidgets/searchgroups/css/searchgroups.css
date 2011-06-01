@@ -109,7 +109,7 @@ strong{color:#000;}
 .searchgroups_bar{padding:5px 10px 10px 0px;}
 .searchgroups_bar #introduction_text h4{font-weight:normal;font-size:1.1em;color:#999;padding:0;margin:0 0 10px;}
 .searchgroups_content_main .searchgroups_bar{width:auto;}
-.searchgroups_content_main .searchgroups_results{display:block; overflow:hidden;width:710px;}
+.searchgroups_content_main .searchgroups_results{display:block; overflow:hidden;}
 .searchgroups_content_main .searchgroups_results_anon{width:710px;}
 .searchgroups_content_main .searchgroups_results_faceted{float:right;width:30%;}
 .searchgroups_content_main .searchgroups_results_container{padding:0;margin:0 0 10px;display:none;float:left;width:100%;overflow-y:hidden;}

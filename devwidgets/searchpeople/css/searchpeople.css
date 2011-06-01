@@ -86,7 +86,7 @@ strong{color:#000;}
 .searchpeople_bar{padding:5px 10px 10px 0px;}
 .searchpeople_bar #introduction_text h4{font-weight:normal;font-size:1.1em;color:#999;padding:0;margin:0 0 10px;}
 .searchpeople_content_main .searchpeople_bar{width:auto;}
-.searchpeople_content_main .searchpeople_results{display:block; overflow:hidden;width:710px;}
+.searchpeople_content_main .searchpeople_results{display:block; overflow:hidden;}
 .searchpeople_content_main .searchpeople_results_anon{width:710px;}
 .searchpeople_content_main .searchpeople_results_container{padding:0;margin:0 0 10px;display:none;float:left;width:100%;overflow-y:hidden;}
 .searchpeople_content_main .searchpeople_results_container .s3d-highlight_area_background_tl,.searchpeople_content_main .searchpeople_results_container .s3d-highlight_area_background_tinner,.searchpeople_content_main .searchpeople_results_container .s3d-highlight_area_background_bl,.searchpeople_content_main .searchpeople_results_container .s3d-highlight_area_background_binner{margin-left:0;margin-right:0;}

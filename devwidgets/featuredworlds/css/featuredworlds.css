@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.featuredworlds_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:15px 10px 0;}
+.featuredworlds_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:10px 0 0;}
 .featuredworlds_widget #featuredworlds_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 
 .featuredworlds_widget .s3d-contentpage-title {background-color:#F9F8F8;border-bottom:medium none;font-size:14px;height:34px;line-height:30px;padding:0 12px;}
