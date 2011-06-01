@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var messageFieldBody = "#comp-body";
 
             var buttonSendMessage = "#send_message";
- 
+
             var invalidClass = "sendmessage_invalid";
             var errorClass = "sendmessage_error_message";
             var normalClass = "sendmessage_normal_message";
