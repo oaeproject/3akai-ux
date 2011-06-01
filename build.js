@@ -85,7 +85,7 @@
     //lines should be included or excluded.
     pragmas: {
         //Indicates require will be included with jquery.
-        jquery: true
+        //jquery: true
     },
 
     //Skip processing for pragmas.
@@ -106,8 +106,7 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "dev/lib/sakai/sakai.dependencies",
-            exclude: ["jquery", "jquery-ui"]
+            name: "dev/lib/sakai/sakai.dependencies"
         }
 
         //Just specifying a module name means that module will be converted into
