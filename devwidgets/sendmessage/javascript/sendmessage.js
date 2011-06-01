@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(messageFieldSubject + ", " + messageFieldBody).val('');
 
                 // remove autoSuggest if it exists
-                sakai.api.Util.Autosuggest.destroy($autosuggest);
+                sakai.api.Util.AutoSuggest.destroy($autosuggest);
 
                 // Remove error status styling classes
                 $(messageFieldSubject).removeClass(invalidClass);
@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                $autosuggest = sakai.api.Util.Autosuggest.setup($("#sendmessage_to_autoSuggest"), {
+                $autosuggest = sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
                     "asHtmlID": "sendmessage_to_autoSuggest",
                     startText: "Enter contact or group names",
                     keyDelay: "200",

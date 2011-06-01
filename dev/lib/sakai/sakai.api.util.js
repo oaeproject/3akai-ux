@@ -1544,7 +1544,7 @@ define(["jquery",
             return "id" + Math.round(Math.random() * 10000000);
         },
         
-        Autosuggest: {
+        AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
             * autosuggest on the element (a jQuery object or selector string that is passed to jQuery) and also sets a 

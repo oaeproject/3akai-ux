@@ -289,7 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
         var resetAutosuggest = function(h){
-            sakai.api.Util.Autosuggest.reset($addpeopleMembersAutoSuggestField);
+            sakai.api.Util.AutoSuggest.reset($addpeopleMembersAutoSuggestField);
             h.w.hide();
             if (h.o) {
                 h.o.remove();
@@ -399,7 +399,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     loadRoles();
                     addBinding();
-                    sakai.api.Util.Autosuggest.setup($addpeopleMembersAutoSuggestField, {"asHtmlID": tuid,"resultClick":createAutoSuggestedUser},function(){$addpeopleMembersAutoSuggest.show();});
+                    sakai.api.Util.AutoSuggest.setup($addpeopleMembersAutoSuggestField, {"asHtmlID": tuid,"resultClick":createAutoSuggestedUser},function(){$addpeopleMembersAutoSuggest.show();});
                     hasbeenInit = true;
                 }
                 if(sakai_global.group2){

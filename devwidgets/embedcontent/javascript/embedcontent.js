@@ -224,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
          */
         var setupAutoSuggest = function() {
-            sakai.api.Util.Autosuggest.setup($embedcontent_content_input,{
+            sakai.api.Util.AutoSuggest.setup($embedcontent_content_input,{
                 asHtmlID: tuid,
                 retrieveLimit: 10,
                 selectionLimit: embedConfig.limit,

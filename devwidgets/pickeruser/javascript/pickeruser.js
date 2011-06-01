@@ -121,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             pickerData.selected = {};
             pickerData.currentElementCount = 0;
             pickerData.selectCount = 0;
-            sakai.api.Util.Autosuggest.reset($pickeruser_search_query);
+            sakai.api.Util.AutoSuggest.reset($pickeruser_search_query);
         };
 
         /**
@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var render = function(iConfig) {
             $pickeruser_add_button.attr("disabled", "disabled");
-            sakai.api.Util.Autosuggest.reset($pickeruser_search_query);
+            sakai.api.Util.AutoSuggest.reset($pickeruser_search_query);
             // Merge user defined config with defaults
             for (var element in iConfig) {
                 if (iConfig.hasOwnProperty(element) && pickerData.hasOwnProperty(element)) {
@@ -207,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
 
-        sakai.api.Util.Autosuggest.setup($pickeruser_search_query,{
+        sakai.api.Util.AutoSuggest.setup($pickeruser_search_query,{
             asHtmlID: tuid,
             retrieveLimit: 10,
             resultClick: function(data) {

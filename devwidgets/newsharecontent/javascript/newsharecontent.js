@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             hash.o.remove();
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-            sakai.api.Util.Autosuggest.reset($newsharecontentSharelist);
+            sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
         };
 
         ///////////
@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('#newsharecontent_cancel').bind('click',function(){
-                sakai.api.Util.Autosuggest.reset($newsharecontentSharelist);
+                sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
                 $newsharecontentContainer.hide();
             });
 
@@ -225,7 +225,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.ajaxSettings.cache = true;
             $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
             $.ajaxSettings.cache = ajaxcache;
-            sakai.api.Util.Autosuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
+            sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };
 
         init();

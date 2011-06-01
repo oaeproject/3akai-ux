@@ -321,7 +321,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "contentdata": sakai_global.content_profile.content_data,
                 "api": sakai.api
             }));
-            sakai.api.Util.Autosuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup});
+            sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup});
             enableDisableButtons(true);
         };
 
