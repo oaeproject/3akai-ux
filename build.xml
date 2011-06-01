@@ -220,11 +220,11 @@
 
         <exec executable="cmd" osfamily="windows">
             <arg value="/c" />
-            <arg value="${requireJs.path}/build.bat" />
+            <arg value="${requireJs.path}/buildj.bat" />
             <arg value="${requireJs.conf}" />
         </exec>
 
-        <exec executable="${requireJs.path}/build.sh" osfamily="unix">
+        <exec executable="${requireJs.path}/buildj.sh" osfamily="unix">
             <arg value="${requireJs.conf}" />
         </exec>
     </target>

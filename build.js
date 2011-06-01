@@ -26,6 +26,7 @@
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
         "jquery": "dev/lib/jquery/require-jquery",
+        "jquery-ui": "dev/lib/jquery/jquery-ui-1.8.13.custom",
         "sakai": "dev/lib/sakai"
     },
 
@@ -48,7 +49,7 @@
     //- "closure.keepLines": Same as closure option, but keeps line returns
     //in the minified files.
     //- "none": no minification will be done.
-    optimize: "closure",
+    optimize: "uglify",
 
     //Allow CSS optimizations. Allowed values:
     //- "standard": @import inlining, comment removal and line returns.
@@ -84,7 +85,7 @@
     //lines should be included or excluded.
     pragmas: {
         //Indicates require will be included with jquery.
-        jquery: true
+        //jquery: true
     },
 
     //Skip processing for pragmas.
@@ -105,8 +106,7 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "dev/lib/sakai/sakai.dependencies",
-            exclude: ["jquery"]
+            name: "dev/lib/sakai/sakai.dependencies"
         }
 
         //Just specifying a module name means that module will be converted into
