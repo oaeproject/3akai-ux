@@ -71,5 +71,8 @@
 #topnavigation_search_results_container ul li{list-style-type:none;}
 .topnavigation_user_options_login_sign_in_error_margin #topnavigation_user_options_login_error + label {margin-top:40px !important;}
 .topnavigation_user_options_login_sign_in_error_margin input{border:2px solid #FFBA00 !important;}
+.topnavigation_sign_up_link {font-size: 11px; top: 3px; position: relative;}
+.topnavigation_force_submenu_display {display:block !important;}
+.topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
 
 .personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}

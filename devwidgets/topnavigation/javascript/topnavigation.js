@@ -70,6 +70,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptionsLoginFields = "#topnavigation_user_options_login_fields";
         var topnavUserOptionsLoginError = "#topnavigation_user_options_login_error";
 
+        // Classes
+        var topnavigationForceSubmenuDisplay = "topnavigation_force_submenu_display";
+        var topnavigationForceSubmenuDisplayTitle = "topnavigation_force_submenu_display_title";
+
         // Templates
         var navTemplate = "navigation_template";
         var searchTemplate = "search_template";
@@ -531,12 +535,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     e.preventDefault();
                 }
             });
+            
+            // Make sure that the sign in dropdown does not disappear after it has
+            // been clicked
+            var mouseOverSignIn = false;
+            var mouseClickedSignIn = false;
+            $(topnavUserOptionsLoginFields).live('mouseenter', function(){
+                mouseOverSignIn = true; 
+            }).live('mouseleave', function(){ 
+                mouseOverSignIn = false; 
+            });
+            $(topnavUserOptionsLoginFields).click(function(){
+                mouseClickedSignIn = true;
+                $(topnavUserOptionsLoginFields).addClass(topnavigationForceSubmenuDisplay);
+                $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
+            });
+            $("html").click(function(){ 
+                if (!mouseOverSignIn) {
+                    mouseClickedSignIn = false;
+                    $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
+                    $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
+                }
+            });
 
             $(topnavigationlogin).hover(function(){
-                $('#topnavigation_user_options_login_fields').show();
+                $(topnavUserOptionsLoginFields).show();
             },
             function(){
-                $('#topnavigation_user_options_login_fields').hide();
+                $(topnavUserOptionsLoginFields).hide();
             });
         };
 
