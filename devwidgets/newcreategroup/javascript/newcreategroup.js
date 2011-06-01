@@ -364,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderShareMessage();
         });
 
-        $newcreategroupAddPeople.live("click", function(){
+        $(".newcreategroup_add_people").live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid]);
         });
     };

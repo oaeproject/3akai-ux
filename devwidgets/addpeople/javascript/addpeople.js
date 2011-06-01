@@ -185,8 +185,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
                         dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
                         permission: currentTemplate.joinRole,
-                        picture: $(this).next().children("img").attr("src"),
-                    }
+                        picture: $(this).next().children("img").attr("src")
+                    };
                     selectedUsers[userObj.userid] = userObj;
                     renderSelectedContacts();
                 }
@@ -330,8 +330,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var userObj = {
                         userid: data[role].results[user]["rep:userId"],
                         name: sakai.api.User.getDisplayName(data[role].results[user]),
-                        dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80),
-                    }
+                        dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
+                    };
                     $.each(currentTemplate.roles, function(i, r){
                         if (currentTemplate.roles[i].title == role){
                             userObj.permission = currentTemplate.roles[i].id;
