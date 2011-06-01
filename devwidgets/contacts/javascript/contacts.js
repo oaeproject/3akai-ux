@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var contactsContainer = "#contacts_container";
         var contactsTemplate = "contacts_template";
-        var currentPagenum = 1;
         var contacts = {  // global data for contacts widget
             totalItems: 0,
             itemsPerPage: 10,
