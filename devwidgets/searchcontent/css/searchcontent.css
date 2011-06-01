@@ -126,7 +126,7 @@ a.searchcontent_results_part_title{color:#5a6a7c;}
 .searchcontent_result_person_threedots{display:block;width:150px;}
 
 /* search results content */
-.searchcontent_result_mimetype {font-size:smaller;white-space:pre;}
+.searchcontent_result_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .searchcontent_result_by {padding:3px 0;font-size:11px;}
 .searchcontent_result_detail_separator {color:#cccccc;padding: 0 5px;}
 .searchcontent_result_usedin{margin-top:2px;font-size:11px;}
