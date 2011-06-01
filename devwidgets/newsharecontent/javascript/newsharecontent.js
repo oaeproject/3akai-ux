@@ -66,7 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Content object
         var contentObj = {};
-
+        
+        // Placeholder for element returned from autosuggest
+        var $autosuggest;
+        
         ///////////////
         // RENDERING //
         ///////////////
@@ -98,47 +101,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             hash.o.remove();
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-            $(".as-close").click();
-            $(newsharecontentListItem).remove();
+            sakai.api.Util.Autosuggest.reset($newsharecontentSharelist);
         };
-
-        ////////////
-        // SEARCH //
-        ////////////
-        
-        var initAutosuggest = function(){
-            $newsharecontentSharelist.autoSuggest("", {
-                selectedItemProp: "name",
-                searchObjProps: "name",
-                startText: "Enter name here",
-                asHtmlID: tuid,
-                scrollresults:true,
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15};
-                    var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
-                    if (q === '*' || q === '**') {
-                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
-                    } else {
-                        options['q'] = q;
-                    }
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            $.each(data.results, function(i) {
-                                if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai.data.me.user.userid) {
-                                    suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
-                                } else if (data.results[i]["sakai:group-id"]) {
-                                    suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
-                }
-            });
-        };
-
 
         ///////////
         // SHARE //
@@ -222,8 +186,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('#newsharecontent_cancel').bind('click',function(){
-            	$(".as-close").click();
-            	$(".as-input",$newsharecontentContainer).val("").trigger("keydown");
+                $(".as-close").click();
+                $(".as-input",$newsharecontentContainer).val("").trigger("keydown");
                 $newsharecontentContainer.hide();
             });
 
@@ -264,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.ajaxSettings.cache = true;
             $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
             $.ajaxSettings.cache = ajaxcache;
-            initAutosuggest();
+            sakai.api.Util.Autosuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };
 
         init();

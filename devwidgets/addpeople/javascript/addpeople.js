@@ -284,47 +284,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".as-close").click();
         };
 
-        var initAutosuggest = function(){
-            $addpeopleMembersAutoSuggestField.autoSuggest("", {
-                selectedItemProp: "name",
-                searchObjProps: "name",
-                startText: "",
-                asHtmlID: tuid,
-                resultClick: createAutoSuggestedUser,
-                scrollresults:true,
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15};
-                    var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
-                    if (q === '*' || q === '**') {
-                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
-                    } else {
-                        options['q'] = q;
-                    }
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            $.each(data.results, function(i) {
-                                if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai.data.me.user.userid) {
-                                    suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
-                                } else if (data.results[i]["sakai:group-id"]) {
-                                    suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
-                }
-            });
-            $addpeopleMembersAutoSuggest.show();
-        };
         
         /**
          * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
         var resetAutosuggest = function(h){
-            $(".as-close").click();
-            $(".as-input",$addpeopleMembersAutoSuggest).val("").trigger("keydown");
+            sakai.api.Util.Autosuggest.reset($addpeopleMembersAutoSuggestField);
             h.w.hide();
             if (h.o) {
                 h.o.remove();
@@ -434,7 +399,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     loadRoles();
                     addBinding();
-                    initAutosuggest();
+                    sakai.api.Util.Autosuggest.setup($addpeopleMembersAutoSuggestField, {"asHtmlID": tuid,"resultClick":createAutoSuggestedUser},function(){$addpeopleMembersAutoSuggest.show();});
                     hasbeenInit = true;
                 }
                 if(sakai_global.group2){
