@@ -535,7 +535,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     e.preventDefault();
                 }
             });
-            
+
             // Make sure that the sign in dropdown does not disappear after it has
             // been clicked
             var mouseOverSignIn = false;
