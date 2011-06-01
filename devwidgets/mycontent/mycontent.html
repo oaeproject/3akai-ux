@@ -15,21 +15,13 @@
             {for item in items}
                 <div class="mycontent_item{if item_index % 2 == 1} s3d-highlight_area_background{/if}">
                     <div class="mycontent_item_img fl-force-left">
-                        {var mimeType = sakai.api.Content.getMimeType(item)}
-                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
                         <a href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
-                            {if thumbnail}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
-                            {elseif (mimeType.substring(0,6)=="image/")}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                <img class="s3d-icon-32" src="${item.path}" alt="${mimeTypeDescription}" />
-                            {elseif sakai.config.MimeTypes[mimeType]}
-                                {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                            {if item.thumbnail}
+                                <img class="s3d-icon-32" src="${item.thumbnail} alt="${item.type}" />
+                            {elseif (item.type.substring(0,6)=="image/")}
+                                <img class="s3d-icon-32" src="${item.path}" alt="${item.type}" />
                             {else}
-                                {var mimeTypeDescription = sakai.config.MimeTypes["other"].description}
-                                <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                <img class="s3d-icon-32" src="${item.type_img_url}" alt="${item.type}" />
                             {/if}
                         </a>
                     </div>
@@ -59,7 +51,7 @@
         <div class="widget-options-inner">
             <ul>
                 <li>
-                    <a href="/search/content#q=*&facet=manage">__MSG__VIEW_ALL_CONTENT_I_MANAGED__</a>
+                    <a href="/search#l=content">__MSG__VIEW_ALL_CONTENT_I_MANAGED__</a>
                 </li>
                 <li><span class="pipe_divider">|</span></li>
                 <li>

@@ -66,9 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_groupfilter_wrapper = $("#mylibrary_groupfilter_wrapper", $rootel);
         var $mylibrary_groupfilter_usedin_count = $("#mylibrary_groupfilter_usedin_count", $rootel);
         var $mylibrary_groupfilter_groups_container = $("#mylibrary_groupfilter_groups_container", $rootel);
-        var $mylibrary_groupfilter_groups_template = $("#mylibrary_groupfilter_groups_template", $rootel);
         var $mylibrary_groupfilter_groups_button = $("#mylibrary_groupfilter_groups button", $rootel);
         var $mylibrary_groupfilter_usedin_arrow = $("#mylibrary_groupfilter_usedin_arrow", $rootel);
+
+        var mylibrary_groupfilter_groups_template = "mylibrary_groupfilter_groups_template";
 
         var currentGroup = false;
 
@@ -339,6 +340,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             numPlaces: sakai.api.Content.getPlaceCount(result),
                             numComments: sakai.api.Content.getCommentCount(result),
                             mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                            thumbnail: sakai.api.Content.getThumbnail(result),
                             description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
                                     max_rows: 1,
                                     whole_word: false
@@ -403,7 +405,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_empty.hide();
                 $("#mylibrary_title_bar").show();
                 $mylibrary_items.show();
-                $mylibrary_items.html(sakai.api.Util.TemplateRenderer($("#mylibrary_items_template", $rootel), json));
+                $mylibrary_items.html(sakai.api.Util.TemplateRenderer("mylibrary_items_template", json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
 
@@ -425,13 +427,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(sakai_global.profile){
                     who = sakai_global.profile.main.mode.value
                 }else if (sakai_global.group2){
-                    who = "group"
+                    if (mylibrary.isOwnerViewing) {
+                        who = "group_managed";
+                    } else {
+                        who = "group"
+                    }
                 }
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}))
                 $mylibrary_empty.show();
-                if (mylibrary.isOwnerViewing) {
-                    $mylibrary_addcontent.show();
-                }
             }
         };
 
@@ -505,7 +508,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "groups": groups
             };
 
-            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer($mylibrary_groupfilter_groups_template, json));
+            $mylibrary_groupfilter_groups_container.html(sakai.api.Util.TemplateRenderer(mylibrary_groupfilter_groups_template, json));
             //$mylibrary_groupfilter_wrapper.show();
             $mylibrary_groupfilter_usedin_count.html("(" + (parseInt(groups.entry.length, 10) + 1) + ")");
         };

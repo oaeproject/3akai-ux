@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // Make the content items available to other widgets
             sakai_global.searchcontent.content_items = finaljson.items;
-
+            finaljson.sakai = sakai;
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
             $(".searchcontent_results_container").show();

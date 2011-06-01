@@ -1,4 +1,4 @@
-#contacts_container .contacts_main{margin:0 10px 10px 0;overflow:hidden; }
+#contacts_container .contacts_main{overflow:hidden; }
 #contacts_container h1{font-size: 18px;font-weight: normal; margin:0;}
 #contacts_container h2 {padding:5px 0; color:#636363;font-size: 14px;margin:10px 0 0;}
 #contacts_container .contacts_no_contacts {margin:0px 0px 15px;display:block;}

@@ -339,7 +339,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
                         "label": categoryx.title,
-                        "url": "/dev/search2.html#l=" + categoryx.id
+                        "url": "/search#l=" + categoryx.id
                     });
                 }
             }
@@ -409,7 +409,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($(topnavSearchResultsContainer).find("li.selected").length) {
                 document.location = $(topnavSearchResultsContainer).find("li.selected a").attr("href");
             } else {
-                document.location = "/dev/search2.html#q=" + $.trim($("#topnavigation_search_input").val());
+                document.location = "/search#q=" + $.trim($("#topnavigation_search_input").val());
             }
         };
 
@@ -523,6 +523,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             });
             
+            // Make up for IE8 to submit login on Enter
+            // http://www.thefutureoftheweb.com/blog/submit-a-form-in-ie-with-enter
+            $(topnavUserOptionsLoginForm + " input").keydown(function(e){
+                if (e.keyCode === 13) {
+                    $(this).parents('form').submit();
+                    e.preventDefault();
+                }
+            });
+
             $(topnavigationlogin).hover(function(){
                 $('#topnavigation_user_options_login_fields').show();
             },
@@ -543,8 +552,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Add content
 
         $(".sakai_add_content_overlay, #subnavigation_add_content_link").live("click", function(ev) {
-            //$(window).trigger("init.fileupload.sakai");
             $(window).trigger("init.newaddcontent.sakai");
+            return false;
         });
 
         // Send a message

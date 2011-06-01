@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                         if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                             for (var pi in settings.columns[c]) {
                                 if (settings.columns[c].hasOwnProperty(pi)) {
-                                    if (pi !== "contains") {
+                                    if (pi !== "contains" && pi !== "indexOf") {
                                         if (!settings.columns[c][pi].uid) {
                                             cleanContinue = false;
                                         }

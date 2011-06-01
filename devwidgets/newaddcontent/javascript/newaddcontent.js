@@ -744,7 +744,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             existingIDs.push(item.id);
                         }
                     });
-                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs}));
+                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs, "context":context}));
                 },
                 error: function(err){
 
@@ -810,6 +810,13 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $newaddcontentContainerNewItem.removeClass(newaddcontentContainerNewItemExtraRoundedBorderClass);
             $newaddcontentContainerLHChoiceItem.removeClass(newaddcontentContainerLHChoiceSelectedItem);
             $("#newaddcontent_upload_content").addClass(newaddcontentContainerLHChoiceSelectedItem);
+
+            if (sakai.config.Permissions.Content.defaultaccess){
+                $("#newaddcontent_upload_content_permissions [value=" + sakai.config.Permissions.Content.defaultaccess + "]").attr("selected", "selected");
+            }
+            if (sakai.config.Permissions.Documents.defaultaccess){
+                $("#newaddcontent_add_document_permissions [value=" + sakai.config.Permissions.Documents.defaultaccess + "]").attr("selected", "selected");
+            }
         };
 
         /**

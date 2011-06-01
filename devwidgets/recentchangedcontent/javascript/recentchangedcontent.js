@@ -64,6 +64,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var parseDataResult = function(result, isRelatedContent) {
             // initialize parsed item with default values
+            var mimeType = sakai.api.Content.getMimeType(result);
+            var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+            if (sakai.config.MimeTypes[mimeType]){
+                mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+            }
+            var mimeTypeDescription = sakai.api.Content.getMimeType(result);
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
@@ -71,7 +77,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 filename: result["sakai:pooled-content-file-name"],
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
-                _mimeType: sakai.api.Content.getMimeType(result),
+                mimeType: mimeType,
+                mimeTypeDescription: mimeTypeDescription,
+                thumbnail: sakai.api.Content.getThumbnail(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "_path": result["_path"]
             };
@@ -196,8 +204,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handlerecentchangedcontentData = function(success, data) {
             if(success && data.results && data.results.length > 0) {
                 getRelatedContent(data.results[0]);
+                $("#recentchangedcontent_no_results_container").hide();
             } else {
                 $(".recentchangedcontent_main").hide();
+                $("#recentchangedcontent_no_results_container").show();
             }
         };
 

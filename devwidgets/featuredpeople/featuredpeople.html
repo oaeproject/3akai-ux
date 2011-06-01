@@ -8,7 +8,7 @@
 </div>
 
 <div id="featuredpeople_template"><!--
-    <div class="s3d-contentpage-title">__MSG__PEOPLE__ (<a href="/dev/search2.html#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
+    <div class="s3d-contentpage-title">__MSG__PEOPLE__ (<a href="/search#l=people&q=${category}" title="__MSG__VIEW_ALL_PEOPLE__" class="s3d-bold s3d-regular-links">${data.total}</a>)</div>
     {for item in data.results}
         <div class="featuredpeople_content">
             <img src="${item.picture}" alt="${item.name}" class="featuredpeople_image"/>
@@ -21,6 +21,7 @@
     {if !data.total}
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-people"></div>
             <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/search2.html#l=people" title="__MSG__ADD_PEOPLE__" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>{/if}</h1>
         </div>
     {/if}
