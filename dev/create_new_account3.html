@@ -38,44 +38,46 @@
                         <div id="signup_descriptionbox_middle" class="signup_descriptionbox">Create course materials once and re-use it later</div>
                     </div>
                     <div id="signup_header_bg">
-                        <div id="signup_form_container">
-                            <div id="signup_form_shadow"></div>
-                            <h1 class="signup_header">__MSG__CREATE_A_NEW_ACCOUNT__</h1>
-                            <div class="signup_form_column">
-                                <div class="signup_form_column_labels">
-                                    <label for="firstName">__MSG__FIRSTNAME__:</label>
-                                    <label for="lastName">__MSG__LASTNAME__:</label>
-                                    <label for="email">__MSG__EMAIL__:</label>
+                        <form id="create_account_form">
+                            <div id="signup_form_container">
+                                <div id="signup_form_shadow"></div>
+                                <h1 class="signup_header">__MSG__CREATE_A_NEW_ACCOUNT__</h1>
+                                <div class="signup_form_column">
+                                    <div class="signup_form_column_labels">
+                                        <label for="firstName">__MSG__FIRSTNAME__:</label>
+                                        <label for="lastName">__MSG__LASTNAME__:</label>
+                                        <label for="email">__MSG__EMAIL__:</label>
+                                    </div>
+                                    <div class="signup_form_column_fields">
+                                        <input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" placeholder="Hiroyuki"/>
+                                        <input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" placeholder="Sakai"/>
+                                        <input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" placeholder="hiroyuki.sakai@example.com"/>
+                                    </div>
                                 </div>
-                                <div class="signup_form_column_fields">
-                                    <input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" placeholder="Hiroyuki"/>
-                                    <input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" placeholder="Sakai"/>
-                                    <input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" placeholder="hiroyuki.sakai@example.com"/>
-                                </div>
-                            </div>
 
-                            <button type="button" id="checkUserName" class="s3d-button" disabled="disabled">
-                                <span class="s3d-button-inner">__MSG__CHECK_AVAILABILITY__</span>
-                            </button>
-                            <div class="signup_form_column">
-                                <div class="signup_form_column_labels">
-                                    <label id="username_label" for="username">__MSG__USERNAME__:</label>
-                                    <label for="password">__MSG__PASSWORD__:</label>
-                                    <label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
-                                </div>
-                                <div class="signup_form_column_fields">
-                                    <input type="text" maxlength="255" id="username" name="username" class="create_account_input required" placeholder="Hiroyuki"/>
-                                    <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
-                                    <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
-                                </div>
-                            </div>
-                            <div class="captcha_container" id="captcha_box">
-                                <button id="save_account" class="s3d-button s3d-button-primary" type="submit" tabindex=8>
-                                    <span class="s3d-button-inner">__MSG__CREATE_ACCOUNT__</span>
+                                <button type="button" id="checkUserName" class="s3d-button" disabled="disabled" tabindex=10>
+                                    <span class="s3d-button-inner">__MSG__CHECK_AVAILABILITY__</span>
                                 </button>
-                                <div id="widget_captcha" class="widget_inline"></div>
+                                <div class="signup_form_column">
+                                    <div class="signup_form_column_labels">
+                                        <label id="username_label" for="username">__MSG__USERNAME__:</label>
+                                        <label for="password">__MSG__PASSWORD__:</label>
+                                        <label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
+                                    </div>
+                                    <div class="signup_form_column_fields">
+                                        <input type="text" maxlength="255" id="username" name="username" class="create_account_input required" placeholder="Hiroyuki"/>
+                                        <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                    </div>
+                                </div>
+                                <div class="captcha_container" id="captcha_box">
+                                    <button id="save_account" class="s3d-button s3d-button-primary" type="submit" tabindex=8>
+                                        <span class="s3d-button-inner">__MSG__CREATE_ACCOUNT__</span>
+                                    </button>
+                                    <div id="widget_captcha" class="widget_inline"></div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>

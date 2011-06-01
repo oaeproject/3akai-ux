@@ -20,6 +20,8 @@ h2 {color:#666;font-size:15px;}
 #signup_form_container input::-webkit-input-placeholder {color:#aaa;font-size:12px;}
 #signup_form_container input:-moz-placeholder {color:#aaa;font-size:12px;}
 
+.signup_form_ok {background-color:#ccffcc !important;}
+
 .captcha_container #save_account {float:right;margin-top:76px;}
 .captcha_container {clear:both;margin-left:148px;width:580px;}
 

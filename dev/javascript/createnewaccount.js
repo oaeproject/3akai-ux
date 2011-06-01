@@ -163,10 +163,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * the check has been completed.
          */
         var checkUserName = function(checkingOnly){
-
-            $(usernameField).removeClass("error");
-            $("#username_error_container label").hide();
-
             var values = getFormValues();
             var ret = false;
             // If we reach this point, we have a username in a valid format. We then go and check
@@ -213,18 +209,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             $(checkUserNameLink).bind("click", function(){
                 if(currentUserName !== $(usernameField).val() && $.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
+                    $(usernameField).removeClass("signup_form_ok");
+                    $(usernameField).removeClass("error");
                     currentUserName = $(usernameField).val();
                     var success = checkUserName(true);
                     if (success){
-                        $(usernameAvailable).show();
+                        $(usernameField).removeClass("error");
+                        $(usernameField).addClass("signup_form_ok");
                     } else {
+                        $(usernameField).removeClass("signup_form_ok");
                         $(usernameField).addClass("error");
-                        $(usernameTaken).show();
                     }
                 }
             });
 
             $(usernameField).bind("change keyup", function() {
+                $(usernameField).removeClass("signup_form_ok");
+                $(usernameField).removeClass("error");
                 // if user name is entered enable button
                 if ($(usernameField).val() !== "" && $.trim($(usernameField).val()).length > 2) {
                     $(checkUserNameLink).removeAttr("disabled");
@@ -232,11 +233,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // disable button
                     $(checkUserNameLink).attr("disabled","disabled");
                 }
-                if ($(usernameAvailable).is(":visible")) {
-                    $(usernameAvailable).hide();
-                }
-                $(usernameField).removeClass("error");
-                $("#username_error_container label").hide();
             });
 
             /*
