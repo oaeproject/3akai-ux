@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_select_all = $("#inbox_select_all", $rootel),
             $inbox_delete_selected = $("#inbox_delete_selected", $rootel),
             $inbox_mark_as_read = $("#inbox_mark_as_read", $rootel),
-            $inbox_title_total_wrapper = $("#inbox_title_total_wrapper", $rootel),
+            $inbox_title_total_wrapper = $(".inbox_title_total_wrapper", $rootel),
             $inbox_item = $(".inbox_item", $rootel),
             $inbox_search_messages = $("#inbox_search_messages", $rootel),
             $inbox_search_term = $("#inbox_search_term", $rootel);
@@ -495,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handleShown = function(e, showing) {
             if (widgetData.box !== "inbox") {
-                $("#inbox_title_total_wrapper").hide();
+                $inbox_title_total_wrapper.hide();
             }
             if (showing) {
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
