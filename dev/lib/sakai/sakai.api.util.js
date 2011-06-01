@@ -1637,7 +1637,9 @@ define(["jquery",
             destroy: function(element,options){
                 var opts = $.extend({}, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
-                if(!element || (element.length!==1 && !element.data(namespace)) ){return false;} //may want to return element?
+                if(!element || (element.length!==1 && !element.data(namespace)) ){
+                	return false; //may want to return element?
+                } 
                 var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
                 $("#as-results-" + element.attr("id")).remove();
                 return $(ascontainer);
