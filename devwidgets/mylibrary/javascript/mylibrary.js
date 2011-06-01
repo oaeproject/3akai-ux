@@ -429,7 +429,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 });
             } else if (query) {
-                $mylibrary_admin_actions.hide();
                 $mylibrary_items.hide();
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:"nosearchresults", query:query}));
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");

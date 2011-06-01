@@ -66,8 +66,9 @@
             </div>
         {elseif who === "nosearchresults"}
             <div class="s3d-no-results-container">
-                <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
-                <h1>__MSG__NO_RESULTS_FOR__ ${query}</h1>
+                <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+                <h1>__MSG__NO_SEARCH_RESULTS__ <a class="s3d-regular-links" href="/search#l=content" title="__MSG__CONTENT__">__MSG__CONTENT_LC__</a>.</h1>
             </div>
         {else}
             <div class="s3d-no-results-container">
