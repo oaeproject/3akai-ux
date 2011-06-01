@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.featuredpeople_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:15px 10px;}
+.featuredpeople_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:10px 0 0;}
 .featuredpeople_widget #featuredpeople_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 
 .featuredpeople_widget .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;font-size:12px; margin-bottom: 0px;}
