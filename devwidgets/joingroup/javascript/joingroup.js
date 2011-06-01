@@ -116,10 +116,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
-
-                        // add group data to global object so it can be accessed by the joinrequestbuttons widget
-                        sakai_global.joingroup.groupdata = groupdata;
-
+                        group.groupProfile =
+                            groupdata.authprofile;
                         group.joinability =
                             groupdata.authprofile["sakai:group-joinable"];
                         group.title =
@@ -128,8 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, false, function(success, members) {
-                        // add results to global object so it can be accessed by the joinrequestbuttons widget
-                        sakai_global.joingroup.groupmembers = members;
+                        group.groupMembers = members;
 
                         $.each(members, function(role, users) {
                             $.each(users.results, function(index, user) {
@@ -170,6 +167,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     tooltipLeft: $item.offset().left + $item.width(),
                     onShow: function () {
                         $(window).trigger("init.joinrequestbuttons.sakai", [
+                            {
+                                "groupProfile": group.groupProfile,
+                                "groupMembers": group.groupMembers
+                            },
                             groupid,
                             group.joinability,
                             group.managerCount,

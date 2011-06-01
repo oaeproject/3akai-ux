@@ -650,7 +650,7 @@ define(["jquery",
                         userid: userID
                     },
                     success: function (data) {
-                        if (groupProfile && groupManagers) {
+                        if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
                             sendJoinRequestMessage();
                         } else {
                             sakaiGroupsAPI.getMembers(groupID, false, function(success, members){

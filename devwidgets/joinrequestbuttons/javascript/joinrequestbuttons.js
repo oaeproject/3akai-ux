@@ -212,14 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ") membership");
                 return false;
             }
-            var groupData = false;
-            if (sakai_global.joingroup && sakai_global.joingroup.groupdata && sakai_global.joingroup.groupmembers) {
-                groupData = {
-                    "groupProfile": sakai_global.joingroup.groupdata.authprofile,
-                    "groupMembers": sakai_global.joingroup.groupmembers
-                }
-            }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, groupData,
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, joinrequestbuttons.groupData,
             function (success) {
                 if (success) {
                     // show a notification and change the button
@@ -319,6 +312,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initializes and renders the joinrequest buttons.  The following params
          * should be sent while triggering the event:
+         *  {Object} groupData    the profile of the group for which buttons need to be rendered
          *  {String} groupid      the id of the group for which buttons need to be rendered
          *  {String} joinability  the group's joinability setting
          *  {int} managerCount    optional number of managers in the group, defaults to 1
@@ -329,12 +323,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *  {Object} joinrequests  optional joinrequest data from the server. If not provided, this
          *      widget will issue a server request to get the data if needed.
          */
-        $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupid,
+        $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupData, groupid,
             joinability, managerCount, onShow, requestCallback, joinCallback, leaveCallback,
             joinrequests) {
             if (!groupid || !joinability) {
                 return;
             }
+            joinrequestbuttons.groupData = groupData;
             joinrequestbuttons.groupid = groupid;
             joinrequestbuttons.joinability = joinability;
             joinrequestbuttons.managerCount = managerCount || 1;
