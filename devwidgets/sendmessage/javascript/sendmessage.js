@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sendmessage_body = "#sendmessage_body",
                 send_message_cancel = "#send_message_cancel",
                 $sendmessage_container = $("#sendmessage_container");
-			var $autosuggest; //placeholder, set in return from API call
+            var $autosuggest; //placeholder, set in return from API call
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -213,12 +213,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 $autosuggest = sakai.api.Util.Autosuggest.setup($("#sendmessage_to_autoSuggest"), {
-					"asHtmlID": "sendmessage_to_autoSuggest",
-					startText: "Enter contact or group names",
-					keyDelay: "200",
-					retrieveLimit: 10,
-					preFill: preFill,
-					formatList: function(data, elem) {
+                    "asHtmlID": "sendmessage_to_autoSuggest",
+                    startText: "Enter contact or group names",
+                    keyDelay: "200",
+                    retrieveLimit: 10,
+                    preFill: preFill,
+                    formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
                         var imgSrc = "/dev/images/user_avatar_icon_32x32.png";
@@ -231,7 +231,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         return line_item;
                     }
                 });
-                
             };
 
             ///////////////////////////
