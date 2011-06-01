@@ -389,7 +389,7 @@ label.error{color:#9f3333;font-weight:bold;}
 /*
  * NEW DIALOG LAYOUT
  */
-.s3d-dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:12%;width:500px;}
+.s3d-dialog{color:#333;display:none;left:50%;margin-left:-250px;position:absolute;top:50px;width:500px;}
 .s3d-dialog-container {background-color:#fff; border:1px solid #a9a9a9; -moz-border-radius:5px;border-radius:5px;padding:7px 20px 12px;box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;-webkit-box-shadow:0 0 10px #000;color:#424242;font-size:12px;}
 .s3d-dialog-container .s3d-dialog-close {background:url("/dev/images/dialog_close.png") no-repeat top left transparent;width:19px;height:17px;float:right;cursor:pointer;margin:-2px -15px 0 0;}
 .s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}

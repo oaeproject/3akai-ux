@@ -724,13 +724,14 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             var searchURL = "";
             switch(context){
                 case "everything":
-                    searchURL = "/var/search/pool/all.infinity.json?items=10&q=" + q;
+                    if (q === "*") {
+                        searchURL = "/var/search/pool/all-all.infinity.json?items=10";
+                    } else {
+                        searchURL = "/var/search/pool/all.infinity.json?items=10&q=" + q;
+                    }
                     break;
-                case "my_content":
-                    searchURL = "/var/search/pool/me/manager.json?items=10&q=" + q;
-                    break;
-                case "shared_with_me":
-                    searchURL = "/var/search/pool/me/viewer.json?items=10&q=" + q;
+                case "my_library":
+                    searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&q=" + q;
                     break;
             }
 
@@ -766,11 +767,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     showSelectedItem($(newaddcontentAddExistingTemplate));
                     searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
                     break;
-                case "my_content":
-                    showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
-                    break;
-                case "shared_with_me":
+                case "my_library":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
                     searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
                     break;
@@ -855,12 +852,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             renderExistingContent("everything", $newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
-                        case "newaddcontent_existing_content_my_content":
-                            renderExistingContent("my_content", $newaddcontentExistingItemsSearch.val());
-                            $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
-                            break;
-                        case "newaddcontent_existing_content_shared_with_me":
-                            renderExistingContent("shared_with_me", $newaddcontentExistingItemsSearch.val());
+                        case "newaddcontent_existing_content_my_library":
+                            renderExistingContent("my_library", $newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                     }
