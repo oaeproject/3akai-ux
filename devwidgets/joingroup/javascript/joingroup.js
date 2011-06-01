@@ -19,10 +19,6 @@
 // load the master sakai object to access all Sakai OAE API methods
 require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
-    sakai_global.joingroup = sakai_global.joingroup || {};
-    sakai_global.joingroup.groupdata = sakai_global.joingroup.groupdata || {};
-    sakai_global.joingroup.groupmembers = sakai_global.joingroup.groupmembers || {};
-
     /**
      * @name sakai_global.joingroup
      *
