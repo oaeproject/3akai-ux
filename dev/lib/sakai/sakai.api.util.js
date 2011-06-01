@@ -40,7 +40,7 @@ define(["jquery",
     
     var sakai_util = {
 
-        startup : function() {
+        startup : function(meData) {
             // I know this is hideous
             (function () {
                 var script = document.createElement("script");
@@ -64,6 +64,15 @@ define(["jquery",
                           window.scrollBy(0, scrollByAmt);
                       }
                   });
+            }
+
+            // Start polling to keep session alive when logged in
+            if (meData.user.userid) {
+                setInterval(function() {
+                    $.ajax({
+                        url: "/dev/keepalive.txt"
+                    });
+                }, 60000);
             }
         },
 
