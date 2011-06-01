@@ -64,6 +64,11 @@
                 <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
                 <h1>__MSG__NO_RESULTS_DESCRIPTION_GROUP__</h1>
             </div>
+        {elseif who === "nosearchresults"}
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
+                <h1>__MSG__NO_RESULTS_FOR__ ${query}</h1>
+            </div>
         {else}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
