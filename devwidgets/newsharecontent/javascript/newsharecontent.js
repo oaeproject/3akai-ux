@@ -66,9 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Content object
         var contentObj = {};
-        
-        // Placeholder for element returned from autosuggest
-        var $autosuggest;
+
         
         ///////////////
         // RENDERING //
