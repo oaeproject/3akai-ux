@@ -48,25 +48,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             /////////////////////////////
 
             var $rootel = $("#"+tuid);
-
+            
             var toUser = false;  // configurable user to include as a message recipient
             var layover = true;        //    Will this widget be in a popup or inside another element.
             var callbackWhenDone = null;    //    Callback function for when the message gets sent
             var replyMessageID = null;
-
+            
             // CSS IDs
             var dialogBoxContainer = "#sendmessage_dialog_box";
             var dialogFooterContainer = "#sendmessage_dialog_footer";
             var dialogFooterInner = "dialog_footer_inner";
-
+            
             var messageDialogContainer = '.message_dialog';
             var messageForm = "#message_form";
-
+            
             var messageFieldSubject = "#comp-subject";
             var messageFieldBody = "#comp-body";
-
+            
             var buttonSendMessage = "#send_message";
-
+            
             var invalidClass = "sendmessage_invalid";
             var errorClass = "sendmessage_error_message";
             var normalClass = "sendmessage_normal_message";
@@ -74,10 +74,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var dialogHeaderClass = ".s3d-dialog-header";
             var dialogContainerClass = "s3d-dialog-container";
             var dialogClass = ".s3d-dialog";
-
+            
             var notificationSuccess = "#sendmessage_message_sent";
             var notificationError = "#sendmessage_message_error";
-
+            
             var autoSuggestContainer = "#as-selections-sendmessage_to_autoSuggest";
             var autoSuggestResults = "#as-results-sendmessage_to_autoSuggest";
             var autoSuggestInput = "#sendmessage_to_autoSuggest";
