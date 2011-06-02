@@ -1557,6 +1557,108 @@ define(["jquery",
         
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
+        },
+        
+        AutoSuggest: {
+            /**
+            * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
+            * autosuggest on the element (a jQuery object or selector string that is passed to jQuery) and also sets a 
+            * namespace .data() so autosuggest won't be created more than once, with the original element as its value.
+            * The original element is retrieved in the destroy method to replace the autosuggest.
+            * 
+            * @param {String|Object} jQuery selection object or selector string.
+            * @param {Object} JavaScript object of optional parameters to extend or override defaults
+            * @param {function} optional callback to be executed after calling autosuggest plugin
+            *
+            * @returns {Object} new jQuery object with autosuggest
+            */        
+            setup: function(element,options,callback){
+                var defaults = {
+                    selectedItemProp: "name",
+                    searchObjProps: "name",
+                    startText: "Enter name here",
+                    scrollresults:true,
+                    source: function(query, add) {
+                        var user = require("sakai/sakai.api.user");
+                        var q = sakai_serv.createSearchString(query);
+                        var searchoptions = {"page": 0, "items": 15};
+                        var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS_ALL;
+                        } else {
+                            searchoptions['q'] = q;
+                        }
+                        sakai_serv.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                            if (success) {
+                                var suggestions = [];
+                                $.each(data.results, function(i) {
+                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
+                                        suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                    } else if (data.results[i]["sakai:group-id"]) {
+                                        suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                    }
+                                });
+                                add(suggestions);
+                            }
+                        }, searchoptions);
+                    }
+                }
+                var opts = $.extend(defaults, options);
+                var namespace = opts.namespace || "api_util_autosuggest";
+                element = (element instanceof jQuery) ? element:$(element);
+                
+                if(element.data(namespace)){//already an autosuggest so for now return element, could also call destroy and setup again
+                    return element;
+                }
+                var orig_element = element.clone(true);
+                element.autoSuggest("", opts).data(namespace,orig_element);
+                
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+                
+                return element;
+            },
+            /**
+            * Resets the autosuggest without destroying/creating. Use this 
+            * when the autosuggest is in an element whose visibility is toggled, e.g. via a "Cancel" button
+            * which should have the effect of clearing the autosuggest. The autosuggest plugin has no reset
+            * method, and it maintains a "prev" variable that holds the last typed character. Clearing the
+            * input field isn't sufficient, if the same character is typed next time it will match the stored
+            * character and return false, so the keydown after clearing the input clears the var in the plugin.
+            *
+            * @param element {String} The element (or a jQuery selector string) for the text input for the autosuggest
+            *
+            * @returns {Object} the jQuery object created from setup method
+            */
+            reset: function(element){
+                element = (element instanceof jQuery) ? element:$(element);
+                element.val("").trigger("keydown");
+                $(".as-close").click(); //created by autosuggest plugin
+                return element;
+            },
+            /**
+            * Removes the autosuggest and replaces it with the original element stored in .data() under the 
+            * 'namespace' key when the autosuggest was created. Because it stores the original element, and this isn't
+            * a jQuery plugin that iterates over all matching selectors, this method only works if a single element
+            * is passed in. In practice it's probably not likely to pass multiple elements in the selector when
+            * creating the autosuggest (if that's really needed, then modifications to the plugin are more appropriate).
+            *
+            * @param element {Object} The autosuggest element (a jQuery object); usually the returned from the setup method
+            * @param {Object} JavaScript object of optional parameters; currently only the namespace key
+            *
+            * @returns {Object} original jQuery object without autosuggest
+            */          
+            destroy: function(element,options){
+                var opts = $.extend({}, options);
+                var namespace = opts.namespace || "api_util_autosuggest";
+                if(!element || (element.length!==1 && !element.data(namespace)) ){
+                	return false; //may want to return element?
+                } 
+                var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
+                $("#as-results-" + element.attr("id")).remove();
+                return $(ascontainer);
+            }
         }
 
     };
