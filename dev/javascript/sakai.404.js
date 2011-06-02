@@ -26,6 +26,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
         var $signinbuttonwrapper = $('#error_sign_in_button');
         var $signinbutton = $("button",$signinbuttonwrapper);
+        var $signinfromcontent = $("#signin_from_content");
         var $browsecatcount = $("#error_browse_category_number");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
@@ -70,7 +71,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $signinbuttonwrapper.show();
                 $signinbutton.click(function(){
                     $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
-                }); 
+                });
+                $signinfromcontent.live("click",function(){
+                    $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
+                });
                 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
