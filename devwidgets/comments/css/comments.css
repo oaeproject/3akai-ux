@@ -44,7 +44,7 @@
 .comments_arrowUp{height:10px;background:#fff url(../images/comments_arrowup.jpg) no-repeat bottom left;}
 .comments_avatar{height:35px;float:left;}
 .comments_dateComment{color:#BBB;}
-.comments_topCommentBar{margin-top:20px;overflow:auto;}
+.comments_topCommentBar{margin-top:20px;overflow:auto;width:100%;}
 .comments_fillInCommentTopContainer input[type=text]{width:350px;}
 #comments_txtMessage{height:100px;width:auto;}
 #comments_fillInComment{background-color:#EBEFF1;margin-top:15px;padding:0 15px 10px;}

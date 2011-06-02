@@ -1,6 +1,6 @@
 {
     "uid": "id402868783",
     "visible": "block",
-    "name": "bbs",
+    "name": "discussion",
     "jcr:mixinTypes": "sakai:propertiesmix"
 }
