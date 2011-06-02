@@ -512,9 +512,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         };
 
         var renderLocation = function(data){
-            sakai_global.profile.main.data["sakai:tags"] = data.tags;
+            sakai_global.profile.main.data["sakai:tags"] = data.data["sakai:tags"];
             sakai_global.profile.main.directory = sakai.api.User.parseDirectory(sakai_global.profile);
-            sakai.data.me.profile.saveddirectory = data.saveddirectory;
+            sakai.data.me.profile.saveddirectory = data.data.saveddirectory;
             renderTemplateGeneralInfo("locations");
         };
 
