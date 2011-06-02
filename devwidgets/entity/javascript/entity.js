@@ -241,16 +241,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $('#entity_content_permissions').click(function(){
                 var $this = $(this);
-                $('#entity_contentsettings_dropdown')
-                .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
-                .jqmShow();
+                if ($("#entity_contentsettings_dropdown").is(":visible")) {
+                    $('#entity_contentsettings_dropdown').jqmHide();
+                } else {
+                    $('#entity_contentsettings_dropdown').css({
+                        'top': $this.offset().top + $this.height() - 5,
+                        'left': $this.offset().left + $this.width() / 2 - 160
+                    }).jqmShow();
+                }
             });
 
             $("#entity_group_permissions").click(function(){
                 var $this = $(this);
-                $('#entity_groupsettings_dropdown')
-                .css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 160})
-                .jqmShow();
+                if ($("#entity_groupsettings_dropdown").is(":visible")) {
+                    $('#entity_groupsettings_dropdown').jqmHide();
+                } else {
+                    $('#entity_groupsettings_dropdown').css({
+                        'top': $this.offset().top + $this.height() - 5,
+                        'left': $this.offset().left + $this.width() / 2 - 160
+                    }).jqmShow();
+                }
             });
 
             $("#ew_group_categories_link").click(function(){
