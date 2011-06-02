@@ -260,7 +260,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
-                        link: "/search#tag=/tags/" + name
+                        link: "/search#q=" + name
                     });
                 });
                 return formatted_tags;

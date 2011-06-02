@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $worldsettingsTitle.val(profile['sakai:group-title']);
             $worldsettingsDescription.val(profile['sakai:group-description']);
             if (profile['sakai:tags']){
-                $worldsettingsTags.val(sakai.api.Util.formatTagsExcludeLocation(profile['sakai:tags'].toString()));
+                $worldsettingsTags.val(sakai.api.Util.formatTagsExcludeLocation(profile['sakai:tags']).join(", "));
             }
             $worldsettingsCanBeFoundIn.val(profile['sakai:group-visible']);
             $worldsettingsMembership.val(profile['sakai:group-joinable']);

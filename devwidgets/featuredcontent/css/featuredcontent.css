@@ -59,7 +59,7 @@
 .featuredcontent_widget .featuredcontent_category_content_large #featuredcontent_large_preview {max-width:250px;}
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small .featuredcontent_content_actions {margin-top:99px;width:210px;}
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small {float:left;}
-.featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small {width:200px;height:108px;background:none;border:#fff solid 1px;}
+.featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small {width:195px;height:108px;background:none;border:#fff solid 1px;}
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #eef8fc;border:#dbdbdb solid 1px;cursor:pointer;margin-right:5px}
 .featuredcontent_widget #featuredcontent_category_content_container .s3d-contentpage-title {border-bottom:medium none;height:34px;line-height:34px;padding:0 12px;margin:0;background:#F9F8F8;font-size:12px;}
 .featuredcontent_widget #featuredcontent_category_content_container img.featuredcontent_thumbnail_image {height:50px;width:50px;}

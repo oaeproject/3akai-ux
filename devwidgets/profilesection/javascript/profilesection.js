@@ -421,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                     // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
 
                     if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
-                        var currentTags = sakai.api.Util.formatTagsExcludeLocation(sakai_global.profile.main.data["sakai:tags"]);
+                        var currentTags = sakai_global.profile.main.data["sakai:tags"] || [];
                         var tagsArray = [];
                         $($selected_element.val().split(",")).each(function(i, tag){
                             tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\s+/g, " ")));

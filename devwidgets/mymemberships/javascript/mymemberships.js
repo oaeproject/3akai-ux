@@ -180,10 +180,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
 
-                    var tags = group["sakai:tags"];
-                    if (!tags){
+                    var tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
+                    if (!tags || tags.length === 0){
                         if (group.basic && group.basic.elements && group.basic.elements["sakai:tags"]){
-                            tags = group.basic.elements["sakai:tags"].value;
+                            tags = sakai.api.Util.formatTagsExcludeLocation(group.basic.elements["sakai:tags"].value);
                         }
                     }
 
