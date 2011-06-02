@@ -15,8 +15,10 @@
 #profilesection_generalinfo a.profilesection_add_section img{margin-right:5px;}
 #profilesection_generalinfo a.profilesection_add_section span{top:1px;}
 #profilesection_generalinfo a.profilesection_remove_section{color:#39C;font-size:12px;font-weight:bold;margin:5px 0 5px 245px;}
-#profilesection_generalinfo hr{margin:10px 0 10px 5%;border-bottom:1px solid #999;color:transparent;height:1px;width:90%;}
-.profile-section-save-button {float:right;}
+#profilesection_generalinfo hr{margin:10px 0 10px 0px;border-bottom:1px solid #999;color:transparent;height:1px;width:100%;}
+.profile-section-save-button {float:right; margin-right: 190px; margin-top: 20px;}
+.profilesection_section {width: 560px;}
+.profilesection_remove_section {margin-top: 20px; margin-bottom: 10px;}
 
 /* Validation errors */
 /* Errors */
