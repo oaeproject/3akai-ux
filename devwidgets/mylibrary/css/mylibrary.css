@@ -45,7 +45,7 @@
 .mylibrary_item_end{border-bottom: 1px solid #DDDDDD;}
 .mylibrary_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .mylibrary_item_right{margin-left:78px;}
-.mylibrary_item_mimetype {font-size:smaller;white-space:pre;}
+.mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .mylibrary_item_by {padding:3px 0;font-size:11px;}
 .mylibrary_item_description{margin:0 0 5px;font-size:.90em;padding:6px 0;}
 .mylibrary_item_share_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchcontent/images/searchcontent_share_icon.png") no-repeat scroll left top transparent;float:right;}
@@ -61,7 +61,7 @@
 .mylibrary_item:hover .mylibrary_item_share_icon{cursor:pointer;background: url("/devwidgets/searchcontent/images/searchcontent_share_icon_active.png") no-repeat scroll left top transparent;}
 .mylibrary_item:hover .mylibrary_item_author_icon{cursor:pointer;background: url("/devwidgets/searchcontent/images/searchcontent_author_icon_active.png") no-repeat scroll left top transparent;}
 #mylibrary_pager{border-bottom: 1px solid #e9e9e9;}
-
+#mylibrary_empty{width:100%;}
 /* Used in group filter */
 #mylibrary_groupfilter{
     margin-top:10px;padding:8px;

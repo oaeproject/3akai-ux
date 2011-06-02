@@ -58,21 +58,15 @@
                                     <button class="s3d-link-button searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
                                 </span>
                                 <span class="searchall_result_anonuser"></span>
-                                {var mimeType = sakai.api.Content.getMimeType(i)}
-                                {var thumbnail = sakai.api.Content.getThumbnail(i)}
                                 <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
-                                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
-                                    {if sakai.config.MimeTypes[mimeType]}
-                                        {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
-                                    {/if}
-                                    {if thumbnail}
-                                        <img src="${thumbnail}" alt="${mimeTypeDescription}" />
-                                    {elseif mimeType.substring(0,6)==="image/"}
-                                        <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
-                                    {elseif sakai.config.MimeTypes[mimeType]}
-                                        <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                                    {if i.thumbnail}
+                                        <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
+                                    {elseif i.mimeType.substring(0,6)==="image/"}
+                                        <img src="/p/${i['_path']}" alt="${i.mimeTypeDescription}" />
+                                    {elseif sakai.config.MimeTypes[i.mimeType]}
+                                        <img src="${sakai.config.MimeTypes[i.mimeType].URL}" alt="${i.mimeTypeDescription}" />
                                     {else}
-                                        <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                        <img src="${sakai.config.MimeTypes["other"].URL}" alt="${i.mimeTypeDescription}" />
                                     {/if}
                                 </a>
                                 <div class="s3d-search-result-right">
@@ -80,8 +74,8 @@
                                         <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                                             {if i['sakai:pooled-content-file-name']}
                                                 ${i['sakai:pooled-content-file-name']}{elseif i['_path']}${i['_path']}{/if}</a>
-                                        {if mimeTypeDescription}
-                                            <span class="searchcontent_result_mimetype">${mimeTypeDescription.toUpperCase()}</span>
+                                        {if i.mimeTypeDescription}
+                                            <span class="searchcontent_result_mimetype">${i.mimeTypeDescription}</span>
                                         {/if}
                                     </div>
                                     <div class="searchcontent_result_by">
@@ -121,8 +115,8 @@
                                             <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
                                         {elseif i.invited}
                                             <button class="s3d-link-button searchpeople_result_plus searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}>+</button>
-                                            <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid}" style="display:none;"></div>
                                             <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
+                                            <div class="searchpeople_result_left_filler" id="search_result_contact_${i.userid}" style="display:none;"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                         {elseif i.pending}
                                             <div class="searchpeople_result_left_filler"></div>
                                             <button class="s3d-link-button searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
