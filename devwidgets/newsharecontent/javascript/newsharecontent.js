@@ -94,8 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var resetWidget = function(hash){
-            hash.o.remove();
+        var resetWidget = function(){
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             $(".as-close").click();
@@ -208,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addBinding = function(){
             $newsharecontentContainer.jqm({
                 modal: false,
-                overlay: 1,
+                overlay: 0,
                 toTop: true,
                 zIndex: 3000,
                 onShow: fillShareData,
