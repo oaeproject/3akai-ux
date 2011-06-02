@@ -37,7 +37,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "addtocontacts",
         "assignlocation",
         "basiclti",
-        "bbs",
         "browsedirectory",
         "captcha",
         "carousel",

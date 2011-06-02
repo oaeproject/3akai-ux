@@ -15,5 +15,6 @@
     "siteportal":true,
     "type":"sakai",
     "enabled":true,
+    "sakaidocs": true,
     "url":"/devwidgets/comments/comments.html"
 }
