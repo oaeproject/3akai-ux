@@ -181,7 +181,7 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/search#tag=/tags/${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#q=${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}

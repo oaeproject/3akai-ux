@@ -81,6 +81,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
                             finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
                         }
+                        finaljson.items[i]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(finaljson.items[i]["sakai:tags"]);
                     }
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(results[i]);
@@ -113,6 +114,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].titleSing);
                             }
                         }
+                    }
+                    // Modify the tags if there are any
+                    if (results[group]["sakai:tags"]) {
+                        results[group]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(results[group]["sakai:tags"]);
                     }
                     results[group].groupType = groupType;
                     results[group].lastModified = results[group].lastModified;
@@ -169,7 +174,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
-                        user["sakai:tags"] = item["sakai:tags"];
+                        user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
                     if (item.basic && item.basic.elements && item.basic.elements.description){
                         user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");

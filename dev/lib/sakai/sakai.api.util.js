@@ -191,6 +191,7 @@ define(["jquery",
          */
         formatTags : function(inputTags){
             if ($.trim(inputTags) !== "") {
+                debug.log("formatTags");
                 var tags = [];
                 var splitTags = inputTags;
                 if (!$.isArray(inputTags)) {
@@ -201,10 +202,21 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
+                debug.log(tags);
+                tags.sort(sakai_util.orderTagsAlphabetically);
+                debug.log(tags);
                 return tags;
             } else {
                 return [];
             }
+        },
+
+        /**
+         * Util sort function used to order tags in an array
+         * in alphabetical order
+         */
+        orderTagsAlphabetically: function(a, b){
+            return a > b;
         },
 
         /**
@@ -221,12 +233,14 @@ define(["jquery",
             var item;
             var inputTags = this.formatTags(input);
             if (inputTags.length) {
+                debug.log("formatTagsExcludeLocation");
                 var tags = [];
                 $.each(inputTags, function(index, value){
                     if (value.split("/")[0] !== "directory") {
                         tags.push(value);
                     }
                 });
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
@@ -246,6 +260,7 @@ define(["jquery",
             var item;
             var inputTags = this.formatTags(input);
             if (inputTags.length) {
+                debug.log("getDirectoryTags");
                 var tags = [];
                 for (item in inputTags){
                     if (inputTags.hasOwnProperty(item) && inputTags[item] && inputTags[item].split("/")[0] === "directory") {
@@ -256,6 +271,7 @@ define(["jquery",
                         }
                     }
                 }
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
