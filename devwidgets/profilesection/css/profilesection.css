@@ -10,7 +10,7 @@
 #profilesection_generalinfo span.profilesection_generalinfo_content{float:left;display:inline;margin-top:3px;}
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer{clear:both;margin:4px 0;padding:1px 0;width:100%;float:left;display:inline;}
 #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{color:#666;display:block;float:left;margin-right:5px;padding:3px 0;text-align:right;width:240px;}
-#profilesection_generalinfo .profilesection_generalinfo_example{color:#666;display:block;font-size:11.5px;margin:0 0 0 243px;padding:3px;}
+#profilesection_generalinfo .profilesection_generalinfo_example{color:#666;display:block;font-size:11.5px;margin:0 0 0 126px;padding:3px;}
 #profilesection_generalinfo a.profilesection_add_section,#profilesection_generalinfo a.profilesection_add_location_section{font-size:14px;float:left;margin:10px 0 0 240px;}
 #profilesection_generalinfo a.profilesection_add_section img{margin-right:5px;}
 #profilesection_generalinfo a.profilesection_add_section span{top:1px;}
