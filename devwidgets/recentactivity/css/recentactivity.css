@@ -16,11 +16,6 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.recentactivity_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-.recentactivity_widget #recentactivity_footer {height:14px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-
-.recentactivity_widget .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;}
-
 /* Activity Items */
 .recentactivity_widget .recentactivity_activity_item_container{width:175px;height:100px;}
 .recentactivity_widget .recentactivity_activity_item_content {clear:both;display:block;margin:12px;}

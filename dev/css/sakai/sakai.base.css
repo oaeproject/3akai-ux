@@ -42,7 +42,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 
 
 /* GENERAL WIDGET CSS */
-.fl-widget {padding: 0;}
+/*.fl-widget {padding: 0;}
 .fl-widget .fl-widget-titlebar h2 {padding-left:3px}
 .fl-widget .fl-widget-titlebar {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -473px transparent; padding: 0 4px 0 0; width: auto; min-height: 39px;}
 .fl-widget .fl-widget-titlebar .widget-titlebar-inner {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -544px transparent; min-height: 39px;}
@@ -56,7 +56,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .fl-widget .fl-widget-content {background-color: #fff; }
 .fl-widget .fl-widget-content ul {margin: 0;}
 .fl-widget .widget-options-inner {padding: 0px 10px 0; min-height:16px; overflow:hidden; *overflow:auto;}
-.hiddenwidget {border-bottom: 3px solid #D5DBDF;}
+.hiddenwidget {border-bottom: 3px solid #D5DBDF;}*/
 
 /*
 .fl-widget .widget-titlebar-end {margin-top: -2px;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -10px -616px transparent;height: 4px;}
@@ -64,9 +64,21 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 */
 
 /* Widget settings */
-#widget_settings_menu {position: absolute;top: 0;left: 0;background: #D4DADE;margin-top: 22px;}
+#widget_settings_menu {position: absolute;top: 0;left: 0;background: #F9F8F8;margin-top:10px;}
 #widget_settings_menu ul {padding: 0;margin: 0;}
 #widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
+
+
+
+
+/* NEW WIDGETS */
+.s3d-widget-container .fl-widget-titlebar .settings {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent; position: relative; height: 18px; margin: 7px 8px 0 0;}
+.s3d-widget-container {border:solid 1px #dfdfdf;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-bottom:10px;}
+.s3d-widget-container .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;color:#666;font-weight:bold;font-size:13px;}
+.s3d-widget-footer {min-height:14px;background:url("/dev/images/widget_footer_bg.png") repeat-x top left #ececeb;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-top:7px;padding:7px 12px;}
+.s3d-widget-footer a {float:right;}
+
+
 
 /* Change layout */
 #change_layout_dialog {width: 840px !important; margin-left: -420px !important;}

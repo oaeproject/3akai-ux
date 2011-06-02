@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/recentcontactsnew/css/recentcontactsnew.css" />
 
 <div class="recentcontactsnew_widget">
-    <div class="fl-widget-content s3d-widget-content recentcontactsnew_content">
+    <div class="recentcontactsnew_content">
        <div class="recentcontactsnew_add_container">
            <div id="recentcontactsnew_no_results_container" style="display:none;">
                 <div class="s3d-no-results-container">
@@ -43,11 +43,6 @@
                     <div id="recentcontactsnew_recent_connection_container"></div>
                 </div>
 
-                <div class="recentcontactsnew_seeall_button">
-                    <a class="recentcontactsnew_item_link s3d-widget-links" href="/dev/me.html#l=contacts">
-                        __MSG__SEE_ALL_MY_CONTACTS__
-                    </a>
-                </div>
             --></div>
         </div>
     </div>
@@ -67,7 +62,6 @@
                     </a>
                 </div>
             </div>
-            <div class="recentcontactsnew_item_border"></div>
         {/if}
     --></div>
 
@@ -103,12 +97,13 @@
                     </div>
                 </div>
             </div>
-            <div class="recentcontactsnew_item_border"></div>
         {/if}
     --></div>
 
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner"></div>
+    <div class="s3d-widget-footer">
+        <a class="recentcontactsnew_item_link s3d-widget-links" href="/dev/me.html#l=contacts">
+            __MSG__SEE_ALL_MY_CONTACTS__
+        </a>
     </div>
 
 </div>

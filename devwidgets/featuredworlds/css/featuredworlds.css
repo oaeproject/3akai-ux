@@ -16,10 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.featuredworlds_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:10px 0 0;}
-.featuredworlds_widget #featuredworlds_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
+.featuredworlds_widget {margin:10px 0 0;}
 
-.featuredworlds_widget .s3d-contentpage-title {background-color:#F9F8F8;border-bottom:medium none;font-size:14px;height:34px;line-height:30px;padding:0 12px;}
 
 /* Worlds tabs */
 .featuredworlds_widget .featuredworlds_tab {float:left;padding:0 20px;border:1px solid #e5e5e5;border-bottom:none;background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_bg.png") repeat-x scroll left top transparent;margin:3px 1px 0;cursor:pointer;height:30px;font-size:12px;}

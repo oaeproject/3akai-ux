@@ -8,10 +8,8 @@
 </div>
 
 <!-- CONTENT -->
-<div class="recentmessages_widget">
+    <div id="recentmessages_container"></div>
 
-    <div class="fl-widget-content s3d-widget-content" id="recentmessages_container">
-    </div>
     <div id="recentmessages_template"><!--
         <ul>
             {for message in results}
@@ -32,19 +30,8 @@
             {/for}
         </ul>
     --></div>
-    <div class="fl-widget-options fl-fix">
-        <div class="fl-widget-options-footer-top">
-            <div class="fl-widget-options-top-right"></div>
-        </div>
-        <div class="widget-options-inner">
-            <ul>
-                <li><a href="/inbox">__MSG__VIEW_AND_MANAGE_ALL_MY_MESSAGES__</a></li>
-            </ul>
-        </div>
-        <div class="s3d-widget-options-footer-left">
-            <div class="s3d-widget-options-footer-right">
-            </div>
-        </div>
+    <div class="s3d-widget-footer">
+        <a href="/dev/me.html#l=messages/inbox" class="s3d-regular-links s3d-action-seeall">__MSG__VIEW_AND_MANAGE_ALL_MY_MESSAGES__</a>
     </div>
 </div>
 

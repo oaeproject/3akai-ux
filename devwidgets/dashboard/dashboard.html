@@ -105,12 +105,11 @@
                 <div class="fl-col groupWrapper{if size === 1} fl-container-flex{/if}" id="column_uid_${index}">
                     <div class="widget_spacer"></div>
                 {for p in c.portlets}
-                    <div class="fl-widget s3d-widget widget1 ${p.id}" id="${p.id}_${p.uid}">
-                        <div {if p.display=="none"} class="fl-widget-titlebar s3d-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head s3d-widget-titlebar" {/if} id="draghandle_${p.id}_${p.uid}">
-                            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-                                <span class="widget_title_icon"></span>
+                    <div class="s3d-widget s3d-widget-container widget1 ${p.id}" id="${p.id}_${p.uid}">
+                        <div {if p.display=="none"} class="fl-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head" {/if} id="draghandle_${p.id}_${p.uid}">
+                            <div class="s3d-contentpage-title">
                                 <button type="button" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings s3d-link-button s3d-action" style="display:none">__MSG__SETTINGS__</button>
-                                <h2 class="widget_title">${p.title}</h2>
+                                ${p.title}
                             </div>
                         </div>
                         <div class="widget-titlebar-end"><div class="widget-titlebar-end-inner"></div></div>
@@ -119,7 +118,7 @@
                     {else}
                         <div id="${p.uid}_container">
                     {/if}
-                            <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
+                        <div id="widget_${p.id}_${p.uid}_${p.placement}" class="widget_inline"></div>
                         </div>
                     </div>
                 {/for}

@@ -2,46 +2,44 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/mycontent/css/mycontent.css" />
 
 <div class="mycontent_widget">
-    <div class="fl-widget-content s3d-widget-content">
-        <!-- ERRORS -->
-        <div id="mycontent_data_error" style="display:none;">
-            <p class="mycontent_error_msg">__MSG__DATA_ERROR__</p>
-        </div>
-
-        <!-- MAIN CONTENT -->
-        <div id="mycontent_list" style="display:none;"><!-- TEMPLATE GOES HERE --></div>
-
-        <div id="mycontent_list_template"><!--
-            {for item in items}
-                <div class="mycontent_item{if item_index % 2 == 1} s3d-highlight_area_background{/if}">
-                    <div class="mycontent_item_img fl-force-left">
-                        <a href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
-                            {if item.thumbnail}
-                                <img class="s3d-icon-32" src="${item.thumbnail} alt="${item.type}" />
-                            {elseif (item.type.substring(0,6)=="image/")}
-                                <img class="s3d-icon-32" src="${item.path}" alt="${item.type}" />
-                            {else}
-                                <img class="s3d-icon-32" src="${item.type_img_url}" alt="${item.type}" />
-                            {/if}
-                        </a>
-                    </div>
-                    <div class="mycontent_item_info">
-                        <p class="mycontent_item_title">
-                            <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}">
-                                ${item.name}
-                            </a>
-                        </p>
-                        <p class="mycontent_item_meta">${item.type}{if item.type !== "URL Link"}{if item.size} ${item.size}{/if}{/if}</p>
-                    </div>
-                </div>
-            {forelse}
-                <div id="mycontent_no_content_wrap">
-                    <button class="s3d-button s3d-button-link-2-state add_content_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
-                    <span class="mycontent_no_content_text">__MSG__ADD_CONTENT_INSTRUCTIONS__</span>
-                </div>
-            {/for}
-        --></div>
+    <!-- ERRORS -->
+    <div id="mycontent_data_error" style="display:none;">
+        <p class="mycontent_error_msg">__MSG__DATA_ERROR__</p>
     </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="mycontent_list" style="display:none;"><!-- TEMPLATE GOES HERE --></div>
+
+    <div id="mycontent_list_template"><!--
+        {for item in items}
+            <div class="mycontent_item{if item_index % 2 == 1} s3d-highlight_area_background{/if}">
+                <div class="mycontent_item_img fl-force-left">
+                    <a href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
+                        {if item.thumbnail}
+                            <img class="s3d-icon-32" src="${item.thumbnail} alt="${item.type}" />
+                        {elseif (item.type.substring(0,6)=="image/")}
+                            <img class="s3d-icon-32" src="${item.path}" alt="${item.type}" />
+                        {else}
+                            <img class="s3d-icon-32" src="${item.type_img_url}" alt="${item.type}" />
+                        {/if}
+                    </a>
+                </div>
+                <div class="mycontent_item_info">
+                    <p class="mycontent_item_title">
+                        <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}">
+                            ${item.name}
+                        </a>
+                    </p>
+                    <p class="mycontent_item_meta">${item.type}{if item.type !== "URL Link"}{if item.size} ${item.size}{/if}{/if}</p>
+                </div>
+            </div>
+        {forelse}
+            <div id="mycontent_no_content_wrap">
+                <button class="s3d-button s3d-button-link-2-state add_content_button" type="button"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_CONTENT__</span></button>
+                <span class="mycontent_no_content_text">__MSG__ADD_CONTENT_INSTRUCTIONS__</span>
+            </div>
+        {/for}
+    --></div>
 
     <!-- WIDGET FOOTER -->
     <!-- <div class="fl-widget-options fl-fix">
@@ -63,10 +61,9 @@
             <div class="s3d-widget-options-footer-right">
             </div>
         </div>
-    </div> -->
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner"></div>
-    </div>
+    </div>-->
+
+    <div class="s3d-widget-footer"></div>
 
 </div>
 

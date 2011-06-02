@@ -5,17 +5,15 @@
 #recentcontactsnew_no_group{color: #878a8c;padding: 0 10px;}
 .recentcontactsnew_related_details{padding:1px 0 0 5px;}
 .recentcontactsnew_item_info {margin:10px 0 0 40px; min-height: 50px;}
-.recentcontactsnew_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:10px -10px 0 5px;
+.recentcontactsnew_item_related_info {color:#878a8c; background-color:#ededed; padding:5px 10px 10px 10px; margin:10px 0 0 5px;width:85%;
     border: 1px solid #ededed;
     font-size: 11px;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
    -webkit-border-radius: 5px; /* Safari */}
-.recentcontactsnew_item_border { border-right: 10px solid white; border-top: 10px solid #ededed; float: right; margin-right: -10px;}
 .recentcontactsnew_item_div {min-height:35px; margin-left:40px;}
 .recentcontactsnew_content_mimetype{white-space:pre;text-transform:uppercase;}
-
-.recentcontactsnew_seeall_button {margin-top: 10px; padding: 10px; text-align:right; font-size: 12px; background-color:#efefef;}
+.s3d-widget-footer .recentcontactsnew_item_link {float:right;}
 
 .recentcontactsnew_item_mime{display:block;}
 div.recentcontactsnew_item_img{margin-left:10px;}
@@ -23,7 +21,7 @@ p.recentcontactsnew_item_title,p.recentcontactsnew_item_meta{margin:0;}
 p.recentcontactsnew_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
 
-.recentcontactsnew_add_container {padding:5px 10px 10px;}
+.recentcontactsnew_add_container #recentcontactsnew_no_results_container {padding:5px 10px 10px;}
 .recentcontactsnew_add_container div{color:#878a8c;}
 .recentcontactsnew_add_container a {text-decoration: none;}
 .recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}

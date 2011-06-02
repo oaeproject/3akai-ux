@@ -4,6 +4,7 @@
 .activegroups_widget{overflow:hidden;}
 .activegroups_ellipsis_text, .activegroups_ellipsis_container {word-wrap:break-word;}
 .activegroups_main_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative; margin-bottom:5px;}
+.s3d-widget-footer a {text-align:right;}
 
 /* Widget icon */
 .activegroups.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -678px -21px transparent;height:22px;width:20px;}
