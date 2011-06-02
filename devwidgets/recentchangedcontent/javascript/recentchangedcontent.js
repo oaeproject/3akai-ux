@@ -69,7 +69,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai.config.MimeTypes[mimeType]){
                 mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
-            var mimeTypeDescription = sakai.api.Content.getMimeType(result);
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
