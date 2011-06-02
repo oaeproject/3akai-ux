@@ -148,13 +148,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                     // if it is tag filter the directory
                     if (fieldName === "tags") {
                         var splitDir = value.split(",");
-                        var tagList = [];
-                        $.each(splitDir, function(i, tag){
-                            if($.trim(tag.split("/")[0]) !== "directory"){
-                                tagList.push(tag);
-                            }
-                        });
-                        value = tagList.toString();
+                        value = sakai.api.Util.formatTagsExcludeLocation(splitDir).join(", ");
                     }
                     sakai_global.profile.main.data[currentsection].elements[fieldName].value = value;
                     json_config.data = sakai_global.profile.main.data[currentsection].elements[fieldName];
@@ -427,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                     // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
 
                     if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
-                        var currentTags = sakai_global.profile.main.data["sakai:tags"] || [];
+                        var currentTags = sakai.api.Util.formatTagsExcludeLocation(sakai_global.profile.main.data["sakai:tags"]);
                         var tagsArray = [];
                         $($selected_element.val().split(",")).each(function(i, tag){
                             tagsArray.push($.trim(tag.replace(/\\/g, "").replace(/\s+/g, " ")));
