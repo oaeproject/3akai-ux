@@ -125,6 +125,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
         var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
+        var newaddcontentExistingClear = "#newaddcontent_existingitems_search_clear";
 
         var multifileQueueAddAllowed = true;
         var contentUploaded = false;
@@ -787,6 +788,15 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         ////////////////////
 
         /**
+         * Clear the input of the search field and list all items
+         */
+        var clearSearchQuery = function(){
+            if ($(".newaddcontent_existingitems_search").val()) {
+                $(".newaddcontent_existingitems_search").val("");
+            }
+        };
+
+        /**
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(){
@@ -905,6 +915,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
+            $(newaddcontentExistingClear).live("click", clearSearchQuery);
 
             $newaddcontentAddLinkForm.validate({
                 success: function(){
