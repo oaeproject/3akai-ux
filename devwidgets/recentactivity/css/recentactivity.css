@@ -38,5 +38,5 @@
 .recentactivity_widget .s3d-no-results-container {margin:30px 20px 10px;}
 .recentactivity_widget .s3d-no-results-container .s3d-regular-links {display:block;}
 .recentactivity_widget .s3d-no-results-container .s3d-no-results-icon {float:none;clear:both;}
-.recentactivity_widget .s3d-no-results-container #recentactivity_noresults_example {background:url("/devwidgets/recentactivity/images/recentactivity_noresults_example.png") no-repeat top left transparent;width:129px;height:109px;margin-top:10px;}
+.recentactivity_widget #recentactivity_noresults_example {background:url("/devwidgets/recentactivity/images/recentactivity_noresults_example.png") no-repeat top left transparent;width:146px;height:113px;margin:10px 0 0 12px;}
 .recentactivity_widget .s3d-no-results-container .s3d-split-line {margin:0 -20px;}
