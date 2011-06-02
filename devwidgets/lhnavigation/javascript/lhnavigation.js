@@ -987,6 +987,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
+        $(window).bind("acceptContactInvite.user.sakai", function(){
+            if ($("#lhnavigation_levelcount_contacts").length && sakai_global.profile.main.mode.value !== "view" && pubstructure.items.contacts){
+                pubstructure.items.contacts._count++;
+                $("#lhnavigation_levelcount_contacts").text(" (" + pubstructure.items.contacts._count + ")");
+            }
+        });
+
         ///////////////////////
         // Widget has loaded //
         ///////////////////////

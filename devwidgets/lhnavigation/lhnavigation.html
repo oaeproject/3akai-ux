@@ -31,7 +31,7 @@
                                     <div class="lhnavigation_subnav_item_content">
                                         <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
                                             {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                            {if sublevel._count} (${sublevel._count}){/if}
+                                            <span id="lhnavigation_sublevelcount_${sublevel._id}">{if sublevel._count} (${sublevel._count}){/if}</span>
                                         </a>
                                         <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                                     </div>
@@ -46,7 +46,7 @@
                     <div class="lhnavigation_item_content">
                         <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                            {if level._count} (${level._count}){/if}
+                            <span id="lhnavigation_levelcount_${level._id}">{if level._count} (${level._count}){/if}</span>
                         </a>
                         <div class="lhnavigation_private"></div>
                         <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
@@ -73,7 +73,7 @@
                                     <div class="lhnavigation_subnav_item_content">
                                         <a href="#l=${level._id}/${sublevel._id}" title="${sublevel._title}" class="s3d-regular-links lhnavigation_page_title_value" data-reset-hash="true">
                                             {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                            {if sublevel._count} (${sublevel._count}){/if}
+                                            <span id="lhnavigation_sublevelcount_${sublevel._id}">{if sublevel._count} (${sublevel._count}){/if}<span>
                                         </a>
                                         <input class="lhnavigation_change_title lhnavigation_change_title_restricted_width" type="text" style="display:none;"/>
                                         <div class="lhnavigation_selected_submenu lhnavigation_selected_subsubmenu" id="lhnavigtation_submenu_${level._id}/${sublevel._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
@@ -90,7 +90,7 @@
                     <div class="lhnavigation_item_content">
                         <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                            {if level._count} (${level._count}){/if}
+                            <span id="lhnavigation_levelcount_${level._id}">{if level._count} (${level._count}){/if}</span>
                         </a>
                         <input class="lhnavigation_change_title" type="text" style="display:none;"/>
                         <div class="lhnavigation_selected_submenu" id="lhnavigtation_submenu_${level._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>

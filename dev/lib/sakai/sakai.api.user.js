@@ -585,6 +585,7 @@ define(["jquery",
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
+                    $(window).trigger("acceptContactInvite.user.sakai");
                 },
                 error: function() {
                     if ($.isFunction(callback)) {
