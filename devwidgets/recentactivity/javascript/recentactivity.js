@@ -91,7 +91,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 applyThreeDots();
             }
 
-            $(".recentactivity_activity_item_container:hidden").animate({height:100},1000, 'easeOutBounce').toggle("slow", applyThreeDots);
+            var ranThreeDots = false;
+            var $recentactivity_activity_item_container = $(".recentactivity_activity_item_container");
+            $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
+            $recentactivity_activity_item_container.filter(":hidden").animate({height:100, "opacity": 1}, {
+                duration: 1000,
+                specialEasing: {height: 'easeOutBounce', opacity: 'linear'},
+                step: function(now, fx){
+                    if (!ranThreeDots) {
+                        $(fx.elem).css("display", "block");
+                        applyThreeDots();
+                        ranThreeDots = true;
+                    }
+                }
+            });
 
             t = setTimeout(fetchActivity, 8000);
         };
