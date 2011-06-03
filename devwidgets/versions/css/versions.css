@@ -37,4 +37,4 @@
 
 /* Overriding button CSS */
 .versions_widget #versions_container ul li .s3d-button-link-2-state-inner{font-size:9px;}
-.versions_widget #versions_container ul li .s3d-button {visibility:hidden;display:block;}
+.versions_widget #versions_container ul li .s3d-button {visibility:hidden;display:block;height:19px !important;line-height:19px;}

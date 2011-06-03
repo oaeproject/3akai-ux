@@ -1582,7 +1582,7 @@ define(function(){
                 }
             },
             "id267187828": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-header-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-header-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
             "id1165301022": {
                 "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"

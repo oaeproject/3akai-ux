@@ -134,12 +134,13 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * MARGINS
  */
+.s3d-margin-top-3 {margin-top: 3px !important;}
 .s3d-margin-top-5 {margin-top: 5px !important;}
 .s3d-margin-top-10 {margin-top: 10px !important;}
 .s3d-margin-top-15 {margin-top: 15px !important;}
 .s3d-margin-top-20 {margin-top: 20px !important;}
-.s3d-button.s3d-margin-top-5 {height:19px !important;padding-top:6px !important;}
-.s3d-button.s3d-no-margin-top {margin-top:0;height:18px !important;padding-top:5px !important;}
+.s3d-button.s3d-margin-top-5 {height:19px !important;line-height:19px;}
+.s3d-button.s3d-no-margin-top {margin-top:0;height:18px !important;line-height:18px;}
 /* 
  * LINKS
  */
@@ -191,11 +192,16 @@ a.s3d-button {text-decoration:none;}
 .s3d-button.s3d-header-button:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;border:1px solid #E0E3E5;box-shadow:none;}
 .s3d-button.s3d-header-button[disabled] {background:#fff;cursor:auto;color:#ccc}
 .s3d-button.s3d-header-button[disabled]:hover {background:#fff;box-shadow:0 0 6px -2px #a8a8a8 inset;border:1px solid #e0e3e5;}
+a.s3d-button.s3d-header-button {height:24px !important;line-height:24px;}
+
+/* Header buttons, smaller */
+.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:11px;height:19px;padding:0 5px;}
+a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;}
 
 /* Regular in-page buttons */
 .s3d-button.s3d-regular-button{background:url("/dev/images/button_regular_default.png") repeat-x scroll left top transparent;height:24px;padding:0 7px;border:1px solid #e0e3e5;color:#666;box-shadow:0 1px 1px 0 #999;text-shadow:0 2px 3px #fff;}
 .s3d-button.s3d-regular-button:hover{background:url("/dev/images/button_regular_hover.png") repeat-x scroll left top transparent;}
-a.s3d-button.s3d-regular-button{height:24px;line-height:17px;}
+a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 
 /* Large in-page buttons */
 .s3d-button.s3d-large-button {background:url("/dev/images/button_large_default.png") repeat-x scroll left top transparent;height:31px;padding:0 7px;border:1px solid #e0e3e5;color:#2683bc;box-shadow:0 1px 1px 0 #999;text-shadow:0 2px 3px #fff;font-size:13px;}
@@ -206,6 +212,8 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:17px;}
 .s3d-button.s3d-overlay-button:hover {background:url("/dev/images/button_overlay_hover.png") repeat-x scroll left top transparent;}
 .s3d-button.s3d-overlay-button[disabled] {color:#ccc;}
 .s3d-button.s3d-overlay-button[disabled]:hover {background:url("/dev/images/button_overlay_default.png") repeat-x scroll left top transparent;cursor:auto;}
+
+.s3d-button.s3d-overlay-button.grey {color:#666;}
 
 /* No text buttons */
 .s3d-button.s3d-button-no-text {padding:0;}
