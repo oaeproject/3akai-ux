@@ -134,6 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
+            jsonFriends.anon = sakai.data.me.user.anon;
             // Render the template with the contacts
             $(mycontactsList).html(sakai.api.Util.TemplateRenderer(mycontactsListTemplate, jsonFriends));
         };

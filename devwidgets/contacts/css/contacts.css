@@ -30,3 +30,4 @@
 #contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;}
 #contacts_container .contacts_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
 #contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
+#contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
