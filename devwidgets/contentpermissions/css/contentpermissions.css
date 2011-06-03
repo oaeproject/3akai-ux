@@ -10,7 +10,7 @@
 #contentpermissions_container #contentpermissions_newmember_permissions {margin-top:10px;}
 #contentpermissions_container #contentpermissions_share_button{margin-top: 10px;}
 #contentpermissions_container #contentpermissions_members_list {height:168px;overflow:auto;}
-#contentpermissions_container #contentpermissions_members_actions {height: 25px;padding: 5px 10px 0;}
+#contentpermissions_container #contentpermissions_members_actions {border-bottom:1px solid #A9A9A9;height:25px;margin-bottom:5px;padding:8px 10px 3px;}
 #contentpermissions_container #contentpermissions_members_actions input[type="checkbox"] {margin-right:10px;}
 #contentpermissions_container #contentpermissions_newmember_all_permissions {float: right;margin-right: 25px;margin-top:0;}
 #contentpermissions_container #contentpermissions_members_list ul {margin:0;}

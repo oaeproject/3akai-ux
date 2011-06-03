@@ -71,10 +71,8 @@
                             </div>
                             <div class="inbox_right_col inbox_col">
                                 <div class="inbox_delete fl-force-right">
-                                    <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button">&nbsp;&nbsp;__MSG__X__&nbsp;&nbsp;</button>
-                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button">
-                                    &nbsp;&nbsp;__MSG__REPLY_ICON__&nbsp;&nbsp;
-                                  </a>
+                                    <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button inbox_action_button"><div class="inbox_delete_icon"></div></button>
+                                  <a href="#message=${message.id}&reply=true" class="s3d-button s3d-header-button s3d-button-no-text inbox_reply_button inbox_action_button"><div class="inbox_reply_icon"></div></a>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +143,7 @@
                                 <div class="inbox_right_col inbox_col">
                                 {if !reply}
                                     <div class="inbox_delete fl-force-right">
-                                        <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button">&nbsp;&nbsp;__MSG__X__&nbsp;&nbsp;</button>
+                                        <button type="button" class="s3d-button s3d-header-button s3d-button-no-text inbox_delete_button"><div class="inbox_delete_icon"></div></button>
                                     </div>
                                 {/if}
                                 </div>
