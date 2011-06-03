@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Left Hand nav */
-#newaddcontent_container {width:1018px;height:542px;left:31%;z-index:9999;}
+#newaddcontent_container {width:1018px;height:540px;left:31%;z-index:9999;}
 #newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;margin:0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:204px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span {line-height:56px; color:#006E96;}
@@ -70,7 +70,7 @@
 /* Right selected items edit popup */
 #newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0 1px 5px 0;-webkit-box-shadow:0 1px 5px 0 #000;-moz-border-radius:5px;border-radius:5px;min-width:263px}
 #newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields{padding:10px;}
-#newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;border-radius:0 0 5px 5px;}
+#newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;border-radius:0 0 5px 5px;padding-bottom:5px;}
 #newaddcontent_selecteditems_edit_data_actions button, #newaddcontent_selecteditems_edit_permissions_actions button {float: right;margin-top: 5px;}
 #newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input{width:237px;margin:0 0 2px;padding:2px;}
 #newaddcontent_selecteditems_edit_data_fields textarea {color: #424242;font-size: 11px;}
@@ -78,7 +78,7 @@
 #newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_container_newitem_fields select {border: 1px solid #A9A9A9;height: 20px;}
 
 /* Actions */
-#newaddcontent_container #newaddcontent_container_actions {bottom:-10px;margin:0 19px 20px 0;position:absolute;right:0;}
+#newaddcontent_container #newaddcontent_container_actions {bottom:-6px;margin:0 19px 20px 0;position:absolute;right:0;}
 #newaddcontent_container #newaddcontent_container_actions button {margin-left:20px;}
 
 /* Upload content */
