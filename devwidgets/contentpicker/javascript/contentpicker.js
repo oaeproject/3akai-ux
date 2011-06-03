@@ -251,14 +251,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var data = [];
             for (var embeddedItem in embeddedItems) {
                 if (embeddedItems.hasOwnProperty(embeddedItem)) {
-                    var item = {
+                    data.push({
                         "url": embeddedItems[embeddedItem].path + ".members.json",
                         "method": "POST",
                         "parameters": {
                             ":viewer": sakai_global.currentgroup.id
                         }
-                    };
-                    data[data.length] = item;
+                    });
+
+                    data.push({
+                        "url": embeddedItems[embeddedItem].path + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer": sakai_global.currentgroup.id + "-managers"
+                        }
+                    });
                 }
             }
             sakai.api.Server.batch(data, null, false);
