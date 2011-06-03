@@ -388,6 +388,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // EVENTS //
         ////////////
 
+        $(window).unbind("init.addpeople.sakai");
         $(window).bind("init.addpeople.sakai", function(e, initTuid){
             if (initTuid === tuid || sakai_global.sakaidocs) {
                 if (!hasbeenInit) {
