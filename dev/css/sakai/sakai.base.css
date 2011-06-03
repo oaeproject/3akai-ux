@@ -192,9 +192,9 @@ a.s3d-widget-links,.s3d-widget-links a, button.s3d-widget-links, .s3d-widget-lin
 .s3d-widget .s3d-widget-no-options,.s3d-no-options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;padding:0 5px 0 0;margin:0;}
 .s3d-widget .s3d-widget-no-options-inner,.s3d-no-options-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;margin:0;height:6px;}
 
-.fl-col-flex2 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:356px;margin-right:20px;}
+.fl-col-flex2 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:355px;margin-right:8px;}
 .fl-col-flex2 .fl-col:last-child {margin-right:0;}
-.fl-col-flex3 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:231px;margin-right:20px;}
+.fl-col-flex3 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:230px;margin-right:8px;}
 .fl-col-flex3 .fl-col:last-child {margin-right:0;}
 
 /*
