@@ -68,6 +68,33 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #widget_settings_menu ul {padding: 0;margin: 0;}
 #widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
 
+/* Change layout */
+#change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
+#change_layout_dialog .elf-right-up {padding: 25px 0}
+#change_layout_dialog .add-tools-right {width:100%;}
+#change_layout_dialog .layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
+#change_layout_dialog .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
+#change_layout_dialog .layout_picker_item_column {border-right: 1px solid #3399CC;}
+#change_layout_dialog .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
+#change_layout_dialog .layout_container_unselected {float:left; padding-left:25px; padding-right:13px;}
+#change_layout_dialog .layout_picker_item_unselected {width:114px; height: 62px; border: 2px solid #dddfe1; border-right: 2px solid #dddfe1; background-color: #F8F8F8;}
+#change_layout_dialog .layout_picker_item_column_unselected {border-right: 1px solid #dddfe1;}
+#change_layout_dialog .layout_picker_item_radio_unselected {margin-left:50px; margin-top: 10px;}
+#change_layout_dialog #layouts_list {display:block;}
+
+/* Add Sakai Goodies */
+#add_goodies_dialog {width:520px; height: 374px; margin-left: -260px;}
+.add_goodies .s3d-button {margin:0; height:23px;}
+.add_goodies .dialog_body {height:308px; overflow-y:auto; overflow-x:hidden; position:relative; width:471px;}
+.add_goodies  ul {margin:0;}
+.add_goodies  ul li{border-bottom: 1px solid #efefef;line-height:30px;list-style:none;padding:0 12px;}
+.add_goodies  ul li:hover{background-color:#dbeefc;}
+.add_goodies .dialog_add_goodies_description {color:#333;font-size:13px;font-weight:normal;}
+.add_goodies .dialog_remove_goodies_title {color:#999;font-size:14px;font-weight:bold;}
+.add_goodies .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
+.add_goodies .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
+.add_goodies .remove_add_column {float:right;width:100px;}
+
 /* D&D Classes */
 .ui-draggable, .orderable-hover {cursor:move;}
 .orderable-dragging {opacity:0.2; width:auto;}
@@ -201,10 +228,10 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:17px;}
 .s3d-widget .s3d-widget-no-options,.s3d-no-options{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1453px transparent;padding:0 5px 0 0;margin:0;}
 .s3d-widget .s3d-widget-no-options-inner,.s3d-no-options-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1433px transparent;margin:0;height:6px;}
 
-.fl-col-flex5 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex4 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex3 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
-.fl-col-flex2 .fl-col{margin-left:1px;margin-right:1px;padding-left:2px;padding-right:2px;}
+.fl-col-flex2 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:356px;margin-right:20px;}
+.fl-col-flex2 .fl-col:last-child {margin-right:0;}
+.fl-col-flex3 .fl-col{margin-left:0;margin-right:0;padding-left:0;padding-right:0;width:231px;margin-right:20px;}
+.fl-col-flex3 .fl-col:last-child {margin-right:0;}
 
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)

@@ -139,6 +139,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     data["sakai:roles"] = $.toJSON(group.template.roles);
                 } else {
                     data["sakai:excludeSearch"] = true;
+                    data["sakai:pseudoGroup"] = true;
+                    data["sakai:pseudogroupparent"] = group.parentgroup;
                 }
                 $.ajax({
                     url: sakai_conf.URL.GROUP_CREATE_SERVICE,
@@ -200,6 +202,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                             basedGroup: groupid,
                             template: template,
                             category: category,
+                            parentgroup: groupid,
                             isSubgroup: true
                         };
                         toProcess.push(group);
@@ -220,6 +223,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                             basedGroup: groupid,
                             category: category,
                             template: template,
+                            parentgroup: groupid,
                             isSubgroup: true
                         };
                         toProcess.push(gr);
@@ -236,6 +240,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                             basedGroup: groupid,
                             category: category,
                             template: template,
+                            parentgroup: groupid,
                             isSubgroup: true
                         };
                         toProcess.push(gr1);

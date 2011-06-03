@@ -749,6 +749,14 @@ define(["jquery",
                     }
                 }
             });
+        },
+
+        isAnonymous : function(meData) {
+            if (meData.user.userid) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
     };

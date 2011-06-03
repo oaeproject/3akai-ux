@@ -13,6 +13,9 @@
         <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
     {/if}
     {if data && data.length}
+        {if !sakai_global.category}
+        <div id="featuredcontent_content_offset_container">
+        {/if}
         {for item in data}
             {if $.isArray(item)}
                 {for small in item}
@@ -101,6 +104,7 @@
             {/if}
         {/for}
         {if !sakai_global.category}
+        </div>
             <div id="featuredcontent_show_more_container">
                 <a class="s3d-button s3d-large-button" href="/dev/allcategories.html" title="__MSG__SHOW_MORE__">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
@@ -127,7 +131,7 @@
         {/if}
     {/if}
     {if !sakai_global.category}
-        <div id="featuredcontent_footer" class="fl-push"></div>
+        <div class="footer_bg s3d-contentpage-title"></div>
     {/if}
 --></div>
 

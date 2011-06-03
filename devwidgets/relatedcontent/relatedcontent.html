@@ -22,7 +22,7 @@
                             <a href="/content#p=${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}">
                                 {if thumbnail}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                                    <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="${thumbnail}" alt="${mimeTypeDescription}" />
                                 {elseif (mimeType.substring(0,6)=="image/")}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     <img class="s3d-icon-32" src="/p/${i['_path']}" alt="${mimeTypeDescription}" />

@@ -262,18 +262,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var createAutoSuggestedUser = function(userData) {
             var pictureURL = "";
-            var userid = userData.attributes.value.split("/");
+            var userid = userData.attributes.value;
             if(userData.attributes.picture){
-                pictureURL = "/~" + userid[1] + "/public/profile/" + userData.attributes.picture
+                pictureURL = "/~" + userid + "/public/profile/" + userData.attributes.picture
             } else{
-                if(userid[0] == "group"){
+                if(userData.attributes.type=== "group"){
                     pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
                 }else{
                     pictureURL = "/dev/images/default_User_icon_35x35.png";
                 }
             }
             var userObj = {
-                userid: userid[1],
+                userid: userid,
                 name: userData.attributes.name,
                 dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
                 permission: currentTemplate.joinRole,
@@ -284,45 +284,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".as-close").click();
         };
 
+        
         /**
-         * Fetch the users and groups used in the autocomplete functionality of the widget
+         * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
-        var fetchUsersGroups = function(){
-            var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
+        var resetAutosuggest = function(h){
+            sakai.api.Util.AutoSuggest.reset($addpeopleMembersAutoSuggestField);
+            h.w.hide();
+            if (h.o) {
+                h.o.remove();
+            }
+        }
 
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                if (success) {
-                    var suggestions = [];
-                    var name, value, type, picture;
-                    $.each(data.results, function(i){
-                        if (data.results[i]["rep:userId"] && sakai.data.me.user.userid != data.results[i]["rep:userId"]) {
-                            name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = "user/" + data.results[i]["rep:userId"];
-                            type = "user";
-                            if (data.results[i].picture){
-                                picture = $.parseJSON(data.results[i].picture).name;
-                            }
-                        } else if (data.results[i]["sakai:group-id"]) {
-                            name = data.results[i]["sakai:group-title"];
-                            value = "group/" + data.results[i]["sakai:group-id"];
-                            type = "group";
-                            if (data.results[i].picture){
-                                picture = $.parseJSON(data.results[i].picture).name;
-                            }
-                        }
-                        suggestions.push({"value": value, "name": name, "type": type, "picture": picture});
-                    });
-                    $addpeopleMembersAutoSuggestField.autoSuggest(suggestions, {
-                        selectedItemProp: "name",
-                        searchObjProps: "name",
-                        startText: "",
-                        asHtmlID: tuid,
-                        resultClick: createAutoSuggestedUser
-                    });
-                    $addpeopleMembersAutoSuggest.show();
-                }
-            });
-        };
 
         var prepareSelectedContacts = function(success, data){
             for(var role in data){
@@ -364,7 +337,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeopleContainer.jqm({
                 modal: true,
                 overlay: 20,
-                toTop: true
+                toTop: true,
+                onHide: resetAutosuggest
             });
 
             // position dialog box at users scroll position
@@ -425,7 +399,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                     loadRoles();
                     addBinding();
-                    fetchUsersGroups();
+                    sakai.api.Util.AutoSuggest.setup($addpeopleMembersAutoSuggestField, {"asHtmlID": tuid,"resultClick":createAutoSuggestedUser},function(){$addpeopleMembersAutoSuggest.show();});
                     hasbeenInit = true;
                 }
                 if(sakai_global.group2){

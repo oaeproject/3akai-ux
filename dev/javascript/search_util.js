@@ -253,6 +253,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $('.link_accept_invitation').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userid){
                     $(this).hide();
+                    $("#search_result_contact_" + userid).show();
                 }
             });
         });
