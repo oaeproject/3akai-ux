@@ -68,7 +68,7 @@
 #newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_selecteditems_split {color:#E5EAED;}
 
 /* Right selected items edit popup */
-#newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0 1px 5px 0;-webkit-box-shadow:0 1px 5px 0 #000;-moz-border-radius:5px;border-radius:5px;min-width:263px}
+#newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {border: 1px solid #999999; position:absolute;z-index:999;background-color:#fff;-moz-box-shadow:0 1px 5px 0;-webkit-box-shadow:0 1px 5px 0 #000;-moz-border-radius:5px;border-radius:5px;min-width:263px}
 #newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields{padding:10px;}
 #newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions{height:32px;background-color:#E5EAED;border-top:1px solid #A9A9A9;-moz-border-radius: 0 0 5px 5px;border-radius:0 0 5px 5px;padding-bottom:5px;}
 #newaddcontent_selecteditems_edit_data_actions button, #newaddcontent_selecteditems_edit_permissions_actions button {float: right;margin-top: 5px;}

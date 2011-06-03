@@ -176,7 +176,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
-                sakai: sakai
+                sakai: sakai,
+                tags: sakai.api.Util.formatTagsExcludeLocation(sakai_global.content_profile.content_data.data["sakai:tags"])
             };
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
             addEditBinding(mode);

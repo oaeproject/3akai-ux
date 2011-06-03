@@ -1,5 +1,5 @@
 .s3d-page-column-left{float:left;width:187px;min-height:400px;border-top:solid #d6dadd 1px;background:url("/devwidgets/lhnavigation/images/lhnav_bg.png") repeat-x scroll 0 0 #FEFEFE;}
-.s3d-page-column-right{float:left;width:733px;border-top:solid #d6dadd 1px;padding:20px;box-shadow: 3px -10px 7px 0;-moz-box-shadow: 3px -10px 7px 0;-webkit-box-shadow: 3px -10px 7px 0;}
+.s3d-page-column-right{float:left;width:732px;border-left:1px solid #d6dadd; border-top:1px solid #d6dadd;padding:20px;box-shadow: 3px -10px 7px 0;-moz-box-shadow: 3px -10px 7px 0;-webkit-box-shadow: 3px -10px 7px 0;}
 .s3d-page-fullcolumn-nopadding{width:960px;min-height:100px;border-top:solid #d6dadd 1px;}
 .s3d-page-fullcolumn-padding{width:920px;min-height:100px;border-top:solid #d6dadd 1px; padding: 20px 20px 30px;}
 .s3d-page-content-padding{padding: 10px 0px 20px;}

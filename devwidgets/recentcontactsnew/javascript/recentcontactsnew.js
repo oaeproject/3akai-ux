@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.recentcontactsnew = function(tuid, showSettings) {
 
-
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
@@ -128,6 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     getContactInfo(contactArray[0]);
                 } else {
                     $(".recentcontactsnew_main").hide();
+                    $("#recentcontactsnew_no_results_container").show();
                 }
             } else {
                 $("#recentcontactsnew_no_results_container").show();
