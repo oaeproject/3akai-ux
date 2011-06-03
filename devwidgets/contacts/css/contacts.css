@@ -20,7 +20,7 @@
 #contacts_container .contacts_list{margin-left:75px;}
 #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
 #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
-#contacts_container .contacts_item_detail_separator {color:#cccccc;}
+#contacts_container .contacts_item_detail_separator {color:#cccccc;margin:0 5px;}
 #contacts_container .contacts_item_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
 #contacts_container .contacts_item_icon{display: inline-block;height: 10px;width: 15px;}
 #contacts_container .contacts_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}

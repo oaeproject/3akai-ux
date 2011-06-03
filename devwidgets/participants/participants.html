@@ -23,7 +23,7 @@
 <div id="participants_list_template"><!--
 <ul>
     {for participant in participants}
-        <li class="s3d-list-item">
+        <li class="s3d-list-item{if participant_index == 0} participants_list_first{elseif participant_index == participants.length - 1} participants_list_last{/if}">
             <div class="participants_list_participant_actions">
                 {if participant.id != sakai.data.me.user.userid}
                     <button type="button" sakai-entitytype="user" sakai-entityname="${participant.name}" sakai-entityid="${participant.id}" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay">
@@ -42,15 +42,18 @@
             <br/>
             <span class="participants_list_participant_details">${participant.title}</span>
             <br/>
-            <a href="/~${participant.id}#l=library" class="s3d-regular-links participants_list_participant_details">${participant.content} __MSG__CONTENT_ITEMS__</a>
+            <a href="/~${participant.id}#l=library" class="s3d-regular-links participants_list_participant_details">
+                ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+            </a>
             <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=contacts" class="s3d-regular-links participants_list_participant_details">${participant.contacts} __MSG__CONTACTS__</a>
+            <a href="/~${participant.id}#l=contacts" class="s3d-regular-links participants_list_participant_details">
+                ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
+            </a>
             <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=memberships" class="s3d-regular-links participants_list_participant_details">${participant.memberships} __MSG__MEMBERSHIPS__</a>
+            <a href="/~${participant.id}#l=memberships" class="s3d-regular-links participants_list_participant_details">
+                ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
+            </a>
         </li>
-        {if participant_index != participants.length -1}
-            <hr/>
-        {/if}
     {/for}
 </ul>
 --></div>

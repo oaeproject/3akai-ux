@@ -107,9 +107,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "name": data[role].results[i].basic.elements.firstName.value + " " + data[role].results[i].basic.elements.lastName.value,
                             "id": data[role].results[i]["rep:userId"],
                             "title": role,
-                            "content": 0,
-                            "contacts": 0,
-                            "memberships": 0
+                            "content": data[role].results[i].counts.contentCount,
+                            "contacts": data[role].results[i].counts.contactsCount,
+                            "memberships": data[role].results[i].counts.membershipsCount
                         });
                     }
                 }
