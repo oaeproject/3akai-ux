@@ -82,6 +82,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
                         }
                     }
+                    // set mimetype
+                    var mimeType = sakai.api.Content.getMimeType(results[i]);
+                    finaljson.items[i].mimeType = mimeType;
+                    finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                    if (sakai.config.MimeTypes[mimeType]){
+                        finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                    }
+                    finaljson.items[i].thumbnail = sakai.api.Content.getThumbnail(results[i]);
                 }
             }
             finaljson.sakai = sakai;
@@ -245,6 +253,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $('.link_accept_invitation').each(function(index) {
                 if ($(this).attr("sakai-entityid") === userid){
                     $(this).hide();
+                    $("#search_result_contact_" + userid).show();
                 }
             });
         });

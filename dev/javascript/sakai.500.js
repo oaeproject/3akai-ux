@@ -60,9 +60,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
-                $signinbutton.click(function(){
-                    $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
-                });
+                $signinbutton.live("click", forceLoginOverlay);
                 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
@@ -94,6 +92,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     document.location = "/search#q=" + $.trim($searchinput.val());
                 }
             });
+        };
+
+        var forceLoginOverlay = function(){
+            $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
+            $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
 
         doInit();

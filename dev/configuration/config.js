@@ -1530,7 +1530,7 @@ define(function(){
             "structure0": {
                 "dashboard": {
                     "_ref": "id267187828",
-                    "_title": "My Dashboard",
+                    "_title": "My dashboard",
                     "_order": 0,
                     "_canEdit": true,
                     "_nonEditable": true,
@@ -1541,7 +1541,7 @@ define(function(){
                     }
                 },
                 "messages": {
-                    "_title": "My Messages",
+                    "_title": "My messages",
                     "_ref": "id1165301022",
                     "_order": 1,
                     "_canEdit": true,
@@ -1582,7 +1582,7 @@ define(function(){
                 }
             },
             "id267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add widgets</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
             "id1165301022": {
                 "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
@@ -1643,16 +1643,16 @@ define(function(){
         defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_title": "My Profile",
-                    "_altTitle": "${user}'s Profile",
+                    "_title": "My profile",
+                    "_altTitle": "${user}'s profile",
                     "_order": 0,
                     "_nonEditable": true
                 },
                 "library": {
                     "_ref": "id9834611274",
                     "_order": 1,
-                    "_title": "My Library",
-                    "_altTitle": "${user}'s Library",
+                    "_title": "My library",
+                    "_altTitle": "${user}'s library",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
@@ -1661,10 +1661,10 @@ define(function(){
                     }
                 },
                 "memberships": {
-                    "_title": "My Memberships",
+                    "_title": "My memberships",
                     "_order": 2,
                     "_ref": "id213623673",
-                    "_altTitle": "${user}'s Memberships",
+                    "_altTitle": "${user}'s memberships",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
@@ -1673,10 +1673,10 @@ define(function(){
                     }
                 },
                 "contacts": {
-                    "_title": "My Contacts",
+                    "_title": "My contacts",
                     "_order": 3,
                     "_ref": "id1193715035",
-                    "_altTitle": "${user}'s Contacts",
+                    "_altTitle": "${user}'s contacts",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",

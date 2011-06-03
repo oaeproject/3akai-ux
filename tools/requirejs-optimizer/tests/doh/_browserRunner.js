@@ -5,6 +5,11 @@ if(window["dojo"]){
 // FIXME: need to add prompting for monkey-do testing
 
 (function(){
+
+	doh.setTimeout = function (fn, time) {
+            return setTimeout(fn, time);
+        };
+
 	try{
 		var topdog = (window.parent == window) || !Boolean(window.parent.doh);
 	}catch(e){
@@ -93,10 +98,10 @@ if(window["dojo"]){
 			}
 			return n;
 		}
-		
+
 		doh._jumpToLog = function(e){
 			//console.log(e);
-			
+
 			var node = findTarget(e?e.target:window.event.srcElement);
 			if(!node){
 				return;
@@ -183,7 +188,7 @@ if(window["dojo"]){
 				os.apply(doh,arguments);
 			}
 		})(doh._setupGroupForRun);
-		
+
 		doh._report = (function(or){
 			//overload _report to insert a tfoot
 			return function(){
@@ -204,14 +209,14 @@ if(window["dojo"]){
 					cell.setAttribute('_target',_loggedMsgLen+1);
 					row.insertCell(-1).innerHTML=doh._totalTime+"ms";
 				}
-				
+
 				//This location can do the final performance rendering for the results
 				//of any performance tests.
 				var plotResults = null;
 				var standby;
 				if(doh.perfTestResults){
 					if(window.dojo){
-						//If we have dojo and here are perf tests results, 
+						//If we have dojo and here are perf tests results,
 						//well, we'll use the dojo charting functions
 						dojo.require("dojox.charting.Chart2D");
 						dojo.require("dojox.charting.DataChart");
@@ -305,9 +310,9 @@ if(window["dojo"]){
 								var chartData = chartsToRender.shift();
 								plotResults(chartData.div, chartData.title, chartData.data);
 							}
-							setTimeout(delayedRenders, 50);
+							doh.setTimeout(delayedRenders, 50);
 						};
-						setTimeout(delayedRenders, 150);
+						doh.setTimeout(delayedRenders, 150);
 					}catch(e){
 						doh.debug(e);
 					}
@@ -315,7 +320,7 @@ if(window["dojo"]){
 				or.apply(doh,arguments);
 			}
 		})(doh._report);
-		
+
 		if(this["opera"] && opera.postError){
 			doh.debug = function(){
 				var msg = "";
@@ -516,7 +521,7 @@ if(window["dojo"]){
 
 		doh._updateGlobalProgressBar = function(p,success,group){
 			var outerContainer=byId("progressOuter");
-					
+
 			var gdiv=outerContainer.childNodes[doh._runedSuite-1];
 			if(!gdiv){
 				gdiv=document.createElement('div');
@@ -557,7 +562,7 @@ if(window["dojo"]){
 				if(gn && doh._curTestCount){
 					var p = doh._runed/doh._curTestCount;
 					var groupfail = this._updateGlobalProgressBar((doh._runedSuite+p-1)/doh._groupCount,success,group);
-					
+
 					var pbar = gn.getElementsByTagName("td")[2].lastChild;
 					pbar.className = groupfail?"failure":"success";
 					pbar.style.width = parseInt(p*100)+"%";
@@ -569,8 +574,8 @@ if(window["dojo"]){
 		}
 
 		// FIXME: move implementation to _browserRunner?
-		doh.registerUrl = function(	/*String*/ group, 
-										/*String*/ url, 
+		doh.registerUrl = function(	/*String*/ group,
+										/*String*/ url,
 										/*Integer*/ timeout){
 			var tg = new String(group);
 			this.register(group, {
@@ -602,7 +607,7 @@ if(window["dojo"]){
 			});
 		}
 
-		// 
+		//
 		// Utility code for runner.html
 		//
 		// var isSafari = navigator.appVersion.indexOf("Safari") >= 0;
@@ -658,7 +663,7 @@ if(window["dojo"]){
 			}
 			var tl = byId("testList");
 			if(!tl){ return; }
-			listHeightTimer = setTimeout(function(){
+			listHeightTimer = doh.setTimeout(function(){
 				tl.style.display = "none";
 				tl.style.display = "";
 
@@ -671,7 +676,7 @@ if(window["dojo"]){
 			if(loaded){ return; }
 			loaded = true;
 			groupTemplate = byId("groupTemplate");
-			if(!groupTemplate){ 
+			if(!groupTemplate){
 				// make sure we've got an ammenable DOM structure
 				return;
 			}
@@ -683,7 +688,7 @@ if(window["dojo"]){
 			doh._updateTestList();
 		});
 
-		_addOnEvt("load", 
+		_addOnEvt("load",
 			function(){
 				// let robot code run if it gets to this first
 				var __onEnd = doh._onEnd;
@@ -699,7 +704,7 @@ if(window["dojo"]){
 						toggleRunning();
 					}
 				}
-				if(!byId("play")){ 
+				if(!byId("play")){
 					// make sure we've got an amenable DOM structure
 					return;
 				}

@@ -46,7 +46,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortOrder: "desc",
             isOwnerViewing: false,
             default_search_text: "",
-            userArray: []
+            userArray: [],
+            oldResults: false
         };
 
         // DOM jQuery Objects
@@ -84,7 +85,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var reset = function (query) {
             mylibrary.currentPagenum = mylibrary.currentPagenum || 1;
-            $mylibrary_items.html("");
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
             var contextId = "";
@@ -203,6 +203,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (q && ev.keyCode != 16) {
                 $mylibrary_livefilter.addClass("mylibrary_livefilter_working");
                 reset(q);
+            } else if (!q) {
+                reset();
             }
             return false;
         });
@@ -312,13 +314,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * Process library item results from the server
              */
             var handleLibraryItems = function (success, data) {
+                if (data && data.results && _.isEqual(mylibrary.oldResults, data.results)) {
+                    $mylibrary_items.show();
+                    $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
+                    return;
+                } else if (!success || (data && data.total === 0)) {
+                    mylibrary.oldResults = false;
+                } else {
+                    mylibrary.oldResults = data.results;
+                }
                 if (success && data && data.results) {
                     // Make the content items available to other widgets
                     sakai_global.mylibrary.content_items = data.results;
                     mylibrary.totalItems = data.total;
                     var items = [];
                     if (mylibrary.totalItems === 0) {
-                        callback(true, items);
+                        callback(true, items, query);
                         return;
                     }
                     $.each(data.results, function (i, result) {
@@ -340,6 +351,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             numPlaces: sakai.api.Content.getPlaceCount(result),
                             numComments: sakai.api.Content.getCommentCount(result),
                             mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                            thumbnail: sakai.api.Content.getThumbnail(result),
                             description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
                                     max_rows: 1,
                                     whole_word: false
@@ -354,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     debug.error("Fetching library items for userid: " + userid + " failed");
                     if (callback && typeof(callback) === "function") {
-                        callback(false, null);
+                        callback(false, null, query);
                     }
                 }
             };
@@ -378,7 +390,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} success - whether or not we have library items
          * @param {Array} items - an array of library items or null if no success
          */
-        var renderLibraryItems = function (success, items) {
+        var renderLibraryItems = function (success, items, query) {
             if (success && items.length) {
                 var json = {
                     items: items,
@@ -416,23 +428,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 });
+            } else if (query) {
+                $mylibrary_items.hide();
+                $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:"nosearchresults", query:query}));
+                $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
+                $mylibrary_empty.show();
             } else {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();
                 $mylibrary_sortarea.hide();
-                //$("#mylibrary_title_bar").hide();
                 $mylibrary_items.hide();
                 var who = "";
-                if(sakai_global.profile){
-                    who = sakai_global.profile.main.mode.value
-                }else if (sakai_global.group2){
+                if (sakai_global.profile) {
+                    who = sakai_global.profile.main.mode.value;
+                } else if (sakai_global.group2) {
                     if (mylibrary.isOwnerViewing) {
                         who = "group_managed";
                     } else {
-                        who = "group"
+                        who = "group";
                     }
                 }
-                $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}))
+                $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}));
                 $mylibrary_empty.show();
             }
         };

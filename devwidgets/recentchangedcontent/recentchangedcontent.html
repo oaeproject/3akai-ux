@@ -19,18 +19,15 @@
             {for item in items}
                 <div class="recentchangedcontent_related_details">
                     <div class="recentchangedcontent_item_img fl-force-left">
-                        {var mimeType = sakai.api.Content.getMimeType(item)}
-                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                        {var thumbnail = sakai.api.Content.getThumbnail(item)}
                         <a href="/content#p=${item.link}/${item.filename}" title="${item.name}">
-                            {if thumbnail}
-                                <img class="s3d-icon-50" src="${thumbnail} alt="${mimeTypeDescription}" />
-                            {elseif (mimeType.substring(0,6)=="image/")}
-                                <img class="s3d-icon-50" src="${item.path}" alt="${mimeTypeDescription}" />
-                            {elseif sakai.config.MimeTypes[mimeType]}
-                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                            {if item.thumbnail}
+                                <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
+                            {elseif (item.mimeType.substring(0,6)=="image/")}
+                                <img class="s3d-icon-50" src="${item.path}" alt="${item.mimeTypeDescription}" />
+                            {elseif sakai.config.MimeTypes[item.mimeType]}
+                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes[item.mimeType].URL}" alt="${item.mimeTypeDescription}" />
                             {else}
-                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                                <img class="s3d-icon-50" src="${sakai.config.MimeTypes["other"].URL}" alt="${item.mimeTypeDescription}" />
                             {/if}
                         </a>
                     </div>
@@ -39,7 +36,7 @@
                             <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename}" title="${item.name}">
                                 ${item.nameShort}
                             </a>
-                            <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
+                            <span class="recentchangedcontent_mimetype_desc">${item.mimeTypeDescription}</span>
                         </p>
                         {if item.usedin > 0}
                             <p class="recentchangedcontent_item_meta">__MSG__USED_IN__ ${item.usedin}{if item.usedin === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</p>
@@ -72,17 +69,14 @@
                         <div class="fl-force-left">
                         <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
                             <span>
-                                {var relatedMimeType = sakai.api.Content.getMimeType(item.relatedContent)}
-                                {var relatedMimeTypeDescription = sakai.config.MimeTypes[relatedMimeType].description}
-                                {var relatedThumbnail = sakai.api.Content.getThumbnail(item.relatedContent)}
-                                {if relatedThumbnail}
-                                    <img class="s3d-icon-32" src="${relatedThumbnail} alt="${relatedMimeTypeDescription}" />
-                                {elseif (relatedMimeType.substring(0,6)=="image/")}
-                                    <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${relatedMimeTypeDescription}" />
-                                {elseif sakai.config.MimeTypes[relatedMimeType]}
-                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[relatedMimeType].URL}" alt="${relatedMimeTypeDescription}" />
+                                {if item.relatedContent.thumbnail}
+                                    <img class="s3d-icon-32" src="${item.relatedContent.thumbnail}" alt="${item.relatedContent.mimeTypeDescription}" />
+                                {elseif (item.relatedContent.mimeType.substring(0,6)=="image/")}
+                                    <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${item.relatedContent.mimeTypeDescription}" />
+                                {elseif sakai.config.MimeTypes[item.relatedContent.mimeType]}
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes[item.relatedContent.mimeType].URL}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {else}
-                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${relatedMimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {/if}
                             </span>
                         </a>
@@ -91,7 +85,7 @@
                             <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
                                 ${item.relatedContent.nameRelatedShort}
                             </a>
-                            <span class="recentchangedcontent_related_mimetype recentchangedcontent_item_mime">${sakai.api.i18n.General.getValueForKey(relatedMimeTypeDescription).toUpperCase()}</span>
+                            <span class="recentchangedcontent_mimetype_desc">${item.relatedContent.mimeTypeDescription}</span>
                             <div>__MSG__BY__
                                 <span id="recentchangedcontent_related_content_author"></span>
                             </div>

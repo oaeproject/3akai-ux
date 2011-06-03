@@ -10,13 +10,15 @@
 #profilesection_generalinfo span.profilesection_generalinfo_content{float:left;display:inline;margin-top:3px;}
 #profilesection_generalinfo .profilesection_generalinfo_subcontainer{clear:both;margin:4px 0;padding:1px 0;width:100%;float:left;display:inline;}
 #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{color:#666;display:block;float:left;margin-right:5px;padding:3px 0;text-align:right;width:240px;}
-#profilesection_generalinfo .profilesection_generalinfo_example{color:#666;display:block;font-size:11.5px;margin:0 0 0 243px;padding:3px;}
+#profilesection_generalinfo .profilesection_generalinfo_example{color:#666;display:block;font-size:11.5px;margin:0 0 0 126px;padding:3px;}
 #profilesection_generalinfo a.profilesection_add_section,#profilesection_generalinfo a.profilesection_add_location_section{font-size:14px;float:left;margin:10px 0 0 240px;}
 #profilesection_generalinfo a.profilesection_add_section img{margin-right:5px;}
 #profilesection_generalinfo a.profilesection_add_section span{top:1px;}
 #profilesection_generalinfo a.profilesection_remove_section{color:#39C;font-size:12px;font-weight:bold;margin:5px 0 5px 245px;}
-#profilesection_generalinfo hr{margin:10px 0 10px 5%;border-bottom:1px solid #999;color:transparent;height:1px;width:90%;}
-.profile-section-save-button {float:right;}
+#profilesection_generalinfo hr{margin:10px 0 10px 0px;border-bottom:1px solid #999;color:transparent;height:1px;width:100%;}
+.profile-section-save-button {float:right; margin-right: 190px; margin-top: 20px;}
+.profilesection_section {width: 560px;}
+.profilesection_remove_section {margin-top: 20px; margin-bottom: 10px;}
 
 /* Validation errors */
 /* Errors */

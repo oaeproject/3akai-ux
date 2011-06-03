@@ -92,11 +92,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                  // Set the group tags
                                  // Collect tags
                                  var grouptags = $.trim($worldsettingsTags.val()).split(",");
-                                 grouptags.concat(sakai.api.Util.getDirectoryTags(sakai_global.group2.groupData["sakai:tags"], true));
                                  var groupProfileURL = "/~" + sakai_global.group2.groupId + "/public/authprofile";
-                                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group2.groupData["sakai:tags"], function(){});
-                                 sakai_global.group2.groupData["sakai:tags"] = grouptags;
-
+                                 var locations = sakai.api.Util.getDirectoryTags(sakai_global.group2.groupData["sakai:tags"], true);
+                                 grouptags = grouptags.concat(locations);
+                                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group2.groupData["sakai:tags"], function(success, tags){
+                                     sakai_global.group2.groupData["sakai:tags"] = tags;
+                                 });
                                  $(window).trigger("sakai.entity.updateTitle", worldTitle);
                                  $worldsettingsDialog.jqmHide();  
                         });
