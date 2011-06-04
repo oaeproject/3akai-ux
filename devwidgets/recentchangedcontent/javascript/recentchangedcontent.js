@@ -259,9 +259,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     managersList += " " + (contentData["sakai:pooled-content-manager"][i]);
                 }
             }
-            for (var i = 0; i < contentData["sakai:pooled-content-viewer"].length; i++) {
-                if (contentData["sakai:pooled-content-viewer"][i]) {
-                    viewersList += " " + (contentData["sakai:pooled-content-viewer"][i]);
+            if (contentData["sakai:pooled-content-viewer"]) {
+                for (var i = 0; i < contentData["sakai:pooled-content-viewer"].length; i++) {
+                    if (contentData["sakai:pooled-content-viewer"][i]) {
+                        viewersList += " " + (contentData["sakai:pooled-content-viewer"][i]);
+                    }
                 }
             }
 
