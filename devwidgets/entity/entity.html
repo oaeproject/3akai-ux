@@ -186,8 +186,7 @@
             {elseif permissions == "everyone"}
                 __MSG__VISIBLE_TO_LOGGED__
             {else}
-                {var firstuser = data.members.managers[0].basic.elements}
-                __MSG__PRIVATE_TO__ ${firstuser.firstName.value} ${firstuser.lastName.value}
+                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
                 {if (peopleCount + groupCount) > 1}
                     + ${groupCount + peopleCount - 1} __MSG__OTHERS__
                 {/if}

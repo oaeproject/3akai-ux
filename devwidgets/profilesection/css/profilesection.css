@@ -15,14 +15,14 @@
 #profilesection_generalinfo a.profilesection_add_section img{margin-right:5px;}
 #profilesection_generalinfo a.profilesection_add_section span{top:1px;}
 #profilesection_generalinfo a.profilesection_remove_section{color:#39C;font-size:12px;font-weight:bold;margin:5px 0 5px 245px;}
-#profilesection_generalinfo hr{margin:10px 0 10px 0px;border-bottom:1px solid #999;color:transparent;height:1px;width:100%;}
+#profilesection_generalinfo hr{margin:10px 0 10px 0px;border-bottom:1px solid #999;color:transparent;height:1px;width:100%; clear: both;}
 .profile-section-save-button {float:right; margin-right: 190px; margin-top: 20px;}
-.profilesection_section {width: 560px;}
+.profilesection_section {width: 560px; clear: both;}
 .profilesection_remove_section {margin-top: 20px; margin-bottom: 10px;}
 
 /* Validation errors */
 /* Errors */
-#profilesection_generalinfo label.error{display:block;margin-left:243px;padding:3px;}
+#profilesection_generalinfo label.error{display:block;margin-left:126px;padding:3px;}
 
 /* DIRECTORY */
 #profilesection_locations_dialog{width:750px;margin-left:-370px;}
