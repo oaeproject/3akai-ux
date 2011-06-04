@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
             if (firstTime) {
                 setupAutoSuggest();
-                sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_settings", false, "#"+tuid);
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
                 firstTime = false;
             } else {
                 doReset();
@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.name = wData.name === "true";
             wData.details = wData.details === "true";
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
-            sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid, [docData]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [docData]);
         };
 
         /**
