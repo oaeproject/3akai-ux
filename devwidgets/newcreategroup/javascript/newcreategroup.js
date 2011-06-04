@@ -364,7 +364,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderShareMessage();
         });
 
-        $newcreategroupAddPeople.live("click", function(){
+        $(".newcreategroup_add_people").die();
+        $(".newcreategroup_add_people").live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid]);
         });
     };
@@ -391,6 +392,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $.bbq.pushState({"_r": Math.random()});
     });
 
+    $(window).unbind("sakai.addpeople.usersselected");
     $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
         if (initTuid === tuid) {
             selectedUsers = users;
