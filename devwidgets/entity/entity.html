@@ -262,14 +262,21 @@
                         {if userlist_groups_index%2} <li id="${i['sakai:group-id']}">
                         {else} <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
-                        {if i.pictureUrl}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                        {if i.pseudoGroup}
+                            <a href="/~${i.parent['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                            <span class="entity_content_name">
+                                <a class="s3d-regular-links s3d-bold" href="/~${i.parent['sakai:group-id']}" target="_blank">${i.parent['sakai:group-title']} <span class="entity_pseudogroup">${i.parent["sakai:role-title"]}</span></a>
+                            </span>
                         {else}
-                            <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
-                        {/if}
-                        <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
-                        </span>
+                            {if i.pictureUrl}
+                                <a href="/~${i['sakai:group-id']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']}" class="entity_content_picture"/></a>
+                            {else}
+                                <a href="/~${i['sakai:group-id']}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                            {/if}
+                            <span class="entity_content_name">
+                                <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']}" target="_blank">${i['sakai:group-title']}</a>
+                            </span>
+                         {/if}
                         </li>
                     {elseif i["rep:userId"] && type === "people"}
                         ${userlist_people_index++|eat}

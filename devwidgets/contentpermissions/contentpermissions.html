@@ -53,7 +53,11 @@
                                     <input type="checkbox" id="select_${member.groupid}" class="${memberArr_index}">
                                     <label for="select_${member.groupid}">
                                         <img src="/dev/images/group_avatar_icon_35x35_nob.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
-                                        <a href="/~${member.groupid}" title="__MSG__VIEW__ ${member["sakai:group-title"]}'s __MSG__PROFILE__">${member["sakai:group-title"]}</a>
+                                        {if member.pseudoGroup}
+                                            <a href="/~${member.parent["sakai:group-id"]}" title="__MSG__VIEW__ ${member.parent["sakai:group-title"]} ${member.parent["sakai:role-title"]}'s __MSG__PROFILE__">${member.parent["sakai:group-title"]} <span class="contentpermissions_pseudogroup">${member.parent["sakai:role-title"]}</span></a>
+                                        {else}
+                                            <a href="/~${member.groupid}" title="__MSG__VIEW__ ${member["sakai:group-title"]}'s __MSG__PROFILE__">${member["sakai:group-title"]}</a>
+                                        {/if}
                                     </label>
                                 </li>
                             {else}

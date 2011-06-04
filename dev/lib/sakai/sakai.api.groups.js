@@ -197,7 +197,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (template.roles[q].id === template.creatorRole){
                         var group = {
                             groupid: groupid + "-" + template.roles[q].id,
-                            grouptitle: grouptitle + " " + template.roles[q].title,
+                            grouptitle: grouptitle + " (" + template.roles[q].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
@@ -218,7 +218,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (template.roles[n].allowManage && template.roles[n].id !== template.creatorRole) {
                         var gr = {
                             groupid: groupid + "-" + template.roles[n].id,
-                            grouptitle: grouptitle + " " + template.roles[n].title,
+                            grouptitle: grouptitle + " (" + template.roles[n].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             category: category,
@@ -235,7 +235,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (!template.roles[o].allowManage) {
                         var gr1 = {
                             groupid: groupid + "-" + template.roles[o].id,
-                            grouptitle: grouptitle + " " + template.roles[o].title,
+                            grouptitle: grouptitle + " (" + template.roles[o].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             category: category,

@@ -1738,11 +1738,13 @@ define(function(){
                         roles: [
                             {
                                 id: "member",
+                                roleTitle: "Members",
                                 title: "Member",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
+                                roleTitle: "Managers",
                                 title: "Manager",
                                 allowManage: true
                             }
@@ -1834,16 +1836,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2034,16 +2039,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2128,16 +2136,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2222,16 +2233,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2316,16 +2330,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2417,11 +2434,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }
@@ -2506,11 +2525,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }

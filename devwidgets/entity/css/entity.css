@@ -55,6 +55,7 @@
 #entity_container #entity_group_image #entity_profile_picture {width: 50px; height: 50px;}
 
 #entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
+.entity_pseudogroup {font-size:11px; color: #666;}
 
 /* Content */
 #entity_container #entity_content_image {width:45px;height:62px; float:left;margin-right:15px;margin-top:-14px;}
