@@ -65,21 +65,13 @@
         {if !anon}
             {if type != "user_anon" && type != "user_me"}
                 {if type == "user_other"}
-                    <button id="entity_user_add_to_contacts" class="s3d-button s3d-button-link-2-state sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
-                    </button>
+                    <button type="button" id="entity_user_add_to_contacts" class="s3d-button s3d-header-button sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}">__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
                 {elseif type == "contact_invited"}
-                    <button id="entity_user_accept_invitation" class="s3d-button s3d-button-link-2-state">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></span>
-                    </button>
+                    <button type="button" id="entity_user_accept_invitation" class="s3d-button s3d-header-button">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
                 {elseif type == "contact_pending"}
-                    <button class="entity_user_contact_pending" type="button">
-                        <span class="entity_user_contact_pending_inner">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></span></span>
-                    </button>
+                    <button type="button" class="s3d-button s3d-header-button entity_user_contact_pending" disabled="disabled">__MSG__CONTACT_INVITATION_SENT__<span class="entity_add_to_contacts_requested_icon entity_user_action_icon"></span></button>
                 {/if}
-                <button id="entity_user_message" class="s3d-button s3d-button-link-2-state sakai_sendmessage_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></span>
-                </button>
+                <button type="button" id="entity_user_message" class="s3d-button s3d-header-button sakai_sendmessage_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" sakai-entitytype="user">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></button>
             {/if}
         {/if}
     </div>
@@ -138,28 +130,18 @@
     <div id="entity_actions">
         {if !anon}
             {if type && type == "content_managed"}
-                <button id="entity_content_permissions" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner"><span class="entity_permissions_icon"></span></span>
-                </button>
+                <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
             {/if}
-            <button id="entity_content_save" class="s3d-button s3d-button-link-2-state savecontent_trigger" data-entityid="${data.data["_path"]}" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">
-                    __MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span>
-                </span>
-            </button>
-            <button id="entity_content_share" class="s3d-button s3d-button-link-2-state share_trigger_click" data-entityid="${data.data["_path"]}" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">
-                    __MSG__SHARE__<span class="entity_share_content"></span>
-                </span>
-            </button>
+            <button type="button" id="entity_content_save" class="s3d-button s3d-header-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
+            <button type="button" id="entity_content_share" class="s3d-button s3d-header-button share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__<span class="entity_share_content"></span></button>
         {/if}
         {if data.data.mimeType === "x-sakai/link"}
-            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">Open Link<span class="entity_download_content"></span></span>
+            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
+                Open Link<span class="entity_download_content"></span>
             </a>
         {elseif data.data.mimeType !== "x-sakai/document"}
-            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-button-link-2-state fl-force-right s3d-margin-top-5" target="_blank">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">Download<span class="entity_download_content"></span></span>
+            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
+                Download<span class="entity_download_content"></span>
             </a>
         {/if}
     </div>
@@ -217,17 +199,11 @@
     <div id="entity_actions">
         {if !anon}
             {if type && type == "group_managed"}
-                <button id="entity_group_permissions" class="s3d-button s3d-button-link-2-state" type="button">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner"><span class="entity_permissions_icon"></span></span>
-                </button>
+                <button type="button" id="entity_group_permissions" class="s3d-button s3d-header-button s3d-button-no-text"><span class="entity_permissions_icon"></span></button>
             {else}
                 <div id='widget_joinrequestbuttons' class='widget_inline'></div>
             {/if}
-            <button id="entity_message" class="s3d-button s3d-button-link-2-state" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">
-                    Message<span class="entity_message_icon entity_user_action_icon"></span>
-                </span>
-            </button>
+            <button type="button" id="entity_message" class="s3d-button s3d-header-button">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></button>
         {/if}
     </div>
     {if type && type == "group_managed"}

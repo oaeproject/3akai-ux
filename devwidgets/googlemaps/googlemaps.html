@@ -14,7 +14,7 @@
         
         <!-- The search button -->
         <div class="dialog_buttons" id="googlemaps_search_container">
-            <button class="s3d-button s3d-button-primary" type="submit" id="googlemaps_button_search"><span class="s3d-button-inner">__MSG__SEARCH__</span></button>
+            <button type="submit" id="googlemaps_button_search" class="s3d-button s3d-header-button">__MSG__SEARCH__</button>
         </div>
 
         <p id="googlemaps_location_help">__MSG__LOCATION_HELP__</p>
@@ -32,8 +32,9 @@
 
     <!-- The submit and cancel button -->
     <div class="dialog_buttons" id="googlemaps_save_cancel_container">
-        <button type="button" class="s3d-button" id="googlemaps_cancel"><span class="s3d-button-inner">__MSG__DONT_ADD__</span></button>
-        <button type="button" class="s3d-button s3d-button-primary" id="googlemaps_save"><span class="s3d-button-inner">__MSG__ADD_MAP__</span></button>
+        
+        <button type="button" class="jqmClose s3d-bold s3d-link-button">__MSG__DONT_ADD__</button>
+        <button type="button" id="googlemaps_save" class="s3d-button s3d-overlay-button">__MSG__ADD_MAP__</button>
     </div>
 </div>
 

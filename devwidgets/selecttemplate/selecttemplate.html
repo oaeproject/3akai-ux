@@ -19,8 +19,8 @@
                         <h4>__MSG__PERFECT_FOR__:</h4>
                         <p>${template.perfectFor}</p>
                     </div>
-                    <button class="selecttemplate_preview_button" data-templateid="${template.id}">__MSG__PREVIEW_TEMPLATE__</button>
-                    <button class="selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
+                    <button type="button" class="s3d-button s3d-header-button selecttemplate_preview_button" data-templateid="${template.id}">__MSG__PREVIEW_TEMPLATE__</button>
+                    <button type="button" class="s3d-button s3d-overlay-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
                 </div>
             </div>
             {if template_index % 3 == 1}
@@ -35,32 +35,25 @@
     --></div>
 
     <!-- DIALOG BOX FOR TEMPLATE PREVIEW -->
-    <div id="selecttemplate_preview_dialog" class="dialog" style="width:800px; margin-left: -380px;">
-        <div class="dialog_header">
-            <div class="dialog_header_inner">
-                <h1>__MSG__PREVIEW_TEMPLATE__</h1>
-                <button type="button" class="jqmClose dialog_close_image s3d-link-button s3d-action" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-            </div>
-        </div>
-
-        <div class="dialog_content">
-            <!-- CONTAINER -->
-            <div id="selecttemplate_preview_dialog_container"></div>
-
-            <!-- TEMPLATE -->
-            <div id="selecttemplate_preview_dialog_template" style="display:none"><!--
-                <img src="${template.fullImg}" />
-                <div id="selecttemplate_preview_dialog_desc">
-                    <h2>${template.title}</h2>
-                    <h4>__MSG__PERFECT_FOR__:</h4>
-                    <p>${template.perfectFor}</p>
-                    <button class="selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
-                </div>
-                <div class="fl-push"></div>
-            --></div>
-                <button id="selecttemplate_dialog_close" class="jqmClose s3d-link-button" type="button">__MSG__CLOSE__</button>
-        </div>
+    <div id="selecttemplate_preview_dialog" class="s3d-dialog s3d-dialog-container" style="width:800px; margin-left: -380px;">
+        <div class="s3d-dialog-close jqmClose"></div>
+        <h1 class="s3d-dialog-header">__MSG__PREVIEW_TEMPLATE__</h1>
+        <!-- CONTAINER -->
+        <div id="selecttemplate_preview_dialog_container"></div>
+        <button class="fl-force-right s3d-bold jqmClose s3d-link-button" type="button">__MSG__CLOSE__</button>
     </div>
+
+    <!-- TEMPLATE -->
+    <div id="selecttemplate_preview_dialog_template" style="display:none"><!--
+        <img src="${template.fullImg}" />
+        <div id="selecttemplate_preview_dialog_desc">
+            <h2>${template.title}</h2>
+            <h4>__MSG__PERFECT_FOR__:</h4>
+            <p>${template.perfectFor}</p>
+            <button type="button" class="s3d-button s3d-overlay-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
+        </div>
+        <div class="fl-push"></div>
+    --></div>
 </div>
 <div id="selecttemplate_createworld_container" style="display:none"></div>
 
