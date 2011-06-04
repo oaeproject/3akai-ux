@@ -93,8 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 contextId = sakai_global.profile.main.data.userid;
             }
-            getLibraryItems(contextId,
-                renderLibraryItems, query || false);
+            getLibraryItems(contextId, renderLibraryItems, query || false);
         };
 
         /**
@@ -585,7 +584,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Listen for complete.fileupload.sakai event (from the fileupload widget)
         // to refresh this widget's file listing
         $(window).bind("complete.fileupload.sakai", function(){
-            var t = setTimeout(reset, 2000);
+            var t = setTimeout(function(){
+                reset();
+            }, 2000);
         });
 
     };
