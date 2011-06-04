@@ -130,9 +130,9 @@
                                           <p>${message.body}</p>
                                           {if message.invitation}
                                             {if message.invited}
-                                              <button class="inbox_invitation inbox_invitation_accept s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
+                                              <button class="inbox_invitation inbox_invitation_accept s3d-button s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
                                               <span class="inbox_invitation inbox_invitation_divider">|</span>
-                                              <button class="inbox_invitation inbox_invitation_ignore s3d-link-button">__MSG__IGNORE_INVITATION__</button>
+                                              <button class="inbox_invitation inbox_invitation_ignore s3d-button s3d-link-button">__MSG__IGNORE_INVITATION__</button>
                                             {/if}
                                             <span class="inbox_ignored"{if !message.ignored} style="display:none"{/if}>__MSG__IGNORED__</span>
                                             <span class="inbox_accepted"{if (message.ignored || message.invited)} style="display:none;"{/if}>__MSG__ACCEPTED__</span>

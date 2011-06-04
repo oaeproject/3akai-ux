@@ -618,18 +618,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        var toggleAddTitleAndDescription = function(show) {
-            if (show) {
-                $embedcontent_add_title_description_button.find("span.s3d-button-arrow-down").removeClass("s3d-button-arrow-down").addClass("s3d-button-arrow-up");
-                $embedcontent_add_title_description_fields.show();
-            } else {
-                $embedcontent_add_title_description_button.find("span.s3d-button-arrow-up").removeClass("s3d-button-arrow-up").addClass("s3d-button-arrow-down");
-                $embedcontent_add_title_description_fields.hide();
-            }
+        var toggleAddTitleAndDescription = function() {
+            $embedcontent_add_title_description_fields.toggle();
         };
 
         $embedcontent_add_title_description_button.bind("click", function(e) {
-            toggleAddTitleAndDescription($(this).find("span.s3d-button-arrow-down").length > 0);
+            toggleAddTitleAndDescription();
             return false;
         });
 

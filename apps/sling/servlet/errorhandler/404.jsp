@@ -59,7 +59,7 @@ response.setStatus(404);
 							{for w in worlds}
 								<div class="error_content_second_column_box_item_container">
 									<div class="error_content_second_column_box_item_content">
-										<a class="s3d-regular-links s3d-bold" href="/search#l=\${w.label}">\${w.label}</a>
+										<a class="s3d-regular-links s3d-bold" href="/search#l=${w.label}">${w.label}</a>
 									</div>          
 								</div>
 								{if !w.last}
@@ -80,8 +80,8 @@ response.setStatus(404);
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
-                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                                <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
                         </div>
@@ -118,7 +118,7 @@ response.setStatus(404);
                         <div id="error_page_links_template" style="display:none"><!--
                             <ul>
                                 {for w in links.whatToDo}
-                                    <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
+                                    <li><a class="s3d-regular-links s3d-bold" href="${w.url}">${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
                                 {/for}
                                 <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
                             </ul>
@@ -127,12 +127,12 @@ response.setStatus(404);
                                 <h3>__MSG__GET_IN_TOUCH__</h3>
                                 <ul>
                                     {for g in links.getInTouch}
-                                        <li><a class="s3d-regular-links s3d-bold" href="\${g.url}">\${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
+                                        <li><a class="s3d-regular-links s3d-bold" href="${g.url}">${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
                                     {/for}
                                 </ul>
                             {/if}
                         --></div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>

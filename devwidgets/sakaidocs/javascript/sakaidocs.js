@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var keepAutosave = function() {
             autosaveDialogShown = false;
             setAutosaveInterval();
+            $('#autosave_dialog').jqmHide();
         };
 
         var checkAutosave = function(callback) {

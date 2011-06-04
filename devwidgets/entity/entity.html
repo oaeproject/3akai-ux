@@ -12,20 +12,20 @@
                     <div>
                         <ul>
                             <li id="ew_permissions">
-                                <a href="#">__MSG__PERMISSIONS__</a>
+                                <button class="s3d-button s3d-link-button">__MSG__PERMISSIONS__</button>
                             </li>
                             {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
                             <li id="ew_upload">
-                                <a href="#">__MSG__UPLOAD_NEW_VERSION__</a>
+                                <button class="s3d-button s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
                             </li>
                             {/if}
                             {if sakai_global.content_profile.content_data.data["sakai:custom-mimetype"] != "x-sakai/document"}
                                 <li id="ew_revhistory">
-                                    <a href="#">__MSG__REVISION_HISTORY__</a>
+                                    <button class="s3d-button s3d-link-button">__MSG__REVISION_HISTORY__</button>
                                 </li>
                             {/if}
                             <li id="ew_content_preview_delete">
-                                <a href="#">__MSG__DELETE__</a>
+                                <button class="s3d-button s3d-link-button">__MSG__DELETE__</button>
                             </li>
                         <ul>
                     </div>
@@ -44,13 +44,13 @@
                     <div>
                         <ul>
                             <li id="ew_group_participants">
-                                <button class="s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
+                                <button class="s3d-button s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
                             </li>
                             <li id="ew_group_settings">
-                                <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
+                                <button class="s3d-button s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
                             </li>
                             <li id="ew_group_categories">
-                                <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
+                                <button class="s3d-button s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
                             </li>
                         <ul>
                     </div>
@@ -199,7 +199,7 @@
     <div id="entity_actions">
         {if !anon}
             {if type && type == "group_managed"}
-                <button type="button" id="entity_group_permissions" class="s3d-button s3d-header-button s3d-button-no-text"><span class="entity_permissions_icon"></span></button>
+                <button type="button" id="entity_group_permissions" class="s3d-button s3d-header-button s3d-button-no-text"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
             {else}
                 <div id='widget_joinrequestbuttons' class='widget_inline'></div>
             {/if}

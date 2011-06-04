@@ -17,8 +17,8 @@
             <div class="contentcomments_fillInCommentTopContainer">
                 <br />
                 <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="20"></textarea>
-                <div class="dialog_buttons right" style="clear: both;">
-                    <button type="button" id="comments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
+                <div class="dialog_buttons contentcomments_dialog_buttons right">
+                    <button id="contentcomments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
                 </div>
             </div>
         </div>
@@ -51,9 +51,9 @@
                 </div>
                 {if i.canDelete && i.canDelete === true || i.userid === sakai.data.me.user.userid}
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                        <button type="button" class="contentcomments_undelete s3d-regular-light-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
+                        <button type="button" class="s3d-button contentcomments_undelete s3d-regular-light-links s3d-link-button" id="contentcomments_undelete_${i['sakai:id']}">__MSG__UNDELETE__</button>
                     {else}
-                        <button type="button" class="contentcomments_delete s3d-regular-light-links s3d-link-button" id="contentcomments_delete_${i['sakai:id']}">__MSG__DELETE__</button>
+                        <button type="button" class="s3d-button contentcomments_delete s3d-regular-light-links s3d-link-button" id="contentcomments_delete_${i['sakai:id']}">__MSG__DELETE__</button>
                     {/if}
                 {/if}
                 <div class="contentcomments_commentMessage">

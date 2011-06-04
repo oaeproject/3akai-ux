@@ -67,7 +67,7 @@
 
 /** Delete page **/
 .lhnavigation_delete_page_buttons{text-align:right;}
-.lhnavigation_delete_page_text{padding-top:15px;}
+.lhnavigation_delete_page_text{padding-top:10px;}
 
 /** Insert links **/
 #insert_links_availablelinks{height:250px;overflow:auto;}

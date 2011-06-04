@@ -268,13 +268,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            $('#ew_permissions>a').click(function(e){
+            $('#ew_permissions').click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.contentpermissions.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $('#ew_upload>a').click(function(e){
+            $('#ew_upload').click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.uploadnewversion.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();
@@ -289,7 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
             
-            $("#ew_content_preview_delete>a").bind("click", function(e){
+            $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
                 $(window).trigger('init.deletecontent.sakai', [{"path": sakai_global.content_profile.content_data.content_path},

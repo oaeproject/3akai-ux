@@ -99,7 +99,7 @@
 #entity_dropdown_sharelist_container {margin-bottom:15px;}
 #entity_dropdown_container>div {padding:6px;}
 #entity_dropdown_container ul {margin:0;padding:0 10px;}
-#entity_dropdown_container ul li{list-style:none;padding:4px 0;border-bottom:1px solid #ccc;}
+#entity_dropdown_container ul li{list-style:none;padding:0px 0;border-bottom:1px solid #ccc;}
 #entity_dropdown_container ul li a{padding-left:6px;color:#369;font-size:13px;}
 #entity_dropdown_container ul li a:hover{ color:#999;}
 #entity_dropdown_container ul li#ew_content_preview_delete {border:0;}

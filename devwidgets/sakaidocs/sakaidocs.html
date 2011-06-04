@@ -48,7 +48,7 @@
 
                                 <!-- INSERT DROPDOWN MENU -->
                                 <button type="button" class="s3d-button s3d-large-button grey" id="sakaidocs_insert_dropdown_button">
-                                    __MSG__INSERT__&nbsp;&nbsp;&nbsp;__MSG__DOWN_ARROW__
+                                    __MSG__INSERT__&nbsp;&nbsp<span class="sakaidocs_insert_widgets_dd">__MSG__DOWN_ARROW__</span>
                                 </button>
 
                                 <div id="sakaidocs_insert_dropdown_container"></div>
@@ -162,8 +162,8 @@
             <div>
                 <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-overlay-button" id="autosave_keep">__MSG__NO__</button>
+                <div class="fl-force-right">
+                    <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__CANCEL__</button>
                     <button type="button" class="s3d-button s3d-overlay-button" id="autosave_revert">__MSG__YES__</button>
                 </div>
             </div>
@@ -177,13 +177,13 @@
             <div class="context_more">
                 <ul>
                     <li id="context_settings" class="more_option">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__SETTINGS__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__SETTINGS__</button>
                     </li>
                     <li id="context_remove" class="more_option">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__REMOVE__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__REMOVE__</button>
                     </li>
                     <li id="context_appearance_trigger" class="more_option option_last">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__WRAPPING__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__WRAPPING__</button>
                     </li>
                 </ul>
             </div>

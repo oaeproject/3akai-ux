@@ -29,3 +29,4 @@
 .assignlocation_container_area{margin:0!important;position:relative;overflow:hidden;}
 #assignlocation_container .jstree-default .jstree-unchecked a .jstree-checkbox{margin-right:3px;}
 #assignlocation_container .jstree-default .jstree-hovered{background:none;border:none;padding:0 2px;}
+#assignlocation_actions {padding: 10px 5px 5px 0px;}
