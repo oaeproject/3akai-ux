@@ -194,7 +194,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $('#entity_contentsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_contentsettings_dropdown", context));
 
                     $("#entity_comments_link").live("click", function(){
-                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#comments_mainContainer").offset().top}, 500 );
+                        $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
                         $("#comments_txtMessage").focus();
                        return false;
 

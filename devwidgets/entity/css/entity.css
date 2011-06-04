@@ -86,7 +86,7 @@
 .entity_content_activity_dialog_list .entity_content_activity{position:relative;top:1px;}
 
 /* Widget Popup */
-#entity_container .entity_permissions_icon {background:url("/dev/images/settings_icon.png") no-repeat scroll left -1px transparent;margin-left: 5px;padding-left: 20px;margin-right:4px;display:block;margin-top:3px;height:19px;}
+#entity_container .entity_permissions_icon {background:url("/dev/images/settings_icon.png") no-repeat scroll left -1px transparent;margin-left: 5px;padding-left: 20px;margin-right:4px;display:block;margin-top:3px;height:19px;font-size:10px;}
 
 #entity_contentsettings_dropdown, #entity_groupsettings_dropdown {color: #333333;position:absolute;display:none;width:200px;}
 .entity_dropdown_outer { position:relative;clear:right;z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }

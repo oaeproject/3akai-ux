@@ -185,14 +185,14 @@ a.s3d-button {text-decoration:none;}
 .s3d-link-button:hover {cursor:pointer;text-decoration:none;color:#999;}
 
 /* Header buttons */
-.s3d-button.s3d-header-button {background:#fff;box-shadow:0 0 6px -2px #A8A8A8 inset;border:1px solid #e0e3e5;}
+.s3d-button.s3d-header-button {background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;border:1px solid #e0e3e5;}
 .s3d-button.s3d-header-button:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;border:1px solid #E0E3E5;box-shadow:none;}
 .s3d-button.s3d-header-button[disabled] {background:#fff;cursor:auto;color:#ccc}
 .s3d-button.s3d-header-button[disabled]:hover {background:#fff;box-shadow:0 0 6px -2px #a8a8a8 inset;border:1px solid #e0e3e5;}
 a.s3d-button.s3d-header-button {height:24px;line-height:24px;}
 
 /* Header buttons, smaller */
-.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:11px;height:19px;padding:0 5px;}
+.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;}
 a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;}
 
 /* Regular in-page buttons */

@@ -85,8 +85,8 @@
 
 <div id="search_bottom_template" style="display:none;"><!--
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
-        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
+        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all">
+            <button class="s3d-button s3d-overlay-button">__MSG__SEE_ALL__</button>
         </a>
     {/if}
     <span id="topnavigation_search_results_bottom_content">

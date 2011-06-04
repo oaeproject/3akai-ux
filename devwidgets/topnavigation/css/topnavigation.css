@@ -42,7 +42,7 @@
 .topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -220px -21px transparent;}
 .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -780px -21px transparent;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top:7px; color:#636363;}
-.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px;text-decoration: none;}
 
 /* USER */
 .topnavigation_user_container {float:right;}

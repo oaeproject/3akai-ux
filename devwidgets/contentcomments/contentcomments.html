@@ -4,17 +4,7 @@
 <!-- MAIN VIEW -->
 <div id="contentcomments_mainContainer" class="fl-widget-content s3d-widget-content" style="display:none;">
     <div id="contentcomments_titlebar">
-        <span class="contentcomments_titleLeft">__MSG__COMMENTS__</span><!--<span class="contentcomments_titleRight">__MSG__DISPLAYING__ <span id="contentcomments_numCommentsDisplayed"></span> __MSG__OUT_OF__ <span id="contentcomments_numComments" >0</span id="contentcomments_contentcommentscomment"> __MSG__COMMENTS__</span>-->
-        <!-- <span class="contentcomments_titleRight" id="contentcomments_editorOptions" style="display:none;">
-            <span id="contentcomments_allowCommentsOption">
-                <input type="checkbox" id="contentcomments_allowCommentsCheckbox" name="allowComments" value="" checked="checked" />
-                <label for="allowComments">__MSG__ALLOW_COMMENTS__</label>
-            </span>
-            <span id="contentcomments_showCommentsOption">
-                <input type="checkbox" id="contentcomments_showCommentsCheckbox" name="showComments" value="" checked="checked" />
-                <label for="showComments">__MSG__SHOW_COMMENTS__</label>
-            </span>
-        </span> -->
+        <span class="contentcomments_titleLeft">__MSG__COMMENTS__</span>
     </div>
 
     <div id="contentcomments_userCommentContainer">
@@ -26,17 +16,9 @@
         <div id="contentcomments_fillInComment">
             <div class="contentcomments_fillInCommentTopContainer">
                 <br />
-                <div id="contentcomments_txtNamePoster_container" style="display:none;">
-                    <label for="contentcomments_txtNamePoster">__MSG__NAME__:</label>
-                    <input type="text" class="contentcomments_inputFields" id="contentcomments_txtNamePoster"><br />
-                </div>
-                <div id="contentcomments_txtMailPoster_container" style="display:none;">
-                    <label for="contentcomments_txtMailPoster">__MSG__EMAIL__:</label>
-                    <input type="text" class="contentcomments_inputFields" id="contentcomments_txtMailPoster"><br />
-                </div>
                 <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="20"></textarea>
-                <div class="dialog_buttons right">
-                    <button type="button" id="comments_postComment" class="s3d-button s3d-overlay-button grey comment_postCommentTopBottom">__MSG__COMMENT__</button>
+                <div class="dialog_buttons right" style="clear: both;">
+                    <button type="button" id="comments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
                 </div>
             </div>
         </div>
@@ -128,69 +110,6 @@
     </div>
 </div>
 
-<!-- SETTINGS VIEW -->
-<div id="contentcomments_settings" class="fl-widget-content s3d-widget-content" style="display:none;">
-    <form class="contentcomments_form">
-        <div class="contentcomments_settingsPart">
-            <h3>__MSG__DISPLAY__:</h3>
-            <ul>
-                <li>
-                    <label for="contentcomments_PerPageID" class="video_source_rbtLabel">__MSG__DISPLAY__ <input type="text" id="contentcomments_txtPage" />
-                    __MSG__COMMENT_AT_A_TIME__.</label></input><br />
-                </li>
-                <li>&nbsp;</li>
-                <li>
-                    <input type="radio" name="contentcomments_ChooseDirectionComments" value="contentcomments_FirstUp" id="contentcomments_FirstUpID" checked="checked">
-                        <label for="contentcomments_FirstUpID" class="video_source_rbtLabel">__MSG__LATEST_COMMENT_IS_AT THE_TOP_OF_THE_COMMENT_LIST__</label>
-                    </input>
-                </li>
-                <li>
-                    <input type="radio" name="contentcomments_ChooseDirectionComments" value="contentcomments_FirstDown" id="contentcomments_FirstDownID">
-                        <label for="contentcomments_FirstDownID" class="video_source_rbtLabel">__MSG__LATEST_COMMENT_IS_AT THE_BOTTOM_OF_THE_COMMENT_LIST__</label>
-                    </input>
-                </li>
-            </ul>
-
-        </div>
-        <div class="contentcomments_settingsPart">
-            <h3>__MSG__PERMISSIONS__:</h3>
-            <ul>
-                <li><input type="radio" name="contentcomments_ChoosePermissionComments" value="contentcomments_RequireLogIn" id="contentcomments_RequireLogInID" Name="contentcomments_RequireLogIn">
-                <label for="contentcomments_RequireLogInID" class="video_source_rbtLabel"> __MSG__ONLY_REGISTERED_USERS_CAN_COMMENT__</label></input><br /></li>
-                <li>
-                    <input type="radio" name="contentcomments_ChoosePermissionComments" value="contentcomments_DontRequireLogin" id="contentcomments_DontRequireLoginID" Name="contentcomments_DontRequireLogin"  checked="checked">
-                        <label for="contentcomments_DontRequireLoginID" class="video_source_rbtLabel">__MSG__ALLOW_ANYONE_TO_COMMENT__</label>
-                    </input>
-                </li>
-                <li>
-                    <ul>
-                        <li>
-                            <input type="checkbox" id="contentcomments_Namerequired">
-                                <label for="contentcomments_Namerequired" class="video_source_rbtLabel">__MSG__COMMENTS_REQUIRE_NAME__</label>
-                            </input>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="contentcomments_Emailrequired">
-                                <label for="contentcomments_Emailrequired" class="video_source_rbtLabel" >__MSG__COMMENTS_REQUIRE_EMAIL__</label>
-                            </input>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <br />
-        </div>
-
-        <div class="contentcomments_settingsPart">
-            <h3>__MSG__NOTIFICATION__:</h3>
-            <ul><li><input type="checkbox" id="contentcomments_SendMail"><label for="contentcomments_SendMail" class="video_source_rbtLabel"> __MSG__EMAIL_ME_WHEN_THERE_IS_A_NEW_COMMENT__</label></input></li></ul>
-        </div>
-
-        <div class="dialog_buttons right">
-            <button type="button" class="s3d-button s3d-button-primary" id="contentcomments_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-            <button type="button" class="s3d-button" id="contentcomments_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-        </div>
-    </form>
-</div>
 <!-- WIDGET FOOTER-->
 <div class="s3d-widget-no-options"><div class="s3d-widget-no-options-inner"><!-- --></div></div>
 
