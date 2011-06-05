@@ -34,7 +34,7 @@
         {else}
             <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
-        {for g in me.groups}
+        {for g in groups.entry}
             {if g["sakai:group-title"]}
                 {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
                     <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}'s Library</option>

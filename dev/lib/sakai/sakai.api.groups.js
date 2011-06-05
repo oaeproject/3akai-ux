@@ -958,6 +958,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     newjson.entry.push(groups[i]);
                 }
             }
+            newjson.entry.sort(function(a, b){
+                return a["sakai:group-title"] > b["sakai:group-title"];
+            });
             return newjson;
         },
 
