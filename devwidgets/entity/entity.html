@@ -203,7 +203,7 @@
             {else}
                 <div id='widget_joinrequestbuttons' class='widget_inline'></div>
             {/if}
-            <button type="button" id="entity_message" class="s3d-button s3d-header-button">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></button>
+            <button sakai-entitytype="group" sakai-entityname="${data.authprofile["sakai:group-title"]}" sakai-entityid="${data.authprofile["sakai:group-id"]}" type="button" class="s3d-button s3d-header-button sakai_sendmessage_overlay">__MSG__MESSAGE__<span class="entity_message_icon entity_user_action_icon"></span></button>
         {/if}
     </div>
     {if type && type == "group_managed"}
