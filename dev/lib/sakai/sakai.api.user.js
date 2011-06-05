@@ -585,7 +585,7 @@ define(["jquery",
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
-                    $(window).trigger("acceptContactInvite.user.sakai");
+                    $(window).trigger("lhnav.updateCount", ["contacts", 1]);
                 },
                 error: function() {
                     if ($.isFunction(callback)) {
