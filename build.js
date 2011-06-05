@@ -25,7 +25,7 @@
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
-        "jquery": "dev/lib/jquery/require-jquery",
+        "jquery": "dev/lib/jquery/jquery-1.5.2",
         "jquery-ui": "dev/lib/jquery/jquery-ui-1.8.13.custom",
         "sakai": "dev/lib/sakai"
     },

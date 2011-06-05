@@ -2,7 +2,7 @@
 
 .recentchangedcontent_content {padding-top: 0px !important; padding-bottom: 0px !important;}
 
-.recentchangedcontent_main {background-color:#FFFFFF!important; min-height: 50px;}
+.recentchangedcontent_main {background-color:#FFFFFF!important; min-height: 50px; padding-top: 5px;}
 #recentchangedcontent_no_content{color: #878a8c;padding: 5px 10px 20px 10px;}
 .recentchangedcontent_item_comment_arrow {margin:2px 0 0 7px; border-top: 0; border-bottom: 10px solid transparent; border-left: 15px solid transparent; border-right: 15px solid #FFFFFF;}
 .recentchangedcontent_comment_background {background-color:#FFFFFF!important; min-height:50px; margin-left:37px; padding:3px 6px 0 6px;

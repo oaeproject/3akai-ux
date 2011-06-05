@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General */
-#addpeople_container {left:41%;width:750px;}
+#addpeople_container {margin-left:-375px;width:750px;}
 
 /* Containers */
 #addpeople_container #addpeople_my_contacts, #addpeople_container #addpeople_members_container {border:1px solid #E7E7E7;float:left;height:400px;margin-top:30px;width:300px;background-color:#fff;-moz-border-radius:0 2px 2px;-webkit-border-radius:0 2px 2px;border-radius:0 2px 2px;}
