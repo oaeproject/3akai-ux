@@ -61,6 +61,7 @@
 #newaddcontent_container #newaddcontent_container_selecteditems ul {margin:0;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li{border-bottom: 1px solid #E5EAED;color: #424242;list-style: none outside none;padding: 6px 20px 6px 30px;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title {display:block;padding-left:2px;}
+#newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_title_gotit {color: #ccc;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_actions button {font-size:11px;}
 #newaddcontent_container #newaddcontent_container_selecteditems #newaddcontent_container_selecteditems_container {height: 402px;overflow: auto;}
 #newaddcontent_container #newaddcontent_container_selecteditems ul li .newaddcontent_selecteditems_remove, #newaddcontent_container .newaddcontent_selecteditems_edit_data_close {background:url("/devwidgets/newaddcontent/images/newaddcontent_remove_icon.png") no-repeat top left transparent;width:13px;height:13px;float:right;margin-top:1px;cursor:pointer;}

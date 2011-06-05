@@ -633,9 +633,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromFileUpload(files);
         });
 
-        $(window).unbind("finished.pickeradvanced.sakai");
-        $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
-            addChoicesFromPickeradvanced(data.toAdd);
+        $(window).unbind("done.newaddcontent.sakai");
+        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
+            var obj = {};
+            for (var i = 0; i < data.length; i++){
+                obj[data[i]._path] = data[i];
+            }
+            addChoicesFromPickeradvanced(obj);
         });
 
         $(window).unbind("ready.pickeradvanced.sakai");

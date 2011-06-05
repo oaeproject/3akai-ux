@@ -135,6 +135,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var hideAfterContentUpload = false;
         var currentExistingContext = false;
 
+        var currentSelectedLibrary = "";
+        if (sakai_global.group2 && sakai_global.group2.groupId){
+            currentSelectedLibrary = sakai_global.group2.groupId;
+        }
 
         ////////////////////////////////
         // Get newly uploaded content //
@@ -203,16 +207,17 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * Render the queue
          */
         var renderQueue = function(){
-            var defaultLibrary = "";
-            if (sakai_global.group2 && sakai_global.group2.groupId){
-                defaultLibrary = sakai_global.group2.groupId;
-            }
             $newaddcontentContainerSelectedItemsContainer.html(sakai.api.Util.TemplateRenderer(newaddcontentSelectedItemsTemplate, {
                 "items": itemsToUpload,
                 "sakai": sakai,
                 "me": sakai.data.me,
-                "defaultLibrary": defaultLibrary
+                "currentSelectedLibrary": currentSelectedLibrary
             }));
+        };
+
+        var greyOutExistingInLibrary = function(){
+            currentSelectedLibrary = $(newaddcontentSaveTo).val();
+            renderQueue();
         };
 
         var resetQueue = function(){
@@ -323,9 +328,19 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     var $existingContentForm = $(this).prev().children(":visible").find(newAddContentForm);
                     $.each($existingContentForm.find(":checked"), function(index, item){
                         if (!$(item).is(":disabled")) {
+                            var viewers = [];
+                            if ($(item).data("sakai-pooled-content-viewer")){
+                                viewers = $(item).data("sakai-pooled-content-viewer").split(",");
+                            }
+                            var managers = [];
+                            if ($(item).data("sakai-pooled-content-manager")){
+                                managers = $(item).data("sakai-pooled-content-manager").split(",");
+                            }
                             var contentObj = {
                                 "title": $(item).next().text(),
                                 "id": item.id,
+                                "viewers": viewers,
+                                "managers": managers,
                                 "type": "existing",
                                 "css_class": $(item).next().children(newaddcontentExistingItemsListContainerListItemIcon)[0].id
                             };
@@ -411,7 +426,13 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 _.uniq($.merge(allNewContent, lastUpload));
                 lastUpload = [];
                 $newaddcontentContainer.jqmHide();
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("MY_LIBRARY"), sakai.api.i18n.General.getValueForKey("MY_LIBRARY_ADDED"));
+                var libraryid = $(newaddcontentSaveTo).val();
+                var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
+                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                    me: sakai.data.me,
+                    libraryid: libraryid,
+                    librarytitle: librarytitle
+                }));
             }
         };
 
@@ -484,7 +505,9 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     });
                     document.hashpath = data["_contentItem"].poolId;
                     document.permissions = document["sakai:permissions"];
-                    sakai.api.Content.setFilePermissions([document], false);
+                    sakai.api.Content.setFilePermissions([document], function(){
+                        addToLibrary(data._contentItem);
+                    });
                 },
                 error: function(err){
                     checkUploadCompleted();
@@ -520,6 +543,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     linkObj.hashpath = data._contentItem.poolId;
                     sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
+                        addToLibrary(data._contentItem);
                         checkUploadCompleted();
                     });
                 },
@@ -637,7 +661,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * @param {Object} item Item to be added to your own library
          */
         var addToLibrary = function(item){
-            sakai.api.Content.addToLibrary(item.id, sakai.data.me.user.userid, function(){
+            var library = $(newaddcontentSaveTo).val();
+            sakai.api.Content.addToLibrary(item.id || item.poolId, library, function(){
                 checkUploadCompleted();
             });
         };
@@ -662,6 +687,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                         break;
                     case "existing":
                         addToLibrary(item);
+                        lastUpload.push({
+                            _path: item.id,
+                            "sakai:pooled-content-file-name": $.trim(item.title)
+                        });
                         break;
                 }
             });
@@ -794,7 +823,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             existingIDs.push(item.id);
                         }
                     });
-                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
+                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "query":q, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
                     var numberOfPages = Math.ceil(data.total / 10);
                     $("#newaddcontent_existingitems_paging").pager({
                         pagenumber: pagenum,
@@ -989,6 +1018,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
+            $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
 
             $newaddcontentAddLinkForm.validate({
                 success: function(){
