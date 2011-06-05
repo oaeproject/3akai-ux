@@ -1,3 +1,4 @@
+#pickeradvanced_container {width: 720px !important; margin-left: -360px !important;}
 #pickeradvanced_container #pickeradvanced_container_search{width:722px;height:379px;}
 
 /* HEADER */
@@ -13,9 +14,10 @@
 #pickeradvanced_container #pickeradvanced_footer{float:right;width:445px;}
 #pickeradvanced_footer_select{padding-bottom:40px;}
 #pickeradvanced_container #pickeradvanced_footer_options{margin-top:15px;}
+.pickeradvanced_selection_buttons {padding-top: 9px;}
 
 /* CONTENT */
-#pickeradvanced_container #pickeradvanced_content{height:336px;overflow:hidden;width:700px;clear:both;}
+#pickeradvanced_container #pickeradvanced_content{height:345px;overflow:hidden;width:700px;clear:both;}
 
 /* SEARCH */
 #pickeradvanced_content_search_form {vertical-align:middle;margin-bottom:7px;}
@@ -40,7 +42,7 @@
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page_list .pickeradvanced_selected_user,#pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page_list .pickeradvanced_selected_user:hover{background:#9CF;border-bottom:1px solid #006E96;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page_thumbnails .pickeradvanced_selected_user{background:#9CF;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_ppicture{height:32px;width:32px;float:left;display:block;}
-#pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_name{color:#006E96;font-size:14px;font-weight:bold;position:relative;top:5px;left:5px;}
+#pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_name{color:#006E96;font-size:12px;font-weight:bold;position:relative;top:8px;left:5px;}
 #pickeradvanced_container #pickeradvanced_content_search .pickeradvanced_page .pickeradvanced_subnameinfo{color:#999;font-size:11px;position:relative;top:5px;left:5px;}
 .loadinganim{background:#fff url(/dev/images/ajax_load.gif) center 8px no-repeat;min-height:50px;}
 #pickeradvanced_container #pickeradvanced_no_results{font-weight:bold;margin-left:128px;margin-top:20px;float:left;}

@@ -49,7 +49,8 @@
             retrieveComplete: function(data){ return data; },
             resultClick: function(data){},
             resultsComplete: function(){},
-            source: false // function to take over processing the query
+            source: false, // function to take over processing the query
+            scrollresults: false //set to true if you result list is in a container with overflow and it should scroll with up/down keyboard navigation
         };
         var opts = $.extend(defaults, options);     
         
@@ -75,6 +76,7 @@
                 var input = $(this);
                 input.attr("autocomplete","off").addClass("as-input").attr("id",x_id).val(opts.startText);
                 var input_focus = false;
+                var results_li_heights = []; //for calculating scrolling results if they overflow
                 
                 // Setup basic elements and render them to the DOM
                 input.wrap('<ul class="as-selections" id="as-selections-'+x+'"></ul>').wrap('<li class="as-original" id="as-original-'+x+'"></li>');
@@ -269,6 +271,7 @@
                     if (!opts.matchCase){ query = query.toLowerCase(); }
                     var matchCount = 0;
                     results_holder.html(results_ul.html("")).hide();
+                    results_li_heights = [];
                     for(var i=0;i<d_count;i++){             
                         var num = i;
                         num_count++;
@@ -285,7 +288,7 @@
                         }
                         if(str){
                             if (!opts.matchCase){ str = str.toLowerCase(); }
-//                            query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // http://simonwillison.net/2006/Jan/20/escape/
+                            query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // http://simonwillison.net/2006/Jan/20/escape/
                             if(str.search(query) != -1 && values_input.val().search(data[num][opts.selectedValuesProp]+",") == -1){
                                 forward = true;
                             }   
@@ -323,7 +326,7 @@
                             } else {
                                 formatted = opts.formatList.call(this, this_data, formatted);   
                             }
-                            results_ul.append(formatted);
+                            results_ul.append(formatted).find("li:first").addClass("active");
                             delete this_data;
                             matchCount++;
                             if(opts.retrieveLimit && opts.retrieveLimit == matchCount ){ break; }
@@ -336,6 +339,12 @@
                     results_ul.css("width", selections_holder.outerWidth());
                     results_holder.show();
                     opts.resultsComplete.call(this);
+                    if(opts.scrollresults && matchCount > 1){ //don't bother building the array if only one list item since we won't be scrolling
+                        results_ul.children().each(function(i){
+                            var h = this.offsetHeight + ((i>0) ? results_li_heights[i-1]: 0);
+                            results_li_heights.push(h);
+                        });                    
+                    }
                 }
 
                 /**
@@ -381,13 +390,23 @@
                         var active = $("li.active:first", results_holder);
                         if(active.length > 0){
                             if(direction == "down"){
-                            start = active.next();
+                                start = active.next().length>0?active.next():active;
                             } else {
-                                start = active.prev();
+                                start = active.prev().length>0?active.prev():active;
                             }   
                         }
                         lis.removeClass("active");
                         start.addClass("active");
+                        //scroll the results if they are longer than the container
+                        if(opts.scrollresults && start.length>0 && results_li_heights.length>0){
+                            var scroll_holder = results_li_heights[start.index()];
+                            var results_height = results_ul[0].offsetHeight;
+                            if(scroll_holder>results_height){
+                                results_ul.scrollTop(scroll_holder - results_height);
+                            } else {
+                                results_ul.scrollTop(0);
+                            }
+                        }
                     }
                 }
                                     

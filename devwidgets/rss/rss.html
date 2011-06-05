@@ -14,7 +14,7 @@
         <label for="rss_settings_txtUrl">__MSG__RSS_FEED_URL__:</label><br />
         <input type="text" id="rss_settings_txtUrl" />
         <br/>
-        <button type="button" class="s3d-button s3d-button-primary rss_settings_btnAddUrl"><span class="s3d-button-inner">__MSG__ADD_RSS_FEED__</span></button>
+        <button type="button" class="s3d-button s3d-header-button rss_settings_btnAddUrl">__MSG__ADD_RSS_FEED__</button>
         <br />
 
         <div id="rss_settings_rssFeedList">
@@ -44,9 +44,9 @@
             <input type="checkbox" id="rss_setting_displaySource" /><label class="rss_setting_label" for="rss_setting_displaySource">__MSG__DISPLAY_SOURCE__</label><br />
             <input type="checkbox" id="rss_setting_displayHeadlines" /><label class="rss_setting_label"  for="rss_setting_displayHeadlines">__MSG__DISPLAY_HEADLINES_ONLY__</label><br />
         </p>
-        <div class="dialog_buttons">
-            <button type="button" class="s3d-button" id="rss_setting_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="rss_setting_finish"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+        <div class="fl-force-right">
+            <button type="button" id="rss_setting_cancel" class="s3d-bold s3d-link-button">__MSG__CANCEL__</button>
+            <button type="button" id="rss_setting_finish" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
         </div>
     </form>
     <hr class='fl-hidden fl-push'>
@@ -65,8 +65,8 @@
 <div id="rss_output_template" style="display:none"><!--
         <div class="rss_output_header">
             <h1>${title}</h1>
-            <button type="button" class="s3d-button s3d-button-secondary rss_output_order fl-force-right" id="rss_output_order_date"><span class="s3d-button-inner">__MSG__SORT_BY_DATE__</span></button>
-            <button type="button" class="s3d-button s3d-button-secondary rss_output_order fl-force-right" id="rss_output_order_source"><span class="s3d-button-inner">__MSG__SORT_BY_SOURCE__</span></button>
+            <button type="button" class="s3d-button s3d-header-button rss_output_order fl-force-right" id="rss_output_order_date">__MSG__SORT_BY_DATE__</button>
+            <button type="button" class="s3d-button s3d-header-button rss_output_order fl-force-right" id="rss_output_order_source">__MSG__SORT_BY_SOURCE__</button>
         </div>
 
         {for i in shownEntries}

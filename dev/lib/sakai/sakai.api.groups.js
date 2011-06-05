@@ -197,7 +197,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (template.roles[q].id === template.creatorRole){
                         var group = {
                             groupid: groupid + "-" + template.roles[q].id,
-                            grouptitle: grouptitle + " " + template.roles[q].title,
+                            grouptitle: grouptitle + " (" + template.roles[q].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             template: template,
@@ -218,7 +218,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (template.roles[n].allowManage && template.roles[n].id !== template.creatorRole) {
                         var gr = {
                             groupid: groupid + "-" + template.roles[n].id,
-                            grouptitle: grouptitle + " " + template.roles[n].title,
+                            grouptitle: grouptitle + " (" + template.roles[n].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             category: category,
@@ -235,7 +235,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     if (!template.roles[o].allowManage) {
                         var gr1 = {
                             groupid: groupid + "-" + template.roles[o].id,
-                            grouptitle: grouptitle + " " + template.roles[o].title,
+                            grouptitle: grouptitle + " (" + template.roles[o].roleTitle + ")",
                             groupdescription: "",
                             basedGroup: groupid,
                             category: category,
@@ -721,18 +721,19 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     var batchRequests = [];
                     var dataToReturn = {};
                     for (var i = 0; i < roles.length; i++) {
-                        var url = "/var/search/groupmembers-all.json";
-                        var parameters = {
-                            group: groupID + "-" + roles[i].id,
-                            q: searchquery
-                        };
-                        if (searchquery !== "*"){
-                            url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
-                        }
+                        //var url = "/var/search/groupmembers-all.json";
+                        //var parameters = {
+                        //    group: groupID + "-" + roles[i].id,
+                        //    q: searchquery
+                        //};
+                        //if (searchquery !== "*"){
+                        //    url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
+                        //}
+                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + ".members.json";
                         batchRequests.push({
                             "url": url,
-                            "method": "GET",
-                            "parameters": parameters
+                            "method": "GET"
+                        //  "parameters": parameters
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
@@ -740,7 +741,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                             for (var i = 0; i < roles.length; i++) {
                                 if (data.results.hasOwnProperty(i)) {
                                     var members = $.parseJSON(data.results[i].body);
-                                    dataToReturn[roles[i].title] = members;
+                                    dataToReturn[roles[i].title] = {};
+                                    dataToReturn[roles[i].title].results = members;
                                 }
                             }
                             if ($.isFunction(callback)) {

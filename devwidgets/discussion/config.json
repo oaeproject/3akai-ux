@@ -1,8 +1,8 @@
 {
-    "userpages": false,
-    "userdashboard": false,
-    "grouppages": false,
-    "groupdashboard": false,
+    "userpages": true,
+    "userdashboard": true,
+    "grouppages": true,
+    "groupdashboard": true,
     "description":"Discussion widget",
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",
@@ -12,9 +12,10 @@
         "zh_CN": "/devwidgets/discussion/bundles/zh_CN.properties"
     },
     "name":"Discussion",
-    "showinsakaigoodies":false,
+    "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",
-    "enabled":false,
+    "enabled":true,
+    "sakaidocs": true,
     "url":"/devwidgets/discussion/discussion.html"
 }

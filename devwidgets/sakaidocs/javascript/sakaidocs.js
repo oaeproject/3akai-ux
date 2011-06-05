@@ -70,6 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var keepAutosave = function() {
             autosaveDialogShown = false;
             setAutosaveInterval();
+            $('#autosave_dialog').jqmHide();
         };
 
         var checkAutosave = function(callback) {
@@ -213,7 +214,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[type].name);
-                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
                 }
@@ -329,7 +330,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
                 $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/");
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
                 if (sakai.widgets[widgetid].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
@@ -597,7 +598,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
-                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
                 // Render Math formulas in the text
                 sakai.api.Util.renderMath(currentPageShown.ref);
             } else {
@@ -606,7 +607,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     // Render Math formulas in the text
                     sakai.api.Util.renderMath(currentPageShown.ref);
                     $contentEl.show();
@@ -615,7 +616,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
                 }
             }
-            if (currentPageShown.canEdit && !currentPageShown.nonEditable){
+            if (canEdit()) {
                 showPageEditControls(currentPageShown.addArea);
             } else {
                 hidePageEditControls();
@@ -702,6 +703,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#page_autosave_time").html("");
             $("#context_menu").hide();
             $("#s3d-page-container").show();
+        };
+
+        ////////////////////////////////////////////
+        // Check for ability to edit current page //
+        ////////////////////////////////////////////
+
+        var canEdit = function() {
+            return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
         ////////////////////////////

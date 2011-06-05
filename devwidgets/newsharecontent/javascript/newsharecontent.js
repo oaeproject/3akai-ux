@@ -67,6 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Content object
         var contentObj = {};
 
+        
         ///////////////
         // RENDERING //
         ///////////////
@@ -94,44 +95,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var resetWidget = function(hash){
-            hash.o.remove();
+        var resetWidget = function(){
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-            $(".as-close").click();
-            $(newsharecontentListItem).remove();
-        };
-
-        ////////////
-        // SEARCH //
-        ////////////
-
-        var fetchUsersGroups = function(){
-            var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL + "?q=*";
-            sakai.api.Server.loadJSON(searchUrl.replace(".json", ".infinity.json"), function(success, data){
-                if (success) {
-                    var suggestions = [];
-                    var name, value, type;
-                    $.each(data.results, function(i){
-                        if (data.results[i]["rep:userId"]) {
-                            name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                            value = data.results[i]["rep:userId"];
-                            type = "user";
-                        }  else if (data.results[i]["sakai:group-id"]) {
-                                name = data.results[i]["sakai:group-title"];
-                                value = data.results[i]["sakai:group-id"];
-                                type = "group";
-                            }
-                        suggestions.push({"value": value, "name": name, "type": type});
-                    });
-                    $newsharecontentSharelist.autoSuggest(suggestions, {
-                        selectedItemProp: "name",
-                        searchObjProps: "name",
-                        startText: "Enter name here",
-                        asHtmlID: tuid
-                    });
-                }
-            });
+            sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
         };
 
         ///////////
@@ -208,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addBinding = function(){
             $newsharecontentContainer.jqm({
                 modal: false,
-                overlay: 1,
+                overlay: 0,
                 toTop: true,
                 zIndex: 3000,
                 onShow: fillShareData,
@@ -216,6 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $('#newsharecontent_cancel').bind('click',function(){
+                sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
                 $newsharecontentContainer.hide();
             });
 
@@ -228,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "data": data,
                             "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["_path"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
                         };
-                        if (window.hasOwnProperty('addthis')) {
+                        if (window["addthis"]) {
                             $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
                             $newsharecontentContainer.jqmShow();
                         }
@@ -252,11 +220,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var init = function(){
             addBinding();
-            fetchUsersGroups();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
             $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
             $.ajaxSettings.cache = ajaxcache;
+            sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };
 
         init();
