@@ -157,7 +157,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(nameTaken){
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","GROUP_TAKEN"), sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","THIS_GROUP_HAS_BEEN_TAKEN"));
                 }
-                $newcreategroupContainer.find("select, input, textarea").removeAttr("disabled");
+                $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
         });
     };
@@ -345,7 +345,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupCreateSimpleGroupButton.bind("click", function(){
             $newcreategroupGroupForm.validate({
                 submitHandler: function(form){
-                    $newcreategroupContainer.find("select, input, textarea").attr("disabled","disabled");
+                    $newcreategroupContainer.find("select, input, textarea, button").attr("disabled","disabled");
                     doCreateSimpleGroup();
                 }
             });
