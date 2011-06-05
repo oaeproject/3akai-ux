@@ -721,18 +721,19 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                     var batchRequests = [];
                     var dataToReturn = {};
                     for (var i = 0; i < roles.length; i++) {
-                        var url = "/var/search/groupmembers-all.json";
-                        var parameters = {
-                            group: groupID + "-" + roles[i].id,
-                            q: searchquery
-                        };
-                        if (searchquery !== "*"){
-                            url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
-                        }
+                        //var url = "/var/search/groupmembers-all.json";
+                        //var parameters = {
+                        //    group: groupID + "-" + roles[i].id,
+                        //    q: searchquery
+                        //};
+                        //if (searchquery !== "*"){
+                        //    url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
+                        //}
+                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + ".members.json";
                         batchRequests.push({
                             "url": url,
-                            "method": "GET",
-                            "parameters": parameters
+                            "method": "GET"
+                        //  "parameters": parameters
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
@@ -740,7 +741,8 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "sak
                             for (var i = 0; i < roles.length; i++) {
                                 if (data.results.hasOwnProperty(i)) {
                                     var members = $.parseJSON(data.results[i].body);
-                                    dataToReturn[roles[i].title] = members;
+                                    dataToReturn[roles[i].title] = {};
+                                    dataToReturn[roles[i].title].results = members;
                                 }
                             }
                             if ($.isFunction(callback)) {

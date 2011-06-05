@@ -104,7 +104,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var role in data) {
                     for (var i = 0; i < data[role].results.length; i++) {
                         participantsArr.push({
-                            "name": data[role].results[i].basic.elements.firstName.value + " " + data[role].results[i].basic.elements.lastName.value,
+                            "name": sakai.api.User.getDisplayName(data[role].results[i]),
                             "id": data[role].results[i]["rep:userId"],
                             "title": role,
                             "content": 0,
