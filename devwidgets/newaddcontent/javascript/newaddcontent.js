@@ -128,10 +128,12 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
         var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
         var newaddcontentExistingClear = "#newaddcontent_existingitems_search_clear";
+        var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
         var contentUploaded = false;
         var hideAfterContentUpload = false;
+        var currentExistingContext = false;
 
 
         ////////////////////////////////
@@ -715,7 +717,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     disableAddToQueue();
                 }
             } else {
-                if ($(newaddcontentExistingContentForm + " input[type=checkbox]:checked").length) {
+                if ($(newaddcontentExistingContentForm + " input[type=checkbox]:checked:enabled").length) {
                     enableAddToQueue();
                 } else {
                     disableAddToQueue();
@@ -762,18 +764,23 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             showSelectedItem($(newaddcontentAddDocumentTemplate));
         };
 
-        var searchAndRenderExistingContent = function(context, $container, q){
+        var searchPaging = function(pagenum){
+            prepareContentSearch(pagenum);
+        };
+
+        var searchAndRenderExistingContent = function($container, q, pagenum){
+            pagenum = pagenum || 1;
             var searchURL = "";
-            switch(context){
+            switch(currentExistingContext){
                 case "everything":
                     if (q === "*") {
-                        searchURL = "/var/search/pool/all-all.infinity.json?items=10";
+                        searchURL = "/var/search/pool/all-all.infinity.json?items=10&page=" + (pagenum - 1);
                     } else {
-                        searchURL = "/var/search/pool/all.infinity.json?items=10&q=" + q;
+                        searchURL = "/var/search/pool/all.infinity.json?items=10&page=" + (pagenum - 1) + "&q=" + q;
                     }
                     break;
                 case "my_library":
-                    searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&q=" + q;
+                    searchURL = "/var/search/pool/manager-viewer.json?userid=" + sakai.data.me.user.userid + "&items=10&page=" + (pagenum - 1) + "&q=" + q;
                     break;
             }
 
@@ -787,7 +794,18 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             existingIDs.push(item.id);
                         }
                     });
-                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs, "context":context}));
+                    $container.html(sakai.api.Util.TemplateRenderer(newaddcontentExistingItemsTemplate, {"data": data, "sakai":sakai, "queue":existingIDs, "context":currentExistingContext}));
+                    var numberOfPages = Math.ceil(data.total / 10);
+                    $("#newaddcontent_existingitems_paging").pager({
+                        pagenumber: pagenum,
+                        pagecount: numberOfPages,
+                        buttonClickCallback: searchPaging
+                    });
+                    if (numberOfPages > 1){
+                        $("#newaddcontent_existingitems_paging").show();
+                    } else {
+                        $("#newaddcontent_existingitems_paging").hide();
+                    }
                 },
                 error: function(err){
 
@@ -799,19 +817,18 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * Decide what context to render to add existing content
          * @param {Object} context The context that will help decide what to render
          */
-        var renderExistingContent = function(context, q){
+        var renderExistingContent = function(q, pagenum){
             if (!q) {
                 q = "*";
             }
-            $newaddcontentExistingItemsSearch[0].id = "search_" + context;
-            switch(context){
+            switch(currentExistingContext){
                 case "everything":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
+                    searchAndRenderExistingContent($(newaddcontentExistingItemsListContainerList), q, pagenum);
                     break;
                 case "my_library":
                     showSelectedItem($(newaddcontentAddExistingTemplate));
-                    searchAndRenderExistingContent(context, $(newaddcontentExistingItemsListContainerList), q);
+                    searchAndRenderExistingContent($(newaddcontentExistingItemsListContainerList), q, pagenum);
                     break;
             }
         };
@@ -834,16 +851,28 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var clearSearchQuery = function(){
             if ($(".newaddcontent_existingitems_search").val()) {
                 $(".newaddcontent_existingitems_search").val("");
+                prepareContentSearch();
             }
+        };
+
+        /**
+         * Check/uncheck all of the displayed results
+         */
+        var checkUncheckAll = function(){
+            if ($(newaddcontentExistingCheckAll).is(':checked')){
+                $(".newaddcontent_existingitems_select_checkbox:enabled", $(newaddcontentExistingItemsListContainerList)).attr("checked", "checked");
+            } else {
+                $(".newaddcontent_existingitems_select_checkbox:enabled", $(newaddcontentExistingItemsListContainerList)).removeAttr("checked");
+            }
+            checkFieldValidToAdd();
         };
 
         /**
          * Prepare and call the function to render existing content in a list
          */
-        var prepareContentSearch = function(){
-            var query = $.trim($(this).val());
-            var context = $(this)[0].id.split("search_")[1];
-            renderExistingContent(context, query);
+        var prepareContentSearch = function(pagenum){
+            var query = $.trim($newaddcontentExistingItemsSearch.val());
+            renderExistingContent(query, pagenum);
         };
 
 
@@ -900,11 +929,13 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 default: // No ID found on class -> subnav present
                     switch ($(this).children("ul").children(newaddcontentContainerLHChoiceSelectedSubitem)[0].id) {
                         case "newaddcontent_existing_content_everything":
-                            renderExistingContent("everything", $newaddcontentExistingItemsSearch.val());
+                            currentExistingContext = "everything";
+                            renderExistingContent($newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                         case "newaddcontent_existing_content_my_library":
-                            renderExistingContent("my_library", $newaddcontentExistingItemsSearch.val());
+                            currentExistingContext = "my_library";
+                            renderExistingContent($newaddcontentExistingItemsSearch.val());
                             $newaddcontentContainerNewItemAddToList.addClass(newaddcontentContainerNewItemAddToListExistingContentposition);
                             break;
                     }
@@ -957,6 +988,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
+            $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
 
             $newaddcontentAddLinkForm.validate({
                 success: function(){
@@ -988,19 +1020,6 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 overlay: 20,
                 toTop: true
             });
-
-            // position dialog box at users scroll position
-            var htmlScrollPos = $("html").scrollTop();
-            var docScrollPos = $(document).scrollTop();
-            if (htmlScrollPos > 0) {
-                $newaddcontentContainer.css({
-                    "top": htmlScrollPos + 100 + "px"
-                });
-            } else if (docScrollPos > 0) {
-                $newaddcontentContainer.css({
-                    "top": docScrollPos + 100 + "px"
-                });
-            }
             $newaddcontentContainer.jqmShow();
         };
 
