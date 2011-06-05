@@ -135,7 +135,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var hideAfterContentUpload = false;
         var currentExistingContext = false;
 
-        var currentSelectedLibrary = "";
+        var currentSelectedLibrary = sakai.data.me.user.userid;
         if (sakai_global.group2 && sakai_global.group2.groupId){
             currentSelectedLibrary = sakai_global.group2.groupId;
         }
