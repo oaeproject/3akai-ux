@@ -300,27 +300,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var prepareSelectedContacts = function(success, data){
             for(var role in data){
                 for(var user in data[role].results){
-                    var userObj = {
-                        userid: data[role].results[user]["rep:userId"],
-                        name: sakai.api.User.getDisplayName(data[role].results[user]),
-                        dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
-                    }
-                    $.each(currentTemplate.roles, function(i, r){
-                        if (currentTemplate.roles[i].title == role){
-                            userObj.permission = currentTemplate.roles[i].id;
-                            userObj.originalPermission = currentTemplate.roles[i].id;
+                    if (data[role].results.hasOwnProperty(user)) {
+                        var userObj = {
+                            userid: data[role].results[user]["rep:userId"],
+                            name: sakai.api.User.getDisplayName(data[role].results[user]),
+                            dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
                         }
-                    });
-                    if(data[role].results[user].picture){
-                        userObj.picture = "/~" + data[role].results[user]["rep:userId"] + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
-                    } else {
-                        if(data[role].results[user]["sakai:group-id"]){
-                            userObj.picture = "/dev/images/group_avatar_icon_35x35_nob.png";
-                        }else{
-                            userObj.picture = "/dev/images/default_User_icon_35x35.png";
+                        $.each(currentTemplate.roles, function(i, r){
+                            if (currentTemplate.roles[i].title == role) {
+                                userObj.permission = currentTemplate.roles[i].id;
+                                userObj.originalPermission = currentTemplate.roles[i].id;
+                            }
+                        });
+                        if (data[role].results[user].picture) {
+                            userObj.picture = "/~" + data[role].results[user]["rep:userId"] + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
                         }
+                        else {
+                            if (data[role].results[user]["sakai:group-id"]) {
+                                userObj.picture = "/dev/images/group_avatar_icon_35x35_nob.png";
+                            }
+                            else {
+                                userObj.picture = "/dev/images/default_User_icon_35x35.png";
+                            }
+                        }
+                        selectedUsers[userObj.userid] = userObj;
                     }
-                    selectedUsers[userObj.userid] = userObj;
                 }
             }
             renderSelectedContacts();
