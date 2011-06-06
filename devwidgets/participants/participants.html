@@ -22,31 +22,38 @@
         <li class="s3d-list-item{if participant_index == 0} participants_list_first{elseif participant_index == participants.length - 1} participants_list_last{/if}">
             <div class="participants_list_participant_actions">
                 {if participant.id != sakai.data.me.user.userid}
-                    <button type="button" sakai-entitytype="user" sakai-entityname="${participant.name}" sakai-entityid="${participant.id}" class="s3d-button s3d-header-button sakai_sendmessage_overlay">
-                        __MSG__MESSAGE__
-                    </button>
-                    <button type="button" sakai-entityname="${participant.name}" sakai-entityid="${participant.id}" class="s3d-button s3d-header-button sakai_addtocontacts_overlay">
-                        __MSG__REQUEST_CONNECTION__
-                    </button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button participants_message_icon sakai_sendmessage_overlay" sakai-entityid=${participant.id}" sakai-entityname="${participant.name}" sakai-entitytype="${participant.type}"></button>
                 {/if}
             </div>
-            <input type="checkbox" id="${participant.id}_chk" class="participants_list_participant_checkbox"/>
+            <span class="participants_list_participant_checkbox">
+                <input type="checkbox" id="${participant.id}_chk" class=""/>
+                <br/>
+                {if participant.id != sakai.data.me.user.userid}
+                    {if ! participant.connected}
+                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id}" sakai-entityname="${participant.name}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
+                    {elseif participant.invited}
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button participants_plus participants_accept_invitation" sakai-entityid="${participant.id}" sakai-entityname="${participant.name}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}>+</button>
+                    {elseif !participant.pending && !participant.none}
+                        <img class="participants_contact_icon" src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" />
+                    {/if}
+                {/if}
+            </span>
             <label for="${participant.id}_chk">
-                <img src="/dev/images/default_User_icon_50x50.png" alt="${participant.name}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
+                <img src="${participant.profilePicture}" alt="${participant.name}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
             </label>
-            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-links participants_list_participant_name">${participant.name}</a>
+            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">${participant.name}</a>
             <br/>
             <span class="participants_list_participant_details">${participant.title}</span>
             <br/>
-            <a href="/~${participant.id}#l=library" class="s3d-regular-links participants_list_participant_details">
+            <a href="/~${participant.id}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=contacts" class="s3d-regular-links participants_list_participant_details">
+            <a href="/~${participant.id}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=memberships" class="s3d-regular-links participants_list_participant_details">
+            <a href="/~${participant.id}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
             </a>
         </li>
