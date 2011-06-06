@@ -44,13 +44,16 @@
                                 <h1 class="signup_header">__MSG__CREATE_A_NEW_ACCOUNT__</h1>
                                 <div class="signup_form_column">
                                     <div class="signup_form_column_labels">
-                                        <label for="firstName">__MSG__FIRSTNAME__:</label>
-                                        <label for="lastName">__MSG__LASTNAME__:</label>
-                                        <label for="email">__MSG__EMAIL__:</label>
+                                        <label for="firstName" class="firstName">__MSG__FIRSTNAME__:</label>
+                                        <label for="lastName" class="lastName">__MSG__LASTNAME__:</label>
+                                        <label for="email" class="email">__MSG__EMAIL__:</label>
                                     </div>
                                     <div class="signup_form_column_fields">
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" placeholder="Hiroyuki"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" placeholder="Sakai"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" placeholder="hiroyuki.sakai@example.com"/>
                                     </div>
                                 </div>
@@ -58,13 +61,16 @@
                                 <button type="button" id="checkUserName" class="s3d-button s3d-header-button" disabled="disabled" tabindex=10>__MSG__CHECK_AVAILABILITY__</button>
                                 <div class="signup_form_column">
                                     <div class="signup_form_column_labels">
-                                        <label id="username_label" for="username">__MSG__USERNAME__:</label>
-                                        <label for="password">__MSG__PASSWORD__:</label>
-                                        <label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
+                                        <label id="username_label" class="username" for="username">__MSG__USERNAME__:</label>
+                                        <label for="password" class="password">__MSG__PASSWORD__:</label>
+                                        <label for="password_repeat" class="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
                                     </div>
                                     <div class="signup_form_column_fields">
-                                        <input type="text" maxlength="255" id="username" name="username" class="create_account_input required" placeholder="Hiroyuki"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="text" maxlength="255" id="username" name="username" class="username_unavailable_icon create_account_input required" placeholder="Hiroyuki"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
                                     </div>
                                 </div>
@@ -75,6 +81,19 @@
                             </div>
                         </form>
                     </div>
+
+                    <div id="firstName_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__</div>
+                    <div id="lastName_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__</div>
+                    <div id="email_empty" style="display:none;">__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__</div>
+                    <div id="email_invalid" style="display:none;">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__</div>
+                    <div id="username_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_USERNAME__</div>
+                    <div id="username_short" style="display:none;">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__</div>
+                    <div id="username_spaces" style="display:none;">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__</div>
+                    <div id="password_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_PASSWORD__</div>
+                    <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__</div>
+                    <div id="password_repeat_empty" style="display:none;">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
+                    <div id="password_repeat_nomatch" style="display:none;">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
+
                     <div class="signup_comment_box">
                         <div class="signup_comment_box_arrow_down"><!----></div>
                         <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
@@ -103,20 +122,6 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-        <div id="error_msg_container" style="display:none">
-            <div id="firstName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__</div>
-            <div id="lastName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__</div>
-            <div id="username_spaces" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__</div>
-            <div id="username_short" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__</div>
-            <div id="username_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_USERNAME__</div>
-            <div id="email_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_EMAIL_ADDRESS__</div>
-            <div id="email_invalid" class="create_account_error_msg" style="display:none">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__</div>
-            <div id="password_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_PASSWORD__</div>
-            <div id="password_short" class="create_account_error_msg" style="display:none">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__</div>
-            <div id="password_repeat_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
-            <div id="password_repeat_nomatch" class="create_account_error_msg" style="display:none">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
-        </div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
