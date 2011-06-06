@@ -22,16 +22,16 @@ h2 {color:#666;font-size:15px;}
 
 .signup_form_ok {background-color:#ccffcc !important;}
 
-.captcha_container #save_account {float:right;margin-top:76px;}
+.captcha_container #save_account {float:right;margin-top:74px;}
 .captcha_container {clear:both;margin-left:148px;width:580px;}
 
 .signup_comment_box {background:url("/dev/images/signup_commentbox_bg.png") repeat top left transparent;width:290px;height:200px;margin-top:20px;float:left;margin-right:25px;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;margin-bottom:80px;}
 .signup_comment_box.last {margin-right:0;}
-.signup_comment_box_arrow_down {background:url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;height:24px;margin-left:100px;margin-top:190px;position:absolute;width:44px;}
-.signup_comment_box_commenter {color:#666;font-size:12px;margin-left:150px;margin-top:205px;position:absolute;}
-.signup_comment_quote {color:#666;display:block;font-size:14px;font-style:italic;margin:18px;overflow:hidden;}
+.signup_comment_box_arrow_down {background:url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;height:24px;margin-left:100px;margin-top:200px;position:absolute;width:44px;}
+.signup_comment_box_commenter {color:#666;font-size:12px;margin-left:150px;margin-top:215px;position:absolute;}
+.signup_comment_quote {color:#666;display:block;font-size:15px;font-style:italic;margin:18px;overflow:hidden;line-height:19px;}
 
-.signup_comment_icon {width:50px;float:left;margin:13px 10px 0;}
+.signup_comment_icon {width:50px;float:left;margin:13px 5px 0;}
 .signup_comment_icon_personalspace {background:url("/dev/images/personalspace_icon_50x50.png") no-repeat top left transparent;height:50px;}
 .signup_comment_icon_cohere {background:url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;height:110px;}
 .signup_comment_icon_editable {background:url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;height:50px;}
