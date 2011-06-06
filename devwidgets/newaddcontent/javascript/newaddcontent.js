@@ -135,7 +135,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var hideAfterContentUpload = false;
         var currentExistingContext = false;
 
-        var currentSelectedLibrary = "";
+        var currentSelectedLibrary = sakai.data.me.user.userid;
         if (sakai_global.group2 && sakai_global.group2.groupId){
             currentSelectedLibrary = sakai_global.group2.groupId;
         }
@@ -506,7 +506,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     document.hashpath = data["_contentItem"].poolId;
                     document.permissions = document["sakai:permissions"];
                     sakai.api.Content.setFilePermissions([document], function(){
-                        addToLibrary(data._contentItem);
+                        addToLibrary(data._contentItem, true);
                     });
                 },
                 error: function(err){
@@ -543,7 +543,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                     linkObj.hashpath = data._contentItem.poolId;
                     sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
                     sakai.api.Content.setFilePermissions([linkObj], function(){
-                        addToLibrary(data._contentItem);
+                        addToLibrary(data._contentItem, true);
                         checkUploadCompleted();
                     });
                 },
@@ -660,11 +660,23 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          * Add an already existing item to your own library
          * @param {Object} item Item to be added to your own library
          */
-        var addToLibrary = function(item){
+        var addToLibrary = function(item, newitem){
             var library = $(newaddcontentSaveTo).val();
-            sakai.api.Content.addToLibrary(item.id || item.poolId, library, function(){
-                checkUploadCompleted();
-            });
+            var doShare = true;
+            // Check whether existing items already have it shared
+            if (item.id) {
+                if ($.inArray(library, item.managers) !== -1 || $.inArray(library, item.viewers) !== -1) {
+                    doShare = false;
+                }
+            }
+            if (newitem){
+                if (library === sakai.data.me.user.userid){
+                    doShare = false;
+                }
+            }
+            if (doShare) {
+                sakai.api.Content.addToLibrary(item.id || item.poolId, library);
+            }
         };
 
         /**
@@ -691,6 +703,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             _path: item.id,
                             "sakai:pooled-content-file-name": $.trim(item.title)
                         });
+                        checkUploadCompleted();
                         break;
                 }
             });
