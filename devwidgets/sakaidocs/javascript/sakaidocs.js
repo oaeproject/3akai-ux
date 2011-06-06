@@ -32,7 +32,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             editInterval = false,
             lastAutosave = "",
             autosaveDialogShown = false,
-            disableAutosave = false;
+            autosaveDisabled = false,
+            autosaveCheckContentLength = false,
+            autosaveMaxContentLength = 65536;
 
         var $rootel = $("#"+tuid);
 
@@ -104,8 +106,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        var checkContentLength = function(content){
+            if (content.length > autosaveMaxContentLength){
+                // SAKIII-3162 the content is too large, display an error and skip autosave
+                if (!autosaveDisabled){
+                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                }
+                autosaveDisabled = true;
+            } else {
+                autosaveDisabled = false;
+            }
+        };
+
         var editing = function() {
-            if (isEditingPage && !disableAutosave) {
+            if (isEditingPage) {
                 var editingContent = {};
                 editingContent[currentPageShown.saveRef] = {
                     "editing": {
@@ -119,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var autosave = function() {
-            if (isEditingPage && !disableAutosave) {
+            if (isEditingPage) {
                 // autosave
                 var autosaveContent = getTinyMCEContent(),
                     autosavePostContent = {};
@@ -137,15 +151,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             page: autosaveContent
                         }
                     };
-                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
-                        if (!success){
-                            // the content is probably too large, display an error and disable autosave to stop it trying to save the same content over
-                            sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
-                            disableAutosave = true;
-                        }
-                    });
-                    var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
-                    sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
+                    checkContentLength(autosaveContent);
+                    if (!autosaveDisabled){
+                        sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
+                            if (!success){
+                                // the content is probably too large, display an error
+                                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                            }
+                        });
+                        var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
+                        sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
+                    }
                 }
             } else {
                 clearInterval(autosaveInterval);
