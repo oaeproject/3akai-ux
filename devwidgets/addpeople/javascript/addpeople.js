@@ -185,12 +185,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
                         dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
                         permission: currentTemplate.joinRole,
-<<<<<<< HEAD
                         picture: $(this).next().children("img").attr("src"),
                         tmpsrc:"checklistadded"
-=======
-                        picture: $(this).next().children("img").attr("src")
->>>>>>> a4a02990fc395d074bb26337f40a94f1231bb6fa
                     }
                     selectedUsers[userObj.userid] = userObj;
                     renderSelectedContacts();
