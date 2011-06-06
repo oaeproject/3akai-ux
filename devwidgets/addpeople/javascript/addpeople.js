@@ -296,17 +296,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (h.o) {
                 h.o.remove();
             }
-        }
-
-        $(".jqmClose", $addpeopleContainer).click(function(){
             for(user in selectedUsers){
                 if(selectedUsers.hasOwnProperty(user) && selectedUsers[user].tmpsrc){
                     delete selectedUsers[user];
                 }
             }
             $("ul",$addpeopleSelectedContactsContainer).empty();
-            $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr("checked");
-        });
+            $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr("checked");            
+        }
 
         var prepareSelectedContacts = function(success, data){
             for(var role in data){
