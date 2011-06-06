@@ -138,9 +138,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
             });
             // boolean are return as string from ajax call so change back to boolean value
-            wData.download = wData.download === "true";
-            wData.name = wData.name === "true";
-            wData.details = wData.details === "true";
+            wData.download = wData.download === "true" || wData.download === true;
+            wData.name = wData.name === "true" || wData.name === true;
+            wData.details = wData.details === "true" || wData.details === true;
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
             sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [docData]);
         };
@@ -318,7 +318,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $embedcontent_display_form.find("input[name='style'][value='" + wData.embedmethod + "']").attr("checked", true);
             var checkboxes = ["name", "download", "details"];
             $.each(checkboxes, function(i,val) {
-                if (wData[val] === "true") {
+                if (wData[val] === "true" || wData[val] === true) {
                     $embedcontent_display_form.find("input[name='" + val + "']").attr("checked", "checked");
                     $(".embedcontent_include_" + val, $rootel).show();
                 }
@@ -627,10 +627,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
-        $(window).unbind("complete.fileupload.sakai");
-        $(window).bind("complete.fileupload.sakai", function(e, data) {
-            var files = data.files;
-            addChoicesFromFileUpload(files);
+        $(window).unbind("finished.pickeradvanced.sakai"); 	
+        $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
+            addChoicesFromPickeradvanced(data.toAdd);
         });
 
         $(window).unbind("done.newaddcontent.sakai");
