@@ -292,17 +292,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var resetAutosuggest = function(h){
             sakai.api.Util.AutoSuggest.reset($addpeopleMembersAutoSuggestField);
-            h.w.hide();
-            if (h.o) {
-                h.o.remove();
-            }
             for(user in selectedUsers){
                 if(selectedUsers.hasOwnProperty(user) && selectedUsers[user].tmpsrc){
                     delete selectedUsers[user];
                 }
             }
             $("ul",$addpeopleSelectedContactsContainer).empty();
-            $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr("checked");            
+            $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr("checked");                 
+            h.w.hide();
+            if (h.o) {
+                h.o.remove();
+            }
         }
 
         var prepareSelectedContacts = function(success, data){
