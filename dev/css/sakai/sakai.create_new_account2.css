@@ -16,7 +16,7 @@ h2 {color:#666;font-size:15px;}
 #signup_form_container .signup_form_column label {float:right;margin-right:8px;margin-top:6px;color:#666;}
 #signup_form_container .signup_form_column input {border:1px solid #e0e1e2;height:21px;width:200px;padding:0 5px;color:#333;}
 #signup_form_container #signup_form_shadow {background:url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;height:15px;margin-left:95px;margin-top:-14px;position:absolute;width:700px;}
-#signup_form_container #checkUserName{float:right;margin-top:14px;}
+#signup_form_container #checkUserName{float:right;margin-top:10px;}
 #signup_form_container input::-webkit-input-placeholder {color:#aaa;font-size:12px;}
 #signup_form_container input:-moz-placeholder {color:#aaa;font-size:12px;}
 
@@ -25,7 +25,7 @@ h2 {color:#666;font-size:15px;}
 .captcha_container #save_account {float:right;margin-top:76px;}
 .captcha_container {clear:both;margin-left:148px;width:580px;}
 
-.signup_comment_box {background:url("/dev/images/signup_commentbox_bg.png") repeat top left transparent;width:290px;height:190px;margin-top:20px;float:left;margin-right:25px;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;margin-bottom:70px;}
+.signup_comment_box {background:url("/dev/images/signup_commentbox_bg.png") repeat top left transparent;width:290px;height:200px;margin-top:20px;float:left;margin-right:25px;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;margin-bottom:80px;}
 .signup_comment_box.last {margin-right:0;}
 .signup_comment_box_arrow_down {background:url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;height:24px;margin-left:100px;margin-top:190px;position:absolute;width:44px;}
 .signup_comment_box_commenter {color:#666;font-size:12px;margin-left:150px;margin-top:205px;position:absolute;}
