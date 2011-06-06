@@ -665,7 +665,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             var doShare = true;
             // Check whether existing items already have it shared
             if (item.id) {
-                if ($.inArray(library, item["sakai-pooled-content-manager"]) !== -1 || $.inArray(library, item["sakai-pooled-content-viewer"])) {
+                if ($.inArray(library, item.managers) !== -1 || $.inArray(library, item.viewers) !== -1) {
                     doShare = false;
                 }
             }
@@ -675,9 +675,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 }
             }
             if (doShare) {
-                sakai.api.Content.addToLibrary(item.id || item.poolId, library, function(){
-                    checkUploadCompleted();
-                });
+                sakai.api.Content.addToLibrary(item.id || item.poolId, library);
             }
         };
 
@@ -705,6 +703,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                             _path: item.id,
                             "sakai:pooled-content-file-name": $.trim(item.title)
                         });
+                        checkUploadCompleted();
                         break;
                 }
             });
