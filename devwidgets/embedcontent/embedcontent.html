@@ -52,7 +52,17 @@
                         <div class="embedcontent_details fl-push">
                             {if name}<span><a href="/content#p=${item.link}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                             {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
-                            {if download}<span><a href={if item.extension}"${item.link}"{else}"${item.name}"{/if} class="s3d-action embedcontent_include_download" target="_blank">{if item.extension}__MSG__DOWNLOAD__{else}__MSG__OPEN_LINK__{/if}</a></span>{/if}
+                            {if download}
+                                <span>
+                                {if item._mimeType === "x-sakai/document"}
+                                    <a href="/content#p=${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
+                                {elseif item._mimeType === "x-sakai/link"}
+                                    <a href="${item.name}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
+                                {else}
+                                    <a href="${item.link}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__DOWNLOAD__</a>
+                                {/if}
+                                </span>
+                            {/if}
                         </div>
                     </div>
                 {/if}

@@ -188,7 +188,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
                 "link": (name || result['_path']) + "/" + result['sakai:pooled-content-file-name'],
-                "extension": result['sakai:fileextension'],
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
@@ -438,7 +437,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "parameters": {
                                 "uid": sakai.data.me.user.userid,
                                 "source": " ",
-                                "URL": sakai.config.SakaiDomain + selectedItems[i].link + selectedItems[i].extension,
+                                "URL": sakai.config.SakaiDomain + selectedItems[i].link,
                                 "selectedvalue": "video_noSource",
                                 "isYoutube": false,
                                 "isSakaiVideoPlayer": false
