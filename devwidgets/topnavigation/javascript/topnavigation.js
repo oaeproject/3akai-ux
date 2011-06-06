@@ -437,6 +437,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $li.children(navLinkDropdown).hide();
             });
 
+            // hide the menu after an option has been clicked
+            $(hasSubnav + " ul li a").live("click", function(){
+                var $parentMenu = $(this).parents(hasSubnav);
+                $parentMenu.children(subnavtl).hide();
+                $parentMenu.children(navLinkDropdown).hide();
+            });
+
             // Search binding (don't fire on following keyup codes: shift)
             $("#topnavigation_search_input").focus(function(){
                 $(this).keyup();
