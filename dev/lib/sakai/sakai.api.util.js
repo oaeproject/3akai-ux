@@ -18,7 +18,6 @@
  *
  */
 
-
 /**
  * @class Util
  *
@@ -202,10 +201,19 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
             }
+        },
+
+        /**
+         * Util sort function used to order tags in an array
+         * in alphabetical order
+         */
+        orderTagsAlphabetically: function(a, b){
+            return a > b;
         },
 
         /**
@@ -228,6 +236,7 @@ define(["jquery",
                         tags.push(value);
                     }
                 });
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
@@ -257,6 +266,7 @@ define(["jquery",
                         }
                     }
                 }
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
@@ -397,8 +407,6 @@ define(["jquery",
             var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
             $(tags).each(function(i,val) {
                 if ($.inArray(val, tagsToDelete) > -1) {
-                    tags.splice(tags.indexOf(val), 1);
-                } else if ($.trim(val.split("/")[0]) === "directory" || $.trim(val) === "") {
                     tags.splice(tags.indexOf(val), 1);
                 }
             });
@@ -954,7 +962,7 @@ define(["jquery",
                 for (item in directory) {
                     if (directory.hasOwnProperty(item)) {
                         // url for the first level nodes
-                        var url = "#location=" + item;
+                        var url = item;
                         // call buildnoderecursive to get the node structure to render.
                         result.push(buildNodeRecursive(item, directory, url));
                     }
@@ -992,7 +1000,7 @@ define(["jquery",
                     data: {
                         title: p_title,
                         attr: {
-                            "href": url,
+                            "data-path": url,
                             "title": p_title
                         }
                     },

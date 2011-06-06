@@ -8,9 +8,7 @@
 
     <div id="newcreategroup_group_members_container">
         <div id="newcreategroup_group_members_none_added_container">
-            <button title="Add" class="s3d-button s3d-button-link-2-state newcreategroup_add_people" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PEOPLE__</span>
-            </button>
+            <button type="button" class="s3d-button s3d-overlay-button grey newcreategroup_add_people">__MSG__ADD_PEOPLE__</button>
             __MSG__NO_MEMBERS_ADDED__
             <span class="newcreategroup_small_text">__MSG__YOU_CAN_ADD_OR_EDIT_MEMBERS__</span>
         </div>
@@ -50,15 +48,11 @@
 
     <div id="newcreategroup_group_actions">
         <button id="newcreategroup_cancel_create" type="button" class="s3d-link-button s3d-bold">__MSG__CANCEL__</button>
-        <button title="__MSG__CREATE_SIMPLE_GROUP__" class="s3d-button s3d-button-link-2-state newcreategroup_create_simple_group" type="button">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE__ <span class="newcreategroup_template_name"></span></span>
-        </button>
+        <button type="button" class="s3d-button s3d-overlay-button newcreategroup_create_simple_group">__MSG__CREATE__ <span class="newcreategroup_template_name"></span></button>
     </div>
 
     <div id="newcreategroup_group_members_selected_template"><!--
-        <button title="Add" class="s3d-button s3d-button-link-2-state newcreategroup_add_people" type="button">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_MORE_PEOPLE__</span>
-        </button>
+        <button type="button" class="s3d-button s3d-overlay-button grey newcreategroup_add_people">__MSG__ADD_MORE_PEOPLE__</button>
         <div id="newcreategroup_group_members_added_list">
             <ul>
                 {var index = 0}

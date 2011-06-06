@@ -21,7 +21,7 @@
 .accountpreferences .section_header{color:#5A697B;font-size:1.1em;}
 .accountpreferences .password{margin-top:10px;}
 .accountpreferences .password-preferences-input{border:1px solid #ccc;height:25px;width:330px;}
-.accountpreferences .save-preferences{float:right;height:auto;margin-right:10px;margin-top:5px;}
+.accountpreferences .save-preferences{float:right;height:30px;margin-right:10px;margin-top:5px;}
 .accountpreferences .form-item{margin:0 0 15px 15px;}
 .accountpreferences .form-item label{float:left;font-weight:bold;margin-right:15px;text-align:right;width:160px;}
 .accountpreferences .preferences-form{margin-top:25px;}

@@ -14,9 +14,7 @@
         <div class="addpeople_tab">__MSG__MEMBERS__</div>
         <div class="addpeople_top_actions">
             <input type="checkbox" id="addpeople_select_all_selected_contacts">
-            <button title="__MSG__REMOVE_SELECTED__" class="s3d-button s3d-button-link-2-state addpeople_remove_selected" type="button" disabled="disabled">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE_SELECTED__</span>
-            </button>
+            <button type="button" id="" class="s3d-button s3d-header-button s3d-header-smaller-button addpeople_remove_selected" disabled="disabled">__MSG__REMOVE_SELECTED__</button>
             <select id="addpeople_selected_all_permissions"></select>
             <div id="addpeople_selected_permissions_template"><!--
                 {for role in roles}
@@ -38,9 +36,7 @@
 
     <div id="addpeople_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button title="__MSG__DONE_ADD_COLLECTED__" class="s3d-button s3d-button-link-2-state addpeople_finish_adding" type="button">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DONE_ADD_COLLECTED__</span>
-        </button>
+        <button type="button" class="s3d-button s3d-overlay-button addpeople_finish_adding">__MSG__DONE_ADD_COLLECTED__</button>
     </div>
 </div>
 
@@ -70,13 +66,15 @@
     <ul>
         {var total = 0}
         {for contact in contacts}
-            ${total++|eat}
-            <li class="s3d-list-item">
-                <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
-                <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${contact.profile.userid}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
-            </li>
-            <hr/>
+            {if contact.details["sakai:state"] === "ACCEPTED"}
+                ${total++|eat}
+                <li class="s3d-list-item">
+                    <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
+                    <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
+                    <a href="/~${contact.profile.userid}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
+                </li>
+                <hr/>
+            {/if}
         {/for}
         {for group in groups.entry}
             ${total++|eat}

@@ -96,10 +96,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var resetWidget = function(hash){
-            hash.o.remove();
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
+            hash.w.hide();
         };
 
         ///////////
@@ -155,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     sakai.api.Content.addToLibrary(contentObj.data["_path"], toAddList);
                     sakai.api.Util.notification.show(false, sakai.api.Security.saneHTML($("#newsharecontent_users_added_text").text()) + " " + userList.toAddNames.join(", "), "");
                     createActivity("__MSG__ADDED_A_MEMBER__");
-                    $newsharecontentContainer.hide();
+                    $newsharecontentContainer.jqmHide();
                 }
             } else {
                 if (!messageText) {
@@ -176,16 +176,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addBinding = function(){
             $newsharecontentContainer.jqm({
                 modal: false,
-                overlay: 1,
+                overlay: 0,
                 toTop: true,
                 zIndex: 3000,
                 onShow: fillShareData,
                 onHide: resetWidget
-            });
-
-            $('#newsharecontent_cancel').bind('click',function(){
-                sakai.api.Util.AutoSuggest.reset($newsharecontentSharelist);
-                $newsharecontentContainer.hide();
             });
 
             $('.share_trigger_click').live('click',function(){

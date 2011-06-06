@@ -15,71 +15,68 @@
         <!-- In this container all comments will be shown -->
     </div>
     <div id="comments_showCommentsTemplate" style="display:none"><!--
-    <div>
     <div class="commentsTable">
-
-        {for i in comments}
-            <div class="comments_topCommentBar">
-                <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.pictureUrl}" />
-                <div class="comments_posterData">
-                    <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br />
-                    ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
+        {if comments && comments.length > 0}
+            {for i in comments}
+                <div class="comments_topCommentBar">
+                    <img alt="__MSG__AVATAR__" class="comments_avatar" src="${i.user.pictureUrl}" />
+                    <div class="comments_posterData">
+                        <span class="comments_posterDataName s3d-regular-light-links"><a href="/~${i.user.uid}">${i.user.fullName}</a></span><br/>
+                        ${i.timeAgo} <span class="comments_dateComment">(${i.formatDate})</span>
+                    </div>
                 </div>
-            </div>
-            <div>
-            <div class="comments_arrowUp"></div>
+
+                <div class="comments_arrowUp"></div>
 
                 <div class="comments_commentMessage s3d-regular-light-links">
-                <div class="comments_commentLinks">
-                    <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['_path']}" />
-                    <ul>
-                        {if i.canEdit && i.canEdit === true && i["sakai:deleted"] !== true}
-                            <li><button type="button" class="comments_edit s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>
-                        {/if}
-                        {if i.canEdit && i.canEdit === true && i.canDelete && i.canDelete === true && !(i["sakai:deleted"] && i["sakai:deleted"] === true)}
-                          <li> |
-                        {else}
-                          <li>
-                        {/if}
-                        {if i.canDelete && i.canDelete === true}
-                            {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                <button type="button" class="comments_undelete s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
-                            {else}
-                                <button type="button" class="comments_delete s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
+                    <div class="comments_commentLinks">
+                        <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['_path']}" />
+                        <ul>
+                            {if i.canEdit && i.canEdit === true && i["sakai:deleted"] !== true}
+                                <li><button type="button" class="comments_edit s3d-button s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>
                             {/if}
-                        {/if}
-                    </ul>
-                </div>
+                            {if i.canEdit && i.canEdit === true && i.canDelete && i.canDelete === true && !(i["sakai:deleted"] && i["sakai:deleted"] === true)}
+                              <li> |
+                            {else}
+                              <li>
+                            {/if}
+                            {if i.canDelete && i.canDelete === true}
+                                {if i["sakai:deleted"] && i["sakai:deleted"] === true}
+                                    <button type="button" class="comments_undelete s3d-button s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
+                                {else}
+                                    <button type="button" class="comments_delete s3d-button s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
+                                {/if}
+                            {/if}
+                        </ul>
+                    </div>
 
                     {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                        <p class="comments_infoDeleted">This comment has been deleted. Only site collaborators can see this comment.
+                        <p class="comments_infoDeleted">__MSG__COMMENT_HAS_BEEN_DELETED__
                         {if i.canDelete && i.canDelete === true}
-                            <br />You can return it by clicking the undelete link.
+                            <br />__MSG__YOU_CAN_RETURN__
                         {/if}
                         </p>
                     {/if}
-                <div id="comments_message_${i['sakai:id']}" class="comments_message">
-                    <p>${i.message}</p>
-                </div>
-                <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
-                    <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />
-                    <div class="dialog_buttons right">
-                        <button type="button" class="s3d-button s3d-button-primary comments_editComment_save" id="comments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">Edit comment</span></button>
-                        <button type="button" class="s3d-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">Cancel</span></button>
+                    <div id="comments_message_${i['sakai:id']}" class="comments_message">
+                        <p>${i.message}</p>
+                    </div>
+                    <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
+                        <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br/>
+                        <div class="fl-force-right">
+                            <button type="button" class="s3d-button s3d-link-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}">__MSG__CANCEL__</button>
+                            <button type="button" class="s3d-button s3d-overlay-button comments_editComment_save" id="comments_editComment_save${i['sakai:id']}">__MSG__EDIT_COMMENT__</button>
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div>
-            {forelse}
-                There are no comments as of yet.
             {/for}
-    </div>
-
+        {else}
+            __MSG__THERE_ARE_NO_COMMENTS__
+        {/if}
     </div>
     --></div>
     <div class="comments_nextButtons">
-        <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button-primary comments_comment" id="comments_comment_Bottom"><span class="s3d-button-inner">__MSG__ADD_COMMENT__</span></button>
+        <div class="fl-force-right">
+            <button type="button" class="s3d-button s3d-overlay-button comments_comment" id="comments_comment_Bottom" style="display:none">__MSG__ADD_COMMENT__</button>
         </div>
         <button type="button" class="s3d-button" id="comments_prevPage"><span class="s3d-button-inner">__MSG__PREVIOUS_PAGE__</span></button><br />
         <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
@@ -98,23 +95,22 @@
         <label for="comments_txtMessage">__MSG__YOUR_COMMENT__:</label>
         <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50"></textarea><br />
 
-        <div class="dialog_buttons right">
-            <button type="button" class="s3d-button s3d-button-primary comment_postCommentTopBottom" id="comments_postComment"><span class="s3d-button-inner">__MSG__SUBMIT_COMMENT__</span></button>
-            <button type="button" class="s3d-button comment_postCommentTopBottom" id="comments_cancelComment"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        <div class="fl-force-right">
+            <button type="button" class="s3d-button s3d-link-button comment_postCommentTopBottom" id="comments_cancelComment">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-button s3d-overlay-button comment_postCommentTopBottom" id="comments_postComment">__MSG__SUBMIT_COMMENT__</button>
         </div>
-
+        <div class="fl-push"><!-- --></div>
         </div>
     </div>
 </div>
 
 <!-- SETTINGS VIEW -->
-<div id="comments_settings" class="fl-widget-content s3d-widget-content" style="display:none;">
+<div id="comments_settings" class="s3d-widget-content" style="display:none;">
     <form class="comments_form">
         <div class="comments_settingsPart">
-            <h3>__MSG__DISPLAY__:</h3>
             <ul>
                 <li>
-                    <label for="comments_PerPageID" class="video_source_rbtLabel">__MSG__DISPLAY__ <input type="text" id="comments_txtPage" />
+                    <label for="comments_PerPageID" class="video_source_rbtLabel">__MSG__DISPLAY__ <input type="text" id="comments_txtPage" value="10" />
                     __MSG__COMMENT_AT_A_TIME__.</label></input><br />
                 </li>
                 <li>&nbsp;</li>
@@ -129,44 +125,10 @@
                     </input>
                 </li>
             </ul>
-
         </div>
-        <div class="comments_settingsPart" style="display:none;">
-            <h3>__MSG__PERMISSIONS__:</h3>
-            <ul>
-                <li><input type="radio" name="comments_ChoosePermissionComments" value="comments_RequireLogIn" id="comments_RequireLogInID" Name="comments_RequireLogIn">
-                <label for="comments_RequireLogInID" class="video_source_rbtLabel"> __MSG__ONLY_REGISTERED_USERS_CAN_COMMENT__</label></input><br /></li>
-                <li>
-                    <input type="radio" name="comments_ChoosePermissionComments" value="comments_DontRequireLogin" id="comments_DontRequireLoginID" Name="comments_DontRequireLogin"  checked="checked">
-                        <label for="comments_DontRequireLoginID" class="video_source_rbtLabel">__MSG__ALLOW_ANYONE_TO_COMMENT__</label>
-                    </input>
-                </li>
-                <li>
-                    <ul>
-                        <li>
-                            <input type="checkbox" id="comments_Namerequired">
-                                <label for="comments_Namerequired" class="video_source_rbtLabel">__MSG__COMMENTS_REQUIRE_NAME__</label>
-                            </input>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="comments_Emailrequired">
-                                <label for="comments_Emailrequired" class="video_source_rbtLabel" >__MSG__COMMENTS_REQUIRE_EMAIL__</label>
-                            </input>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <br />
-        </div>
-
-        <div class="comments_settingsPart">
-            <h3>__MSG__NOTIFICATION__:</h3>
-            <ul><li><input type="checkbox" id="comments_SendMail"><label for="comments_SendMail" class="video_source_rbtLabel"> __MSG__EMAIL_ME_WHEN_THERE_IS_A_NEW_COMMENT__</label></input></li></ul>
-        </div>
-
-        <div class="dialog_buttons right">
-            <button type="button" class="s3d-button s3d-button-primary" id="comments_submit"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-            <button type="button" class="s3d-button" id="comments_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+        <div class="fl-force-right">
+            <button type="button" class="s3d-bold s3d-link-button" id="comments_cancel">__MSG__DONT_SAVE__</button>
+            <button type="button" class="s3d-button s3d-overlay-button" id="comments_submit">__MSG__SAVE__</button>
         </div>
     </form>
 </div>

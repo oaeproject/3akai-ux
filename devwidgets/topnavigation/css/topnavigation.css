@@ -27,7 +27,7 @@
 .topnavigation_search {float:right;margin-top:10px;height: 22px;margin-right: 20px;}
 .topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search_icon.png") no-repeat center right transparent;}
 .topnavigation_search #topnavigation_search_input{margin-left:7px;border:none; height:20px;box-shadow:1px 1px 1px #888 inset;-webkit-box-shadow:1px 1px 1px #888 inset;box-shadow:1px 1px 1px #888 inset;}
-.topnavigation_search #topnavigation_search_results {margin: 6px 0 0 -30px;position: absolute;width: 241px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
+.topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 6px 0 0 -30px;position: absolute;width: 241px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container{background: url("/devwidgets/topnavigation/images/topnav_search_bg.png") repeat-x scroll left bottom #F3F3F3;padding:12px 3px 5px;}
 .topnavigation_search #topnavigation_search_results_bottom_container {background-color:#F3F3F3;height:32px;padding:4px 3px 0 12px;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container .topnavigation_search_results_section_header{color:#636363;padding:0 12px;}
@@ -42,7 +42,7 @@
 .topnavigation_search #topnavigation_search_results_container .topnavigation_group_public_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -220px -21px transparent;}
 .topnavigation_search #topnavigation_search_results_container .topnavigation_group_private_icon {background:url("/dev/images/icons_sprite.png") no-repeat scroll -780px -21px transparent;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_results_bottom_content{display: block;padding-top:7px; color:#636363;}
-.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px}
+.topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all{float:right; margin-top:3px;text-decoration: none;}
 
 /* USER */
 .topnavigation_user_container {float:right;}
@@ -61,10 +61,10 @@
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form input{background: none repeat scroll 0 0 transparent;border: 1px solid #424242;height: 20px;width: 100%;}
-#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;margin-bottom:5px;}
+#topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login {float:right;margin-bottom:10px;margin-right:0;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_button_login .s3d-button-inner, .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all span {color:#2683bc !important;}
 .topnavigation_search #topnavigation_search_results_bottom_container #topnavigation_search_see_all:hover span {color:#fff !important;}
-#topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:5px 12px 8px 0;}
+#topnavigation_user_options_login_button_signing_in {float:right; color: #424242;margin:4px 5px 8px 0; font-size: 11px;}
 #topnavigation_user_options_login_fields_bottom_container #topnavigation_user_options_login_button{margin-top: 3px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_error {border-radius: 2px 2px 0 0;height: 25px;margin-left: -12px;margin-top: 0;padding: 7px 12px 0;position: absolute;width:217px;background-color:#f8dc92;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_error span {color:#8b6b0a;}
