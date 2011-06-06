@@ -150,10 +150,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(this).addClass("carousel_view_toggle_selected");
                 return false;
             });
-            
+
             $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
         };
-        
+
         var toggleCarousel = function(e, showing){
             if (showing) {
                 e.data.carousel.startAuto();
@@ -166,6 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
                 "data": dataArr
             }, $(carouselContainer), false);
+            applyThreeDots();
             $(carouselContainer).jcarousel({
                 auto: 8,
                 animation: "slow",
@@ -180,6 +181,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        // This isn't perfect because part of the element can be "beside" the
+        // floater with the remainder below it
+        var isBelow = function(element, floater) {
+            var bottom = $(floater).position()["top"] + $(floater).outerHeight();
+            return ($(element).position()["top"] > bottom);
+        };
+
+        var effectiveWidth = function(container, floated) {
+            var eWidth = $(container).width();
+            $.each(floated, function(index, floater) {
+                if (!isBelow(container, floater)) {
+                    eWidth -= $(floater).outerWidth(true);
+                }
+            });
+            return eWidth;
+        };
+
+        var applyThreeDots = function() {
+            var carousel_titles = $(".carousel_item_title");
+            var carousel_descs = $(".carousel_item_desc");
+            var carousel_tags = $(".carousel_content_tags");
+
+            $.each(carousel_titles, function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el.parent(), $el.parent().siblings("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class")));
+            });
+
+            $.each(carousel_descs, function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 6}, $el.attr("class")));
+            });
+
+            $.each(carousel_tags, function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("img")) - $el.find("img").width();
+                var tags = sakai.api.Util.applyThreeDots($el.text(), width, {"ellipsis_string": "", "valid_delimiters": [","], max_rows: 1}, "carousel_content_tags s3d_action");
+                $el.html(sakai.api.Util.TemplateRenderer("carousel_tags_template", {"tags": tags}));
+            });
+        };
+
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
@@ -189,18 +232,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var mimeType = sakai.api.Content.getMimeType(item);
                 obj.preview = sakai.api.Content.getThumbnail(item);
                 if (item["sakai:description"]) {
-                    var descWidth = 630;
-                    if (index === 1) {
-                        descWidth = 470;
-                    }
-                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], descWidth);
+                    obj.description = item["sakai:description"];
                 }
                 if (item["sakai:tags"]) {
-                    var tagWidth = 120;
-                    if (index > 0) {
-                        tagWidth = 60;
-                    }
-                    obj.tags = sakai.api.Util.applyThreeDots(sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]), tagWidth, {"ellipsis_string": "", "valid_delimiters": [","]}, "s3d-action");
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                 }
                 if (item[item["_path"] + "/comments"]) {
                     obj.comments = [];
@@ -216,8 +251,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.icon = sakai.config.MimeTypes.other.URL;
                 }
 
-                obj.title = item["sakai:pooled-content-file-name"];
-                obj.mimeType = mimeType || "";
+                obj.title = item["sakai:pooled-content-file-name"];                obj.mimeType = mimeType || "";
                 obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
