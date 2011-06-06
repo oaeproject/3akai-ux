@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Util.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
             if (firstTime) {
                 setupAutoSuggest();
-                sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_settings", false, "#"+tuid);
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
                 firstTime = false;
             } else {
                 doReset();
@@ -142,7 +142,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.name = wData.name === "true";
             wData.details = wData.details === "true";
             sakai.api.Util.TemplateRenderer($embedcontent_content_html_template, wData, $embedcontent_content);
-            sakai.api.Widgets.widgetLoader.insertWidgets("embedcontent_main_container", false, "#"+tuid, [docData]);
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [docData]);
         };
 
         /**
@@ -618,18 +618,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        var toggleAddTitleAndDescription = function(show) {
-            if (show) {
-                $embedcontent_add_title_description_button.find("span.s3d-button-arrow-down").removeClass("s3d-button-arrow-down").addClass("s3d-button-arrow-up");
-                $embedcontent_add_title_description_fields.show();
-            } else {
-                $embedcontent_add_title_description_button.find("span.s3d-button-arrow-up").removeClass("s3d-button-arrow-up").addClass("s3d-button-arrow-down");
-                $embedcontent_add_title_description_fields.hide();
-            }
+        var toggleAddTitleAndDescription = function() {
+            $embedcontent_add_title_description_fields.toggle();
         };
 
         $embedcontent_add_title_description_button.bind("click", function(e) {
-            toggleAddTitleAndDescription($(this).find("span.s3d-button-arrow-down").length > 0);
+            toggleAddTitleAndDescription();
             return false;
         });
 
@@ -639,9 +633,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addChoicesFromFileUpload(files);
         });
 
-        $(window).unbind("finished.pickeradvanced.sakai");
-        $(window).bind("finished.pickeradvanced.sakai", function(e, data) {
-            addChoicesFromPickeradvanced(data.toAdd);
+        $(window).unbind("done.newaddcontent.sakai");
+        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
+            var obj = {};
+            for (var i = 0; i < data.length; i++){
+                obj[data[i]._path] = data[i];
+            }
+            addChoicesFromPickeradvanced(obj);
         });
 
         $(window).unbind("ready.pickeradvanced.sakai");

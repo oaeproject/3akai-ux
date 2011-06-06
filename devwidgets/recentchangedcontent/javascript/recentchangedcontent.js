@@ -69,7 +69,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai.config.MimeTypes[mimeType]){
                 mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
-            var mimeTypeDescription = sakai.api.Content.getMimeType(result);
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
@@ -107,6 +106,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < result["sakai:pooled-content-viewer"].length; i++) {
                     if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") 
                         usedin++;
+                }
+            }
+            if (result["sakai:pooled-content-viewer"]) {
+                for (var i =0;i<result["sakai:pooled-content-viewer"].length;i++) {
+                    if(result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") {
+                        usedin++;
+                    }
                 }
             }
 
@@ -201,7 +207,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} data - JSON data from /var/search/pool/me/manager.json
          * @return None
          */
-        var handlerecentchangedcontentData = function(success, data) {
+        var handleRecentChangedContentData = function(success, data) {
             if(success && data.results && data.results.length > 0) {
                 getRelatedContent(data.results[0]);
                 $("#recentchangedcontent_no_results_container").hide();
@@ -218,6 +224,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".add_recentchangedcontent_button", rootel).click(function (ev) {
                 $(window).trigger("init.newaddcontent.sakai");
                 return false;
+            });
+            $(window).bind("done.newaddcontent.sakai", function(e, newContent) {
+                if (newContent && newContent.length) {
+                    getRelatedContent(newContent[0]);
+                }
             });
         };
 
@@ -254,15 +265,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             var managersList = "";
             var viewersList = "";
-
-            for (var i = 0; i < contentData["sakai:pooled-content-manager"].length; i++) {
-                if (contentData["sakai:pooled-content-manager"][i]) {
-                    managersList += " " + (contentData["sakai:pooled-content-manager"][i]);
+            if (contentData["sakai:pooled-content-manager"]) {
+                for (var i = 0; i < contentData["sakai:pooled-content-manager"].length; i++) {
+                    if (contentData["sakai:pooled-content-manager"][i]) {
+                        managersList += " " + (contentData["sakai:pooled-content-manager"][i]);
+                    }
                 }
             }
-            for (var i = 0; i < contentData["sakai:pooled-content-viewer"].length; i++) {
-                if (contentData["sakai:pooled-content-viewer"][i]) {
-                    viewersList += " " + (contentData["sakai:pooled-content-viewer"][i]);
+            if (contentData["sakai:pooled-content-viewer"]) {
+                for (var z = 0; z < contentData["sakai:pooled-content-viewer"].length; z++) {
+                    if (contentData["sakai:pooled-content-viewer"][z]) {
+                        viewersList += " " + (contentData["sakai:pooled-content-viewer"][z]);
+                    }
                 }
             }
 
@@ -329,11 +343,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "desc"
                 },
                 success: function(data){
-                    handlerecentchangedcontentData(true, data);
+                    handleRecentChangedContentData(true, data);
                 },
                 error: function(data){
                     $("#recentchangedcontent_no_content").show();
-                    handlerecentchangedcontentData(false);
+                    handleRecentChangedContentData(false);
                 }
             });
         };

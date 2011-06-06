@@ -17,9 +17,9 @@
  */
 
 /* Settings */
-.comments_settingsPart{padding:10px 0;}
+.comments_settingsPart{padding:0px;}
 .comments_settingsPart h3{margin:0;}
-.comments_settingsPart ul{margin:3px 0 0 2em;}
+.comments_settingsPart ul{margin:3px 0 0 0em;}
 .comments_settingsPart ul li{list-style:none;}
 #comments_txtPage{width:30px;padding:2px;height:16px;}
 #comments_settings .dialog_buttons{padding:6px;height:30px;}
@@ -37,7 +37,7 @@
 .comments_posterData{padding:2px 0 0 5px;height:35px;overflow:hidden;}
 .comments_posterData a:hover{text-decoration:underline;}
 .comments_commentMessage{background-color:#eee;color:#333;padding:10px;margin-bottom:20px;}
-.comments_commentMessage ul{float:right;margin-top:5px;margin-bottom:1px;}
+.comments_commentMessage ul{float:right;margin-top:-5px;margin-bottom:1px;margin-right:-15px;}
 #comments_prevPage{float:right;margin-right:10px;display:none;}
 .comments_commentLinks{overflow:auto;width:140px;float:right;overflow:hidden;}
 .comments_commentMessage ul li{display:inline;color:#BBB;}
@@ -48,7 +48,7 @@
 .comments_fillInCommentTopContainer input[type=text]{width:350px;}
 #comments_txtMessage{height:100px;width:auto;}
 #comments_fillInComment{background-color:#EBEFF1;margin-top:15px;padding:0 15px 10px;}
-#comments_fillInComment label{font-weight:bold;margin-top:20px;display:block;}
+#comments_fillInComment label{font-weight:bold;display:block;}
 #comments_mainContainer .dialog_buttons{padding:6px;height:30px;}
 #comments_mainContainer .dialog_buttons.right button{float:right;}
 #comments_mainContainer .comments_message p{padding-bottom:0;margin-bottom:0;color:#000000;}

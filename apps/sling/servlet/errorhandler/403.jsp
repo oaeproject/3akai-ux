@@ -68,7 +68,7 @@ response.setStatus(403);
 							{/for}
 							<div class="error_content_second_column_box_footer"></div>
                             --></div>                        
-                     </div>
+                        </div>
                     </div>
                     
                     <div class="error_content_second_column_box browse_cats">   
@@ -80,8 +80,8 @@ response.setStatus(403);
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
-                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                                <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
                         </div>
@@ -92,7 +92,7 @@ response.setStatus(403);
                     <div id="error_content_first_column_content">
                         <h1>__MSG__YOU_ARE_NOT_ALLOWED_TO_SEE_THIS_PAGE__</h1>
                         <h3 class="first">__MSG__YOU_TRIED_TO_ACCESS_PAGE_WITHOUT_PERMISSIONS__</h3>
-                                            
+
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
                         <div>
                             <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">

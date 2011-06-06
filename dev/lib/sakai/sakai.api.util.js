@@ -201,10 +201,19 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
             }
+        },
+
+        /**
+         * Util sort function used to order tags in an array
+         * in alphabetical order
+         */
+        orderTagsAlphabetically: function(a, b){
+            return a > b;
         },
 
         /**
@@ -227,6 +236,7 @@ define(["jquery",
                         tags.push(value);
                     }
                 });
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];
@@ -256,6 +266,7 @@ define(["jquery",
                         }
                     }
                 }
+                tags.sort(sakai_util.orderTagsAlphabetically);
                 return tags;
             } else {
                 return [];

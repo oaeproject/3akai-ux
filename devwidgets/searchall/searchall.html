@@ -98,7 +98,10 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}
+                                                    {if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if}
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                                {/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -159,7 +162,10 @@
                                         <div class="searchpeople_result_tags">
                                             <span class="searchpeople_result_icon searchpeople_result_tags_icon"></span>
                                             <p class="searchpeople_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/for}
+                                                {for t in i["sakai:tags"]}
+                                                    {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} 
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                                {/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -207,7 +213,10 @@
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
                                             <p class="searchgroups_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}
+                                                    {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if}
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                                {/for}
                                             </p>
                                         </div>
                                     {/if}

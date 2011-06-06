@@ -80,8 +80,8 @@ response.setStatus(404);
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
-                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                                <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
                         </div>
@@ -132,7 +132,7 @@ response.setStatus(404);
                                 </ul>
                             {/if}
                         --></div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
