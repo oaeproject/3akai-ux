@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_util, sakai_conf) {
+define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.i18n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
     var sakaiCommmunicationsAPI =  {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -94,13 +94,13 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
-                        "|system=Sakai|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
+                        "|system=" + sakai_i18n.General.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "~" + meData.user.userid + 
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
                         "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
                         break;
                     case "group_invitation":

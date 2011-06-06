@@ -112,6 +112,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
+                        group.groupProfile =
+                            groupdata.authprofile;
                         group.joinability =
                             groupdata.authprofile["sakai:group-joinable"];
                         group.title =
@@ -120,6 +122,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, false, function(success, members) {
+                        group.groupMembers = members;
+
                         $.each(members, function(role, users) {
                             $.each(users.results, function(index, user) {
                                 push_member_to_list(user, participants, role);
@@ -159,6 +163,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     tooltipLeft: $item.offset().left + $item.width(),
                     onShow: function () {
                         $(window).trigger("init.joinrequestbuttons.sakai", [
+                            {
+                                "groupProfile": group.groupProfile,
+                                "groupMembers": group.groupMembers
+                            },
                             groupid,
                             group.joinability,
                             group.managerCount,
