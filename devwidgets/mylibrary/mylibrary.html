@@ -13,6 +13,7 @@
         {/if}
     --></div>
     <!-- Action bar -->
+    <div id="mylibrary_actionbar">
         <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder" style="display:none; width: auto;">
             __MSG__SORT_BY__: 
             <select id="mylibrary_sortby">
@@ -23,9 +24,7 @@
         <input id="mylibrary_livefilter" class="mylibrary_meta" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
-            <button type="button" id="mylibrary_remove" class="s3d-button s3d-button-link-2-state" disabled="disabled">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REMOVE__</span>
-            </button>
+            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
@@ -43,7 +42,8 @@
                 --></div>
             </div>
         </div>
-
+        <div class="fl-push"><!-- --></div>
+    </div>
     <div id="mylibrary_empty" class="fl-container fl-fix" style="display:none;"><!----></div>
     <div id="mylibrary_empty_template"><!--
         {if who == "edit"}
@@ -63,6 +63,12 @@
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
                 <h1>__MSG__NO_RESULTS_DESCRIPTION_GROUP__</h1>
+            </div>
+        {elseif who === "nosearchresults"}
+            <div class="s3d-no-results-container">
+                <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+                <h1>__MSG__NO_SEARCH_RESULTS__ <a class="s3d-regular-links" href="/search#l=content" title="__MSG__CONTENT__">__MSG__CONTENT_LC__</a>.</h1>
             </div>
         {else}
             <div class="s3d-no-results-container">

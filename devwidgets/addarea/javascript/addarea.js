@@ -262,9 +262,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var docTitle = $("#addarea_sakaidoc_page_name").val();
             var docPermission = $("#addarea_sakaidoc_permissions").val();
             var docId = selectedSakaiDoc;
+            var existingNotMine = !selectedCanManage;
             var nonEditable = false;
-            setSakaiDocPermissions(docId, docPermission, true, function(poolId){
-                addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, true, function(poolId, path){
+            setSakaiDocPermissions(docId, docPermission, existingNotMine, function(poolId){
+                addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, existingNotMine, function(poolId, path){
                     selectPageAndShowPermissions(poolId, path, docPermission);
                 });
             });
