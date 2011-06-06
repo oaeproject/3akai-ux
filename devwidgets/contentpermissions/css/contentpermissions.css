@@ -10,12 +10,11 @@
 #contentpermissions_container #contentpermissions_newmember_permissions {margin-top:10px;}
 #contentpermissions_container #contentpermissions_share_button{margin-top: 10px;}
 #contentpermissions_container #contentpermissions_members_list {height:168px;overflow:auto;}
-#contentpermissions_container #contentpermissions_members_actions {height: 25px;padding: 5px 10px 0;}
+#contentpermissions_container #contentpermissions_members_actions {border-bottom:1px solid #A9A9A9;height:25px;margin-bottom:5px;padding:8px 10px 3px;}
 #contentpermissions_container #contentpermissions_members_actions input[type="checkbox"] {margin-right:10px;}
 #contentpermissions_container #contentpermissions_newmember_all_permissions {float: right;margin-right: 25px;margin-top:0;}
 #contentpermissions_container #contentpermissions_members_list ul {margin:0;}
 #contentpermissions_container #contentpermissions_members_list ul li {list-style:none;padding:5px 10px;height:32px;}
-#contentpermissions_container #contentpermissions_members_list ul li:hover{background-color:#9cf;}
 #contentpermissions_container #contentpermissions_members_list ul li input[type="checkbox"] {display: block;float: left;margin-right: 15px;margin-top:11px;}
 #contentpermissions_container #contentpermissions_members_list ul li label img {float: left;margin-right:15px;cursor:pointer;}
 #contentpermissions_container #contentpermissions_members_list ul li label a {display:block;float:left;margin-top:9px;}
@@ -23,3 +22,4 @@
 #contentpermissions_container #contentpermissions_save_actions {float:right;margin-top:11px;}
 #contentpermissions_container #contentpermissions_save_actions #contentpermissions_cancel_button {margin-right: 12px;margin-top: 4px;}
 #contentpermissions_container .contentpermissions_content_section .as-selections {margin:8px 0;}
+#contentpermissions_container .contentpermissions_pseudogroup {font-size:10px; color: #666;}

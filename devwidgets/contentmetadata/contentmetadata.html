@@ -22,7 +22,7 @@
     <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
-    <button type="button" id="contentmetadata_show_more" class="s3d-link-button s3d-action">
+    <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
         <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
         <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
     </button>
@@ -134,7 +134,7 @@
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>
-                <a href="${creator.homePath}">
+                <a href="${creator.homePath}" class="s3d-regular-links">
                     ${sakai.api.User.getDisplayName(creator)}
                 </a>
             </span>

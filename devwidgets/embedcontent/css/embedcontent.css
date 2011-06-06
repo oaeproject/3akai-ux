@@ -58,6 +58,7 @@ ul.as-selections li.as-selection-item.embedcontent_selection_notfound a.as-close
 #embedcontent_content div.embedcontent_thumbnail_content img{height:50px;width:50px;}
 #embedcontent_content div.embedcontent_thumbnail_content img.not_found{width:29px;height:36px;}
 #embedcontent_content div.embedcontent_thumbnail_content img,#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details{float:left;}
-#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details span{display:block;margin-left:10px;}
+#embedcontent_content div.embedcontent_thumbnail_content div.embedcontent_details span{display:block;}
 #embedcontent_content div.horizontal{display:inline;margin-right:20px;margin-bottom:20px;float:left;}
 #embedcontent_content div.vertical{display:block;margin-bottom:20px;}
+#embedcontent_content div.embedcontent_grey_background {padding: 1px 10px 10px !important;}

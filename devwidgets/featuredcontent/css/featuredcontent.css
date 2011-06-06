@@ -47,6 +47,7 @@
 .featuredcontent_widget .featuredcontent_content_actions_authorinfo {background:url("/devwidgets/featuredcontent/images/featuredcontent_author_icon.png") no-repeat scroll left top transparent;margin-left:auto;margin-right:auto;}
 .featuredcontent_widget .featuredcontent_content_actions_share {background:url("/devwidgets/featuredcontent/images/featuredcontent_share_icon.png") no-repeat scroll left top transparent;float:right;}
 .featuredcontent_widget .featuredcontent_content_actions_addtolibrary.disabled {display:none;}
+.featuredcontent_widget .s3d-large-button {display:block;line-height:31px;margin-left:auto;margin-right:auto;width:100px;}
 
 /* Contentitems on category page */
 .featuredcontent_widget #featuredcontent_category_content_container {clear:both;}
