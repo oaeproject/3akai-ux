@@ -1,7 +1,7 @@
 #signup_header {background:url("/dev/images/signup_artwork.png") no-repeat scroll left top transparent;height:520px;width:920px;}
 #signup_header_bg {background:url("/dev/images/signup_header_bg.png") repeat scroll left top transparent;height:160px;border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;-webkit-border-radius:0 0 6px 6px;padding:10px;}
 #signup_form_container {background:url("/dev/images/signup_form_bg.png") repeat scroll left top #edecec;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;height:272px;margin-top:-120px;box-shadow:0 5px 7px -6px #424242;padding:0 15px;}
-#signup_form_container h1.signup_header {color:#24A3E2;font-size:20px;font-weight:normal;margin:0;text-shadow:1px 0 0 #999;padding-top:6px;}
+#signup_form_container h1.signup_header {color:#2f91cd;font-size:20px;font-weight:normal;margin:0;text-shadow:0 0 1px #ddd;padding-top:6px;}
 h2 {color:#666;font-size:15px;}
 
 .signup_descriptionbox{font-size:16px;color:#666;width:195px;position:absolute;line-height:18px;}
