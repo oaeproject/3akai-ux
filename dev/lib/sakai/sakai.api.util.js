@@ -1353,24 +1353,30 @@ define(["jquery",
                 var filterUrl = function(url) {
 
                     // test for javascript in the URL and remove it
-                    var testUrl = decodeURIComponent(url.replace(/\s+/g,""));
-                    var js = "javascript"; // for JSLint to be happy, this needs to be broken up
-                    js += ":;";
-                    var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
-                    var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
-                    if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
-                        url = null;
-                    } else if (testUrl !== js) {
-                        // check for utf-8 unicode encoding without semicolons
-                        testUrl = testUrl.replace(/&/g,";&");
-                        testUrl = testUrl.replace(";&","&") + ";";
-
-                        var nulRe = /\0/g;
-                        testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
-
-                        if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
+                    try {
+                        var testUrl = decodeURIComponent(url.replace(/\s+/g, ""));
+                        var js = "javascript"; // for JSLint to be happy, this needs to be broken up
+                        js += ":;";
+                        var jsRegex = new RegExp("^(.*)javascript:(.*)+$");
+                        var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
+                        if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
                             url = null;
                         }
+                        else 
+                            if (testUrl !== js) {
+                                // check for utf-8 unicode encoding without semicolons
+                                testUrl = testUrl.replace(/&/g, ";&");
+                                testUrl = testUrl.replace(";&", "&") + ";";
+                                
+                                var nulRe = /\0/g;
+                                testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
+                                
+                                if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
+                                    url = null;
+                                }
+                            }
+                    } catch (err){
+                        debug.log("Error occured when decoding URI Component");
                     }
 
                     return url;

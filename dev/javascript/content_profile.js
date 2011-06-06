@@ -608,7 +608,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_container").addClass("s3d-page-column-right");
             $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
             $("#content_profile_right_metacomments").removeClass("fl-container-650");
-            $("#content_profile_right_metacomments").addClass("fl-container-500");
+            $("#content_profile_right_metacomments").addClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
                 $("#content_profile_sakaidoc_container").show();
@@ -624,7 +624,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_container").removeClass("s3d-page-column-right");
             $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
             $("#content_profile_right_metacomments").addClass("fl-container-650");
-            $("#content_profile_right_metacomments").removeClass("fl-container-500");
+            $("#content_profile_right_metacomments").removeClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
                 $("#content_profile_sakaidoc_container").show();
