@@ -424,6 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Navigation hover binding
             $(hasSubnav).hover(function(){
                 var $li = $(this);
+                $li.removeClass("topnavigation_close_override");
                 $li.children(subnavtl).show();
                 var $subnav = $li.children(navLinkDropdown);
 
@@ -438,6 +439,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // hide the menu after an option has been clicked
+            $(hasSubnav + " a").live("click", function(){
+                var $parentMenu = $(this).parents(hasSubnav);
+                $parentMenu.addClass("topnavigation_close_override");
+                $parentMenu.children(subnavtl).hide();
+                $parentMenu.children(navLinkDropdown).hide();
+            });
             $(hasSubnav + " ul li a").live("click", function(){
                 var $parentMenu = $(this).parents(hasSubnav);
                 $parentMenu.children(subnavtl).hide();
