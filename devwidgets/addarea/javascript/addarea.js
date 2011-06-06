@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 
                  $addareaContentsContainerForm.css({"width":"1px","display":"block"}).animate({
                     width: width
-                }, 300, 'linear');
+                }, 300, "linear");
             }
         };
 
