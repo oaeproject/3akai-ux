@@ -77,3 +77,5 @@
 .inbox_message_container.reply .inbox_right_col{width:5%;}
 /* General */
 .inbox_placeholder{width:20px;float:left;padding-left:5px;}
+/* Chrome scrollbar fix */
+#inbox_show_message .fl-fix{overflow:hidden;}
