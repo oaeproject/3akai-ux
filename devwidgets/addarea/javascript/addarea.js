@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $("#addarea_action_buttons").show();
                 $("#addarea_create_new_area").attr("disabled", true);
                 
-                 $addareaContentsContainerForm.css({"width":"1px","display":"block"}).animate({
+                $addareaContentsContainerForm.css({"width":"1px","display":"block"}).animate({
                     width: width
                 }, 300, "linear");
             }
