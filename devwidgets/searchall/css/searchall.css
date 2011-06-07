@@ -82,7 +82,7 @@
 #add_to_contacts_dialog td{border:none!important;padding:0!important;}
 .searchpeople_result_person_threedots{display:block;width:150px;}
 .searchpeople_result_counts {padding:3px 0;font-size:11px;}
-.searchpeople_result_detail_separator {color:#cccccc;}
+.searchpeople_result_detail_separator {color:#cccccc;margin: 0 5px;}
 .searchpeople_result_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
 .searchpeople_result_icon{display: inline-block;height: 10px;width: 15px;}
 .searchpeople_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
