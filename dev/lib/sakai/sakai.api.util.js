@@ -1361,20 +1361,18 @@ define(["jquery",
                         var vbRegex = new RegExp("^(.*)vbscript:(.*)+$");
                         if ((jsRegex.test(testUrl) || vbRegex.test(testUrl)) && testUrl !== js) {
                             url = null;
-                        }
-                        else 
-                            if (testUrl !== js) {
-                                // check for utf-8 unicode encoding without semicolons
-                                testUrl = testUrl.replace(/&/g, ";&");
-                                testUrl = testUrl.replace(";&", "&") + ";";
-                                
-                                var nulRe = /\0/g;
-                                testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
-                                
-                                if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
-                                    url = null;
-                                }
+                        } else if (testUrl !== js) {
+                            // check for utf-8 unicode encoding without semicolons
+                            testUrl = testUrl.replace(/&/g, ";&");
+                            testUrl = testUrl.replace(";&", "&") + ";";
+
+                            var nulRe = /\0/g;
+                            testUrl = html.unescapeEntities(testUrl.replace(nulRe, ''));
+
+                            if (jsRegex.test(testUrl) || vbRegex.test(testUrl)) {
+                                url = null;
                             }
+                        }
                     } catch (err){
                         debug.log("Error occured when decoding URI Component");
                     }
