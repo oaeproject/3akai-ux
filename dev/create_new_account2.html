@@ -58,7 +58,6 @@
                                     </div>
                                 </div>
 
-                                <button type="button" id="checkUserName" class="s3d-button s3d-header-button" disabled="disabled" tabindex=10>__MSG__CHECK_AVAILABILITY__</button>
                                 <div class="signup_form_column">
                                     <div class="signup_form_column_labels">
                                         <label id="username_label" class="username" for="username">__MSG__USERNAME__:</label>
@@ -66,7 +65,7 @@
                                         <label for="password_repeat" class="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
                                     </div>
                                     <div class="signup_form_column_fields">
-                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <div class="create_account_input_error" id="create_account_username_error" style="display:none;"><!----></div>
                                         <input type="text" maxlength="255" id="username" name="username" class="username_unavailable_icon create_account_input required" placeholder="Hiroyuki"/>
                                         <div class="create_account_input_error" style="display:none;"><!----></div>
                                         <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>

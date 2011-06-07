@@ -164,9 +164,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * to false, it will start doing the actual creation of the user once
          * the check has been completed.
          */
-        var checkUserName = function(checkingOnly){
+        var checkUserName = function(checkingOnly, callback){
             var values = getFormValues();
             var ret = false;
+            var async = false;
+            if (callback){
+                async = true;
+            }
             // If we reach this point, we have a username in a valid format. We then go and check
             // on the server whether this eid is already taken or not. We expect a 200 if it already
             // exists and a 401 if it doesn't exist yet.
@@ -175,15 +179,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     // Replace the preliminary parameter in the service URL by the real username entered
                     url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username),
                     cache: false,
-                    async: false,
+                    async: async,
+                    success: function(){
+                        if (callback){
+                            callback(false);
+                        }
+                    },
                     error: function(xhr, textStatus, thrownError){
                         // SAKIII-1736 - IE will interpret the 204 returned by the server as a
                         // status code 1223, which will cause the error clause to activate
                         if (xhr.status === 1223) {
                             ret = false;
-                        }
-                        else {
+                        } else {
                             ret = true;
+                        }
+                        if (callback){
+                            callback(ret);
                         }
                     }
                 });
@@ -210,33 +221,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
 
-            $(checkUserNameLink).bind("click", function(){
-                if (currentUserName !== $(usernameField).val() && $.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
+            $("#username").bind("keyup, blur", function(){
+                $("#create_account_username_error").hide();
+                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
                     $(usernameField).removeClass("signup_form_error");
                     currentUserName = $(usernameField).val();
-                    var success = checkUserName(true);
-                    if (success) {
-                        $(usernameField).removeClass("signup_form_error");
-                        $(usernameField).addClass("username_available_icon");
-                        $("."+ $(usernameField)[0].id).removeClass("signup_form_error_label");
-                    }
-                    else {
-                        $(usernameField).removeClass("username_available_icon");
-                    }
-                }
-            });
-
-            $(usernameField).bind("change keyup", function(){
-                $("."+ $(usernameField)[0].id).removeClass("signup_form_error_label");
-                $(usernameField).removeClass("signup_form_error");
-                $(usernameField).prev().hide();
-                // if user name is entered enable button
-                if ($(usernameField).val() !== "" && $.trim($(usernameField).val()).length > 2) {
-                    $(checkUserNameLink).removeAttr("disabled");
-                }
-                else {
-                    // disable button
-                    $(checkUserNameLink).attr("disabled", "disabled");
+                    checkUserName(true, function(success){
+                        if (success) {
+                            $(usernameField).removeClass("signup_form_error");
+                            $(usernameField).addClass("username_available_icon");
+                            $("."+ $(usernameField)[0].id).removeClass("signup_form_error_label");
+                        } else {
+                            $(usernameField).removeClass("username_available_icon");
+                        }
+                    });
+                } else {
+                    $(usernameField).removeClass("username_available_icon");
                 }
             });
 
