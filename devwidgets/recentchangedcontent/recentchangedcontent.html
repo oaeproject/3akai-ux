@@ -21,7 +21,7 @@
                     <div class="recentchangedcontent_item_img fl-force-left">
                         <a href="/content#p=${item.link}/${item.filename}" title="${item.name}">
                             {if item.thumbnail}
-                                <img class="s3d-icon-50" src="${item.thumbnail} alt="${item.mimeTypeDescription}" />
+                                <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                             {elseif (item.mimeType.substring(0,6)=="image/")}
                                 <img class="s3d-icon-50" src="${item.path}" alt="${item.mimeTypeDescription}" />
                             {elseif sakai.config.MimeTypes[item.mimeType]}
@@ -69,7 +69,7 @@
                         <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
                             <span>
                                 {if item.relatedContent.thumbnail}
-                                    <img class="s3d-icon-32" src="${item.relatedContent.thumbnail} alt="${item.relatedContent.mimeTypeDescription}" />
+                                    <img class="s3d-icon-32" src="${item.relatedContent.thumbnail}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {elseif (item.relatedContent.mimeType.substring(0,6)=="image/")}
                                     <img class="s3d-icon-32" src="${item.relatedContent.path}" alt="${item.relatedContent.mimeTypeDescription}" />
                                 {elseif sakai.config.MimeTypes[item.relatedContent.mimeType]}

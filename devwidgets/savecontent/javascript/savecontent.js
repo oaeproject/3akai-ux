@@ -84,6 +84,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var json = {
                 "content": dataCache[contentId],
                 "me": sakai.data.me,
+                "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups),
                 "sakai": sakai
             };
                 

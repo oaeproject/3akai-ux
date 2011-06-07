@@ -22,7 +22,7 @@
     <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
         <!-- -->
     </div>
-    <button type="button" id="contentmetadata_show_more" class="s3d-link-button s3d-action">
+    <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
         <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
         <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
     </button>
@@ -39,17 +39,23 @@
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
         {if data.mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if typeof data.data["sakai:tags"] != "undefined"}{for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index > 0},&nbsp;{/if}${tag}{/if}{/for}{/if}</textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">
+                {if tags && tags.length > 0}
+                    {for tag in tags}
+                        {if tag_index > 0},&nbsp;{/if}
+                        ${tag}
+                    {/for}
+                {/if}
+            </textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
-            {if data.data["sakai:tags"] && $.trim(data.data["sakai:tags"].toString()) != ""}
+            {if tags && tags.length > 0}
                 <span class="contentmetadata_second_column">
-                    {var dirCount = 0;}
-                    {for tag in data.data["sakai:tags"]}{if tag.split("/")[0] !== "directory"}{if tag_index - dirCount > 0},{/if} <a href="/search#q=${sakai.api.Security.escapeHTML(tag)}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>{else}{var dirCount = dirCount + 1;}{/if}{/for}
+                    {for tag in tags}
+                        {if tag_index > 0},{/if} 
+                        <a href="/search#q=${sakai.api.Security.escapeHTML(tag)}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${sakai.api.Security.escapeHTML(tag)}'"">${sakai.api.Security.escapeHTML(tag)}</a>
+                    {/for}
                 </span>
-                {if data.data["sakai:tags"].length == dirCount}
-                    {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
-                {/if}
             {else}
                 <span class="contentmetadata_click">
                 {if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_TAGS__</span>{else}__MSG__NO_TAGS__{/if}
@@ -128,7 +134,7 @@
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>
-                <a href="${creator.homePath}">
+                <a href="${creator.homePath}" class="s3d-regular-links">
                     ${sakai.api.User.getDisplayName(creator)}
                 </a>
             </span>

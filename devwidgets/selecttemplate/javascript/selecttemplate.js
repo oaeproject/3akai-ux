@@ -39,7 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.selecttemplate = function(tuid, showSettings){
 
-        var rootel = $("#" + tuid);
+        var $rootel = $("#" + tuid);
 
         var doInit = function(){
             var templatesToRender = false;
@@ -58,7 +58,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
         
-        $(".selecttemplate_use_button", rootel).live("click", function(){
+        $(".selecttemplate_use_button", $rootel).live("click", function(){
             var clicked = $(this);
             if (clicked.data("templateid")){
                 renderCreateWorld(tuid, clicked.data("templateid"));
@@ -66,12 +66,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         var renderTemplateList = function(templates){
-            $("#selecttemplate_container", rootel).show();
-            $("#selecttemplate_templatelist_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
-            $("#selecttemplate_type_name", rootel).text(sakai.api.i18n.General.getValueForKey(templates.title));
-            $("#selecttemplate_createworld_container", rootel).hide();
+            $("#selecttemplate_container", $rootel).show();
+            $("#selecttemplate_templatelist_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
+            $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.General.getValueForKey(templates.title));
+            $("#selecttemplate_createworld_container", $rootel).hide();
 
-            $(".selecttemplate_preview_button", rootel).live("click", function(){
+            $(".selecttemplate_preview_button", $rootel).live("click", function(){
                 var clicked = $(this);
                 if (clicked.data("templateid")){
                     renderPreview(tuid, clicked.data("templateid"), templates);
@@ -80,22 +80,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderCreateWorld = function(category, id){
-            $("#selecttemplate_container", rootel).hide();
-            var tuid = Math.round(Math.random() * 10000000);
+            $("#selecttemplate_container", $rootel).hide();
+            var tuid = sakai.api.Util.generateWidgetId();
             var toPassOn = {};
             toPassOn[tuid] = {
                 "category": category,
                 "id": id
             };
-            $("#selecttemplate_createworld_container", rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
+            toPassOn[tuid + "addpeople"] = {
+                "category": category,
+                "id": id
+            }
+            $("#selecttemplate_createworld_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_createworld_template", {"tuid" : tuid}));
             sakai.api.Widgets.widgetLoader.insertWidgets("selecttemplate_createworld_" + tuid, false, false,[toPassOn]);
-            $("#selecttemplate_createworld_container", rootel).show();
+            $("#selecttemplate_createworld_container", $rootel).show();
         };
 
         var renderPreview = function(category, id, templates){
-            var $selecttemplatePreviewDialog = $("#selecttemplate_preview_dialog");
-            var $selecttemplatePreviewDialogContainer = $("#selecttemplate_preview_dialog_container");
-            var selecttemplatePreviewDialogTemplate = "#selecttemplate_preview_dialog_template";
+            var $selecttemplatePreviewDialog = $("#selecttemplate_preview_dialog", $rootel);
+            var $selecttemplatePreviewDialogContainer = $("#selecttemplate_preview_dialog_container", $rootel);
+            var selecttemplatePreviewDialogTemplate = "selecttemplate_preview_dialog_template";
 
             $selecttemplatePreviewDialog.jqm({
                 modal: true,

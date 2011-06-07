@@ -70,7 +70,7 @@
                     <a href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
                     <span>
                         {if content.thumbnail}
-                            <img class="s3d-icon-32" src="${content.thumbnail} alt="${content.type}" />
+                            <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
                         {elseif (content._mimeType.substring(0,6)=="image/")}
                             <img class="s3d-icon-32" src="/p/${content['_path']}" alt="${content.type}" />
                         {else}

@@ -275,8 +275,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return json;
         };
 
-        var renderLocations = function(data){
-            sakai_global.currentgroup.data.authprofile["sakai:tags"] = data.tags;
+        var renderLocations = function(){
             var mode = '';
             // Show in Edit mode
             if (showSettings) {
@@ -335,10 +334,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $(window).trigger("ready.groupbasicinfo.sakai", {});
 
         // Bind to the global update location
-        $(window).bind("renderlocations.contentmetadata.sakai", function(ev, data){
+        $(window).bind("renderlocations.contentmetadata.sakai", function(ev){
             ev.stopImmediatePropagation();
             // render location in profile Section
-            renderLocations(data);
+            renderLocations();
         });
 
         sakai.api.Widgets.widgetLoader.insertWidgets(tuid);

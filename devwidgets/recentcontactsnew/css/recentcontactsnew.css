@@ -1,6 +1,6 @@
 /*** LAYOUT ***/
 .recentcontactsnew_content {padding-top: 0px !important; padding-bottom: 0px !important;}
-.recentcontactsnew_main {background-color:#FFFFFF!important; min-height: 50px;}
+.recentcontactsnew_main {background-color:#FFFFFF!important; min-height: 50px; padding-top: 5px;}
 .recentcontactsnew_main img {margin: 0px 10px 0 0;}
 #recentcontactsnew_no_group{color: #878a8c;padding: 0 10px;}
 .recentcontactsnew_related_details{padding:1px 0 0 5px;}
