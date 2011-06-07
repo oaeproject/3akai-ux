@@ -883,8 +883,9 @@ define(function(){
                 "label": "MY_CONTACTS_CAP"
             }]
         }, {
-            "url": "/dev/createnew.html",
+            "url": "#",
             "id": "navigation_create_and_add_link",
+            "class": "sakai_add_content_overlay",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
             "subnav": [{
