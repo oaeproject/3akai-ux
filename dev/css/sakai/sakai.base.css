@@ -68,23 +68,19 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 #widget_settings_menu ul {padding: 0;margin: 0;}
 #widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
 
-
-
-
 /* NEW WIDGETS */
-.s3d-widget-container .fl-widget-titlebar .settings {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -186px -393px transparent; position: relative; height: 18px; margin: 7px 8px 0 0;}
+.s3d-widget-container .fl-widget-titlebar .settings {position:relative;height:18px;margin:8px 0 0;text-indent:0 !important;color:#666 !important;}
+.s3d-widget-container .fl-widget-titlebar .settings:hover {color:#2683BC !important;}
 .s3d-widget-container {border:solid 1px #dfdfdf;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-bottom:10px;}
-.s3d-widget-container .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;color:#666;font-weight:bold;font-size:13px;}
-.s3d-widget-footer {min-height:14px;background:url("/dev/images/widget_footer_bg.png") repeat-x top left #ececeb;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-top:7px;padding:7px 12px;}
+.s3d-widget-container .s3d-contentpage-title {border-bottom:none;background:url("/dev/images/widget_header_bg.png") repeat-x scroll left top #dddddc;height:34px;line-height:34px;padding:0 12px;color:#666;font-weight:bold;font-size:13px;}
+.s3d-widget-footer {min-height:14px;background-color:#DDDDDC;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-top:7px;padding:7px 12px;box-shadow:0 1px 0 0 #bbb;}
 .s3d-widget-footer a {float:right;}
-
-
 
 /* Change layout */
 #change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
 #change_layout_dialog .elf-right-up {padding: 25px 0}
 #change_layout_dialog .add-tools-right {width:100%;}
-#change_layout_dialog .layout_container {float:left;  padding-left:25px;  padding-right:13px;    }
+#change_layout_dialog .layout_container {float:left;padding-left:25px;padding-right:13px;}
 #change_layout_dialog .layout_picker_item {width:114px; height: 62px; border: 2px solid #3399CC; border-right: 2px solid #3399CC; background-color: #EEFFFF;}
 #change_layout_dialog .layout_picker_item_column {border-right: 1px solid #3399CC;}
 #change_layout_dialog .layout_picker_item_radio {margin-left:50px; margin-top:10px;}
