@@ -24,3 +24,5 @@
 .featuredpeople_widget .featuredpeople_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredpeople_widget .featuredpeople_content .featuredpeople_userpage_link {display:block;font-size:11px;}
 .featuredpeople_widget #featuredpeople_no_people {display: block;margin: 10px;}
+
+.featuredpeople_widget .s3d-no-results-container {margin:30px 10px 10px;}

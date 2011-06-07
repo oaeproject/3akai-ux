@@ -64,3 +64,5 @@
 .featuredcontent_widget span.featuredcontent_content_category_description .featuredcontent_content_usedin_icon{background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .featuredcontent_widget span.featuredcontent_content_category_description .featuredcontent_content_comments_icon{background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
 .featuredcontent_widget .featuredcontent_no_content {margin:10px;display:block;}
+
+.featuredcontent_widget .s3d-no-results-container {margin:30px 10px 10px;}

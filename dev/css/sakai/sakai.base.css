@@ -77,6 +77,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .s3d-widget-container .fl-widget-titlebar .settings:hover {color:#2683BC !important;}
 .s3d-widget-container {border:solid 1px #dfdfdf;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-bottom:10px;}
 .s3d-widget-container .s3d-contentpage-title {border-bottom:none;background:url("/dev/images/widget_header_bg.png") repeat-x scroll left top #dddddc;height:34px;line-height:34px;padding:0 12px;color:#666;font-weight:bold;font-size:13px;}
+.s3d-widget-container .hiddenwidget .s3d-contentpage-title {margin-bottom:0;}
 .s3d-widget-footer {min-height:14px;background-color:#DDDDDC;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-top:7px;padding:7px 12px;box-shadow:0 1px 0 0 #bbb;}
 .s3d-widget-footer a {float:right;}
 
@@ -115,7 +116,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 .orderable-avatar-clone {height:200px; opacity:0.6; width:400px;}
 .drop-warning {background-color:#FFD7D7; border:2px solid red; display:none; left:10px; margin:5px; padding:10px; position:absolute; top:50px; z-index:65535;}
-.orderable-drop-marker-box {background-color:#FFFFFF; border:2px dashed #AAAAAA; height:200px !important; margin-bottom:1em; width:100%;}
+.orderable-drop-marker-box {background-color:#FFFFFF; border:2px dashed #AAAAAA; height:200px !important; margin-bottom:1em; width:97%;}
 .orderable-mouse-drag {display:none;}
 
 
@@ -252,7 +253,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
-.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:15px 0px 0px;}
+.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
 .s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;margin:5px 0 10px 0 !important;}
 .s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:0 12px 0 0;}

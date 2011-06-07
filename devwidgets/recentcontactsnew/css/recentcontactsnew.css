@@ -1,6 +1,6 @@
 /*** LAYOUT ***/
 .recentcontactsnew_content {padding-top: 0px !important; padding-bottom: 0px !important;}
-.recentcontactsnew_main {background-color:#FFFFFF!important; min-height: 50px; padding-top: 5px;}
+.recentcontactsnew_main {background-color:#FFFFFF!important; min-height: 50px;}
 .recentcontactsnew_main img {margin: 0px 10px 0 0;}
 #recentcontactsnew_no_group{color: #878a8c;padding: 0 10px;}
 .recentcontactsnew_related_details{padding:1px 0 0 5px;}
@@ -21,7 +21,7 @@ p.recentcontactsnew_item_title,p.recentcontactsnew_item_meta{margin:0;}
 p.recentcontactsnew_error_msg{padding-left:15px;}
 .creategroups .s3d-highlight_area_background{margin:0;}
 
-.recentcontactsnew_add_container #recentcontactsnew_no_results_container {padding:5px 10px 10px;}
+.recentcontactsnew_add_container #recentcontactsnew_no_results_container {padding:0 10px 10px;}
 .recentcontactsnew_add_container div{color:#878a8c;}
 .recentcontactsnew_add_container a {text-decoration: none;}
 .recentcontactsnew_widget .recentcontactsnew_button{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%;  max-width: 325px;}

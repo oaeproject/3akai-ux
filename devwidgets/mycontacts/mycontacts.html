@@ -8,8 +8,6 @@
     <!-- ERROR MESSAGES -->
     <span id="mycontacts_error_contactserver" style="display:none;">__MSG__UNABLE_TO_CONTACT_THE_SERVER_PLEASE_TRY_AGAIN_LATER__.</span>
 
-    <div class="s3d-widget-footer"></div>
-
     <div id="mycontacts_list_template" style="display:none"><!--
         {for i in items}
             <div class="fl-container fl-fix mycontacts_items">
@@ -21,13 +19,8 @@
             <div class="mycontacts_no_contacts">
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
-                    <div class="s3d-no-results-icon s3d-no-results-contact"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
-                    {if !anon}
-                        <h1>
-                            <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>
-                        </h1>
-                    {/if}
+                    <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !anon} <a href="/search#l=people" title="__MSG__FIND_CONTACTS__" class="s3d-regular-links">__MSG__FIND_CONTACTS__</a>{/if}</h1>
                 </div>
             </div>
         {/for}

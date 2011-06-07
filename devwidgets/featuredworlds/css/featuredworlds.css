@@ -29,3 +29,5 @@
 .featuredworlds_widget .featuredworlds_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredworlds_widget .featuredworlds_content .featuredworlds_grouppage_link {display:block;font-size:11px;}
 .featuredworlds_widget #featuredworlds_no_worlds {display: block;margin: 10px;}
+
+.featuredworlds_widget .s3d-no-results-container {margin:30px 10px 10px;}
