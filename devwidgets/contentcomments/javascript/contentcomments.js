@@ -27,10 +27,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
     /**
      * @name sakai_global.contentcomments
      *
-     * @class comments
+     * @class contentcomments
      *
      * @description
-     * Initialize the comments widget
+     * Initialize the contentcomments widget
      *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
@@ -52,82 +52,81 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var clickedPage = 1;
         var defaultPostsPerPage = 10;
         var widgeturl = "";
-        var currentSite = "";
         var contentPath = "";
         var store = "";
         var showCommentsChecked = true;
 
         // Main Ids
-        var comments = "#comments";
-        var commentsName = "comments";
-        var commentsClass = ".comments";
+        var contentcomments = "#contentcomments";
+        var contentcommentsName = "contentcomments";
+        var contentcommentsClass = ".contentcomments";
 
         // Output containers
-        var commentsOutputContainer = comments + "_mainContainer";
-        var commentsFillInComment = comments + "_fillInComment";
-        var commentsUserCommentContainer = comments + "_userCommentContainer";
-        var commentsPostCommentStart = comments + "_postComment";
-        var commentsShowComments = comments + "_showComments";
-        var commentsNumComments = comments + "_numComments";
-        var commentsNumCommentsDisplayed = commentsNumComments + "Displayed";
-        var commentsCommentComments = comments + "_commentscomment";
-        var commentsCancelComment = comments + "_cancelComment";
+        var contentcommentsOutputContainer = contentcomments + "_mainContainer";
+        var contentcommentsFillInComment = contentcomments + "_fillInComment";
+        var contentcommentsUserCommentContainer = contentcomments + "_userCommentContainer";
+        var contentcommentsPostCommentStart = contentcomments + "_postComment";
+        var contentcommentsShowComments = contentcomments + "_showComments";
+        var contentcommentsNumComments = contentcomments + "_numComments";
+        var contentcommentsNumCommentsDisplayed = contentcommentsNumComments + "Displayed";
+        var contentcommentsCommentComments = contentcomments + "_contentcommentscomment";
+        var contentcommentsCancelComment = contentcomments + "_cancelComment";
 
         // Edit parts
-        var commentsEdit = commentsClass + "_edit";
-        var commentsMessage = comments + "_message_";
-        var commentsMessageEditContainer = commentsMessage + "editContainer_";
-        var commentsEditText = comments + "_editComment_txt_";
-        var commentsEditSave = commentsClass + "_editComment_save";
-        var commentsEditCancel = commentsClass + "_editComment_cancel";
-        var commentsPath = comments + "_path_";
-        var commentsEditorOptions = comments + "_editorOptions";
+        var contentcommentsEdit = contentcommentsClass + "_edit";
+        var contentcommentsMessage = contentcomments + "_message_";
+        var contentcommentsMessageEditContainer = contentcommentsMessage + "editContainer_";
+        var contentcommentsEditText = contentcomments + "_editComment_txt_";
+        var contentcommentsEditSave = contentcommentsClass + "_editComment_save";
+        var contentcommentsEditCancel = contentcommentsClass + "_editComment_cancel";
+        var contentcommentsPath = contentcomments + "_path_";
+        var contentcommentsEditorOptions = contentcomments + "_editorOptions";
 
         // Delete
-        var commentsDelete = commentsClass + "_delete";
-        var commentsUnDelete = commentsClass + "_undelete";
+        var contentcommentsDelete = contentcommentsClass + "_delete";
+        var contentcommentsUnDelete = contentcommentsClass + "_undelete";
 
         // Comment permissions
-        var commentsShowCheckbox = comments + "_showCommentsCheckbox";
-        var commentsAllowCheckbox = comments + "_allowCommentsCheckbox";
+        var contentcommentsShowCheckbox = contentcomments + "_showCommentsCheckbox";
+        var contentcommentsAllowCheckbox = contentcomments + "_allowCommentsCheckbox";
 
         // Output textboxes
-        var commentsMessageTxt = comments + "_txtMessage";
-        var commentsNamePosterTxt = comments + "_txtNamePoster";
-        var commentsMailPosterTxt = comments + "_txtMailPoster";
+        var contentcommentsMessageTxt = contentcomments + "_txtMessage";
+        var contentcommentsNamePosterTxt = contentcomments + "_txtNamePoster";
+        var contentcommentsMailPosterTxt = contentcomments + "_txtMailPoster";
         // Their containers
-        var commentsNamePosterTxtContainer = commentsNamePosterTxt + "_container";
-        var commentsMailPosterTxtContainer = commentsMailPosterTxt + "_container";
+        var contentcommentsNamePosterTxtContainer = contentcommentsNamePosterTxt + "_container";
+        var contentcommentsMailPosterTxtContainer = contentcommentsMailPosterTxt + "_container";
 
         // Output classes
-        var commentsCommentBtn = commentsClass + "_comment";
-        var commentsPager = commentsClass + "_jqpager";
+        var contentcommentsCommentBtn = contentcommentsClass + "_comment";
+        var contentcommentsPager = contentcommentsClass + "_jqpager";
 
 
         // Output templates
-        var commentsShowCommentsTemplate = commentsName + "_showCommentsTemplate";
+        var contentcommentsShowCommentsTemplate = contentcommentsName + "_showCommentsTemplate";
 
         // Settings
-        var commentsSettingsContainer = comments + "_settings";
+        var contentcommentsSettingsContainer = contentcomments + "_settings";
 
         // Settings checkboxes and radiobuttons
-        var commentsEmailReqChk = comments + "_Emailrequired";
-        var commentsNameReqChk = comments + "_Namerequired";
-        var commentsSendMailChk = comments + "_SendMail";
-        var commentsPageTxt = comments + "_txtPage";
+        var contentcommentsEmailReqChk = contentcomments + "_Emailrequired";
+        var contentcommentsNameReqChk = contentcomments + "_Namerequired";
+        var contentcommentsSendMailChk = contentcomments + "_SendMail";
+        var contentcommentsPageTxt = contentcomments + "_txtPage";
 
         // Settings buttons
-        var commentsSubmit = comments + "_submit";
-        var commentsCancel = comments + "_cancel";
+        var contentcommentsSubmit = contentcomments + "_submit";
+        var contentcommentsCancel = contentcomments + "_cancel";
 
         // Settings names
-        var commentsDisplayRbt = commentsName + "_ChooseDisplayComments";
-        var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
-        var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
+        var contentcommentsDisplayRbt = contentcommentsName + "_ChooseDisplayComments";
+        var contentcommentsDirectionRbt = contentcommentsName + "_ChooseDirectionComments";
+        var contentcommentsPermissionsRbt = contentcommentsName + "_ChoosePermissionComments";
 
         // Resize textarea to match width
-        var commentsMainContainerTextarea = commentsOutputContainer + " textarea";
-        var commentsTitlebar = comments + "_titlebar";
+        var contentcommentsMainContainerTextarea = contentcommentsOutputContainer + " textarea";
+        var contentcommentsTitlebar = contentcomments + "_titlebar";
 
         ////////////////////////
         // Utility  functions //
@@ -162,23 +161,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 if (!picture) {
                     picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 }
-                $("#comments_userProfileAvatarPicture").attr("src", picture);
+                $("#contentcomments_userProfileAvatarPicture").attr("src", picture);
             }
         };
 
         /**
-         * Callback function to sort comments based on created date
+         * Callback function to sort contentcomments based on created date
          */
         var sortComments = function(a, b){
             return a._created < b._created ? 1 : -1;
         };
 
         ///////////////////
-        // show comments //
+        // show contentcomments //
         ///////////////////
 
         /**
-         * Show the comments in a paged state or not
+         * Show the contentcomments in a paged state or not
          */
         var displayCommentsPagedOrNot = function(){
             jsonDisplay = {
@@ -186,10 +185,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "settings": widgetSettings
             };
 
-            // sort comments on create date
+            // sort contentcomments on create date
             json.comments.sort(sortComments);
 
-            // Loops through all the comments and does the necessary changes to render the JSON-object
+            // Loops through all the contentcomments and does the necessary changes to render the JSON-object
             for (var i = 0; i < json.comments.length; i++) {
                 jsonDisplay.comments[i] = {};
                 var comment = json.comments[i];
@@ -250,50 +249,50 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 jsonDisplay.comments[i] = comment;
             }
             jsonDisplay.sakai = sakai;
-            $(commentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
+            $(contentcommentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(contentcommentsShowCommentsTemplate, jsonDisplay));
         };
 
         /**
-         * Show all the posted comments
+         * Show all the posted contentcomments
          * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
          */
         var showComments = function(){
-            // Show the nr of comments we are showing.
+            // Show the nr of contentcomments we are showing.
             var showingComments = json.total;
             if (widgetSettings.perPage < json.total) {
                 showingComments = widgetSettings.perPage;
             }
-            $(commentsNumCommentsDisplayed, rootel).html(showingComments);
-            // Puts the number of comments on the page
-            $(commentsNumComments, rootel).html(json.total);
-            // Change to "comment" or "comments"
+            $(contentcommentsNumCommentsDisplayed, rootel).html(showingComments);
+            // Puts the number of contentcomments on the page
+            $(contentcommentsNumComments, rootel).html(json.total);
+            // Change to "comment" or "contentcomments"
             if (json.total === 1) {
-                $(commentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
+                $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
             }
 
 
             // Change the page-number on the display
-    /*        $(commentsPager, rootel).pager({
+    /*        $(contentcommentsPager, rootel).pager({
                 pagenumber: clickedPage,
                 pagecount: Math.ceil(json.total / widgetSettings.perPage),
                 buttonClickCallback: pagerClickHandler
             });*/
 
             if (json.total > widgetSettings.perPage) {
-                $(commentsPager, rootel).show();
+                $(contentcommentsPager, rootel).show();
             }
-            // Checks if the comments undefined or if it's length is 0
+            // Checks if the contentcomments undefined or if it's length is 0
             displayCommentsPagedOrNot();
         };
 
         /**
-         * Gets the comments from the service.
+         * Gets the contentcomments from the service.
          */
         var getComments = function(){
             var sortOn = "_created";
             var sortOrder = "desc";
             var items = 10;
-            if (widgetSettings.direction && widgetSettings.direction === "comments_FirstDown") {
+            if (widgetSettings.direction && widgetSettings.direction === "contentcomments_FirstDown") {
                 sortOrder = "asc";
             }
             if (widgetSettings.perPage) {
@@ -310,7 +309,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("COMMENTS_AN_ERROR_OCCURRED") + " (" + xhr.status + ")","",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentcomments","","COMMENTS_AN_ERROR_OCCURRED"), " (" + xhr.status + ")",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -323,7 +322,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             clickedPage = pageclickednumber;
 
             // Change the page-number on the display
-    /*        $(commentsPager, rootel).pager({
+    /*        $(contentcommentsPager, rootel).pager({
                 pagenumber: pageclickednumber,
                 pagecount: Math.ceil(json.total / widgetSettings.perPage),
                 buttonClickCallback: pagerClickHandler
@@ -337,22 +336,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var postComment = function(){
             var comment = {
                 // Replaces the \n (enters) with <br />
-                "message": $(commentsMessageTxt, rootel).val()
+                "message": $(contentcommentsMessageTxt, rootel).val()
             };
             comment["sakai:type"] = "comment";
 
             var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
             var allowPost = true;
-            // If the user is not loggedin but we allow anon comments, we check some extra fields.
+            // If the user is not loggedin but we allow anon contentcomments, we check some extra fields.
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === true) {
                 if (!isLoggedIn && widgetSettings['sakai:forcename']) {
-                    comment["sakai:name"] = $(commentsNamePosterTxt, rootel).val();
+                    comment["sakai:name"] = $(contentcommentsNamePosterTxt, rootel).val();
                     if (comment["sakai:name"].replace(/\s/g, "") === "") {
                         allowPost = false;
                     }
                 }
                 if (!isLoggedIn && widgetSettings['sakai:forcemail']) {
-                    comment["sakai:email"] = $(commentsMailPosterTxt, rootel).val();
+                    comment["sakai:email"] = $(contentcommentsMailPosterTxt, rootel).val();
                     if (comment["sakai:email"].replace(/\s/g, "") === "") {
                         allowPost = false;
                     }
@@ -364,10 +363,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
-            var subject = 'Comment on ' + currentSite;
+            var subject = "Comment";
             //var to = "internal:w-" + widgeturl + "/message";
 
-            var body = $(commentsMessageTxt, rootel).val();
+            var body = $(contentcommentsMessageTxt, rootel).val();
             if (allowPost && body !== "") {
                 var message = {
                     "_charset_":"utf-8",
@@ -381,11 +380,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     cache: false,
                     success: function(data){
                         // Hide the form.
-                        //$(commentsUserCommentContainer, rootel).hide();
+                        //$(contentcommentsUserCommentContainer, rootel).hide();
                         // Clear the textboxes.
-                        $(commentsMessageTxt, rootel).val("");
-                        $(commentsNamePosterTxt, rootel).val("");
-                        $(commentsMailPosterTxt, rootel).val("");
+                        $(contentcommentsMessageTxt, rootel).val("");
+                        $(contentcommentsNamePosterTxt, rootel).val("");
+                        $(contentcommentsMailPosterTxt, rootel).val("");
                         // Add an acitivty
                         sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", {"sakai:activityMessage": "CONTENT_ADDED_COMMENT"}, function(responseData, success){
                             if (success) {
@@ -393,7 +392,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                                 $(window).trigger("updateContentActivity.entity.sakai", "CONTENT_ADDED_COMMENT");
                             }
                         });
-                        // Get the comments.
+                        // Get the contentcomments.
                         getComments();
                     },
                     error: function(xhr, textStatus, thrownError){
@@ -422,28 +421,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Object} response
          */
         var showSettingScreen = function(exists, response){
-            $(commentsOutputContainer, rootel).hide();
-            $(commentsSettingsContainer, rootel).show();
+            $(contentcommentsOutputContainer, rootel).hide();
+            $(contentcommentsSettingsContainer, rootel).show();
 
             // If you're changing an comment-widget, then the saved values need to be filled in
             if (exists) {
-                $("input[name='" + commentsDirectionRbt + "'][value='" + widgetSettings.direction + "']", rootel).attr("checked", true);
+                $("input[name='" + contentcommentsDirectionRbt + "'][value='" + widgetSettings.direction + "']", rootel).attr("checked", true);
                 if (widgetSettings['sakai:allowanonymous'] && widgetSettings['sakai:allowanonymous'] === true) {
-                    $("#comments_DontRequireLogInID", rootel).attr("checked", true);
-                    $(commentsNameReqChk, rootel).attr("disabled", false);
-                    $(commentsEmailReqChk, rootel).attr("disabled", false);
+                    $("#contentcomments_DontRequireLogInID", rootel).attr("checked", true);
+                    $(contentcommentsNameReqChk, rootel).attr("disabled", false);
+                    $(contentcommentsEmailReqChk, rootel).attr("disabled", false);
+                } else {
+                    $("#contentcomments_RequireLogInID", rootel).attr("checked", true);
+                    $(contentcommentsNameReqChk, rootel).attr("disabled", true);
+                    $(contentcommentsEmailReqChk, rootel).attr("disabled", true);
                 }
-                else {
-                    $("#comments_RequireLogInID", rootel).attr("checked", true);
-                    $(commentsNameReqChk, rootel).attr("disabled", true);
-                    $(commentsEmailReqChk, rootel).attr("disabled", true);
-                }
-                $(commentsEmailReqChk, rootel).attr("checked", widgetSettings['sakai:forcemail']);
-                $(commentsNameReqChk, rootel).attr("checked", widgetSettings['sakai:forcename']);
+                $(contentcommentsEmailReqChk, rootel).attr("checked", widgetSettings['sakai:forcemail']);
+                $(contentcommentsNameReqChk, rootel).attr("checked", widgetSettings['sakai:forcename']);
 
 
-                $(commentsSendMailChk, rootel).attr("checked", widgetSettings['sakai:notification']);
-                $(commentsPageTxt, rootel).val(widgetSettings.perPage);
+                $(contentcommentsSendMailChk, rootel).attr("checked", widgetSettings['sakai:notification']);
+                $(contentcommentsPageTxt, rootel).val(widgetSettings.perPage);
             }
         };
 
@@ -452,7 +450,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * It will notify the container that it can be closed.
          */
         var finishNewSettings = function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "comments");
+            sakai.api.Widgets.Container.informFinish(tuid, "contentcomments");
         };
 
         /**
@@ -460,45 +458,45 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
          */
         var getCommentsSettings = function(){
-            var comments = {};
-            comments.comments = [];
+            var contentcomments = {};
+            contentcomments.contentcomments = [];
 
-            // Checks if there's already some comments placed on the widget
-            comments.comments = json.comments || [];
+            // Checks if there's already some contentcomments placed on the widget
+            contentcomments.contentcomments = json.contentcomments || [];
 
-            comments.perPage = parseInt($(commentsPageTxt, rootel).val(), 10);
-            if (isNaN(comments.perPage)) {
-                comments.perPage = defaultPostsPerPage;
+            contentcomments.perPage = parseInt($(contentcommentsPageTxt, rootel).val(), 10);
+            if (isNaN(contentcomments.perPage)) {
+                contentcomments.perPage = defaultPostsPerPage;
             }
 
-            if (comments.perPage < 1) {
+            if (contentcomments.perPage < 1) {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
                 return false;
             }
             // Check if a valid number is inserted
             else
-                if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
+                if ($(contentcommentsPageTxt, rootel).val().search(/^\d*$/)) {
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
                     return false;
                 }
 
 
-            comments.direction = $("input[name=" + commentsDirectionRbt + " ]:checked", rootel).val();
+            contentcomments.direction = $("input[name=" + contentcommentsDirectionRbt + " ]:checked", rootel).val();
 
-            // These properties are noy yet used in the comments-widget, but are saved in JCR
-            comments['sakai:allowanonymous'] = true;
-            if ($("#comments_RequireLogInID", rootel).is(":checked")) {
-                comments['sakai:allowanonymous'] = false;
+            // These properties are noy yet used in the contentcomments-widget, but are saved in JCR
+            contentcomments['sakai:allowanonymous'] = true;
+            if ($("#contentcomments_RequireLogInID", rootel).is(":checked")) {
+                contentcomments['sakai:allowanonymous'] = false;
             }
-            comments['sakai:forcename'] = $(commentsNameReqChk, rootel).attr("checked");
-            comments['sakai:forcemail'] = $(commentsEmailReqChk, rootel).attr("checked");
-            comments['sakai:notification'] = $(commentsSendMailChk, rootel).attr("checked");
-            comments['sakai:notificationaddress'] = me.user.userid;
-            comments['sling:resourceType'] = 'sakai/settings';
-            comments['sakai:marker'] = tuid;
-            comments['sakai:type'] = "comment";
+            contentcomments['sakai:forcename'] = $(contentcommentsNameReqChk, rootel).attr("checked");
+            contentcomments['sakai:forcemail'] = $(contentcommentsEmailReqChk, rootel).attr("checked");
+            contentcomments['sakai:notification'] = $(contentcommentsSendMailChk, rootel).attr("checked");
+            contentcomments['sakai:notificationaddress'] = me.user.userid;
+            contentcomments['sling:resourceType'] = 'sakai/settings';
+            contentcomments['sakai:marker'] = tuid;
+            contentcomments['sakai:type'] = "comment";
 
-            return comments;
+            return contentcomments;
         };
 
         /**
@@ -529,7 +527,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
                     var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                     if (widgetSettings["sakai:allowanonymous"] === false && !isLoggedIn) {
-                        $(commentsCommentBtn, rootel).parent().hide();
+                        $(contentcommentsCommentBtn, rootel).parent().hide();
                     }
 
                     if (showSettings) {
@@ -551,29 +549,28 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         /**
          * Gets the comment allow/show settings and shows the appropriate view.
-         * @param {Boolean} getComments true = fetch comments if comments are to be shown, false = do not fetch comments.
+         * @param {Boolean} getComments true = fetch contentcomments if contentcomments are to be shown, false = do not fetch contentcomments.
          */
         var checkCommentsPermissions = function(getComments){
-            var showComments = sakai_global.content_profile.content_data.data["sakai:showcomments"];
-            var allowComments = sakai_global.content_profile.content_data.data["sakai:allowcomments"];
-            if (showComments === "true") {
+            var showComments = sakai_global.content_profile.content_data.data["sakai:showcontentcomments"];
+            var allowComments = sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"];
+            if (showComments === true) {
                 if (getComments) {
                     pagerClickHandler(1);
                 }
-                var isAnon = me.user && me.user.anon;
-                if (allowComments == "false" || isAnon) {
-                    // hide comments entry box
-                    $("#comments_userCommentContainer", rootel).hide();
+                if (sakai.api.User.isAnonymous(sakai.data.me)) {
+                    // hide contentcomments entry box
+                    $("#contentcomments_userCommentContainer", rootel).hide();
                 } else {
-                    $("#comments_userCommentContainer", rootel).show();
+                    $("#contentcomments_userCommentContainer", rootel).show();
                 }
-                $("#comments_commentsDisabled", rootel).hide();
-                $("#comments_showComments", rootel).show();
+                $("#contentcomments_contentcommentsDisabled", rootel).hide();
+                $("#contentcomments_showComments", rootel).show();
             } else {
-                // hide comments entry box and existing comments
-                $("#comments_userCommentContainer", rootel).hide();
-                $("#comments_showComments", rootel).hide();
-                $("#comments_commentsDisabled", rootel).show();
+                // hide contentcomments entry box and existing contentcomments
+                $("#contentcomments_userCommentContainer", rootel).hide();
+                $("#contentcomments_showComments", rootel).hide();
+                $("#contentcomments_contentcommentsDisabled", rootel).show();
             }
         };
 
@@ -583,25 +580,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////
 
         /** Bind the choose display radiobuttons button */
-        $("input[name=" + commentsDisplayRbt + "]", rootel).bind("click", function(e, ui){
-            var selectedValue = $("input[name=" + commentsDisplayRbt + "]:checked", rootel).val();
+        $("input[name=" + contentcommentsDisplayRbt + "]", rootel).bind("click", function(e, ui){
+            var selectedValue = $("input[name=" + contentcommentsDisplayRbt + "]:checked", rootel).val();
             // When the perPage-rbt is selected the focus should be set to the Page-textbox
-            if (selectedValue === "comments_PerPage") {
-                $(commentsPageTxt, rootel).focus();
+            if (selectedValue === "contentcomments_PerPage") {
+                $(contentcommentsPageTxt, rootel).focus();
             }
         });
 
         /** Bind the choose permissions radiobuttons button */
-        $("input[name=" + commentsPermissionsRbt + "]", rootel).bind("change", function(e, ui){
-            var selectedValue = $("input[name=" + commentsPermissionsRbt + "]:checked", rootel).val();
+        $("input[name=" + contentcommentsPermissionsRbt + "]", rootel).bind("change", function(e, ui){
+            var selectedValue = $("input[name=" + contentcommentsPermissionsRbt + "]:checked", rootel).val();
             // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
-            $(commentsNameReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
-            $(commentsEmailReqChk, rootel).attr("disabled", selectedValue === "comments_RequireLogIn");
+            $(contentcommentsNameReqChk, rootel).attr("disabled", selectedValue === "contentcomments_RequireLogIn");
+            $(contentcommentsEmailReqChk, rootel).attr("disabled", selectedValue === "contentcomments_RequireLogIn");
 
         });
 
         /** Bind the settings submit button*/
-        $(commentsSubmit, rootel).bind("click", function(e, ui){
+        $(contentcommentsSubmit, rootel).bind("click", function(e, ui){
             // If the settings-input is valid an object will be returned else false will be returned
             var settings = getCommentsSettings();
             if (settings) {
@@ -621,23 +618,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         });
 
         /** Bind the insert comment button*/
-        $(commentsCommentBtn, rootel).bind("click", function(e, ui){
-            $(commentsMainContainerTextarea, rootel).width($(commentsTitlebar).width() - 90);
+        $(contentcommentsCommentBtn, rootel).bind("click", function(e, ui){
+            $(contentcommentsMainContainerTextarea, rootel).width($(contentcommentsTitlebar).width() - 90);
             // checks if the user is loggedIn
             var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
-            var txtToFocus = commentsMessageTxt;
-            // If the user is not loggedin but we allow anon comments, we show some extra fields.
+            var txtToFocus = contentcommentsMessageTxt;
+            // If the user is not loggedin but we allow anon contentcomments, we show some extra fields.
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === true) {
                 if (widgetSettings['sakai:forcename'] !== false) {
-                    txtToFocus = commentsNamePosterTxt;
-                    $(commentsNamePosterTxtContainer, rootel).show();
+                    txtToFocus = contentcommentsNamePosterTxt;
+                    $(contentcommentsNamePosterTxtContainer, rootel).show();
                 }
                 if (widgetSettings['sakai:forcemail'] !== false) {
                     // If name is not nescecary we focus the email address.
-                    if (txtToFocus === commentsMessageTxt) {
-                        txtToFocus = commentsMailPosterTxt;
+                    if (txtToFocus === contentcommentsMessageTxt) {
+                        txtToFocus = contentcommentsMailPosterTxt;
                     }
-                    $(commentsMailPosterTxtContainer, rootel).show();
+                    $(contentcommentsMailPosterTxtContainer, rootel).show();
                 }
             }
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
@@ -645,41 +642,41 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
             // Show the form.
-            $(commentsUserCommentContainer, rootel).show();
+            $(contentcommentsUserCommentContainer, rootel).show();
             $(txtToFocus, rootel).focus();
         });
 
         /**
          * Hide the form, but keep the input.
          */
-        $(commentsCancelComment, rootel).bind('click', function(){
-            $(commentsUserCommentContainer, rootel).hide();
+        $(contentcommentsCancelComment, rootel).bind('click', function(){
+            $(contentcommentsUserCommentContainer, rootel).hide();
         });
 
         /** Bind submit comment button */
-        $(commentsPostCommentStart, rootel).bind("click", function(e, ui){
+        $(contentcommentsPostCommentStart, rootel).bind("click", function(e, ui){
             postComment();
         });
 
         /** Bind the settings cancel button */
-        $(commentsCancel, rootel).bind("click", function(e, ui){
-            sakai.api.Widgets.Container.informCancel(tuid, "comments");
+        $(contentcommentsCancel, rootel).bind("click", function(e, ui){
+            sakai.api.Widgets.Container.informCancel(tuid, "contentcomments");
         });
 
         /** Bind the checkboxes */
-        $("#comments_allowCommentsOption label, #comments_allowCommentsCheckbox", rootel).bind("click", function(e){
+        $("#contentcomments_allowCommentsOption label, #contentcomments_allowCommentsCheckbox", rootel).bind("click", function(e){
             if (showCommentsChecked) {
                 var allowComments = "false";
-                if ($(commentsAllowCheckbox, rootel).attr("checked")) {
-                    if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
-                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                if ($(contentcommentsAllowCheckbox, rootel).attr("checked")) {
+                    if ($(this).attr("id") !== "contentcomments_allowCommentsCheckbox") {
+                        $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
                     } else {
                         allowComments = "true";
                     }
                 }
                 else {
-                    if ($(this).attr("id") !== "comments_allowCommentsCheckbox") {
-                        $(commentsAllowCheckbox, rootel).attr("checked", "checked");
+                    if ($(this).attr("id") !== "contentcomments_allowCommentsCheckbox") {
+                        $(contentcommentsAllowCheckbox, rootel).attr("checked", "checked");
                         allowComments = "true";
                     }
                 }
@@ -689,40 +686,40 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     type: "POST",
                     cache: false,
                     data: {
-                        "sakai:allowcomments": allowComments
+                        "sakai:allowcontentcomments": allowComments
                     },
                     success: function(data){
-                        sakai_global.content_profile.content_data.data["sakai:allowcomments"] = allowComments;
+                        sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = allowComments;
                         checkCommentsPermissions(false);
                     }
                 });
             }
         });
-        $("#comments_showCommentsOption label, #comments_showCommentsCheckbox", rootel).bind("click", function(e){
+        $("#contentcomments_showCommentsOption label, #contentcomments_showCommentsCheckbox", rootel).bind("click", function(e){
             var showComments = "false";
-            if ($(commentsShowCheckbox, rootel).attr("checked")){
-                if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
+            if ($(contentcommentsShowCheckbox, rootel).attr("checked")){
+                if ($(this).attr("id") !== "contentcomments_showCommentsCheckbox"){
                     showCommentsChecked = false;
-                    $(commentsShowCheckbox, rootel).removeAttr("checked");
-                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
-                    $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
+                    $(contentcommentsShowCheckbox, rootel).removeAttr("checked");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(contentcommentsAllowCheckbox, rootel).attr("disabled", "disabled");
                 } else {
                     showComments = "true";
                     showCommentsChecked = true;
-                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
-                    $(commentsAllowCheckbox, rootel).removeAttr("disabled");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("disabled");
                 }
             } else {
-                if ($(this).attr("id") !== "comments_showCommentsCheckbox"){
+                if ($(this).attr("id") !== "contentcomments_showCommentsCheckbox"){
                     showComments = "true";
                     showCommentsChecked = true;
-                    $(commentsShowCheckbox, rootel).attr("checked", "checked");
-                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
-                    $(commentsAllowCheckbox, rootel).removeAttr("disabled");
+                    $(contentcommentsShowCheckbox, rootel).attr("checked", "checked");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("disabled");
                 } else {
                     showCommentsChecked = false;
-                    $(commentsAllowCheckbox, rootel).removeAttr("checked");
-                    $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
+                    $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
+                    $(contentcommentsAllowCheckbox, rootel).attr("disabled", "disabled");
                 }
             }
 
@@ -731,12 +728,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 type: "POST",
                 cache: false,
                 data: {
-                    "sakai:showcomments": showComments,
-                    "sakai:allowcomments": "false"
+                    "sakai:showcontentcomments": showComments,
+                    "sakai:allowcontentcomments": "false"
                 },
                 success: function(data){
-                    sakai_global.content_profile.content_data.data["sakai:showcomments"] = showComments;
-                    sakai_global.content_profile.content_data.data["sakai:allowcomments"] = "false";
+                    sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] = showComments;
+                    sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = "false";
                     checkCommentsPermissions(true);
                 }
             });
@@ -766,14 +763,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
-        $(commentsDelete, rootel).live("click", function(e, ui){
-            var id = e.target.id.replace(commentsDelete.replace(/\./g, "") + "_", "");
+        $(contentcommentsDelete, rootel).live("click", function(e, ui){
+            var id = e.target.id.replace(contentcommentsDelete.replace(/\./g, "") + "_", "");
             doDelete(id, true);
             return false;
         });
 
-        $(commentsUnDelete, rootel).live("click", function(e, ui){
-            var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ""), "");
+        $(contentcommentsUnDelete, rootel).live("click", function(e, ui){
+            var id = e.target.id.replace(contentcommentsUnDelete.replace(/\./g, ""), "");
             doDelete(id, false);
             return false;
         });
@@ -786,37 +783,37 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Edit link
          */
-        $(commentsEdit, rootel).live('click', function(e, ui){
-            $(commentsMainContainerTextarea, rootel).width($(commentsTitlebar).width() - 90);
-            var id = e.target.id.replace("comments_edit_", "");
+        $(contentcommentsEdit, rootel).live('click', function(e, ui){
+            $(contentcommentsMainContainerTextarea, rootel).width($(contentcommentsTitlebar).width() - 90);
+            var id = e.target.id.replace("contentcomments_edit_", "");
             // Show the textarea
-            $(commentsMessage + id, rootel).hide();
-            $(commentsMessageEditContainer + id, rootel).show();
+            $(contentcommentsMessage + id, rootel).hide();
+            $(contentcommentsMessageEditContainer + id, rootel).show();
         });
 
         /**
          * Save the edited comment.
          */
-        $(commentsEditSave, rootel).live('click', function(e, ui){
-            var id = e.target.id.replace(commentsEditSave.replace(/\./g, ""), "");
-            var message = $(commentsEditText + id, rootel).val();
+        $(contentcommentsEditSave, rootel).live('click', function(e, ui){
+            var id = e.target.id.replace(contentcommentsEditSave.replace(/\./g, ""), "");
+            var message = $(contentcommentsEditText + id, rootel).val();
             if (message !== "") {
                 var data = {
                     "sakai:body": message,
                     "sakai:editedby": me.user.userid
                 };
                 // Do a post to the comment to edit the message.
-                var commentUrl = $(commentsPath+id).val();
+                var commentUrl = $(contentcommentsPath+id).val();
                 $.ajax({
                     url: commentUrl,
                     cache: false,
                     type: 'POST',
                     success: function(data){
                         // Set the new message
-                        $(commentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
+                        $(contentcommentsMessage + id, rootel).html(sakai.api.Security.saneHTML(tidyInput(message)));
                         // Hide the form
-                        $(commentsMessageEditContainer + id, rootel).hide();
-                        $(commentsMessage + id, rootel).show();
+                        $(contentcommentsMessageEditContainer + id, rootel).hide();
+                        $(contentcommentsMessage + id, rootel).show();
                     },
                     error: function(xhr, textStatus, thrownError){
                         sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
@@ -832,11 +829,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Cancel the edit comment.
          */
-        $(commentsEditCancel, rootel).live('click', function(e, ui){
-            var id = e.target.id.replace(commentsEditCancel.replace(".", ""), "");
+        $(contentcommentsEditCancel, rootel).live('click', function(e, ui){
+            var id = e.target.id.replace(contentcommentsEditCancel.replace(".", ""), "");
             // Show the textarea
-            $(commentsMessageEditContainer + id, rootel).hide();
-            $(commentsMessage + id, rootel).show();
+            $(contentcommentsMessageEditContainer + id, rootel).hide();
+            $(contentcommentsMessage + id, rootel).show();
         });
 
         /////////////////////////////
@@ -847,40 +844,42 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         var doInit = function(){
-            $(commentsEditorOptions).hide();
+            // Temporarily set these here, always allowing comments
+            sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] = true;
+            sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = true;
+            $(contentcommentsEditorOptions).hide();
             if (sakai_global.content_profile && sakai_global.content_profile.content_data){
-                currentSite = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
                 contentPath = "/p/" + sakai_global.content_profile.content_data.path.split("/")[2];
 
-                // check if comments are allowed or shown and display the checkbox options for the manager
+                // check if contentcomments are allowed or shown and display the checkbox options for the manager
                 if (sakai_global.content_profile.content_data.isManager){
-                    if (sakai_global.content_profile.content_data.data["sakai:allowcomments"] === "false"){
-                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
+                    if (sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] === false){
+                        $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
                     } else {
-                        sakai_global.content_profile.content_data.data["sakai:allowcomments"] = "true";
-                        $(commentsAllowCheckbox, rootel).attr("checked", "checked");
+                        sakai_global.content_profile.content_data.data["sakai:allowcontentcomments"] = true;
+                        $(contentcommentsAllowCheckbox, rootel).attr("checked", "checked");
                     }
-                    if (sakai_global.content_profile.content_data.data["sakai:showcomments"] === "false"){
-                        $(commentsShowCheckbox, rootel).removeAttr("checked");
-                        $(commentsAllowCheckbox, rootel).removeAttr("checked");
-                        $(commentsAllowCheckbox, rootel).attr("disabled", "disabled");
+                    if (sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] === false){
+                        $(contentcommentsShowCheckbox, rootel).removeAttr("checked");
+                        $(contentcommentsAllowCheckbox, rootel).removeAttr("checked");
+                        $(contentcommentsAllowCheckbox, rootel).attr("disabled", "disabled");
                         showCommentsChecked = false;
                     } else {
-                        sakai_global.content_profile.content_data.data["sakai:showcomments"] = "true";
-                        $(commentsShowCheckbox, rootel).attr("checked", "checked");
-                        $(commentsAllowCheckbox, rootel).removeAttr("disabled");
+                        sakai_global.content_profile.content_data.data["sakai:showcontentcomments"] = true;
+                        $(contentcommentsShowCheckbox, rootel).attr("checked", "checked");
+                        $(contentcommentsAllowCheckbox, rootel).removeAttr("disabled");
                     }
-                    $(commentsEditorOptions).show();
+                    $(contentcommentsEditorOptions).show();
                 }
             }
             if (!showSettings) {
                 // Show the main view.
                 displayUserProfilePicture();
-                $(commentsSettingsContainer, rootel).hide();
-                $(commentsOutputContainer, rootel).show();
+                $(contentcommentsSettingsContainer, rootel).hide();
+                $(contentcommentsOutputContainer, rootel).show();
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
                 if (!isLoggedIn) {
-                    $(commentsUserCommentContainer, rootel).hide();
+                    $(contentcommentsUserCommentContainer, rootel).hide();
                 }
             }
             //getWidgetSettings();

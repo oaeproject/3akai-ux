@@ -121,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             pickerData.selected = {};
             pickerData.currentElementCount = 0;
             pickerData.selectCount = 0;
-            clearAutoSuggest();
+            sakai.api.Util.AutoSuggest.reset($pickeruser_search_query);
         };
 
         /**
@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var render = function(iConfig) {
             $pickeruser_add_button.attr("disabled", "disabled");
-            clearAutoSuggest();
+            sakai.api.Util.AutoSuggest.reset($pickeruser_search_query);
             // Merge user defined config with defaults
             for (var element in iConfig) {
                 if (iConfig.hasOwnProperty(element) && pickerData.hasOwnProperty(element)) {
@@ -206,82 +206,73 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           $(window).trigger("finished.pickeruser.sakai", {"toAdd":userList});
         };
 
-        var clearAutoSuggest = function() {
-            $("#as-values-" + tuid).val("");
-            $(".as-selection-item").remove();
-        };
 
-        var setupAutoSuggest = function() {
-            $pickeruser_search_query.autoSuggest("",{
-                source: function(query, add) {
-                    var q = sakai.api.Server.createSearchString(query);
-                    var options = {"page": 0, "items": 15};
-                    var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
-                    if (pickerData.type === 'content') {
-                        searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
-                        if (q === '*' || q === '**') {
-                            searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
-                        }
-                    } else if (q === '*' || q === '**') {
-                        searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
-                    }
-                    if (q !== '*' && q !== '**') {
-                        options['q'] = q;
-                    }
-                    sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                        if (success) {
-                            var suggestions = [];
-                            var name, value, type;
-                            $.each(data.results, function(i) {
-                                if (pickerData.type === 'content') {
-                                    name = data.results[i]['sakai:pooled-content-file-name'];
-                                    value = data.results[i]['_path'];
-                                    type = "file";
-                                } else if (data.results[i]["rep:userId"]) {
-                                    name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
-                                    value = data.results[i]["rep:userId"];
-                                    type = "user";
-                                } else if (data.results[i]["sakai:group-id"]) {
-                                    name = data.results[i]["sakai:group-title"];
-                                    value = data.results[i]["sakai:group-id"];
-                                    type = "group";
-                                }
-                                if (pickerData.excludeList.length === 0 || $.inArray(value, pickerData.excludeList) === -1) {
-                                    suggestions.push({"value": value, "name": name, "type": type});
-                                }
-                            });
-                            add(suggestions);
-                        }
-                    }, options);
-                },
-                retrieveLimit: 10,
-                asHtmlID: tuid,
-                selectedItemProp: "name",
-                searchObjProps: "name",
-                formatList: function(data, elem) {
-                    // formats each line to be presented in autosuggest list
-                    // add the correct image, wrap name in a class
-                    var imgSrc = "/dev/images/user_avatar_icon_32x32.png";
-                    if(data.type === "group") {
-                        imgSrc = "/dev/images/group_avatar_icon_32x32.png";
-                    }
-                    var line_item = elem.html(
-                        '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
-                        '<span class="sm_suggestion_name">' + data.name + '</span>');
-                    return line_item;
-                },
-                resultClick: function(data) {
-                    $pickeruser_add_button.removeAttr("disabled");
-                },
-                selectionRemoved: function(elem) {
-                    elem.remove();
-                    if ($(".as-selection-item").length === 0) {
-                        $pickeruser_add_button.attr("disabled", "disabled");
-                    }
+        sakai.api.Util.AutoSuggest.setup($pickeruser_search_query,{
+            asHtmlID: tuid,
+            retrieveLimit: 10,
+            resultClick: function(data) {
+                $pickeruser_add_button.removeAttr("disabled");
+            },
+            selectionRemoved: function(elem) {
+                elem.remove();
+                if ($(".as-selection-item").length === 0) {
+                    $pickeruser_add_button.attr("disabled", "disabled");
                 }
-            });
-        };
-        setupAutoSuggest();
+            },
+            formatList: function(data, elem) {
+                // formats each line to be presented in autosuggest list
+                // add the correct image, wrap name in a class
+                var imgSrc = "/dev/images/user_avatar_icon_32x32.png";
+                if(data.type === "group") {
+                    imgSrc = "/dev/images/group_avatar_icon_32x32.png";
+                }
+                var line_item = elem.html(
+                    '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
+                    '<span class="sm_suggestion_name">' + data.name + '</span>');
+                return line_item;
+            },
+            source: function(query, add) {
+                var q = sakai.api.Server.createSearchString(query);
+                var options = {"page": 0, "items": 15};
+                var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
+                if (pickerData.type === 'content') {
+                    searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER;
+                    if (q === '*' || q === '**') {
+                        searchUrl = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                    }
+                } else if (q === '*' || q === '**') {
+                    searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
+                }
+                if (q !== '*' && q !== '**') {
+                    options['q'] = q;
+                }
+                sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
+                    if (success) {
+                        var suggestions = [];
+                        var name, value, type;
+                        $.each(data.results, function(i) {
+                            if (pickerData.type === 'content') {
+                                name = data.results[i]['sakai:pooled-content-file-name'];
+                                value = data.results[i]['_path'];
+                                type = "file";
+                            } else if (data.results[i]["rep:userId"]) {
+                                name = sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i]));
+                                value = data.results[i]["rep:userId"];
+                                type = "user";
+                            } else if (data.results[i]["sakai:group-id"]) {
+                                name = data.results[i]["sakai:group-title"];
+                                value = data.results[i]["sakai:group-id"];
+                                type = "group";
+                            }
+                            if (pickerData.excludeList.length === 0 || $.inArray(value, pickerData.excludeList) === -1) {
+                                suggestions.push({"value": value, "name": name, "type": type});
+                            }
+                        });
+                        add(suggestions);
+                    }
+                }, options);
+            }
+        });
 
         var addChoicesFromPickeradvanced = function(data) {
           $.each(data, function(i,val) {

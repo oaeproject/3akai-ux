@@ -38,7 +38,7 @@ response.setStatus(404);
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
                         <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
-                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/dev/create_new_account2.html">__MSG__SIGN_UP__</a></p>
+                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
                     </div>
                     <div class="error_content_second_column_box">
                         <div class="s3d-contentpage-title">__MSG__ARE_YOU_LOOKING_FOR__</div>
@@ -59,7 +59,7 @@ response.setStatus(404);
 							{for w in worlds}
 								<div class="error_content_second_column_box_item_container">
 									<div class="error_content_second_column_box_item_content">
-										<a class="s3d-regular-links s3d-bold" href="/search#l=${w.label}">${w.label}</a>
+										<a class="s3d-regular-links s3d-bold" href="/search#l=\${w.label}">\${w.label}</a>
 									</div>          
 								</div>
 								{if !w.last}
@@ -80,8 +80,8 @@ response.setStatus(404);
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
-                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                                <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
                         </div>
@@ -98,7 +98,7 @@ response.setStatus(404);
                                 <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
                                 <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
-                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button id="signin_from_content" class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
                             </ol>
                         --></div>
                         <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
@@ -108,27 +108,31 @@ response.setStatus(404);
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
                                 <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_IN__</li>
                             </ol>
-                        --></div>                       
+                        --></div>
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
                         <div>
                             <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">
                         </div>
-                                            
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/explore.html">__MSG__EXPLORE_THE_INSTITUTION__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/allcategories.html">__MSG__BROWSE_INSTITUTION_CATEGORIES__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VIEW_THE_INSTITUTION_WEBSITE__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VISIT_THE_SUPPORT_FORUM__</a></li>
-                            <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
-                        </ul>
-                        
-                        <h3>__MSG__GET_IN_TOUCH__</h3>
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__SEND_US_YOUR_FEEDBACK__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__CONTACT_SUPPORT__</a></li>
-                        </ul>
-                        
-                    </div>  
+
+                        <div id="error_page_links_container"></div>
+                        <div id="error_page_links_template" style="display:none"><!--
+                            <ul>
+                                {for w in links.whatToDo}
+                                    <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
+                                {/for}
+                                <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
+                            </ul>
+
+                            {if links.getInTouch && links.getInTouch.length > 0}
+                                <h3>__MSG__GET_IN_TOUCH__</h3>
+                                <ul>
+                                    {for g in links.getInTouch}
+                                        <li><a class="s3d-regular-links s3d-bold" href="\${g.url}">\${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
+                                    {/for}
+                                </ul>
+                            {/if}
+                        --></div>
+                    </div>
                 </div>
             </div>
         </div>

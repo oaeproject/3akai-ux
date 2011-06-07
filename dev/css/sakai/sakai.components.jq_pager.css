@@ -1,17 +1,11 @@
 /* Pager CSS */
 .jq_pager {text-align: center; }
 .sakai_pager { text-align: center; display: inline-block; margin-left:auto; margin-right:auto; zoom: 1; *display:inline;}
-.sakai_pager li.hidden { visibility:hidden; }
-.sakai_pager li { float: left; display:inline-block; list-style:none; font-size:0.95em; height:18px; background: url("/dev/images/dashboard_sprite.png") no-repeat scroll left -1764px transparent; margin:0px 5px;}
-.sakai_pager li > span {display:inline-block;background: url("/dev/images/dashboard_sprite.png") no-repeat scroll right -1794px transparent; margin:0;  border: none; font-weight: bold; cursor: pointer; height: 18px; margin-right: -5px;padding:1px 10px 0px 10px;color:#006e96;}
-.sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;color:#454a4f;}
-.sakai_pager li.dots {margin-left:10px; }
-.sakai_pager li.pgNext, .sakai_pager li.pgPrev {margin:0px 10px;}
-.sakai_pager li.pgPrev img {margin-top:1px;}
-.sakai_pager li.pgNext img {margin-top:1px;}
-.sakai_pager li.pgNext span.t, .sakai_pager li.pgPrev span.t {color:#454a4f; float:left;}
-.sakai_pager li.page-number {margin:0px 5px;}
-.sakai_pager li.pgCurrent {text-decoration:none;font-weight:bold;color:#4b4b4b;}
+.sakai_pager li.hidden {visibility:hidden;}
+.sakai_pager li {float:left;display:inline-block;list-style:none;font-size:0.95em;height:18px;margin:0px 5px;border-radius:5px;color:#666;cursor:pointer;font-weight:bold;text-align:center;margin-right:5px;border:none;background:#fff;box-shadow:0 0 6px -2px #A8A8A8 inset;border:1px solid #e0e3e5;}
+.sakai_pager li:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;border:1px solid #E0E3E5;box-shadow:none;}
+.sakai_pager li > span {display:inline-block;margin:0;border:none;height: 18px;padding:1px 10px 0px;}
+.sakai_pager li.pgCurrent, .sakai_pager li.pgCurrent > span, .sakai_pager li.dots {background:none;border:none;border-radius:0;box-shadow:0 0 0;padding-top:1px;}
+.sakai_pager li.dots {margin-left:5px;padding-top:6px;}
+.sakai_pager li.jq_pager_three_dots_end {margin-right:5px;}
 .sakai_pager li.pgEmpty { visibility:hidden !important; }
-.sakai_pager .sakai_pager_prev {background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -281px -399px transparent; float: left; height: 8px; margin: 5px 5px 0 0; width: 5px;}
-.sakai_pager .sakai_pager_next{background: url("/dev/images/dashboard_sprite.png") no-repeat scroll -310px -399px transparent; float: left; height: 8px; margin: 5px 0 0 5px; width: 5px;}

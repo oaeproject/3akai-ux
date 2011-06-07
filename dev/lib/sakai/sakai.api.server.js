@@ -71,14 +71,13 @@ define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
                 method = "POST";
             } else if(hasIELongUrlBug && $.browser.msie && urlLength > 300){
                 cache = false;
-            } else {
-                // if any request contains a POST, we should be POSTing so the request isn't cached
-                // maybe just GET with no cache? not sure
-                for (var i=0; i<_requests.length; i++) {
-                    if (_requests[i].method === "POST") {
-                        method = "POST";
-                        break;
-                    }
+            }
+            // if any request contains a POST, we should be POSTing so the request isn't cached
+            // maybe just GET with no cache? not sure
+            for (var i=0; i<_requests.length; i++) {
+                if (_requests[i].method === "POST") {
+                    method = "POST";
+                    break;
                 }
             }
             $.ajax({

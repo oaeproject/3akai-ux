@@ -3,14 +3,12 @@
 
 <div class="recentmemberships_widget">
     <div class="fl-widget-content s3d-widget-content recentmemberships_content">
-       <div class="recentmemberships_add_container">
-           <div id="recentmemberships_no_results_container" style="display:none;">
-                <div class="s3d-no-results-container">
-                    <div class="s3d-no-results-arrow-up"><!----></div>
-                    <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
-                </div>
-            </div>
+       <div id="recentmemberships_no_results_container" style="display:none;" class="recentmemberships_add_container">
+           <div class="s3d-no-results-container">
+               <div class="s3d-no-results-arrow-up"><!----></div>
+               <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
+               <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+           </div>
        </div>
        <!-- MAIN recentmemberships -->
         <div class="recentmemberships_main">
@@ -41,7 +39,7 @@
                 </div>
 
                 <div class="recentmemberships_seeall_button">
-                    <a class="recentmemberships_item_link s3d-widget-links" href="/dev/me.html#l=library">
+                    <a class="recentmemberships_item_link s3d-widget-links" href="/dev/me.html#l=memberships">
                         __MSG__SEE_ALL_MY_MEMBERSHIPS__
                     </a>
                 </div>
@@ -76,17 +74,12 @@
                 <div class="fl-force-left">
                     <a href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
                     <span>
-                        {var mimeType = sakai.api.Content.getMimeType(content)}
-                        {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                        {var thumbnail = sakai.api.Content.getThumbnail(content)}
-                        {if thumbnail}
-                            <img class="s3d-icon-32" src="${thumbnail} alt="${mimeTypeDescription}" />
-                        {elseif (mimeType.substring(0,6)=="image/")}
-                            <img class="s3d-icon-32" src="/p/${content['_path']}" alt="${mimeTypeDescription}" />
-                        {elseif sakai.config.MimeTypes[mimeType]}
-                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
+                        {if content.thumbnail}
+                            <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
+                        {elseif (content._mimeType.substring(0,6)=="image/")}
+                            <img class="s3d-icon-32" src="/p/${content['_path']}" alt="${content.type}" />
                         {else}
-                            <img class="s3d-icon-32" src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
+                            <img class="s3d-icon-32" src="${content.type_img_url}" alt="${content.type}" />
                         {/if}
                     </span>
                     </a>
@@ -95,7 +88,7 @@
                     <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}">
                         ${content.name}
                     </a>
-                    <span class="recentmemberships_content_mimetype">${sakai.api.i18n.General.getValueForKey(mimeTypeDescription).toUpperCase()}</span>
+                    <span class="recentmemberships_content_mimetype">${content.type}</span>
                     <div>__MSG__BY__
                         <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
                             ${author.authorName}
