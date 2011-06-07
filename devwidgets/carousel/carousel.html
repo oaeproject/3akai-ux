@@ -100,7 +100,7 @@
                                         {else}
                                             <img src="/dev/images/default_User_icon_50x50.png" />
                                         {/if}
-                                        <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
+                                        <h2><a href="/~${user.userid}" class="carousel_item_title s3d-action">${user.displayName}</a></h2>
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
@@ -134,12 +134,12 @@
                                             <img src="/dev/images/group_avatar_icon_64x64_nob.png" />
                                         {/if}
                                         <h2>
-                                            <a href="/~${group.groupid}" class="s3d-action">
+                                            <a href="/~${group.groupid}" class="carousel_item_title s3d-action">
                                                 ${group.title}
                                             </a>
                                         </h2>
                                         {if tall}
-                                            <p>
+                                            <p class="carousel_item_desc">
                                                 ${group.description}
                                             </p>
                                         {/if}
