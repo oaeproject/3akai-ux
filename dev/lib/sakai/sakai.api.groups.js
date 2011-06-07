@@ -846,9 +846,9 @@ define(["jquery",
 
             // Construct the batch requests
             $.each(users, function(index, user) {
-                var url = "/system/userManager/group/" + groupID + "-" + user.permission.toLowerCase() + ".update.json";
-                if (!user.permission){
-                    url = "/system/userManager/group/" + groupID + ".update.json";
+                var url = "/system/userManager/group/" + groupID + ".update.json";
+                if (user.permission){
+                    url = "/system/userManager/group/" + groupID + "-" + user.permission.toLowerCase() + ".update.json";
                 }
                 var data = {};
                 if (managerShip){
