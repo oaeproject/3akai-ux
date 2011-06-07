@@ -147,6 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $("#" + currentPageShown.ref + "_previewversion").show();
                 $("#" + currentPageShown.ref).html("");
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
+                sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }
