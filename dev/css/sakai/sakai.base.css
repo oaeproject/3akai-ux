@@ -64,9 +64,13 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 */
 
 /* Widget settings */
-#widget_settings_menu {position: absolute;top: 0;left: 0;background: #F9F8F8;margin-top:10px;}
-#widget_settings_menu ul {padding: 0;margin: 0;}
-#widget_settings_menu ul li {padding: 4px 5px;margin: 0;font-size: 12px;list-style-type: none;}
+#widget_settings_menu {position:absolute;top:0;left:0;margin-top:10px;}
+
+.s3d-dropdown-list {background:url("/dev/images/dropdown_list_bg.png") repeat-x scroll left top #F5F5F5;border: 1px solid #aaa;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 6px 0 #666;}
+.s3d-dropdown-list ul {padding:0;margin:5px;}
+.s3d-dropdown-list ul li {padding:2px 5px;margin:0;font-size:12px;list-style-type:none;}
+.s3d-dropdown-list ul li button {color:#336699;}
+.s3d-dropdown-list .s3d-dropdown-list-arrow-up {background:url("/dev/images/dropdown_list_arrow_up.png") no-repeat scroll left top transparent;height:20px;margin-top:-20px;position:absolute;right:8px;width:25px;}
 
 /* NEW WIDGETS */
 .s3d-widget-container .fl-widget-titlebar .settings {position:relative;height:18px;margin:8px 0 0;text-indent:0 !important;color:#666 !important;}
@@ -248,7 +252,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 /*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
-.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 20px 10px;}
+.s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:15px 0px 0px;}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
 .s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;margin:5px 0 10px 0 !important;}
 .s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:0 12px 0 0;}

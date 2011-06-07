@@ -135,11 +135,14 @@
     </div>
 
     <!-- Dropdown menu shown when clicking on a widget's pencil -->
-    <div id="widget_settings_menu" style="display:none">
+    <div id="widget_settings_menu" class="s3d-dropdown-list" style="display:none">
+        <div class="s3d-dropdown-list-arrow-up"><!----></div>
         <ul>
-            <li id="settings_remove" class="more_option"><button type="button" id="settings_remove_link" class="s3d-link-button s3d-action">__MSG__REMOVE__</button></li>
-            <li id="settings_hide" class="more_option"><button type="button" id="settings_hide_link" class="s3d-link-button s3d-action">__MSG__HIDE__</button></li>
-            <li id="settings_settings" class="more_option"><button type="button" id="settings_settings_link" class="s3d-link-button s3d-action">__MSG__SETTINGS__</button></li>
+            <li id="settings_remove" class="more_option"><button type="button" id="settings_remove_link" class="s3d-link-button s3d-bold">__MSG__REMOVE__</button></li>
+            <hr class="s3d-split-line"/>
+            <li id="settings_hide" class="more_option"><button type="button" id="settings_hide_link" class="s3d-link-button s3d-bold">__MSG__HIDE__</button></li>
+            <hr class="s3d-split-line" id="settings_settings"/>
+            <li id="settings_settings" class="more_option"><button type="button" id="settings_settings_link" class="s3d-link-button s3d-bold">__MSG__SETTINGS__</button></li>
         </ul>
     </div>
 </div>
