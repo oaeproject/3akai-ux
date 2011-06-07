@@ -25,13 +25,18 @@
 
 /* Participants list */
 .participants_widget #participants_list_container label {cursor:pointer;}
-.participants_widget #participants_list_container .s3d-list-entity-picture {width:46px;height:46px;}
-.participants_widget #participants_list_container .participants_list_participant_checkbox {float:left;margin:10px 8px 0 0;}
+.participants_widget #participants_list_container .s3d-list-entity-picture {width:46px;height:46px;margin-right: 15px;}
+.participants_widget #participants_list_container .participants_list_participant_checkbox {float:left;margin:6px 15px 0 0;}
 .participants_widget #participants_list_container ul {margin:7px 0;}
-.participants_widget #participants_list_container ul li.s3d-list-item .participants_list_participant_actions {display:none;}
-.participants_widget #participants_list_container ul li.s3d-list-item:hover .participants_list_participant_actions {display:block;}
-.participants_widget #participants_list_container ul hr {border:none;border-top:1px solid #E7E7E7;background:none;}
-.participants_widget #participants_list_container a.participants_list_participant_details {font-size:11px;}
-.participants_widget #participants_list_container span.participants_list_participant_details {font-size:12px;color:#424242;}
-.participants_widget #participants_list_container .participants_list_participant_divider {color:#ddd;margin:0 5px;}
-.participants_widget #participants_list_container .participants_list_participant_actions {float: right;margin-right: 10px;}
+.participants_widget #participants_list_container ul li {color:#333;padding:10px !important;}
+.participants_widget #participants_list_container ul li.s3d-list-item {border-top: 1px dotted #e9e9e9;}
+.participants_widget #participants_list_container ul li.participants_list_first {border-top: 1px solid #e9e9e9;}
+.participants_widget #participants_list_container ul li.participants_list_last {border-bottom: 1px solid #e9e9e9;}
+.participants_widget #participants_list_container .participants_list_participant_details {font-size:11px;}
+.participants_widget #participants_list_container .participants_list_participant_divider {font-size:11px;color:#cccccc;margin:0 5px !important;}
+.participants_widget #participants_list_container .participants_list_participant_actions {float: right;}
+.participants_widget #participants_list_container .participants_contact_icon{margin-left:-1px;}
+.participants_widget #participants_list_container .participants_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;}
+.participants_widget #participants_list_container .participants_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:0 0 0 -2px;padding:0;width:15px;}
+.participants_widget #participants_list_container ul li:hover .participants_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
+.participants_widget #participants_list_container ul li:hover .participants_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
