@@ -98,17 +98,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Determine the library ID of this library
-         */
-        var determineLibrary = function() {
-            if (mylibrary.contextId === sakai.data.me.user.userid) {
-                return "default";
-            } else {
-                return mylibrary.contextId;
-            }
-        };
-
-        /**
          * Determine if we're on the user's personal dashboard or not
          */
         var isOnPersonalDashboard = function() {
@@ -250,7 +239,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Listen for newly the newly added content event
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (library === determineLibrary() || isOnPersonalDashboard()) {
+            if (library === mylibrary.contextId || isOnPersonalDashboard()) {
                 reset();
             }
         });
@@ -397,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.newaddcontent) {
                     var library = null;
                     if (!isOnPersonalDashboard()) {
-                        library = determineLibrary();
+                        library = mylibrary.contextId;
                     }
                     data = sakai_global.newaddcontent.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
                 }

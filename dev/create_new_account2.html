@@ -11,7 +11,7 @@
 
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.create_new_account.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.create_new_account2.css" />
 
     </head>
     <body class="fl-centered create_account show i18nable">
@@ -24,7 +24,6 @@
                 <div class="s3d-container-shadow-left"><!----></div>
                 <div class="s3d-container-shadow-right"><!----></div>
                 <div class="s3d-page-header">
-                    <div id="widget_entity" class="widget_inline"></div>
                 </div>
             </div>
         </div>
@@ -33,107 +32,87 @@
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container s3d-main-container">
                 <div class="s3d-page-fullcolumn-padding">
-                    <!-- Set fields red by adding the invalid class -->
-                    <form id="create_account_form" method="post" action="#">
-                        <table summary="Create a new account">
-                            <!-- FIRST NAME -->
-                            <tr>
-                                <td class="label_container"><label for="firstName">__MSG__FIRSTNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" value="" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <!-- LAST NAME -->
-                            <tr>
-                                <td class="label_container"><label for="lastName">__MSG__LASTNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" value="" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <!-- EMAIL -->
-                            <tr>
-                                <td class="label_container"><label for="email">__MSG__EMAIL__:</label></td>
-                                <td><input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <!-- USERNAME -->
-                            <tr>
-                                <td class="label_container"><label id="username_label" for="username">__MSG__USERNAME__:</label></td>
-                                <td><input type="text" maxlength="255" id="username" name="username" class="create_account_input required" /></td>
-                                <td>
-                                    <button type="button" id="checkUserName" class="s3d-button s3d-header-button">__MSG__CHECK_IF_USERNAME_IS_AVAILABLE__</button>
-                                </td>
-                            </tr>
-                            <tr id="username_error_container">
-                                <td></td>
-                                <td>
-                                    <label id="username_available" class="username_available" for="username" class="available" style="display:none">__MSG__THIS_USERNAME_IS_AVAILABLE__</label>
-                                    <label id="username_taken" class="create_account_error_msg error" style="display:none">__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__</label>
-                                </td>
-                            </tr>
-
-                            <!-- PASSWORD -->
-                            <tr>
-                                <td class="label_container"><label for="password">__MSG__PASSWORD__:</label></td>
-                                <td><input type="password" maxlength="255" id="password" name="password" class="create_account_input required" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <!-- PASSWORD REPEAT -->
-                            <tr>
-                                <td class="label_container"><label for="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label></td>
-                                <td><input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <!-- CAPTCHA -->
-                            <tr>
-                                <td></td>
-                                <td class="captcha_container" id="captcha_box">
-                                    <div id="widget_captcha" class="widget_inline"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <label id="uword_nomatch" class="error" style="display:none">__MSG__THIS_DOES_NOT_MATCH__!</label>
-                                </td>
-                            </tr>
-
-                            <!-- BUTTONS -->
-                            <tr class="create_account_button_bar">
-                                <td></td>
-                                <td>
-                                    <div>
-                                        <button id="cancel_button" class="s3d-button s3d-link-button" type="reset">__MSG__CANCEL__</button>
-                                        <button id="save_account" class="s3d-button s3d-large-button" type="submit">__MSG__CREATE_ACCOUNT__</button>
+                    <div id="signup_header">
+                        <div id="signup_descriptionbox_left" class="signup_descriptionbox">Store all your academic work and collaborate with others on files anywhere</div>
+                        <div id="signup_descriptionbox_right" class="signup_descriptionbox">Build a project site while creating work with others all in the same place</div>
+                        <div id="signup_descriptionbox_middle" class="signup_descriptionbox">Create course materials once and re-use it later</div>
+                    </div>
+                    <div id="signup_header_bg">
+                        <form id="create_account_form">
+                            <div id="signup_form_container">
+                                <div id="signup_form_shadow"></div>
+                                <h1 class="signup_header">__MSG__CREATE_A_NEW_ACCOUNT__</h1>
+                                <div class="signup_form_column">
+                                    <div class="signup_form_column_labels">
+                                        <label for="firstName" class="firstName">__MSG__FIRSTNAME__:</label>
+                                        <label for="lastName" class="lastName">__MSG__LASTNAME__:</label>
+                                        <label for="email" class="email">__MSG__EMAIL__:</label>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span id="success_message_title" style="display:none;">__MSG__ACCOUNT_CREATED__</span></td>
-                                <td><div id="success_message" class="success_message"><span id="success_message_value">__MSG__ACCOUNT_SUCCESSFULLY_CREATED__.</span> <a href="/index">__MSG__CLICK_HERE_TO_LOGIN__.</a></div></td>
-                            </tr>
+                                    <div class="signup_form_column_fields">
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="text" maxlength="255" id="firstName" name="firstName" class="create_account_input required" placeholder="Hiroyuki"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="text" maxlength="255" id="lastName" name="lastName" class="create_account_input required" placeholder="Sakai"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="text" maxlength="255" id="email" name="email" class="create_account_input required email" placeholder="hiroyuki.sakai@example.com"/>
+                                    </div>
+                                </div>
 
-                        </table>
+                                <div class="signup_form_column">
+                                    <div class="signup_form_column_labels">
+                                        <label id="username_label" class="username" for="username">__MSG__USERNAME__:</label>
+                                        <label for="password" class="password">__MSG__PASSWORD__:</label>
+                                        <label for="password_repeat" class="password_repeat">__MSG__RE_TYPE_PASSWORD__:</label>
+                                    </div>
+                                    <div class="signup_form_column_fields">
+                                        <div class="create_account_input_error" id="create_account_username_error" style="display:none;"><!----></div>
+                                        <input type="text" maxlength="255" id="username" name="username" class="username_unavailable_icon create_account_input required" placeholder="Hiroyuki"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="password" maxlength="255" id="password" name="password" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                        <div class="create_account_input_error" style="display:none;"><!----></div>
+                                        <input type="password" maxlength="255" id="password_repeat" name="password_repeat" class="create_account_input required" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"/>
+                                    </div>
+                                </div>
+                                <div class="captcha_container" id="captcha_box">
+                                    <button id="save_account" class="s3d-button s3d-large-button" type="submit" tabindex="8">__MSG__CREATE_ACCOUNT__</button>
+                                    <div id="widget_captcha" class="widget_inline"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-                    </form>
+                    <div id="firstName_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__</div>
+                    <div id="lastName_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__</div>
+                    <div id="email_empty" style="display:none;">__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__</div>
+                    <div id="email_invalid" style="display:none;">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__</div>
+                    <div id="username_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_USERNAME__</div>
+                    <div id="username_short" style="display:none;">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__</div>
+                    <div id="username_spaces" style="display:none;">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__</div>
+                    <div id="password_empty" style="display:none;">__MSG__PLEASE_ENTER_YOUR_PASSWORD__</div>
+                    <div id="password_short" style="display:none;">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__</div>
+                    <div id="password_repeat_empty" style="display:none;">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
+                    <div id="password_repeat_nomatch" style="display:none;">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
+
+                    <div class="signup_comment_box">
+                        <div class="signup_comment_box_arrow_down"><!----></div>
+                        <div class="signup_comment_icon signup_comment_icon_personalspace"><!----></div>
+                        <div class="signup_comment_box_commenter">Dr. Robert Squillace,<br/>New York University</div>
+                        <span class="signup_comment_quote">&quot;If there is anything that is important to a liberal education it is the students developing the ability to set and pursue an independent intellectual agenda rather than one that is given to them.&quot;</span>
+                    </div>
+                    <div class="signup_comment_box">
+                        <div class="signup_comment_box_arrow_down"><!----></div>
+                        <div class="signup_comment_icon signup_comment_icon_cohere"><!----></div>
+                        <div class="signup_comment_box_commenter">Dr. Lucy Appert,<br/>New York University</div>
+                        <span class="signup_comment_quote">"What we know as academics is that communities cohere around content. The ability to begin to show the students how that happens, give them a place to have thicker content, and begin to have meaningful communities around it was very important to us."</span>
+                    </div>
+                    <div class="signup_comment_box last">
+                        <div class="signup_comment_box_arrow_down"><!----></div>
+                        <div class="signup_comment_icon signup_comment_icon_editable"><!----></div>
+                        <div class="signup_comment_box_commenter">Dr. Lucy Appert,<br/>New York University</div>
+                        <span class="signup_comment_quote">"Consider the skill of 'writing' a paper. We wanted to bring into that process -which we know to be about critical thinking, analysis, synthesis - the visual material we're seeing, incorporate that with text, and turn that in, or to turn it outward to share it more broadly."</span>
+                    </div>
+                    <h2>A selection of institutions that use the Sakai platform:</h2>
+                    <div id="signup_institution_logos"></div>
                 </div>
                 <!-- <div class="s3d-page-fullcolumn-nopadding">Content without padding</div> -->
                 <div class="fl-push fl-widget"><!-- --></div>
@@ -142,20 +121,6 @@
 
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
-
-        <div id="error_msg_container" style="display:none">
-            <div id="firstName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__</div>
-            <div id="lastName_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_LAST_NAME__</div>
-            <div id="username_spaces" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__</div>
-            <div id="username_short" class="create_account_error_msg" style="display:none">__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__</div>
-            <div id="username_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_USERNAME__</div>
-            <div id="email_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_EMAIL_ADDRESS__</div>
-            <div id="email_invalid" class="create_account_error_msg" style="display:none">__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__</div>
-            <div id="password_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_ENTER_YOUR_PASSWORD__</div>
-            <div id="password_short" class="create_account_error_msg" style="display:none">__MSG__YOUR_PASSWORD_SHOULD_BE_FOUR_CHARACTERS_LONG__</div>
-            <div id="password_repeat_empty" class="create_account_error_msg" style="display:none">__MSG__PLEASE_REPEART_YOUR_PASSWORD__</div>
-            <div id="password_repeat_nomatch" class="create_account_error_msg" style="display:none">__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__</div>
-        </div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
