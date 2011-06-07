@@ -939,7 +939,7 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/create_new_account2.html",
+            "url": "/register",
             "id": "navigation_anon_signup_link",
             "anonymous": true,
             "label": "SIGN_UP"
