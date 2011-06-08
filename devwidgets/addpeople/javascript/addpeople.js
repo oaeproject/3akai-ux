@@ -185,7 +185,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
                         dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
                         permission: currentTemplate.joinRole,
-                        picture: $(this).next().children("img").attr("src")
+                        picture: $(this).next().children("img").attr("src"),
+                        tmpsrc:"checklistadded"
                     }
                     selectedUsers[userObj.userid] = userObj;
                     renderSelectedContacts();
@@ -277,7 +278,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 name: userData.attributes.name,
                 dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
                 permission: currentTemplate.joinRole,
-                picture: pictureURL
+                picture: pictureURL,
+                tmpsrc:"autsuggestadded"
             };
             selectedUsers[userObj.userid] = userObj;
             renderSelectedContacts();
@@ -290,12 +292,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var resetAutosuggest = function(h){
             sakai.api.Util.AutoSuggest.reset($addpeopleMembersAutoSuggestField);
+            for(user in selectedUsers){
+                if(selectedUsers.hasOwnProperty(user) && selectedUsers[user].tmpsrc){
+                    delete selectedUsers[user];
+                }
+            }
+            $("ul",$addpeopleSelectedContactsContainer).empty();
+            $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr("checked");                 
             h.w.hide();
             if (h.o) {
                 h.o.remove();
             }
         }
-
 
         var prepareSelectedContacts = function(success, data){
             for(var role in data){

@@ -281,8 +281,8 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 /* PROGRAMMATICALLY SET STYLES
  * styles used to programmatically set placement of widgets on the page
  */
-.inline_class_widget_rightfloat{float:right;}
-.inline_class_widget_leftfloat{float:left;}
+.inline_class_widget_rightfloat{float:right; padding: 5px 0px 5px 10px;}
+.inline_class_widget_leftfloat{float:left; padding: 5px 10px 5px 0px;}
 
 
 /*

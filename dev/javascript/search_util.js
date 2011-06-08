@@ -241,7 +241,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ////////////
         // Events //
         ////////////
-        
+
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             $.ajax({

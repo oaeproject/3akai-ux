@@ -104,13 +104,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             usedin = result["sakai:pooled-content-manager"].length;
             if (result["sakai:pooled-content-viewer"]) {
                 for (var i = 0; i < result["sakai:pooled-content-viewer"].length; i++) {
-                    if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") 
+                    if (result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") {
                         usedin++;
+                    }
                 }
             }
             if (result["sakai:pooled-content-viewer"]) {
-                for (var i =0;i<result["sakai:pooled-content-viewer"].length;i++) {
-                    if(result["sakai:pooled-content-viewer"][i] !== "anonymous" && result["sakai:pooled-content-viewer"][i] !== "everyone") {
+                for (var j =0;j<result["sakai:pooled-content-viewer"].length;j++) {
+                    if(result["sakai:pooled-content-viewer"][j] !== "anonymous" && result["sakai:pooled-content-viewer"][j] !== "everyone") {
                         usedin++;
                     }
                 }
@@ -343,6 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "desc"
                 },
                 success: function(data){
+                    data = sakai_global.newaddcontent.getNewList(data, null, 0, 1);
                     handleRecentChangedContentData(true, data);
                 },
                 error: function(data){
