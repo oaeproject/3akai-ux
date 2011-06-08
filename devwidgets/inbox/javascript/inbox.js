@@ -346,7 +346,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (widgetData.box === "inbox") {
                         sakai.api.Communication.getUnreadMessageCount(widgetData.box, function(success, unreadMsgs) {
                             $inbox_title_total.text(unreadMsgs);
-                        });
+                        }, widgetData.category);
                     }
                     // only show pager if needed
                     if (totalMessages > MESSAGES_PER_PAGE) {

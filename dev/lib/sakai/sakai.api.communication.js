@@ -457,18 +457,51 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         },
 
         /**
+         * Gets a count of the unread messages for each box belonging to
+         * the current user
+         */
+        getUnreadMessagesCountOverview : function(box, callback) {
+            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
+                        callback(false,{});
+                    }
+                }
+            });
+        },
+
+        /**
          * Gets a count of the unread messages in a box belonging 
          * to the current user
          */
-        getUnreadMessageCount : function(box, callback) {
+        getUnreadMessageCount : function(box, callback, category) {
             var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
                 success: function(data){
                     var count = 0;
-                    if (data.count && data.count[0] && data.count[0].count) {
-                        count = data.count[0].count;
+                    if (category){
+                        // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                        if (data.count && data.count.length){
+                            for (var i = 0; i < data.count.length; i++){
+                                if (data.count[i].group && data.count[i].group === category && data.count[i].count){
+                                    count = data.count[i].count;
+                                }
+                            }
+                        }
+                    } else {
+                        if (data.count && data.count[0] && data.count[0].count) {
+                            count = data.count[0].count;
+                        }
                     }
                     if ($.isFunction(callback)) {
                         callback(true, count);
