@@ -989,7 +989,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $(window).bind("lhnav.updateCount", function(e, pageid, value){
             // Adjust the count value by the specified value for the page ID
-            if (sakai_global.profile.main.mode.value !== "view" && pubstructure.items[pageid] && pubstructure.items[pageid]._count) {
+            if (sakai_global.profile.main.mode.value !== "view" && pubstructure.items[pageid]) {
                 pubstructure.items[pageid]._count = pubstructure.items[pageid]._count + value;
                 if ($("#lhnavigation_levelcount_" + pageid).length) {
                     $("#lhnavigation_levelcount_" + pageid).text(" (" + pubstructure.items[pageid]._count + ")");
