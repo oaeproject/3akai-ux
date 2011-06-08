@@ -36,6 +36,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var privurl = false;
         var puburl = false;
         var messageCounts = false;
+        var isMe = false;
 
         var contextType = false;
         var contextData = false;
@@ -77,7 +78,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             pub.structure0.profile._ref = firstWidgetRef;
         };
 
-        var continueLoadSpaceData = function(isMe, userid){
+        var continueLoadSpaceData = function(userid){
             var publicToStore = false;
             var privateToStore = false;
 
@@ -93,7 +94,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
                 }
                 if (!isMe){
-                    addCounts(isMe);
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
                 }
                 if (isMe){
@@ -117,7 +117,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                             sakai.api.Server.saveJSON(privurl, privateToStore);
                         }
-                        addCounts(isMe);
                         pubdata.structure0 = setManagerProperty(pubdata.structure0, true);
                         generateNav();
                     });
@@ -128,7 +127,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var loadSpaceData = function(){
-            var isMe = false;
             var userid = false;
             if (!qs.get("id") || qs.get("id") == sakai.data.me.user.userid) {
                 isMe = true;
@@ -141,29 +139,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (isMe){
                 sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts){
                     messageCounts = counts;
-                    continueLoadSpaceData(isMe, userid);
+                    continueLoadSpaceData(userid);
                 });
             } else {
-                continueLoadSpaceData(isMe, userid);
+                continueLoadSpaceData(userid);
             }
             
         };
 
-        var addCounts = function(isMe){
-            if (contextData && contextData.profile) {
-                addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
-                addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
-                addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
-                if (isMe) {
-                    addCount(privdata, "messages", sakai.data.me.messages.unread);
-                    if (messageCounts && messageCounts.count.length) {
-                        for (var i = 0; i < messageCounts.count.length; i++) {
-                            if (messageCounts.count[i].group && messageCounts.count[i].group === "message") {
-                                debug.log(messageCounts.count[i].count);
-                                addCount(privdata, "messages/inbox", messageCounts.count[i].count);
-                            }
-                            if (messageCounts.count[i].group && messageCounts.count[i].group === "invitation") {
-                                addCount(privdata, "messages/invitations", messageCounts.count[i].count);
+        var addCounts = function(){
+            if (pubdata && pubdata.structure0) {
+                if (contextData && contextData.profile) {
+                    addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
+                    addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
+                    addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
+                    if (isMe) {
+                        addCount(privdata, "messages", sakai.data.me.messages.unread);
+                        if (messageCounts && messageCounts.count.length) {
+                            for (var i = 0; i < messageCounts.count.length; i++) {
+                                if (messageCounts.count[i].group && messageCounts.count[i].group === "message") {
+                                    debug.log(messageCounts.count[i].count);
+                                    addCount(privdata, "messages/inbox", messageCounts.count[i].count);
+                                }
+                                if (messageCounts.count[i].group && messageCounts.count[i].group === "invitation") {
+                                    addCount(privdata, "messages/invitations", messageCounts.count[i].count);
+                                }
                             }
                         }
                     }
@@ -288,6 +288,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var generateNav = function(){
+            addCounts();
             if (contextType && contextType === "user_me" && contextData && pubdata && privdata) {
                 $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
             } else if (contextType && contextType !== "user_me" && contextData && pubdata) {
@@ -326,7 +327,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         $(window).bind("updated.counts.lhnav.sakai", function(){
             sakai.api.User.getUpdatedCounts(sakai.data.me, function(success){
-                addCounts();
                 renderEntity();
                 generateNav();
             });
@@ -335,13 +335,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
             if (data && data.length && library === sakai.data.me.user.userid) {
                 newContent = data.length;
-                addCounts();
                 generateNav();
             }
         });
 
         $(window).bind("done.deletecontent.sakai", function(e, data) {
-            addCounts();
             generateNav();
         });
 
