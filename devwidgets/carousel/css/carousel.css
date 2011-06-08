@@ -55,9 +55,9 @@
 #carousel_container p {font-size: 12px; color: #424242;}
 
 #carousel_container .carousel_bottom_buttons {position:absolute; bottom: 7px; width: 100%; right: 0;}
-#carousel_container .carousel_bottom_buttons img {display: block; margin-left: auto; margin-right: auto; cursor: pointer;}
-#carousel_container .carousel_savecontent {float:left; padding-left: 10px;}
-#carousel_container .carousel_sharecontent {float:right; padding-right: 10px;}
+#carousel_container .carousel_savecontent {float:left; margin-left: 10px;}
+#carousel_container .s3d-actions-author {margin:0 auto;}
+#carousel_container .carousel_sharecontent {float:right; margin-right: 10px;}
 
 #carousel_container .carousel_three_column_left {width: 312px; height: 192px; background-color: #efefef; padding:10px; border-radius: 2px; -moz-border-radius: 2px; float:left; position:relative;}
 #carousel_container .carousel_three_column_left > img {max-width: 140px; max-height: 160px; float:left; margin-right: 10px; overflow:hidden;}
