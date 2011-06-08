@@ -206,7 +206,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(carousel_titles, function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el.parent(), $el.parent().siblings("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class")));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1, whole_word: false}, $el.attr("class")));
             });
 
             $.each(carousel_descs, function(index, element) {
@@ -340,7 +340,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.userid = user.profile.userid;
                     obj.contentType = "user";
                     obj.displayName = sakai.api.User.getDisplayName(user.profile);
-                    obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
                     obj.counts = user.profile.counts;
 
                     user = user.profile.basic.elements;
