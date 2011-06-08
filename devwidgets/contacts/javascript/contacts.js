@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var acceptRequest = function(user){
-            sakai.api.User.acceptContactInvite(user, getContacts);
+            sakai.api.User.acceptContactInvite(user);
         };
 
         var removeRequest = function(user){
@@ -77,6 +77,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 removeRequest($(this)[0].id.split("contacts_delete_contact_")[1]);
             });
 
+            $(window).bind("contacts.accepted.sakai", getContacts);
         };
 
         var renderContacts = function(dataObj){
