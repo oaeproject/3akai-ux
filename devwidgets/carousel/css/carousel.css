@@ -19,8 +19,10 @@
 /* General */
 #carousel_container {padding:5px 12px;}
 #carousel_container h1{color: #424242;font-size: 13px; margin-bottom:10px;}
-#carousel_container h2{font-size: 12px; margin-top: 0px;}
+#carousel_container h2{margin-top: 0px;}
+#carousel_container .carousel_item_title {font-size: 12px;}
 #carousel_container .carousel_content_comments, #carousel_container .carousel_content_description, #carousel_container .carousel_content_metadata {font-size:11px;}
+#carousel_container .carousel_content_tags {font-size: 11px; font-weight: normal;}
 #carousel_container .carousel_content_tags .s3d-action {font-size: 11px; font-weight: normal;}
 #carousel_container .carousel_counts {font-size: 11px;}
 #carousel_container .carousel_counts ul {margin: 0;}
