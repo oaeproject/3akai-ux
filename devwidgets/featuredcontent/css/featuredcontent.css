@@ -37,8 +37,7 @@
 .featuredcontent_widget #featuredcontent_show_more_container button {margin-left:auto;margin-right:auto;display:block;}
 
 /* Content box actions */
-.featuredcontent_widget .featuredcontent_content:hover .featuredcontent_content_actions {display:block;}
-.featuredcontent_widget .featuredcontent_content .featuredcontent_content_actions {clear:both;position:absolute;width:134px;display:none;}
+.featuredcontent_widget .featuredcontent_content .featuredcontent_content_actions {clear:both;position:absolute;width:134px;}
 .featuredcontent_widget .featuredcontent_content_large .featuredcontent_content_actions {margin-top:195px;width:314px;}
 .featuredcontent_widget .featuredcontent_content_medium .featuredcontent_content_actions {margin-top:195px;}
 .featuredcontent_widget .featuredcontent_content_small .featuredcontent_content_actions {margin-top:75px;}

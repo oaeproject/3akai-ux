@@ -295,42 +295,13 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 a.s3d-action,.s3d-actions a{color:#2683bc;font-weight:bold;font-size:13px;}
 a.s3d-action-seeall{font-size:11px!important;}
 
-
 /* Primary button */
 .s3d-button-primary{background-position:right -110px;}
 .s3d-button-primary .s3d-button-inner{background-position:left -110px;}
 
-/* Tertiary button */
-.s3d-button-tertiary{background-position:right -70px;}
-.s3d-button-tertiary .s3d-button-inner{background-position:left -70px;}
-
 /* Search button */
 .s3d-search-button{padding-right:8px;}
 .s3d-search-button .s3d-button-icon-right{padding-right:22px;background-image:url(/dev/images/dashboard_sprite.png);background-position:42px -394px;display:inline;}
-
-/* Inline button */
-.s3d-button.s3d-button-inline{background-image:none;background-color:#fff;padding-right:4px;}
-.s3d-button.s3d-button-inline:hover{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -284px transparent;}
-.s3d-button.s3d-button-inline.clicked{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -342px transparent;}
-.s3d-button.s3d-button-inline .s3d-button-inner span{float:left;display:inline;}
-.s3d-button.s3d-button-inline .s3d-button-inner{background-image:none;background-color:#fff;color:#454A4F;height:28px;line-height:28px;padding:0 0 0 4px;font-size:11px;}
-.s3d-button.s3d-button-inline:hover .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -255px transparent;}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -313px transparent;color:#fff;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-inner-text{margin-left:2px;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left{width:15px;padding:0;height:15px;margin:7px 0 0 5px;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right{padding:0;height:15px;width:15px;margin:8px 0 0 5px;}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right{margin:6px 0 0 5px;}
-.s3d-button.s3d-button-inline{height:28px;}
-.s3d-button.s3d-button-inline .s3d-button-inner{float:left;display:inline;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-left{background:url(/dev/images/dashboard_sprite.png) no-repeat -11px -235px transparent;}
-.s3d-button.s3d-button-inline:hover .s3d-button-inner .s3d-button-icon-left{background-position:-31px -235px;}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-left{background-position:-51px -235px;}
-.s3d-button.s3d-button-inline .s3d-button-inner .s3d-button-icon-right{background:url(/dev/images/dashboard_sprite.png) no-repeat -68px -235px transparent;}
-.s3d-button.s3d-button-inline.clicked .s3d-button-inner .s3d-button-icon-right{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -155px -394px transparent;}
-
-/* Gradient style buttons */
-.s3d-button.s3d-button-light-gray-square{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1277px transparent;}
-.s3d-button.s3d-button-light-gray-square .s3d-button-inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1237px transparent;color:#292929;}
 
 
 /*
