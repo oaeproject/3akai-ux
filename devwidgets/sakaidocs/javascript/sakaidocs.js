@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var checkContentLength = function(content){
-            if (content.length > autosaveMaxContentLength){
+            if (unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
                 // SAKIII-3162 the content is too large, display an error and skip autosave
                 if (!autosaveDisabled){
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
