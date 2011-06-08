@@ -206,13 +206,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(carousel_titles, function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el.parent(), $el.parent().siblings("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1, whole_word: false}, $el.attr("class")));
+                $el.html(sakai.api.Util.applyThreeDots($el.text(), width, {max_rows: 1, whole_word: false}, $el.attr("class")));
             });
 
             $.each(carousel_descs, function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el, $el.siblings("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 6}, $el.attr("class")));
+                $el.html(sakai.api.Util.applyThreeDots($el.text(), width, {max_rows: 6}, $el.attr("class")));
             });
 
             $.each(carousel_tags, function(index, element) {
@@ -251,7 +251,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.icon = sakai.config.MimeTypes.other.URL;
                 }
 
-                obj.title = item["sakai:pooled-content-file-name"];                obj.mimeType = mimeType || "";
+                obj.title = item["sakai:pooled-content-file-name"];
+                obj.mimeType = mimeType || "";
                 obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
