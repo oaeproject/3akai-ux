@@ -39,7 +39,7 @@ define(function(){
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
             SEARCH_PEOPLE_URL: "/search#l=people",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css,/dev/css/sakai/sakai.content_profile.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
