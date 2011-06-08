@@ -111,7 +111,19 @@
     {if anon}
         <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
             <span class="s3d-bold" id="topnavigation_user_options_login">__MSG__SIGN_IN__</span>
-            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
+            <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
+                {if auth.externalAuth}
+                    <ul>
+                        {for i in auth.Authentication.external}
+                            <li>
+                                <div class="topnav_content_icon_container fl-force-left">
+                                    <span class="topnav_content_icon ${i.css_class}"></span>
+                                </div>
+                                <a href="${i.url}" title="${i.label}" class="s3d-bold">${i.label}</a>
+                            </li>
+                        {/for}
+                    </ul>
+                {else}
                 <form id="topnavigation_user_options_login_form" method="POST">
                     <div id="topnavigation_user_options_login_fields_container" class="s3d-dropdown-menu-content-container">
                         <div id="topnavigation_user_options_login_error" style="display:none;">
@@ -126,11 +138,12 @@
                         <hr class="s3d-split-line fl-push"/>
                         <span class="topnavigation_sign_up_link">No account yet?</span>
                         <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">Sign up</a>
-                        <button type="submit" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" id="topnavigation_user_options_login_button_login" tabindex="3">__MSG__SIGN_IN__</button>
+                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login" tabindex="3">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
                     </div>
                 </form>
+                {/if}
             </div>
         </div>
     {else}
