@@ -145,7 +145,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#savecontent_select", $rootel).live("change", function(){
             enableDisableAddButton();
         });
-       
+
         var loadSaveContent = function(contentId, clickedEl){
             hideSavecontent();
             toggleSavecontent(contentId, clickedEl);
