@@ -1,39 +1,23 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/tags/css/tags.css" />
+    <!-- WIDGET BODY -->
+    <div id="tags_main" style="display:none"></div>
 
-<div id="tags_widget">
-        <!-- WIDGET HEADER -->
-        <div class="fl-widget-titlebar s3d-widget-titlebar tags-widget-border" style="display:none;">
-            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-                <h2 id="tags_title" class="widget_title">__MSG__MOST_USED_PUBLIC__</h2>
-            </div>
-        </div>
-
-        <!-- WIDGET BODY -->
-        <div class="fl-widget-content s3d-widget-content">
-            <div id="tags_main" style="display:none">
-            </div>
-        </div>
-
-        <div id="tags_main_template" style="display:none"><!--
-            {if data.results}
-              <ul>
-              {for result in data.results}
-                {for tag in result.tags}
-                  <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" class="s3d-regular-links{if tag.count <= 5} tags_font1{elseif tag.count <= 15 } tags_font2{elseif tag.count <= 30 } tags_font3{elseif tag.count <= 90 } tags_font4{elseif tag.count > 90 } tags_font5{/if}">${tag.name}</a></li>
-                {forelse}
-                  <li>__MSG__NO_TAGS_FOUND__</li>
-                {/for}
-              {forelse}
-                <li>__MSG__NO_TAGS_FOUND__</li>
-              {/for}
-              </ul>
-            {/if}
-        --></div>
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner">
-        </div>
-    </div>
+    <div id="tags_main_template" style="display:none"><!--
+        {if data.results}
+          <ul>
+          {for result in data.results}
+            {for tag in result.tags}
+              <li style="display:inline; margin-right: 6px;"><a href="/search?#tag=/tags/${tag.name}" class="s3d-regular-links{if tag.count <= 5} tags_font1{elseif tag.count <= 15 } tags_font2{elseif tag.count <= 30 } tags_font3{elseif tag.count <= 90 } tags_font4{elseif tag.count > 90 } tags_font5{/if}">${tag.name}</a></li>
+            {forelse}
+              <li>__MSG__NO_TAGS_FOUND__</li>
+            {/for}
+          {forelse}
+            <li>__MSG__NO_TAGS_FOUND__</li>
+          {/for}
+          </ul>
+        {/if}
+    --></div>
 </div>
 
 <!-- JAVASCRIPT -->

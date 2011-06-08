@@ -1,43 +1,32 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/activegroups/css/activegroups.css" />
 
-<div id="activegroups_widget">
-        <!-- WIDGET HEADER -->
-        <div class="fl-widget-titlebar s3d-widget-titlebar activegroups-widget-border" style="display:none">
-            <div class="widget-titlebar-inner s3d-widget-titlebar-inner">
-                <h2 id="activegroups_title_popular" class="activegroups_title widget_title" style="display:none">__MSG__MOST_ACTIVE_PUBLIC__</h2>
-                <h2 id="activegroups_title_recent" class="activegroups_title widget_title" style="display:none">__MSG__RECENT_GROUPS__</h2>
-            </div>
-        </div>
-
-        <!-- WIDGET BODY -->
-        <div class="fl-widget-content s3d-widget-content s3d-widget-small-content">
-            <div id="activegroups_main_progress_loading"></div>
-            <div id="activegroups_main" style="display:none">
-            </div>
-        </div>
-        <div id="activegroups_main_template" style="display:none"><!--
-            {if data.results}<ul>{for result in data.results}
-                  {var index = 0}
-                  {for group in result.groups}
-                      {if index < 5}
-                          <li><a href="/~${group.id}" class="s3d-regular-links">${group.name}</a></li>
-                      {/if}
-                      ${index++|eat}
-                  {forelse}
-                      <li>__MSG__NO_GROUPS_FOUND__</li>
-                  {/for}
-            {/for}</ul>{/if}
-            {if Math.abs(data.results[0].totalCanRead) > 5}
-                <div class="fl-text-align-right">
-                    <a href="${data.moreLink}" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
-                </div>
-            {/if}
-        --></div>
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner">
-        </div>
-    </div>
+<!-- WIDGET BODY -->
+<div id="activegroups_main_progress_loading"></div>
+<div id="activegroups_main" style="display:none"></div>
+<div id="activegroups_main_template" style="display:none"><!--
+{if data.results}
+    <ul>
+        {for result in data.results}
+            {var index = 0}
+            {for group in result.groups} 
+                {if index < 5}
+                    <li>
+                        <a href="/~${group.id}" class="s3d-regular-links">${group.name}</a>
+                    </li>
+                {/if}
+                ${index++|eat}
+            {forelse}
+                <li>
+                    __MSG__NO_GROUPS_FOUND__
+                </li>
+            {/for}
+        {/for}
+    </ul>
+{/if}
+--></div>
+<div class="s3d-widget-footer">
+    <a href="/search#l=group&q=*" class="s3d-regular-links s3d-action-seeall">__MSG__SEE_ALL__</a>
 </div>
 
 <!-- JAVASCRIPT -->

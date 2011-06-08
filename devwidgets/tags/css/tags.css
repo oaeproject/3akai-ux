@@ -1,5 +1,6 @@
 #tags_main{margin:0 10px 0 15px;}
 #tags_main ul li{list-style-type:none;}
+#tags_main ul {margin:0 0 10px;}
 #tags_title{padding-left:15px!important;}
 
 .tags_font1 { font-size:1em;}

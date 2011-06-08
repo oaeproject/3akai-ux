@@ -56,8 +56,8 @@
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                         {if user_manages(group)}
-                            <a class="s3d-button s3d-button-link-2-state mymemberships_item_edit" href="${group.edit_url}">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__EDIT__</span>
+                            <a class="s3d-link-button mymemberships_item_edit" href="${group.edit_url}">
+                                __MSG__EDIT__
                             </a>
                         {/if}
                     </span>
