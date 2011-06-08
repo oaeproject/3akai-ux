@@ -178,8 +178,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var showAccepted = function (pagenum) {
             showPager(pagenum);
-            contacts.currentPagenum = pagenum;
-            contacts.currentPagenum = contacts.currentPagenum || 1;
             getAccepted();
         };
 
