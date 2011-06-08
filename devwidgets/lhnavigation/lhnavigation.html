@@ -61,7 +61,7 @@
                         <div class="lhnavigation_has_subnav"></div>
                         <span class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value">{if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}</span> <span class="s3d-bold" id="lhnavigation_message_count "></span>
                         <input class="lhnavigation_change_title" type="text" style="display:none;"/>
-                        <div class="lhnavigation_selected_submenu"  id="lhnavigtation_submenu_${level._id}" style="display:none;"><img class="lhnavigation_selected_submenu_image" src="/dev/images/lefthandnav_options.png"/></div>
+                        <div class="lhnavigation_selected_submenu"  id="lhnavigtation_submenu_${level._id}"><div class="lhnavigation_selected_submenu_image">&#9660;</div></div>
                         <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                     </div>
                     <ul class="lhnavigation_subnav" style="display:none;" data-sakai-space="public">
@@ -74,7 +74,7 @@
                                             {if sublevel._count} (${sublevel._count}){/if}
                                         </a>
                                         <input class="lhnavigation_change_title lhnavigation_change_title_restricted_width" type="text" style="display:none;"/>
-                                        <div class="lhnavigation_selected_submenu lhnavigation_selected_subsubmenu" id="lhnavigtation_submenu_${level._id}/${sublevel._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
+                                        <div class="lhnavigation_selected_submenu lhnavigation_selected_subsubmenu" id="lhnavigtation_submenu_${level._id}/${sublevel._id}"><div class="lhnavigation_selected_submenu_image">&#9660;</div></div>
                                         <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                                     </div>
                                     <hr class="s3d-split-line"/>
@@ -91,7 +91,7 @@
                             {if level._count} (${level._count}){/if}
                         </a>
                         <input class="lhnavigation_change_title" type="text" style="display:none;"/>
-                        <div class="lhnavigation_selected_submenu" id="lhnavigtation_submenu_${level._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
+                        <div class="lhnavigation_selected_submenu" id="lhnavigtation_submenu_${level._id}"><div class="lhnavigation_selected_submenu_image">&#9660;</div></div>
                         <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
                     </div>
                 </li>
@@ -112,18 +112,14 @@
     </div>
 </div>
 
-<div style="display:none;" id="lhnavigation_submenu">
-    <div class="lhnavigation_submenu_arrow"></div>
-    <div class="lhnavigation_submenu_container">
-        <div class="lhnavigation_submenu_container_inner">
-            <ul>
-                <li><a href="javascript:;" id="lhavigation_submenu_edittitle">__MSG__CHANGE_TITLE__</a></li>
-                <li><a href="javascript:;" id="lhavigation_submenu_deletepage">__MSG__DELETE_PAGE__</a></li>
-                <li id="lhnavigation_submenu_permissions_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_permissions">__MSG__PERMISSIONS__</a></li>
-                <li id="lhnavigation_submenu_profile_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_profile" target="_blank">__MSG__VIEW_PROFILE__</a></li>
-            </ul>
-        </div>
-    </div>
+<div style="display:none;" id="lhnavigation_submenu" class="s3d-dropdown-list">
+    <div class="s3d-dropdown-list-arrow-up"></div>
+    <ul>
+        <li><a href="javascript:;" id="lhavigation_submenu_edittitle">__MSG__CHANGE_TITLE__</a></li>
+        <li><a href="javascript:;" id="lhavigation_submenu_deletepage">__MSG__DELETE_PAGE__</a></li>
+        <li id="lhnavigation_submenu_permissions_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_permissions">__MSG__PERMISSIONS__</a></li>
+        <li id="lhnavigation_submenu_profile_li" style="display:none"><a href="javascript:;" id="lhnavigation_submenu_profile" target="_blank">__MSG__VIEW_PROFILE__</a></li>
+    </ul>
 </div>
 
 

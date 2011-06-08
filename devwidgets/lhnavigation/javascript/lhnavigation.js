@@ -452,7 +452,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI){
-            $(".lhnavigation_selected_submenu").hide();
+            //$(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
             if ($elLI.data("sakai-manage")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
@@ -470,26 +470,29 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     pageSavePath: $elLI.data("sakai-pagesavepath"),
                     savePath: $elLI.data("sakai-savepath")
                 };
-                $(".lhnavigation_selected_submenu", $el).show();
+                //$(".lhnavigation_selected_submenu", $el).show();
             }
         };
 
         var onContextMenuLeave = function(){
             if (!$("#lhnavigation_submenu").is(":visible")) {
-                $(".lhnavigation_selected_submenu").hide();
+                //$(".lhnavigation_selected_submenu").hide();
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
             }
         };
 
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
-            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
-            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
+            $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
+            contextMenu.css("left", $clickedItem.position().left + 130 - 50 + "px");
+            contextMenu.css("top", $clickedItem.position().top + 6 + "px");
             toggleContextMenu();
         };
 
         var toggleContextMenu = function(forceHide){
             var contextMenu = $("#lhnavigation_submenu");
             if (forceHide) {
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
                 contextMenu.hide();
             } else {
                 contextMenu.toggle();
