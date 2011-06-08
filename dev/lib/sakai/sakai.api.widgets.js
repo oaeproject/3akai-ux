@@ -213,8 +213,8 @@ define(["jquery",
              *  true  : render the settings mode of the widget
              *  false : render the view mode of the widget
              */
-            insertWidgets : function(id, showSettings, context, widgetData){
-                var obj = this.loadWidgets(id, showSettings, context, widgetData);
+            insertWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
+                var obj = this.loadWidgets(id, showSettings, context, widgetData, widgetDataPassthrough);
                 this.loaded.push(obj);
             },
 
@@ -226,7 +226,7 @@ define(["jquery",
              *  false : render the view mode of the widget
              * @param {String} context The context of the widget (e.g. siteid)
              */
-            loadWidgets : function(id, showSettings, context, widgetData){
+            loadWidgets : function(id, showSettings, context, widgetData, widgetDataPassthrough){
                 // Configuration variables
                 var widgetNameSpace = "sakai_global";
                 var widgetSelector = ".widget_inline";
@@ -256,26 +256,30 @@ define(["jquery",
                                 };
                                 // Run the widget's main JS function
                                 var initfunction = window[widgetNameSpace][widgetname];
-                                var widgetData = false;
+                                var thisWidgetData = false;
                                 if (widgetsInternal[widgetname][i].widgetData && widgetsInternal[widgetname][i].widgetData.length > 0){
                                     for (var data in widgetsInternal[widgetname][i].widgetData){
                                         var widgetSaveId = widgetsInternal[widgetname][i].uid;
                                         if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
-                                            widgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
+                                            thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
                                         } else {
                                             for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
                                                 if (pagetitle.indexOf("-") != -1){
                                                     var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
                                                     if (altPageTitle === widgetSaveId){
-                                                        widgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];
+                                                        thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];
                                                     }
                                                 }
                                             } 
                                         }
                                     }
                                 }
+                                if (widgetDataPassthrough) {
+                                    // need to extend or we could create a recursive reference
+                                    thisWidgetData.data = $.extend(true, {}, widgetDataPassthrough);
+                                }
                                 var historyState = sakaiWidgetsAPI.handleHashChange(widgetname);
-                                initfunction(widgetsInternal[widgetname][i].uid, settings, widgetData, historyState);
+                                initfunction(widgetsInternal[widgetname][i].uid, settings, thisWidgetData, historyState);
 
                                 // Send out a "loaded" event for this widget
                                 $(window).trigger(widgetname + "_loaded", [widgetsInternal[widgetname][i].uid]);
@@ -653,7 +657,7 @@ define(["jquery",
 
                 };
 
-                insertWidgets(id, showSettings, context, widgetData);
+                insertWidgets(id, showSettings, context);
 
                 return {
                     "informOnLoad" : informOnLoad
@@ -730,6 +734,18 @@ define(["jquery",
          */
         isOnDashboard : function(tuid) {
             if ($("#"+tuid).parent("div").siblings("div.fl-widget-titlebar").find("h2.widget_title").length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        canEditContainer: function(widgetData) {
+            if (widgetData &&
+                widgetData.data &&
+                widgetData.data.currentPageShown &&
+                widgetData.data.currentPageShown.canEdit &&
+                !widgetData.data.currentPageShown.nonEditable) {
                 return true;
             } else {
                 return false;

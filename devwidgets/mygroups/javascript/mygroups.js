@@ -60,31 +60,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
 
         /**
-         * Compare the names of 2 objects
-         * @param {Object} a
-         * @param {Object} b
-         * @return 1, 0 or -1
-         */
-        var doSort = function(a, b){
-            if (a["sakai:group-title"] > b["sakai:group-title"]) {
-                return 1;
-            }
-            else {
-                if (a["sakai:group-title"] === b["sakai:group-title"]) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            }
-        };
-
-        /**
          * Takes a set of json and renders the groups.
          * @param {Object} newjson group list object
          */
         var doRender = function(newjson){
             // Sort the groups by their name
-            newjson.entry = newjson.entry.sort(doSort);
             for (var group in newjson.entry) {
                 if (newjson.entry.hasOwnProperty(group)) {
                     newjson.entry[group]["sakai:group-title"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(newjson.entry[group]["sakai:group-title"]), $(".my_groups_widget .s3d-widget-content").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");

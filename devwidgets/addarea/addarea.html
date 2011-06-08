@@ -21,9 +21,7 @@
             </div>
             <div id="addarea_action_buttons" style="display:none;">
                 <button id="addarea_cancel_new_area" class="s3d-link-button s3d-bold" type="button">__MSG__CANCEL__</button>
-                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-button-link-2-state" title="__MSG__CREATE__">
-                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__CREATE__</span>
-                </button>
+                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-overlay-button" >__MSG__CREATE__</button>
             </div>
         </div>
     </div>
@@ -74,9 +72,8 @@
 <div id="addarea_contents_container_description_template"><!--
     <img src="/devwidgets/addarea/images/addarea_preview.png" id="addarea_preview_image"/>
     <span id="addarea_preview_description">${areadescription}</span>
-    <button class="s3d-button s3d-button-link-2-state addarea_select_template" data-context="${context}" type="button">
-        <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SELECT__</span>
-    </button>
+    
+    <button type="button" class="s3d-button s3d-header-button addarea_select_template" data-context="${context}">__MSG__SELECT__</button>
 --></div>
 
 <div id="addarea_pages_form_template"><!--

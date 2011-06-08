@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_select_all = $("#inbox_select_all", $rootel),
             $inbox_delete_selected = $("#inbox_delete_selected", $rootel),
             $inbox_mark_as_read = $("#inbox_mark_as_read", $rootel),
-            $inbox_title_total_wrapper = $("#inbox_title_total_wrapper", $rootel),
+            $inbox_title_total_wrapper = $(".inbox_title_total_wrapper", $rootel),
             $inbox_item = $(".inbox_item", $rootel),
             $inbox_search_messages = $("#inbox_search_messages", $rootel),
             $inbox_search_term = $("#inbox_search_term", $rootel);
@@ -346,7 +346,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (widgetData.box === "inbox") {
                         sakai.api.Communication.getUnreadMessageCount(widgetData.box, function(success, unreadMsgs) {
                             $inbox_title_total.text(unreadMsgs);
-                        });
+                        }, widgetData.category);
                     }
                     // only show pager if needed
                     if (totalMessages > MESSAGES_PER_PAGE) {
@@ -494,6 +494,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Cleans up or sets the polling interval for new messages
          */
         var handleShown = function(e, showing) {
+            if (widgetData.box !== "inbox") {
+                $inbox_title_total_wrapper.hide();
+            }
             if (showing) {
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             } else {

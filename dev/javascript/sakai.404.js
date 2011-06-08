@@ -26,6 +26,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
         var $signinbuttonwrapper = $('#error_sign_in_button');
         var $signinbutton = $("button",$signinbuttonwrapper);
+        var $signinfromcontent = $("#signin_from_content");
         var $browsecatcount = $("#error_browse_category_number");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
@@ -68,9 +69,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (sakai.data.me.user.anon){
                 
                 $signinbuttonwrapper.show();
-                $signinbutton.click(function(){
-                    $("#topnavigation_user_options_login_wrapper").trigger("mouseover");
-                }); 
+                $signinbutton.live("click", forceLoginOverlay);
+                $signinfromcontent.live("click", forceLoginOverlay);
                 
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
@@ -105,6 +105,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             sakai.api.Security.showPage();
             document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
+        };
+
+        var forceLoginOverlay = function(){
+            $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
+            $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
 
         doInit();

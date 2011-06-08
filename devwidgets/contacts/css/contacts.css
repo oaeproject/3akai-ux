@@ -20,13 +20,13 @@
 #contacts_container .contacts_list{margin-left:75px;}
 #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
 #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
-#contacts_container .contacts_item_detail_separator {color:#cccccc;}
+#contacts_container .contacts_item_detail_separator {color:#cccccc;margin:0 5px;}
 #contacts_container .contacts_item_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
 #contacts_container .contacts_item_icon{display: inline-block;height: 10px;width: 15px;}
 #contacts_container .contacts_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 #contacts_container .contacts_item_tags_list{font-size:11px;margin:6px 20px 10px 20px;}
 #contacts_container .contacts_item_tags_dot{color: #999999;}
 #contacts_container .contacts_item:hover {background-color: #f2f9fc;}
-#contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;}
 #contacts_container .contacts_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
 #contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
+#contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
