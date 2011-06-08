@@ -9,13 +9,13 @@
     -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */
     -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */
 }
-.personinfo_inner {margin: 5px 1px 0 1px; padding: 0; background-color:#ffffff;
+.personinfo_inner {margin: 5px 1px 5px 1px; padding: 0; background-color:#ffffff;
     border-radius: 5px;
     -moz-border-radius: 5px; /* Firefox 3.6 and earlier */
     -webkit-border-radius: 5px; /* Safari */
 }
 #personinfo_title {font-size: 13px; margin: 10px 10px 5px;}
-#personinfo_message, #personinfo_invite, #personinfo_invited, #personinfo_pending {margin:10px 8px 10px 6px;}
+#personinfo_message, #personinfo_invite, #personinfo_invited, #personinfo_pending {margin:5px 8px 5px 6px;}
 #personinfo_close_button {margin:15px 10px 10px 10px;}
 #personinfo_widget .personinfo_close{padding-top:3px;}
 #personinfo_widget .personinfo_header_arrow{margin-left: 110px;font-size: 0px; line-height: 0%; width: 0px;

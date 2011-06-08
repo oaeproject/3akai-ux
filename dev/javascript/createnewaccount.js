@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
 
-            $("#username").bind("keyup, blur", function(){
+            $("#username").bind("keyup blur", function(){
                 $("#create_account_username_error").hide();
                 if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
                     $(usernameField).removeClass("signup_form_error");

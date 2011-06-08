@@ -43,8 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_container = $("#savecontent_container", $rootel),
             $savecontent_template = $("#savecontent_template", $rootel),
             $savecontent_close = $(".savecontent_close", $rootel),
-            $savecontent_save = $("#savecontent_save", $rootel),
-            $savecontent_buttons = $("#savecontent_widget button", $rootel);
+            $savecontent_save = $("#savecontent_save", $rootel);
         var dataCache = {};
         var currentSelected = false;
 
@@ -71,7 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var toggleSavecontent = function(contentId, clickedEl) {
             
             currentSelected = contentId;
-            $savecontent_buttons.removeAttr("disabled");
+            $savecontent_save.removeAttr("disabled");
             
             var savecontentTop = clickedEl.offset().top + clickedEl.height() - 5;
             var savecontentLeft = clickedEl.offset().left + clickedEl.width() / 2 - 125;
@@ -89,6 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
                 
             $($savecontent_container).html(sakai.api.Util.TemplateRenderer("#savecontent_template", json));
+            enableDisableAddButton();
             $savecontent_widget.jqmShow();
         };
 
@@ -99,7 +99,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveContent = function(id){
             if (id) {
-                $savecontent_buttons.attr("disabled", "disabled");
+                $savecontent_save.attr("disabled", "disabled");
                 sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId){
                     if (entityId === sakai.data.me.user.userid) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
@@ -120,16 +120,32 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        enableDisableAddButton = function(){
+            var dropdownSelection = $("#savecontent_select option:selected", $rootel);
+            if (dropdownSelection.attr("disabled") || !dropdownSelection.val()){
+                $savecontent_save.attr("disabled", "disabled");
+            } else {
+                $savecontent_save.removeAttr("disabled");
+            }
+        }
+
         // bind savecontent cancel
         $savecontent_close.live("click", function(){
             hideSavecontent();
         });
 
         // bind savecontent save button
-        $savecontent_save.live("click", function () {
-            saveContent($("#savecontent_select option:selected", $rootel).val());
+        $savecontent_save.live("click", function(){
+            var dropdownSelection = $("#savecontent_select option:selected", $rootel);
+            if (!dropdownSelection.attr("disabled") && dropdownSelection.val()) {
+                saveContent(dropdownSelection.val());
+            }
         });
-        
+
+        $("#savecontent_select", $rootel).live("change", function(){
+            enableDisableAddButton();
+        });
+
         var loadSaveContent = function(contentId, clickedEl){
             hideSavecontent();
             toggleSavecontent(contentId, clickedEl);

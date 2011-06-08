@@ -17,7 +17,7 @@
  */
 #contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container,#contentmetadata_url_container{padding:7px 0;background-color:#FFF;border-bottom: 1px dotted #aaa; margin-right: 10px;}
 .fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;}
-.fl-container-500 #contentmetadata_description_container,.fl-container-500 #contentmetadata_tags_container,.fl-container-500 #contentmetadata_details_container,.fl-container-500 #contentmetadata_locations_container,.fl-container-500 #contentmetadata_copyright_container,.fl-container-500 #contentmetadata_url_container{width:470px;}
+.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;}
 #contentmetadata_container .contentmetadata_title{border-bottom:5px solid #E1E1E1;color:#333333;font-size:1.25em;padding:8px 0; margin-bottom: 5px;}
 #contentmetadata_show_more{padding: 10px 0px 7px; display:inline;clear:both;}
 #contentmetadata_show_more span{float:right;display:inline;}/** Fix for IE and older FF browsers **/

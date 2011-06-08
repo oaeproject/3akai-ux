@@ -39,7 +39,7 @@ define(function(){
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
             SEARCH_PEOPLE_URL: "/search#l=people",
-            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
@@ -883,7 +883,7 @@ define(function(){
                 "label": "MY_CONTACTS_CAP"
             }]
         }, {
-            "url": "/dev/createnew.html",
+            "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
@@ -939,7 +939,7 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/create_new_account2.html",
+            "url": "/register",
             "id": "navigation_anon_signup_link",
             "anonymous": true,
             "label": "SIGN_UP"

@@ -424,6 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Navigation hover binding
             $(hasSubnav).hover(function(){
                 var $li = $(this);
+                $li.removeClass("topnavigation_close_override");
                 $li.children(subnavtl).show();
                 var $subnav = $li.children(navLinkDropdown);
 
@@ -435,6 +436,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $li = $(this);
                 $li.children(subnavtl).hide();
                 $li.children(navLinkDropdown).hide();
+            });
+
+            // hide the menu after an option has been clicked
+            $(hasSubnav + " a").live("click", function(){
+                var $parentMenu = $(this).parents(hasSubnav);
+                var $parent = $(this).parent(hasSubnav);
+                if ($parent.length) {
+                    $parentMenu.addClass("topnavigation_close_override");
+                }
+                $parentMenu.children(subnavtl).hide();
+                $parentMenu.children(navLinkDropdown).hide();
             });
 
             // Search binding (don't fire on following keyup codes: shift)
@@ -499,7 +511,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register") {
                             window.location = "/dev/me.html";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
