@@ -40,3 +40,4 @@
 .add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
 .add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
 .add_goodies .remove_add_column {text-align:right; width:100px;}
+.add_goodies #add_goodies_body {height:310px; overflow: auto;}

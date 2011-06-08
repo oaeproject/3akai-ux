@@ -10,9 +10,7 @@
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
     <div id="lhnavigation_actions" style="display:none">
-        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PAGE__</span>
-        </button>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button" id="entity_user_create_and_add">__MSG__ADD_PAGE__</button>
     </div>
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list" data-sakai-space="private">
         {for level in private.orderedItems}
@@ -109,8 +107,8 @@
     <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__?</h4>
     <p class="lhnavigation_delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
     <div class="dialog_buttons delete_page_buttons">
-        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE__</span></button>
-        <button type="button" class="s3d-button s3d-button-primary" id="lhnavigation_delete_confirm"><span class="s3d-button-inner">__MSG__DELETE__</span></button>
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__DONT_DELETE__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="lhnavigation_delete_confirm">__MSG__DELETE__</button>
     </div>
 </div>
 

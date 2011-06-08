@@ -75,7 +75,7 @@ require({
     baseUrl:"/dev/lib/",
     paths: {
         "jquery": "jquery/jquery-1.5.2",
-        "jquery-ui": "jquery/jquery-ui-1.8.11.custom"
+        "jquery-ui": "jquery/jquery-ui-1.8.13.custom"
     },
     priority: ["jquery"]
 });

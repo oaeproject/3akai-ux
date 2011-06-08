@@ -47,7 +47,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             isOwnerViewing: false,
             default_search_text: "",
             userArray: [],
-            oldResults: false
+            oldResults: false,
+            contextId: false
         };
 
         // DOM jQuery Objects
@@ -87,14 +88,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             mylibrary.currentPagenum = mylibrary.currentPagenum || 1;
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
-            var contextId = "";
+            mylibrary.contextId = "";
             if(widgetData && widgetData.mylibrary){
-                contextId = widgetData.mylibrary.groupid;
+                mylibrary.contextId = widgetData.mylibrary.groupid;
             } else {
-                contextId = sakai_global.profile.main.data.userid;
+                mylibrary.contextId = sakai_global.profile.main.data.userid;
             }
-            getLibraryItems(contextId,
-                renderLibraryItems, query || false);
+            getLibraryItems(renderLibraryItems, query || false);
+        };
+
+        /**
+         * Determine if we're on the user's personal dashboard or not
+         */
+        var isOnPersonalDashboard = function() {
+            return $('body').hasClass('me');
         };
 
         /**
@@ -230,6 +237,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return false;
         });
 
+        // Listen for newly the newly added content event
+        $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
+            if (library === mylibrary.contextId || isOnPersonalDashboard()) {
+                reset();
+            }
+        });
+
         ////////////////////////////////////////////
         // Data retrieval and rendering functions //
         ////////////////////////////////////////////
@@ -238,13 +252,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Gets the given user's library items and passes them to the callback
          * function
          *
-         * @param {String} userid      the user id for the user whose library items we want
          * @param {Function} callback  function called with the following args:
          *     {Boolean} success - whether or not the fetch succeeded
          *     {Object} items - an array of library items or null if no success
          * @param {String} query       optional query string to limit search results
          */
-        var getLibraryItems = function (userid, callback, query) {
+        var getLibraryItems = function (callback, query) {
 
             /**
              * Formats a tag list from the server for display in the UI
@@ -260,7 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
-                        link: "/search#tag=/tags/" + name
+                        link: "/search#q=" + name
                     });
                 });
                 return formatted_tags;
@@ -324,8 +337,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     mylibrary.oldResults = data.results;
                 }
                 if (success && data && data.results) {
-                    // Make the content items available to other widgets
-                    sakai_global.mylibrary.content_items = data.results;
                     mylibrary.totalItems = data.total;
                     var items = [];
                     if (mylibrary.totalItems === 0) {
@@ -364,17 +375,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         callback(true, items);
                     }
                 } else {
-                    debug.error("Fetching library items for userid: " + userid + " failed");
+                    debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
                     if (callback && typeof(callback) === "function") {
                         callback(false, null, query);
                     }
                 }
             };
 
+            var handleResponse = function(success, data) {
+                if (sakai_global.newaddcontent) {
+                    var library = null;
+                    if (!isOnPersonalDashboard()) {
+                        library = mylibrary.contextId;
+                    }
+                    data = sakai_global.newaddcontent.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
+                }
+                handleLibraryItems(success, data);
+            };
+
             // fetch the data
             sakai.api.Server.loadJSON("/var/search/pool/manager-viewer.json",
-                handleLibraryItems, {
-                    userid: userid,
+                handleResponse, {
+                    userid: mylibrary.contextId,
                     page: mylibrary.currentPagenum - 1,
                     items: mylibrary.itemsPerPage,
                     sortOn: mylibrary.sortBy,
@@ -456,7 +478,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setUsername = function(u, users) {
             $(".mylibrary_item_username").each(function(index, val){
                var userId = $(val).text();
-               if (userId === u){
+               if (userId === u) {
                    $(val).text(sakai.api.User.getDisplayName(users[u]));
                    $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
                }
@@ -538,37 +560,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function () {
-            var contextId = "";
+            mylibrary.contextId = "";
             var contextName = "";
             var isGroup = false;
             if (widgetData && widgetData.mylibrary) {
-                contextId = widgetData.mylibrary.groupid;
-                sakai.api.Server.loadJSON("/system/userManager/group/" + contextId + ".json", function(success, data) {
+                mylibrary.contextId = widgetData.mylibrary.groupid;
+                sakai.api.Server.loadJSON("/system/userManager/group/" +  mylibrary.contextId + ".json", function(success, data) {
                     if (success){
                         currentGroup = data;
                         contextName = currentGroup.properties["sakai:group-title"];
                         isGroup = true;
                         mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties["sakai:group-id"], sakai.data.me, currentGroup.properties);
-                        finishInit(contextId, contextName, isGroup);
+                        finishInit(contextName, isGroup);
                     }
                 });
             } else {
-                contextId = sakai_global.profile.main.data.userid;
+                mylibrary.contextId = sakai_global.profile.main.data.userid;
                 contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
-                if (contextId === sakai.data.me.user.userid) {
+                if (mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;
                     initUsedInFilter();
                 }
-                finishInit(contextId, contextName, isGroup);
+                finishInit(contextName, isGroup);
             }
         };
         
-        var finishInit = function(contextId, contextName, isGroup){
-            if (contextId) {
+        var finishInit = function(contextName, isGroup){
+            if (mylibrary.contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 $mylibrary_livefilter.val(mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
-                getLibraryItems(contextId, renderLibraryItems);
+                getLibraryItems(renderLibraryItems);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,
                     isGroup: isGroup,
@@ -581,12 +603,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // run the initialization function when the widget object loads
         doInit();
-
-        // Listen for complete.fileupload.sakai event (from the fileupload widget)
-        // to refresh this widget's file listing
-        $(window).bind("complete.fileupload.sakai", function(){
-            var t = setTimeout(reset, 2000);
-        });
 
     };
 

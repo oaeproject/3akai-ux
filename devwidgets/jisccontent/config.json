@@ -1,0 +1,21 @@
+{
+    "description":        "JISC Content",
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default":        "/devwidgets/jisccontent/bundles/default.properties"
+    },
+    "id":                 "jisccontent",
+    "img":                "/devwidgets/jisccontent/images/jisccontent.png",
+    "name":               "JISC Content",
+    "personalportal":     true,
+    "showinsakaigoodies": true,
+    "type":               "contrib",
+    "url":                "/devwidgets/jisccontent/jisccontent.html",
+    "userdashboard":      false,
+    "userpages":          false,
+	"sakaidocs":          true,
+    "settingsWidth":      256
+}

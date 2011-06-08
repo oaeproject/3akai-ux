@@ -140,11 +140,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $pickeradvanced_sort_on.show();
                 $pickeradvanced_search_people.show();
             } else if (pickerData["type"] === "content") {
-                $("#pickeradvanced_search_files_mine").parent("li").addClass("pickeradvanced_selected_list");
+                $("#pickeradvanced_search_files_mylibrary").parent("li").addClass("pickeradvanced_selected_list");
                 $pickeradvanced_sort_on.hide();
                 $pickeradvanced_search_files.show();
-                pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json") + "?page=0&items=12&_=&q=";
-                pickerData["searchInAll"] = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
+                pickerData["searchIn"] = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + sakai.data.me.user.userid + "&page=0&items=12&q=*";
+                pickerData["searchInAll"] = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + sakai.data.me.user.userid + "&page=0&items=12&q=*";
             }
             $("ul.pickeradvanced_search_" + pickerData["type"]).show();
             $pickeradvanced_search_query.focus();
@@ -441,6 +441,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           // this value is a comma-delimited list
           // split it and get rid of any empty values in the array
           $pickeradvanced_container.jqmHide();
+          debug.log(pickerData);
           $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
         };
 
@@ -513,13 +514,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                    searchURLAll = sakai.config.URL.SEARCH_ALL_FILES_ALL;
                    $pickeradvanced_sort_on.hide();
                    break;
-               case "files_mine":
-                   searchURL = sakai.config.URL.POOLED_CONTENT_MANAGER.replace(".json", ".infinity.json");
-                   searchURLAll = sakai.config.URL.POOLED_CONTENT_MANAGER_ALL;
-                   $pickeradvanced_sort_on.hide();
-                   break;
-               case "files_view":
-                   searchURL = sakai.config.URL.POOLED_CONTENT_VIEWER.replace(".json", ".infinity.json");
+               case "files_mylibrary":
+                   searchURL = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + sakai.data.me.user.userid;
+                   searchURLAll = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER + "?userid=" + sakai.data.me.user.userid;
                    $pickeradvanced_sort_on.hide();
                    break;
                default: // should be any group specific search

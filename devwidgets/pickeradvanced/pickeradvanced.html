@@ -11,9 +11,7 @@
             <span class="fl-force-left">
                 <form id="pickeradvanced_content_search_form" method="post" action="#">
                     __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
-                    <button type="button" class="s3d-button" id="pickeradvanced_search_button">
-                        <span class="s3d-button-inner">__MSG__SEARCH__</span>
-                    </button>
+                    <button type="button" id="pickeradvanced_search_button" class="s3d-button s3d-header-button">__MSG__SEARCH__</button>
                 </form>
             </span>
 
@@ -28,12 +26,11 @@
         </div>
 
         <div id="pickeradvanced_content" class="s3d-highlight_area_background">
-            <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-action s3d-link-button s3d-bold">__MSG__SELECT_ALL__</button></span></div>
+            <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-button s3d-link-button s3d-bold">__MSG__SELECT_ALL__</button></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_content">
                     <li><button type="button" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_files_mine" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__CONTENT_I_CAN_EDIT__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_files_view" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__CONTENT_SHARED_WITH_ME__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_files_mylibrary" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__MY_LIBRARY__</button></li>
                 </ul>
                 <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
                     <li><button type="button" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTACTS__</button></li>
@@ -48,15 +45,9 @@
                 </ul>
             </div>
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
-            <div id="pickeradvanced_footer">
-                <div id="pickeradvanced_footer_options">
-                    <button type="button" class="s3d-button s3d-button-primary fl-force-right" disabled="disabled" id="pickeradvanced_add_button">
-                        <span class="s3d-button-inner">__MSG__ADD_SELECTED__</span></span>
-                    </button>
-                    <button type="button" class="s3d-button fl-force-right" id="pickeradvanced_close_button">
-                        <span class="s3d-button-inner">__MSG__CANCEL__</span>
-                    </button>
-                </div>
+            <div class="pickeradvanced_selection_buttons fl-force-right">
+                <button type="button" class="s3d-button s3d-link-button jqmClose">__MSG__CANCEL__</button>
+                <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-button" disabled="disabled">__MSG__ADD_SELECTED__</button>
             </div>
         </div>
 
@@ -113,9 +104,10 @@
                     {elseif i["sakai:pooled-content-file-name"]}
                     <li id="${i["_path"]}">
                         <input type="checkbox" name="selected" value="${i["_path"]}" />
-                        {var mimetype = i["_mimeType"]}
-                        {if mimetype == "image/jpg" || mimetype == "image/jpeg" || mimetype == "image/png" || mimetype == "image/gif" || mimetype == "image/bmp" }
-                            <img src="/p/${i["_path"]}/${i["sakai:pooled-content-file-name"]}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
+                        {var mimetype = sakai.api.Content.getMimeType(i)}
+                        {var thumbnail = sakai.api.Content.getThumbnail(i)}
+                        {if thumbnail}
+                            <img src="${thumbnail}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
                         {elseif sakai.config.MimeTypes[mimetype]}
                             <img src="${sakai.config.MimeTypes[mimetype].URL}" alt="${sakai.config.MimeTypes[mimetype].description}" class="pickeradvanced_ppicture"/>
                         {else}

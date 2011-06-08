@@ -39,7 +39,7 @@ define(function(){
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
             SEARCH_PEOPLE_URL: "/search#l=people",
-            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
@@ -396,12 +396,6 @@ define(function(){
                                 "display": true,
                                 "type": "textarea",
                                 "tagField": true
-                            },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea"
                             }
                         }
                     },
@@ -945,7 +939,7 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/create_new_account2.html",
+            "url": "/register",
             "id": "navigation_anon_signup_link",
             "anonymous": true,
             "label": "SIGN_UP"
@@ -1530,7 +1524,7 @@ define(function(){
             "structure0": {
                 "dashboard": {
                     "_ref": "id267187828",
-                    "_title": "My dashboard",
+                    "_title": "My Dashboard",
                     "_order": 0,
                     "_canEdit": true,
                     "_nonEditable": true,
@@ -1541,7 +1535,7 @@ define(function(){
                     }
                 },
                 "messages": {
-                    "_title": "My messages",
+                    "_title": "My Messages",
                     "_ref": "id1165301022",
                     "_order": 1,
                     "_canEdit": true,
@@ -1582,7 +1576,7 @@ define(function(){
                 }
             },
             "id267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add widgets</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
             "id1165301022": {
                 "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
@@ -1643,16 +1637,16 @@ define(function(){
         defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_title": "My profile",
-                    "_altTitle": "${user}'s profile",
+                    "_title": "My Profile",
+                    "_altTitle": "${user}'s Profile",
                     "_order": 0,
                     "_nonEditable": true
                 },
                 "library": {
                     "_ref": "id9834611274",
                     "_order": 1,
-                    "_title": "My library",
-                    "_altTitle": "${user}'s library",
+                    "_title": "My Library",
+                    "_altTitle": "${user}'s Library",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
@@ -1661,10 +1655,10 @@ define(function(){
                     }
                 },
                 "memberships": {
-                    "_title": "My memberships",
+                    "_title": "My Memberships",
                     "_order": 2,
                     "_ref": "id213623673",
-                    "_altTitle": "${user}'s memberships",
+                    "_altTitle": "${user}'s Memberships",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
@@ -1673,10 +1667,10 @@ define(function(){
                     }
                 },
                 "contacts": {
-                    "_title": "My contacts",
+                    "_title": "My Contacts",
                     "_order": 3,
                     "_ref": "id1193715035",
-                    "_altTitle": "${user}'s contacts",
+                    "_altTitle": "${user}'s Contacts",
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",
@@ -1744,11 +1738,13 @@ define(function(){
                         roles: [
                             {
                                 id: "member",
+                                roleTitle: "Members",
                                 title: "Member",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
+                                roleTitle: "Managers",
                                 title: "Manager",
                                 allowManage: true
                             }
@@ -1840,16 +1836,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2040,16 +2039,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2134,16 +2136,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2228,16 +2233,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2322,16 +2330,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2423,11 +2434,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }
@@ -2512,11 +2525,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }

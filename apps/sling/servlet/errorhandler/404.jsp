@@ -38,7 +38,7 @@ response.setStatus(404);
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
                         <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
-                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/dev/create_new_account2.html">__MSG__SIGN_UP__</a></p>
+                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
                     </div>
                     <div class="error_content_second_column_box">
                         <div class="s3d-contentpage-title">__MSG__ARE_YOU_LOOKING_FOR__</div>
@@ -80,8 +80,8 @@ response.setStatus(404);
                                 </div>          
                             </div>              
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" class="s3d-button s3d-button-light-gray-square" id="error_browse_categories_button">
-                                <span class="s3d-button-inner">__MSG__BROWSE_CATEGORIES__</span>
+                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                                <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
                         </div>
@@ -98,7 +98,7 @@ response.setStatus(404);
                                 <li>__MSG__LINKED_FROM_AN_OUTDATED_BOOKMARK__</li>
                                 <li>__MSG__A_MISTYPED_ADDRESS_URL_WAS_ENTERED__</li>
                                 <li>__MSG__AN_INCORRECT_LINK_WAS_FOLLOWED_FROM_SOMEWHERE__</li>
-                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
+                                <li>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__<button id="signin_from_content" class="s3d-link-button">__MSG__SIGN_IN__</button>__MSG__AND_TRY_AGAIN__</li>
                             </ol>
                         --></div>
                         <div id="page_not_found_error_logged_in_template" style="display:none;"><!--
@@ -132,7 +132,7 @@ response.setStatus(404);
                                 </ul>
                             {/if}
                         --></div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>

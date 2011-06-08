@@ -52,7 +52,7 @@
             </ul>
         {/if}
         {if people && people.length}
-            <a href="search#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
+            <a href="/search#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
             <ul>
                 {for person in people}
                     <li>
@@ -85,8 +85,8 @@
 
 <div id="search_bottom_template" style="display:none;"><!--
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
-        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all" class="s3d-button s3d-button-link-2-state">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SEE_ALL__</span>
+        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all">
+            <button class="s3d-button s3d-overlay-button">__MSG__SEE_ALL__</button>
         </a>
     {/if}
     <span id="topnavigation_search_results_bottom_content">
@@ -125,10 +125,8 @@
                         <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
                         <span class="topnavigation_sign_up_link">No account yet?</span>
-                        <a class="s3d-regular-links topnavigation_sign_up_link" href="/dev/create_new_account2.html">Sign up</a>
-                        <button id="topnavigation_user_options_login_button_login" type="submit" class="s3d-button s3d-button-light-gray-square" tabindex="3">
-                            <span class="s3d-button-inner">__MSG__SIGN_IN__</span>
-                        </button>
+                        <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">Sign up</a>
+                        <button type="submit" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" id="topnavigation_user_options_login_button_login" tabindex="3">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
                     </div>
