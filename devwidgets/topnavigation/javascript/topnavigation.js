@@ -513,7 +513,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/dev/create_new_account2.html") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register") {
                             window.location = "/dev/me.html";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){

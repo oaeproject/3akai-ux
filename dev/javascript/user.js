@@ -161,7 +161,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (pubdata.structure0 && pubdata.structure0[pageid]) {
                 pubdata.structure0[pageid]._count = count;
             }
-            if (pageid === "library" && newContent > 0) {
+            if (pageid === "library") {
                 pubdata.structure0[pageid]._count += newContent;
                 newContent = 0;
             }
@@ -301,11 +301,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (data && data.length && library === "default") {
+            if (data && data.length && library === sakai.data.me.user.userid) {
                 newContent = data.length;
                 addCounts();
                 generateNav();
             }
+        });
+
+        $(window).bind("done.deletecontent.sakai", function(e, data) {
+            addCounts();
+            generateNav();
         });
 
         determineContext();
