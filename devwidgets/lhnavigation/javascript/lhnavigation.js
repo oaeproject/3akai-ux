@@ -75,6 +75,26 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#lhnavigation_container").html(lhnavHTML);
         };
 
+        ////////////////////////
+        // Update page counts //
+        ////////////////////////
+
+        var updateCounts = function(pageid, value){
+            // Adjust the count value by the specified value for the page ID
+            if (pubstructure.items[pageid]) {
+                pubstructure.items[pageid]._count = (pubstructure.items[pageid]._count || 0) + value;
+                var listitem = $("li[data-sakai-path='" + pageid + "']");
+                if (listitem.length) {
+                    $(".lhnavigation_levelcount", listitem).text(" (" + pubstructure.items[pageid]._count + ")");
+                    if (pubstructure.items[pageid]._count <= 0){
+                        $(".lhnavigation_levelcount", listitem).hide();
+                    } else {
+                        $(".lhnavigation_levelcount", listitem).show();
+                    }
+                }
+            }
+        }
+
         //////////////////
         // Data storage //
         //////////////////
@@ -988,16 +1008,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $(window).bind("lhnav.updateCount", function(e, pageid, value){
-            // Adjust the count value by the specified value for the page ID
-            if (sakai_global.profile.main.mode.value !== "view" && pubstructure.items[pageid] && pubstructure.items[pageid]._count) {
-                pubstructure.items[pageid]._count = pubstructure.items[pageid]._count + value;
-                if ($("#lhnavigation_levelcount_" + pageid).length) {
-                    $("#lhnavigation_levelcount_" + pageid).text(" (" + pubstructure.items[pageid]._count + ")");
-                }
-                if ($("#lhnavigation_sublevelcount_" + pageid).length) {
-                    $("#lhnavigation_sublevelcount_" + pageid).text(" (" + pubstructure.items[pageid]._count + ")");
-                }
-            }
+            updateCounts(pageid, value);
         });
 
         ///////////////////////
