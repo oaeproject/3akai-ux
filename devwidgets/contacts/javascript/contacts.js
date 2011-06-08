@@ -39,8 +39,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     sakai_global.contacts = function(tuid, showSettings){
 
         var contactsContainer = "#contacts_container";
-
         var contactsTemplate = "contacts_template";
+        var contacts = {  // global data for contacts widget
+            totalItems: 0,
+            itemsPerPage: 10,
+            currentPagenum: 1,
+            sortBy: "_lastModified",
+            sortOrder: "desc",
+            accepted: false,
+            pending: false,
+            invited: false
+        };
 
         var acceptRequest = function(user){
             sakai.api.User.acceptContactInvite(user, getContacts);
@@ -72,30 +81,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var renderContacts = function(dataObj){
             $(contactsContainer).html(sakai.api.Util.TemplateRenderer(contactsTemplate, dataObj));
+            showPager(contacts.currentPagenum);
         };
 
-        var determineRenderContacts = function(dataObj){
+        var determineRenderContacts = function(){
             if (sakai_global.profile.main.mode.value !== "view") {
-                if (dataObj.accepted && dataObj.pending && dataObj.invited) {
-                    renderContacts(dataObj);
+                if (contacts.accepted && contacts.pending && contacts.invited) {
+                    var json = {
+                        "accepted": contacts.accepted,
+                        "pending": contacts.pending,
+                        "invited": contacts.invited,
+                        "sakai": sakai
+                    };
+                    renderContacts(json);
                 }
             }else{
-                if(dataObj.accepted){
-                    renderContacts(dataObj);
+                if(contacts.accepted){
+                    var json = {
+                        "accepted": contacts.accepted,
+                        "pending": false,
+                        "invited": false,
+                        "sakai": sakai
+                    };
+                    renderContacts(json);
                 }
             }
         };
 
-        var getAccepted = function(dataObj){
+        var getAccepted = function(){
             var url = "";
+            var data = {
+                "page": contacts.currentPagenum - 1,
+                "items": contacts.itemsPerPage,
+                "sortOn": contacts.sortBy,
+                "sortOrder": contacts.sortOrder
+            };
             if(sakai_global.profile.main.mode.value !== "view"){
-                url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED&page=0&items=1000";
-                data = {};
+                url = sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=ACCEPTED";
             }else{
                 url = "/var/contacts/findbyuser.json";
-                data = {
-                    "userid": sakai_global.profile.main.data.userid
-                };
+                data.userid= sakai_global.profile.main.data.userid;
             }
 
             $.ajax({
@@ -104,51 +129,71 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 async: true,
                 data: data,
                 success: function(data){
-                    dataObj.accepted = data;
-                    determineRenderContacts(dataObj);
+                    contacts.totalItems = data.total;
+                    contacts.accepted = data;
+                    determineRenderContacts();
                 }
             });
         };
 
-        var getPending = function(dataObj){
+        var getPending = function(){
             $.ajax({
                 url: sakai.config.URL.SEARCH_USERS_ACCEPTED + "?state=PENDING&page=0&items=1000",
                 cache: false,
                 async: true,
                 success: function(data){
-                    dataObj.pending = data;
-                    determineRenderContacts(dataObj);
+                    contacts.pending = data;
+                    determineRenderContacts();
                 }
             });
         };
 
-        var getPendingToOther= function(dataObj){
+        var getPendingToOther= function(){
             $.ajax({
                 url: sakai.config.URL.CONTACTS_FIND_STATE + "?state=INVITED&page=0&items=1000",
                 cache: false,
                 async: true,
                 success: function(data){
-                    dataObj.invited = data;
-                    determineRenderContacts(dataObj);
+                    contacts.invited = data;
+                    determineRenderContacts();
                 }
             });
         };
 
         var getContacts = function(){
-            var dataObj = {
-                "accepted": false,
-                "pending": false,
-                "invited": false,
-                "sakai": sakai
-            };
-
             if (sakai_global.profile.main.mode.value !== "view") {
-                getAccepted(dataObj);
-                getPending(dataObj);
-                getPendingToOther(dataObj);
+                getAccepted();
+                getPending();
+                getPendingToOther();
             }
             else {
-                getAccepted(dataObj);
+                getAccepted();
+            }
+        };
+
+        /**
+         * Show the given page of accepted contacts.
+         *
+         * @param {int} pagenum The page number you want to display (not 0-indexed)
+         */
+        var showAccepted = function (pagenum) {
+            showPager(pagenum);
+            getAccepted();
+        };
+
+        /**
+         * Show the pager at the bottom of the page.
+         *
+         * @param {int} pagenum The number of the current page (not 0-indexed)
+         */
+        var showPager = function (pagenum) {
+            contacts.currentPagenum = pagenum;
+            if (Math.ceil(contacts.totalItems / contacts.itemsPerPage) > 1) {
+                $("#contacts_pager").pager({
+                    pagenumber: pagenum,
+                    pagecount: Math.ceil(contacts.totalItems / contacts.itemsPerPage),
+                    buttonClickCallback: showAccepted
+                });
             }
         };
 
