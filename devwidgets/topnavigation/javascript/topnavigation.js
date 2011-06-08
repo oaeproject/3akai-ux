@@ -565,7 +565,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginFields).hide();
             });
 
-            $(window).bind("read.message.sakai", setCountUnreadMessages);
+            $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
 
 
