@@ -1,6 +1,6 @@
 /*!
  * jQuery Form Plugin
- * version: 2.67 (12-MAR-2011)
+ * version: 2.73 (03-MAY-2011)
  * @requires jQuery v1.3.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -64,6 +64,7 @@ $.fn.ajaxSubmit = function(options) {
 
 	options = $.extend(true, {
 		url:  url,
+		success: $.ajaxSettings.success,
 		type: this[0].getAttribute('method') || 'GET', // IE7 massage (see issue 57)
 		iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
 	}, options);
@@ -144,7 +145,7 @@ $.fn.ajaxSubmit = function(options) {
 	}
 
 	options.success = function(data, status, xhr) { // jQuery 1.4+ passes xhr as 3rd arg
-		var context = options.context || options;   // jQuery 1.4+ supports scope context
+		var context = options.context || options;   // jQuery 1.4+ supports scope context 
 		for (var i=0, max=callbacks.length; i < max; i++) {
 			callbacks[i].apply(context, [data, status, xhr || $form, $form]);
 		}
@@ -186,7 +187,7 @@ $.fn.ajaxSubmit = function(options) {
 			alert('Error: Form elements must not have name or id of "submit".');
 			return;
 		}
-
+		
 		var s = $.extend(true, {}, $.ajaxSettings, options);
 		s.context = s.context || s;
 		var id = 'jqFormIO' + (new Date().getTime()), fn = '_'+id;
@@ -204,15 +205,15 @@ $.fn.ajaxSubmit = function(options) {
 			getAllResponseHeaders: function() {},
 			getResponseHeader: function() {},
 			setRequestHeader: function() {},
-			abort: function() {
-				log('aborting upload...');
-				var e = 'aborted';
+			abort: function(status) {
+				var e = (status === 'timeout' ? 'timeout' : 'aborted');
+				log('aborting upload... ' + e);
 				this.aborted = 1;
 				$io.attr('src', s.iframeSrc); // abort op in progress
 				xhr.error = e;
-				s.error && s.error.call(s.context, xhr, 'error', e);
+				s.error && s.error.call(s.context, xhr, e, e);
 				g && $.event.trigger("ajaxError", [xhr, s, e]);
-				s.complete && s.complete.call(s.context, xhr, 'error');
+				s.complete && s.complete.call(s.context, xhr, e);
 			}
 		};
 
@@ -226,7 +227,7 @@ $.fn.ajaxSubmit = function(options) {
 		}
 
 		if (s.beforeSend && s.beforeSend.call(s.context, xhr, s) === false) {
-			if (s.global) {
+			if (s.global) { 
 				$.active--;
 			}
 			return;
@@ -235,7 +236,7 @@ $.fn.ajaxSubmit = function(options) {
 			return;
 		}
 
-		var timedOut = 0;
+		var timedOut = 0, timeoutHandle;
 
 		// add submitting element to data if we know it
 		var sub = form.clk;
@@ -275,7 +276,7 @@ $.fn.ajaxSubmit = function(options) {
 
 			// support timout
 			if (s.timeout) {
-				setTimeout(function() { timedOut = true; cb(); }, s.timeout);
+				timeoutHandle = setTimeout(function() { timedOut = true; cb(true); }, s.timeout);
 			}
 
 			// add "extra" data to form if provided in options
@@ -312,18 +313,23 @@ $.fn.ajaxSubmit = function(options) {
 		else {
 			setTimeout(doSubmit, 10); // this lets dom updates render
 		}
+	
+		var data, doc, domCheckCount = 50, callbackProcessed;
 
-		var data, doc, domCheckCount = 50;
-
-		function cb() {
-			if (xhr.aborted) {
+		function cb(e) {
+			if (xhr.aborted || callbackProcessed) {
 				return;
 			}
-
+			if (e === true && xhr) {
+				xhr.abort('timeout');
+				return;
+			}
+			
 			var doc = io.contentWindow ? io.contentWindow.document : io.contentDocument ? io.contentDocument : io.document;
 			if (!doc || doc.location.href == s.iframeSrc) {
 				// response not received yet
-				return;
+				if (!timedOut)
+					return;
 			}
             io.detachEvent ? io.detachEvent('onload', cb) : io.removeEventListener('load', cb, false);
 
@@ -349,14 +355,16 @@ $.fn.ajaxSubmit = function(options) {
 				}
 
 				//log('response detected');
-				xhr.responseText = doc.body ? doc.body.innerHTML : doc.documentElement ? doc.documentElement.innerHTML : null;
+				xhr.responseText = doc.body ? doc.body.innerHTML : doc.documentElement ? doc.documentElement.innerHTML : null; 
 				xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
+				if (isXml)
+					s.dataType = 'xml';
 				xhr.getResponseHeader = function(header){
 					var headers = {'content-type': s.dataType};
 					return headers[header];
 				};
 
-				var scr = /(json|script)/.test(s.dataType);
+				var scr = /(json|script|text)/.test(s.dataType);
 				if (scr || s.textarea) {
 					// see if user embedded response in textarea
 					var ta = doc.getElementsByTagName('textarea')[0];
@@ -373,12 +381,11 @@ $.fn.ajaxSubmit = function(options) {
 						else if (b) {
 							xhr.responseText = b.innerHTML;
 						}
-					}
+					}			  
 				}
 				else if (s.dataType == 'xml' && !xhr.responseXML && xhr.responseText != null) {
 					xhr.responseXML = toXml(xhr.responseText);
 				}
-
 				data = httpData(xhr, s.dataType, s);
 			}
 			catch(e){
@@ -388,7 +395,7 @@ $.fn.ajaxSubmit = function(options) {
 				s.error && s.error.call(s.context, xhr, 'error', e);
 				g && $.event.trigger("ajaxError", [xhr, s, e]);
 			}
-
+			
 			if (xhr.aborted) {
 				log('upload aborted');
 				ok = false;
@@ -399,14 +406,18 @@ $.fn.ajaxSubmit = function(options) {
 				s.success && s.success.call(s.context, data, 'success', xhr);
 				g && $.event.trigger("ajaxSuccess", [xhr, s]);
 			}
-
+			
 			g && $.event.trigger("ajaxComplete", [xhr, s]);
 
 			if (g && ! --$.active) {
 				$.event.trigger("ajaxStop");
 			}
-
+			
 			s.complete && s.complete.call(s.context, xhr, ok ? 'success' : 'error');
+
+			callbackProcessed = true;
+			if (s.timeout)
+				clearTimeout(timeoutHandle);
 
 			// clean up
 			setTimeout(function() {
@@ -430,7 +441,7 @@ $.fn.ajaxSubmit = function(options) {
 		var parseJSON = $.parseJSON || function(s) {
 			return window['eval']('(' + s + ')');
 		};
-
+		
 		var httpData = function( xhr, type, s ) { // mostly lifted from jq1.4.4
 			var ct = xhr.getResponseHeader('content-type') || '',
 				xml = type === 'xml' || !type && ct.indexOf('xml') >= 0,
@@ -484,7 +495,7 @@ $.fn.ajaxForm = function(options) {
 		log('terminating; zero elements found by selector' + ($.isReady ? '' : ' (DOM not ready)'));
 		return this;
 	}
-
+	
 	return this.ajaxFormUnbind().bind('submit.form-plugin', function(e) {
 		if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
 			e.preventDefault();
@@ -548,7 +559,7 @@ $.fn.formToArray = function(semantic) {
 	if (!els) {
 		return a;
 	}
-
+	
 	var i,j,n,v,el,max,jmax;
 	for(i=0, max=els.length; i < max; i++) {
 		el = els[i];

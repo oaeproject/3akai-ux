@@ -17,16 +17,12 @@
                     <li class="versions_version_item {if version_index == data.length -1} versions_selected {else} versions_divider{/if}" data-versionId="${version_index}" data-version="${version.versionId}" data-pooleditemname="${version["sakai:pooled-content-file-name"]}">
                         {var date = sakai.api.Util.parseSakaiDate(version["_versionNumber"]).toString().split(" ")}
                         <span class="versions_date">${date[1]} ${date[2]}, ${date[4].substring(0,5)}</span>
-                        <a href="/~${version["_lastModifiedBy"]}" class="s3d-regular-links versions_updater" title="__MSG__VIEW__ ${version["username"]}'s __MSG__PROFILE__">${version["username"]}</a>
+                        <a href="javascript:;" class="s3d-regular-links versions_updater">${version["username"]}</a>
                         {if !sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document"}
-                            <button type="button" class="s3d-button s3d-button-link-2-state versions_restore_version">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__RESTORE_THIS_REVISION__</span>
-                            </button>
+                            <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button versions_restore_version">__MSG__RESTORE__</button>
                         {else}
-                            <a href="${currentPage.pageSavePath}.version.,${version.versionId},/${version["sakai:pooled-content-file-name"]}" target="_blank">
-                                <button type="button" class="s3d-button s3d-button-link-2-state">
-                                    <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__DOWNLOAD_THIS_REVISION__</span>
-                                </button>
+                            <a href="${currentPage.pageSavePath}.version.,${version.versionId},/${version["sakai:pooled-content-file-name"]}" target="_blank" class="s3d-button s3d-header-button s3d-header-smaller-button">
+                                __MSG__DOWNLOAD__
                             </a>
                         {/if}
                     </li>

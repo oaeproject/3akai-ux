@@ -20,17 +20,19 @@
     
     <!-- Empty/Error messages -->
     <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
-    <p id="mymemberships_nogroups" style="display:none;"><!-- No groups message renders here --></p>
+    <p id="mymemberships_nogroups" style="display:none;" class="fl-fix"><!-- No groups message renders here --></p>
 
     <div id="mymemberships_nogroups_template" style="display:none"><!--
         {if isMe}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
-                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__ADD_GROUP__" class="s3d-regular-links">__MSG__ADD_GROUP__</a></h1>
+                <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
             </div>
         {else}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
                 <h1>__MSG__NO_RESULTS_DESCRIPTION_NOT_ME__</h1>
             </div>
         {/if}
@@ -50,6 +52,7 @@
             {var count = count + 1}
             <li id="mymemberships_item_${group.id}" class="mymemberships_item fl-push{if count == 1} mymemberships_item_first{/if}">
                 <span class="mymemberships_item_user_functions" style="display:none;">
+                    <div class="mymemberships_item_plus mymemberships_item_left_filler sakai_joingroup_overlay" data-groupid="${group.id}">+</div>
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                         {if user_manages(group)}
@@ -59,12 +62,10 @@
                         {/if}
                     </span>
                 </span>
-                <a href="#"><img src="/dev/images/add_to_library_icon.png" class="sakai_joingroup_overlay" data-groupid="${group.id}" /></a>
-                <div class="mymemberships_imagearea">
-                    <a href="${group.url}" title="__MSG__VIEW_GROUP__"><img
-                        class="mymemberships_group_pic"
-                        src="${group.picsrc}" /></a>
-                </div>
+                <span class="mymemberships_item_anonuser"></span>
+                <a href="${group.url}" title="__MSG__VIEW_GROUP__">
+                    <img class="mymemberships_group_pic" src="${group.picsrc}" />
+                </a>
                 <div class="mymemberships_item_right">
                     <div>
                         <a class="s3d-bold s3d-regular-light-links" href="/~${group.id}" title="${group.title}">
@@ -75,7 +76,7 @@
                         {/if}
                     </div>
                     <div class="mymemberships_item_usedin">
-                        __MSG__CREATED__ ${sakai.api.Datetime.getTimeAgo(group.created)} __MSG__AGO__
+                        __MSG__CHANGED__ ${jQuery.timeago(new Date(group.lastModified))}
                         {if group.contentCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
                             <a class="s3d-regular-light-links" href="${group.url}" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
@@ -90,7 +91,10 @@
                         <div class="mymemberships_item_tags">
                             <span class="mymemberships_item_icon mymemberships_item_tags_icon"></span>
                             <p class="mymemberships_item_tags_list">
-                                {for t in group.tags}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="search2.html#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                {for t in group.tags}
+                                    {if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} 
+                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                {/for}
                             </p>
                         </div>
                     {/if}

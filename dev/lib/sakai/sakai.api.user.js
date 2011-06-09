@@ -585,6 +585,10 @@ define(["jquery",
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
+                    if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.mode && sakai_global.profile.main.mode.value !== "view") {
+                        $(window).trigger("lhnav.updateCount", ["contacts", 1]);
+                        $(window).trigger("contacts.accepted.sakai");
+                    }
                 },
                 error: function() {
                     if ($.isFunction(callback)) {
@@ -646,28 +650,31 @@ define(["jquery",
 
         parseDirectory : function(profile){
             var obj = {"elements":[]};
-            for (var i in profile.main.data["sakai:tags"]){
-                if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
-                    var tag = profile.main.data["sakai:tags"][i]+"";
-                    if (tag.substring(0, 10) === "directory/") {
-                        var finalTag = "";
-                        var split = tag.split("/");
-                        for (var ii = 1; ii < split.length; ii++) {
-                            finalTag += sakai_util.getValueForDirectoryKey(split[ii]);
-                            if (ii < split.length - 1) {
-                                finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+            if (profile.main.data["sakai:tags"] && profile.main.data["sakai:tags"].length > 0) {
+                profile.main.data["sakai:tags"].sort(sakai_util.orderTagsAlphabetically);
+                for (var i in profile.main.data["sakai:tags"]) {
+                    if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
+                        var tag = profile.main.data["sakai:tags"][i] + "";
+                        if (tag.substring(0, 10) === "directory/") {
+                            var finalTag = "";
+                            var split = tag.split("/");
+                            for (var ii = 1; ii < split.length; ii++) {
+                                finalTag += sakai_util.getValueForDirectoryKey(split[ii]);
+                                if (ii < split.length - 1) {
+                                    finalTag += "<span class='profilesection_location_divider'>&raquo;</span>";
+                                }
                             }
+                            obj.elements.push({
+                                "locationtitle": {
+                                    "value": tag,
+                                    "title": finalTag
+                                },
+                                "id": {
+                                    "display": false,
+                                    "value": "" + Math.round(Math.random() * 1000000000)
+                                }
+                            });
                         }
-                        obj.elements.push({
-                            "locationtitle": {
-                                "value": tag,
-                                "title": finalTag
-                            },
-                            "id": {
-                                "display": false,
-                                "value": "" + Math.round(Math.random() * 1000000000)
-                            }
-                        });
                     }
                 }
             }
@@ -749,6 +756,14 @@ define(["jquery",
                     }
                 }
             });
+        },
+
+        isAnonymous : function(meData) {
+            if (meData.user.userid) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
     };

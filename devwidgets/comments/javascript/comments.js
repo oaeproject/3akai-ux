@@ -37,7 +37,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.comments = function(tuid, showSettings){
+    sakai_global.comments = function(tuid, showSettings, widgetData){
 
 
         /////////////////////////////
@@ -52,8 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var start = 0; // Start fetching from the first comment.
         var clickedPage = 1;
         var defaultPostsPerPage = 10;
-        var widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
-        var currentSite = "";
+        var widgeturl = "";
         var store = "";
 
         // Main Ids
@@ -242,7 +241,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(commentsNumComments, rootel).html(json.total);
             // Change to "comment" or "comments"
             if (json.total === 1) {
-                $(commentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
+                $(commentsCommentComments, rootel).text(sakai.api.i18n.Widgets.getValueForKey("comments", sakai.api.User.data.me.locale, "COMMENT"));
             }
 
 
@@ -337,8 +336,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
-            var subject = 'Comment on /~' + currentSite;
-            var to = "internal:w-" + widgeturl + "/message";
+            var subject = 'Comment';
+            var to = "internal:" + widgeturl + "/message";
 
             if (allowPost) {
                 var body = $(commentsMessageTxt, rootel).val();
@@ -472,7 +471,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
             // These properties are noy yet used in the comments-widget, but are saved in JCR
-            comments['sakai:allowanonymous'] = true;
+            comments['sakai:allowanonymous'] = false;
             if ($("#comments_RequireLogInID", rootel).is(":checked")) {
                 comments['sakai:allowanonymous'] = false;
             }
@@ -513,23 +512,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
                     cleanBooleanSettings(keysToClean);
 
-                    var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
-                    if (widgetSettings["sakai:allowanonymous"] === false && !isLoggedIn) {
-                        $(commentsCommentBtn, rootel).parent().hide();
+                    if (!sakai.api.User.isAnonymous(sakai.data.me)) {
+                        $(commentsCommentBtn, rootel).show();
                     }
 
                     if (showSettings) {
                         showSettingScreen(true, data);
-                    }
-                    else {
+                    } else {
                         pagerClickHandler(1);
                     }
-                }
-                else {
+                } else {
                     if (showSettings) {
                         showSettingScreen(false, data);
-                    }
-                    else {
+                    } else {
                         pagerClickHandler(1);
                     }
                 }
@@ -742,6 +737,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
         var doInit = function(){
+            widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
             if (widgeturl) {
                 store = widgeturl + "/message";
                 $.ajax({
@@ -758,11 +754,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 });
-            }
-            if (sakai_global.currentgroup && !$.isEmptyObject(sakai_global.currentgroup.id)) {
-                currentSite = sakai_global.currentgroup.id;
-            } else {
-                currentSite = sakai_global.profile.main.data["userid"];
             }
             if (!showSettings) {
                 // Show the main view.

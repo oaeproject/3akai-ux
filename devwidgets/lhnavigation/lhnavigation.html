@@ -10,9 +10,7 @@
 <div id="lhnavigation_container"></div>
 <div id="lhnavigation_template"><!--
     <div id="lhnavigation_actions" style="display:none">
-        <button type="button" class="s3d-button s3d-button-link-2-state" id="entity_user_create_and_add">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD_PAGE__</span>
-        </button>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button" id="entity_user_create_and_add">__MSG__ADD_PAGE__</button>
     </div>
     <ul id="lhnavigation_private_pages" class="lhnavigation_menu_list" data-sakai-space="private">
         {for level in private.orderedItems}
@@ -31,7 +29,7 @@
                                     <div class="lhnavigation_subnav_item_content">
                                         <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title}" class="s3d-regular-links">
                                             {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                            {if sublevel._count} (${sublevel._count}){/if}
+                                            <span class="lhnavigation_levelcount">{if sublevel._count} (${sublevel._count}){/if}</span>
                                         </a>
                                         <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
                                     </div>
@@ -46,7 +44,7 @@
                     <div class="lhnavigation_item_content">
                         <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                            {if level._count} (${level._count}){/if}
+                            <span class="lhnavigation_levelcount">{if level._count} (${level._count}){/if}</span>
                         </a>
                         <div class="lhnavigation_private"></div>
                         <div class="lhnavigation_selected_item_arrow" style="visibility:hidden;"></div>
@@ -73,7 +71,7 @@
                                     <div class="lhnavigation_subnav_item_content">
                                         <a href="#l=${level._id}/${sublevel._id}" title="${sublevel._title}" class="s3d-regular-links lhnavigation_page_title_value" data-reset-hash="true">
                                             {if contextData.altTitle}${sublevel._altTitle}{else}${sublevel._title}{/if}
-                                            {if sublevel._count} (${sublevel._count}){/if}
+                                            <span class="lhnavigation_levelcount">{if sublevel._count} (${sublevel._count}){/if}<span>
                                         </a>
                                         <input class="lhnavigation_change_title lhnavigation_change_title_restricted_width" type="text" style="display:none;"/>
                                         <div class="lhnavigation_selected_submenu lhnavigation_selected_subsubmenu" id="lhnavigtation_submenu_${level._id}/${sublevel._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
@@ -90,7 +88,7 @@
                     <div class="lhnavigation_item_content">
                         <a href="#l=${level._id}" class="s3d-bold lhnavigation_toplevel lhnavigation_page_title_value" data-reset-hash="true">
                             {if contextData.altTitle}${level._altTitle}{else}${level._title}{/if}
-                            {if level._count} (${level._count}){/if}
+                            <span class="lhnavigation_levelcount">{if level._count} (${level._count}){/if}</span>
                         </a>
                         <input class="lhnavigation_change_title" type="text" style="display:none;"/>
                         <div class="lhnavigation_selected_submenu" id="lhnavigtation_submenu_${level._id}" style="display:none;"><img src="/dev/images/lefthandnav_options.png" class="lhnavigation_selected_submenu_image"/></div>
@@ -109,8 +107,8 @@
     <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE__?</h4>
     <p class="lhnavigation_delete_page_text">__MSG__THIS_WILL_DELETE_CHILD_PAGES__</p>
     <div class="dialog_buttons delete_page_buttons">
-        <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__DONT_DELETE__</span></button>
-        <button type="button" class="s3d-button s3d-button-primary" id="lhnavigation_delete_confirm"><span class="s3d-button-inner">__MSG__DELETE__</span></button>
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__DONT_DELETE__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="lhnavigation_delete_confirm">__MSG__DELETE__</button>
     </div>
 </div>
 

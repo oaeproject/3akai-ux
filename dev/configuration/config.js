@@ -30,21 +30,16 @@ define(function(){
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
             MY_DASHBOARD_URL: "/home",
-            PEOPLE_URL: "/people",
             PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
             PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
             PUBLIC_MY_DASHBOARD_URL: "/home",
-            PUBLIC_PEOPLE_URL: "/dev/public_people.html",
-            PUBLIC_SEARCH_URL: "/dev/public_search.html",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
-            SEARCH_CONTENT_URL: "/search/content",
             SEARCH_GENERAL_URL: "/search",
-            SEARCH_PEOPLE_URL: "/search/people",
-            SEARCH_GROUP_URL: "/search/groups",
-            SEARCH_SITES_URL: "/search/sites",
-            TINY_MCE_CONTENT_CSS: "/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
+            SEARCH_CONTENT_URL: "/search#l=content",
+            SEARCH_PEOPLE_URL: "/search#l=people",
+            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
@@ -193,18 +188,37 @@ define(function(){
                 "/dev/profile_edit.html": "EDIT_MY_PROFILE",
                 "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
-                "/dev/search.html": "SEARCH_ALL",
-                "/search": "SEARCH_ALL",
-                /**  search_groups.html  **/
-                "/dev/search_groups.html": "SEARCH_GROUPS",
-                "/search/groups": "SEARCH_GROUPS",
-                /**  search_people.html  **/
-                "/dev/search_people.html": "SEARCH_PEOPLE",
-                "/search/people": "SEARCH_PEOPLE",
-                /**  search_content.html  **/
-                "/dev/search_content.html": "SEARCH_CONTENT_AND_MEDIA",
-                "/search/content": "SEARCH_CONTENT_AND_MEDIA"
+                "/dev/search.html": "SEARCH",
+                "/search": "SEARCH"
                 /**  show.html  **/
+            }
+        },
+
+        ErrorPage: {
+            /*
+             * These links are displayed in the 403 and 404 error pages.
+             */
+            Links: {
+                whatToDo: [{
+                    "title": "EXPLORE_THE_INSTITUTION",
+                    "url": "/dev/explore.html"
+                }, {
+                    "title": "BROWSE_INSTITUTION_CATEGORIES",
+                    "url": "/dev/allcategories.html"
+                }, {
+                    "title": "VIEW_THE_INSTITUTION_WEBSITE",
+                    "url": "http://sakaiproject.org/"
+                }, {
+                    "title": "VISIT_THE_SUPPORT_FORUM",
+                    "url": "http://sakaiproject.org/"
+                }],
+                getInTouch: [{
+                    "title": "SEND_US_YOUR_FEEDBACK",
+                    "url": "http://sakaiproject.org/"
+                }, {
+                    "title": "CONTACT_SUPPORT",
+                    "url": "http://sakaiproject.org/"
+                }]
             }
         },
 
@@ -251,7 +265,24 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public", // Anyone on the Internet
                     "managers": "managers-only" // Group managers only
-                }
+                },
+                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
+            },
+            Content: {
+                /*
+                 * public - anyone
+                 * everyone - logged in users
+                 * private - private
+                 */
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
+            Documents: {
+                /*
+                 * public - anyone
+                 * everyone - logged in users
+                 * private - private
+                 */
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
             Copyright: {
                 "creativecommons": {
@@ -365,12 +396,6 @@ define(function(){
                                 "display": true,
                                 "type": "textarea",
                                 "tagField": true
-                            },
-                            "description": {
-                                "label": "__MSG__DESCRIPTION__",
-                                "required": false,
-                                "display": true,
-                                "type": "textarea"
                             }
                         }
                     },
@@ -858,7 +883,7 @@ define(function(){
                 "label": "MY_CONTACTS_CAP"
             }]
         }, {
-            "url": "/dev/createnew.html",
+            "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
@@ -869,7 +894,7 @@ define(function(){
             }, {
                 "id": "subnavigation_add_contacts_link",
                 "label": "ADD_CONTACTS",
-                "url": "/search/people#q=*&filter=&facet=&page=1"
+                "url": "/search#l=people"
             }, {
                 "id": "subnavigation_hr"
             }]
@@ -887,11 +912,11 @@ define(function(){
             },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
-                "url": "/dev/search2.html#l=content"
+                "url": "/search#l=content"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
-                "url": "/dev/search2.html#l=people"
+                "url": "/search#l=people"
             }]
         }, {
             "url": "/dev/explore.html",
@@ -907,14 +932,14 @@ define(function(){
             },{
                 "id": "subnavigation_explore_content_link",
                 "label": "CONTENT",
-                "url": "/dev/search2.html#l=content"
+                "url": "/search#l=content"
             }, {
                 "id": "subnavigation_explore_people_link",
                 "label": "PEOPLE",
-                "url": "/dev/search2.html#l=people"
+                "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/create_new_account2.html",
+            "url": "/register",
             "id": "navigation_anon_signup_link",
             "anonymous": true,
             "label": "SIGN_UP"
@@ -937,7 +962,7 @@ define(function(){
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/dev/people.html", "/dev/profile_edit.html", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/dev/me.html", "/dev/search_sakai2.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -949,7 +974,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content", "/search", "/search/people", "/search/groups", "/search/content", "/dev/search.html", "/dev/search_content.html", "/dev/search_groups.html", "/dev/search_people.html"],
+        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
@@ -1551,7 +1576,7 @@ define(function(){
                 }
             },
             "id267187828": {
-                "page": "<div class='fl-force-right s3d-margin-top-5'><button type='button' class='s3d-button s3d-button-link-2-state dashboard_change_layout' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Edit Layout</span></button><button type='button' class='s3d-button s3d-button-link-2-state dashboard_global_add_widget' data-tuid='id546341435'><span class='s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary'>Add Widget</span></button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
             },
             "id1165301022": {
                 "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
@@ -1701,7 +1726,8 @@ define(function(){
         worldTemplates : [
             {
                 id: "group",
-                title : "GROUPS",
+                title: "GROUPS",
+                titleSing: "GROUP",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1712,11 +1738,13 @@ define(function(){
                         roles: [
                             {
                                 id: "member",
+                                roleTitle: "Members",
                                 title: "Member",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
+                                roleTitle: "Managers",
                                 title: "Manager",
                                 allowManage: true
                             }
@@ -1797,6 +1825,7 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                titleSing: "COURSE",
                 templates: [
                     {
                         id: "mathcourse",
@@ -1807,16 +1836,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2007,16 +2039,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2101,16 +2136,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2195,16 +2233,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2289,16 +2330,19 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
+                                roleTitle: "Students",
                                 title: "Student",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
+                                roleTitle: "Teaching Assistants",
                                 title: "Teaching Assistant",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
+                                roleTitle: "Lecturers",
                                 title: "Lecturer",
                                 allowManage: true
                             }
@@ -2379,6 +2423,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                titleSing: "RESEARCH",
                 templates: [
                     {
                         id: "researchproject",
@@ -2389,11 +2434,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }
@@ -2478,11 +2525,13 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
+                                roleTitle: "Participants",
                                 title: "Participant",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
+                                roleTitle: "Lurkers",
                                 title: "Lurker",
                                 allowManage: false
                             }

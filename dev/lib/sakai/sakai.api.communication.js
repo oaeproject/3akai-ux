@@ -30,7 +30,7 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_util, sakai_conf) {
+define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.i18n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
     var sakaiCommmunicationsAPI =  {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -94,13 +94,13 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
-                        "|system=Sakai|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
+                        "|system=" + sakai_i18n.General.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "~" + meData.user.userid + 
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
                         "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
                         break;
                     case "group_invitation":
@@ -319,53 +319,55 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             var messages = {},
                 ret = $.extend(true, {}, data);
             $.each(ret, function(i, msg) {
-                var newMsg = {};
-                newMsg.replyAll = [];
-                newMsg.from = {
-                    name:  msg.userFrom[0].userid ? sakai_user.getDisplayName(msg.userFrom[0]) : msg.userFrom[0]["sakai:group-title"],
-                    picture: sakai_util.constructProfilePicture(msg.userFrom[0]),
-                    userObj : {
-                        uuid: msg.userFrom[0].userid ? msg.userFrom[0].userid : msg.userFrom[0].groupid,
-                        username: msg.userFrom[0].userid ? sakai_user.getDisplayName(msg.userFrom[0]) : msg.userFrom[0]["sakai:group-title"],
-                        type: msg.userFrom[0].userid ? "user" : "group"
-                    }
-                };
-                if (newMsg.from.userObj.uuid !== sakai_user.data.me.user.userid) {
-                    newMsg.replyAll.push(newMsg.from.userObj);
-                }
-                newMsg.to = [];
-                newMsg.toList = [];
-                $.each(msg.userTo, function(i, user) {
-                    var tmpUsr = {
-                        name : user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
-                        picture : sakai_util.constructProfilePicture(user),
+                if (!$.isEmptyObject(msg)) {
+                    var newMsg = {};
+                    newMsg.replyAll = [];
+                    var userFrom = _.first(msg.userFrom);
+                    newMsg.from = {
+                        name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
+                        picture: sakai_util.constructProfilePicture(userFrom),
                         userObj : {
-                            uuid: user.userid ? user.userid : user.groupid,
-                            username: user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
-                            type: user.userid ? "user" : "group"
+                            uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
+                            username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
+                            type: userFrom.userid ? "user" : "group"
                         }
                     };
-                    if (user.userid !== sakai_user.data.me.user.userid) {
-                        newMsg.replyAll.push(tmpUsr.userObj);
+                    if (newMsg.from.userObj.uuid !== sakai_user.data.me.user.userid) {
+                        newMsg.replyAll.push(newMsg.from.userObj);
                     }
-                    newMsg.toList.push(tmpUsr.name);
-                    newMsg.to.push(tmpUsr);
-                });
-                newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
-                newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
-                newMsg.subject = msg["sakai:subject"];
-                newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
-                newMsg.id = msg.id;
-                newMsg.read = msg["sakai:read"];
-                newMsg.path = msg["_path"];
-                if (msg.previousMessage) {
-                    newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
-                    $.each(newMsg.previousMessage, function(i,val){
-                        newMsg.previousMessage = val;
+                    newMsg.to = [];
+                    newMsg.toList = [];
+                    $.each(msg.userTo, function(i, user) {
+                        var tmpUsr = {
+                            name : user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                            picture : sakai_util.constructProfilePicture(user),
+                            userObj : {
+                                uuid: user.userid ? user.userid : user.groupid,
+                                username: user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                                type: user.userid ? "user" : "group"
+                            }
+                        };
+                        if (user.userid !== sakai_user.data.me.user.userid) {
+                            newMsg.replyAll.push(tmpUsr.userObj);
+                        }
+                        newMsg.toList.push(tmpUsr.name);
+                        newMsg.to.push(tmpUsr);
                     });
+                    newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
+                    newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
+                    newMsg.subject = msg["sakai:subject"];
+                    newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
+                    newMsg.id = msg.id;
+                    newMsg.read = msg["sakai:read"];
+                    newMsg.path = msg["_path"];
+                    if (msg.previousMessage) {
+                        newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
+                        $.each(newMsg.previousMessage, function(i,val){
+                            newMsg.previousMessage = val;
+                        });
+                    }
+                    messages[newMsg.id] = newMsg;
                 }
-                messages[newMsg.id] = newMsg;
-
             });
             ret = messages;
             return ret;
@@ -455,18 +457,51 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         },
 
         /**
+         * Gets a count of the unread messages for each box belonging to
+         * the current user
+         */
+        getUnreadMessagesCountOverview : function(box, callback) {
+            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
+                        callback(false,{});
+                    }
+                }
+            });
+        },
+
+        /**
          * Gets a count of the unread messages in a box belonging 
          * to the current user
          */
-        getUnreadMessageCount : function(box, callback) {
+        getUnreadMessageCount : function(box, callback, category) {
             var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
                 success: function(data){
                     var count = 0;
-                    if (data.count && data.count[0] && data.count[0].count) {
-                        count = data.count[0].count;
+                    if (category){
+                        // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                        if (data.count && data.count.length){
+                            for (var i = 0; i < data.count.length; i++){
+                                if (data.count[i].group && data.count[i].group === category && data.count[i].count){
+                                    count = data.count[i].count;
+                                }
+                            }
+                        }
+                    } else {
+                        if (data.count && data.count[0] && data.count[0].count) {
+                            count = data.count[0].count;
+                        }
                     }
                     if ($.isFunction(callback)) {
                         callback(true, count);

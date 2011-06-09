@@ -24,6 +24,7 @@
 
 .allcategories_widget .allcategories_item .s3d-split-line {margin:7px 0 15px;}
 .allcategories_widget #allcategories_items_content {width:935px;}
+.allcategories_widget #allcategories_items_content ul {margin:0;}
 .allcategories_widget #allcategories_items_content li {display:inline;width:207px;}
 
 .allcategories_widget .allcategories_item .allcategories_item_header .allcategories_item_raquo {background:url("/devwidgets/allcategories/images/allcategories_item_raquo.png") no-repeat top left transparent;width:15px;height:22px;float:right;}

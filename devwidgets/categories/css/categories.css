@@ -17,7 +17,7 @@
  */
 
 /* General */
-.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:920px;padding:0 20px 5px;visibility:hidden;}
+.categories_widget {background:url("/devwidgets/categories/images/categories_bg.png") repeat-x top left transparent;width:930px;padding:0 20px 5px;visibility:hidden;}
 .categories_widget .categories_item {background:url("/devwidgets/categories/images/categories_item_bg.png") repeat-x top left transparent;width:176px;height:156px;float:left;margin:19px 3px 0 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:12px;}
 .categories_widget .categories_item .s3d-split-line {margin:7px 0 15px;}
 .categories_widget #categories_items_container {padding-bottom:13px;}
@@ -25,7 +25,7 @@
 .categories_widget #categories_items_content li {display:block;width:207px;}
 .categories_widget #categories_items_scroll {color:#FFFFFF;float:right;font-size:60px;height:180px;margin-top:19px;width:90px;}
 .categories_widget #categories_items_scroll #categories_view_next_raquo {width:90px;height:42px;background:url("/devwidgets/categories/images/categories_raquo.png") no-repeat center center transparent;margin-top:35px;cursor:pointer;}
-.categories_widget #categories_items_scroll #categories_view_all {width:100%;}
+.categories_widget #categories_items_scroll #categories_view_all {margin-left: 5px;}
 .categories_widget #categories_items_scroll .categories_view_all_link:hover {text-decoration:none !important;}
 .categories_widget #categories_expand_contract .categories_expand, .categories_widget #categories_expand_contract .categories_contract {float:right;height:9px;margin:16px 0 0 12px;width:13px;}
 .categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}

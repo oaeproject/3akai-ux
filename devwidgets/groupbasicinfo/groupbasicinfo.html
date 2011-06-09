@@ -175,7 +175,9 @@
             <ul id="groupbasicinfo_directory">
                 {for dir in directory}
                     <li class="${dir.locationtitle.value}">
-                        <span class="groupbasicinfo_saveddirectory_information">${dir.locationtitle.title}</span>
+                        <a class="s3d-action groupbasicinfo_saveddirectory_information" href="/search#tag=/tags/${dir.locationtitle.value}" class="s3d-action contentmetadata_locations_link" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${dir.locationtitle.title}">
+                            ${dir.locationtitle.title}
+                        </a>
                     </li>
                 {/for}
             </ul>

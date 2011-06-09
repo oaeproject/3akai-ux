@@ -41,10 +41,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
 
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.2.json
-            // http://localhost:8080/p/YjsKgQ8wNtTga1qadZwjQCe.members.json
-            // http://localhost:8080/var/search/pool/activityfeed.json?p=/p/YjsKgQ8wNtTga1qadZwjQCe&items=1000
-
             if (content_path && document.location.pathname === "/content"){
                 var redirectURL = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
                 if (filename) {
@@ -119,6 +115,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.viewers[index].basic.elements.picture.hasOwnProperty("value")) {
                                         contentMembers.viewers[index].picture = $.parseJSON(contentMembers.viewers[index].basic.elements.picture.value);
                                 }
+                                if (contentMembers.viewers[index]["sakai:excludeSearch"] === "true"){
+                                    contentMembers.viewers[index].pseudoGroup = true;
+                                    contentMembers.viewers[index].parent = {};
+                                    var groupid = contentMembers.viewers[index].groupid;
+                                    contentMembers.viewers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
+                                    var grouptitle = contentMembers.viewers[index]["sakai:group-title"];
+                                    contentMembers.viewers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
+                                    contentMembers.viewers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
+                                }
                             });
                             contentMembers.managers = contentMembers.managers || {};
                             $.each(contentMembers.managers, function(index, resultObject) {
@@ -127,6 +132,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     contentMembers.managers[index].basic.elements.hasOwnProperty("picture") &&
                                     contentMembers.managers[index].basic.elements.picture.hasOwnProperty("value")) {
                                         contentMembers.managers[index].picture = $.parseJSON(contentMembers.managers[index].basic.elements.picture.value);
+                                }
+                                if (contentMembers.managers[index]["sakai:excludeSearch"] === "true"){
+                                    contentMembers.managers[index].pseudoGroup = true;
+                                    contentMembers.managers[index].parent = {};
+                                    var groupid = contentMembers.managers[index].groupid;
+                                    contentMembers.managers[index].parent["sakai:group-id"] = groupid.substring(0, groupid.lastIndexOf("-"));
+                                    var grouptitle = contentMembers.managers[index]["sakai:group-title"];
+                                    contentMembers.managers[index].parent["sakai:group-title"] = $.trim(grouptitle.substring(0, grouptitle.lastIndexOf("(")));
+                                    contentMembers.managers[index].parent["sakai:role-title"] = grouptitle.substring(grouptitle.lastIndexOf("("));
                                 }
                             });
                         }
@@ -260,17 +274,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var initEntityWidget = function(){
-            var context = "content";
-            if (sakai.data.me.user.anon){
-                type = "content_anon";
-            } else if (sakai_global.content_profile.content_data.isManager){
-                type = "content_managed";
-            } else if (sakai_global.content_profile.content_data.isViewer){
-                type = "content_shared";
-            } else {
-                type = "content_not_shared";
+            if (sakai_global.content_profile.content_data) {
+                var context = "content";
+                if (sakai.data.me.user.anon) {
+                    type = "content_anon";
+                } else if (sakai_global.content_profile.content_data.isManager) {
+                    type = "content_managed";
+                } else if (sakai_global.content_profile.content_data.isViewer) {
+                    type = "content_shared";
+                } else {
+                    type = "content_not_shared";
+                }
+                $(window).trigger("sakai.entity.init", [context, type, sakai_global.content_profile.content_data]);
             }
-            $(window).trigger("sakai.entity.init", [context,type,sakai_global.content_profile.content_data]);
         };
 
         $(window).bind("sakai.entity.ready", function(){
@@ -592,7 +608,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_container").addClass("s3d-page-column-right");
             $("#content_profile_right_container").removeClass("s3d-page-fullcolumn-padding");
             $("#content_profile_right_metacomments").removeClass("fl-container-650");
-            $("#content_profile_right_metacomments").addClass("fl-container-500");
+            $("#content_profile_right_metacomments").addClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
                 $("#content_profile_sakaidoc_container").show();
@@ -608,7 +624,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $("#content_profile_right_container").removeClass("s3d-page-column-right");
             $("#content_profile_right_container").addClass("s3d-page-fullcolumn-padding");
             $("#content_profile_right_metacomments").addClass("fl-container-650");
-            $("#content_profile_right_metacomments").removeClass("fl-container-500");
+            $("#content_profile_right_metacomments").removeClass("fl-container-450");
             if (isSakaiDoc){
                 $("#content_profile_preview_container").hide();
                 $("#content_profile_sakaidoc_container").show();

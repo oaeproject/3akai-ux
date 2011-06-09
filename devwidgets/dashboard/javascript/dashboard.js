@@ -57,7 +57,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         var settings = false;
         var widgetPropertyName = false;
         var tempSettings;
-        var widgetDialogShown = {};
 
         var rootel = "#" + tuid;
         var $rootel = $(rootel);
@@ -93,7 +92,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
                         if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
                             for (var pi in settings.columns[c]) {
                                 if (settings.columns[c].hasOwnProperty(pi)) {
-                                    if (pi !== "contains") {
+                                    if (pi !== "contains" && pi !== "indexOf") {
                                         if (!settings.columns[c][pi].uid) {
                                             cleanContinue = false;
                                         }
@@ -852,7 +851,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
         
         var showChangeLayoutDialog = function(title, iTuid){
-            if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
+            if (iTuid === tuid) {
                 changeLayout(title);
             }
         };
@@ -902,7 +901,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
 
             $(".close_goodies_dialog", $rootelClass).unbind("click");
             $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
-                widgetDialogShown[tuid] = false;
                 $(addGoodiesDialog + rootelClass).jqmHide();
             });
 
@@ -972,8 +970,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], 
         });
         
         var showAddWidgetDialog = function(iTuid){
-            if (iTuid === tuid && (widgetDialogShown[tuid] === false || widgetDialogShown[tuid] === undefined)) {
-                widgetDialogShown[tuid] = true;
+            if (iTuid === tuid) {
                 $(addGoodiesDialog, $rootel).jqmShow();
             }
         };

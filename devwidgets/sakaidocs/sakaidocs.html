@@ -11,20 +11,12 @@
         <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title" style="display:none">
             <div id="sakaidocs_buttonbar">
                 <div style="float:left">
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_editpage">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Edit Page</span>
-                    </button>
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_top" style="display:none">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
-                    </button>
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_addpage_area" style="display:none">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">__MSG__ADD_PAGE__</span>
-                    </button>
+                    <button type="button" id="sakaidocs_editpage" class="s3d-button s3d-header-button s3d-header-smaller-button">Edit Page</button>
+                    <button type="button" id="sakaidocs_addpage_top" class="s3d-button s3d-header-button s3d-header-smaller-button" style="display:none">__MSG__ADD_PAGE__</button>
+                    <button type="button" id="sakaidocs_addpage_area" class="s3d-button s3d-header-button s3d-header-smaller-button" style="display:none">__MSG__ADD_PAGE__</button>
                 </div>
                 <div style="float:right">
-                    <button type="button" class="s3d-button s3d-button-link-2-state" id="sakaidocs_revisions">
-                        <span class="s3d-button-inner s3d-button-link-2-state-inner" style="color:#4b6b80; font-size: 9px;">Page Revisions</span>
-                    </button>
+                    <button type="button" id="sakaidocs_revisions" class="s3d-button s3d-header-button s3d-header-smaller-button">Page Revisions</button>
                 </div>
                 <hr class="fl-push fl-hidden"/>
                 <div id="widget_versions" class="widget_inline"></div>
@@ -37,12 +29,6 @@
             <!-- WORK AREA -->
             <div class="edit_view" id="edit_view_container">
                 <div class="main_container content_container">
-                        <div id="edit_page_action_buttons_template"><!--
-                            <button class="s3d-button s3d-button-primary save_button"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
-                            <button class="s3d-button cancel-button"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
-                            <span class="messageInformation" id="messageInformation" style="display:none">__MSG__AUTO_SAVED_AT__ <span id="realtime"></span></span>
-                        --></div>
-
                         <!-- TAB CONTENT -->
                         <div class="fl-centered fl-container fl-tab-content edit_container">
 
@@ -52,7 +38,7 @@
 
                                 <div id="page_save_options_bottom" class="fl-force-right">
                                     <button id="sakaidocs_edit_cancel_button" class="s3d-link-button">__MSG__DONT_SAVE__</button>
-                                    <button id="sakaidocs_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
+                                    <button id="sakaidocs_edit_save_button" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
                                 </div>
 
                                 <div id="page_autosave_time"></div>
@@ -61,13 +47,9 @@
                                 --></div>
 
                                 <!-- INSERT DROPDOWN MENU -->
-                                <span class="s3d-button s3d-button-inline" id="sakaidocs_insert_dropdown_button">
-                                    <span class="s3d-button-inner">
-                                        <span class=""></span>
-                                        <span class="s3d-button-inner-text" id="sakaidocs_insert_dropdown_button_inner">__MSG__INSERT__</span>
-                                        <span class="s3d-button-icon-right"></span>
-                                    </span>
-                                </span>
+                                <button type="button" class="s3d-button s3d-large-button grey" id="sakaidocs_insert_dropdown_button">
+                                    __MSG__INSERT__&nbsp;&nbsp<span class="sakaidocs_insert_widgets_dd">__MSG__DOWN_ARROW__</span>
+                                </button>
 
                                 <div id="sakaidocs_insert_dropdown_container"></div>
 
@@ -96,7 +78,7 @@
 
                                 <div id="page_save_options_bottom" class="fl-force-right">
                                     <button id="sakaidocs_edit_cancel_button" class="s3d-link-button">__MSG__DONT_SAVE__</button>
-                                    <button id="sakaidocs_edit_save_button" class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SAVE__</span></button>
+                                    <button id="sakaidocs_edit_save_button" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
                                 </div>
                                 <div style="clear:both"><!-- --></div>
 
@@ -113,6 +95,7 @@
         // Page View Mode //
         //////////////////// -->
         <div id="s3d-page-container"></div>
+        <div class="fl-push"><!-- --></div>
 
     </div>
 
@@ -128,7 +111,6 @@
         <div id="sakaidocs_insert_dropdown_template" style="display:none"><!--
             <div class="s3d-sprites-buttons" id="sakaidocs_insert_dropdown" style="display:none;">
                 <ul>
-                    <li><button id="link" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__PAGE_LINK__</button></li>
                     <li><button id="hr" class="insert_dropdown_widget_link s3d-link-button s3d-action">__MSG__HORIZONTAL_LINE__</button></li>
                     <li class="sakaidocs_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
                     <li id="sakaidocs_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action" id="embedcontent">__MSG__FILES_AND_DOCUMENTS__</button></li>
@@ -145,59 +127,33 @@
         --></div>
 
         <!-- WRAPPING DIALOG -->
-        <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__APPEARANCE__</h1>
-                <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
+        <div id="wrapping_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+            <div class="s3d-dialog-close jqmClose"></div>
+            <h1 class="s3d-dialog-header">__MSG__APPEARANCE__</h1>
+            <div>
                 <h3 style="margin-top:0px">__MSG__WRAPPING_SELECT__</h3>
-
                 <ul style="margin-left:1em">
                     <li style="list-style-type:none; padding-l"><button type="button" id="wrapping_no" class="s3d-link-button s3d-bold">__MSG__WRAPPING_NONE__</button></li>
                     <li style="list-style-type:none"><button type="button" id="wrapping_left" class="s3d-link-button s3d-bold">__MSG__WRAPPING_LEFT__</button></li>
                     <li style="list-style-type:none"><button type="button" id="wrapping_right" class="s3d-link-button s3d-bold">__MSG__WRAPPING_RIGHT__</button></li>
                 </ul>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <div class="fl-force-right">
+                    <button type="button" class="s3d-button s3d-overlay-button jqmClose">__MSG__CANCEL__</button>
                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
 
         <!-- AUTOSAVE DIALOG -->
-        <div id="autosave_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__AUTO__ __MSG__SAVE__</h1>
-                <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
+        <div id="autosave_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+            <div class="s3d-dialog-close jqmClose"></div>
+            <h1 id="entity_content_users_dialog_heading" class="s3d-dialog-header">__MSG__AUTOSAVE__</h1>
+            <div>
                 <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
-
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button s3d-button-primary" id="autosave_revert"><span class="s3d-button-inner">__MSG__YES__</span></button>
-                    <button type="button" class="s3d-button jqmClose" id="autosave_keep"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                <div class="fl-force-right">
+                    <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
+                    <button type="button" class="s3d-button s3d-overlay-button" id="autosave_revert">__MSG__YES__</button>
                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
 
@@ -209,13 +165,13 @@
             <div class="context_more">
                 <ul>
                     <li id="context_settings" class="more_option">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__SETTINGS__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__SETTINGS__</button>
                     </li>
                     <li id="context_remove" class="more_option">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__REMOVE__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__REMOVE__</button>
                     </li>
                     <li id="context_appearance_trigger" class="more_option option_last">
-                        <button type="button" class="s3d-action s3d-link-button">__MSG__WRAPPING__</button>
+                        <button type="button" class="s3d-button s3d-action s3d-link-button">__MSG__WRAPPING__</button>
                     </li>
                 </ul>
             </div>

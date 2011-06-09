@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sendmessage_body = "#sendmessage_body",
                 send_message_cancel = "#send_message_cancel",
                 $sendmessage_container = $("#sendmessage_container");
-
+            var $autosuggest; //placeholder, set in return from API call
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -147,16 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(messageFieldSubject + ", " + messageFieldBody).val('');
 
                 // remove autoSuggest if it exists
-                if($(autoSuggestContainer).length) {
-                    $(autoSuggestContainer).remove();
-                    $(autoSuggestResults).remove();
-                    $("#sendmessage_to_autoSuggest").remove();
-                    // replace original input
-                    $("<input/>", {
-                        "id": "sendmessage_to_autoSuggest",
-                        "type": "text"
-                    }).insertAfter("#sendmessage_label_to_autoSuggest");
-                }
+                sakai.api.Util.AutoSuggest.destroy($autosuggest);
 
                 // Remove error status styling classes
                 $(messageFieldSubject).removeClass(invalidClass);
@@ -177,7 +168,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var errorMsg = $(notificationError).text();
                     sakai.api.Util.notification.show("", errorMsg, sakai.api.Util.notification.type.ERROR);
                 }
-                if ($(messageDialogContainer).hasClass('dialog')) {
+                if ($(messageDialogContainer).hasClass('s3d-dialog')) {
                     $(messageDialogContainer).jqmHide();
                 }
 
@@ -221,11 +212,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                $("#sendmessage_to_autoSuggest").autoSuggest("", {
-                    asHtmlID: "sendmessage_to_autoSuggest",
+                $autosuggest = sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
+                    "asHtmlID": "sendmessage_to_autoSuggest",
                     startText: "Enter contact or group names",
-                    searchObjProps: "name",
-                    selectedItemProp: "name",
                     keyDelay: "200",
                     retrieveLimit: 10,
                     preFill: preFill,
@@ -240,29 +229,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
                             '<span class="sm_suggestion_name">' + data.name + '</span>');
                         return line_item;
-                    },
-                    source: function(query, add) {
-                        var q = sakai.api.Server.createSearchString(query);
-                        var options = {"page": 0, "items": 15};
-                        var searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS;
-                        if (q === '*' || q === '**') {
-                            searchUrl = sakai.config.URL.SEARCH_USERS_GROUPS_ALL;
-                        } else {
-                            options['q'] = q;
-                        }
-                        sakai.api.Server.loadJSON(searchUrl.replace(".json", ""), function(success, data){
-                            if (success) {
-                                var suggestions = [];
-                                $.each(data.results, function(i) {
-                                    if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== sakai.data.me.user.userid) {
-                                        suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai.api.Security.saneHTML(sakai.api.User.getDisplayName(data.results[i])), "type": "user"});
-                                    } else if (data.results[i]["sakai:group-id"]) {
-                                        suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
-                                    }
-                                });
-                                add(suggestions);
-                            }
-                        }, options);
                     }
                 });
             };
@@ -421,7 +387,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 $(send_message_cancel).die("click");
                 $(send_message_cancel).live("click", function() {
-                    if ($(messageDialogContainer).hasClass('dialog')) {
+                    if ($(messageDialogContainer).hasClass('s3d-dialog')) {
                         $(messageDialogContainer).jqmHide();
                     }
                     if ($.isFunction(callbackWhenDone)) {

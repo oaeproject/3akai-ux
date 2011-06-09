@@ -45,7 +45,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             UPDATED_DESCRIPTION: "new",
             UPLOADED_CONTENT: "upload",
             UPDATED_COPYRIGHT: "new",
-            UPDATED_DESCRIPTION: "new",
             UPDATED_URL: "new",
             UPDATED_TAGS: "new",
             USER_CREATED: "new"
@@ -55,7 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var numItems = 0;
         var numDiff = 0;
 
-        var parseActivity = function(success, data){
+        var parseActivity = function(success, data, initialLoad){
             if (success) {
                 var results = [];
                 numDiff = data.total - numItems;
@@ -84,28 +83,74 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         total++;
                     }
                 });
-                $recentactivityActivityContainer.html(sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, {
+                var json = {
                     "data": results,
                     "sakai": sakai
-                }));
+                };
+                sakai.api.Util.TemplateRenderer(recentactivityActivityItemTemplate, json, $recentactivityActivityContainer);
+                applyThreeDots();
             }
 
-            $(".recentactivity_activity_item_container:hidden").animate({height:100},1000, 'easeOutBounce').toggle("slow");
+            var $recentactivity_activity_item_container = $(".recentactivity_activity_item_container");
+            $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
+            if (!initialLoad) {
+                $recentactivity_activity_item_container.filter(":hidden").animate({
+                    height: 100,
+                    "opacity": 1
+                }, {
+                    duration: 1000,
+                    specialEasing: {
+                        height: 'easeOutBounce',
+                        opacity: 'linear'
+                    },
+                    step: function(now, fx){
+                        $(fx.elem).css("display", "block");
+                        applyThreeDots();
+                    }
+                });
+            } else {
+                $recentactivity_activity_item_container.filter(":hidden").show();
+                $recentactivity_activity_item_container.filter(":visible").css("opacity", 1);
+                applyThreeDots();
+            }
 
             t = setTimeout(fetchActivity, 8000);
         };
 
-        var fetchActivity = function(){
-            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, parseActivity, {
+        var applyThreeDots = function(){
+            $.each($(".recentactivity_activity_item_text"), function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("a").find("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class")));
+            });
+            $.each($(".recentactivity_activity_item_description"), function(index, element) {
+                var $el = $(element);
+                var width = effectiveWidth($el, $el.siblings("a").find("img"));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, undefined, $el.attr("class")));
+            });
+        };
+
+        var effectiveWidth = function(container, floated) {
+            var eWidth = $(container).width();
+            $.each(floated, function(index, floater) {
+                eWidth -= $(floater).outerWidth(true);
+            });
+            return eWidth;
+        };
+
+        var fetchActivity = function(initialLoad){
+            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data){
+                parseActivity(success, data, initialLoad);
+            }, {
                 "items": 12
             });
         };
 
-        var doInit = function(){
-            fetchActivity();
+        var doInit = function(initialLoad){
+            fetchActivity(initialLoad);
         };
 
-        doInit();
+        doInit(true);
 
     };
 

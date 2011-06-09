@@ -21,10 +21,10 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-#areapermissions_container {width: 650px !important; font-size: 12px; margin-left: -325px !important;}
+#areapermissions_container {width: 400px !important; font-size: 12px; margin-left: -200px !important;}
 #areapermissions_container .areapermissions_visible_to {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 70px; border: 1px solid #b9b9b9; -moz-border-radius: 5px; border-radius: 5px;}
 #areapermissions_container span {margin-right: 10px;}
-#areapermissions_container select {border: 1px solid #cccccc; max-width: 250px;}
+#areapermissions_container select {border: 1px solid #cccccc; max-width: 150px;}
 #areapermissions_container .areapermissions_role_select {width: 100px;}
 #areapermissions_container .areapermissions_role_list_header {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 25px; border: 1px solid #b9b9b9; -moz-border-top-right-radius: 5px; border-top-right-radius: 5px; -moz-border-top-left-radius: 5px; border-top-left-radius: 5px;}
 #areapermissions_container .areapermissions_role_list {height: 200px; border: 1px solid #cccccc; border-top: none; margin-bottom: 10px;}

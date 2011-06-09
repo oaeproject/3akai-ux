@@ -100,6 +100,20 @@
          </releases>
        </repository>
   </repositories>
+  <pluginRepositories> 
+    <pluginRepository>
+      <id>default</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
   <properties>
     <ant.target>dev_light</ant.target>
     <dev.content>
@@ -125,6 +139,26 @@
         <ant.target>development</ant.target>
         <dev.content></dev.content>
       </properties>
+    </profile>
+    <profile>
+      <id>redeploy</id>
+      <build>
+       <plugins>
+         <plugin>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>maven-sling-plugin</artifactId>
+          <version>2.0.5-SNAPSHOT</version>
+          <executions>
+            <execution>
+              <id>install-bundle</id>
+              <goals>
+                <goal>install</goal>
+              </goals>
+            </execution>
+          </executions>
+         </plugin>
+       </plugins>
+      </build>
     </profile>
   </profiles>
   <build>

@@ -68,12 +68,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 path: "/p/" + result["_path"],
                 type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
+                thumbnail: sakai.api.Content.getThumbnail(result),
                 size: "",
                 _mimeType: sakai.api.Content.getMimeType(result),
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "_path": result["_path"]
             };
-            var mimetypeData = sakai.api.Content.getMimeTypeData(result);
             // set the mimetype and corresponding image
             if(item._mimeType) {
                 // we have a recognized file type - set the description and img URL
@@ -110,9 +110,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handlerecentmembershipsData = function(success, data) {
             if(success && data.entry && data.entry.length > 0) {
-                $("#recentmemberships_no_group").hide();
+                $("#recentmemberships_no_results_container").hide();
                 getGroupInfo(data);
             } else {
+                $("#recentmemberships_no_results_container").show();
                 $(".recentmemberships_main").hide();
             }
         };

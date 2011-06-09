@@ -100,23 +100,72 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderParticipants = function (success, data){
             if(success){
-                var participantsArr = [];
-                for (var role in data) {
-                    for (var i = 0; i < data[role].results.length; i++) {
-                        participantsArr.push({
-                            "name": data[role].results[i].basic.elements.firstName.value + " " + data[role].results[i].basic.elements.lastName.value,
-                            "id": data[role].results[i]["rep:userId"],
-                            "title": role,
-                            "content": 0,
-                            "contacts": 0,
-                            "memberships": 0
-                        });
+                sakai.api.User.getContacts(function(){
+                    var participantsArr = [];
+                    for (var role in data) {
+                        for (var i = 0; i < data[role].results.length; i++) {
+                            var contentCount = 0
+                            var contactsCount = 0;
+                            var membershipsCount = 0;
+                            if (data[role].results[i].counts){
+                                contentCount = data[role].results[i].counts.contentCount;
+                                contactsCount = data[role].results[i].counts.contactsCount;
+                                membershipsCount = data[role].results[i].counts.membershipsCount;
+                            }
+                            if (data[role].results[i]["sakai:group-id"]) {
+                                participantsArr.push({
+                                    "name": data[role].results[i]["sakai:group-title"],
+                                    "id": data[role].results[i]["sakai:group-id"],
+                                    "title": role,
+                                    "type": "group",
+                                    "connected": false,
+                                    "content": contentCount,
+                                    "contacts": contactsCount,
+                                    "memberships": membershipsCount,
+                                    "profilePicture": sakai.api.Groups.getProfilePicture(data[role].results[i])
+                                });
+                            } else {
+                                // Check if this user is a friend of us already.
+                                var connected = false, invited = false, pending = false, none = false;
+                                if (sakai.data.me.mycontacts) {
+                                    for (var ii = 0, jj = sakai.data.me.mycontacts.length; ii<jj; ii++) {
+                                        var friend = sakai.data.me.mycontacts[ii];
+                                        if (friend.target === data[role].results[i]["rep:userId"]) {
+                                            connected = true;
+                                            // if invited state set invited to true
+                                            if(friend.details["sakai:state"] === "INVITED"){
+                                                invited = true;
+                                            } else if(friend.details["sakai:state"] === "PENDING"){
+                                                pending = true;
+                                            } else if(friend.details["sakai:state"] === "NONE"){
+                                                none = true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                participantsArr.push({
+                                    "name": sakai.api.User.getDisplayName(data[role].results[i]),
+                                    "id": data[role].results[i]["rep:userId"],
+                                    "title": role,
+                                    "type": "user",
+                                    "content": contentCount,
+                                    "contacts": contactsCount,
+                                    "memberships": membershipsCount,
+                                    "connected": connected,
+                                    "invited": invited,
+                                    "pending": pending,
+                                    "none": none,
+                                    "profilePicture": sakai.api.User.getProfilePicture(data[role].results[i])
+                                });
+                            }
+                        }
                     }
-                }
-                $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
-                    "participants": participantsArr,
-                    "sakai": sakai
-                }));
+                    $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
+                        "participants": participantsArr,
+                        "sakai": sakai
+                    }));
+                });
             } else {
                 debug.log("Participants could not be loaded");
             }
@@ -144,6 +193,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $participantsSearchField.bind("keyup", loadParticipants);
             $participantsSelectAll.bind("click", checkAll);
             $(participantsListParticipantCheckbox, rootel).live("click", setSendSelectedMessageAttributes);
+
+            $(".participants_accept_invitation").live("click", function(ev){
+                var userid = $(this).attr("sakai-entityid");
+                sakai.api.User.acceptContactInvite(userid, function(){
+                    $('.participants_accept_invitation').each(function(index) {
+                        if ($(this).attr("sakai-entityid") === userid){
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+
+            $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+                $('.sakai_addtocontacts_overlay').each(function(index) {
+                    if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                        $(this).hide();
+                    }
+                });
+            });
         };
 
         var init = function(){

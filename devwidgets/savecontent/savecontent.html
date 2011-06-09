@@ -13,12 +13,10 @@
             <div class="savecontent_inner">
                 <div id="savecontent_container"></div>
             </div>
-            <button class="savecontent_close s3d-link-button s3d-action s3d-bold" type="button">
+            <button class="savecontent_close s3d-link-button s3d-bold" type="button">
                 __MSG__CANCEL__
             </button>
-            <button id="savecontent_save" class="s3d-button s3d-button-link-2-state fl-force-right" type="button">
-                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__ADD__</span>
-            </button>
+            <button type="button" id="savecontent_save" class="s3d-button s3d-overlay-button fl-force-right">__MSG__ADD__</button>
         </div>
     </div>
 </div>
@@ -36,7 +34,7 @@
         {else}
             <option value="${sakai.data.me.user.userid}" disabled="disabled">__MSG__MY_LIBRARY__ (got it)</option>
         {/if}
-        {for g in me.groups}
+        {for g in groups.entry}
             {if g["sakai:group-title"]}
                 {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
                     <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}'s Library</option>

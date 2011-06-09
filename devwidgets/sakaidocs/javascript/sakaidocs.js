@@ -31,7 +31,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             autosaveInterval = false,
             editInterval = false,
             lastAutosave = "",
-            autosaveDialogShown = false;
+            autosaveDialogShown = false,
+            autosaveDisabled = false,
+            autosaveCheckContentLength = false,
+            autosaveMaxContentLength = 65536;
 
         var $rootel = $("#"+tuid);
 
@@ -70,6 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var keepAutosave = function() {
             autosaveDialogShown = false;
             setAutosaveInterval();
+            $('#autosave_dialog').jqmHide();
         };
 
         var checkAutosave = function(callback) {
@@ -100,6 +104,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return;
                 }
             });
+        };
+
+        var checkContentLength = function(content){
+            if (unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
+                // SAKIII-3162 the content is too large, display an error and skip autosave
+                if (!autosaveDisabled){
+                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                }
+                autosaveDisabled = true;
+            } else {
+                autosaveDisabled = false;
+            }
         };
 
         var editing = function() {
@@ -135,9 +151,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             page: autosaveContent
                         }
                     };
-                    sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent);
-                    var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
-                    sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
+                    checkContentLength(autosaveContent);
+                    if (!autosaveDisabled){
+                        sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
+                            if (!success){
+                                // the content is probably too large, display an error
+                                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                            }
+                        });
+                        var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
+                        sakai.api.Util.TemplateRenderer($("#page_autosave_time_template"), {time: time}, $("#page_autosave_time"));
+                    }
                 }
             } else {
                 clearInterval(autosaveInterval);
@@ -213,9 +237,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
                     $("#dialog_title").html(sakai.widgets[type].name);
-                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
+                    window.scrollTo(0,0);
                 }
             }
             $("#context_menu").hide();
@@ -329,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 };
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
                 $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
-                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/");
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
                 if (sakai.widgets[widgetid].settingsWidth) {
                     widgetSettingsWidth = sakai.widgets[widgetid].settingsWidth;
@@ -597,21 +622,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
-                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData);
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
+                // Render Math formulas in the text
+                sakai.api.Util.renderMath(currentPageShown.ref);
             } else {
                 if (reloadPage) {
                     $contentEl = $("#" + currentPageShown.ref);
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/");
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
+                    // Render Math formulas in the text
+                    sakai.api.Util.renderMath(currentPageShown.ref);
                     $contentEl.show();
                 } else {
                     $("#s3d-page-container #" + currentPageShown.ref).show();
                     sakai.api.Widgets.nofityWidgetShown("#" + currentPageShown.ref, true);
                 }
             }
-            if (currentPageShown.canEdit && !currentPageShown.nonEditable){
+            if (canEdit()) {
                 showPageEditControls(currentPageShown.addArea);
             } else {
                 hidePageEditControls();
@@ -648,15 +677,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var savePage = function(){
             clearIntervals();
-            currentPageShown.content = getTinyMCEContent();
-
-            stopEditPage();
-            renderPage(true);
+            var pageContent = getTinyMCEContent();
 
             // Store the edited content
             var toStore = {};
             toStore[currentPageShown.saveRef] = {
-                page: currentPageShown.content
+                page: pageContent
             };
             $.ajax({
                 url: currentPageShown.pageSavePath + ".resource",
@@ -671,6 +697,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ":content": $.toJSON(toStore)
                 },
                 success: function(){
+                    currentPageShown.content = pageContent;
+
+                    stopEditPage();
+                    renderPage(true);
+
                     // add pageContent in non-replace mode to support versioning
                     $.ajax({
                         url: currentPageShown.pageSavePath + "/" + currentPageShown.saveRef + ".save.json",
@@ -683,6 +714,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("update.versions.sakai", currentPageShown);
                         }
                     });
+                },
+                error: function(xhr, textStatus, thrownError){
+                    // the content is probably too large, display an error
+                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -698,6 +733,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#page_autosave_time").html("");
             $("#context_menu").hide();
             $("#s3d-page-container").show();
+        };
+
+        ////////////////////////////////////////////
+        // Check for ability to edit current page //
+        ////////////////////////////////////////////
+
+        var canEdit = function() {
+            return (currentPageShown.canEdit && !currentPageShown.nonEditable);
         };
 
         ////////////////////////////

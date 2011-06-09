@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "data": dataArr
             }, $(carouselContainer), false);
             $(carouselContainer).jcarousel({
-                auto: 5,
+                auto: 8,
                 animation: "slow",
                 scroll: 1,
                 easing: "swing",
@@ -186,22 +186,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $.each(data.content.results, function(index, item) {
                 var obj = {};
-                var thumbnail = sakai.api.Content.getThumbnail(item);
                 var mimeType = sakai.api.Content.getMimeType(item);
-                if (mimeType.substring(0, 6) === "image/") {
-                    obj.preview = renderImagePreview(item["_path"], item["_lastModified"]);
-                }else if (isJwPlayerSupportedVideo(mimeType || "")) {
-                    obj.preview = renderVideoPlayer(item["_path"]);
-                } else if (thumbnail) {
-                    obj.preview = renderImagePreview(item["_path"] + ".page1-small.jpg", item["_lastModified"]);
-                } else {
-                    obj.preview = false;
-                }
+                obj.preview = sakai.api.Content.getThumbnail(item);
                 if (item["sakai:description"]) {
-                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], 700);
+                    var descWidth = 630;
+                    if (index === 1) {
+                        descWidth = 470;
+                    }
+                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], descWidth);
                 }
                 if (item["sakai:tags"]) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                    var tagWidth = 120;
+                    if (index > 0) {
+                        tagWidth = 60;
+                    }
+                    obj.tags = sakai.api.Util.applyThreeDots(sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]), tagWidth, {"ellipsis_string": "", "valid_delimiters": [","]}, "s3d-action");
                 }
                 if (item[item["_path"] + "/comments"]) {
                     obj.comments = [];
@@ -395,29 +394,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 parseData(dataArr);
             });
 
-            /*
-            $.ajax({
-                url: "/var/search/groups-all.json?page=0&items=50&q=*",
-                cache: false,
-                success: function(data){
-                    $.each(data.results, function(index, group) {
-                        data.results[group] = data.results[group] || false;
-                        if (data.results[group].groupid) {
-                            $.ajax({
-                                url: "/system/userManager/group/" + data.results[group].groupid + ".members.json?items=50",
-                                cache: false,
-                                async: false,
-                                success: function(memberData){
-                                    data.results[group].members = memberData;
-                                }
-                            });
-                        }
-                    });
-                    dataArr.groups = data;
-                    checkDataParsable(dataArr);
-                }
-            });
-            */
         };
 
         var doInit = function(){

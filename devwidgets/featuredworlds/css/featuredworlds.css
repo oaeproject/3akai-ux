@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.featuredworlds_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:15px 10px 0;}
+.featuredworlds_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:10px 0 0;}
 .featuredworlds_widget #featuredworlds_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 
 .featuredworlds_widget .s3d-contentpage-title {background-color:#F9F8F8;border-bottom:medium none;font-size:14px;height:34px;line-height:30px;padding:0 12px;}
@@ -26,8 +26,8 @@
 .featuredworlds_widget .featuredworlds_tab_selected {background:url("/devwidgets/featuredworlds/images/featuredworlds_tab_selected_bg.png") repeat-x scroll left top transparent;}
 
 /* World Items */
-.featuredworlds_widget .featuredworlds_content {background:none repeat scroll 0 0 transparent;height:108px;width:208px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
-.featuredworlds_widget .featuredworlds_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:206px;}
+.featuredworlds_widget .featuredworlds_content {border: 1px solid #fff; background:none repeat scroll 0 0 transparent;height:108px;width:200px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
+.featuredworlds_widget .featuredworlds_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:200px;}
 .featuredworlds_widget .featuredworlds_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredworlds_widget .featuredworlds_content .featuredworlds_grouppage_link {display:block;font-size:11px;}
 .featuredworlds_widget #featuredworlds_no_worlds {display: block;margin: 10px;}
