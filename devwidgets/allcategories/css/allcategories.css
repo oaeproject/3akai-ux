@@ -20,7 +20,7 @@
 .allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left #363636;width:278px;height:162px;float:left;margin:0 12px 12px 0;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;padding:4px;box-shadow:0 0 1px 0 #666;}
 .allcategories_widget .allcategories_item:hover {background:url("/devwidgets/allcategories/images/allcategories_item_bg_hover.png") repeat-x scroll left top #3480b2;}
 .allcategories_widget .allcategories_item .allcategories_item_header {padding:8px;margin-bottom:12px;cursor:pointer;}
-.allcategories_widget .allcategories_item .allcategories_item_content {background:url("/devwidgets/allcategories/images/allcategories_item_content_bg.png") repeat-x top left #f1f1f0;border-radius:3px 3px 3px 3px;padding:10px;}
+.allcategories_widget .allcategories_item .allcategories_item_content {background: url("/devwidgets/allcategories/images/allcategories_item_content_bg.png") repeat-x scroll left top #F1F1F0;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;margin-top:96px;padding:10px;position:absolute;width:258px;}
 
 .allcategories_widget .allcategories_item .s3d-split-line {margin:7px 0 15px;}
 .allcategories_widget #allcategories_items_content {width:935px;}
