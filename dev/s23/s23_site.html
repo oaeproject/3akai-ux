@@ -10,31 +10,43 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.my_sakai.css" />
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
+
+        <!-- Sakai Page CSS -->
+        <!-- <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.my_sakai.css" /> -->
+
+        <!-- <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" /> -->
         <link rel="stylesheet" type="text/css" href="/dev/s23/css/s23_site.css" />
-        <link rel="stylesheet" type="text/css" href="/devwidgets/topnavigation/css/topnavigation.css" />
-
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
+        <!-- <link rel="stylesheet" type="text/css" href="/devwidgets/topnavigation/css/topnavigation.css" /> -->
 
         <!-- to support sakai2 legacy frame resizing -->
         <script type="text/javascript" src="/library/js/headscripts.js"></script>
     </head>
-    <body id="root" class="body-container fl-centered fl-container i18nable my-sakai s23_site">
+    <!-- <body id="root" class="body-container fl-centered fl-container i18nable my-sakai s23_site"> -->
+    <body id="root" class="fl-centered me i18nable s23_site">
 
-        <!-- TOP BANNER -->
-        <div id="top_banner"><!-- --></div>
+        <!-- HEADER -->
+        <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
+            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+            </div>
+        </div>
 
-        <!-- NAVIGATION -->
-        <div id="widget_topnavigation" class="widget_inline"></div>
 
+
+        <!-- MAIN CONTAINER -->
+        <div class="fl-container-flex">
+          <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-onecolumn" id="s23_site_container">
         <!-- MESSAGES -->
         <span id="s23_gritter_notification_title" style="display:none;">__MSG__YOU_ARE_USING_SAKAI2_SITE__</span>
         <span id="s23_gritter_notification_message" style="display:none;"><a href="#" class="s23_gritter_notification_cancel">__MSG__DONT_SHOW_THIS_MESSAGE_AGAIN__</a></span>
         <!-- HEADER -->
-        <div class="fl-container-flex header s3d-header">
+        <div style="margin-top: 40px" class="fl-container-flex header s3d-header">
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
                 <div class="s3d-decor-left"><!-- --></div>
                 <div class="s3d-decor"><!-- --></div>
@@ -47,13 +59,13 @@
             </div>
         </div>
 
-        <!-- MAIN CONTAINER -->
-        <div class="fl-container-flex" id="s23_site_container">
+
             <div class="fl-fix fl-centered fixed-container">
-                <hr />
-                <div id="s23_site_menu_container"><!-- --></div>
-                <div id="s23_site_iframe_container"><!-- --></div>
+              <hr />
+              <div id="s23_site_menu_container"><!-- --></div>
+              <div id="s23_site_iframe_container"><!-- --></div>
             </div>
+          </div>
         </div>
 
         <!-- TEMPLATES -->
@@ -95,8 +107,8 @@
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <!-- CHAT -->
-        <div id="widget_chat" class="widget_inline"></div>
+        <!-- Dependency JS -->
+        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- JAVASCRIPT -->
         <script>require(["/dev/s23/javascript/s23_site.js"]);</script>
