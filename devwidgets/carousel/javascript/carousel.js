@@ -181,46 +181,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        // This isn't perfect because part of the element can be "beside" the
-        // floater with the remainder below it
-        var isBelow = function(element, floater) {
-            var bottom = $(floater).position()["top"] + $(floater).outerHeight();
-            return ($(element).position()["top"] > bottom);
-        };
-
-        var effectiveWidth = function(container, floated) {
-            var eWidth = $(container).width();
-            $.each(floated, function(index, floater) {
-                if (!isBelow(container, floater)) {
-                    eWidth -= $(floater).outerWidth(true);
-                }
-            });
-            return eWidth;
-        };
-
-        var applyThreeDots = function() {
-            var carousel_titles = $(".carousel_item_title");
-            var carousel_descs = $(".carousel_item_desc");
-            var carousel_tags = $(".carousel_content_tags");
-
-            $.each(carousel_titles, function(index, element) {
-                var $el = $(element);
-                var width = effectiveWidth($el.parent(), $el.parent().siblings("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.text(), width, {max_rows: 1, whole_word: false}, $el.attr("class")));
-            });
-
-            $.each(carousel_descs, function(index, element) {
-                var $el = $(element);
-                var width = effectiveWidth($el, $el.siblings("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.text(), width, {max_rows: 6}, $el.attr("class")));
-            });
-
-            $.each(carousel_tags, function(index, element) {
-                var $el = $(element);
-                var width = effectiveWidth($el, $el.siblings("img")) - $el.find("img").width();
-                var tags = sakai.api.Util.applyThreeDots($el.text(), width, {"ellipsis_string": "", "valid_delimiters": [","], max_rows: 1}, "carousel_content_tags s3d_action");
-                $el.html(sakai.api.Util.TemplateRenderer("carousel_tags_template", {"tags": tags}));
-            });
+        var applyThreeDots = function(){
+            $.each($(".carousel_apply_threedots"), function(index, item){
+                var maxrows = 1;
+                $.each(item.classList, function(i, cl){
+                    if (item.classList.hasOwnProperty(i)) {
+                        if (cl.indexOf("threedots_allow_") === 0) {
+                            maxrows = parseInt(cl.split("threedots_allow_")[1]);
+                            return false;
+                        }
+                    }
+                });
+                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action"));
+            })
         };
 
         var parseContent = function(data, dataArr){

@@ -305,7 +305,7 @@
 				}
 				$(curr_this).attr('threedots', init_text_span);
 
-				if (num_rows(curr_this, nr_fixed) > max_rows) {
+				if (Math.ceil(num_rows(curr_this, nr_fixed)) >= max_rows) {
 					// append the ellipsis span & remember the original text
 					curr_ellipsis = $(curr_this).append('<span style="white-space:nowrap" class="'	
 														+ $.fn.ThreeDots.c_settings.e_span_class + '">'
