@@ -87,7 +87,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         data = newdata;
                         entityType = "group";
                         if (document.location.pathname.substring(0, 2) === "/~"){
-                            document.location = "/dev/group.html?id=" + document.location.pathname.substring(2);
+                            document.location = "/dev/group.html?id=" + document.location.pathname.substring(2) + window.location.hash;
                             return;
                         }
                     } else {
@@ -96,7 +96,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             document.location = "/dev/me.html";
                             return;
                         } else {
-                            document.location = "/dev/user.html?id=" + entityID;
+                            document.location = "/dev/user.html?id=" + entityID + window.location.hash;
                             return;
                         }
                     }
