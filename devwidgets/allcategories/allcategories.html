@@ -13,6 +13,23 @@
             {for item in directory}
                 <li>
                     <div class="allcategories_item">
+                        {if item.content}
+                            <div class="allcategories_item_content">
+                                {if item.content["sakai:pooled-content-file-name"]}
+                                    {if item.content.image}
+                                        <img src="/p/${item.content["_path"]}" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    {elseif item.content["sakai:custom-mimetype"]}
+                                        <img src="${sakai.api.Content.getMimeTypeData(item.content["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
+                                    {elseif item.content.haspreview}
+                                        <img src="/p/${item.content["_path"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    {else}
+                                        <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
+                                    {/if}
+                                    <a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
+                                    <hr class="fl-push fl-hidden"/>
+                                {/if}
+                            </div>
+                        {/if}
                         <a href="/dev/category.html#l=${item.id}">
                             <div class="allcategories_item_header">
                                 <div class="allcategories_item_raquo"></div>
@@ -20,37 +37,6 @@
                                 <span class="allcategories_item_header_meta">${item.count} content items</span>
                             </div>
                         </a>
-                        {if item.content}
-                            {if item.content["sakai:pooled-content-file-name"]}
-                                {if item.content.image}
-                                    <img src="/p/${item.content["_path"]}" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
-                                {elseif item.content["sakai:custom-mimetype"]}
-                                    <img src="${sakai.api.Content.getMimeTypeData(item.content["sakai:custom-mimetype"]).URL}" class="allcategories_item_content_preview"/>
-                                {elseif item.content.haspreview}
-                                    <img src="/p/${item.content["_path"]}.page1-small.png" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
-                                {else}
-                                    <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
-                                {/if}
-                                <a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
-                                <span style="display:none"><span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
-                                {if item.content["sakai:description"]}
-                                    {var size = 125}
-                                    <span class="allcategories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
-                                {/if}
-                                <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                                {if item.content.commentcount}<span class="allcategories_content_category_description"><span class="allcategories_content_comments_icon allcategories_content_icon"></span><a href="/content#p=${item.content["_path"]}/${item.content["sakai:pooled-content-file-name"]}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
-                                {if item.content["sakai:tags"] && sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"]).length > 0}
-                                    {var realTags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"])}
-                                    <span class="allcategories_content_tags">
-                                        {for tag in realTags}
-                                            {if tag_index < 2}
-                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < realTags.length-1 && tag_index < 1}, {/if}
-                                            {/if}
-                                        {/for}
-                                    </span>
-                                {/if}
-                            {/if}
-                        {/if}
                         <hr class="fl-push fl-hidden"/>
                     </div>
                 </li>
