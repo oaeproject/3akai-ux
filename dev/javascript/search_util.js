@@ -138,8 +138,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
+                var details = false;
                 if (item.target){
                     item = results[i].profile;
+                    details = results[i].details;
                 }
                 if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
                     var user = {};
@@ -181,10 +183,23 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     user.connected = false;
+                    user.accepted = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
-                    // Check if this user is a friend of us already.
 
-                    if (sakai_global.data.search.contacts.results) {
+                    // Check if this user is a friend of us already.
+                    if (details && details["sakai:state"]) {
+                        user.connected = true;
+                        // if invited state set invited to true
+                        if(details["sakai:state"] === "INVITED"){
+                            user.invited = true;
+                        } else if(details["sakai:state"] === "PENDING"){
+                            user.pending = true;
+                        } else if(details["sakai:state"] === "ACCEPTED"){
+                            user.accepted = true;
+                        } else if(details["sakai:state"] === "NONE"){
+                            user.none = true;
+                        }
+                    } else if (sakai_global.data.search.contacts.results) {
                         for (var ii = 0, jj = sakai_global.data.search.contacts.results.length; ii<jj; ii++) {
                             var friend = sakai_global.data.search.contacts.results[ii];
                             if (friend.target === user.userid) {
@@ -194,6 +209,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     user.invited = true;
                                 } else if(friend.details["sakai:state"] === "PENDING"){
                                     user.pending = true;
+                                } else if(friend.details["sakai:state"] === "ACCEPTED"){
+                                    user.accepted = true;
                                 } else if(friend.details["sakai:state"] === "NONE"){
                                     user.none = true;
                                 }
