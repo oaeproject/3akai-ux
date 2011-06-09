@@ -585,9 +585,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavigationlogin).hover(function(){
                 var $menu = $(this);
                 if ($menu.children(topnavigationExternalLogin).length){
-                    // adjust margin of external login menu to position correctly according to width
+                    // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var margin = ($externalAuth.width() - 58) * -1;
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
+                         + $menu.width()
+                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
+                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
+
+                    var margin = ($externalAuth.width() - menuPadding) * -1;
                     $externalAuth.css("margin-left", margin + "px");
                 }
                 $(topnavUserOptionsLoginFields).show();
