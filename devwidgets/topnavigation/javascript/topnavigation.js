@@ -424,6 +424,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Navigation hover binding
             $(hasSubnav).hover(function(){
                 var $li = $(this);
+                $li.removeClass("topnavigation_close_override");
                 $li.children(subnavtl).show();
                 var $subnav = $li.children(navLinkDropdown);
 
@@ -435,6 +436,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $li = $(this);
                 $li.children(subnavtl).hide();
                 $li.children(navLinkDropdown).hide();
+            });
+
+            // hide the menu after an option has been clicked
+            $(hasSubnav + " a").live("click", function(){
+                var $parentMenu = $(this).parents(hasSubnav);
+                var $parent = $(this).parent(hasSubnav);
+                if ($parent.length) {
+                    $parentMenu.addClass("topnavigation_close_override");
+                }
+                $parentMenu.children(subnavtl).hide();
+                $parentMenu.children(navLinkDropdown).hide();
             });
 
             // Search binding (don't fire on following keyup codes: shift)
