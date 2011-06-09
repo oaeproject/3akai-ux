@@ -281,7 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "q": searchText,
                         "category": category.id
                     }
-                });                        
+                });
             }
             
 
@@ -307,6 +307,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getNavItem = function(index, array){
             var temp = {};
             temp.id = array[index].id;
+            temp["class"] = array[index]["class"];
             if (temp.id && temp.id == "subnavigation_hr") {
                 temp = "hr";
             } else {

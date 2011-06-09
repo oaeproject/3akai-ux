@@ -885,6 +885,7 @@ define(function(){
         }, {
             "url": "#",
             "id": "navigation_create_and_add_link",
+            "class": "sakai_add_content_overlay",
             "anonymous": false,
             "label": "CREATE_AND_ADD",
             "subnav": [{

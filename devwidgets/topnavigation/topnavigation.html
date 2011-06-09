@@ -16,7 +16,7 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a class="s3d-bold" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
+            <a class="s3d-bold{if i.class} ${i.class}{/if}" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul>
