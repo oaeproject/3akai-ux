@@ -300,6 +300,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
+                    sakai_user.data.me.messages.unread -= $.grep(messagePaths, function(path, index){
+                        return path.match("^" + sakai_user.data.me.profile.homePath + "/message/inbox");
+                    }).length;
+                    $(window).trigger("updated.messageCount.sakai");
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -417,6 +421,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 data: parameters,
                 cache: true,
                 success: function(data){
+                    if (box === "inbox") {
+                        sakai_user.data.me.messages.unread = data.unread;
+                        $(window).trigger("updated.messageCount.sakai");
+                    }
                     if (doProcessing !== false) {
                         data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
                     }
@@ -502,10 +510,6 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                         if (data.count && data.count[0] && data.count[0].count) {
                             count = data.count[0].count;
                         }
-                    }
-                    if (box === "inbox") {
-                        sakai_user.data.me.messages.unread = count;
-                        $(window).trigger("updated.messageCount.sakai");
                     }
                     if ($.isFunction(callback)) {
                         callback(true, count);
