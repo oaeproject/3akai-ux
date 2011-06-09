@@ -585,6 +585,10 @@ define(["jquery",
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
+                    if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.mode && sakai_global.profile.main.mode.value !== "view") {
+                        $(window).trigger("lhnav.updateCount", ["contacts", 1]);
+                        $(window).trigger("contacts.accepted.sakai");
+                    }
                 },
                 error: function() {
                     if ($.isFunction(callback)) {
