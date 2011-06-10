@@ -361,7 +361,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
                     newMsg.box = msg["sakai:messagebox"];
-                    newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
+                    newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
                     newMsg.path = msg["_path"];
