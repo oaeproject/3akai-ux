@@ -49,13 +49,19 @@
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
-                ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
-            </a>
-            <span class="participants_list_participant_divider">|</span>
-            <a href="/~${participant.id}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
-                ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
-            </a>
+            {if participant.type === "user"}
+                <a href="/~${participant.id}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
+                    ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
+                </a>
+                <span class="participants_list_participant_divider">|</span>
+                <a href="/~${participant.id}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
+                    ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
+                </a>
+            {else}
+                <a href="/~${participant.id}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
+                    ${participant.memberships} {if participant.memberships == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
+                </a>
+            {/if}
         </li>
     {/for}
 </ul>
