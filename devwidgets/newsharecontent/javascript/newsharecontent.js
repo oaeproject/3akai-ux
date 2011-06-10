@@ -148,7 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             contentObj = contentobj || contentObj;
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-            if (userList.list.length && messageText && contentObj && contentObj.data) {
+            if (userList && userList.list && userList.list.length && messageText && contentObj && contentObj.data) {
                 var toAddList = userList.list.slice();
                 userList.list = toAddList;
                 if (toAddList.length) {

@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
          */ 
         var removeDuplicateUsersGroups = function(data){
-            if(!data && !data.members){
+            if(!data || !data.members){
             	return data;
             }
             var tmpManagers = {};
@@ -330,24 +330,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var viewers = data.members.viewers || [];
             var vl = viewers.length;
             while(ml--){ //though unlikely, this will remove any duplicates within the manager permission
-                tmpManagers[managers[ml].userid||managers[ml].groupid] = managers[ml];
+                tmpManagers[managers[ml].userid || managers[ml].groupid] = managers[ml];
             }
             while(vl--){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
-                if(!tmpManagers[viewers[vl].userid||viewers[vl].groupid]){
-                    tmpViewers[viewers[vl].userid||viewers[vl].groupid] = viewers[vl];
+                if(!tmpManagers[viewers[vl].userid || viewers[vl].groupid]){
+                    tmpViewers[viewers[vl].userid || viewers[vl].groupid] = viewers[vl];
                 }
             }
-            var objToArray = function(o){
-                var arr = [];
-                for(k in o){
-                    if(o.hasOwnProperty(k)){
-                        arr.push(o[k]);
-                    }
-                }
-                return arr;
-            }
-            data.members.managers = objToArray(tmpManagers);
-            data.members.viewers = objToArray(tmpViewers);
+            
+            var sortById = function(a, b) {
+				var x = (a.userid || a.groupid).toLowerCase();
+				var y = (b.userid || b.groupid).toLowerCase();
+				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			}
+            
+            data.members.managers = _.toArray(tmpManagers).sort(sortById);
+            data.members.viewers = _.toArray(tmpViewers).sort(sortById);
             return data;
         };
         

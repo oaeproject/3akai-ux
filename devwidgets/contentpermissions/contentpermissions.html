@@ -10,9 +10,9 @@
     <div class="contentpermissions_content_section">
         <label class="s3d-bold" for="contentpermissions_global_permissions">__MSG__CAN_BE_FOUND_BY__</label>
         <select id="contentpermissions_global_permissions">
-            <option value="public" {if contentdata.data["sakai:permissions"] == "public"} selected="selected"{/if}}>__MSG__PUBLIC__</option>
-            <option value="everyone" {if contentdata.data["sakai:permissions"] == "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
-            <option value="private" {if contentdata.data["sakai:permissions"] == "private"} selected="selected"{/if}>__MSG__SELECTED_PEOPLE_GROUPS__</option>
+            <option value="public" {if contentdata.data["sakai:permissions"] === "public"} selected="selected"{/if}}>__MSG__PUBLIC__</option>
+            <option value="everyone" {if contentdata.data["sakai:permissions"] === "everyone"} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
+            <option value="private" {if contentdata.data["sakai:permissions"] === "private"} selected="selected"{/if}>__MSG__SELECTED_PEOPLE_GROUPS__</option>
         </select>
     </div>
     <div class="contentpermissions_content_section contentpermissions_content_section_no_bottom_borders">
@@ -62,13 +62,13 @@
 <div id="contentpermissions_members_list_template" style="display:none;"><!--
 <ul>
 	{for memberArr in contentdata.members}
-		{if memberArr_index == "managers" || memberArr_index == "viewers"}
+		{if memberArr_index === "managers" || memberArr_index === "viewers"}
 			{for member in memberArr}
 				{if member.groupid}
 					<li id="member_${member.groupid}">
 						<select class="contentpermissions_member_permissions">
-							<option value="manager" {if memberArr_index == "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
-							<option value="viewer" {if memberArr_index == "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
+							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
 						</select>
 						<input type="checkbox" id="select_${member.groupid}" class="${memberArr_index}">
 						<label for="select_${member.groupid}">
@@ -83,8 +83,8 @@
 				{else}
 					<li id="member_${member.userid}">
 						<select class="contentpermissions_member_permissions">
-							<option value="manager" {if memberArr_index == "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
-							<option value="viewer" {if memberArr_index == "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
+							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
+							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
 						</select>
 						<input type="checkbox" id="select_${member.userid}" class="${memberArr_index}">
 						<label for="select_${member.userid}">
