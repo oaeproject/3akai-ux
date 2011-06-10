@@ -11,11 +11,13 @@
     <h1>__MSG__SUGGESTED__:</h1>
     {macro tags(t)}
         {if t && t.length}
-            {var tagArr = t.toString().split(',')}
             <div class="carousel_content_tags">
                 <img src="/devwidgets/entity/images/entity_tags_icon.png" alt="__MSG__TAGS__:">
-                {for tag in tagArr}
-                    <a class="s3d-action" href="/search#tag=/tags/${tag}">${tag}</a>{if tag_index < tagArr.length -1}, {/if}
+                {for tag in t}
+                    {if tag_index < 3}
+                        <a href="/dev/search2.html#tag=/tags/${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
+                        {if tag_index < 2}<div class="carousel_middot_divider">&#183;</div>{/if}
+                    {/if}
                 {/for}
             </div>
         {/if}
@@ -42,11 +44,11 @@
                                             <img src="${content0.preview}"/>
                                         {/if}
                                         <h2>
-                                            <a class="s3d-action" href="${content0.url}">
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
                                                 ${content0.title}
                                             </a>
                                         </h2>
-                                        <p>${content0.description}</p>
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content0.description}</p>
                                         ${tags(content0.tags)}
                                         ${contentButtons(content0.id, content0.createdBy)}
                                     {/if}
@@ -58,11 +60,11 @@
                                             <img src="${content1.preview}"/>
                                         {/if}
                                         <h2>
-                                            <a class="s3d-action" href="${content1.url}">
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
                                                 ${content1.title}
                                             </a>
                                         </h2>
-                                        <p>${content1.description}</p>
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description}</p>
                                         ${tags(content1.tags)}
                                         ${contentButtons(content1.id, content1.createdBy)}
                                     {/if}
@@ -72,7 +74,7 @@
                                         {var content2 = item.suggestions[2]}
                                         {if content2}
                                             <h2>
-                                                <a class="s3d-action" href="${content2.url}">
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
                                                     ${content2.title}
                                                 </a>
                                             </h2>
@@ -84,7 +86,7 @@
                                         {var content3 = item.suggestions[3]}
                                         {if content3}
                                             <h2>
-                                                <a class="s3d-action" href="${content3.url}">
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
                                                     ${content3.title}
                                                 </a>
                                             </h2>
@@ -103,7 +105,7 @@
                                         {else}
                                             <img src="/dev/images/default_User_icon_50x50.png" />
                                         {/if}
-                                        <h2><a href="/~${user.userid}" class="s3d-action">${user.displayNameTD}</a></h2>
+                                        <h2><a href="/~${user.userid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h2>
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
@@ -137,12 +139,12 @@
                                             <img src="/dev/images/group_avatar_icon_64x64_nob.png" />
                                         {/if}
                                         <h2>
-                                            <a href="/~${group.groupid}" class="s3d-action">
+                                            <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
                                                 ${group.title}
                                             </a>
                                         </h2>
                                         {if tall}
-                                            <p>
+                                            <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">
                                                 ${group.description}
                                             </p>
                                         {/if}
