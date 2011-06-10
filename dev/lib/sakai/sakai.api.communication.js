@@ -280,15 +280,15 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             });
         },
 
-        markMessagesAsRead : function(messagePaths, callback) {
+        markMessagesAsRead : function(messages, callback) {
             var requests = [];
 
-            if (typeof messagePaths === 'string'){
-                messagePaths = [messagePaths];
+            if (! $.isArray(messages)){
+                messages = [messages];
             }
 
-            $.each(messagePaths, function(i, message) {
-               var req = {url: message + ".json", method: "POST", parameters: {"sakai:read": "true"}}; 
+            $.each(messages, function(i, message) {
+               var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
                requests.push(req);
             });
 
@@ -300,8 +300,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
-                    sakai_user.data.me.messages.unread -= $.grep(messagePaths, function(path, index){
-                        return path.match("^" + sakai_user.data.me.profile.homePath + "/message/inbox");
+                    sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
+                        return message.box === "inbox";
                     }).length;
                     $(window).trigger("updated.messageCount.sakai");
                     if ($.isFunction(callback)) {
@@ -360,6 +360,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
+                    newMsg.box = msg["sakai:messagebox"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];

@@ -163,13 +163,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_mark_as_read.live("click", function() {
             var unreadMessages = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container.unread");
-            pathList = [];
+            readList = [];
             $.each(unreadMessages, function(i,elt) {
-                var path = messages.results[$(elt).attr("id")].path;
+                var message = messages.results[$(elt).attr("id")];
                 $(elt).removeClass("unread");
-                pathList.push(path);
+                readList.push(message);
             });
-            sakai.api.Communication.markMessagesAsRead(pathList);
+            sakai.api.Communication.markMessagesAsRead(readList);
         });
 
         /**
@@ -287,7 +287,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }, $inbox_show_message);
             if (!currentMessage.read) {
-                sakai.api.Communication.markMessagesAsRead(currentMessage.path);
+                sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
             }
             $(detailViewClass).show();
