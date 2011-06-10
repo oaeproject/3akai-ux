@@ -205,7 +205,7 @@
                                         {var participantCount = i.counts.membersCount}
                                         {if participantCount > 0}
                                             <span class="searchgroups_result_detail_separator"> | </span>
-                                            <a class="s3d-regular-light-links" href="${i.homePath}" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                                            <a class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
                                         {/if}
                                     </div>
                                     {if i["sakai:group-description-short"]}<div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>{/if}
