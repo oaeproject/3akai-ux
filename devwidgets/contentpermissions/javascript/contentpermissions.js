@@ -329,12 +329,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             var tmpViewers = {};
             var viewers = data.members.viewers || [];
             var vl = viewers.length;
-            while(ml--){ //though unlikely, this will remove any duplicates within the manager permission
-                tmpManagers[managers[ml].userid || managers[ml].groupid] = managers[ml];
+            for(var i = 0; i < ml; i++){ //though unlikely, this will remove any duplicates within the manager permission
+                tmpManagers[managers[i].userid || managers[i].groupid] = managers[i];
             }
-            while(vl--){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
-                if(!tmpManagers[viewers[vl].userid || viewers[vl].groupid]){
-                    tmpViewers[viewers[vl].userid || viewers[vl].groupid] = viewers[vl];
+            for(var i = 0; i < vl; i++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
+                if(!tmpManagers[viewers[i].userid || viewers[i].groupid]){
+                    tmpViewers[viewers[i].userid || viewers[i].groupid] = viewers[i];
                 }
             }
             
