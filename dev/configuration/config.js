@@ -737,6 +737,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/zip.png",
                 description: "ARCHIVE_FILE"
             },
+            "application/x-zip-compressed": {
+                cssClass: "icon-zip-sprite",
+                URL: "/dev/images/mimetypes/zip.png",
+                description: "ARCHIVE_FILE"
+            },
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 cssClass: "icon-spreadsheet-sprite",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
