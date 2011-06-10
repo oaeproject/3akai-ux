@@ -201,19 +201,11 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
             }
-        },
-
-        /**
-         * Util sort function used to order tags in an array
-         * in alphabetical order
-         */
-        orderTagsAlphabetically: function(a, b){
-            return a > b;
         },
 
         /**
@@ -236,7 +228,7 @@ define(["jquery",
                         tags.push(value);
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -266,7 +258,7 @@ define(["jquery",
                         }
                     }
                 }
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -887,8 +879,8 @@ define(["jquery",
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().replace(sre, '') || '',
-                    y = b.toString().replace(sre, '') || '',
+                    x = a.toString().toLowerCase().replace(sre, '') || '',
+                    y = b.toString().toLowerCase().replace(sre, '') || '',
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
