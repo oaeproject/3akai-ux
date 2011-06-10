@@ -305,7 +305,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
          */     
         var autosuggestFilterUsersGroups = function(){
-            return [];
             var filterlist = [];
             var filterUsersGroups = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
             $.each(filterUsersGroups,function(i,val){
@@ -321,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */ 
         var removeDuplicateUsersGroups = function(data){
             if(!data || !data.members){
-            	return data;
+                return data;
             }
             var tmpManagers = {};
             var managers = data.members.managers || [];
@@ -339,10 +338,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             
             var sortById = function(a, b) {
-				var x = (a.userid || a.groupid).toLowerCase();
-				var y = (b.userid || b.groupid).toLowerCase();
-				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-			}
+                var x = (a.userid || a.groupid).toLowerCase();
+                var y = (b.userid || b.groupid).toLowerCase();
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            }
             
             data.members.managers = _.toArray(tmpManagers).sort(sortById);
             data.members.viewers = _.toArray(tmpViewers).sort(sortById);
