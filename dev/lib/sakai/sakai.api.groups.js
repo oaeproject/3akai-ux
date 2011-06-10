@@ -418,22 +418,6 @@ define(["jquery",
                             "sakai:group-joinable": joinable
                         }
                     });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
                 } else if(visible == sakai_conf.Permissions.Groups.visible.members) {
                     // visible to members only
                     batchRequests.push({
@@ -444,22 +428,6 @@ define(["jquery",
                             ":viewer@Delete": "everyone",
                             "sakai:group-visible": visible,
                             "sakai:group-joinable": joinable
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
                         }
                     });
                 } else if(visible == sakai_conf.Permissions.Groups.visible.allusers) {
@@ -473,22 +441,6 @@ define(["jquery",
                             "sakai:group-joinable": joinable
                         }
                     });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
                 } else {
                     // visible to the public
                     batchRequests.push({
@@ -498,22 +450,6 @@ define(["jquery",
                             "rep:group-viewers@Delete": "",
                             "sakai:group-visible": visible,
                             "sakai:group-joinable": joinable
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "granted"
                         }
                     });
                 }
