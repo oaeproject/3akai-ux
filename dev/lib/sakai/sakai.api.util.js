@@ -1605,9 +1605,13 @@ define(["jquery",
                                 var suggestions = [];
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
-                                        suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                        if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)==-1){
+                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                    	}
                                     } else if (data.results[i]["sakai:group-id"]) {
-                                        suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                        if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)==-1){
+                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                        }
                                     }
                                 });
                                 add(suggestions);

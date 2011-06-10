@@ -142,9 +142,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var doShare = function(){
-            var userList = getSelectedList();
-            var messageText = $.trim($newsharecontentMessage.val());
+        var doShare = function(e,u,m,c){
+            var userList = u || getSelectedList();
+            var messageText = m || $.trim($newsharecontentMessage.val());
+            contentObj = c || contentObj;
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
             if (userList.list.length && messageText) {
@@ -209,6 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newsharecontentMessageContainer.stop(true, true).slideToggle();
         });
 
+        $(window).bind("finished.sharecontent.sakai",doShare);
 
         ////////////////////
         // INITIALIZATION //

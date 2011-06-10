@@ -72,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsMemberActions = "#contentpermissions_members_actions";
         var contentpermissionsMembersList = "#contentpermissions_members_list";
         var contentpermissionsMemberPermissions = ".contentpermissions_member_permissions";
+        var contentpermissionsMembersListTemplate = "contentpermissions_members_list_template";
 
 
         ////////////////////
@@ -222,28 +223,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var doShare = function(){
             var userList = getSelectedList();
-            $.each(userList.list, function(i, val){
-                userList.list[i] = val.split("/")[1];
-            });
-
-            var toAddList = userList.list.slice();
-
-            for (var i in toAddList) {
-                if (toAddList.hasOwnProperty(i) && toAddList[i]) {
-                    if (toAddList[i].substring(0, 5) === "user/") {
-                        toAddList[i] = toAddList[i].substring(5, toAddList[i].length);
-                    } else if (toAddList[i].substring(0, 6) === "group/") {
-                        toAddList[i] = toAddList[i].substring(6, toAddList[i].length);
-                    }
-                }
-            }
-
-            $(window).trigger("finished.sharecontent.sakai", {
-                "toAdd": toAddList,
-                "toAddNames": userList.toAddNames,
-                "mode": $(contentpermissionsNewMemberPermissions).val()
-            });
-
+            $(window).trigger("finished.sharecontent.sakai", [
+                userList,
+                $.trim($(contentpermissionsMembersMessage).val()),
+                {"data":{"_path":sakai_global.content_profile.content_data.data["_path"], "sakai:pooled-content-file-name":sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]}}
+            ]);
+            renderMemberList();
             $(contentpermissionsMembersMessageContainer).hide();
         };
 
@@ -251,7 +236,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Save the settings of a widget
          * This includes the gobal permissions settings but also the individual permission settings for users
          */
-        var doSave = function(){
+        var doSave = function(e){
+            var target = !!e.target;
             var dataObj = {
                 "sakai:permissions": $(contentpermissionsGlobalPermissions).val()
             };
@@ -297,8 +283,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                                 "hashpath": sakai_global.content_profile.content_data.data["_path"],
                                 "permissions": $(contentpermissionsGlobalPermissions).val()
                             }], function(){
-                                closeOverlay();
-                                $(window).trigger("load.content_profile.sakai");
+                                if(target){
+                                    closeOverlay();                             
+                                }
+                                $(window).trigger("load.content_profile.sakai"); 
                             });
                         }, false);
                     } else {
@@ -308,7 +296,52 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
-
+        /**
+         * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
+         */     
+        var autosuggestFilterUsersGroups = function(){
+            var filterlist = [];
+            var filterUsersGroups = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
+            $.each(filterUsersGroups,function(){
+                filterlist.push(this.userid || this.groupid);
+            });
+            return filterlist;
+        }
+        
+        /**
+         * Checks the data for duplicate users/groups and removes the duplicate; gives preference to the user/group with edit permissions
+         * n.b. duplicates were being introduced via the sharing widget which will be addressed, so this sanity check will ultimately be optional
+         * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
+         */ 
+        var removeDuplicateUsersGroups = function(data){
+            var tmpManagers = {};
+            var managers = data.members.managers;
+            var ml = managers.length;
+            var tmpViewers = {};
+            var viewers = data.members.viewers;
+            var vl = viewers.length;
+            while(ml--){ //though unlikely, this will remove any duplicates within the manager permission
+                tmpManagers[managers[ml].userid||managers[ml].groupid] = managers[ml];
+            }
+            while(vl--){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
+                if(!tmpManagers[viewers[vl].userid||viewers[vl].groupid]){
+                    tmpViewers[viewers[vl].userid||viewers[vl].groupid] = viewers[vl];
+                }
+            }
+            var objToArray = function(o){
+                var arr = [];
+                for(k in o){
+                    if(o.hasOwnProperty(k)){
+                        arr.push(o[k]);
+                    }
+                }
+                return arr;
+            }
+            data.members.managers = objToArray(tmpManagers);
+            data.members.viewers = objToArray(tmpViewers);
+            return data;
+        }
+        
         //////////////
         // RENDERING //
         //////////////
@@ -318,12 +351,30 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var renderPermissions = function(){
             $contentpermissionsContentContainer.html(sakai.api.Util.TemplateRenderer(contentpermissionsContentTemplate, {
+                "contentdata": removeDuplicateUsersGroups(sakai_global.content_profile.content_data),
+                "api": sakai.api
+            }));
+            sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup,"filterUsersGroups":autosuggestFilterUsersGroups()}); 
+            renderMemberList();
+        };
+        
+        var renderMemberList = function(){
+            var mode = $(contentpermissionsNewMemberPermissions).val();
+            var autosuggesteduserlist = getSelectedList();
+            var l = autosuggesteduserlist.list.length;
+            var i = 0;
+            for(i;i<l;i++){ //maybe the users from both sources should be merged into separate array, in case the global array is used elsehwere and expects the full data?
+                sakai_global.content_profile.content_data.members[mode].push({"userid":autosuggesteduserlist.list[i],"username":autosuggesteduserlist.toAddNames[i],"isAutoSuggested":true});
+            }
+            $(contentpermissionsMembersList).html(sakai.api.Util.TemplateRenderer(contentpermissionsMembersListTemplate, {
                 "contentdata": sakai_global.content_profile.content_data,
                 "api": sakai.api
             }));
-            sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup});
             enableDisableButtons(true);
-        };
+            if(l>0){
+                doSave(true);
+            }
+        }
 
         /**
          * Set the widget title to include the filename and call the render function
