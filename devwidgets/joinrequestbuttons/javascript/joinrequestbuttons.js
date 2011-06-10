@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var render = function () {
             // render the template
             $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer(
-                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid}));
+                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid, leaveAllowed: joinrequestbuttons.groupData.leaveAllowed}));
 
             // determine which button to show
             var isMember = sakai.api.Groups.isCurrentUserAMember(
