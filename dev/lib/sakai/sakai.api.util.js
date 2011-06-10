@@ -888,23 +888,30 @@ define(["jquery",
                     xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && (new Date(x)).getTime()),
                     yD = parseInt(y.match(hre), 10) || xD && (new Date(y)).getTime() || null;
                 // natural sorting of hex or dates - prevent '1.2.3' valid date
-                if (yD)
-                    if ( xD < yD ) return -1;
-                    else if ( xD > yD ) return 1;
+                if (yD) {
+                    if ( xD < yD ) {return -1;}
+                    else if ( xD > yD ) {return 1;}
+                }
                 // natural sorting through split numeric strings and default strings
                 for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
                     // find floats not starting with '0', string or 0 if not defined (Clint Priest)
                     oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
                     oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
                     // handle numeric vs string comparison - number < string - (Kyle Adams)
-                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) return (isNaN(oFxNcL)) ? 1 : -1;
+                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
+                        return (isNaN(oFxNcL)) ? 1 : -1;
+                    }
                     // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
                     else if (typeof oFxNcL !== typeof oFyNcL) {
                         oFxNcL += '';
                         oFyNcL += '';
                     }
-                    if (oFxNcL < oFyNcL) return -1;
-                    if (oFxNcL > oFyNcL) return 1;
+                    if (oFxNcL < oFyNcL) {return -1;}
+                    if (oFxNcL > oFyNcL) {return 1;}
+                }
+                if (x === y) {
+                    if (a < b) {return -1;}
+                    if (a > b) {return 1;}
                 }
                 return 0;
            }
