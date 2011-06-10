@@ -142,13 +142,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var doShare = function(e,u,m,c){
-            var userList = u || getSelectedList();
-            var messageText = m || $.trim($newsharecontentMessage.val());
-            contentObj = c || contentObj;
+        var doShare = function(event,userlist,message,contentobj){
+            var userList = userlist || getSelectedList();
+            var messageText = message || $.trim($newsharecontentMessage.val());
+            contentObj = contentobj || contentObj;
             $newsharecontentMessage.removeClass(newsharecontentRequiredClass);
             $(newsharecontentShareListContainer).removeClass(newsharecontentRequiredClass);
-            if (userList.list.length && messageText) {
+            if (userList.list.length && messageText && contentObj && contentObj.data) {
                 var toAddList = userList.list.slice();
                 userList.list = toAddList;
                 if (toAddList.length) {
@@ -166,6 +166,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (!userList.list.length) {
                     $(newsharecontentShareListContainer).addClass(newsharecontentRequiredClass);
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "NO_USERS_SELECTED"), sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "NO_USERS_TO_SHARE_FILE_WITH"));
+                }
+                if (!contentObj || !contentObj.data) {
+                    $(newsharecontentShareListContainer).addClass(newsharecontentRequiredClass);
+                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "AN_ERROR_OCCURRED"), sakai.api.i18n.Widgets.getValueForKey("newsharecontent", "", "AN_ERROR_OCCURRED_FULL_MESSAGE"));
                 }
             }
         };

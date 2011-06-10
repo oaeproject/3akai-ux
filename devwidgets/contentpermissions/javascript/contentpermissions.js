@@ -226,7 +226,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(window).trigger("finished.sharecontent.sakai", [
                 userList,
                 $.trim($(contentpermissionsMembersMessage).val()),
-                {"data":{"_path":sakai_global.content_profile.content_data.data["_path"], "sakai:pooled-content-file-name":sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]}}
+                {"data":{
+                "_path":sakai_global.content_profile.content_data.data["_path"],
+                "sakai:pooled-content-file-name":sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]
+                }}
             ]);
             renderMemberList();
             $(contentpermissionsMembersMessageContainer).hide();
@@ -235,6 +238,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Save the settings of a widget
          * This includes the gobal permissions settings but also the individual permission settings for users
+         * This may be called programmatically (when sharing form the autosuggest) in which case there's no event target, so 
+         * !!target converts the target/undefined value to a boolean to determine if the widget should be closed automatically in the ajax callback
          */
         var doSave = function(e){
             var target = !!e.target;
@@ -300,10 +305,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
          */     
         var autosuggestFilterUsersGroups = function(){
+            return [];
             var filterlist = [];
             var filterUsersGroups = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
-            $.each(filterUsersGroups,function(){
-                filterlist.push(this.userid || this.groupid);
+            $.each(filterUsersGroups,function(i,val){
+                filterlist.push(val.userid || val.groupid);
             });
             return filterlist;
         }
@@ -314,11 +320,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
          */ 
         var removeDuplicateUsersGroups = function(data){
+            if(!data && !data.members){
+            	return data;
+            }
             var tmpManagers = {};
-            var managers = data.members.managers;
+            var managers = data.members.managers || [];
             var ml = managers.length;
             var tmpViewers = {};
-            var viewers = data.members.viewers;
+            var viewers = data.members.viewers || [];
             var vl = viewers.length;
             while(ml--){ //though unlikely, this will remove any duplicates within the manager permission
                 tmpManagers[managers[ml].userid||managers[ml].groupid] = managers[ml];
@@ -340,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             data.members.managers = objToArray(tmpManagers);
             data.members.viewers = objToArray(tmpViewers);
             return data;
-        }
+        };
         
         //////////////
         // RENDERING //
@@ -361,9 +370,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderMemberList = function(){
             var mode = $(contentpermissionsNewMemberPermissions).val();
             var autosuggesteduserlist = getSelectedList();
-            var l = autosuggesteduserlist.list.length;
+            var userListLength = autosuggesteduserlist.list.length;
             var i = 0;
-            for(i;i<l;i++){ //maybe the users from both sources should be merged into separate array, in case the global array is used elsehwere and expects the full data?
+            for(i;i<userListLength;i++){ //maybe the users from both sources should be merged into separate array, in case the global array is used elsehwere and expects the full data?
                 sakai_global.content_profile.content_data.members[mode].push({"userid":autosuggesteduserlist.list[i],"username":autosuggesteduserlist.toAddNames[i],"isAutoSuggested":true});
             }
             $(contentpermissionsMembersList).html(sakai.api.Util.TemplateRenderer(contentpermissionsMembersListTemplate, {
@@ -371,10 +380,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 "api": sakai.api
             }));
             enableDisableButtons(true);
-            if(l>0){
+            if(userListLength>0){
                 doSave(true);
             }
-        }
+        };
 
         /**
          * Set the widget title to include the filename and call the render function
