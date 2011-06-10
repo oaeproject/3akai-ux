@@ -23,9 +23,9 @@
 
     {macro contentButtons(id, uploader)}
         <span class="carousel_bottom_buttons">
-            <div class="s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}"></div>
-            <div class="s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}"></div>
-            <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}"></div>
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}"></button>
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}"></button>
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}"></button>
         </span>
     {/macro}
 
@@ -119,7 +119,7 @@
                                         </div>
                                         <span class="carousel_bottom_buttons">
                                             {if !user.connected}
-                                                <div class="s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}"></div>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}"></div>
                                             {/if}
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
                                         </span>
@@ -159,7 +159,7 @@
                                         </div>
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons">
-                                            <div class="s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}"></div>
+                                            <button type="button" class="s3d-link-buttons 3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}"></button>
                                             <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group" />
                                         </span>
 
