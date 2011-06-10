@@ -40,6 +40,7 @@
 #carousel_container .carousel_user_icon {width:50px; height:50px; background:url('/devwidgets/carousel/images/carousel_user_icon.png') no-repeat top left transparent;float:left;margin:0 8px 8px 0;}
 #carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
 .jcarousel-item-horizontal{width:796px;}
+#carousel_container .carousel_tag_icon {position: relative;top: 5px;}
 
 .carousel_middot_divider {color:#424242;display:inline;margin:0 5px;}
 
