@@ -539,7 +539,7 @@ define(
                 if (!groupid || typeof(groupid) !== "string") {
                     return false;
                 }
-                var managersGroupId = groupid + "-managers";
+                var managersGroupId = groupid + "-manager";
                 return $.inArray(managersGroupId, meData.user.subjects) !== -1;
             }
         },
