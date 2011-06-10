@@ -262,6 +262,12 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-no-results-container .s3d-no-results-search-people {background:url("/dev/images/people_search_icon_55x55.png") no-repeat scroll left top transparent;}
 .s3d-no-results-container .s3d-no-results-search-content {background:url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;}
 
+.s3d-action-icon {width:16px;height:16px;cursor:pointer;}
+.s3d-action-icon.disabled {display:none;}
+
+.s3d-actions-delete {background:url("/dev/images/delete_icon_default.png") no-repeat top left transparent;}
+.s3d-actions-delete:hover {background:url("/dev/images/delete_icon_hover.png") no-repeat top left transparent;}
+
 /*
  * CONTENT LAYOUT 
  */

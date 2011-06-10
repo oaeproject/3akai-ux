@@ -63,6 +63,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     "targetUserId": user
                 },
                 success: function(data){
+                    if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.mode && sakai_global.profile.main.mode.value !== "view") {
+                        $(window).trigger("lhnav.updateCount", ["contacts", -1]);
+                    }
+                    $("#contacts_delete_contacts_dialog").jqmHide();
                     getContacts();
                 }
             });
@@ -73,8 +77,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
             });
 
-            $(".contact_delete_button").live("click", function(){
-                removeRequest($(this)[0].id.split("contacts_delete_contact_")[1]);
+            $("#contacts_delete_contacts_dialog").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+            });
+
+            $(".s3d-actions-delete").live("click", function(){
+                $("#contacts_contact_to_delete").text($(this).attr("sakai-entityname"));
+                $("#contacts_delete_contact_confirm").attr("sakai-entityid", $(this).attr("sakai-entityid"));
+                $("#contacts_delete_contacts_dialog").jqmShow();
+            });
+
+            $("#contacts_delete_contact_confirm").live("click", function(){
+                removeRequest($(this).attr("sakai-entityid"));
             });
 
             $(window).bind("contacts.accepted.sakai", getContacts);
