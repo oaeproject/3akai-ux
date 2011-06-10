@@ -456,6 +456,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             }
         };
 
+        var proofTitle = function(input){
+            return input.replace(/=/g,"_").replace(/\//g, "_");
+        };
+
         /**
          * Creates a sakaidocument
          * @param {Object} documentObj Object containing data needed to create a sakai document
@@ -463,7 +467,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
             var document = {
-                "sakai:pooled-content-file-name": documentObj.title,
+                "sakai:pooled-content-file-name": proofTitle(documentObj.title),
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
@@ -542,7 +546,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var uploadLink = function(linkObj){
             var preview = sakai.api.Content.getPreviewUrl(linkObj.url);
             var link = {
-                "sakai:pooled-content-file-name": linkObj.title,
+                "sakai:pooled-content-file-name": proofTitle(linkObj.title),
                 "sakai:pooled-content-url": linkObj.url,
                 "sakai:description": linkObj.description,
                 "sakai:permissions": linkObj.permissions,
@@ -593,7 +597,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                                 "parameters": {
                                     "sakai:description": arrayItem.description,
                                     "sakai:fileextension": savedItem.filename.substring(savedItem.filename.lastIndexOf("."), savedItem.filename.length),
-                                    "sakai:pooled-content-file-name": arrayItem.title,
+                                    "sakai:pooled-content-file-name": proofTitle(arrayItem.title),
                                     "sakai:permissions": arrayItem.permissions,
                                     "sakai:copyright": arrayItem.copyright,
                                     "sakai:allowcomments": "true",
