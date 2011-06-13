@@ -158,7 +158,7 @@ define(["jquery",
         },
 
         getUser: function(userid, callback){
-            var authprofileURL = "/~" + userid + "/public/authprofile";
+            var authprofileURL = "/~" + userid + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
                 if (success && data) {
                     callback(true, data);

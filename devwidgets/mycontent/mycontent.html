@@ -16,7 +16,7 @@
                 <div class="mycontent_item_img fl-force-left">
                     <a href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
                         {if item.thumbnail}
-                            <img class="s3d-icon-32" src="${item.thumbnail} alt="${item.type}" />
+                            <img class="s3d-icon-32" src="${item.thumbnail}" alt="${item.type}" />
                         {elseif (item.type.substring(0,6)=="image/")}
                             <img class="s3d-icon-32" src="${item.path}" alt="${item.type}" />
                         {else}

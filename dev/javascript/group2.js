@@ -105,24 +105,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Check whether I'm a member
                     var isMember = false;
                     for (var r = 0; r < roles.length; r++) {
-                        if (sakai.api.Groups.isCurrentUserAMember(groupId + "-" + roles[r].id, sakai.data.me)){
+                        if (sakai.api.Groups.isCurrentUserAMember(groupId + "-" + roles[r].id, sakai.data.me)) {
                             isMember = true;
                         }
                     }
                     if (isMember) {
                         // Check whether I can view
-                        for (var r = 0; r < view.length; r++) {
-                            if (view[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + view[r], sakai.data.me)) {
+                        $.each(view, function(index, value){
+                            if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
                                 canView = true;
                             }
-                        }
+                        });
                         // Check whether I can manage
-                        for (var r = 0; r < edit.length; r++) {
-                            if (edit[r].substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + edit[r], sakai.data.me)) {
+                        $.each(edit, function(index, value){
+                            if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
                                 canView = true;
                                 canSubedit = true;
                             }
-                        }
+                        });
                     } else {
                         // Check whether everyone can view
                         if ($.inArray("everyone", view) !== -1) {
