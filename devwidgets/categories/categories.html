@@ -74,6 +74,18 @@
                         <div class="categories_vertical_divider"></div>
                     {/if}
                 </li>
+                {if item_index == directory.length - 1}
+                    {var spacers = ["","",""]}
+                    {for spacer in spacers}
+                        {if spacer_index < directory.length % 4}
+                            <li>
+                                <div class="categories_item categories_spacer">
+                                    __MSG__IE_PLACEHOLDER__
+                                </div>
+                            </li>
+                        {/if}
+                    {/for}
+                {/if}
             {/for}
         </ul>
     </div>
