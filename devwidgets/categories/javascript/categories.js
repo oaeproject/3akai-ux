@@ -64,6 +64,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var carouselBinding = function(carousel){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
+                $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").die("click");
                 var clickedId = parseInt($(this)[0].id.split("scroll_")[1], 10);
                 if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1], 10) && $(this)[0].id !== "categories_view_next_raquo") {
                     carousel.prev();
@@ -95,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
         
-        
         ////////////////////////////
         // CAROUSEL AND RENDERING //
         ////////////////////////////
@@ -109,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 easing: "swing",
                 scroll: 4,
                 wrap: "circular",
-                initCallback: carouselBinding
+                itemFirstInCallback: carouselBinding
             });
             $categoriesItemsContainer.css("display", "none");
         };
