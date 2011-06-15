@@ -774,7 +774,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#wrapping_no").bind("click",function(ev){
-            setNewStyleClass("block_image");
+            setWrappingStyle("block_image");
         });
 
         $("#wrapping_left").bind("click",function(ev){

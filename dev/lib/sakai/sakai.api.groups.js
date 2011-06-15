@@ -801,7 +801,6 @@ define(["jquery",
                     currentUserIncluded = true;
                 }
             });
-
             if (reqData.length > 0) {
                 // batch request to add users to group
                 sakai_serv.batch(reqData, function(success, data) {
