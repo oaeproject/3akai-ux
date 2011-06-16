@@ -90,7 +90,6 @@ require(
         "/dev/configuration/config_custom.js",
         "jquery-ui",
         "/dev/lib/jquery/plugins/jquery.validate.js",
-        "/dev/lib/jquery/plugins/jquery.fileupload.js",
         "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
         "/dev/lib/misc/l10n/globalization.js",
         "/dev/lib/misc/underscore.js",
@@ -109,7 +108,8 @@ require(
         "/dev/lib/jquery/plugins/jquery.hoverIntent.sakai-edit.js",
         "/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
         "/dev/lib/jquery/plugins/gritter/jquery.gritter.js",
-        "/dev/lib/jquery/plugins/jquery.jcarousel.js"
+        "/dev/lib/jquery/plugins/jquery.jcarousel.js",
+        "/dev/lib/jquery/plugins/jquery.fileupload.js"
     ],
     function($, sakai) {
         require.ready(function() {

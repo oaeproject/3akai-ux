@@ -1098,32 +1098,20 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $(window).unbind("init.deletecontent.sakai", deleteContent);
         };
 
-        var stopFileEventPropagation = function(ev){
-            ev.stopPropagation();
-            ev.preventDefault();
-        };
+        var fileDropped = function(file){
+            var contentObj = {
+                "originaltitle": file.name,
+                "title": file.name,
+                "description": "",
+                "tags": "",
+                "permissions": "public",
+                "copyright": "creativecommons",
+                "css_class": sakai.config.MimeTypes[file.type].cssClass,
+                "type": "dropped",
+                "fileReader": file
+            };
 
-        var fileDropped = function(ev){
-            stopFileEventPropagation(ev);
-            var files = ev.dataTransfer.files;
-            //debug.log(files);
-
-            // Construct item to add to the queue
-            for (var i = 0; i < files.length; i++) {
-                var contentObj = {
-                    "originaltitle": files[i].name,
-                    "title": files[i].name,
-                    "description": "",
-                    "tags": "",
-                    "permissions": "public",
-                    "copyright": "creativecommons",
-                    "css_class": sakai.config.MimeTypes[files[i].type].cssClass,
-                    "type": "dropped",
-                    "fileReader": files[i]
-                };
-
-                addContentToQueue(contentObj);
-            }
+            addContentToQueue(contentObj);
         };
 
         /**
@@ -1162,10 +1150,17 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             });
 
             var dropbox = document.getElementById("newaddcontent_container_selecteditems");
-            dropbox.addEventListener("dragenter", stopFileEventPropagation, false);
-            dropbox.addEventListener("dragexit", stopFileEventPropagation, false);
-            dropbox.addEventListener("dragover", stopFileEventPropagation, false);
-            dropbox.addEventListener("drop", fileDropped, false);
+
+            $("#newaddcontent_container_selecteditems").fileupload({
+                url: uploadPath,
+                drop: function (ev, data) {
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    $.each(data.files, function (index, file) {
+                        fileDropped(file);
+                    });
+                }
+            });
 
             $(window).bind("done.deletecontent.sakai", deleteContent);
         };
