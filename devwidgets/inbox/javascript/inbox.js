@@ -319,7 +319,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             if ($inbox_show_message.is(":visible")) {
-                backToMessages();
+                $.bbq.removeState("message", "reply");
             } else {
                 $("#" + mid).fadeOut(200);
             }
