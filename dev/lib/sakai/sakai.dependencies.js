@@ -90,6 +90,7 @@ require(
         "/dev/configuration/config_custom.js",
         "jquery-ui",
         "/dev/lib/jquery/plugins/jquery.validate.js",
+        "/dev/lib/jquery/plugins/jquery.fileupload.js",
         "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
         "/dev/lib/misc/l10n/globalization.js",
         "/dev/lib/misc/underscore.js",
