@@ -122,7 +122,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "template": template
             };
             sakai.api.Util.TemplateRenderer(selecttemplatePreviewDialogTemplate, json, $selecttemplatePreviewDialogContainer);
-            $(".selecttemplate_use_button", $selecttemplatePreviewDialog).live("click", function(){
+            $(".selecttemplate_use_button", "#selecttemplate_preview_dialog").live("click", function(){
                 var clicked = $(this);
                 if (clicked.data("templateid")){
                     renderCreateWorld(tuid, clicked.data("templateid"));
