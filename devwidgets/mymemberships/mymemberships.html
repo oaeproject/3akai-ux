@@ -52,9 +52,9 @@
             {var count = count + 1}
             <li id="mymemberships_item_${group.id}" class="mymemberships_item fl-push{if count == 1} mymemberships_item_first{/if}">
                 <span class="mymemberships_item_user_functions" style="display:none;">
-                    <div class="mymemberships_item_plus mymemberships_item_left_filler sakai_joingroup_overlay" data-groupid="${group.id}">+</div>
+                    <div class="mymemberships_item_plus mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
                     <span class="mymemberships_item_right_buttons">
-                        <button class="s3d-link-button mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                         {if user_manages(group)}
                             <a class="s3d-link-button mymemberships_item_edit" href="${group.edit_url}">
                                 __MSG__EDIT__

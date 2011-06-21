@@ -71,10 +71,10 @@
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler">
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}"></button>
                         <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
                     </div>
-                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${i.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" sakai-entitytype="user"></button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button s3d-action-icon s3d-actions-message contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${i.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" sakai-entitytype="user"></button>
                     <a href="/~${i.profile.userid}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${i.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(i.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold")}</a>
@@ -130,7 +130,7 @@
                             <input type="checkbox" name="checkbox_${a.profile.userid}" />
                         {/if}
                     </div>
-                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" sakai-entitytype="user"></button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button s3d-action-icon s3d-actions-message contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" sakai-entitytype="user"></button>
                     <a href="/~${a.profile.userid}"><img alt="accepted icon" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${a.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(a.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold")}</a>
