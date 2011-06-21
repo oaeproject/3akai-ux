@@ -29,6 +29,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortBy = "_created",
             sortOrder = "desc",
             currentPage = 0,
+            numJustDeleted = 0,
             invitations = [],
             rejections = [],
             removals = [],
@@ -184,6 +185,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(pathList, hardDelete, function(success, data) {
+                numJustDeleted = pathList.length;
                 messagesToDelete.fadeOut(getMessages);
             });
         });
@@ -329,6 +331,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getMessages = function(callback) {
             var doFlip = widgetData.box === "outbox";
+            if (numJustDeleted) {
+                var currentPaging = totalMessages & MESSAGES_PER_PAGE,
+                    newPaging = (totalMessages - numJustDeleted) % MESSAGES_PER_PAGE;
+                // newPaging === 0 means we need a new page, as nothing will show on this one
+                // newPaging > currentPaging means that there are more on the new page than before, so
+                //    we should show the previous page (should rarely, if ever, happen)
+                if (newPaging === 0 || newPaging > currentPaging) {
+                    currentPage--;
+                }
+                // if we can destroy the pager now, lets do it
+                if (currentPage === 0 && totalMessages - numJustDeleted <= MESSAGES_PER_PAGE) {
+                    $inbox_pager.empty();
+                }
+                numJustDeleted = 0;
+            }
             sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
                 var update = true;
                 if (!searchTerm) {
