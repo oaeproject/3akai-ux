@@ -20,7 +20,7 @@
 .s3d-header .s3d-fixed-container .s3d-decor {margin-right:0;}
 .s3d-header .s3d-fixed-container .s3d-decor-left {background: url("/dev/images/pageHeader_tl.png") no-repeat scroll 0 0 transparent;}
 .s3d-header .s3d-fixed-container .s3d-decor {background: url("/dev/images/pageHeader_tr.png") no-repeat scroll 0 0 transparent;}
-.s3d-header .s3d-navigation-container{top:0;}
+.s3d-header .s3d-navigation-container{top:0;min-width:970px;}
 
 /* Page titles */
 .s3d-contentpage-title {border-bottom:5px solid #E1E1E1; color:#424242; font-size:1.25em; padding:8px 0; margin-bottom: 15px;}
