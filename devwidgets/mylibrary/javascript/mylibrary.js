@@ -186,6 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     path: paths
                 }, function (success) {
                     if (success) {
+                        $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.currentPagenum = 1;
                         reset();
                     }
