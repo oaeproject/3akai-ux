@@ -106,9 +106,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderDescription = function(mode){
-            sakai_global.content_profile.content_data.mode = mode;
+            var description = sakai_global.content_profile.content_data.data["sakai:description"];
+            if (mode !== "edit") {
+                description = description.replace(new RegExp("\n", "g"),"<br/>");
+            }
             var json = {
-                data: sakai_global.content_profile.content_data,
+                description: description,
+                mode: mode,
                 sakai: sakai
             };
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
