@@ -88,7 +88,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
             for (var i in values) {
-                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) == -1) {
+                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) === -1) {
                     values[i] = escape(values[i]);
                 }
             }
@@ -174,10 +174,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // If we reach this point, we have a username in a valid format. We then go and check
             // on the server whether this eid is already taken or not. We expect a 200 if it already
             // exists and a 401 if it doesn't exist yet.
+            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username);
             if (errObj.length === 0) {
                 $.ajax({
                     // Replace the preliminary parameter in the service URL by the real username entered
-                    url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username),
+                    url: url,
                     cache: false,
                     async: async,
                     success: function(){
@@ -223,9 +224,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $("#username").bind("keyup blur", function(){
                 $("#create_account_username_error").hide();
-                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
+                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2 && currentUserName !== $.trim($(usernameField).val())) {
                     $(usernameField).removeClass("signup_form_error");
-                    currentUserName = $(usernameField).val();
+                    currentUserName = $.trim($(usernameField).val());
                     checkUserName(true, function(success){
                         if (success) {
                             $(usernameField).removeClass("signup_form_error");
