@@ -1677,7 +1677,7 @@ define(["jquery",
             }
         },
         /**
-        * Pass a JSON/JavaScript object and string representing the location of the attribute in the object to access
+        * Pass string representing the location of the attribute value desired in dot-notated form for a JSON/JavaScript object
         * and this will return either the value if the specifiec key is found, or "false" if not. Optionally a defaultValue
         * option can be passed which will be returned if they key can't be found. That way you can use this directly within
         * a $.each() passing in an array [] as the defaultValue, so that .each() receives the appropriate value regardless
