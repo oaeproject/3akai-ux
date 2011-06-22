@@ -582,6 +582,11 @@ define(["jquery",
                     "targetUserId": inviteFrom
                 },
                 success: function(data) {
+                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                        if (contact.target === inviteFrom) {
+                            contact.details["sakai:state"] = "ACCEPTED";
+                        }
+                    });
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -606,6 +611,11 @@ define(["jquery",
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
+                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                        if (contact.target === inviteFrom) {
+                            contact.details["sakai:state"] = "IGNORED";
+                        }
+                    });
                     $.ajax({
                         url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
                         type: "POST",
