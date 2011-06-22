@@ -1697,7 +1697,7 @@ define(["jquery",
         *                   (false if an error) or the defaultValue, and the path to the value (up to and including the key that failed
         *                   in the event of an error)
         *
-        * @returns {Boolean|Object|Specified Value} see details of options param
+        * @returns {Boolean|Object|Specified Value} see details of options param above
         */  
         getJsonValue: function(s,options){
             jsonKeys = s.split(".");
