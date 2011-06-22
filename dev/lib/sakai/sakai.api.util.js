@@ -1686,9 +1686,9 @@ define(["jquery",
         * "success", the value found (or defaultValue/false if an error) and the path (if the key wasn't found, then the path
         * is returned up to and including the key that failed).
         * @param s {String} The dot-notated string representing the path to the value to be retrieved. N.b. that for items that are
-        *					part of an array you can pass in the array index: foo.bar[0].bat will access the first element of the 
-        *					array "bar" if it exists (and bar is in fact an array). You can also use a negative lookup to start at the
-        *					end of the array (e.g., foo.bar[-1].bat will return the last element of the array).
+        *                   part of an array you can pass in the array index: foo.bar[0].bat will access the first element of the 
+        *                   array "bar" if it exists (and bar is in fact an array). You can also use a negative lookup to start at the
+        *                   end of the array (e.g., foo.bar[-1].bat will return the last element of the array).
         * @param options {Object} The options to be used: 
         *   "defaultValue": the default value to be returned if no value is found for the path given
         *          "scope": scope for the object; defaults to "window". If the object isn't in the global namespace, then the base
