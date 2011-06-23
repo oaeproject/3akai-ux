@@ -186,16 +186,18 @@
                             break;
                         case 9: case 188:  // tab or comma
                             tab_press = false;
-                            var active = $("li.active:first", results_holder);
-                            if(active.length > 0){
-                                active.click();
-                            } else {
-                                input.val('');
-                            }
-                            results_holder.hide();
-                            if(opts.neverSubmit || active.length > 0){
-                                e.preventDefault();
-                            }
+                            if(e.keyCode === 188 || (e.keyCode === 9 && !results_ul.is(":hidden")) ){
+                                var active = $("li.active:first", results_holder);
+                                if(active.length > 0){
+                                    active.click();
+                                } else {
+                                    input.val('');
+                                }
+                                results_holder.hide();
+                                if(opts.neverSubmit || active.length > 0){
+                                    e.preventDefault();
+                                }
+                            }   
                             break;
                         case 13: // return
                             tab_press = false;
