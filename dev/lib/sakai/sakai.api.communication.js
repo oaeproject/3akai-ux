@@ -31,7 +31,7 @@
  * Communication related convenience functions
  */
 define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.i18n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
-    var sakaiCommmunicationsAPI =  {
+    var sakaiCommunicationsAPI =  {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
          * message is sent to users that are members of that group.
@@ -280,15 +280,15 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             });
         },
 
-        markMessagesAsRead : function(messagePaths, callback) {
+        markMessagesAsRead : function(messages, callback) {
             var requests = [];
 
-            if (typeof messagePaths === 'string'){
-                messagePaths = [messagePaths];
+            if (! $.isArray(messages)){
+                messages = [messages];
             }
 
-            $.each(messagePaths, function(i, message) {
-               var req = {url: message + ".json", method: "POST", parameters: {"sakai:read": "true"}}; 
+            $.each(messages, function(i, message) {
+               var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
                requests.push(req);
             });
 
@@ -300,6 +300,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
+                    sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
+                        return message.box === "inbox";
+                    }).length;
+                    $(window).trigger("updated.messageCount.sakai");
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -356,12 +360,13 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
-                    newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.parseDateLong(msg["_created"], sakai_user.data.me));
+                    newMsg.box = msg["sakai:messagebox"];
+                    newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
                     newMsg.path = msg["_path"];
                     if (msg.previousMessage) {
-                        newMsg.previousMessage = sakaiCommmunicationsAPI.processMessages([msg.previousMessage]);
+                        newMsg.previousMessage = sakaiCommunicationsAPI.processMessages([msg.previousMessage]);
                         $.each(newMsg.previousMessage, function(i,val){
                             newMsg.previousMessage = val;
                         });
@@ -394,7 +399,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 "page": currentPage,
                 "sortOn": sortBy,
                 "sortOrder": sortOrder
-            }
+            };
 
             // Set up optional, additional params
             if (search) {
@@ -417,8 +422,12 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 data: parameters,
                 cache: true,
                 success: function(data){
+                    if (box === "inbox") {
+                        sakai_user.data.me.messages.unread = data.unread;
+                        $(window).trigger("updated.messageCount.sakai");
+                    }
                     if (doProcessing !== false) {
-                        data.results = sakaiCommmunicationsAPI.processMessages(data.results, doFlip);
+                        data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
                     }
                     if ($.isFunction(callback)) {
                         callback(true, data);
@@ -551,5 +560,5 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
 
         }
     };
-    return sakaiCommmunicationsAPI;
+    return sakaiCommunicationsAPI;
 });
