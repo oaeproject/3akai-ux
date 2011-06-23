@@ -343,7 +343,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             generateNav();
         });
 
-        $(window).bind("read.message.sakai", function(){
+        $(window).bind("updated.messageCount.sakai", function(){
             $(window).trigger("updated.counts.lhnav.sakai");
         });
 
