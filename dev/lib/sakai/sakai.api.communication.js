@@ -300,10 +300,20 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
+                    // Update cached message counts
                     sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
                         return message.box === "inbox";
                     }).length;
+                    if (sakai_user.data.me.messages.countOverview) {
+                        $.each(sakai_user.data.me.messages.countOverview.count, function(index, countObj){
+                            var count = countObj.count - $.grep(messages, function(message, index){
+                                return (message.box === "inbox" && message.category === countObj.group);
+                            }).length;
+                            sakai_user.data.me.messages.countOverview.count[index] = {count: count, group: countObj.group};
+                        });
+                    }
                     $(window).trigger("updated.messageCount.sakai");
+
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -361,6 +371,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
                     newMsg.box = msg["sakai:messagebox"];
+                    newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
@@ -470,21 +481,26 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * the current user
          */
         getUnreadMessagesCountOverview : function(box, callback) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data){
-                    if ($.isFunction(callback)) {
-                        callback(true, data);
+            if (sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
+                callback(true, sakai_user.data.me.messages.countOverview);
+            } else {
+                var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function(data){
+                        sakai_user.data.me.messages.countOverview = data;
+                        if ($.isFunction(callback)) {
+                            callback(true, data);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        if ($.isFunction(callback)) {
+                            callback(false,{});
+                        }
                     }
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    if ($.isFunction(callback)) {
-                        callback(false,{});
-                    }
-                }
-            });
+                });
+            }
         },
 
         /**
