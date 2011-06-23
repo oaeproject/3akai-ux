@@ -186,7 +186,7 @@
                             break;
                         case 9: case 188:  // tab or comma
                             tab_press = false;
-                            if(e.keyCode === 188 || (e.keyCode === 9 && !results_ul.is(":hidden")) ){
+                            if(!results_ul.is(":hidden")){
                                 var active = $("li.active:first", results_holder);
                                 if(active.length > 0){
                                     active.click();
