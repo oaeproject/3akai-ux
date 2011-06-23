@@ -66,8 +66,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
                 $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").die("click");
                 var clickedId = parseInt($(this)[0].id.split("scroll_")[1], 10);
-                if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1], 10) && $(this)[0].id !== "categories_view_next_raquo") {
-                    carousel.prev();
+                if (clickedId) {
+                    carousel.scroll(clickedId);
                 }
                 else {
                     carousel.next();
