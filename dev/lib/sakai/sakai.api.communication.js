@@ -306,10 +306,16 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     }).length;
                     if (sakai_user.data.me.messages.countOverview) {
                         $.each(sakai_user.data.me.messages.countOverview.count, function(index, countObj){
-                            var count = countObj.count - $.grep(messages, function(message, index){
-                                return (message.box === "inbox" && message.category === countObj.group);
-                            }).length;
-                            sakai_user.data.me.messages.countOverview.count[index] = {count: count, group: countObj.group};
+                            var catFilter = function(message, index){
+                                return (message.box === "inbox" &&
+                                    message.category === countObj.group);
+                            };
+                            var messageCount = $.grep(messages, catFilter).length;
+                            var count = {
+                                count: countObj.count - messageCount,
+                                group: countObj.group
+                            };
+                            sakai_user.data.me.messages.countOverview.count[index] = count;
                         });
                     }
                     $(window).trigger("updated.messageCount.sakai");
