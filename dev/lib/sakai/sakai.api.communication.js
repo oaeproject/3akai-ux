@@ -514,36 +514,45 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * to the current user
          */
         getUnreadMessageCount : function(box, callback, category) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data){
-                    var count = 0;
-                    if (category){
-                        // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
-                        if (data.count && data.count.length){
-                            for (var i = 0; i < data.count.length; i++){
-                                if (data.count[i].group && data.count[i].group === category && data.count[i].count){
-                                    count = data.count[i].count;
+            if (box === "inbox" && sakai_user.data.me.messages.unread) {
+                if ($.isFunction(callback)) {
+                    callback(true, sakai_user.data.me.messages.unread);
+                }
+            } else {
+                var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function(data){
+                        var count = 0;
+                        if (category){
+                            // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                            if (data.count && data.count.length){
+                                for (var i = 0; i < data.count.length; i++){
+                                    if (data.count[i].group && data.count[i].group === category && data.count[i].count){
+                                        count = data.count[i].count;
+                                    }
                                 }
                             }
+                        } else {
+                            if (data.count && data.count[0] && data.count[0].count) {
+                                count = data.count[0].count;
+                            }
                         }
-                    } else {
-                        if (data.count && data.count[0] && data.count[0].count) {
-                            count = data.count[0].count;
+                        if (box === "inbox") {
+                            sakai_user.data.me.messages.unread = count;
+                        }
+                        if ($.isFunction(callback)) {
+                            callback(true, count);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        if ($.isFunction(callback)) {
+                            callback(false,{});
                         }
                     }
-                    if ($.isFunction(callback)) {
-                        callback(true, count);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    if ($.isFunction(callback)) {
-                        callback(false,{});
-                    }
-                }
-            });
+                });
+            }
         },
 
         /**
