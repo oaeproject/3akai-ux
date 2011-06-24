@@ -80,12 +80,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
                 else {
                     var $this = $(".categories_items_scroll_selected");
-                    if ($this.next()[0]) {
+                    if ($this.next().length) {
                         var $next = $this.next();
                         $next.addClass("categories_items_scroll_selected");
                         $next.removeClass("categories_items_scroll_deselected");
                     } else {
-                        var $first = $($(".categories_items_scroll_deselected")[0]);
+                        var $first = $(".categories_items_scroll_deselected:first");
                         $first.addClass("categories_items_scroll_selected");
                         $first.removeClass("categories_items_scroll_deselected");
                     }
