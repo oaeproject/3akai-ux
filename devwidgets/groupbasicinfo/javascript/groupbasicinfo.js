@@ -198,23 +198,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var visible = $(groupBasicInfoGroupVisible).val();
             sakai_global.currentgroup.data.authprofile["sakai:group-joinable"] = joinable;
             sakai_global.currentgroup.data.authprofile["sakai:group-visible"] = visible;
-            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible);
 
-            // Update the group object
-            sakai_global.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
-            sakai_global.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
-            sakai_global.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
+            sakai.api.Groups.setPermissions(sakai_global.currentgroup.id, joinable, visible, function (success) {
 
-            sakai.api.Groups.updateGroupInfo(sakai_global.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
-                if (success) {
-                    groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
-                    sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags, function(success, newtags) {
-                        sakai_global.currentgroup.data.authprofile["sakai:tags"] = newtags;
-                        $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
-                    });
-                }
-                sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
-                $(window).trigger("updateFinished.groupbasicinfo.sakai");
+                // Update the group object
+                sakai_global.currentgroup.data.authprofile["sakai:group-title"] = sakai.api.Security.escapeHTML(groupTitle);
+                sakai_global.currentgroup.data.authprofile["sakai:group-kind"] = groupKind;
+                sakai_global.currentgroup.data.authprofile["sakai:group-description"] = sakai.api.Security.escapeHTML(groupDesc);
+
+                sakai.api.Groups.updateGroupInfo(sakai_global.currentgroup.id, groupTitle, groupDesc, groupKind, function(success) {
+                    if (success) {
+                        groupProfileURL = "/~" + sakai_global.currentgroup.id + "/public/authprofile";
+                        sakai.api.Util.tagEntity(groupProfileURL, sakai_global.currentgroup.data.authprofile["sakai:tags"], currentTags,
+                                                 function(success, newtags) {
+                                                     sakai_global.currentgroup.data.authprofile["sakai:tags"] = newtags;
+                                                     $(groupBasicInfoGroupTags).val($(groupBasicInfoGroupTags).val().replace(/\s+/g, " "));
+                                                 });
+                    }
+
+                    sakai.api.Widgets.Container.informFinish(tuid, "groupbasicinfo");
+                    $(window).trigger("updateFinished.groupbasicinfo.sakai");
+                });
             });
         };
 
