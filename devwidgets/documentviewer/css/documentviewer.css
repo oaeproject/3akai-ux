@@ -21,6 +21,6 @@
 
  #documentviewer_image_calculatesize_container { position: absolute; left: -10000px; top: -10000px; }
 
-.documentviewer_preview pre {word-wrap:break-word; white-space: pre-wrap; height: 560px; overflow: auto;}
+.documentviewer_preview pre {word-wrap:break-word; white-space: pre-wrap; max-height: 560px; overflow: auto;}
 
  .DV-docViewer { z-index: 0; }
