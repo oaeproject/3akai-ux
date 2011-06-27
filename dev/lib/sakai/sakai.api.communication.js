@@ -259,21 +259,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 };
                 requests.push(req);
             });
-
-            $.ajax({
-                url: sakai_conf.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function(data) {
-                    if ($.isFunction(callback)) {
+            sakai_server.batch(requests, function(success, data) {
+                if ($.isFunction(callback)) {
+                    if (success) {
                         callback(true, data);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    if ($.isFunction(callback)) {
+                    } else {
                         callback(false, {});
                     }
                 }
@@ -291,15 +281,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
                requests.push(req);
             });
-
-            $.ajax({
-                url: sakai_conf.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    "requests": $.toJSON(requests)
-                },
-                success: function(data) {
+            sakai_server.batch(requests, function(success, data) {
+                if (success) {
                     sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
                         return message.box === "inbox";
                     }).length;
@@ -307,8 +290,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     if ($.isFunction(callback)) {
                         callback(false, {});
                     }
