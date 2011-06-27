@@ -50,7 +50,7 @@
 .categories_widget .categories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
 .categories_widget .categories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#2683BC;padding-left:20px;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent; clear: both;}
 .categories_widget .categories_content_tags a {font-size:11px !important;font-weight:normal !important;}
-
+.categories_widget .categories_spacer {visibility: hidden;}
 
 /* Carousel */
 .categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}
