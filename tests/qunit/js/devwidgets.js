@@ -78,6 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "help",
         "inbox",
         "institutionalskinning",
+        "jisccontent",
         "joingroup",
         "joinrequestbuttons",
         "joinrequests",

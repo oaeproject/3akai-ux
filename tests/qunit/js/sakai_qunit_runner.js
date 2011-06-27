@@ -19,12 +19,11 @@
 
 require(
     [
-    "jquery", 
-    "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js"
+        "jquery",
+        "sakai/sakai.api.core",
+        "../../tests/qunit/js/qunit.js"
     ],
     function($, sakai) {
-
     // Tracking variables
     var tests = [],
         startTime = 0,
@@ -133,7 +132,7 @@ require(
     });
 
     // Bind to the show/hide test list link
-    $("#show_list a").bind("click", function() {
+    $("#show_list button").bind("click", function() {
         if ($("#tests_list").is(":visible")) {
             $(this).text("Show Tests");
         } else {
@@ -144,17 +143,17 @@ require(
 
     // Bind to the run_all link to run all tests
     $("#run_all").bind("click", function() {
-        $("#show_list a").click();
+        $("#show_list button").click();
         runAllTests();
     });
 
     $("#run_all_unit").bind("click", function() {
-        $("#show_list a").click();
+        $("#show_list button").click();
         runAllTests("unit");
     });
 
     $("#run_all_integration").bind("click", function() {
-        $("#show_list a").click();
+        $("#show_list button").click();
         runAllTests("integration");
     });
 
