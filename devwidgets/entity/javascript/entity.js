@@ -255,7 +255,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions", function(){$("#entity_groupsettings_dropdown").jqmHide();});
+            sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions", function(){
+                $("#entity_groupsettings_dropdown").jqmHide();
+            });
 
             $("#ew_group_categories_link").click(function(){
                 $("#assignlocation_container").jqmShow();
