@@ -30,7 +30,13 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "/dev/lib/misc/l10n/detect_timezone.js"], function(sakai_conf) {
+define(
+    [
+        "../../configuration/config.js",
+        "../misc/l10n/globalization.js",
+        "../misc/l10n/detect_timezone.js"
+    ],
+    function(sakai_conf) {
     return {
 
         /**

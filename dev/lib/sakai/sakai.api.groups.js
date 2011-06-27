@@ -29,14 +29,18 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery",
-        "/dev/configuration/config.js",
+define(
+    [
+        "jquery",
+        "../../configuration/config.js",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "sakai/sakai.api.communication"],
-        function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+        "sakai/sakai.api.communication"
+    ],
+    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group

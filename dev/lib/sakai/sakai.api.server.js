@@ -29,7 +29,12 @@
 * @namespace
 * Server related convenience functions and communication
 */
-define(["jquery", "/dev/configuration/config.js"], function($, sakai_conf) {
+define(
+    [
+        "jquery",
+        "../../configuration/config.js"
+    ],
+    function($, sakai_conf) {
 
     var sakaiServerAPI = {
         /**
