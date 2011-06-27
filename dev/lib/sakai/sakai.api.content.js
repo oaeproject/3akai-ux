@@ -448,7 +448,7 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
             if (content["sakai:preview-url"] ||
                     sakai_content.getThumbnail(content) ||
                     mimeType.substring(0,6) === "image/" ||
-                    mimeType === "text/html" ||
+                    mimeType.substring(0,5) === "text/" ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }
