@@ -1579,9 +1579,9 @@ define(["jquery",
          */
         hideOnClickOut : function(elementToHide, ignoreElements, callback) {
             $(document).click(function(e){
-                var $clicked = $.merge($(e.target).parents(), $(e.target));
+                var $clicked = $(e.target);
                 var $el = $(elementToHide);
-                if ($el.is(":visible") && ! ($clicked.is(elementToHide) || $clicked.is(ignoreElements))){
+                if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements))){
                     if ($.isFunction(callback)){
                         callback();
                     } else {
