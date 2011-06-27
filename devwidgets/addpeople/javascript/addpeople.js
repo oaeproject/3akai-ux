@@ -309,10 +309,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for(var role in data){
                 for(var user in data[role].results){
                     if (data[role].results.hasOwnProperty(user)) {
-                        var userObj = {
-                            userid: data[role].results[user]["rep:userId"],
-                            name: sakai.api.User.getDisplayName(data[role].results[user]),
-                            dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
+                        var userObj = {};
+                        if (data[role].results[user].hasOwnProperty("sakai:group-id")) {
+                            userObj = {
+                                userid: data[role].results[user]["sakai:group-id"],
+                                name: data[role].results[user]["sakai:group-title"],
+                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 80)
+                            };
+                        } else {
+                            userObj = {
+                                userid: data[role].results[user]["rep:userId"],
+                                name: sakai.api.User.getDisplayName(data[role].results[user]),
+                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
+                            };
                         }
                         $.each(currentTemplate.roles, function(i, r){
                             if (currentTemplate.roles[i].title == role) {
