@@ -30,10 +30,10 @@
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
-    {if data.mode === "edit"}
-        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data.data["sakai:description"]}</textarea>
+    {if mode === "edit"}
+        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${description}</textarea>
     {else}
-        <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data.data["sakai:description"]) != ""}${sakai.api.Security.escapeHTML(data.data["sakai:description"])}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
+        <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(description) != ""}${sakai.api.Security.saneHTML(description)}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
 --></div>
 
