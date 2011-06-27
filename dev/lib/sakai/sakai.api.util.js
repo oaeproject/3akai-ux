@@ -1573,7 +1573,7 @@ define(["jquery",
         /**
          * Sets up events to hide a dialog when the user clicks outside it
          *
-         * @param elementToHide {String} a jquery selector for the element to be hidden
+         * @param elementToHide {String} a jquery selector for the element to be hidden, clicking this element or its children won't cause it to hide
          * @param ignoreElements any elements that match a jquery.is(ignoreElements) will not hide the target element when clicked
          * @param callback {function} a function to be called instead of the default jquery.hide()
          */
