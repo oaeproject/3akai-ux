@@ -1569,7 +1569,37 @@ define(["jquery",
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
         },
-        
+
+        /**
+         * Sets up events to hide a dialog when the user clicks outside it
+         *
+         * @param elementToHide {String} a jquery selector, jquery object, dom element, or array thereof containing the element to be hidden, clicking this element or its children won't cause it to hide
+         * @param ignoreElements any elements that match a jquery.is(ignoreElements) will not hide the target element when clicked
+         * @param callback {function} a function to be called instead of the default jquery.hide()
+         */
+        hideOnClickOut : function(elementToHide, ignoreElements, callback) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                if (! $.isArray(elementToHide)){
+                    elementToHide = [elementToHide];
+                }
+                $.each(elementToHide, function(index, el){
+                    if (el instanceof jQuery){
+                        $el = el;
+                    } else {
+                        $el = $(el);
+                    }
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements))){
+                        if ($.isFunction(callback)){
+                            callback();
+                        } else {
+                            $el.hide();
+                        }
+                    }
+                });
+            });
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
