@@ -32,7 +32,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $errorPageLinksTemplate = $("#error_page_links_template");
         var $errorPageLinksContainer = $("#error_page_links_container");
-        var $goback = $("#error_goback");
         var $searchinput = $("#errorsearch_text");
 
         var doInit = function(){
@@ -95,9 +94,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(pageNotFoundError).append(renderedTemplate);
                 $("#page_not_found_error").addClass("error_page_bringdown");
             }
-            $goback.live("click",function(){
-                window.history.go(-1);
-            });
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
                     document.location = "/search#q=" + $.trim($searchinput.val());

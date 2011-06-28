@@ -31,7 +31,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $browsecatcount = $("#error_browse_category_number");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
-        var $goback = $("#error_goback");
+        var $errorPageLinksTemplate = $("#error_page_links_template");
+        var $errorPageLinksContainer = $("#error_page_links_container");
         var $searchinput = $("#errorsearch_text");
 
         var doInit = function(){
@@ -57,7 +58,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             obj.worlds = worlds;
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
-
+            // display the error page links
+            var linkObj = {
+                links: sakai.config.ErrorPage.Links,
+                sakai: sakai
+            };
+            $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
                 $signinbutton.live("click", forceLoginOverlay);
@@ -84,9 +90,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#permission_error").addClass("error_page_bringdown");
             }
 
-            $goback.live("click",function(){
-                window.history.go(-1);
-            });
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
                     document.location = "/search#q=" + $.trim($searchinput.val());
