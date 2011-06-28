@@ -84,7 +84,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#permission_error").addClass("error_page_bringdown");
             }
             
-            $goback.click(function(){
+            $goback.live("click",function(){
                 window.history.go(-1);
             });
             $searchinput.live("keydown", function(ev){
