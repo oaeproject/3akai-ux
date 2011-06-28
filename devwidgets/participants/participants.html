@@ -28,7 +28,7 @@
             <span class="participants_list_participant_checkbox">
                 <input type="checkbox" id="${participant.id}_chk" class=""/>
                 <br/>
-                {if participant.type == "user" && participant.id != sakai.data.me.user.userid}
+                {if participant.type === "user" && participant.id !== sakai.data.me.user.userid}
                     {if ! participant.connected}
                         <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id}" sakai-entityname="${participant.name}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
                     {elseif participant.invited}
