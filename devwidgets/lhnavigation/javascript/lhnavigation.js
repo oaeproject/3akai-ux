@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 }
             }
-        }
+        };
 
         //////////////////
         // Data storage //
