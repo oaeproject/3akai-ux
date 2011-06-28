@@ -1,3 +1,4 @@
+<%@ page session="false" %>
 <%
 response.setStatus(404);
 %><!DOCTYPE HTML>
