@@ -25,7 +25,7 @@
 #error_content_first_column_content h3.first{padding-top:0;border:0;}
 #error_content_first_column_content ol{margin-top:0;color:#333;}
 #error_search{width:375px;margin-bottom:25px;border:1px solid #c8c8c8;background: #fff url("/devwidgets/topnavigation/images/topnav_search_icon.png") 355px 50% no-repeat;}
-
+#signin_from_content{font-size:13px;margin:0;padding:0;}
 /* second column styles*/
 .error_content_second_column_box {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px; margin-bottom: 10px;}
 .error_content_second_column_box .error_content_second_column_box_footer {background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;text-align:center; padding-bottom: 5px; padding-top: 5px;}
