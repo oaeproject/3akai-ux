@@ -44,7 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
-            
+
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
@@ -67,11 +67,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
             if (sakai.data.me.user.anon){
-                
+
                 $signinbuttonwrapper.show();
                 $signinbutton.live("click", forceLoginOverlay);
                 $signinfromcontent.live("click", forceLoginOverlay);
-                
+
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
@@ -115,6 +115,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
 
     };
-    sakai.api.Widgets.Container.registerForLoad("nopermissions");    
+    sakai.api.Widgets.Container.registerForLoad("nopermissions");
 });
 

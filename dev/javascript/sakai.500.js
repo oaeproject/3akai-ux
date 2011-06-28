@@ -19,7 +19,7 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {
-        
+
         sakai_global.nopermissions.error500 = true;
 
         var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
@@ -43,7 +43,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
-            
+
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
@@ -51,17 +51,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var world = sakai.config.worldTemplates[c];
                 world.label = sakai.api.i18n.General.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
-                	world.last = true;
+                    world.last = true;
                 }
                 worlds.push(world);
             }
             obj.worlds = worlds;
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
-            
+
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
                 $signinbutton.live("click", forceLoginOverlay);
-                
+
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
@@ -83,7 +83,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(permissionsError).append(renderedTemplate);
                 $("#permission_error").addClass("error_page_bringdown");
             }
-            
+
             $goback.live("click",function(){
                 window.history.go(-1);
             });
