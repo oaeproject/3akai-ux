@@ -832,6 +832,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
+        sakai.api.Util.hideOnClickOut("#lhnavigation_submenu", ".lhnavigation_selected_submenu_image");
+
         var showHideSubnav = function($el, forceOpen){
             $el.children(".lhnavigation_selected_item_subnav").show();
             if ($el.hasClass("lhnavigation_hassubnav")) {
