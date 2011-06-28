@@ -441,7 +441,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 success: function(data){
                     if (box === "inbox") {
                         sakai_user.data.me.messages.unread = data.unread;
-                        $(window).trigger("updated.messageCount.sakai");
+                        sakaiCommunicationsAPI.getUnreadMessagesCountOverview(box, function(){
+                            $(window).trigger("updated.messageCount.sakai");
+                        }, true);
                     }
                     if (doProcessing !== false) {
                         data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
@@ -486,8 +488,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * Gets a count of the unread messages for each box belonging to
          * the current user
          */
-        getUnreadMessagesCountOverview : function(box, callback) {
-            if (sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
+        getUnreadMessagesCountOverview : function(box, callback, ignoreCache) {
+            if (! ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
                 callback(true, sakai_user.data.me.messages.countOverview);
             } else {
                 var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";

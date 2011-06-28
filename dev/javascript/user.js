@@ -344,7 +344,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("updated.messageCount.sakai", function(){
-            $(window).trigger("updated.counts.lhnav.sakai");
+            if (isMe){
+                sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts){
+                    messageCounts = counts;
+                    $(window).trigger("updated.counts.lhnav.sakai");
+                });
+            }
         });
 
         determineContext();
