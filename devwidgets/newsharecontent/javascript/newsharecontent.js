@@ -191,6 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $('.share_trigger_click').live('click',function(){
                 var contentId = $(this).data("entityid");
                 var $this = $(this);
+                $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
                 sakai.api.Server.loadJSON("/p/" + contentId + ".json", function(success, data){
                     if (success) {
                         contentObj = {
@@ -198,7 +199,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["_path"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
                         };
                         if (window["addthis"]) {
-                            $newsharecontentContainer.css({'top':$this.offset().top + $this.height() - 5,'left':$this.offset().left + $this.width() / 2 - 125});
                             $newsharecontentContainer.jqmShow();
                         }
                     }
