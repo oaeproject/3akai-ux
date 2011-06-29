@@ -214,6 +214,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $newsharecontentMessageContainer.stop(true, true).slideToggle();
         });
 
+        sakai.api.Util.hideOnClickOut(".newsharecontent_dialog", ".share_trigger_click", function(){
+            $newsharecontentContainer.jqmHide();
+        });
+
         $(window).bind("finished.sharecontent.sakai",doShare);
 
         ////////////////////
