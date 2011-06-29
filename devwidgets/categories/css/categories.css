@@ -31,6 +31,7 @@
 .categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}
 .categories_widget #categories_expand_contract .categories_contract {background:url("/devwidgets/categories/images/categories_contract.png") repeat-x top left transparent;}
 .categories_widget #categories_expand_contract {background:url("/dev/images/explore_choose_category_bg.png") repeat-x scroll left top transparent;border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px;-webkit-border-radius:0 0 2px 2px;color: #FFFFFF;display: inline-block;float: right;height: 38px;line-height: 38px;padding: 0 20px;cursor:pointer;margin-right:20px;margin-top:5px;}
+.categories_widget #categories_expand_contract span.s3d-bold {float:left;}
 
 /* Content Style */
 .categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;}
