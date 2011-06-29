@@ -1707,11 +1707,11 @@ define(["jquery",
         },
         /**
         * Pass string representing the location of the attribute value desired in dot-notated form for a JSON/JavaScript object
-        * and this will return either the value if the specifiec key is found, or "false" if not. Optionally a defaultValue
+        * and this will return either the value if the specified key is found, or "false" if not. Optionally a defaultValue
         * option can be passed which will be returned if they key can't be found. That way you can use this directly within
-        * a $.each() passing in an array [] as the defaultValue, so that .each() receives the appropriate value regardless
+        * something like $.each() passing in an array [] as the defaultValue, so that .each() receives the appropriate value regardless
         * of whether it exists in the data. If you care about whether the value being returned is the result of an error or
-        * success, use the "verbose:true" opton and the returned value will be an object containing a "status" of "error" or 
+        * success, use the "verbose:true" option and the returned value will be an object containing a "status" of "error" or 
         * "success", the value found (or defaultValue/false if an error) and the path (if the key wasn't found, then the path
         * is returned up to and including the key that failed).
         * @param s {String} The dot-notated string representing the path to the value to be retrieved. N.b. that for items that are
