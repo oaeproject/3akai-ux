@@ -1746,7 +1746,7 @@ define(["jquery",
             var o = options || {}, obj = (o.scope) || window, jsonPath = '', jsonValue = error = false;
             for (var i = 0, len = jsonKeys.length; i < len; i++) {
                 var k = jsonKeys[i].replace(/\[-?\d+\]$/,"");
-                if(obj.hasOwnProperty(k)){
+                if((obj.hasOwnProperty && obj.hasOwnProperty(k)) || (k in obj)){ //ie has issues when obj is window
                     obj = obj[k];
                     if(/\[-?\d+\]$/.test(jsonKeys[i])){
                         var idx = parseInt(/\[(-?\d+)\]$/.exec(jsonKeys[i])[1], 10);
