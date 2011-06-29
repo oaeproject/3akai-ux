@@ -220,7 +220,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var addBinding = function(){
             $(addareaContentsListItem).bind("click", renderDescription);
-            $(addareaSelectTemplate).live("click", decideRenderForm)
+            $(addareaSelectTemplate).live("click", decideRenderForm);
+            sakai.api.Util.hideOnClickOut(".addarea_dropdown", "#group_create_new_area", toggleOverlay);
         };
 
         var doInit = function(){

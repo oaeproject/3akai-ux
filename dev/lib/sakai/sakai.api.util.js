@@ -201,19 +201,11 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
             }
-        },
-
-        /**
-         * Util sort function used to order tags in an array
-         * in alphabetical order
-         */
-        orderTagsAlphabetically: function(a, b){
-            return a > b;
         },
 
         /**
@@ -236,7 +228,7 @@ define(["jquery",
                         tags.push(value);
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -266,7 +258,7 @@ define(["jquery",
                         }
                     }
                 }
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -887,8 +879,8 @@ define(["jquery",
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().replace(sre, '') || '',
-                    y = b.toString().replace(sre, '') || '',
+                    x = a.toString().toLowerCase().replace(sre, '') || '',
+                    y = b.toString().toLowerCase().replace(sre, '') || '',
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
@@ -896,23 +888,30 @@ define(["jquery",
                     xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && (new Date(x)).getTime()),
                     yD = parseInt(y.match(hre), 10) || xD && (new Date(y)).getTime() || null;
                 // natural sorting of hex or dates - prevent '1.2.3' valid date
-                if (yD)
-                    if ( xD < yD ) return -1;
-                    else if ( xD > yD ) return 1;
+                if (yD) {
+                    if ( xD < yD ) {return -1;}
+                    else if ( xD > yD ) {return 1;}
+                }
                 // natural sorting through split numeric strings and default strings
                 for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
                     // find floats not starting with '0', string or 0 if not defined (Clint Priest)
                     oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
                     oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
                     // handle numeric vs string comparison - number < string - (Kyle Adams)
-                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) return (isNaN(oFxNcL)) ? 1 : -1;
+                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
+                        return (isNaN(oFxNcL)) ? 1 : -1;
+                    }
                     // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
                     else if (typeof oFxNcL !== typeof oFyNcL) {
                         oFxNcL += '';
                         oFyNcL += '';
                     }
-                    if (oFxNcL < oFyNcL) return -1;
-                    if (oFxNcL > oFyNcL) return 1;
+                    if (oFxNcL < oFyNcL) {return -1;}
+                    if (oFxNcL > oFyNcL) {return 1;}
+                }
+                if (x === y) {
+                    if (a < b) {return -1;}
+                    if (a > b) {return 1;}
                 }
                 return 0;
            }
@@ -1570,7 +1569,37 @@ define(["jquery",
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
         },
-        
+
+        /**
+         * Sets up events to hide a dialog when the user clicks outside it
+         *
+         * @param elementToHide {String} a jquery selector, jquery object, dom element, or array thereof containing the element to be hidden, clicking this element or its children won't cause it to hide
+         * @param ignoreElements any elements that match a jquery.is(ignoreElements) will not hide the target element when clicked
+         * @param callback {function} a function to be called instead of the default jquery.hide()
+         */
+        hideOnClickOut : function(elementToHide, ignoreElements, callback) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                if (! $.isArray(elementToHide)){
+                    elementToHide = [elementToHide];
+                }
+                $.each(elementToHide, function(index, el){
+                    if (el instanceof jQuery){
+                        $el = el;
+                    } else {
+                        $el = $(el);
+                    }
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements))){
+                        if ($.isFunction(callback)){
+                            callback();
+                        } else {
+                            $el.hide();
+                        }
+                    }
+                });
+            });
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new

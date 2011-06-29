@@ -67,7 +67,6 @@ define(["jquery",
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultUserTemplate,
                 ":sakai:profile-import": $.toJSON(profileData)
             };
             for (var i in extraOptions) {
