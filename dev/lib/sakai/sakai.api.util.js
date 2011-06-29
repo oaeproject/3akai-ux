@@ -1730,15 +1730,16 @@ define(["jquery",
         * Sample usage:
         * var content_profile = sakai_global.content_profile; //assume sakai_global exists
         * //insead of:
-		* if(content_profile && content_profile.content_data && content_profile.content_data.members && content_profile.content_data.members.managers){
-			$.each(content_profile.content_data.members.managers,function(){
-				//do stuff
-			});	
-		* //it becomes...
-
-		* $.each(getJsonValue("content_profile.content_data.members.managers",{"scope":sakai_global,"defaultValue":[]}),function(){
-		*	//do stuff
-		*	});
+        * if(content_profile && content_profile.content_data && content_profile.content_data.members &&
+        * content_profile.content_data.members.managers){
+        *	$.each(content_profile.content_data.members.managers,function(){
+        *		//do stuff
+        *	});
+        * }        
+        * //it becomes...
+        * $.each(getJsonValue("content_profile.content_data.members.managers",{"scope":sakai_global,"defaultValue":[]}),function(){
+        *	//do stuff
+        *	});
         */  
         getJsonValue: function(s,options){
             jsonKeys = s.split(".");
