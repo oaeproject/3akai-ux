@@ -1685,7 +1685,7 @@ define(function(){
                 }
             },
             "id9834611274": {
-                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
             },
             "id213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
