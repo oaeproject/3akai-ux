@@ -564,6 +564,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             mylibrary.contextId = "";
             var contextName = "";
             var isGroup = false;
+
+            // We embed the deletecontent widget, so make sure it's loaded
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
+
             if (widgetData && widgetData.mylibrary) {
                 mylibrary.contextId = widgetData.mylibrary.groupid;
                 sakai.api.Server.loadJSON("/system/userManager/group/" +  mylibrary.contextId + ".json", function(success, data) {
