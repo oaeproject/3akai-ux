@@ -41,7 +41,8 @@ define(["jquery",
             localBundle : false,
             defaultBundle : false,
             widgets : {},
-            culture : "default"
+            culture : "default",
+            meData: false
         },
 
         /**
@@ -77,6 +78,8 @@ define(["jquery",
             ////////////////////
             // HELP VARIABLES //
             ////////////////////
+
+            sakaii18nAPI.data.meData = meData;
 
             /*
              * Cache the jQuery i18nable element. This makes sure that only pages with
@@ -468,8 +471,12 @@ define(["jquery",
              * @return {String} The translated value for the provided key
              */
             getValueForKey : function(key) {
+                // Check for i18n debug
+                if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === "lu" && sakaii18nAPI.data.meData.user.locale.country === "GB"){
+                    return key;
+                }
                 // First check if the key can be found in the locale bundle
-                if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
+                else if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
                     return sakaii18nAPI.data.localBundle[key];
                 }
                 // If the key wasn't found in the localbundle, search in the default bundle
