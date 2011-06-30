@@ -662,6 +662,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             // Hide the dropdown menu
             toggleContextMenu(true);
             inputArea.focus();
+            inputArea.select();
         };
 
         var savePageTitle = function(){
