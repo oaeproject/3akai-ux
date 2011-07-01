@@ -176,10 +176,15 @@ define(
                 mainCallback = callback;
                 mainGroupId = groupid;
                 // Get list of all manager groups
-                var managerGroups = [];
+                var managerGroups = [],
+                    managerGroupRoleIDs = [],
+                    memberGroups = [];
                 for (var i = 0; i < template.roles.length; i++){
                     if (template.roles[i].allowManage){
                         managerGroups.push(groupid + "-" + template.roles[i].id);
+                        managerGroupRoleIDs.push(template.roles[i].id);
+                    } else {
+                        memberGroups.push(groupid + "-" + template.roles[i].id);
                     }
                 }
                 for (var j = 0; j < template.roles.length; j++){
@@ -274,6 +279,15 @@ define(
                         "permission": ""
                     });
                 }
+                $.each(memberGroups, function(i, memGr) {
+                    $.each(managerGroupRoleIDs, function(i, manGr) {
+                        membershipsToProcess.push({
+                            "user": memGr,
+                            "permission": manGr,
+                            "viewer": true
+                        });
+                    });
+                });
 
                 saveGroup(true);
             };
@@ -287,7 +301,7 @@ define(
              * @param {Function} callback the callback function for when the group save is complete. It will pass
              *                            two params, success {Boolean} and nameTaken {Boolean}
             */
-            saveGroup = function(success){
+            var saveGroup = function(success){
                 if (toProcess.length > 0){
                     var group = $.extend(true, {}, toProcess[0]);
                     toProcess.splice(0, 1);
@@ -793,6 +807,8 @@ define(
                 var data = {};
                 if (managerShip){
                     data[":manager"] = user.user;
+                } else if (user.viewer === true) { // user is only a viewer, not a member
+                    data[":viewer"] = user.user;
                 } else {
                     data[":member"] = user.user;
                     data[":viewer"] = user.user;
