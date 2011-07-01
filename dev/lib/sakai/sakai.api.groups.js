@@ -709,9 +709,10 @@ define(["jquery",
          *
          * @param {String} groupID The ID of the group we would like to get the members of
          * @param {Function} callback Callback function, passes (success, (data|xhr))
+         * @param {Boolean} everyone If we should return managers + members (useful for pseudoGroups)
          *
          */
-        getMembers : function(groupID, query, callback) {
+        getMembers : function(groupID, query, callback, everyone) {
             var searchquery = query || "*";
             var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
                 if (success){
@@ -727,7 +728,11 @@ define(["jquery",
                         //if (searchquery !== "*"){
                         //    url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
                         //}
-                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + ".members.json";
+                        var selector = "members";
+                        if (everyone) {
+                            selector = "everyone";
+                        }
+                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + "." + selector + ".json";
                         batchRequests.push({
                             "url": url,
                             "method": "GET"
