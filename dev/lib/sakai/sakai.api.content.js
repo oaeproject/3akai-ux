@@ -465,10 +465,9 @@ define(
 
         getCommentCount : function(content){
             var count = 0;
-            if (content[content["_path"] + "/comments"]) {
-                $.each(content[content["_path"] + "/comments"], function(key, val){
-                    var regex = new RegExp(content["_path"] + "/comments/");
-                    if (key.match(regex)) {
+            if (content.hasOwnProperty("comments")) {
+                $.each(content.comments, function(key, val){
+                    if ($.isPlainObject(val)) {
                         count++;
                     }
                 });
