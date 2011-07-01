@@ -181,8 +181,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             break;
                         case "group":
                             contextVariables = {
-                                "data": sakai_global.group2.groupData,
-                                "path": "/~" + sakai_global.group2.groupId + "/public/authprofile",
+                                "data": sakai_global.group.groupData,
+                                "path": "/~" + sakai_global.group.groupId + "/public/authprofile",
                                 "context": "group"
                             };
                             break;

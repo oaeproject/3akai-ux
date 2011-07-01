@@ -143,15 +143,15 @@
                                 <div class="s3d-search-result-right">
                                     <a href="/~${i.userid}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                                     <div class="searchpeople_result_counts">
-                                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                             ${i.counts.contentCount} {if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                         </a>
                                         <span class="searchpeople_result_detail_separator">|</span>
-                                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
                                             ${i.counts.contactsCount} {if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                                         </a>
                                         <span class="searchpeople_result_detail_separator">|</span>
-                                        <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.userid}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                             ${i.counts.membershipsCount} {if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                         </a>
                                     </div>
@@ -228,7 +228,7 @@
                         <div class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/dev/createnew.html#l=cateogories/group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/create#l=categories/group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
                         </div>
                     {/if}
                 --></div>

@@ -100,7 +100,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
+            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
         };
 
         var forceLoginOverlay = function(){
