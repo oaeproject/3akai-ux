@@ -18,7 +18,15 @@
  *
  */
 
-define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/dev/lib/misc/parseuri.js"],function($, sakai_conf, sakai_serv) {
+define(
+    [
+        "jquery",
+        "../../configuration/config.js",
+        "sakai/sakai.api.server",
+        "../misc/parseuri.js"
+    ],
+    function($, sakai_conf, sakai_serv) {
+
     var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
