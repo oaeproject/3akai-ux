@@ -83,6 +83,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(permissionsError).append(renderedTemplate);
                 $("#permission_error").addClass("error_page_bringdown");
             }
+            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED");
             
             $goback.live("click",function(){
                 window.history.go(-1);

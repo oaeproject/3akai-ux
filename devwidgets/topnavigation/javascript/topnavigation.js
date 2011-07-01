@@ -334,7 +334,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
-                        "url": "/dev/createnew.html#l=categories/" + category.id
+                        "url": "/create#l=categories/" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
@@ -511,8 +511,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register") {
-                            window.location = "/dev/me.html";
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register"
+                            || window.location.pathname === "/index" || window.location.pathname === "/") {
+                            window.location = "/me";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
                             var url = qs.get("url");
@@ -523,7 +524,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         // 500 not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
-                            window.location = "/dev/me.html";
+                            window.location = "/me";
                         } else {
                             // Just reload the page
                             location.reload(true);

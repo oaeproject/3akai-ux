@@ -105,7 +105,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
+            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
         };
         
         var forceLoginOverlay = function(){

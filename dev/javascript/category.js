@@ -44,7 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
                 "id": bbqData[0],
                 "link": true,
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             });
             breadcrumb.push({
                 "title": dirData.title,
