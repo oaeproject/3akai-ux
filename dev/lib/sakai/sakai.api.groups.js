@@ -795,6 +795,7 @@ define(
                     data[":manager"] = user.user;
                 } else {
                     data[":member"] = user.user;
+                    data[":viewer"] = user.user;
                 }
                 reqData.push({
                     "url": url,
@@ -880,7 +881,8 @@ define(
                     "method": "POST",
                     "parameters": {
                         "_charset_":"utf-8",
-                        ":member@Delete": user.userid
+                        ":member@Delete": user.userid,
+                        ":viewer@Delete": user.userid
                     }
                 });
                 if (user.userid === medata.user.userid){
