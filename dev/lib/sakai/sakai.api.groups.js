@@ -500,8 +500,8 @@ define(["jquery",
                 }
                 var canManage = false;
                 for (var i = 0; i < meData.groups.length; i++) {
-                    for (var r = 0; r < managementRoles.length; r++) {
-                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[r]) {
+                    for (var mr = 0; mr < managementRoles.length; mr++) {
+                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[mr]) {
                             canManage = true;
                         }
                     }
@@ -558,7 +558,7 @@ define(["jquery",
                         managerArray.push(groupManagers[i].userid);
                     }
                 }
-                var userString = sakai_user.getDisplayName(meData.profile)
+                var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.General.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;

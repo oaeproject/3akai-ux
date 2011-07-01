@@ -108,7 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var decideEnableDisableControls = function(el){
-            if($("."+el.currentTarget.className + ":checked").length){
+            if($("." + el.currentTarget.className + ":checked").length){
                 enableDisableControls(false);
             }else{
                 enableDisableControls(true);
@@ -155,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var checkAll = function(el, peopleContainer){
             if($(el).is(":checked")){
                 $(peopleContainer).attr("checked","checked");
-                if (peopleContainer != addpeopleSelectedCheckbox) {
+                if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).change();
                     renderSelectedContacts();
                 }else{
@@ -163,7 +163,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }else{
                 $(peopleContainer).removeAttr("checked");
-                if (peopleContainer != addpeopleSelectedCheckbox) {
+                if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).removeAttr("checked");
                     $(peopleContainer).change();
                     renderSelectedContacts();
