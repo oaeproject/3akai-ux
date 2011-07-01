@@ -17,20 +17,21 @@ require(
             group_new_title = "New Sakai Group",
             group_new_desc = "Sakai Group will never be the best group",
             group_new_kind = "library",
-            user_random = "userrandom_" + (new Date()).getTime();
+            user_random = "userrandom_" + (new Date()).getTime(),
+            group_template = sakai.api.Groups.getTemplate("group", "simplegroup");
 
 
         sakai_global.qunit.loginWithAdmin();
 
         asyncTest("Create group", 1, function() {
-            sakai.api.Groups.createGroup(group_id, group_title, group_desc, sakai.data.me, function(success, nameTaken) {
+            sakai.api.Groups.createGroup(group_id, group_title, group_desc, sakai.data.me, group_template, function(success, nameTaken) {
                 ok(success, "Group Created");
                 start();
             });
         });
 
         asyncTest("Create same group again", 1, function() {
-            sakai.api.Groups.createGroup(group_id, group_title, group_desc, sakai.data.me, function(success, nameTaken) {
+            sakai.api.Groups.createGroup(group_id, group_title, group_desc, sakai.data.me, group_template, function(success, nameTaken) {
                 ok(!success && nameTaken, "Group creation correctly failed");
                 start();
             });
