@@ -300,10 +300,26 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "requests": $.toJSON(requests)
                 },
                 success: function(data) {
+                    // Update cached message counts
                     sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
                         return message.box === "inbox";
                     }).length;
+                    if (sakai_user.data.me.messages.countOverview) {
+                        $.each(sakai_user.data.me.messages.countOverview.count, function(index, countObj){
+                            var catFilter = function(message, index){
+                                return (message.box === "inbox" &&
+                                    message.category === countObj.group);
+                            };
+                            var messageCount = $.grep(messages, catFilter).length;
+                            var count = {
+                                count: countObj.count - messageCount,
+                                group: countObj.group
+                            };
+                            sakai_user.data.me.messages.countOverview.count[index] = count;
+                        });
+                    }
                     $(window).trigger("updated.messageCount.sakai");
+
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -361,6 +377,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
                     newMsg.box = msg["sakai:messagebox"];
+                    newMsg.category = msg["sakai:category"];
                     newMsg.date = sakai_l10n.transformDateTimeShort(sakai_l10n.fromEpoch(msg["_created"], sakai_user.data.me));
                     newMsg.id = msg.id;
                     newMsg.read = msg["sakai:read"];
@@ -424,7 +441,9 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 success: function(data){
                     if (box === "inbox") {
                         sakai_user.data.me.messages.unread = data.unread;
-                        $(window).trigger("updated.messageCount.sakai");
+                        sakaiCommunicationsAPI.getUnreadMessagesCountOverview(box, function(){
+                            $(window).trigger("updated.messageCount.sakai");
+                        }, true);
                     }
                     if (doProcessing !== false) {
                         data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
@@ -469,22 +488,27 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * Gets a count of the unread messages for each box belonging to
          * the current user
          */
-        getUnreadMessagesCountOverview : function(box, callback) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data){
-                    if ($.isFunction(callback)) {
-                        callback(true, data);
+        getUnreadMessagesCountOverview : function(box, callback, ignoreCache) {
+            if (! ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
+                callback(true, sakai_user.data.me.messages.countOverview);
+            } else {
+                var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function(data){
+                        sakai_user.data.me.messages.countOverview = data;
+                        if ($.isFunction(callback)) {
+                            callback(true, data);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        if ($.isFunction(callback)) {
+                            callback(false,{});
+                        }
                     }
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    if ($.isFunction(callback)) {
-                        callback(false,{});
-                    }
-                }
-            });
+                });
+            }
         },
 
         /**
@@ -492,36 +516,45 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * to the current user
          */
         getUnreadMessageCount : function(box, callback, category) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
-            $.ajax({
-                url: url,
-                cache: false,
-                success: function(data){
-                    var count = 0;
-                    if (category){
-                        // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
-                        if (data.count && data.count.length){
-                            for (var i = 0; i < data.count.length; i++){
-                                if (data.count[i].group && data.count[i].group === category && data.count[i].count){
-                                    count = data.count[i].count;
+            if (box === "inbox" && sakai_user.data.me.messages.unread) {
+                if ($.isFunction(callback)) {
+                    callback(true, sakai_user.data.me.messages.unread);
+                }
+            } else {
+                var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function(data){
+                        var count = 0;
+                        if (category){
+                            // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                            if (data.count && data.count.length){
+                                for (var i = 0; i < data.count.length; i++){
+                                    if (data.count[i].group && data.count[i].group === category && data.count[i].count){
+                                        count = data.count[i].count;
+                                    }
                                 }
                             }
+                        } else {
+                            if (data.count && data.count[0] && data.count[0].count) {
+                                count = data.count[0].count;
+                            }
                         }
-                    } else {
-                        if (data.count && data.count[0] && data.count[0].count) {
-                            count = data.count[0].count;
+                        if (box === "inbox") {
+                            sakai_user.data.me.messages.unread = count;
+                        }
+                        if ($.isFunction(callback)) {
+                            callback(true, count);
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError) {
+                        if ($.isFunction(callback)) {
+                            callback(false,{});
                         }
                     }
-                    if ($.isFunction(callback)) {
-                        callback(true, count);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError) {
-                    if ($.isFunction(callback)) {
-                        callback(false,{});
-                    }
-                }
-            });
+                });
+            }
         },
 
         /**
