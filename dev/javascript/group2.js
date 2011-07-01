@@ -31,6 +31,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var querystring = new Querystring();
             if (querystring.contains("id")) {
                 groupId = querystring.get("id");
+            } else if (window.location.pathname.indexOf("~") === 1) {
+                groupId = window.location.pathname.substring(2);
             }
             sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
