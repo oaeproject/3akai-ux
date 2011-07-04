@@ -18,7 +18,15 @@
  *
  */
 
-define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/dev/lib/misc/parseuri.js"],function($, sakai_conf, sakai_serv) {
+define(
+    [
+        "jquery",
+        "../../configuration/config.js",
+        "sakai/sakai.api.server",
+        "../misc/parseuri.js"
+    ],
+    function($, sakai_conf, sakai_serv) {
+
     var sakai_content = {
         /**
          * Set the permissions for an array of uploaded files or links
@@ -457,10 +465,9 @@ define(["jquery", "/dev/configuration/config.js", "sakai/sakai.api.server", "/de
 
         getCommentCount : function(content){
             var count = 0;
-            if (content[content["_path"] + "/comments"]) {
-                $.each(content[content["_path"] + "/comments"], function(key, val){
-                    var regex = new RegExp(content["_path"] + "/comments/");
-                    if (key.match(regex)) {
+            if (content.hasOwnProperty("comments")) {
+                $.each(content.comments, function(key, val){
+                    if ($.isPlainObject(val)) {
                         count++;
                     }
                 });

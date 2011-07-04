@@ -77,9 +77,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var renderContacts = function(){
             if ($addpeopleContactsContainer.text() === "") {
+                var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups);
+                groups = _.without(groups, sakai_global.group2.groupData["sakai:group-id"]);
                 $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
                     "contacts": sakai.data.me.mycontacts,
-                    "groups": sakai.api.Groups.getMemberships(sakai.data.me.groups),
+                    "groups": groups,
                     "sakai": sakai
                 }));
             }
@@ -106,7 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var decideEnableDisableControls = function(el){
-            if($("."+el.currentTarget.className + ":checked").length){
+            if($("." + el.currentTarget.className + ":checked").length){
                 enableDisableControls(false);
             }else{
                 enableDisableControls(true);
@@ -153,7 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var checkAll = function(el, peopleContainer){
             if($(el).is(":checked")){
                 $(peopleContainer).attr("checked","checked");
-                if (peopleContainer != addpeopleSelectedCheckbox) {
+                if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).change();
                     renderSelectedContacts();
                 }else{
@@ -161,7 +163,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }else{
                 $(peopleContainer).removeAttr("checked");
-                if (peopleContainer != addpeopleSelectedCheckbox) {
+                if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).removeAttr("checked");
                     $(peopleContainer).change();
                     renderSelectedContacts();

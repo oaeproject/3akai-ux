@@ -19,7 +19,7 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {
-        
+
         sakai_global.nopermissions.error500 = true;
 
         var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
@@ -31,7 +31,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $browsecatcount = $("#error_browse_category_number");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
-        var $goback = $("#error_goback");
+        var $errorPageLinksTemplate = $("#error_page_links_template");
+        var $errorPageLinksContainer = $("#error_page_links_container");
         var $searchinput = $("#errorsearch_text");
 
         var doInit = function(){
@@ -43,7 +44,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
-            
+
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
@@ -51,17 +52,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var world = sakai.config.worldTemplates[c];
                 world.label = sakai.api.i18n.General.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
-                	world.last = true;
+                    world.last = true;
                 }
                 worlds.push(world);
             }
             obj.worlds = worlds;
             $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
-            
+            // display the error page links
+            var linkObj = {
+                links: sakai.config.ErrorPage.Links,
+                sakai: sakai
+            };
+            $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
             if (sakai.data.me.user.anon){
                 $signinbuttonwrapper.show();
                 $signinbutton.live("click", forceLoginOverlay);
-                
+
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
@@ -84,10 +90,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $("#permission_error").addClass("error_page_bringdown");
             }
             document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED");
-            
-            $goback.live("click",function(){
-                window.history.go(-1);
-            });
+
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
                     document.location = "/search#q=" + $.trim($searchinput.val());
