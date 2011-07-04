@@ -14,9 +14,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.sakaiproject.nakamura</groupId>
-  <artifactId>org.sakaiproject.nakamura.uxloader</artifactId>
+  <artifactId>org.sakaiproject.nakamura.uxloader-cam</artifactId>
   <packaging>bundle</packaging>
-  <version>ucam-0.7-SNAPSHOT</version>
+  <version>0.7-SNAPSHOT</version>
   <name>Sakai 3 UX Loader</name>
   <description>Loads the Sakai 3 UI into the JCR</description>
   <url>http://github.com/sakaiproject/3akai-ux</url>
