@@ -133,12 +133,7 @@ define(function(){
             TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
             USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-
-            // PREFIXES
-            GROUP_PREFIX: "/_group",
-            USER_PREFIX: "/_user"
-
+            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__"
         },
 
         PageTitles: {
@@ -153,40 +148,26 @@ define(function(){
                 /**  acknowledgements.html  **/
                 "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
                 "/acknowledgements": "ACKNOWLEDGEMENTS",
+                /**  allcategories.html  **/
+                "/categories": "BROWSE_ALL_CATEGORIES",
+                "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
+                /**  category.html  **/
                 /**  content_profile.html  **/
                 "/dev/content_profile.html": "CONTENT_PROFILE",
                 "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",
-                /**  directory.html  **/
-                "/dev/directory.html": "DIRECTORY",
-                "/directory": "DIRECTORY",
-                /**  group_edit.html  **/
-                "/dev/group_edit.html": "MANAGE_GROUP",
-                "/group/edit": "MANAGE_GROUP",
-                /**  inbox.html  **/
-                "/dev/inbox.html": "MY_MESSAGES",
-                "/inbox": "MY_MESSAGES",
-                /**  index.html  **/
-                "/": "SIGN_IN",
-                "/dev": "SIGN_IN",
-                "/dev/": "SIGN_IN",
-                "/index.html": "SIGN_IN",
-                "/dev/index.html": "SIGN_IN",
-                "/index": "SIGN_IN",
+                /**  explore.html  **/
+                "/": "EXPLORE",
+                "/dev": "EXPLORE",
+                "/dev/": "EXPLORE",
+                "/index.html": "EXPLORE",
+                "/dev/explore.html": "EXPLORE",
+                "/index": "EXPLORE",
                 /**  logout.html  **/
                 "/dev/logout.html": "LOGGING_OUT",
                 "/logout": "LOGGING_OUT",
-                /**  my_sakai.html  **/
-                "/dev/my_sakai.html": "MY_SAKAI",
-                "/home": "MY_SAKAI",
-                /**  people.html  **/
-                "/dev/people.html": "PEOPLE",
-                "/people": "PEOPLE",
-                /**  profile_edit.html  **/
-                "/dev/profile_edit.html": "EDIT_MY_PROFILE",
-                "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
                 "/search": "SEARCH"

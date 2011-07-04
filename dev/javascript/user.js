@@ -230,6 +230,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "userid": sakai.data.me.user.userid,
                     "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid)
                 };
+                document.title = document.title + " " + contextData.displayName;
                 renderEntity();
                 loadSpaceData();
             } else {
@@ -251,6 +252,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "altTitle": true,
                     "picture": getUserPicture(profile, entityID)
                 };
+                document.title = document.title + " " + contextData.displayName;
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
                     renderEntity();

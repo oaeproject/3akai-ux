@@ -934,7 +934,7 @@ define(["jquery",
         getPageContext : function() {
             if (sakai_global.content_profile) {
                 return "content";
-            } else if (sakai_global.group || sakai_global.group2 || sakai_global.groupedit) {
+            } else if (sakai_global.group || sakai_global.groupedit) {
                 return "group";
             } else if (sakai_global.directory) {
                 return "directory";

@@ -64,8 +64,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var worldTitle = $worldsettingsTitle.val();
 
                         // Update group object
-                        sakai_global.group2.groupData["sakai:group-title"] = worldTitle;
-                        sakai_global.group2.groupData["sakai:group-description"] = $worldsettingsDescription.val();
+                        sakai_global.group.groupData["sakai:group-title"] = worldTitle;
+                        sakai_global.group.groupData["sakai:group-description"] = $worldsettingsDescription.val();
 
                         sakai.api.Groups.updateGroupProfile(worldId,
                              {
@@ -81,12 +81,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                  var visible = $("#worldsettings_can_be_found_in").val();
 
                                  // only POST if user has changed values
-                                 if(joinable !== sakai_global.group2.groupData["sakai:group-joinable"] ||
-                                     visible !== sakai_global.group2.groupData["sakai:group-visible"]) {
+                                 if(joinable !== sakai_global.group.groupData["sakai:group-joinable"] ||
+                                     visible !== sakai_global.group.groupData["sakai:group-visible"]) {
                                      // set new group permissions
-                                     sakai.api.Groups.setPermissions(sakai_global.group2.groupId, joinable, visible);
-                                     sakai_global.group2.groupData["sakai:group-visible"] = $worldsettingsCanBeFoundIn.val();
-                                     sakai_global.group2.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
+                                     sakai.api.Groups.setPermissions(sakai_global.group.groupId, joinable, visible);
+                                     sakai_global.group.groupData["sakai:group-visible"] = $worldsettingsCanBeFoundIn.val();
+                                     sakai_global.group.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
                                  }
 
                                  // Set the group tags
@@ -95,11 +95,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                  for (var t = 0; t < grouptags.length; t++){
                                      grouptags[t] = $.trim(grouptags[t]);
                                  }
-                                 var groupProfileURL = "/~" + sakai_global.group2.groupId + "/public/authprofile";
-                                 var locations = sakai.api.Util.getDirectoryTags(sakai_global.group2.groupData["sakai:tags"], true);
+                                 var groupProfileURL = "/~" + sakai_global.group.groupId + "/public/authprofile";
+                                 var locations = sakai.api.Util.getDirectoryTags(sakai_global.group.groupData["sakai:tags"], true);
                                  grouptags = grouptags.concat(locations);
-                                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group2.groupData["sakai:tags"], function(success, tags){
-                                     sakai_global.group2.groupData["sakai:tags"] = tags;
+                                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, sakai_global.group.groupData["sakai:tags"], function(success, tags){
+                                     sakai_global.group.groupData["sakai:tags"] = tags;
                                  });
                                  $(window).trigger("sakai.entity.updateTitle", worldTitle);
                                  sakai.api.Util.notification.show($("#worldsettings_success_title").html(), $("#worldsettings_success_body").html());
@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var doInit = function (worldId) {
             bindEvents(worldId);
-            var profile = sakai_global.group2.groupData;
+            var profile = sakai_global.group.groupData;
             $worldsettingsTitle.val(profile['sakai:group-title']);
             $worldsettingsDescription.val(profile['sakai:group-description']);
             if (profile['sakai:tags']){

@@ -22,6 +22,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.category = function() {
 
+        var originalTitle = document.title;
         var pubdata = {};
         var privdata = {};
 
@@ -67,6 +68,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             })
 
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
+            document.title = originalTitle + " " + dirData.title;
         };
 
         /**
