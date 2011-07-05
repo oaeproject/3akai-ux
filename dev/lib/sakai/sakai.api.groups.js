@@ -883,18 +883,13 @@ define(
          * Remove users from the specified group
          *
          * @param {String} groupID the ID of the group to add members to
-         * @param {String} list Either 'members' or 'managers'
          * @param {Array} users Array of user/group IDs to remove from the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
          */
-        removeUsersFromGroup : function(groupID, list, users, medata, callback) {
+        removeUsersFromGroup : function(groupID, users, medata, callback) {
             var reqData = [];
             var currentUserIncluded = false;
-
-            if (list === 'managers') {
-                groupID = groupID + '-managers';
-            }
 
             $.each(users, function(index, user) {
                 reqData.push({

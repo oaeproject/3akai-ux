@@ -282,8 +282,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
                 groupType = "managers";
             }
-            sakai.api.Groups.removeUsersFromGroup(groupid, groupType,
-                [sakai.data.me.user.userid], sakai.data.me, function (success) {
+            var users = [{
+                userid: sakai.data.me.user.userid,
+                permission: groupType
+            }];
+            sakai.api.Groups.removeUsersFromGroup(groupid, users, sakai.data.me, function (success) {
                 if (success) {
                     $(window).trigger("updated.counts.lhnav.sakai");
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
