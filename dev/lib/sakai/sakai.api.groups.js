@@ -780,6 +780,49 @@ define(
             });
         },
 
+        getRole : function(userId, groupID, callback){
+            var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                if (success){
+                    var roles = $.parseJSON(data.properties["sakai:roles"]);
+                    var batchRequests = [];
+                    var role;
+                    for (var i = 0; i < roles.length; i++) {
+                        var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + ".everyone.json";
+                        batchRequests.push({
+                            "url": url,
+                            "method": "GET"
+                        //  "parameters": parameters
+                        });
+                    }
+                    sakai_serv.batch(batchRequests, function(success, data){
+                        if (success) {
+                            var isMatch = function(user, index){
+                                return user.userid === userId;
+                            };
+
+                            for (var i = 0; i < roles.length; i++) {
+                                if (data.results.hasOwnProperty(i)) {
+                                    var members = $.parseJSON(data.results[i].body);
+                                    if ($.grep(members, isMatch).length > 0){
+                                        role = roles[i].id;
+                                        break;
+                                    }
+                                }
+                            }
+                            if ($.isFunction(callback)) {
+                                callback(true, role);
+                            }
+                        }
+                    }, false, true);
+                } else {
+                    debug.error("Could not get members group info for " + groupID);
+                    if ($.isFunction(callback)) {
+                        callback(false, xhr);
+                    }
+                }
+            });
+        },
+
         /**
          * Retrieves the profile picture for the group
          *
