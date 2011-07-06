@@ -1,7 +1,7 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/recentactivity/css/recentactivity.css" />
 
-<div class="recentactivity_widget">
+<div class="recentactivity_widget s3d-widget-container">
     <div class="s3d-contentpage-title">__MSG__RECENT_ACTIVITY__</div>
     <div id="recentactivity_activity_container"><!----></div>
 </div>
@@ -55,13 +55,12 @@
             {if !sakai.data.me.user.anon}
                 <h1>
                     <a href="/search#l=people&q=*" title="__MSG__ADD_PEOPLE__" class="s3d-regular-links">__MSG__ADD_PEOPLE__</a>
-                    <a href="/dev/createnew.html" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>
+                    <a href="/create" title="__MSG__ADD_CONTENT__" class="s3d-regular-links">__MSG__ADD_CONTENT__</a>
                 </h1>
             {/if}
         </div>
         <div id="recentactivity_noresults_example"></div>
     {/if}
-    <div id="recentactivity_footer"></div>
 --></div>
 
 <!-- JAVASCRIPT -->

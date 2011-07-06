@@ -72,7 +72,7 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 require({
-    baseUrl:"/dev/lib/",
+    baseUrl:"../../../../dev/lib/",
     paths: {
         "jquery": "jquery/jquery-1.5.2",
         "jquery-ui": "jquery/jquery-ui-1.8.13.custom"
@@ -82,7 +82,7 @@ require({
 
 require(
     {
-        baseUrl: "/dev/lib/"
+        baseUrl: "../../../../dev/lib/"
     },
     [
         "jquery",
@@ -112,7 +112,7 @@ require(
     ],
     function($, sakai) {
         require.ready(function() {
-            if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
+            if (document.location.pathname !== "/tests/qunit/" && document.location.pathname.indexOf("/tests/qunit/index.html") === -1) {
                 sakai.api.User.loadMeData(function(success, data) {
                     // Start i18n
                     sakai.api.i18n.init(data);

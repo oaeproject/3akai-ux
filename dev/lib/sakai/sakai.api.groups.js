@@ -29,14 +29,18 @@
  * @namespace
  * Group related convenience functions
  */
-define(["jquery",
-        "/dev/configuration/config.js",
+define(
+    [
+        "jquery",
+        "../../configuration/config.js",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "sakai/sakai.api.communication"],
-        function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+        "sakai/sakai.api.communication"
+    ],
+    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm){
+
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
@@ -418,22 +422,6 @@ define(["jquery",
                             "sakai:group-joinable": joinable
                         }
                     });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
                 } else if(visible == sakai_conf.Permissions.Groups.visible.members) {
                     // visible to members only
                     batchRequests.push({
@@ -444,22 +432,6 @@ define(["jquery",
                             ":viewer@Delete": "everyone",
                             "sakai:group-visible": visible,
                             "sakai:group-joinable": joinable
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
                         }
                     });
                 } else if(visible == sakai_conf.Permissions.Groups.visible.allusers) {
@@ -473,22 +445,6 @@ define(["jquery",
                             "sakai:group-joinable": joinable
                         }
                     });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
                 } else {
                     // visible to the public
                     batchRequests.push({
@@ -498,22 +454,6 @@ define(["jquery",
                             "rep:group-viewers@Delete": "",
                             "sakai:group-visible": visible,
                             "sakai:group-joinable": joinable
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    batchRequests.push({
-                        "url": homeFolderUrl,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "granted"
                         }
                     });
                 }
@@ -564,8 +504,8 @@ define(["jquery",
                 }
                 var canManage = false;
                 for (var i = 0; i < meData.groups.length; i++) {
-                    for (var r = 0; r < managementRoles.length; r++) {
-                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[r]) {
+                    for (var mr = 0; mr < managementRoles.length; mr++) {
+                        if (meData.groups[i]["sakai:group-id"] === groupinfo["sakai:group-id"] + "-" + managementRoles[mr]) {
                             canManage = true;
                         }
                     }
@@ -622,7 +562,7 @@ define(["jquery",
                         managerArray.push(groupManagers[i].userid);
                     }
                 }
-                var userString = sakai_user.getDisplayName(meData.profile)
+                var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.General.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
@@ -865,7 +805,6 @@ define(["jquery",
                     currentUserIncluded = true;
                 }
             });
-
             if (reqData.length > 0) {
                 // batch request to add users to group
                 sakai_serv.batch(reqData, function(success, data) {

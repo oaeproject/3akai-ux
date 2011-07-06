@@ -1,3 +1,4 @@
+<%@ page session="false" %>
 <%
 response.setStatus(404);
 %><!DOCTYPE HTML>
@@ -14,7 +15,7 @@ response.setStatus(404);
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />        
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
 
     </head>
 
@@ -46,41 +47,41 @@ response.setStatus(404);
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
                                     <a class="s3d-regular-links s3d-bold" href="/search#l=content">__MSG__CONTENT__</a>
-                                </div>          
+                                </div>
                             </div>
                             <hr class="s3d-split-line fl-push" />
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
                                     <a class="s3d-regular-links s3d-bold" href="/search#l=people">__MSG__PEOPLE__</a>
-                                </div>          
+                                </div>
                             </div>
                             <hr class="s3d-split-line fl-push" />
                             <div id="error_second_column_links_template" style="display:none"><!--
-							{for w in worlds}
-								<div class="error_content_second_column_box_item_container">
-									<div class="error_content_second_column_box_item_content">
-										<a class="s3d-regular-links s3d-bold" href="/search#l=\${w.label}">\${w.label}</a>
-									</div>          
-								</div>
-								{if !w.last}
-									<hr class="s3d-split-line fl-push" />
-								{/if}
-							{/for}
-							<div class="error_content_second_column_box_footer"></div>
-                            --></div>                  
+                            {for w in worlds}
+                                <div class="error_content_second_column_box_item_container">
+                                    <div class="error_content_second_column_box_item_content">
+                                        <a class="s3d-regular-links s3d-bold" href="/search#l=\${w.label}">\${w.label}</a>
+                                    </div>
+                                </div>
+                                {if !w.last}
+                                    <hr class="s3d-split-line fl-push" />
+                                {/if}
+                            {/for}
+                            <div class="error_content_second_column_box_footer"></div>
+                            --></div>
                      </div>
                     </div>
-                    
-                    <div class="error_content_second_column_box browse_cats">   
+
+                    <div class="error_content_second_column_box browse_cats">
                         <div class="s3d-contentpage-title">__MSG__BROWSE_CATEGORIES__</div>
                         <div id="error_content_second_column_box_browse_container">
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
-                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <a href="/dev/allcategories.html"><span class="error_browse_cats"><span id="error_browse_category_number">0</span> __MSG__CATEGORIES_LC__</span></a> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
-                                </div>          
-                            </div>              
+                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <a href="/categories"><span class="error_browse_cats"><span id="error_browse_category_number">0</span> __MSG__CATEGORIES_LC__</span></a> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
+                                </div>
+                            </div>
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                            <a href="/categories" id="error_browse_categories_button">
                                 <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
@@ -120,7 +121,7 @@ response.setStatus(404);
                                 {for w in links.whatToDo}
                                     <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
                                 {/for}
-                                <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
+                                <li><a href="{if document.referrer === ""}/{else}\${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
                             </ul>
 
                             {if links.getInTouch && links.getInTouch.length > 0}

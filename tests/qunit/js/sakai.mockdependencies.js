@@ -72,17 +72,18 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 require({
-    baseUrl:"/dev/lib/",
+    baseUrl:"../../../../dev/lib/",
     paths: {
         "jquery": "jquery/jquery-1.5.2",
-        "jquery-ui": "jquery/jquery-ui-1.8.13.custom"
+        "jquery-ui": "jquery/jquery-ui-1.8.13.custom",
+        "mockjax": "../../tests/qunit/js/jquery.mockjax"
     },
-    priority: ["jquery"]
+    priority: ["jquery", "mockjax"]
 });
 
 require(
     {
-        baseUrl: "/dev/lib/"
+        baseUrl: "../../../../dev/lib/"
     },
     [
         "jquery",
@@ -108,7 +109,7 @@ require(
         "../../../../dev/lib/jquery/plugins/jquery.MultiFile.js",
         "../../../../dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
         "../../../../dev/lib/jquery/plugins/gritter/jquery.gritter.js",
-        "../../../../tests/qunit/js/jquery.mockjax.js",
+        "mockjax",
         "../../../../tests/qunit/js/mockcore.js",
         "../../../../tests/qunit/js/mockme.js",
         "../../../../tests/qunit/js/qunit.js"
