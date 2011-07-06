@@ -28,8 +28,8 @@ define(
         "sakai/sakai.api.user",
         "sakai/sakai.api.util",
         "sakai/sakai.api.widgets",
-        "../../configuration/config.js",
-        "../../configuration/config_custom.js",
+        "config/config",
+        "config/config_custom",
         "../../../var/widgets.json?callback=define"
     ],
     function(sakai_comm,

@@ -35,7 +35,7 @@ define(
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "../../configuration/config.js",
+        "config/config",
         "../../../var/widgets.json?callback=define"
     ],
     function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {

@@ -33,7 +33,7 @@
 define(
     [
         "jquery",
-        "../../configuration/config.js",
+        "config/config",
         "sakai/sakai.api.util",
         "sakai/sakai.api.server"
     ],

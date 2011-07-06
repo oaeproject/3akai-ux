@@ -21,9 +21,9 @@
 define(
     [
         "jquery",
-        "../../configuration/config.js",
+        "config/config",
         "sakai/sakai.api.server",
-        "../misc/parseuri.js"
+        "misc/parseuri"
     ],
     function($, sakai_conf, sakai_serv) {
 

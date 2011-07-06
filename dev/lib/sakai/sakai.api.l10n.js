@@ -32,9 +32,9 @@
  */
 define(
     [
-        "../../configuration/config.js",
-        "../misc/l10n/globalization.js",
-        "../misc/l10n/detect_timezone.js"
+        "config/config",
+        "misc/l10n/globalization",
+        "misc/l10n/detect_timezone"
     ],
     function(sakai_conf) {
     return {
