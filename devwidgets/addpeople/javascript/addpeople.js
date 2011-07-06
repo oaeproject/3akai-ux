@@ -78,7 +78,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderContacts = function(){
             if ($addpeopleContactsContainer.text() === "") {
                 var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups);
-                groups = _.without(groups, sakai_global.group.groupData["sakai:group-id"]);
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"]) {
+                    groups = _.without(groups, sakai_global.group.groupData["sakai:group-id"]);
+                }
                 $addpeopleContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleContactsTemplate, {
                     "contacts": sakai.data.me.mycontacts,
                     "groups": groups,
