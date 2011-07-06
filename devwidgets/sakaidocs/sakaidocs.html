@@ -95,6 +95,7 @@
         // Page View Mode //
         //////////////////// -->
         <div id="s3d-page-container"></div>
+        <div class="fl-push"><!-- --></div>
 
     </div>
 
@@ -126,32 +127,19 @@
         --></div>
 
         <!-- WRAPPING DIALOG -->
-        <div id="wrapping_dialog" class="dialog" style="width:400px; margin-left: -200px">
-            <div class="dialog_header">
-                <div class="dialog_header_inner">
-                <h1>__MSG__APPEARANCE__</h1>
-                <button type="button" class="jqmClose dialog_close_image s3d-link-button" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</button>
-                </div>
-            </div>
-
-            <div class="dialog_content">
-
+        <div id="wrapping_dialog" class="s3d-dialog s3d-dialog-container" style="width:400px; margin-left: -200px">
+            <div class="s3d-dialog-close jqmClose"></div>
+            <h1 class="s3d-dialog-header">__MSG__APPEARANCE__</h1>
+            <div>
                 <h3 style="margin-top:0px">__MSG__WRAPPING_SELECT__</h3>
-
                 <ul style="margin-left:1em">
                     <li style="list-style-type:none; padding-l"><button type="button" id="wrapping_no" class="s3d-link-button s3d-bold">__MSG__WRAPPING_NONE__</button></li>
                     <li style="list-style-type:none"><button type="button" id="wrapping_left" class="s3d-link-button s3d-bold">__MSG__WRAPPING_LEFT__</button></li>
                     <li style="list-style-type:none"><button type="button" id="wrapping_right" class="s3d-link-button s3d-bold">__MSG__WRAPPING_RIGHT__</button></li>
                 </ul>
-
-                <div class="dialog_buttons">
-                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <div class="fl-force-right">
+                    <button type="button" class="s3d-button s3d-overlay-button jqmClose">__MSG__CANCEL__</button>
                 </div>
-            </div>
-
-            <!-- DIALOG FOOTER -->
-            <div class="dialog_footer">
-                <div class="dialog_footer_inner"><!-- --></div>
             </div>
         </div>
 
@@ -163,7 +151,7 @@
                 <h3 style="margin-top:0px">__MSG__AN_UNSAVED_VERSION_OF_PAGE_HAS_BEEN_FOUND__.</h3>
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
                 <div class="fl-force-right">
-                    <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__CANCEL__</button>
+                    <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
                     <button type="button" class="s3d-button s3d-overlay-button" id="autosave_revert">__MSG__YES__</button>
                 </div>
             </div>

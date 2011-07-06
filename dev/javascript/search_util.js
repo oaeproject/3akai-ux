@@ -196,6 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     user.pending = true;
                                 } else if(friend.details["sakai:state"] === "NONE"){
                                     user.none = true;
+                                    user.connected = false;
                                 }
                             }
                         }
@@ -241,7 +242,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         ////////////
         // Events //
         ////////////
-        
+
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             $.ajax({

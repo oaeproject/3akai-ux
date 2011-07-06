@@ -160,14 +160,14 @@
     </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
-        <span class="entity_number">
+        <div class="entity_number">
             <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
             Used by
             <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
                 ${peopleCount}
                 {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
             </a>
-        </span>
+        </div>
         {var groupCount = data.members.counts.groups}
         {if groupCount}
             and
@@ -181,7 +181,7 @@
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
             <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
         </span>
-        <span class="entity_number entity_permissions_label">
+        <div class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
             <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
             {if permissions == "public"}
@@ -194,7 +194,7 @@
                     + ${groupCount + peopleCount - 1} __MSG__OTHERS__
                 {/if}
             {/if}
-        </span>
+        </div>
     </div>
 --></div>
 

@@ -2,8 +2,8 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../../tests/qunit/js/qunit.js",
-    "../../../../../tests/qunit/js/sakai_qunit_lib.js"
+    "../../../../tests/qunit/js/qunit.js",
+    "../../../../tests/qunit/js/sakai_qunit_lib.js"
     ], 
     function($, sakai) {
     
@@ -120,7 +120,7 @@ require(
         var load = function(url, json){
 
             var loadCallback = function(success, data){
-                sakai.api.Server.removeServerCreatedObjects(data);
+                data = sakai.api.Server.removeServerCreatedObjects(data, ["_", "jcr:"]);
                 same(data, json, "The saved JSON is the same as the loaded JSON");
                 start();
             };

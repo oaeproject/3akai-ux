@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#selecttemplate_container img {float:left; margin-right: 20px;}
+#selecttemplate_container img {float:left; margin-right: 20px; width: 289px;}
 #selecttemplate_container .selecttemplate_template_small {float:left; width:229px; margin:20px 22px 10px 0;}
 #selecttemplate_container .selecttemplate_template_large {float:left; width: 471px; margin:20px 30px 10px 0;}
 #selecttemplate_container .selecttemplate_template_right {margin-right:0;}

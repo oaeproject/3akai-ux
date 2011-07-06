@@ -123,6 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                 });
+                $(window).trigger("done.deletecontent.sakai", [deletedata]);
                 $deletecontent_dialog.jqmHide();
                 return false;
             });

@@ -1,33 +1,51 @@
-body{margin-bottom:50px!important;}
+#signup_header {background:url("/dev/images/signup_artwork.png") no-repeat scroll left top transparent;height:520px;width:920px;}
+#signup_header_bg {background:url("/dev/images/signup_header_bg.png") repeat scroll left top transparent;border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;-webkit-border-radius:0 0 6px 6px;padding:10px;}
+#signup_form_container {background:url("/dev/images/signup_form_bg.png") repeat-x scroll left top #edecec;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;min-height:280px;;margin-top:-120px;box-shadow:0 5px 7px -6px #424242;padding:0 15px 15px;}
+#signup_form_container h1.signup_header {color:#2f91cd;font-size:20px;font-weight:normal;margin:0;text-shadow:0 0 1px #ddd;padding-top:6px;}
+h2 {color:#666;font-size:15px;}
 
-/** TOPNAV **/
-.create_account .topnav{height:32px;margin:0 auto;overflow:hidden;background:#454a4f;}
-.create_account .topnav ul{width:960px;margin:0 auto;overflow:hidden;}
-.create_account .topnav ul li{list-style-image:none;list-style-position:outside;list-style-type:none;display:block;float:left;}
-.create_account .topnav ul li a{display:block;padding:8px 20px;text-align:center;color:#FFF;height:32px;font-weight:bold;}
-.create_account .topnav_about{border-left:1px solid #878A8C;border-right:1px solid #878A8C;}
+.signup_descriptionbox{font-size:16px;color:#666;width:195px;position:absolute;line-height:18px;}
+#signup_descriptionbox_left {text-align:right;margin-left:128px;margin-top:250px;}
+#signup_descriptionbox_right {text-align:left;margin-left:578px;margin-top:250px;}
+#signup_descriptionbox_middle {margin-left:336px;margin-top:344px;text-align:center;width:230px;}
 
-/** HEADER **/
-.create_account .header_container{width:960px;}
-.create_account .header-title{color:#08415E;float:left;font-size:4em;margin:0 35px 0 0;padding:0 0 20px;}
-.create_account .header-byline{color:#2C9CC4;font-size:1.5em;font-weight:bold;padding:3px 0 0;line-height:120%;}
-#header_byline_justify_left{margin-left:20px;}
+#signup_form_container .signup_form_column_fields, #signup_form_container .signup_form_column_labels {width:40%;float:left;}
+#signup_form_container .signup_form_column_fields {width:60%;}
+#signup_form_container .signup_form_column {width:370px;float:left;margin-top:12px;}
+#signup_form_container .signup_form_column label, .signup_form_column input {clear:both;display:block;float:left;margin-bottom:15px;}
+#signup_form_container .signup_form_column label {float:right;margin-right:8px;margin-top:6px;color:#666;}
+#signup_form_container .signup_form_column input {border:1px solid #e0e1e2;height:21px;width:200px;padding:0 5px;color:#333;}
+#signup_form_container .signup_form_column input.username_unavailable_icon {width:185px;padding:0 20px 0 5px;}
+#signup_form_container #signup_form_shadow {background:url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;height:15px;margin-left:95px;margin-top:-14px;position:absolute;width:700px;}
+#signup_form_container #checkUserName{float:right;margin-top:10px;}
+#signup_form_container input::-webkit-input-placeholder {color:#aaa;font-size:12px;}
+#signup_form_container input:-moz-placeholder {color:#aaa;font-size:12px;}
 
-/** CONTENT **/
-.create_account .content{width:960px;padding:0;margin:0 auto;}
-.create_account .content_inside{padding:10px 15px 20px;}
-.create_account h3{margin:0;padding:0 0 20px;color:#454A4F;font-size:2em;}
-.create_account .content_top_corners{background:url(/dev/images/content_top.png) top left no-repeat;padding:0;width:960px;height:20px;}
-.create_account .content_top{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1413px transparent;padding:0 5px 0 0;margin:0;}
-.create_account .content_top_inner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1393px transparent;margin:0;height:6px;}
-.create_account .content_main{border-left:3px solid #D3DBDE;border-right:3px solid #D3DBDE;margin:0;padding:10px;}
+#signup_form_container .username_available_icon {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;}
+#signup_form_container .username_unavailable_icon {background:url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;}
 
-/** TABLE/FORM **/
-.create_account #create_account_form{padding:10px 0 0 47px;}
-.create_account #create_account_form .create_account_input{border:1px solid #999;width:400px;height:26px;font-weight:bold;font-size:20px;padding:1px 5px 0;}
-.create_account #create_account_form td{border:none;margin:0;padding:5px;}
-.create_account #create_account_form .label_container{color:#454A4F;text-align:right;font-weight:bold;font-size:12px;}
-.create_account #create_account_form .input_field_hover{border:1px solid #454a4f;background:#dceffd;}
-.create_account #create_account_form .username_available{color:#7aa722;font-weight:bold;padding:0;margin:-5px 0;}
-.create_account .success_message{font-size:1.1em;color:#454A4F;padding:15px 0 0;}
-.create_account .success_message a{font-weight:bold;color:#2b9cc5;}
+.signup_form_error {border:3px solid #ffba00 !important;margin-bottom:5px !important;}
+label.signup_form_error_label{margin-top:25px !important;}
+
+.create_account_input_error {background:#F9D679;color:#8B6B0A;font-size:11px;padding:4px 0 2px 10px;width:206px;clear:both;}
+
+.captcha_container #save_account {float:right;margin-top:74px;}
+.captcha_container {clear:both;margin-left:148px;width:580px;}
+
+.signup_comment_box {background:url("/dev/images/signup_commentbox_bg.png") repeat top left transparent;width:290px;height:205px;margin-top:20px;float:left;margin-right:25px;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;margin-bottom:85px;}
+.signup_comment_box.last {margin-right:0;}
+.signup_comment_box_arrow_down {background:url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;height:24px;margin-left:100px;margin-top:205px;position:absolute;width:44px;}
+.signup_comment_box_commenter {color:#666;font-size:12px;margin-left:150px;margin-top:220px;position:absolute;}
+.signup_comment_quote {color:#666;display:block;font-size:15px;font-style:italic;margin:18px;overflow:hidden;line-height:19px;}
+
+.signup_comment_icon {width:50px;float:left;margin:13px 5px 0;}
+.signup_comment_icon_personalspace {background:url("/dev/images/personalspace_icon_50x50.png") no-repeat top left transparent;height:50px;}
+.signup_comment_icon_cohere {background:url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;height:110px;}
+.signup_comment_icon_editable {background:url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;height:50px;}
+
+#signup_institution_logos {background:url("/dev/images/signup_institution_logos.jpg") no-repeat top left transparent;height:40px;width:920px;margin-top:25px;}
+
+/* Override CSS */
+.s3d-page-header {height:0;margin-top:15px;min-height:0;}
+.recaptchatable {background:#FFF;}
+.recaptchatable input {border:1px solid #E0E1E2 !important;}

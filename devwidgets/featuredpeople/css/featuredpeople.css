@@ -16,14 +16,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.featuredpeople_widget {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin:10px 0 0;}
-.featuredpeople_widget #featuredpeople_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-
-.featuredpeople_widget .s3d-contentpage-title {border-bottom:none;background-color:#f9f8f8;height:34px;line-height:34px;padding:0 12px;font-size:12px; margin-bottom: 0px;}
+.featuredpeople_widget {margin:10px 0 0;}
 
 /* People Items */
 .featuredpeople_widget .featuredpeople_content {border: 1px solid #fff; background:none repeat scroll 0 0 transparent;height:108px;width:200px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
-.featuredpeople_widget .featuredpeople_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;height:106px;margin-right:6px;padding-left:11px;padding-top:11px;width:200px;}
+.featuredpeople_widget .featuredpeople_content:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #EEF8FC;border: 1px solid #DBDBDB;cursor:pointer;}
 .featuredpeople_widget .featuredpeople_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
 .featuredpeople_widget .featuredpeople_content .featuredpeople_userpage_link {display:block;font-size:11px;}
 .featuredpeople_widget #featuredpeople_no_people {display: block;margin: 10px;}
+
+.featuredpeople_widget .s3d-no-results-container {margin:30px 10px 10px;}

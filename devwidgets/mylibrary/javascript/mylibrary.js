@@ -98,17 +98,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Determine the library ID of this library
-         */
-        var determineLibrary = function() {
-            if (mylibrary.contextId === sakai.data.me.user.userid) {
-                return "default";
-            } else {
-                return mylibrary.contextId;
-            }
-        };
-
-        /**
          * Determine if we're on the user's personal dashboard or not
          */
         var isOnPersonalDashboard = function() {
@@ -197,6 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     path: paths
                 }, function (success) {
                     if (success) {
+                        $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.currentPagenum = 1;
                         reset();
                     }
@@ -250,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Listen for newly the newly added content event
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (library === determineLibrary() || isOnPersonalDashboard()) {
+            if (library === mylibrary.contextId || isOnPersonalDashboard()) {
                 reset();
             }
         });
@@ -397,7 +387,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.newaddcontent) {
                     var library = null;
                     if (!isOnPersonalDashboard()) {
-                        library = determineLibrary();
+                        library = mylibrary.contextId;
                     }
                     data = sakai_global.newaddcontent.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
                 }
@@ -474,7 +464,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var who = "";
                 if (sakai_global.profile) {
                     who = sakai_global.profile.main.mode.value;
-                } else if (sakai_global.group2) {
+                } else if (sakai_global.group) {
                     if (mylibrary.isOwnerViewing) {
                         who = "group_managed";
                     } else {
@@ -574,6 +564,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             mylibrary.contextId = "";
             var contextName = "";
             var isGroup = false;
+
+            // We embed the deletecontent widget, so make sure it's loaded
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
+
             if (widgetData && widgetData.mylibrary) {
                 mylibrary.contextId = widgetData.mylibrary.groupid;
                 sakai.api.Server.loadJSON("/system/userManager/group/" +  mylibrary.contextId + ".json", function(success, data) {

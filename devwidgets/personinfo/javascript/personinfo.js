@@ -91,6 +91,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Display appropriate connection button according to users connection state
          */
         var showConnectionButton = function() {
+            $personinfo_message.hide();
             $personinfo_invite.hide();
             $personinfo_invited.hide();
             $personinfo_pending.hide();

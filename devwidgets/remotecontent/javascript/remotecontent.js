@@ -146,10 +146,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderIframeSettings = function(complete){
             if (complete) {
-                $(remotecontentSettingsPreview).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
+                $(remotecontentSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
             }
             else {
-                $(remotecontentSettingsPreviewFrame).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+                $(remotecontentSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
             }
         };
 
@@ -170,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderRemoteContentSettings = function(){
             if (json) {
-                $(remotecontentSettings).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
+                $(remotecontentSettings, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
             }
         };
 
@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderColorContainer = function(){
             if (json) {
-                $(remotecontentSettingsColorContainer).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
+                $(remotecontentSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
             }
         };
 
@@ -202,8 +202,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var saveRemoteContent = function(){
             clickSubmit = true;
-            if ($("#remotecontent_form").valid()) {
-                $(remotecontentSettingsPreview).html("");
+            if ($("#remotecontent_form", rootel).valid()) {
+                $(remotecontentSettingsPreview, rootel).html("");
                 sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             }
         };
@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Add binding to the color boxes
          */
         var addColorBinding = function(){
-            $(".remotecontent_settings_color").click(function(){
+            $(".remotecontent_settings_color", rootel).click(function(){
                 json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
@@ -258,18 +258,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, "No error message, this is just an appender");
 
             // FORM VALIDATION 
-            $("#remotecontent_form").validate({
+            $("#remotecontent_form", rootel).validate({
                 onkeyup: false,
                 errorPlacement: function(error, element){
                     if (clickSubmit) {
-                        sakai.api.Util.notification.show($(remotecontentTitle).html(), $(error).html());
+                        sakai.api.Util.notification.show($(remotecontentTitle, rootel).html(), $(error, rootel).html());
                         clickSubmit = false;
                     }
                 }
             });
         
             // define rules for the url
-            $(remotecontentSettingsUrl).rules("add", {
+            $(remotecontentSettingsUrl, rootel).rules("add", {
                 required: true,
                 url: true,
                 messages: {
@@ -279,16 +279,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the url for the iFrame
-            $(remotecontentSettingsUrl).change(function(){
+            $(remotecontentSettingsUrl, rootel).change(function(){
                 var urlValue = $(this).val();
-                if ($("#remotecontent_form").valid()) {
+                if ($("#remotecontent_form", rootel).valid()) {
                     renderIframeSettings(true);
                 }
             });
 
             // Change the iframe width
-            $(remotecontentSettingsWidth).change(function(){
-                var widthValue = $(remotecontentSettingsWidth).val();
+            $(remotecontentSettingsWidth, rootel).change(function(){
+                var widthValue = $(remotecontentSettingsWidth, rootel).val();
 
                 if (isDecimal(widthValue)) {
                     json.width = widthValue;
@@ -297,8 +297,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the iframe height
-            $(remotecontentSettingsHeight).change(function(){
-                var heightValue = $(remotecontentSettingsHeight).val();
+            $(remotecontentSettingsHeight, rootel).change(function(){
+                var heightValue = $(remotecontentSettingsHeight, rootel).val();
 
                 if (isDecimal(heightValue)) {
                     json.height = heightValue;
@@ -307,8 +307,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(remotecontentSettingsBorders).change(function(){
-                var borderValue = $(remotecontentSettingsBorders).val();
+            $(remotecontentSettingsBorders, rootel).change(function(){
+                var borderValue = $(remotecontentSettingsBorders, rootel).val();
                 if (isDecimal(borderValue)) {
                     json.border_size = borderValue;
                     renderIframeSettings(false);
@@ -316,23 +316,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(remotecontentSettingsAdvancedToggleSettings).click(function(){
+            $(remotecontentSettingsAdvancedToggleSettings, rootel).click(function(){
                 $("#remotecontent_settings_advanced", rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
 
             // Reset size to default values
-            $(remotecontentSettingsResetSize).click(function(){
+            $(remotecontentSettingsResetSize, rootel).click(function(){
                 $(remotecontentSettingsWidth, rootel).val(defaultWidth);
                 $(remotecontentSettingsHeight, rootel).val(defaultHeight);
-                $(remotecontentSettingsWidth).change();
-                $(remotecontentSettingsHeight).change();
+                $(remotecontentSettingsWidth, rootel).change();
+                $(remotecontentSettingsHeight, rootel).change();
                 $(remotecontentSettingsWidthUnitPercent, rootel).click();
             });
 
             // When you click on one of the width units (px or percentage)
-            $(remotecontentSettingsWidthUnitClass).click(function(){
+            $(remotecontentSettingsWidthUnitClass, rootel).click(function(){
                 var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
                 if (widthUnitValue === "px") {
                     json.width_unit = widthUnitValue;
@@ -340,18 +340,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 else {
                     json.width_unit = "%";
                 }
-                $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
+                $(remotecontentSettingsWidthUnitClass, rootel).removeClass(remotecontentSettingsWidthUnitSelectedClass);
                 $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
                 renderIframeSettings(false);
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert).click(function(){
+            $(remotecontentSettingsInsert, rootel).click(function(){
                 saveRemoteContent();
             });
 
             // Cancel it
-            $(remotecontentSettingsCancel).click(function(){
+            $(remotecontentSettingsCancel, rootel).click(function(){
                 sakai.api.Widgets.Container.informCancel(tuid, "remotecontent");
             });
 
@@ -387,19 +387,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderColorContainer();
             addBinding(); // Add binding to the various elements
             changeAdvancedSettingsArrow();
-            $(remotecontentSettings).show(); // Show the remotecontent settings
+            $(remotecontentSettings, rootel).show(); // Show the remotecontent settings
         };
 
         /*
          * Is the widget in settings mode or not
          */
         if (showSettings) {
-            $(remotecontentMainContainer).hide();
-            $(remotecontentSettings).show();
+            $(remotecontentMainContainer, rootel).hide();
+            $(remotecontentSettings, rootel).show();
         }
         else {
-            $(remotecontentSettings).hide();
-            $(remotecontentMainContainer).show();
+            $(remotecontentSettings, rootel).hide();
+            $(remotecontentMainContainer, rootel).show();
         }
 
         /**

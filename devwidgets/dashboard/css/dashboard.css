@@ -6,7 +6,6 @@
 #dashboard_container .dashboard_options{text-align:right;width:620px;padding-right:10px;}
 #dashboard_container .dashboard_options.fixed-container{padding:0 20px;width:920px;}
 #dashboard_container .dashboard_options a{font-size:9pt;color:#454A4F;font-weight:bold;}
-#dashboard_container #widget_settings_menu button {color:#333;}
 
 /* TOOLS CONTAINER - RIGHT COLUMN */
 #dashboard_container #toolscontainer{margin-left:20px;}
@@ -40,3 +39,4 @@
 .add_goodies .dialog_body .dialog_remove_goodies_description {color:#999999;font-size:12px;font-weight:100;}
 .add_goodies .dialog_body .dialog_add_goodies_title {color:#333;font-size:13px;font-weight:bold;}
 .add_goodies .remove_add_column {text-align:right; width:100px;}
+.add_goodies #add_goodies_body {height:310px; overflow: auto;}
