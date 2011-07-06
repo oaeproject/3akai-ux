@@ -102,7 +102,7 @@
         <ul class="{if sakai_global.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
         {for i in data.elements}
             <li>
-                <a href="/dev/category.html#l=${i.locationtitle.value.replace("directory/", "").replace("/", "-")}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${i.locationtitle.title}">
+                <a href="/category#l=${i.locationtitle.value.replace("directory/", "").replace("/", "-")}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${i.locationtitle.title}">
                     ${i.locationtitle.title}
                 </a>
             </li>

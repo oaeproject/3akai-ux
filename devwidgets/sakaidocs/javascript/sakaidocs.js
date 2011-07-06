@@ -460,6 +460,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     mode: "exact",
                     elements: "elm1",
                     theme: "advanced",
+                    skin: "sakai",
 
                     // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
                     //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
@@ -477,9 +478,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // Example content CSS (should be your site CSS)
                     content_css: sakai.config.URL.TINY_MCE_CONTENT_CSS,
-
-                    // Editor CSS - custom Sakai Styling
-                    editor_css: sakai.config.URL.TINY_MCE_EDITOR_CSS,
 
                     // Drop lists for link/image/media/template dialogs
                     template_external_list_url: "lists/template_list.js",
@@ -776,7 +774,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $("#wrapping_no").bind("click",function(ev){
-            setNewStyleClass("block_image");
+            setWrappingStyle("block_image");
         });
 
         $("#wrapping_left").bind("click",function(ev){
