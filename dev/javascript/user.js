@@ -49,9 +49,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 _title: pub.structure0.profile._title,
                 _altTitle: pub.structure0.profile._altTitle,
                 _order: pub.structure0.profile._order,
-                _canEdit: true,
-                _canSubedit: true,
-                _nonEditable: true
+                _canEdit: pub.structure0.profile._canEdit,
+                _nonEditable: pub.structure0.profile._nonEditable,
+                _reorderOnly: pub.structure0.profile._reorderOnly,
+                _canSubedit: pub.structure0.profile._canSubedit
             };
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
@@ -62,7 +63,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _order: section.order,
                     _altTitle: section.label,
                     _title: section.label,
-                    _nonEditable: true
+                    _nonEditable: section._nonEditable,
+                    _reorderOnly: section._reorderOnly
                 };
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
