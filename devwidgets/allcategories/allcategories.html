@@ -13,7 +13,7 @@
             {for item in directory}
                 <li>
                     <div class="allcategories_item">
-                        {if item.content}
+                        {if item.content && item.content["sling:resourceType"]}
                             <div class="allcategories_item_content">
                                 {if item.content["sakai:pooled-content-file-name"]}
                                     {if item.content.image}

@@ -28,28 +28,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.allcategories = function(tuid, showSettings){
-    
+
         // Containers
         var $allcategoriesItemsContainer = $("#allcategories_items_container");
-        
+
         // Templates
         var allcategoriesItemsTemplate = "allcategories_items_template";
-        
+
         var directory = sakai.config.Directory;
         var allcategoriesToRender = [];
-        
-        
+
+
         ////////////////////////////
         // CAROUSEL AND RENDERING //
         ////////////////////////////
-        
+
         var renderallcategories = function(){
+            debug.log(allcategoriesToRender);
             $allcategoriesItemsContainer.html(sakai.api.Util.TemplateRenderer(allcategoriesItemsTemplate, {
                 "directory": allcategoriesToRender,
                 "sakai": sakai
             }));
         };
-        
+
         /**
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
@@ -76,26 +77,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
             renderallcategories();
         };
-        
+
         /**
          * Get a feed of content to display in the carousel
          */
         var getCategoryContent = function(){
             sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
         };
-        
-        
+
+
         ////////////////
         // INITIALIZE //
         ////////////////
-        
+
         var doInit = function(){
             getCategoryContent();
         };
-        
+
         doInit();
-        
+
     };
-    
+
     sakai.api.Widgets.widgetLoader.informOnLoad("allcategories");
 });
