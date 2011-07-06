@@ -33,10 +33,10 @@ define(
         "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
-        "../../configuration/config.js",
-        "../../configuration/config_custom.js",
-        "../../lib/misc/trimpath.template.js",
-        "../../lib/jquery/plugins/jquery.ba-bbq.js"
+        "config/config",
+        "config/config_custom",
+        "misc/trimpath.template",
+        "jquery-plugins/jquery.ba-bbq"
     ],
     function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
 
