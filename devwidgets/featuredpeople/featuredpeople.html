@@ -13,9 +13,9 @@
         <div class="featuredpeople_content">
             <img src="${item.picture}" alt="${item.name}" class="featuredpeople_image"/>
             <a href="/~${item.userid}" class="s3d-bold s3d-regular-links">${item.name}</a>
-            <a href="/dev/user.html?id=${item.userid}#l=library" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
-            <a href="/dev/user.html?id=${item.userid}#l=contacts" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contactsCount} {if item.counts.contactsCount != 1} __MSG__CONTACTS__{else} __MSG__CONTACT__{/if}</a>
-            <a href="/dev/user.html?id=${item.userid}#l=memberships" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.membershipsCount} {if item.counts.membershipsCount != 1} __MSG__MEMBERSHIPS__{else} __MSG__MEMBERSHIP__{/if}</a>
+            <a href="/~${item.userid}#l=library" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if}</a>
+            <a href="/~${item.userid}#l=contacts" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.contactsCount} {if item.counts.contactsCount != 1} __MSG__CONTACTS__{else} __MSG__CONTACT__{/if}</a>
+            <a href="/~${item.userid}#l=memberships" class="s3d-regular-links fl-push featuredpeople_userpage_link">${item.counts.membershipsCount} {if item.counts.membershipsCount != 1} __MSG__MEMBERSHIPS__{else} __MSG__MEMBERSHIP__{/if}</a>
         </div>
     {/for}
     {if !data.total}

@@ -29,12 +29,12 @@ define(function(){
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
-            MY_DASHBOARD_URL: "/home",
+            MY_DASHBOARD_URL: "/me",
             PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
             PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/home",
+            PUBLIC_MY_DASHBOARD_URL: "/index",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
@@ -133,12 +133,7 @@ define(function(){
             TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
             USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-
-            // PREFIXES
-            GROUP_PREFIX: "/_group",
-            USER_PREFIX: "/_user"
-
+            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__"
         },
 
         PageTitles: {
@@ -153,40 +148,26 @@ define(function(){
                 /**  acknowledgements.html  **/
                 "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
                 "/acknowledgements": "ACKNOWLEDGEMENTS",
+                /**  allcategories.html  **/
+                "/categories": "BROWSE_ALL_CATEGORIES",
+                "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
+                /**  category.html  **/
                 /**  content_profile.html  **/
                 "/dev/content_profile.html": "CONTENT_PROFILE",
                 "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",
-                /**  directory.html  **/
-                "/dev/directory.html": "DIRECTORY",
-                "/directory": "DIRECTORY",
-                /**  group_edit.html  **/
-                "/dev/group_edit.html": "MANAGE_GROUP",
-                "/group/edit": "MANAGE_GROUP",
-                /**  inbox.html  **/
-                "/dev/inbox.html": "MY_MESSAGES",
-                "/inbox": "MY_MESSAGES",
-                /**  index.html  **/
-                "/": "SIGN_IN",
-                "/dev": "SIGN_IN",
-                "/dev/": "SIGN_IN",
-                "/index.html": "SIGN_IN",
-                "/dev/index.html": "SIGN_IN",
-                "/index": "SIGN_IN",
+                /**  explore.html  **/
+                "/": "EXPLORE",
+                "/dev": "EXPLORE",
+                "/dev/": "EXPLORE",
+                "/index.html": "EXPLORE",
+                "/dev/explore.html": "EXPLORE",
+                "/index": "EXPLORE",
                 /**  logout.html  **/
                 "/dev/logout.html": "LOGGING_OUT",
                 "/logout": "LOGGING_OUT",
-                /**  my_sakai.html  **/
-                "/dev/my_sakai.html": "MY_SAKAI",
-                "/home": "MY_SAKAI",
-                /**  people.html  **/
-                "/dev/people.html": "PEOPLE",
-                "/people": "PEOPLE",
-                /**  profile_edit.html  **/
-                "/dev/profile_edit.html": "EDIT_MY_PROFILE",
-                "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
                 "/search": "SEARCH"
@@ -201,10 +182,10 @@ define(function(){
             Links: {
                 whatToDo: [{
                     "title": "EXPLORE_THE_INSTITUTION",
-                    "url": "/dev/explore.html"
+                    "url": "/index"
                 }, {
                     "title": "BROWSE_INSTITUTION_CATEGORIES",
-                    "url": "/dev/allcategories.html"
+                    "url": "/categories"
                 }, {
                     "title": "VIEW_THE_INSTITUTION_WEBSITE",
                     "url": "http://sakaiproject.org/"
@@ -856,34 +837,34 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/dev/me.html",
+            "url": "/me",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/dev/me.html",
+                "url": "/me",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {
-                "url": "/dev/me.html#l=messages/inbox",
+                "url": "/me#l=messages/inbox",
                 "id": "subnavigation_messages_link",
                 "label": "MY_MESSAGES"
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basic",
+                "url": "/me#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
-                "url": "/dev/me.html#l=library",
+                "url": "/me#l=library",
                 "id": "subnavigation_content_link",
                 "label": "MY_LIBRARY"
             }, {
-                "url": "/dev/me.html#l=memberships",
+                "url": "/me#l=memberships",
                 "id": "subnavigation_memberships_link",
                 "label": "MY_MEMBERSHIPS"
             }, {
-                "url": "/dev/me.html#l=contacts",
+                "url": "/me#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
             }]
@@ -904,14 +885,14 @@ define(function(){
                 "id": "subnavigation_hr"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -924,14 +905,14 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -957,17 +938,17 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
+        requireUser: ["/me", "/dev/me.html", "/dev/search_sakai2.html", "/create", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/index.html"],
+        requireAnonymous: ["/register", "/dev/create_new_account.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/dev/me.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/me", "/dev/me.html", "/dev/search_sakai2.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -979,7 +960,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,

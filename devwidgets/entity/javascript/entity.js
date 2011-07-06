@@ -294,7 +294,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             // Wait for 2 seconds
                             setTimeout(function () {
                                 // Relocate to the my sakai page
-                                document.location = "/dev/me.html";  // TODO TEMPORARY REDIRECT!!!
+                                document.location = "/me";
                             }, 2000);
                         }
                     }]
