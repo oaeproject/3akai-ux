@@ -29,12 +29,12 @@ define(function(){
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
-            MY_DASHBOARD_URL: "/home",
+            MY_DASHBOARD_URL: "/me",
             PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
             PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/home",
+            PUBLIC_MY_DASHBOARD_URL: "/index",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
@@ -943,7 +943,7 @@ define(function(){
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/dev/create_new_account.html"],
+        requireAnonymous: ["/register", "/dev/create_new_account.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
