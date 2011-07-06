@@ -32,13 +32,16 @@
  * Advanced user related functionality, especially common actions
  * that originate from a logged in user.
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.util",
-        "/dev/configuration/config.js"],
-        function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
+        "../../configuration/config.js"
+    ],
+    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
 
     var sakaiUserAPI = {
         data : {
@@ -67,7 +70,6 @@ define(["jquery",
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultUserTemplate,
                 ":sakai:profile-import": $.toJSON(profileData)
             };
             for (var i in extraOptions) {
@@ -158,7 +160,7 @@ define(["jquery",
         },
 
         getUser: function(userid, callback){
-            var authprofileURL = "/~" + userid + "/public/authprofile";
+            var authprofileURL = "/~" + userid + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
                 if (success && data) {
                     callback(true, data);
@@ -582,6 +584,11 @@ define(["jquery",
                     "targetUserId": inviteFrom
                 },
                 success: function(data) {
+                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                        if (contact.target === inviteFrom) {
+                            contact.details["sakai:state"] = "ACCEPTED";
+                        }
+                    });
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -606,6 +613,11 @@ define(["jquery",
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
+                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                        if (contact.target === inviteFrom) {
+                            contact.details["sakai:state"] = "IGNORED";
+                        }
+                    });
                     $.ajax({
                         url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
                         type: "POST",

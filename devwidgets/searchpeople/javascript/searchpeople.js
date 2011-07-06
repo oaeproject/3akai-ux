@@ -253,7 +253,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 url = facetedurlall;
                 $(window).trigger("lhnav.addHashParam", [{"q": ""}]);
             } else {
-                url = facetedurl.replace(".json", ".infinity.json");
+                url = facetedurl;
+                if (url.indexOf(".infinity.json") === -1) {
+                    url = url.replace(".json", ".infinity.json");
+                }
                 $(window).trigger("lhnav.addHashParam", [{"q": params.q}]);
             }
 

@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $savecontent_save.removeAttr("disabled");
             }
-        }
+        };
 
         // bind savecontent cancel
         $savecontent_close.live("click", function(){
@@ -145,6 +145,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#savecontent_select", $rootel).live("change", function(){
             enableDisableAddButton();
         });
+
+        sakai.api.Util.hideOnClickOut(".savecontent_dialog", ".savecontent_trigger", hideSavecontent);
 
         var loadSaveContent = function(contentId, clickedEl){
             hideSavecontent();

@@ -37,11 +37,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          //////////////////////////
 
          var loadGroupData = function(){
-             var groupData = sakai_global.group2.groupData;
+             var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
 
              // Calculate for each role what current permission is
-             var currentArea = sakai_global.group2.pubdata.structure0[contextData.path];
+             var currentArea = sakai_global.group.pubdata.structure0[contextData.path];
              var editRoles = $.parseJSON(currentArea._edit);
              var viewRoles = $.parseJSON(currentArea._view);
              for (var i = 0; i < roles.length; i++){
@@ -56,9 +56,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }
 
              var visibility = "selected";
-             if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group2.groupData["sakai:group-visible"] === "public"){
+             if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group.groupData["sakai:group-visible"] === "public"){
                  visibility = "everyone";
-             } else if ($.inArray("everyone", viewRoles) !== -1 && (sakai_global.group2.groupData["sakai:group-visible"] === "logged-in-only" || sakai_global.group2.groupData["sakai:group-visible"] === "public")){
+             } else if ($.inArray("everyone", viewRoles) !== -1 && (sakai_global.group.groupData["sakai:group-visible"] === "logged-in-only" || sakai_global.group.groupData["sakai:group-visible"] === "public")){
                  visibility = "loggedin";
              }
 
@@ -70,7 +70,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  "roles": roles,
                  "visibility": visibility,
                  "manager": contextData.isManager,
-                 "groupPermissions": sakai_global.group2.groupData["sakai:group-visible"]
+                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"]
              }));
          };
 
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          /////////////////////////////
 
          var applyPermissions = function(){
-             var groupData = sakai_global.group2.groupData;
+             var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
 
              var newView = [];
@@ -161,14 +161,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
              // Refetch docstructure information
              $.ajax({
-                 url: "/~" + sakai_global.group2.groupId + "/docstructure.infinity.json",
+                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
                  success: function(data){
                      // Store view and edit roles
                      var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                      pubdata.structure0[contextData.path]._view = $.toJSON(newView);
                      pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
-                     sakai_global.group2.pubdata.structure0 = pubdata.structure0;
-                     sakai.api.Server.saveJSON("/~" + sakai_global.group2.groupId + "/docstructure", {
+                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
+                     sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
                         "structure0": $.toJSON(pubdata.structure0)
                     });
                  }
@@ -204,7 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                  // Per role visibility
                  for (var i = 0; i < roles.length; i++) {
-                     var role = sakai_global.group2.groupId + "-" + roles[i].id;
+                     var role = sakai_global.group.groupId + "-" + roles[i].id;
                      var el = $("select[data-roleid='" + roles[i].id + "']");
                      var selectedPermission = el.val();
                      var parameters = {

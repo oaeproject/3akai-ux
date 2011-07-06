@@ -104,7 +104,7 @@
                 {if i.avatar}
                     <a href="/content#p=${i.content_id}/${i["sakai:pooled-content-file-name"]}" target="_blank"><img src="${i.avatar}" alt="__MSG__CONTENT_PICTURE_FOR__ ${i["sakai:pooled-content-file-name"]}" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name s3d-regular-links s3d-bold" href="/dev/content_profile.html#p=${i.content_id}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                <a class="listpeople_name s3d-regular-links s3d-bold" href="/content#p=${i.content_id}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                 <br />
                 {if i.subNameInfo && i.subNameInfo.length > 115}
                     <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>

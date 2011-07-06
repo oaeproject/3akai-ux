@@ -192,39 +192,28 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
-            // Make the content items available to other widgets
-            sakai_global.searchcontent.content_items = finaljson.items;
-            finaljson.sakai = sakai;
-            // Render the results.
-            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(".searchcontent_results_container").show();
-
-            // display functions available to logged in users
-            if (!sakai.data.me.user.anon) {
-                $(".searchcontent_result_user_functions").show();
-                $(".searchcontent_result_anonuser").hide();
-            }
-
-            // Update dom with user display names
+            // Get displaynames for the users that created content
             if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
-                    for (var u in users) {
-                        if (users.hasOwnProperty(u)) {
-                            setUsername(u, users);
-                        }
+                    $.each(finaljson.items, function(index, item){
+                        var userid = item["sakai:pool-content-created-for"];
+                        item.displayName = sakai.api.User.getDisplayName(users[userid]);
+                    });
+
+                    // Make the content items available to other widgets
+                    sakai_global.searchcontent.content_items = finaljson.items;
+                    finaljson.sakai = sakai;
+                    // Render the results.
+                    $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+                    $(".searchcontent_results_container").show();
+
+                    // display functions available to logged in users
+                    if (!sakai.data.me.user.anon) {
+                        $(".searchcontent_result_user_functions").show();
+                        $(".searchcontent_result_anonuser").hide();
                     }
                 });
             }
-        };
-
-        var setUsername = function(u, users) {
-            $(".searchcontent_result_username").each(function(index, val){
-               var userId = $(val).text();
-               if (userId === u){
-                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-               }
-            });
         };
 
         /**

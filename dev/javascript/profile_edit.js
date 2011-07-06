@@ -19,7 +19,7 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
-    sakai_global.profile = function(){
+    sakai_global.profileedit = function(){
 
 
         /////////////////////////////
@@ -125,9 +125,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Check whether there is a user parameter in the querystring,
             // if so, check whether the userid is not the same as the user parameter
-            if (querystring.contains("id") && querystring.get("id") !== sakai.data.me.user.userid) {
+            if (sakai_global.profile.main.data.userid && sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
                 sakai_global.profile.main.isme = false;
-                sakai_global.profile.main.currentuser = querystring.get("id");
+                sakai_global.profile.main.currentuser = sakai_global.profile.main.data.userid;
             }
             else {
                 sakai_global.profile.main.isme = true;
@@ -655,7 +655,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             querystring = new Querystring();
 
             // Get and set the profile mode
-            var profilemode = querystring.contains("id") ? "view" : "edit";
+            var profilemode = sakai_global.profile.main.data.userid === sakai.data.me.user.userid ? "edit" : "view";
             if (profilemode) {
                 setProfileMode(profilemode);
             }
@@ -703,5 +703,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
     };
 
-    sakai.api.Widgets.Container.registerForLoad("profile");
+    sakai.api.Widgets.Container.registerForLoad("profileedit");
 });
