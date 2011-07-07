@@ -767,6 +767,22 @@ define(
         },
 
         /**
+         * Retrieves the join role for the group
+         *
+         * @param {String} groupID the group id for the join role to fetch
+         * @param {Function} callback Callback function
+         */
+        getJoinRole : function(groupID, callback) {
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                if (success && data && data.properties  && data.properties["sakai:joinRole"] && $.isFunction(callback)) {
+                    callback(true, data.properties["sakai:joinRole"]);
+                } else if ($.isFunction(callback)) {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
          * Retrieves the profile picture for the group
          *
          * @param {Object} profile the groups profile (data.me.profile for the current user)
