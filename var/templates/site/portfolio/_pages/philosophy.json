@@ -1,7 +1,0 @@
-{
-	"sling:resourceType": "sakai/page",
-	"pageTitle": "Philosophy",
-	"pageType": "webpage", 
-	"pagePosition": 300000,
-	"jcr:mixinTypes": "sakai:propertiesmix"
-}

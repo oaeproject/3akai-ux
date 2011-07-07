@@ -39,14 +39,7 @@
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
         {if data.mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">
-                {if tags && tags.length > 0}
-                    {for tag in tags}
-                        {if tag_index > 0},&nbsp;{/if}
-                        ${tag}
-                    {/for}
-                {/if}
-            </textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if tags && tags.length > 0}
@@ -98,7 +91,7 @@
             <ul>
                 {for dir in directorylocations}
                     <li>
-                        <a href="/dev/category.html#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
+                        <a href="/category#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
                             ${dir}
                         </a>
                     </li>

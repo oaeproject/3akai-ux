@@ -10,10 +10,8 @@
  *  - description {String} a short description of this widget that may be
  *    displayed to users
  *  - enabled {Boolean} sets whether or not this widget may be used by Sakai OAE
- *  - groupdashboard {Boolean} sets whether or not this widget can be placed in
- *    a group's dashboard pages
- *  - grouppages {Boolean} sets whether or not this widget can be placed in 
- *    a group's standard pages (showinsakaigoodies must also be enabled to
+ *  - sakaidocs {Boolean} sets whether or not this widget can be placed in 
+ *    a pages created as content (showinsakaigoodies must also be enabled to
  *    access this widget from the page editor)
  *  - hasSettings {Boolean} sets whether or not this widget has a settings menu
  *    option to allow users to configure or change the widget's settings.
@@ -24,7 +22,7 @@
  *    template, CSS file and JavaScript file names.
  *  - name {String} a short name for the widget that is displayed to users.
  *  - personalportal {Boolean} sets whether or not this widget may be used on a
- *    user's personal portal (more commonly known as 'Home' or 'My Sakai').
+ *    user's personal portal (more commonly known as 'Home' or 'My Dashboard').
  *  - showinsakaigoodies {Boolean} sets whether or not this widget may appear in
  *    the list of widgets that can be placed on either a standard group or user
  *    page (either grouppages or userpages must also be enabled to access this
@@ -37,27 +35,20 @@
  *    core Sakai OAE team and contributed back to the Sakai OAE project.
  *  - url {String} the location of the main HTML template that should be loaded
  *    when Sakai OAE wants to display the widget
- *  - userdashboard {Boolean} sets whether or not this widget can be placed in
- *    a user's dashboard pages
- *  - userpages {Boolean} sets whether or not this widget can be placed in 
- *    a user's standard pages (showinsakaigoodies must also be enabled to
- *    access this widget from the page editor)
  */
 {
+    "id":                 "WIDGET_ID",
+    "name":               "WIDGET NAME",
     "description":        "WIDGET DESCRIPTION",
+    "type":               "contrib",
     "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
     "hasSettings":        false,
+    "url":                "/devwidgets/WIDGET_ID/WIDGET_ID.html",
+    "img":                "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
     "i18n": {
         "default":        "/devwidgets/WIDGET_ID/bundles/default.properties"
     },
-    "id":                 "WIDGET_ID",
-    "name":               "WIDGET NAME",
     "personalportal":     false,
-    "showinsakaigoodies": false,
-    "type":               "contrib",
-    "url":                "/devwidgets/WIDGET_ID/WIDGET_ID.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "sakaidocs":          false,
+    "showinsakaigoodies": false
 }
