@@ -1285,6 +1285,18 @@ define(
                 }
             }
 
+            /* A grep of the code base indicates no one is using _MODIFIERS at
+             * the moment.
+             */
+            if (templateData._MODIFIERS) {
+                console.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
+            }
+            templateData._MODIFIERS = {
+                encodeURI: function(str) {
+                    return encodeURI(str);
+                }
+            }
+
             // Run the template and feed it the given JSON object
             var render = "";
             try {
@@ -1292,6 +1304,8 @@ define(
             } catch (err) {
                 debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
+
+            delete templateData._MODIFIERS;
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
