@@ -2,13 +2,15 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/recentmemberships/css/recentmemberships.css" />
 
 <div class="recentmemberships_widget">
-    <div class="fl-widget-content s3d-widget-content recentmemberships_content">
-       <div id="recentmemberships_no_results_container" style="display:none;" class="recentmemberships_add_container">
-           <div class="s3d-no-results-container">
-               <div class="s3d-no-results-arrow-up"><!----></div>
-               <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
-               <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
-           </div>
+    <div class="recentmemberships_content">
+       <div class="recentmemberships_add_container">
+           <div id="recentmemberships_no_results_container" style="display:none;">
+                <div class="s3d-no-results-container">
+                    <div class="s3d-no-results-arrow-up"><!----></div>
+                    <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+                </div>
+            </div>
        </div>
        <!-- MAIN recentmemberships -->
         <div class="recentmemberships_main">
@@ -37,12 +39,6 @@
                     <div id="recentmemberships_latest_content_container"></div>
                     <div id="recentmemberships_item_member_container"></div>
                 </div>
-
-                <div class="recentmemberships_seeall_button">
-                    <a class="recentmemberships_item_link s3d-widget-links" href="/dev/me.html#l=memberships">
-                        __MSG__SEE_ALL_MY_MEMBERSHIPS__
-                    </a>
-                </div>
             --></div>
         </div>
     </div>
@@ -63,7 +59,6 @@
                     ${member.roleName.toUpperCase()}
                 </div>
             </div>
-            <div class="recentmemberships_item_border"></div>
         {/if}
     --></div>
 
@@ -96,12 +91,13 @@
                     </div>
                 </div>
             </div>
-            <div class="recentmemberships_item_border"></div>
         {/if}
     --></div>
 
-    <div class="s3d-widget-no-options">
-        <div class="s3d-widget-no-options-inner"></div>
+    <div class="s3d-widget-footer">
+        <a class="recentmemberships_item_link s3d-widget-links" href="/me#l=memberships">
+            __MSG__SEE_ALL_MY_MEMBERSHIPS__
+        </a>
     </div>
 
 </div>

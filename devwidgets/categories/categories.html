@@ -12,7 +12,7 @@
 
 <div id="categories_items_template"><!--
     <div id="categories_items_scroll">
-        <a href="/dev/allcategories.html" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
+        <a href="/categories" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
             <button class="s3d-button s3d-overlay-button s3d-header-smaller-button" id="categories_view_all">__MSG__VIEW_ALL__</button>
         </a>
         <div id="categories_view_next_raquo"></div>
@@ -35,7 +35,7 @@
             {for item in directory}
                 <li>
                     <div class="categories_item">
-                        <a href="/dev/category.html#l=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
+                        <a href="/category#l=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
                         <span class="categories_item_header_meta">${item.count} content items</span>
                         {if item.content}
                             {if item.content["sakai:pooled-content-file-name"]}
@@ -74,6 +74,18 @@
                         <div class="categories_vertical_divider"></div>
                     {/if}
                 </li>
+                {if item_index == directory.length - 1}
+                    {var spacers = ["","",""]}
+                    {for spacer in spacers}
+                        {if spacer_index < directory.length % 4}
+                            <li>
+                                <div class="categories_item categories_spacer">
+                                    __MSG__IE_PLACEHOLDER__
+                                </div>
+                            </li>
+                        {/if}
+                    {/for}
+                {/if}
             {/for}
         </ul>
     </div>

@@ -29,17 +29,17 @@ define(function(){
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
-            MY_DASHBOARD_URL: "/home",
+            MY_DASHBOARD_URL: "/me",
             PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
             PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/home",
+            PUBLIC_MY_DASHBOARD_URL: "/index",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             SEARCH_GENERAL_URL: "/search",
             SEARCH_CONTENT_URL: "/search#l=content",
             SEARCH_PEOPLE_URL: "/search#l=people",
-            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/sakai.main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.show.css,/dev/css/sakai/sakai.content_profile.css",
+            TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
             USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
@@ -133,12 +133,7 @@ define(function(){
             TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
             USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-
-            // PREFIXES
-            GROUP_PREFIX: "/_group",
-            USER_PREFIX: "/_user"
-
+            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__"
         },
 
         PageTitles: {
@@ -153,40 +148,26 @@ define(function(){
                 /**  acknowledgements.html  **/
                 "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
                 "/acknowledgements": "ACKNOWLEDGEMENTS",
+                /**  allcategories.html  **/
+                "/categories": "BROWSE_ALL_CATEGORIES",
+                "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
+                /**  category.html  **/
                 /**  content_profile.html  **/
                 "/dev/content_profile.html": "CONTENT_PROFILE",
                 "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",
-                /**  directory.html  **/
-                "/dev/directory.html": "DIRECTORY",
-                "/directory": "DIRECTORY",
-                /**  group_edit.html  **/
-                "/dev/group_edit.html": "MANAGE_GROUP",
-                "/group/edit": "MANAGE_GROUP",
-                /**  inbox.html  **/
-                "/dev/inbox.html": "MY_MESSAGES",
-                "/inbox": "MY_MESSAGES",
-                /**  index.html  **/
-                "/": "SIGN_IN",
-                "/dev": "SIGN_IN",
-                "/dev/": "SIGN_IN",
-                "/index.html": "SIGN_IN",
-                "/dev/index.html": "SIGN_IN",
-                "/index": "SIGN_IN",
+                /**  explore.html  **/
+                "/": "EXPLORE",
+                "/dev": "EXPLORE",
+                "/dev/": "EXPLORE",
+                "/index.html": "EXPLORE",
+                "/dev/explore.html": "EXPLORE",
+                "/index": "EXPLORE",
                 /**  logout.html  **/
                 "/dev/logout.html": "LOGGING_OUT",
                 "/logout": "LOGGING_OUT",
-                /**  my_sakai.html  **/
-                "/dev/my_sakai.html": "MY_SAKAI",
-                "/home": "MY_SAKAI",
-                /**  people.html  **/
-                "/dev/people.html": "PEOPLE",
-                "/people": "PEOPLE",
-                /**  profile_edit.html  **/
-                "/dev/profile_edit.html": "EDIT_MY_PROFILE",
-                "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
                 "/search": "SEARCH"
@@ -201,10 +182,10 @@ define(function(){
             Links: {
                 whatToDo: [{
                     "title": "EXPLORE_THE_INSTITUTION",
-                    "url": "/dev/explore.html"
+                    "url": "/index"
                 }, {
                     "title": "BROWSE_INSTITUTION_CATEGORIES",
-                    "url": "/dev/allcategories.html"
+                    "url": "/categories"
                 }, {
                     "title": "VIEW_THE_INSTITUTION_WEBSITE",
                     "url": "http://sakaiproject.org/"
@@ -737,6 +718,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/zip.png",
                 description: "ARCHIVE_FILE"
             },
+            "application/x-zip-compressed": {
+                cssClass: "icon-zip-sprite",
+                URL: "/dev/images/mimetypes/zip.png",
+                description: "ARCHIVE_FILE"
+            },
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
                 cssClass: "icon-spreadsheet-sprite",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
@@ -851,34 +837,34 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/dev/me.html",
+            "url": "/me",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/dev/me.html",
+                "url": "/me",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {
-                "url": "/dev/me.html#l=messages/inbox",
+                "url": "/me#l=messages/inbox",
                 "id": "subnavigation_messages_link",
                 "label": "MY_MESSAGES"
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basic",
+                "url": "/me#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
-                "url": "/dev/me.html#l=library",
+                "url": "/me#l=library",
                 "id": "subnavigation_content_link",
                 "label": "MY_LIBRARY"
             }, {
-                "url": "/dev/me.html#l=memberships",
+                "url": "/me#l=memberships",
                 "id": "subnavigation_memberships_link",
                 "label": "MY_MEMBERSHIPS"
             }, {
-                "url": "/dev/me.html#l=contacts",
+                "url": "/me#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
             }]
@@ -899,14 +885,14 @@ define(function(){
                 "id": "subnavigation_hr"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -919,14 +905,14 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -952,17 +938,17 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
+        requireUser: ["/me", "/dev/me.html", "/dev/search_sakai2.html", "/create", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/index.html"],
+        requireAnonymous: ["/register", "/dev/create_new_account.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/dev/me.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/me", "/dev/me.html", "/dev/search_sakai2.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -974,7 +960,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
@@ -1520,13 +1506,21 @@ define(function(){
 
         enableChat: false,
 
+        /*
+         * _canEdit: can change the area permissions on this page
+         * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
+         * _nonEditable: cannot edit the contents of this page
+         * _canSubedit:
+         */
+
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
                     "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
-                    "_canEdit": true,
+                    "_canEdit": false,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id267187828",
@@ -1538,39 +1532,44 @@ define(function(){
                     "_title": "My Messages",
                     "_ref": "id1165301022",
                     "_order": 1,
-                    "_canEdit": true,
-                    "_canSubedit": true,
+                    "_canEdit": false,
+                    "_reorderOnly": true,
+                    "_canSubedit": false,
                     "_nonEditable": true,
                     "inbox": {
                         "_ref": "id1165301022",
                         "_order": 0,
                         "_title": "Inbox",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_canEdit": false,
+                        "_reorderOnly": true,
+                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "id9867733100",
                         "_order": 1,
                         "_title": "Invitations",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_canEdit": false,
+                        "_reorderOnly": true,
+                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "id4253485084",
                         "_order": 2,
                         "_title": "Sent",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_canEdit": false,
+                        "_reorderOnly": true,
+                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "id3915412565",
                         "_order": 3,
                         "_title": "Trash",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_canEdit": false,
+                        "_reorderOnly": true,
+                        "_canSubedit": false,
                         "_nonEditable": true
                     }
                 }
@@ -1640,6 +1639,7 @@ define(function(){
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "_order": 0,
+                    "_reorderOnly": true,
                     "_nonEditable": true
                 },
                 "library": {
@@ -1647,6 +1647,7 @@ define(function(){
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
@@ -1659,6 +1660,7 @@ define(function(){
                     "_order": 2,
                     "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
@@ -1671,6 +1673,7 @@ define(function(){
                     "_order": 3,
                     "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",
@@ -1680,7 +1683,7 @@ define(function(){
                 }
             },
             "id9834611274": {
-                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
             },
             "id213623673": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +

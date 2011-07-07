@@ -389,7 +389,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
         if (initTuid === tuid) {
-            selectedUsers = users;
+            selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
                 "roles": currentTemplate.roles

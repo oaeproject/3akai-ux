@@ -27,7 +27,7 @@
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
                 <div class="s3d-no-results-icon s3d-no-results-memberships less-margin"></div>
-                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/dev/createnew.html#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+                <h1>__MSG__NO_RESULTS_DESCRIPTION_ME__ <a class="s3d-regular-links" href="/create#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
             </div>
         {else}
             <div class="s3d-no-results-container">
@@ -56,8 +56,8 @@
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                         {if user_manages(group)}
-                            <a class="s3d-button s3d-button-link-2-state mymemberships_item_edit" href="${group.edit_url}">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__EDIT__</span>
+                            <a class="s3d-link-button mymemberships_item_edit" href="${group.edit_url}">
+                                __MSG__EDIT__
                             </a>
                         {/if}
                     </span>
@@ -83,7 +83,7 @@
                         {/if}
                         {if group.membersCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
-                            <a class="s3d-regular-light-links" href="${group.url}" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                            <a class="s3d-regular-light-links" href="${group.url}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
                         {/if}
                     </div>
                     {if group.desc}<div class="mymemberships_item_description">${group.desc}</div>{/if}

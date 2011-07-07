@@ -30,11 +30,14 @@
  * @namespace
  * Internationalisation
  */
-define(["jquery",
-        "/dev/configuration/config.js",
+define(
+    [
+        "jquery",
+        "config/config",
         "sakai/sakai.api.util",
-        "sakai/sakai.api.server"],
-        function($, sakai_config, sakai_util, sakai_serv) {
+        "sakai/sakai.api.server"
+    ],
+    function($, sakai_config, sakai_util, sakai_serv) {
 
     var sakaii18nAPI = {
         data : {

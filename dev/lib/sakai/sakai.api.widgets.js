@@ -28,16 +28,21 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "/dev/configuration/config.js",
-        "/var/widgets.json?callback=define"], 
-        function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
+        "config/config",
+        "../../../var/widgets.json?callback=define"
+    ],
+    function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
-    var sakai = {}; sakai.widgets = sakai_widgets_config;
+    var sakai = {
+        widgets: sakai_widgets_config
+    };
     var sakaiWidgetsAPI = {
         /**
          * @class Container

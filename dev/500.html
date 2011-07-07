@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />        
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
 
     </head>
 
@@ -44,41 +44,41 @@
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
                                     <a class="s3d-regular-links s3d-bold" href="/search#l=content">__MSG__CONTENT__</a>
-                                </div>          
+                                </div>
                             </div>
                             <hr class="s3d-split-line fl-push" />
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
                                     <a class="s3d-regular-links s3d-bold" href="/search#l=people">__MSG__PEOPLE__</a>
-                                </div>          
+                                </div>
                             </div>
                             <hr class="s3d-split-line fl-push" />
                             <div id="error_second_column_links_template" style="display:none"><!--
-							{for w in worlds}
-								<div class="error_content_second_column_box_item_container">
-									<div class="error_content_second_column_box_item_content">
-										<a class="s3d-regular-links s3d-bold" href="/search#l=${w.label}">${w.label}</a>
-									</div>          
-								</div>
-								{if !w.last}
-									<hr class="s3d-split-line fl-push" />
-								{/if}
-							{/for}
-							<div class="error_content_second_column_box_footer"></div>
-                            --></div>                        
-                     </div>
+                            {for w in worlds}
+                                <div class="error_content_second_column_box_item_container">
+                                    <div class="error_content_second_column_box_item_content">
+                                        <a class="s3d-regular-links s3d-bold" href="/search#l=${w.label}">${w.label}</a>
+                                    </div>
+                                </div>
+                                {if !w.last}
+                                    <hr class="s3d-split-line fl-push" />
+                                {/if}
+                            {/for}
+                            <div class="error_content_second_column_box_footer"></div>
+                            --></div>
+                        </div>
                     </div>
-                    
-                    <div class="error_content_second_column_box browse_cats">   
+
+                    <div class="error_content_second_column_box browse_cats">
                         <div class="s3d-contentpage-title">__MSG__BROWSE_CATEGORIES__</div>
                         <div id="error_content_second_column_box_browse_container">
                             <div class="error_content_second_column_box_item_container">
                                 <div class="error_content_second_column_box_item_content">
-                                   <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <a href="/dev/allcategories.html"><span class="error_browse_cats"><span id="error_browse_category_number"></span> __MSG__CATEGORIES_LC__</span></a> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
-                                </div>          
-                            </div>              
+                                    <p>__MSG__YOU_CAN_BROWSE_THIS_INSTITUTION__ <a href="/categories"><span class="error_browse_cats"><span id="error_browse_category_number"></span> __MSG__CATEGORIES_LC__</span></a> __MSG__WHERE_YOU_CAN_CONNECT_WITH_PEOPLE_VIEW_COURSE_DETAILS_SEARCH_FOR_CONTENT_AND_JOIN_GROUPS__</p>
+                                </div>
+                            </div>
                          <div class="error_content_second_column_box_footer">
-                            <a href="/dev/allcategories.html" id="error_browse_categories_button">
+                            <a href="/categories" id="error_browse_categories_button">
                                 <button class="s3d-button s3d-overlay-button">__MSG__BROWSE_CATEGORIES__</button>
                             </a>
                          </div>
@@ -90,27 +90,31 @@
                     <div id="error_content_first_column_content">
                         <h1>__MSG__OOPS_AN_ERROR_HAS_OCCURRED__</h1>
                         <h3 class="first"></h3>
-                                            
+
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
                         <div>
                             <input type="text" title="__MSG__SEARCH__" value="" class="input" id="errorsearch_text" placeholder="__MSG__SEARCH__" maxlength="255">
                         </div>
-                                            
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/explore.html">__MSG__EXPLORE_THE_INSTITUTION__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="/dev/allcategories.html">__MSG__BROWSE_INSTITUTION_CATEGORIES__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VIEW_THE_INSTITUTION_WEBSITE__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__VISIT_THE_SUPPORT_FORUM__</a></li>
-                            <li><button id="error_goback" class="s3d-link-button s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</button></li>
-                        </ul>
-                        
-                        <h3>__MSG__GET_IN_TOUCH__</h3>
-                        <ul>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__SEND_US_YOUR_FEEDBACK__</a></li>
-                            <li><a class="s3d-regular-links s3d-bold" href="http://sakaiproject.org/">__MSG__CONTACT_SUPPORT__</a></li>
-                        </ul>
-                        
-                    </div>  
+
+                        <div id="error_page_links_container"></div>
+                        <div id="error_page_links_template" style="display:none"><!--
+                            <ul>
+                                {for w in links.whatToDo}
+                                    <li><a class="s3d-regular-links s3d-bold" href="${w.url}">${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
+                                {/for}
+                                <li><a href="{if document.referrer === ""}/{else}${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
+                            </ul>
+
+                            {if links.getInTouch && links.getInTouch.length > 0}
+                                <h3>__MSG__GET_IN_TOUCH__</h3>
+                                <ul>
+                                    {for g in links.getInTouch}
+                                        <li><a class="s3d-regular-links s3d-bold" href="${g.url}">${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
+                                    {/for}
+                                </ul>
+                            {/if}
+                        --></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,6 +125,6 @@
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- 500 JS -->
-        <script>require(["/dev/javascript/sakai.500.js"]);</script>        
+        <script>require(["/dev/javascript/sakai.500.js"]);</script>
     </body>
 </html>

@@ -1,4 +1,5 @@
 #popularcontent_main{margin:0 10px 0 15px;overflow:hidden;}
+#popularcontent_main ul {margin:0;}
 #popularcontent_main ul li{list-style-type:none;}
 .popularcontent_title{padding-left:15px!important;}
 .popularcontent_widget{overflow:hidden;}

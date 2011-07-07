@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.featuredcontent_widget .footer_bg.s3d-contentpage-title {margin:0;padding:0;}
 
 /* Content boxes */
 .featuredcontent_widget .featuredcontent_content_small_container div:first-child {margin-bottom:10px;}
@@ -49,8 +48,6 @@
 
 /* Contentitems on category page */
 .featuredcontent_widget #featuredcontent_category_content_container {clear:both;}
-.featuredcontent_widget #featuredcontent_category_content_border {border:solid 1px #e7e7e7;border-top:none;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
-.featuredcontent_widget #featuredcontent_category_content_footer {height:20px;background-color:#f9f8f8;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;}
 .featuredcontent_widget .featuredcontent_category_content_large {margin:0 0 15px 0;width:708px;}
 .featuredcontent_widget .featuredcontent_category_content_large .featuredcontent_content_actions {width:710px;}
 .featuredcontent_widget .featuredcontent_category_content_large .featuredcontent_content_right_description {width:430px;}
@@ -59,10 +56,11 @@
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small {float:left;}
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small {width:195px;height:108px;background:none;border:#fff solid 1px;}
 .featuredcontent_widget #featuredcontent_category_content_container .featuredcontent_content_small:hover {background:url("/devwidgets/featuredcontent/images/featuredcontent_content_hover_bg.png") repeat-x scroll left top #eef8fc;border:#dbdbdb solid 1px;cursor:pointer;margin-right:5px}
-.featuredcontent_widget #featuredcontent_category_content_container .s3d-contentpage-title {border-bottom:medium none;height:34px;line-height:34px;padding:0 12px;margin:0;background:#F9F8F8;font-size:12px;}
 .featuredcontent_widget #featuredcontent_category_content_container img.featuredcontent_thumbnail_image {height:50px;width:50px;}
 .featuredcontent_widget span.featuredcontent_content_category_description {font-size:11px;color:#424242;display:block;clear:both;}
 .featuredcontent_widget span.featuredcontent_content_category_description .featuredcontent_content_icon {display:inline-block;height:10px;width:15px;margin-right:5px;}
 .featuredcontent_widget span.featuredcontent_content_category_description .featuredcontent_content_usedin_icon{background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .featuredcontent_widget span.featuredcontent_content_category_description .featuredcontent_content_comments_icon{background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
 .featuredcontent_widget .featuredcontent_no_content {margin:10px;display:block;}
+
+.featuredcontent_widget .s3d-no-results-container {margin:30px 10px 10px;}

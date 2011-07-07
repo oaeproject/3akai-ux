@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/group/edit',
-  'sling:internalRedirect': '/dev/group_edit.html'
-}
