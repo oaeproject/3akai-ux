@@ -15,7 +15,7 @@
                 <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/dev/search2.html#tag=/tags/${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
+                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
                         {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
                     {/if}
                 {/for}

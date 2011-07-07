@@ -46,6 +46,6 @@ label.signup_form_error_label{margin-top:25px !important;}
 #signup_institution_logos {background:url("/dev/images/signup_institution_logos.jpg") no-repeat top left transparent;height:40px;width:920px;margin-top:25px;}
 
 /* Override CSS */
-.s3d-page-header {height:0;margin-top: 15px;}
+.s3d-page-header {height:0;margin-top:15px;min-height:0;}
 .recaptchatable {background:#FFF;}
 .recaptchatable input {border:1px solid #E0E1E2 !important;}

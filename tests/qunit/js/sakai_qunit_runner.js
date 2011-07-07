@@ -21,7 +21,7 @@ require(
     [
         "jquery",
         "sakai/sakai.api.core",
-        "../../tests/qunit/js/qunit.js"
+        "qunitjs/qunit"
     ],
     function($, sakai) {
     // Tracking variables
