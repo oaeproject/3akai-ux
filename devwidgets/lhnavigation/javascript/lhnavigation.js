@@ -474,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var onContextMenuHover = function($el, $elLI){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-            if ($elLI.data("sakai-manage")) {
+            if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
                     $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
