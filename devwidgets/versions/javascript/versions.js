@@ -40,7 +40,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var contentPath = "";
         var currentPageShown = "";
         var versions = [];
-        var latestVersion = "";
 
         // Containers
         var versionsContainer = "#versions_container";
@@ -136,12 +135,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             contentPath = $.bbq.getState("content_path");
         };
 
-        var saveLatestVersionInVar = function(){
-            if ($("#" + currentPageShown.ref).html()) {
-                latestVersion = $("#" + currentPageShown.ref).html();
-            }
-        }
-
         var previewVersion = function(event){
             event.stopPropagation();
             if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType == "x-sakai/document") {
@@ -151,8 +144,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
                 $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
-                saveLatestVersionInVar();
-                $("#" + currentPageShown.ref).html("");
+                $("#" + currentPageShown.ref).remove();
                 $("#" + currentPageShown.ref + "_previewversion").show();
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
                 sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
@@ -227,7 +219,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $(window).bind("init.versions.sakai", function(ev, cps){
-            saveLatestVersionInVar();
             if ($(versionsContainer, $rootel).is(":visible")) {
                 $(versionsContainer, $rootel).hide();
             } else {
@@ -239,15 +230,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         $(window).bind("update.versions.sakai", function(ev, cps){
             if ($(versionsContainer, $rootel).is(":visible")) {
-                saveLatestVersionInVar();
                 currentPageShown = cps;
                 doInit();
-            }
-        });
-
-        $(window).bind("showpage.sakaidocs.sakai", function(){
-            if (latestVersion) {
-                $("#" + currentPageShown.ref).html(latestVersion);
             }
         });
 
