@@ -23,7 +23,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core", "/dev/lib/fluid/3akai_Infusion.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, sakai) {
 
     /**
      * @name sakai_global.dashboard
