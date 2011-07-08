@@ -50,6 +50,7 @@
 .topnavigation_user_container ul {margin:0;}
 .topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;margin-right:20px;}
 
+.s3d-dropdown-menu .topnavigation_external_login {width: auto !important;}
 .s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}
 
 .topnavigation_user_container #topnavigation_user_options_list {float:right;}

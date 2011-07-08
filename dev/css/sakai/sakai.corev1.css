@@ -14,7 +14,7 @@
 .s3d-main-container {padding: 0px !important;}
 .fixed-container.s3d-main-container{width:960px;}
 .s3d-twocolumn{background-color:#fff;}
-.requireUser {background: url("/dev/images/grey_bg.png") repeat-x scroll left -91px #f2f2f2 !important;}
+.requireUser, .requireAnon {background: url("/dev/images/grey_bg.png") repeat-x scroll left -91px #f2f2f2 !important;}
 .s3d-header .fixed-container {padding:0 !important; width:960px;}
 .s3d-header .s3d-fixed-container .s3d-decor-left {margin-left:0;}
 .s3d-header .s3d-fixed-container .s3d-decor {margin-right:0;}
