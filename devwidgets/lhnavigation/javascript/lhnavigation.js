@@ -653,7 +653,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(window).unbind("click", checkSaveEditPageTitle);
                 savePageTitle();
             }
-        }
+        };
 
         var editPageTitle = function(){
             // Select correct item
