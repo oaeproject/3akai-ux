@@ -34,7 +34,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         sakai_global.data.search.getMyContacts = function(callback) {
             $.ajax({
-                url: sakai.config.URL.CONTACTS_FIND_ALL + "?&page=0&n=100",
+                url: sakai.config.URL.CONTACTS_FIND_ALL + "?&page=0&n=1000",
                 cache: false,
                 success: function(data) {
                     sakai_global.data.search.contacts = $.extend(data, {}, true);
