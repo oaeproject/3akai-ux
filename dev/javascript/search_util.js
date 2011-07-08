@@ -213,6 +213,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                     user.accepted = true;
                                 } else if(friend.details["sakai:state"] === "NONE"){
                                     user.none = true;
+                                    user.connected = false;
                                 }
                             }
                         }

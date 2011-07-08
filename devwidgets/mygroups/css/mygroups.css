@@ -18,18 +18,16 @@
 
 .sites_error{font-size:.95em;padding:10px 20px!important;}
 #creategroupcontainer,creategroupcontainer>div{width:100%;}
-.my_groups_widget .fl-widget-content .mygroups_list_item{padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
+.my_groups_widget .mygroups_list_item{padding:0 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
 .mygroups_left_padding{padding-left:15px;}
-.my_groups_widget .fl-widget-content .mygroup_item{padding:5px 5px 5px 15px;margin:0;border-bottom:1px solid #CCC;list-style-type:none;}
-.my_groups_widget .fl-widget-content .mygroup_item .group_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -242px -21px transparent;display:block;height:16px;width:18px;margin-right:5px;}
+.my_groups_widget .mygroup_item{padding:5px 5px 5px 15px;margin:0;border-bottom:1px solid #CCC;list-style-type:none;}
+.my_groups_widget .mygroup_item .group_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -242px -21px transparent;display:block;height:16px;width:18px;margin-right:5px;}
 .mygroup_item_img {display:inline;}
 .mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
+.mygroup_items_list{margin:-15px 0 0;}
 
 .my_groups_widget #mygroups_error_nosites{padding:0 20px; text-align: center;}
-.my_groups_widget .mygroups_create_new_group{margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%; max-width: 325px;}
-.my_groups_widget .mygroups_create_new_group span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
-.my_groups_widget .mygroups_create_new_group:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
-.my_groups_widget .mygroups_create_new_group:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
+.my_groups_widget .mygroups_create_new_group{margin-top: 5px; margin-bottom: 10px;width:100%; max-width: 325px;}
 .my_groups_widget .mygroups_no_memberships {text-decoration: none;}
 .my_groups_widget .mygroups_error_nosites_text {display:block;}
 

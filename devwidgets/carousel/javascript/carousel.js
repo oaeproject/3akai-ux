@@ -150,10 +150,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $(this).addClass("carousel_view_toggle_selected");
                 return false;
             });
-            
+
             $(window).bind(tuid + ".shown.sakai", {"carousel": carousel}, toggleCarousel);
         };
-        
+
         var toggleCarousel = function(e, showing){
             if (showing) {
                 e.data.carousel.startAuto();
@@ -166,6 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             sakai.api.Util.TemplateRenderer(carouselSingleColumnTemplate, {
                 "data": dataArr
             }, $(carouselContainer), false);
+            applyThreeDots();
             $(carouselContainer).jcarousel({
                 auto: 8,
                 animation: "slow",
@@ -180,6 +181,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
+        var applyThreeDots = function(){
+            $.each($(".carousel_apply_threedots"), function(index, item){
+                var maxrows = 1;
+                $.each(item.classList, function(i, cl){
+                    if (item.classList.hasOwnProperty(i)) {
+                        if (cl.indexOf("threedots_allow_") === 0) {
+                            maxrows = parseInt(cl.split("threedots_allow_")[1]);
+                            return false;
+                        }
+                    }
+                });
+                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action"));
+            })
+        };
+
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
@@ -189,18 +205,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 var mimeType = sakai.api.Content.getMimeType(item);
                 obj.preview = sakai.api.Content.getThumbnail(item);
                 if (item["sakai:description"]) {
-                    var descWidth = 630;
-                    if (index === 1) {
-                        descWidth = 470;
-                    }
-                    obj.description = sakai.api.Util.applyThreeDots(item["sakai:description"], descWidth);
+                    obj.description = item["sakai:description"];
                 }
                 if (item["sakai:tags"]) {
-                    var tagWidth = 120;
-                    if (index > 0) {
-                        tagWidth = 60;
-                    }
-                    obj.tags = sakai.api.Util.applyThreeDots(sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]), tagWidth, {"ellipsis_string": "", "valid_delimiters": [","]}, "s3d-action");
+                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                 }
                 if (item[item["_path"] + "/comments"]) {
                     obj.comments = [];
@@ -306,7 +314,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     obj.userid = user.profile.userid;
                     obj.contentType = "user";
                     obj.displayName = sakai.api.User.getDisplayName(user.profile);
-                    obj.displayNameTD = sakai.api.Util.applyThreeDots(obj.displayName, 45,{"whole_word": false},"s3d-bold");
                     obj.counts = user.profile.counts;
 
                     user = user.profile.basic.elements;

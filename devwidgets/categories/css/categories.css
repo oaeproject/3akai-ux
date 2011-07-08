@@ -31,6 +31,7 @@
 .categories_widget #categories_expand_contract .categories_expand {background:url("/devwidgets/categories/images/categories_expand.png") repeat-x top left transparent;}
 .categories_widget #categories_expand_contract .categories_contract {background:url("/devwidgets/categories/images/categories_contract.png") repeat-x top left transparent;}
 .categories_widget #categories_expand_contract {background:url("/dev/images/explore_choose_category_bg.png") repeat-x scroll left top transparent;border-radius:0 0 2px 2px;-moz-border-radius:0 0 2px 2px;-webkit-border-radius:0 0 2px 2px;color: #FFFFFF;display: inline-block;float: right;height: 38px;line-height: 38px;padding: 0 20px;cursor:pointer;margin-right:20px;margin-top:5px;}
+.categories_widget #categories_expand_contract span.s3d-bold {float:left;}
 
 /* Content Style */
 .categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;}
@@ -50,7 +51,7 @@
 .categories_widget .categories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
 .categories_widget .categories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#2683BC;padding-left:20px;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent; clear: both;}
 .categories_widget .categories_content_tags a {font-size:11px !important;font-weight:normal !important;}
-
+.categories_widget .categories_spacer {visibility: hidden;}
 
 /* Carousel */
 .categories_widget #categories_items_scroll .categories_items_scroll_scrollbutton {width:11px;height:11px;margin:0 3px;float:left;cursor:pointer;background:url("/devwidgets/categories/images/categories_carousel_selected.png") repeat-x top left transparent;}

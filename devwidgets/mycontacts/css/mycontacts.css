@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-.mycontacts_widget #mycontacts_list{padding:10px 20px 0;}
+.mycontacts_widget #mycontacts_list{padding:0 20px;}
 
 /* Friends list */
 .mycontacts_list_contact{float:left;height:80px;margin:5px 10px 0 0;overflow:hidden;padding:0 20px 5px 0;width:70px;}
@@ -41,7 +41,7 @@
 .mycontacts.fl-widget .fl-widget-titlebar .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -180px -21px transparent;}
 #mycontacts_requests{padding-left:0;}
 
-.mycontacts_items {color:#333;padding:5px 0 0;}
+.mycontacts_items {color:#333;padding:0;}
 .mycontacts_items img {float: left;padding: 0 10px 10px 0;width: 35px;}
 .mycontacts_name {margin:0;}
 .mycontacts_post a {font-size:.8em;color:#878A8C;}

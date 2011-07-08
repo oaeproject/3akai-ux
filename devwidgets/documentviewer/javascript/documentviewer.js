@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 resources: {
                     pdf: url,
                     page: {
-                        image: url + ".page{page}-{size}.jpg"
+                        image: url + "/page{page}.{size}.jpg"
                     }
                 }
             };
@@ -103,6 +103,15 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             sakai.api.Util.TemplateRenderer("documentviewer_html_template", templateObject, $documentviewerPreview);
             $("#documentviewer_html_iframe").attr("src", getPath(data));
             $("#documentviewer_html_iframe").attr("frameborder", "0");
+        };
+
+        var renderPlainTextPreview = function(data){
+            $.ajax({
+                url: getPath(data),
+                success: function(txt){
+                    sakai.api.Util.TemplateRenderer("documentviewer_plaintext_template", {plaintext: txt}, $documentviewerPreview);
+                }
+            });
         };
 
         var renderExternalHTMLPreview = function(url){
@@ -261,8 +270,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     pUrl = widgetData["sakai:pooled-content-url"];
                     renderExternalHTMLPreview(pUrl);
                 }
-            } else if (mimeType === "image/vnd.adobe.photoshop") {
-                renderStoredPreview(data);
+            } else if (mimeType.substring(0, 5) === "text/") {
+                renderPlainTextPreview(data);
             } else  if (mimeType.substring(0, 6) === "image/") {
                 renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){

@@ -186,6 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     path: paths
                 }, function (success) {
                     if (success) {
+                        $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.currentPagenum = 1;
                         reset();
                     }
@@ -463,7 +464,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var who = "";
                 if (sakai_global.profile) {
                     who = sakai_global.profile.main.mode.value;
-                } else if (sakai_global.group2) {
+                } else if (sakai_global.group) {
                     if (mylibrary.isOwnerViewing) {
                         who = "group_managed";
                     } else {
@@ -563,6 +564,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             mylibrary.contextId = "";
             var contextName = "";
             var isGroup = false;
+
+            // We embed the deletecontent widget, so make sure it's loaded
+            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
+
             if (widgetData && widgetData.mylibrary) {
                 mylibrary.contextId = widgetData.mylibrary.groupid;
                 sakai.api.Server.loadJSON("/system/userManager/group/" +  mylibrary.contextId + ".json", function(success, data) {

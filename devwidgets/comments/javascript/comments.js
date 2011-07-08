@@ -224,6 +224,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 jsonDisplay.comments[i] = comment;
             }
             $(commentsShowComments, rootel).html(sakai.api.Util.TemplateRenderer(commentsShowCommentsTemplate, jsonDisplay));
+            // Render Math formulas in the text
+            sakai.api.Util.renderMath(tuid);
         };
 
         /**
