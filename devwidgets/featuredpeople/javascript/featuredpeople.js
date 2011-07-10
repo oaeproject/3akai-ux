@@ -53,6 +53,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     } else {
                         item.picture = "/dev/images/default_User_icon_50x50.png";
                     }
+                    item.baseHref = "/~" + item.userid;
+                    if (item.userid === sakai.data.me.user.userid) {
+                        item.baseHref = "/me";
+                    }
                     item.name = sakai.api.User.getDisplayName(item);
                 });
                 renderPeople(data);
