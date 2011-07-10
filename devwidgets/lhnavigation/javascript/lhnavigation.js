@@ -647,6 +647,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var changingPageTitle = false;
 
+        var checkSaveEditPageTitle = function(ev){
+            if(!$(ev.target).is("input")){
+                $(window).unbind("click", checkSaveEditPageTitle);
+                savePageTitle();
+            }
+        };
+
         var editPageTitle = function(){
             // Select correct item
             var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "'] > div");
@@ -968,6 +975,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
+            ev.stopPropagation();
+            $(window).bind("click", checkSaveEditPageTitle);
         });
 
         $("#lhnavigation_submenu_permissions").live("click", function(ev){

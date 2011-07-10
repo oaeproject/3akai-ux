@@ -22,6 +22,7 @@ h2 {color:#666;font-size:15px;}
 #signup_form_container input:-moz-placeholder {color:#aaa;font-size:12px;}
 
 #signup_form_container .username_available_icon {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;}
+#signup_form_container .username_available_icon[disabled] {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;}
 #signup_form_container .username_unavailable_icon {background:url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;}
 
 .signup_form_error {border:3px solid #ffba00 !important;margin-bottom:5px !important;}
