@@ -144,7 +144,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
                 pubdata[fwRnd] = {
                     navData: navData,
-                    category: navData.id
+                    category: navData.id + "-" + index
                 };
 
                 count++;

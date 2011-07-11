@@ -314,7 +314,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(msg.path, hardDelete, function(success, data) {
                 if (!success) {
-                    debug.log("deleting failed");
+                    debug.error("deleting failed");
                     // show a gritter message indicating deleting it failed
                 } else {
                     getMessages();

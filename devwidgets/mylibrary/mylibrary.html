@@ -92,8 +92,8 @@
                 <div class="fl-container fl-fix mylibrary_item{if count == 1} mylibrary_item_first{/if}">
                     <div class="mylibrary_item_left_filler">{if user_is_owner(item)}<input class="mylibrary_check"
                         id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
-                    <button class="s3d-link-button mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
-                    <button class="s3d-link-button mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
+                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
+                    <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
                     <a href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.type}" />

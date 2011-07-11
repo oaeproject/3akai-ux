@@ -159,7 +159,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (messageCounts && messageCounts.count.length) {
                             for (var i = 0; i < messageCounts.count.length; i++) {
                                 if (messageCounts.count[i].group && messageCounts.count[i].group === "message") {
-                                    debug.log(messageCounts.count[i].count);
                                     addCount(privdata, "messages/inbox", messageCounts.count[i].count);
                                 }
                                 if (messageCounts.count[i].group && messageCounts.count[i].group === "invitation") {
