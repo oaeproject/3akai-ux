@@ -791,7 +791,6 @@ define(
                         batchRequests.push({
                             "url": url,
                             "method": "GET"
-                        //  "parameters": parameters
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
