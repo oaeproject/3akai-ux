@@ -190,7 +190,13 @@
 
         if (!windowLoaded && $.browser.safari) {
             this.buttons(false, false);
-            $(window).bind('load.jcarousel', function() { self.setup(); });
+            // because Safari's load event fires before this is ever loaded
+            //  * from http://stackoverflow.com/questions/1235985/attach-a-body-onload-event-with-js
+            if (/loaded|complete/.test(document.readyState)) {
+                self.setup();
+            } else {
+                $(window).bind('load.jcarousel', function() { self.setup(); });
+            }
         } else {
             this.setup();
         }

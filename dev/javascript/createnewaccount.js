@@ -236,8 +236,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             $(usernameField).removeClass("username_available_icon");
                         }
                     });
-                } else {
-                    $(usernameField).removeClass("username_available_icon");
                 }
             });
 
