@@ -33,7 +33,7 @@
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_tinner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1167px transparent;}
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_bl{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll -10px -1177px transparent;}
 .contentmetadata_editable:hover .s3d-highlight_area_background_darker1_white_content_binner{background:url(/dev/images/dashboard_sprite.png) no-repeat scroll right -1187px transparent;}
-.contentmetadata_edit_input{width:100%;margin:7px 0;resize:vertical;}
+.contentmetadata_edit_input{width:100%;margin:7px 0; min-height: 75px; resize:vertical;}
 #contentmetadata_container ul{margin:0;overflow:hidden;}
 #contentmetadata_container ul li{list-style:none outside none;}
 #contentmetadata_container{word-wrap:break-word;border-bottom:5px solid #E1E1E1;clear:both;margin-bottom:20px;margin-right:20px;}
