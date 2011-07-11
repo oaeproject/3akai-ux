@@ -6,10 +6,6 @@
 #contacts_container .contacts_pending_name {width:auto;}
 #contacts_container .contacts_highlight {background:#C4E6FD;}
 #contacts_container .contact_delete_button{float:right; margin-top:10px;}
-#contacts_container .contact_search_button {margin-top: 10px;background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;padding-right:50px;}
-#contacts_container .contact_search_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;padding-left:50px;}
-#contacts_container .contact_search_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -123px transparent;}
-#contacts_container .contact_search_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat scroll left -82px transparent !important;}
 
 /* contact lists */
 #contacts_container .contacts_item {color:#333;padding:10px 10px 0 10px;border-top: 1px dotted #cccccc;overflow:hidden;}
@@ -21,7 +17,7 @@
 #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
 #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
 #contacts_container .contacts_item_detail_separator {color:#cccccc;margin:0 5px;}
-#contacts_container .contacts_item_message_icon{display: inline-block;height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+#contacts_container .contacts_item_message_icon{display:inline-block;float:right;}
 #contacts_container .contacts_item_icon{display: inline-block;height: 10px;width: 15px;}
 #contacts_container .contacts_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 #contacts_container .contacts_item_tags_list{font-size:11px;margin:6px 20px 10px 20px;}

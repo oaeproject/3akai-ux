@@ -71,7 +71,7 @@
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler">
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}"></button>
                         <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
                     </div>
                     <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${i.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" data-sakai-entitytype="user"></button>
