@@ -1638,11 +1638,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
-                                    	}
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                        }
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
                                         }
                                     }
                                 });
@@ -1701,12 +1701,86 @@ define(
                 var opts = $.extend({}, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 if(!element || (element.length!==1 && !element.data(namespace)) ){
-                	return false; //may want to return element?
+                    return false; //may want to return element?
                 } 
                 var ascontainer = $("#as-selections-" + element.attr("id")).replaceWith(element.data(namespace));
                 $("#as-results-" + element.attr("id")).remove();
                 return $(ascontainer);
             }
+        },
+        /**
+        * Pass string representing the location of the attribute value desired in dot-notated form for a JSON/JavaScript object
+        * and this will return either the value if the specified key is found, or "false" if not. Optionally a defaultValue
+        * option can be passed which will be returned if they key can't be found. That way you can use this directly within
+        * something like $.each() passing in an array [] as the defaultValue, so that .each() receives the appropriate value regardless
+        * of whether it exists in the data. If you care about whether the value being returned is the result of an error or
+        * success, use the "verbose:true" option and the returned value will be an object containing a "status" of "error" or 
+        * "success", the value found (or defaultValue/false if an error) and the path (if the key wasn't found, then the path
+        * is returned up to and including the key that failed).
+        * @param s {String} The dot-notated string representing the path to the value to be retrieved. N.b. that for items that are
+        *                   part of an array you can pass in the array index: foo.bar[0].bat will access the first element of the 
+        *                   array "bar" if it exists (and bar is in fact an array). You can also use a negative lookup to start at the
+        *                   end of the array (e.g., foo.bar[-1].bat will return the last element of the array).
+        * @param options {Object} The options to be used: 
+        *   "defaultValue": the default value to be returned if no value is found for the path given
+        *          "scope": scope for the object; defaults to "window". If the object isn't in the global namespace, then the base
+        *                   object sould be passed in and the path should be relative to that object
+        *        "verbose": boolean; set to true to return an object containing a status message (error or success), the value found,
+        *                   (false if an error) or the defaultValue, and the path to the value (up to and including the key that failed
+        *                   in the event of an error)
+        *
+        * @returns {Boolean|Object|Specified Value} see details of options param above
+        * Sample usage:
+        * var content_profile = sakai_global.content_profile; //assume sakai_global exists
+        * //insead of:
+        * if(content_profile && content_profile.content_data && content_profile.content_data.members &&
+        * content_profile.content_data.members.managers){
+        *	$.each(content_profile.content_data.members.managers,function(){
+        *		//do stuff
+        *	});
+        * }        
+        * //it becomes...
+        * $.each(getJsonValue("content_profile.content_data.members.managers",{"scope":sakai_global,"defaultValue":[]}),function(){
+        *	//do stuff
+        *	});
+        */  
+        getJsonValue: function(s,options){
+            jsonKeys = s.split(".");
+            var o = options || {}, obj = (o.scope) || window, jsonPath = '', jsonValue = error = false;
+            for (var i = 0, len = jsonKeys.length; i < len; i++) {
+                var k = jsonKeys[i].replace(/\[-?\d+\]$/,"");
+                if((obj.hasOwnProperty && obj.hasOwnProperty(k)) || (k in obj)){ //ie has issues when obj is window
+                    obj = obj[k];
+                    if(/\[-?\d+\]$/.test(jsonKeys[i])){
+                        var idx = parseInt(/\[(-?\d+)\]$/.exec(jsonKeys[i])[1], 10);
+                        if(idx < 0){ 
+                            idx = obj.length + idx;
+                        }
+                        if(obj.constructor !== Array || idx >= obj.length || idx < 0){
+                            error = true;
+                            jsonValue = o.hasOwnProperty("defaultValue") ? o.defaultValue : false;
+                            jsonPath = jsonPath + jsonKeys[i];
+                            break;
+                        }
+                        obj = obj[idx];
+                    }
+                    jsonValue = obj;
+                    jsonPath += jsonKeys[i] + ".";
+                } else {
+                    error = true;
+                    jsonValue = o.hasOwnProperty("defaultValue") ? o.defaultValue : false;
+                    jsonPath = jsonPath + jsonKeys[i];
+                    break;
+                }
+            }
+            if(o.verbose){
+                jsonValue = {
+                    "status": error ? "error" : "success",
+                    "jsonPath": jsonPath.replace(/\.+$/, ""),
+                    "jsonValue": jsonValue
+                }
+            }
+            return jsonValue;
         }
 
     };
