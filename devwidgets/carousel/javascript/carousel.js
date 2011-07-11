@@ -104,16 +104,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#carousel_view_toggle_" + carousel.last).removeClass("carousel_view_toggle_selected");
             $("#carousel_view_toggle_" + index).addClass("carousel_view_toggle_selected");
 
-            var contentButtonContainers = [".carousel_three_column_left", ".carousel_three_column_middle", ".carousel_two_high_top", ".carousel_two_high_bottom", ".carousel_4x2_grid_container > div"];
-            $.each(contentButtonContainers, function(index, container) {
-                $(container).bind("mouseover", function(evObj){
-                    $(evObj.target).find(".carousel_bottom_buttons").show();
-                });
-                $(container).bind("mouseleave", function(){
-                    $(container + " .carousel_bottom_buttons").hide();
-                });
-            });
-
             $(window).bind("sakai.addToContacts.requested", function(evObj, user){
                 var addbutton = $.grep($("#carousel_container .sakai_addtocontacts_overlay"), function(value, index) {
                     return $(value).attr("sakai-entityid") === user.userid;
