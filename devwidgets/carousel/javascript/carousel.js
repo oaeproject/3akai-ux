@@ -184,16 +184,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var applyThreeDots = function(){
             $.each($(".carousel_apply_threedots"), function(index, item){
                 var maxrows = 1;
-                $.each(item.classList, function(i, cl){
-                    if (item.classList.hasOwnProperty(i)) {
-                        if (cl.indexOf("threedots_allow_") === 0) {
-                            maxrows = parseInt(cl.split("threedots_allow_")[1]);
+                if (item && item.className) {
+                    var classes = item.className.split(" ");
+                    $.each(classes, function(i, cl){
+                        if (cl && cl.indexOf("threedots_allow_") === 0) {
+                            maxrows = parseInt(cl.split("threedots_allow_")[1], 10);
                             return false;
                         }
-                    }
-                });
+                    });
+                }
                 $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action"));
-            })
+            });
         };
 
         var parseContent = function(data, dataArr){

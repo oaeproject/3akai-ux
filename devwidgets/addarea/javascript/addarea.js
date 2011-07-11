@@ -234,7 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////////
 
         $("#addarea_create_new_area").live("click", function(){
-            debug.log(context);
             switch(context){
                 case "pages":
                     createNewSakaiDoc();
@@ -255,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     createSakai2Tool();
                     break;
                 default:
-                  debug.log("unrecognized area type: " + context);
+                  debug.warn("unrecognized area type: " + context);
             }
         });
 
