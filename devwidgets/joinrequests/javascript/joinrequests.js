@@ -158,9 +158,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addUser = function (userid, displayName) {
             // add user to group
-            sakai.api.Groups.getJoinRole(joinrequestbuttons.groupid, function(success, joinRole){
+            sakai.api.Groups.getJoinRole(sakai_global.currentgroup.id, function(success, joinRole){
                 if (success) {
-                    sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [{user: userid, permission: joinRole}], sakai.data.me, function(success){
+                    var pseduoGroup = sakai_global.currentgroup.id + "-" + joinRole;
+                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, null, function (success) {
                         if (success) {
                             // show notification
                             var name = displayName;
