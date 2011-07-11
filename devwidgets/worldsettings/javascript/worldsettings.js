@@ -84,7 +84,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                  if(joinable !== sakai_global.group.groupData["sakai:group-joinable"] ||
                                      visible !== sakai_global.group.groupData["sakai:group-visible"]) {
                                      // set new group permissions
-                                     sakai.api.Groups.setPermissions(sakai_global.group.groupId, joinable, visible);
+                                     var roles = $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
+                                     sakai.api.Groups.setPermissions(sakai_global.group.groupId, joinable, visible, roles);
                                      sakai_global.group.groupData["sakai:group-visible"] = $worldsettingsCanBeFoundIn.val();
                                      sakai_global.group.groupData["sakai:group-joinable"] = $worldsettingsMembership.val();
                                  }
