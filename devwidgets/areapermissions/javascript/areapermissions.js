@@ -211,21 +211,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                          ":viewer@Delete": role,
                          ":manager@Delete": role
                      }
+                     var aclParameters = {
+                        "principalId": role,
+                        "privilege@jcr:read": "denied",
+                        "privilege@jcr:write": "denied"
+                     }
                      if (selectedPermission === "edit"){
                          parameters = {
                              ":viewer@Delete": role,
                              ":manager": role
+                         }
+                         aclParameters = {
+                             "principalId": role,
+                             "privilege@jcr:read": "granted",
+                             "privilege@jcr:write": "granted"
                          }
                      } else if (selectedPermission === "view"){
                          parameters = {
                              ":viewer": role,
                              ":manager@Delete": role
                          }
+                         aclParameters = {
+                             "principalId": role,
+                             "privilege@jcr:write": "denied",
+                             "privilege@jcr:read": "granted"
+                         }
                      }
                      permissionsBatch.push({
                          "url": contextData.pageSavePath + ".members.json",
                          "method": "POST",
                          "parameters": parameters
+                     });
+                     permissionsBatch.push({
+                            "url": contextData.pageSavePath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": aclParameters
                      });
                  }
 
