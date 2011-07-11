@@ -366,7 +366,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }, widgetData.category);
                     }
                     // only show pager if needed
-                    if (totalMessages > MESSAGES_PER_PAGE | totalMessages == -100) {
+                    if (totalMessages > MESSAGES_PER_PAGE || totalMessages == -100) {
                         // pagenumber is 1-indexed, currentPage is 0-indexed
                         $inbox_pager.pager({ pagenumber: currentPage+1, pagecount: Math.ceil(Math.abs(totalMessages)/MESSAGES_PER_PAGE), buttonClickCallback: handlePageClick });
                     }
