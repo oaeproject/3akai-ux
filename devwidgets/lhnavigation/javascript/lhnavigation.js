@@ -648,7 +648,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var changingPageTitle = false;
 
         var checkSaveEditPageTitle = function(ev){
-            debug.log("event");
             if(!$(ev.target).is("input")){
                 $(window).unbind("click", checkSaveEditPageTitle);
                 savePageTitle();
