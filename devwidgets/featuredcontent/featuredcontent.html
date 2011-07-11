@@ -24,11 +24,11 @@
                     {/if}
                     <div class="featuredcontent_content featuredcontent_content_small">
                         <div class="featuredcontent_content_actions">
-                            <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
+                            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
                             {if !sakai.data.me.user.anon}
-                                <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
+                                <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
                             {/if}
-                            <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
+                            <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                         </div>
                         <a href="/content#p=${small["_path"]}/${small["sakai:pooled-content-file-name"]}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 50)}</a>
                         {if small["sakai:tags"]}
@@ -48,11 +48,11 @@
             {else}
                 <div class="featuredcontent_content featuredcontent_content_${item.mode} {if sakai_global.category} featuredcontent_category_content_large{/if}">
                     <div class="featuredcontent_content_actions">
-                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}"></div>
+                        <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}"></div>
                         {if !sakai.data.me.user.anon}
-                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}"></div>
+                            <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}"></div>
                         {/if}
-                        <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
+                        <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}"></div>
                     </div>
                     {if item.mode == "large"}
                         <div id="featuredcontent_large_preview">
@@ -106,7 +106,7 @@
         {if !sakai_global.category}
         </div>
             <div id="featuredcontent_show_more_container">
-                <a class="s3d-button s3d-large-button" href="/dev/allcategories.html" title="__MSG__SHOW_MORE__">
+                <a class="s3d-button s3d-large-button" href="/categories" title="__MSG__SHOW_MORE__">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
                 <a/>
             </div>
@@ -118,14 +118,14 @@
                     <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
-                        <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
+                        <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/create" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
                     </div>
                 </div>
             </div>
         {else}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
-                <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/dev/createnew.html" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
+                <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="/create" title="__MSG__ADD_REAL_CONTENT__" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</h1>
             </div>
         {/if}
     {/if}
@@ -140,11 +140,11 @@
             {for small in data}
                 <div class="featuredcontent_content featuredcontent_content_small">
                     <div class="featuredcontent_content_actions">
-                        <div class="featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
+                        <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${small["_path"]}"></div>
                         {if !sakai.data.me.user.anon}
-                            <div class="featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
+                            <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${small["_path"]}"></div>
                         {/if}
-                        <div class="personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
+                        <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                     </div>
                     {if small.image}
                         <img src="/p/${small["_path"]}" class="featuredcontent_thumbnail_image"/>

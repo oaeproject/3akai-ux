@@ -262,6 +262,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
+            sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions,.entity_permissions_icon", function(){
+                $("#entity_groupsettings_dropdown").jqmHide();
+            });
+
             $("#ew_group_categories_link").click(function(){
                 $("#assignlocation_container").jqmShow();
                 $('#entity_groupsettings_dropdown').jqmHide();
@@ -297,7 +301,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             // Wait for 2 seconds
                             setTimeout(function () {
                                 // Relocate to the my sakai page
-                                document.location = "/dev/me.html";  // TODO TEMPORARY REDIRECT!!!
+                                document.location = "/me";
                             }, 2000);
                         }
                     }]

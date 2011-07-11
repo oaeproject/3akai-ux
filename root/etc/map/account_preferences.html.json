@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/preferences',
-  'sling:internalRedirect': '/dev/account_preferences.html'
-}

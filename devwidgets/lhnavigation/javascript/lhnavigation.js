@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 }
             }
-        }
+        };
 
         //////////////////
         // Data storage //
@@ -474,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var onContextMenuHover = function($el, $elLI){
             //$(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-            if ($elLI.data("sakai-manage")) {
+            if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
                     $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
@@ -650,6 +650,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var changingPageTitle = false;
 
+        var checkSaveEditPageTitle = function(ev){
+            if(!$(ev.target).is("input")){
+                $(window).unbind("click", checkSaveEditPageTitle);
+                savePageTitle();
+            }
+        };
+
         var editPageTitle = function(){
             // Select correct item
             var menuitem = $("li[data-sakai-path='" + contextMenuHover.path + "'] > div");
@@ -665,6 +672,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             // Hide the dropdown menu
             toggleContextMenu(true);
             inputArea.focus();
+            inputArea.select();
         };
 
         var savePageTitle = function(){
@@ -835,6 +843,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
         };
 
+        sakai.api.Util.hideOnClickOut("#lhnavigation_submenu", ".lhnavigation_selected_submenu_image");
+
         var showHideSubnav = function($el, forceOpen){
             $el.children(".lhnavigation_selected_item_subnav").show();
             if ($el.hasClass("lhnavigation_hassubnav")) {
@@ -968,6 +978,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
+            ev.stopPropagation();
+            $(window).bind("click", checkSaveEditPageTitle);
         });
 
         $("#lhnavigation_submenu_permissions").live("click", function(ev){

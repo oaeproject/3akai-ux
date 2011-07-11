@@ -118,6 +118,9 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var lastUpload = [];
         var libraryToUploadTo = "";
         var existingItems = [];
+        // Keep track of number of files in the upload list selected by browsing the OS
+        // This number will later be used to check against the multifile list of uploads to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
+        var numberOfBrowsedFiles = 0;
 
         // Paths
         var uploadPath = "/system/pool/createfile";
@@ -138,8 +141,8 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var currentExistingContext = false;
 
         var currentSelectedLibrary = sakai.data.me.user.userid;
-        if (sakai_global.group2 && sakai_global.group2.groupId){
-            currentSelectedLibrary = sakai_global.group2.groupId;
+        if (sakai_global.group && sakai_global.group.groupId){
+            currentSelectedLibrary = sakai_global.group.groupId;
         }
 
         ////////////////////////////////
@@ -275,6 +278,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                 case "content":
                     var $found = $("*:contains(\"" + obj.originaltitle + "\")");
                     $found.last().prev("a").click();
+                    // If the user removes an item that was selected through browsing the OS reduce the file count to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
+                    if(obj.origin == "user"){
+                        numberOfBrowsedFiles--;
+                    }
                     break;
                 case "existing":
                     var $existing = $("input#" + obj.id);
@@ -325,11 +332,14 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                         "permissions": $contentForm.find(newaddcontentUploadContentPermissions).val(),
                         "copyright": $("#newaddcontent_upload_content_copyright").val(),
                         "css_class": sakai.config.MimeTypes[sakai.config.Extensions[(originalTitle).slice(originalTitle.lastIndexOf(".") + 1, originalTitle.length).toLowerCase()] || "other"].cssClass || "icon-unknown-sprite",
-                        "type": "content"
+                        "type": "content",
+                        "origin":"user" // 'origin' tells Sakai that this file was selected from the users hard drive
                     };
                     addContentToQueue(contentObj);
                     multifileQueueAddAllowed = true;
                     $contentForm.find(newaddcontentUploadContentTitle + ", " + newaddcontentUploadContentDescription + ", " + newaddcontentUploadContentTags).val("");
+                    // Increase the number of files that the user browsed for and added to the list
+                    numberOfBrowsedFiles++;
                     break;
                 case "newaddcontent_add_document_form":
                     var $documentForm = $(this).prev().children(":visible").find(newAddContentForm);
@@ -715,6 +725,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
          */
         var doUpload = function(){
             libraryToUploadTo = $(newaddcontentSaveTo).val();
+            if(numberOfBrowsedFiles < $(".MultiFile-list").children().length){
+                // Remove the previously added file to avoid https://jira.sakaiproject.org/browse/SAKIII-3269
+                $(".MultiFile-list").children().last().find("a").click();
+            }
             $.each(itemsToUpload, function(index,item){
                 switch(item.type){
                     case "link":
@@ -1067,6 +1081,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
+            $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
@@ -1120,6 +1135,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             multifileQueueAddAllowed = true;
             contentUploaded = false;
             hideAfterContentUpload = false;
+            numberOfBrowsedFiles = 0;
         };
 
         /**

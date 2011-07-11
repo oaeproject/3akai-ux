@@ -15,7 +15,7 @@
                 <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/dev/search2.html#tag=/tags/${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
+                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
                         {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
                     {/if}
                 {/for}
@@ -24,10 +24,10 @@
     {/macro}
 
     {macro contentButtons(id, uploader)}
-        <span class="carousel_bottom_buttons" style="display:none">
-            <img src="/devwidgets/featuredcontent/images/featuredcontent_share_icon.png" class="carousel_sharecontent share_trigger_click" data-entityid="${id}" />
-            <img src="/dev/images/add_to_library_icon.png" class="carousel_savecontent savecontent_trigger" data-entityid="${id}" />
-            <img src="/devwidgets/featuredcontent/images/featuredcontent_author_icon.png" class="personinfo_trigger_click" data-userid="${uploader}" />
+        <span class="carousel_bottom_buttons">
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-share carousel_sharecontent share_trigger_click" data-entityid="${id}"></button>
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary carousel_savecontent savecontent_trigger" data-entityid="${id}"></button>
+            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click" data-userid="${uploader}"></button>
         </span>
     {/macro}
 
@@ -109,22 +109,22 @@
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/dev/user.html?id=${user.userid}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <span class="carousel_bottom_buttons" style="display:none">
+                                        <div class="carousel_bottom_buttons">
                                             {if !user.connected}
-                                                <img src="/dev/images/add_to_library_icon.png" class="sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" />
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}"></button>
                                             {/if}
-                                            <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" />
-                                        </span>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user"></button>
+                                        </div>
                                     </div>
                                 {/for}
                             </div>
@@ -160,9 +160,9 @@
                                             </ul>
                                         </div>
                                         ${tags(group.tags)}
-                                        <span class="carousel_bottom_buttons" style="display:none">
-                                            <img src="/dev/images/add_to_library_icon.png" class="sakai_joingroup_overlay" data-groupid="${group.groupid}" />
-                                            <img src="/devwidgets/searchpeople/images/searchpeople_message_icon.png" class="sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group" />
+                                        <span class="carousel_bottom_buttons">
+                                            <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
                                         </span>
 
                                     </div>

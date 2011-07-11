@@ -74,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerDescription.html(sakai.api.Util.TemplateRenderer(addareaContentsContainerDescriptionTemplate, {
                     areadescription: areadescription,
                     context: context,
-                    group: sakai_global.group2.groupData
+                    group: sakai_global.group.groupData
                 }));
                 $addareaContentsContainerForm.hide();
                 $("#addarea_action_buttons").hide();
@@ -92,7 +92,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
                     context: context,
                     data: data,
-                    group: sakai_global.group2.groupData
+                    group: sakai_global.group.groupData
                 }));
                 $(addareaSelectTemplate).hide();
                 
@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             selectedCanManage = $(this).data("sakai-manage");
             $("#addarea_sakaidoc_permissions").html(sakai.api.Util.TemplateRenderer("addarea_existing_sakaidoc_visibility_template", {
                 canManage: selectedCanManage,
-                group: sakai_global.group2.groupData
+                group: sakai_global.group.groupData
             }));
             checkExistingReady();
         });
@@ -220,7 +220,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var addBinding = function(){
             $(addareaContentsListItem).bind("click", renderDescription);
-            $(addareaSelectTemplate).live("click", decideRenderForm)
+            $(addareaSelectTemplate).live("click", decideRenderForm);
+            sakai.api.Util.hideOnClickOut(".addarea_dropdown", "#group_create_new_area", toggleOverlay);
         };
 
         var doInit = function(){
@@ -233,7 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////////
 
         $("#addarea_create_new_area").live("click", function(){
-            debug.log(context);
             switch(context){
                 case "pages":
                     createNewSakaiDoc();
@@ -254,7 +254,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     createSakai2Tool();
                     break;
                 default:
-                  debug.log("unrecognized area type: " + context);
+                  debug.warn("unrecognized area type: " + context);
             }
         });
 
@@ -298,7 +298,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var widgetContents = {};
             widgetContents[widgetID] = {
                 participants: {
-                    "groupid": sakai_global.group2.groupId
+                    "groupid": sakai_global.group.groupId
                 }
             }
             createSakaiDoc(docTitle, docPermission, pageContents, widgetContents, nonEditable, function(poolId){
@@ -319,7 +319,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var widgetContents = {};
             widgetContents[widgetID] = {
                 mylibrary: {
-                    "groupid": sakai_global.group2.groupId
+                    "groupid": sakai_global.group.groupId
                 }
             }
             createSakaiDoc(docTitle, docPermission, pageContents, widgetContents, nonEditable, function(poolId){
@@ -375,7 +375,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchGroupRoles = function(){
-            return $.parseJSON(sakai_global.group2.groupData["sakai:roles"]);
+            return $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
         };
 
         var selectPageAndShowPermissions = function(poolId, path, docPermission){
@@ -385,7 +385,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     isManager: true,
 	                pageSavePath: "/p/" + poolId,
 	                path: path,
-	                savePath: "/~" + sakai_global.group2.groupId + "/docstructure"
+	                savePath: "/~" + sakai_global.group.groupId + "/docstructure"
                 }]);
             }
             $(window).trigger("rerender.group.sakai", [path]);
@@ -394,7 +394,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var addSakaiDocToWorld = function(poolId, docTitle, docPermission, nonEditable, existingNotMine, callback){
             // Refetch docstructure information
             $.ajax({
-                 url: "/~" + sakai_global.group2.groupId + "/docstructure.infinity.json",
+                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
                  success: function(data){
 
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
@@ -434,8 +434,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
 
                     // Store view and edit roles
-                    sakai_global.group2.pubdata.structure0 = pubdata.structure0;
-                    sakai.api.Server.saveJSON("/~" + sakai_global.group2.groupId + "/docstructure", {
+                    sakai_global.group.pubdata.structure0 = pubdata.structure0;
+                    sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
                         "structure0": $.toJSON(pubdata.structure0)
                     }, function(){
                         callback(poolId, newPath);
@@ -474,7 +474,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "url": "/p/" + poolId + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": sakai_global.group2.groupId + "-" + editRoles[i]
+                            ":viewer": sakai_global.group.groupId + "-" + editRoles[i]
                         }
                     });
                 }
@@ -484,7 +484,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "url": "/p/" + poolId + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":viewer": sakai_global.group2.groupId + "-" + viewRoles[i]
+                                ":viewer": sakai_global.group.groupId + "-" + viewRoles[i]
                             }
                         });
                     }
@@ -502,7 +502,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "url": "/p/" + poolId + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":manager": sakai_global.group2.groupId + "-" + editRoles[i]
+                                ":manager": sakai_global.group.groupId + "-" + editRoles[i]
                             }
                         });
                     }
@@ -512,7 +512,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 "url": "/p/" + poolId + ".members.html",
                                 "method": "POST",
                                 "parameters": {
-                                    ":viewer": sakai_global.group2.groupId + "-" + viewRoles[i]
+                                    ":viewer": sakai_global.group.groupId + "-" + viewRoles[i]
                                 }
                             });
                         }

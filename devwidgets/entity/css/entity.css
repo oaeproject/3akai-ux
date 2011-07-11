@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General*/
-#entity_container .entity_number {color:#424242;}
-#entity_container #entity_name {font-size: 18px;margin-bottom:5px;padding:2px 0 !important;}
+#entity_container .entity_number {display:inline-block;color:#424242;}
+#entity_container #entity_name {display:inline-block;width:450px;word-wrap:break-word;font-size: 18px;margin-bottom:0;padding:0 0 2px !important;}
 #entity_container #entity_owns {font-size:11px; margin-top:5px;}
 #entity_container .entity_permissions_label {margin-left:10px;}
 #entity_container .entity_comments {margin-left:10px;}

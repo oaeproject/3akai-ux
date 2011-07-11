@@ -40,16 +40,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          */
         var loadContentProfile = function(callback, ignoreActivity){
             // Check whether there is actually a content path in the URL
-
-            if (content_path && document.location.pathname === "/content"){
-                var redirectURL = "/dev/content_profile2.html#p=" + content_path.replace("/p/","");
-                if (filename) {
-                    redirectURL += "/" + filename;
-                }
-                document.location = redirectURL;
-                return;            
-            }  
-            
             if (content_path) {
                 
                 // Get the content information, the members and managers and version information
