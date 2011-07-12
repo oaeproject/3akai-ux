@@ -203,9 +203,11 @@ define(
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
-                    i10nCode = langCode.replace("_", "-");
                     localeSet = true;
+                } else {
+                    langCode = sakai_config.defaultLanguage;
                 }
+                i10nCode = langCode.replace("_", "-");
 
                 if (Globalization.cultures && Globalization.cultures[i10nCode]) {
                     Globalization.preferCulture(i10nCode);
