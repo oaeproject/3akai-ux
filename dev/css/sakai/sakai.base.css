@@ -135,8 +135,8 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * DROPDOWN MENU
  */
-.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 10px 25px;cursor:pointer; margin-left:-2px;}
-.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
+.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:0;cursor:pointer; margin-left:-2px;}
+.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:0px;}
 .s3d-dropdown-menu ul, .s3d-dropdown-menu .s3d-dropdown-menu-content-container {margin:0;padding: 10px 7px;display:block;background-color: #F3F3F3;-moz-border-radius:2px; border-radius:2px; -webkit-border-radius:2px;}
 .s3d-dropdown-menu ul li {display:block; list-style:none;padding:1px;margin:0 2px;cursor:pointer;color:#636363; text-decoration:none; font-weight:normal;}
 .s3d-dropdown-menu ul li:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_list_hover.png") repeat-x scroll left top transparent;}
@@ -278,12 +278,12 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-no-results-container .s3d-no-results-search-content {background:url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;}
 
 
-/*
- * ACTION ICONS
- */
 
 .s3d-action-icon {width:16px;height:16px;cursor:pointer;}
 .s3d-action-icon.disabled {display:none;}
+
+.s3d-actions-delete {background:url("/dev/images/delete_icon_default.png") no-repeat top left transparent;}
+.s3d-actions-delete:hover {background:url("/dev/images/delete_icon_hover.png") no-repeat top left transparent;}
 
 .s3d-actions-addtolibrary {background:url("/dev/images/addtolibrary_icon_default.png") no-repeat top left transparent;}
 .s3d-actions-addtolibrary:hover {background:url("/dev/images/addtolibrary_icon_hover.png") no-repeat top left transparent;}
@@ -296,7 +296,6 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 
 .s3d-actions-message {background:url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;}
 .s3d-actions-message:hover {background:url("/dev/images/message_icon_hover.png") no-repeat scroll left top transparent;}
-
 
 /*
  * CONTENT LAYOUT 

@@ -44,8 +44,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $savecontent_template = $("#savecontent_template", $rootel),
             $savecontent_close = $(".savecontent_close", $rootel),
             $savecontent_save = $("#savecontent_save", $rootel);
-        var dataCache = {};
-        var currentSelected = false;
+        var dataCache = {},
+            currentSelected = false,
+            newlyShared = {},
+            allNewlyShared = [];
 
         $savecontent_widget.jqm({
             modal: false,
@@ -53,6 +55,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             zIndex: 1000,
             toTop: true
         });
+
+        sakai_global.savecontent.getNewContent = function(library) {
+            if (!library) {
+                return allNewlyShared;
+            } else if (newlyShared[library]) {
+                return newlyShared[library];
+            } else {
+                return [];
+            }
+        };
 
         /**
          * hideSavecontent
@@ -100,7 +112,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveContent = function(id){
             if (id) {
                 $savecontent_save.attr("disabled", "disabled");
-                sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId){
+                sakai.api.Content.addToLibrary(currentSelected, id, function(contentId, entityId) {
+                    // cache the content locally
+                    var thisContent = dataCache[contentId];
+                    $(window).trigger("done.newaddcontent.sakai", [[thisContent], entityId]);
+                    newlyShared[entityId] = newlyShared[entityId] || [];
+                    _.uniq($.merge(newlyShared[entityId], [thisContent]));
+                    _.uniq($.merge(allNewlyShared, [thisContent]));
                     if (entityId === sakai.data.me.user.userid) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
                     } else {
@@ -113,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (sakai_global.content_profile) {
                         sakai_global.content_profile.content_data.members.viewers.push({
                             "userid": entityId
-                        }); 
+                        });
                     }
                     hideSavecontent();
                 });
