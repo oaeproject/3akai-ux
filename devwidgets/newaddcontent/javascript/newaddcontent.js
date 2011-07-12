@@ -149,38 +149,16 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         // Get newly uploaded content //
         ////////////////////////////////
 
-        sakai_global.newaddcontent.getNewList = function(_data, library, offset, max) {
-            var data = $.extend({}, _data),
-                newAdditions = 0,
-                newContentLibrary = [];
+        sakai_global.newaddcontent.getNewContent = function(library) {
+            var newContentLibrary = [];
             // grab all of the newly uploaded content, regardless of target library
             if (!library) {
                 newContentLibrary = allNewContent;
             } else {
                 newContentLibrary = brandNewContent[library];
             }
-            if (newContentLibrary && newContentLibrary.length) {
-                var newContent = $.merge([], newContentLibrary);
-                // only use the amount from the current page number
-                newContent = _.rest(newContent, offset * max);
-                $.each(newContent, function(i, elt) {
-                    var exists = false;
-                    $.each(data.results, function(j, result) {
-                        if (result._path === elt._path) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        // put the element as the first result
-                        data.results = $.merge([elt], data.results);
-                        // modify the results to be the proper length
-                        data.results = _.first(data.results, max);
-                        newAdditions++;
-                    }
-                });
-            }
-            data.total += newAdditions;
-            return data;
+            // return a copy
+            return $.merge([], newContentLibrary);
         };
 
         var deleteContent = function(e, obj) {
