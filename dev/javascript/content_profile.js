@@ -349,6 +349,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     $(window).trigger("content_profile_hash_change");
                 });
             }
+            showPreview = true;
         };
 
         /**
