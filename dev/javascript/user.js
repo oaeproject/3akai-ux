@@ -192,7 +192,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata.structure0[pageid]._count = count;
                 }
             }
-            if (pageid === "library") {
+            if (pageid === "library" && (!entityID || entityID == sakai.data.me.user.userid)) {
                 pubdata.structure0[pageid]._count += newContent;
                 newContent = 0;
             }
