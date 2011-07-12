@@ -389,7 +389,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (!isOnPersonalDashboard()) {
                         library = mylibrary.contextId;
                     }
-                    data = sakai_global.newaddcontent.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
+                    data = sakai.api.Content.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
                 }
                 handleLibraryItems(success, data);
             };
