@@ -9,5 +9,9 @@
     "type":"core",
     "enabled":true,
     "url": "/devwidgets/newsharecontent/newsharecontent.html",
-    "addThisAccountId": "xa-4db72a071927628b"
+    "defaultConfiguration": {
+        "newsharecontent": {
+            "addThisAccountId": "xa-4db72a071927628b"
+        }
+    }
 }
