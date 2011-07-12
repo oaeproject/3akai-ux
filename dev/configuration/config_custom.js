@@ -10,7 +10,7 @@ define(["config/config"], function(config) {
                 url: "https://ucamoae.caret.cam.ac.uk/system/ucam/auth/raven"
             }, {    
                 label: "Friends",
-                url: "https://ucamoae.caret.cam.ac.uk/system/ucam/auth/raven"
+                url: "https://ucamoae.caret.cam.ac.uk/system/ucam/auth/friends"
             }],
 
     return config;
