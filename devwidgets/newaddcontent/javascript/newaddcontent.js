@@ -154,7 +154,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             // grab all of the newly uploaded content, regardless of target library
             if (!library) {
                 newContentLibrary = allNewContent;
-            } else {
+            } else if (brandNewContent[library]) {
                 newContentLibrary = brandNewContent[library];
             }
             // return a copy
