@@ -337,17 +337,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var getFirstSelectablePage = function(structure){
             var selected = false;
-            for (var i = 0; i < structure.orderedItems.length; i++) {
-                if (structure.orderedItems[i]._canView !== false) {
-                    if (structure.orderedItems[i]._childCount > 1) {
-                        for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
-                            selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
-                            break;
+            if (structure.orderedItems) {
+                for (var i = 0; i < structure.orderedItems.length; i++) {
+                    if (structure.orderedItems[i]._canView !== false) {
+                        if (structure.orderedItems[i]._childCount > 1) {
+                            for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                                selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
+                                break;
+                            }
                         }
-                    } else {
-                        selected = structure.orderedItems[i]._id;
+                        else {
+                            selected = structure.orderedItems[i]._id;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             return selected;
@@ -409,7 +412,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 // Select correct item
                 var menuitem = $("li[data-sakai-path='" + selected + "']");
-                if (menuitem) {
+                if (menuitem.length) {
                     if (selected.split("/").length > 1) {
                         var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
                         showHideSubnav(par, true);
