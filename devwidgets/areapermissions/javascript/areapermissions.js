@@ -213,8 +213,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      }
                      var aclParameters = {
                         "principalId": role,
-                        "privilege@jcr:read": "denied",
-                        "privilege@jcr:write": "denied"
+                        "privilege@jcr:write": "denied",
+                        "privilege@jcr:read": "denied"
                      }
                      if (selectedPermission === "edit"){
                          parameters = {
@@ -223,8 +223,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                          }
                          aclParameters = {
                              "principalId": role,
-                             "privilege@jcr:read": "granted",
-                             "privilege@jcr:write": "granted"
+                             "privilege@jcr:write": "granted",
+                             "privilege@jcr:read": "granted"
                          }
                      } else if (selectedPermission === "view"){
                          parameters = {
