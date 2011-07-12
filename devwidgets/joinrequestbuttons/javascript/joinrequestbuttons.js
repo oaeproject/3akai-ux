@@ -212,8 +212,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     ") membership");
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, joinrequestbuttons.groupData,
-            function (success) {
+            sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, joinrequestbuttons.groupData, true, function (success) {
                 if (success) {
                     // show a notification and change the button
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
@@ -247,7 +246,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.getJoinRole(joinrequestbuttons.groupid, function(success, joinRole){
                 if (success) {
                     var pseduoGroup = groupid + "-" + joinRole;
-                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, null, function (success) {
+                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, false, false, function (success) {
                         if (success) {
                             sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
                             showButton("leave");

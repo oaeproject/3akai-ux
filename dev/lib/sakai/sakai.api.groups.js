@@ -579,11 +579,12 @@ define(
          * @param {Object} meData User object for the user that wants to join the group
          * @param {String} groupID ID of the group to the user wants to join
          * @param {Object} groupData Optional group data object containing profile and managers for the group
+         * @param {Boolean} notifyManagers Optional notify managers of the group of the join request by sending a message
          * @param {Function} callback Callback function executed at the end of the
          * operation - callback args:
          *  -- {Boolean} success True if operation succeeded, false otherwise
          */
-        addJoinRequest : function(meData, groupID, groupData, callback) {
+        addJoinRequest : function(meData, groupID, groupData, notifyManagers, callback) {
             var groupProfile = false;
             var groupManagers = false;
 
@@ -631,20 +632,22 @@ define(
                         userid: userID
                     },
                     success: function (data) {
-                        if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
-                            sendJoinRequestMessage();
-                        } else {
-                            sakaiGroupsAPI.getMembers(groupID, false, function(success, members){
-                                if (success) {
-                                    sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
-                                        if (success) {
-                                            groupProfile = groupData.authprofile;
-                                            groupManagers = members.Manager.results;
-                                            sendJoinRequestMessage();
-                                        }
-                                    });
-                                }
-                            });
+                        if (notifyManagers) {
+                            if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
+                                sendJoinRequestMessage();
+                            } else {
+                                sakaiGroupsAPI.getMembers(groupID, false, function(success, members){
+                                    if (success) {
+                                        sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
+                                            if (success) {
+                                                groupProfile = groupData.authprofile;
+                                                groupManagers = members.Manager.results;
+                                                sendJoinRequestMessage();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
                         }
 
                         if ($.isFunction(callback)) {

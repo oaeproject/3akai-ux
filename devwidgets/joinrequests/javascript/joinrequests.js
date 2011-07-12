@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Groups.getJoinRole(sakai_global.currentgroup.id, function(success, joinRole){
                 if (success) {
                     var pseduoGroup = sakai_global.currentgroup.id + "-" + joinRole;
-                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, null, function (success) {
+                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, false, false, function (success) {
                         if (success) {
                             // show notification
                             var name = displayName;
