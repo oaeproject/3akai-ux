@@ -83,12 +83,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $(".s3d-actions-delete").live("click", function(){
                 $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
-                $("#contacts_delete_contact_confirm").attr("data-sakai-entityid", $(this).attr("data-sakai-entityid"));
+                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
                 $("#contacts_delete_contacts_dialog").jqmShow();
             });
 
             $("#contacts_delete_contact_confirm").live("click", function(){
-                removeRequest($(this).attr("data-sakai-entityid"));
+                removeRequest($(this).data("sakai-entityid"));
             });
 
             $(window).bind("contacts.accepted.sakai", getContacts);
