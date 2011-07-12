@@ -127,9 +127,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.group) {
                 var managerSelected = false;
                 var permissionsToDelete = [];
+                var newUsers = [];
                 $.each(selectedUsers, function(index, user){
                     if (user.originalPermission && user.permission !== user.originalPermission) {
                         permissionsToDelete.push(user);
+                    }
+
+                    if (!user.originalPermission){
+                        newUsers.push(user);
                     }
 
                     $.each(currentTemplate.roles, function(i, role){
@@ -145,8 +150,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (managerSelected || !sakai_global.group) {
                 $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
                 $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
+                $.merge(permissionsToDelete, newUsers);
                 if (sakai_global.group) {
-                    $.each(selectedUsers, function(index, user){
+                    $.each(permissionsToDelete, function(index, user){
                         sakai.api.Communication.sendMessage(user.userid,
                         sakai.data.me,
                         sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("${role}", user.permission).replace("${groupName}", sakai_global.group.groupData["sakai:group-title"]),
