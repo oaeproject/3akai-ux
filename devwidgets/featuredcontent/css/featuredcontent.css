@@ -64,6 +64,3 @@
 .featuredcontent_widget .featuredcontent_no_content {margin:10px;display:block;}
 
 .featuredcontent_widget .s3d-no-results-container {margin:30px 10px 10px;}
-
-/* override sakai.base.css */
-.s3d-no-results-container h1 button{font-size:18px;}

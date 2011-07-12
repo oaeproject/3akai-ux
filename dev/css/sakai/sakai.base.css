@@ -198,6 +198,7 @@ a.s3d-button {text-decoration:none;}
 /* Link buttons */
 .s3d-link-button {margin:0;padding:0;background: none repeat scroll 0 0 transparent;border: medium none;color:#2683bc;font-family: Arial,Helvetica,sans-serif;font-size:13px;display: inline-block;text-align:left;margin-right:15px;font-size:11px;}
 .s3d-link-button:hover {cursor:pointer;text-decoration:none;color:#999;}
+.s3d-no-results-container h1 button{font-size:18px;}
 
 /* Header buttons */
 .s3d-button.s3d-header-button {background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;border:1px solid #e0e3e5;}
