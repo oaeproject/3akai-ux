@@ -71,7 +71,8 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .s3d-dropdown-list {background:url("/dev/images/dropdown_list_bg.png") repeat-x scroll left top #F5F5F5;border: 1px solid #aaa;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 6px 0 #666;}
 .s3d-dropdown-list ul {padding:0;margin:5px;}
 .s3d-dropdown-list ul li {padding:2px 5px;margin:0;font-size:12px;list-style-type:none;}
-.s3d-dropdown-list ul li button {color:#336699;}
+.s3d-dropdown-list ul li button, .s3d-dropdown-list ul li a {color:#2683bc;font-size:11px;font-weight:bold;text-decoration:none;}
+.s3d-dropdown-list ul li a:hover {color:#999;}
 .s3d-dropdown-list .s3d-dropdown-list-arrow-up {background:url("/dev/images/dropdown_list_arrow_up.png") no-repeat scroll left top transparent;height:20px;margin-top:-20px;position:absolute;right:8px;width:25px;}
 
 /* NEW WIDGETS */
@@ -135,8 +136,8 @@ div .orderable-drop-marker {background-color:#FA7019; height:10px !important;}
 /*
  * DROPDOWN MENU
  */
-.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:7px 25px 10px 25px;cursor:pointer; margin-left:-2px;}
-.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
+.s3d-dropdown-menu {display: inline-block;list-style: none outside none;margin-top:4px;padding:0;cursor:pointer; margin-left:-2px;}
+.s3d-dropdown-menu:hover {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:0px;}
 .s3d-dropdown-menu ul, .s3d-dropdown-menu .s3d-dropdown-menu-content-container {margin:0;padding: 10px 7px;display:block;background-color: #F3F3F3;-moz-border-radius:2px; border-radius:2px; -webkit-border-radius:2px;}
 .s3d-dropdown-menu ul li {display:block; list-style:none;padding:1px;margin:0 2px;cursor:pointer;color:#636363; text-decoration:none; font-weight:normal;}
 .s3d-dropdown-menu ul li:hover {background:url("/devwidgets/topnavigation/images/topnav_nav_list_hover.png") repeat-x scroll left top transparent;}

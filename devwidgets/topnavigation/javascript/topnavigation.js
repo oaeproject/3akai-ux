@@ -442,7 +442,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 var pos = $li.position();
                 $subnav.css("left", pos.left - 2);
-                $subnav.css("margin-top", "10px");
                 $subnav.show();
             }, function(){
                 var $li = $(this);
