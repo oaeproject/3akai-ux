@@ -337,17 +337,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var getFirstSelectablePage = function(structure){
             var selected = false;
-            for (var i = 0; i < structure.orderedItems.length; i++) {
-                if (structure.orderedItems[i]._canView !== false) {
-                    if (structure.orderedItems[i]._childCount > 1) {
-                        for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
-                            selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
-                            break;
+            if (structure.orderedItems) {
+                for (var i = 0; i < structure.orderedItems.length; i++) {
+                    if (structure.orderedItems[i]._canView !== false) {
+                        if (structure.orderedItems[i]._childCount > 1) {
+                            for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
+                                selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
+                                break;
+                            }
                         }
-                    } else {
-                        selected = structure.orderedItems[i]._id;
+                        else {
+                            selected = structure.orderedItems[i]._id;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             return selected;
@@ -409,7 +412,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
                 // Select correct item
                 var menuitem = $("li[data-sakai-path='" + selected + "']");
-                if (menuitem) {
+                if (menuitem.length) {
                     if (selected.split("/").length > 1) {
                         var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
                         showHideSubnav(par, true);
@@ -474,7 +477,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var onContextMenuHover = function($el, $elLI){
             $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
-            if ($elLI.data("sakai-manage")) {
+            if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
                     $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
@@ -497,19 +500,22 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var onContextMenuLeave = function(){
             if (!$("#lhnavigation_submenu").is(":visible")) {
                 $(".lhnavigation_selected_submenu").hide();
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
             }
         };
 
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
-            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
-            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
+            $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
+            contextMenu.css("left", $clickedItem.position().left + 130 - 50 + "px");
+            contextMenu.css("top", $clickedItem.position().top + 6 + "px");
             toggleContextMenu();
         };
 
         var toggleContextMenu = function(forceHide){
             var contextMenu = $("#lhnavigation_submenu");
             if (forceHide) {
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
                 contextMenu.hide();
             } else {
                 contextMenu.toggle();
@@ -646,6 +652,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         /////////////////////
 
         var changingPageTitle = false;
+
+        var checkSaveEditPageTitle = function(ev){
+            if(!$(ev.target).is("input")){
+                $(window).unbind("click", checkSaveEditPageTitle);
+                savePageTitle();
+            }
+        };
 
         var editPageTitle = function(){
             // Select correct item
@@ -968,6 +981,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $("#lhavigation_submenu_edittitle").live("click", function(ev){
             editPageTitle();
+            ev.stopPropagation();
+            $(window).bind("click", checkSaveEditPageTitle);
         });
 
         $("#lhnavigation_submenu_permissions").live("click", function(ev){

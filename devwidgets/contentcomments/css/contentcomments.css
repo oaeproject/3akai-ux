@@ -62,7 +62,7 @@
 .contentcomments_noComments{color:#333;font-style:italic;padding-top:25px;}
 .contentcomments_delete,.contentcomments_undelete{float:right;}
 .contentcomments_comment{padding-bottom:5px;}
-#contentcomments_mainContainer textarea,#contentcomments_settings textarea{margin:2px 0;width:100%;border:#999 solid 1px;resize:none; height:50px; float:left;}
+#contentcomments_mainContainer textarea,#contentcomments_settings textarea{margin:2px 0;width:100%;border:#999 solid 1px;resize:none; height:75px; float:left;}
 #contentcomments_settings textarea{height:140px;}
 #contentcomments_mainContainer input[type=text].error,#contentcomments_settings input[type=text].error,#contentcomments_mainContainer textarea.error,#contentcomments_settings textarea.error{border-color:#9f3333;background-color:#ffdede;}
 #contentcomments_editorOptions span{margin-left:10px;}

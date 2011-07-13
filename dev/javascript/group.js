@@ -47,7 +47,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             sakai.api.Util.include.css(groupData.authprofile["sakai:customStyle"]);
                         }
                     });
-                    document.title = document.title + groupData.authprofile["sakai:group-title"];
+                    document.title = document.title + " " + groupData.authprofile["sakai:group-title"];
                     loadGroupEntityWidget();
                     loadDocStructure();
 

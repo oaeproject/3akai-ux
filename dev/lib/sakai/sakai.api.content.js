@@ -21,9 +21,9 @@
 define(
     [
         "jquery",
-        "../../configuration/config.js",
+        "config/config",
         "sakai/sakai.api.server",
-        "../misc/parseuri.js"
+        "misc/parseuri"
     ],
     function($, sakai_conf, sakai_serv) {
 
@@ -410,15 +410,15 @@ define(
 
         getThumbnail : function(content){
             var thumbnail = "";
-            if (content['_mimeType/page1-small']) {
-                thumbnail = "/p/" + content['_path'] + ".page1-small.jpg";
+            if (content['sakai:pagecount']) {
+                thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
             } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
                 thumbnail = "/p/" + content['_path'];
             } else if (content["sakai:preview-url"]) {
-                    if (content["sakai:preview-avatar"]) {
-                        thumbnail = content["sakai:preview-avatar"];
-                    }
+                if (content["sakai:preview-avatar"]) {
+                    thumbnail = content["sakai:preview-avatar"];
                 }
+            }
             return thumbnail;
         },
 
@@ -496,6 +496,50 @@ define(
                 }
             }
             return count;
+        },
+
+        /**
+         * getNewList: get a new list of content based on newly uploaded or saved content
+         *
+         * @param {Array} _data The data that the caller already has
+         * @param {String} library The library to get the data for
+         * @param {Number} page The current page desired
+         * @param {Number} perPage The number of results per page
+         *
+         * @return {Object} the passed-in data combined with the newly shared/uploaded content
+         */
+        getNewList : function(_data, library, page, perPage) {
+            var data = $.extend({}, _data),
+                newData = [],
+                newlyAdded = 0;
+
+            if (sakai_global.newaddcontent && sakai_global.newaddcontent.getNewContent) {
+                var newlyUploadedData = sakai_global.newaddcontent.getNewContent(library);
+                $.merge(newData, newlyUploadedData);
+            }
+            if (sakai_global.savecontent && sakai_global.savecontent.getNewContent) {
+                var newlySavedData = sakai_global.savecontent.getNewContent(library);
+                $.merge(newData, newlySavedData);
+            }
+            // because newData is newer than _data, start after the paging offset
+            // for the newData
+            newData = _.rest(newData, page * perPage);
+            $.each(newData, function(i, elt) {
+                var exists = false;
+                $.each(data.results, function(j, result) {
+                    if (result._path === elt._path) {
+                        exists = true;
+                    }
+                });
+                if (!exists) {
+                    // put the element as the first result
+                    data.results = $.merge([elt], data.results);
+                    newlyAdded++;
+                }
+            });
+            data.results = _.first(data.results, perPage);
+            data.total += newlyAdded;
+            return data;
         }
     };
     return sakai_content;

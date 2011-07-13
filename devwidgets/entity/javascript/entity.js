@@ -45,6 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Buttons
         var entityUserCreateAndAdd = "#entity_user_create_and_add";
         var entityUserImage = "#entity_user_image";
+        var entityGroupImage = "#entity_group_image";
         var entityUserMessage = "#entity_user_message";
         var entityUserAddToContacts = "#entity_user_add_to_contacts";
         var entityUserDropdown = "#entity_user_image.s3d-dropdown-menu";
@@ -208,6 +209,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         };
 
+        var toggleDropdownList = function(){
+            $(this).children(".s3d-dropdown-list").toggle();
+            $(this).children(".entity_profile_picture_down_arrow").toggleClass("clicked");
+            $(this).children(".s3d-dropdown-list").css("top", $(this).position().top + 60);
+        }
+
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
             var obj = {
                 "context": context,
@@ -237,8 +244,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $('#entity_contentsettings_dropdown').jqmHide();
                 } else {
                     $('#entity_contentsettings_dropdown').css({
-                        'top': $this.offset().top + $this.height() - 5,
-                        'left': $this.offset().left + $this.width() / 2 - 160
+                        'top': $this.offset().top + $this.height() + 5,
+                        'left': $this.offset().left + $this.width() / 2 - 138
                     }).jqmShow();
                 }
             });
@@ -249,13 +256,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $('#entity_groupsettings_dropdown').jqmHide();
                 } else {
                     $('#entity_groupsettings_dropdown').css({
-                        'top': $this.offset().top + $this.height() - 5,
-                        'left': $this.offset().left + $this.width() / 2 - 160
+                        'top': $this.offset().top + $this.height() + 5,
+                        'left': $this.offset().left + $this.width() / 2 - 138
                     }).jqmShow();
                 }
             });
 
-            sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions", function(){
+            sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions,.entity_permissions_icon", function(){
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 
@@ -306,6 +313,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(window).trigger("init.addpeople.sakai", [tuid]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             })
+
+            $(entityUserImage).click(toggleDropdownList);
+            $(entityGroupImage).click(toggleDropdownList);
 
         });
 

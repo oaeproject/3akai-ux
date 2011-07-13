@@ -24,7 +24,7 @@
  */
 /*global Config, $ */
 
-require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cookie.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], function($, sakai) {
 
     /**
      * @name sakai_global.discussion

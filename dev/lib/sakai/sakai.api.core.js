@@ -28,8 +28,7 @@ define(
         "sakai/sakai.api.user",
         "sakai/sakai.api.util",
         "sakai/sakai.api.widgets",
-        "../../configuration/config.js",
-        "../../configuration/config_custom.js",
+        "config/config_custom",
         "../../../var/widgets.json?callback=define"
     ],
     function(sakai_comm,
@@ -42,7 +41,6 @@ define(
             sakai_util,
             sakai_widgets,
             sakai_conf,
-            sakai_conf_custom,
             sakai_widget_config) {
     
     var sakai = {
@@ -60,7 +58,7 @@ define(
             Util : sakai_util,
             Widgets : sakai_widgets
         },
-        config : $.extend(true, sakai_conf, sakai_conf_custom),
+        config : sakai_conf,
         data : sakai_user.data,
         widgets : sakai_widget_config
     };

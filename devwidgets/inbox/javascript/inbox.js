@@ -273,6 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /** Messages **/
 
         var showMessage = function() {
+            var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             hideReply();
@@ -288,6 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
                 }
             }, $inbox_show_message);
+            $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
                 sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
@@ -314,7 +316,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(msg.path, hardDelete, function(success, data) {
                 if (!success) {
-                    debug.log("deleting failed");
+                    debug.error("deleting failed");
                     // show a gritter message indicating deleting it failed
                 } else {
                     getMessages();

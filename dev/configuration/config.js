@@ -245,7 +245,6 @@ define(function(){
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public", // Anyone on the Internet
-                    "managers": "managers-only" // Group managers only
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
@@ -1506,6 +1505,13 @@ define(function(){
 
         enableChat: false,
 
+        /*
+         * _canEdit: can change the area permissions on this page
+         * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
+         * _nonEditable: cannot edit the contents of this page
+         * _canSubedit:
+         */
+
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
@@ -1513,6 +1519,7 @@ define(function(){
                     "_title": "My Dashboard",
                     "_order": 0,
                     "_canEdit": true,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id267187828",
@@ -1525,38 +1532,31 @@ define(function(){
                     "_ref": "id1165301022",
                     "_order": 1,
                     "_canEdit": true,
+                    "_reorderOnly": true,
                     "_canSubedit": true,
                     "_nonEditable": true,
                     "inbox": {
                         "_ref": "id1165301022",
                         "_order": 0,
                         "_title": "Inbox",
-                        "_canEdit": true,
-                        "_canSubedit": true,
                         "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "id9867733100",
                         "_order": 1,
                         "_title": "Invitations",
-                        "_canEdit": true,
-                        "_canSubedit": true,
                         "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "id4253485084",
                         "_order": 2,
                         "_title": "Sent",
-                        "_canEdit": true,
-                        "_canSubedit": true,
                         "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "id3915412565",
                         "_order": 3,
                         "_title": "Trash",
-                        "_canEdit": true,
-                        "_canSubedit": true,
                         "_nonEditable": true
                     }
                 }
@@ -1626,6 +1626,7 @@ define(function(){
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "_order": 0,
+                    "_reorderOnly": true,
                     "_nonEditable": true
                 },
                 "library": {
@@ -1633,6 +1634,7 @@ define(function(){
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id9834611274",
@@ -1645,6 +1647,7 @@ define(function(){
                     "_order": 2,
                     "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id213623673",
@@ -1657,6 +1660,7 @@ define(function(){
                     "_order": 3,
                     "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
                         "_ref": "id1193715035",

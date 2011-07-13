@@ -52,6 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
+        var topnavigationExternalLogin= ".topnavigation_external_login";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -141,7 +142,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         var renderUser = function(){
-            $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {"anon" : sakai.data.me.user.anon}));
+            var externalAuth = false;
+            if (!sakai.config.Authentication.internal && !sakai.config.Authentication.allowInternalAccountCreation) {
+                externalAuth = true;
+            }
+            var auth = {
+                "externalAuth": externalAuth,
+                "Authentication": sakai.config.Authentication
+            };
+            $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
+                "anon" : sakai.data.me.user.anon,
+                "auth": auth
+            }));
         };
 
 
@@ -430,7 +442,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 var pos = $li.position();
                 $subnav.css("left", pos.left - 2);
-                $subnav.css("margin-top", "10px");
                 $subnav.show();
             }, function(){
                 var $li = $(this);
@@ -572,6 +583,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(topnavigationlogin).hover(function(){
+                var $menu = $(this);
+                if ($menu.children(topnavigationExternalLogin).length){
+                    // adjust margin of external login menu to position correctly according to padding and width of menu
+                    var $externalAuth = $menu.children(topnavigationExternalLogin);
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
+                         + $menu.width()
+                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
+                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
+
+                    var margin = ($externalAuth.width() - menuPadding) * -1;
+                    $externalAuth.css("margin-left", margin + "px");
+                }
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){

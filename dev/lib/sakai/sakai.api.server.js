@@ -32,7 +32,7 @@
 define(
     [
         "jquery",
-        "../../configuration/config.js"
+        "config/config"
     ],
     function($, sakai_conf) {
 

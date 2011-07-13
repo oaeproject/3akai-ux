@@ -60,9 +60,9 @@
                             {var contentFound = true}
                             <div class="fl-container fl-fix searchcontent_result{if count == 1} searchcontent_result_first{/if}">
                                 <span class="searchcontent_result_user_functions" style="display:none;">
-                                    <button class="s3d-link-button searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}">+</button>
-                                    <button class="s3d-link-button searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
-                                    <button class="s3d-link-button searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}"></button>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
                                 </span>
                                 <span class="searchcontent_result_anonuser"></span>
                                 <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|encodeURI}/${i['sakai:pooled-content-file-name']|encodeURI}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>

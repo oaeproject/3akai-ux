@@ -20,7 +20,7 @@
 
 /* NAVIGATION */
 .topnavigation_explore {margin: 0 0 0 6px;float:left;}
-.topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login{color:#fff; text-decoration:none;}
+.topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login{display:block;padding:7px 25px 10px;color:#fff; text-decoration:none;}
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
 
@@ -50,6 +50,7 @@
 .topnavigation_user_container ul {margin:0;}
 .topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;margin-right:20px;}
 
+.s3d-dropdown-menu .topnavigation_external_login {width: auto !important;}
 .s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}
 
 .topnavigation_user_container #topnavigation_user_options_list {float:right;}
@@ -57,7 +58,7 @@
 .topnavigation_user_container #topnavigation_user_inbox_container {float:left;}
 .topnavigation_user_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;display: inline;float: left;height: 15px;margin: 2px 7px 0 0;width: 15px;}
 
-#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -182px;margin-top: 9px;position: absolute;width: 241px;z-index: 11000;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -156px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
 #topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
@@ -74,6 +75,6 @@
 .topnavigation_user_options_login_sign_in_error_margin input{border:2px solid #FFBA00 !important;}
 .topnavigation_sign_up_link {font-size: 11px; top: 3px; position: relative;}
 .topnavigation_force_submenu_display {display:block !important;}
-.topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;padding:7px 25px 10px;}
+.topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;}
 
 .personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}
