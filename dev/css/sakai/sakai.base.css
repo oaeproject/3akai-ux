@@ -199,7 +199,6 @@ a.s3d-button {text-decoration:none;}
 /* Link buttons */
 .s3d-link-button {margin:0;padding:0;background: none repeat scroll 0 0 transparent;border: medium none;color:#2683bc;font-family: Arial,Helvetica,sans-serif;font-size:13px;display: inline-block;text-align:left;margin-right:15px;font-size:11px;}
 .s3d-link-button:hover {cursor:pointer;text-decoration:none;color:#999;}
-.s3d-no-results-container h1 button{font-size:18px;}
 
 /* Header buttons */
 .s3d-button.s3d-header-button {background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;border:1px solid #e0e3e5;}
@@ -260,6 +259,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;}
 .s3d-no-results-container .s3d-no-results-arrow-up {background:url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;position:absolute;margin-top:-44px;width:36px;height:24px;}
 .s3d-no-results-container h1 {color:#666;font-size:18px;font-weight:normal;margin:5px 0 10px 0 !important;}
+.s3d-no-results-container h1 button{font-size:18px;}
 .s3d-no-results-container .s3d-no-results-icon {width:55px;height:50px;float:left;margin:0 12px 0 0;}
 .s3d-no-results-container .s3d-no-results-icon.less-margin {margin:-8px 12px 0 0;}
 
