@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handleContentData = function(success, data) {
             if(success) {
-                data = sakai_global.newaddcontent.getNewList(data, null, 0, 5);
+                data = sakai.api.Content.getNewList(data, null, 0, 5);
                 // parse & render data
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
