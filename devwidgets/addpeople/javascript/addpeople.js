@@ -153,8 +153,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (managerSelected || !sakai_global.group) {
                 $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
                 $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
-                $.merge(permissionsToDelete, newUsers);
                 if (sakai_global.group) {
+                    $.merge(permissionsToDelete, newUsers);
                     $.each(permissionsToDelete, function(index, user){
                         sakai.api.Communication.sendMessage(user.userid,
                         sakai.data.me,
