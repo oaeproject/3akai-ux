@@ -58,7 +58,7 @@
 .topnavigation_user_container #topnavigation_user_inbox_container {float:left;}
 .topnavigation_user_container #topnavigation_user_inbox_icon {background: url("/devwidgets/topnavigation/images/topnav_user_inbox.png") no-repeat scroll left top transparent;display: inline;float: left;height: 15px;margin: 2px 7px 0 0;width: 15px;}
 
-#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -156px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
+#topnavigation_user_options_login_fields {border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;margin-left: -150px;margin-top:0;position: absolute;width: 241px;z-index: 11000;}
 #topnavigation_user_options_login_fields_container.s3d-dropdown-menu-content-container {padding:0 12px;}
 #topnavigation_user_options_login_fields_bottom_container {background-color: #F3F3F3; height: 28px; padding:0px 3px 0 12px;}
 #topnavigation_user_options_login_fields #topnavigation_user_options_login_form label{color: #424242;display: inline-block;margin-bottom: 5px;margin-top: 7px;font-size: 11px;}
@@ -77,4 +77,7 @@
 .topnavigation_force_submenu_display {display:block !important;}
 .topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;}
 
-.personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}
+/* Accessibility styles for keyboard navigation */
+#topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
+.topnavigation_explore .s3d-dropdown-menu a:focus, #topnavigation_user_options_login:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
+#topnavigation_search_input:focus{outline:2px solid #2683BC;}
