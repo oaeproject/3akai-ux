@@ -77,6 +77,8 @@
 .topnavigation_force_submenu_display {display:block !important;}
 .topnavigation_force_submenu_display_title {background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480b2;-moz-border-radius:2px 2px 2px 2px; border-radius:2px 2px 2px 2px; -webkit-border-radius:2px 2px 2px 2px;}
 
+.personinfo_trigger {color: #666 !important; border-bottom: 1px dotted #666}
+
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
 .topnavigation_explore .s3d-dropdown-menu a:focus, #topnavigation_user_options_login:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
