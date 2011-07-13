@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 // joinCallback
                                 if (success) {
                                     // re-render tooltip
-                                    resetTooltip(groupid, $item);
+                                    $("#searchgroups_memberimage_" + groupid).show();
                                 }
                             },
                             function (success, id) {
