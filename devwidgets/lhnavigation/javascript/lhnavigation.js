@@ -81,17 +81,45 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateCounts = function(pageid, value){
             // Adjust the count value by the specified value for the page ID
-            if (pubstructure.items[pageid]) {
-                pubstructure.items[pageid]._count = (pubstructure.items[pageid]._count || 0) + value;
-                var listitem = $("li[data-sakai-path='" + pageid + "']");
-                if (listitem.length) {
-                    $(".lhnavigation_levelcount", listitem).text(" (" + pubstructure.items[pageid]._count + ")");
-                    if (pubstructure.items[pageid]._count <= 0){
-                        $(".lhnavigation_levelcount", listitem).hide();
-                    } else {
-                        $(".lhnavigation_levelcount", listitem).show();
+
+            var subpage = false;
+            if (pageid.indexOf("/") !== -1){
+                var parts = pageid.split("/");
+                pageid = parts[0];
+                subpage = parts[1];
+            }
+
+            var adjustCount = function(pageStructure, pageid, subpage, value){
+                if (subpage) {
+                    pageStructure.items[pageid][subpage]._count = (pageStructure.items[pageid][subpage]._count || 0) + value;
+                    var listitem = $("li[data-sakai-path='" + pageid + "/" + subpage + "']");
+                    if (listitem.length) {
+                        $(".lhnavigation_sublevelcount", listitem).text(" (" + pageStructure.items[pageid][subpage]._count + ")");
+                        if (pageStructure.items[pageid][subpage]._count <= 0){
+                            $(".lhnavigation_sublevelcount", listitem).hide();
+                        } else {
+                            $(".lhnavigation_sublevelcount", listitem).show();
+                        }
+                    }
+                } else {
+                    pageStructure.items[pageid]._count = (pageStructure.items[pageid]._count || 0) + value;
+                    var listitem = $("li[data-sakai-path='" + pageid + "']");
+                    if (listitem.length) {
+                        $(".lhnavigation_levelcount", listitem).text(" (" + pageStructure.items[pageid]._count + ")");
+                        if (pageStructure.items[pageid]._count <= 0){
+                            $(".lhnavigation_levelcount", listitem).hide();
+                        } else {
+                            $(".lhnavigation_levelcount", listitem).show();
+                        }
                     }
                 }
+                return pageStructure;
+            }
+
+            if (pubstructure.items[pageid]) {
+                pubstructure = adjustCount(pubstructure, pageid, subpage, value);
+            } else if (privstructure.items[pageid]) {
+                privstructure = adjustCount(privstructure, pageid, subpage, value);
             }
         };
 
