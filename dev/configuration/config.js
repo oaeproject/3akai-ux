@@ -245,7 +245,6 @@ define(function(){
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public", // Anyone on the Internet
-                    "managers": "managers-only" // Group managers only
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
@@ -1519,7 +1518,7 @@ define(function(){
                     "_ref": "id267187828",
                     "_title": "My Dashboard",
                     "_order": 0,
-                    "_canEdit": false,
+                    "_canEdit": true,
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
@@ -1532,44 +1531,32 @@ define(function(){
                     "_title": "My Messages",
                     "_ref": "id1165301022",
                     "_order": 1,
-                    "_canEdit": false,
+                    "_canEdit": true,
                     "_reorderOnly": true,
-                    "_canSubedit": false,
+                    "_canSubedit": true,
                     "_nonEditable": true,
                     "inbox": {
                         "_ref": "id1165301022",
                         "_order": 0,
                         "_title": "Inbox",
-                        "_canEdit": false,
-                        "_reorderOnly": true,
-                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "id9867733100",
                         "_order": 1,
                         "_title": "Invitations",
-                        "_canEdit": false,
-                        "_reorderOnly": true,
-                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "id4253485084",
                         "_order": 2,
                         "_title": "Sent",
-                        "_canEdit": false,
-                        "_reorderOnly": true,
-                        "_canSubedit": false,
                         "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "id3915412565",
                         "_order": 3,
                         "_title": "Trash",
-                        "_canEdit": false,
-                        "_reorderOnly": true,
-                        "_canSubedit": false,
                         "_nonEditable": true
                     }
                 }
