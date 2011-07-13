@@ -273,6 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /** Messages **/
 
         var showMessage = function() {
+        	var cacheAutoSuggestData = $('#sendmessage_to_autoSuggest').data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             hideReply();
@@ -288,6 +289,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
                 }
             }, $inbox_show_message);
+            $('#sendmessage_to_autoSuggest').data(cacheAutoSuggestData);
             if (!currentMessage.read) {
                 sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
