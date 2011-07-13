@@ -475,7 +475,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI){
-            //$(".lhnavigation_selected_submenu").hide();
+            $(".lhnavigation_selected_submenu").hide();
             $("#lhnavigation_submenu").hide();
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
@@ -493,13 +493,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     pageSavePath: $elLI.data("sakai-pagesavepath"),
                     savePath: $elLI.data("sakai-savepath")
                 };
-                //$(".lhnavigation_selected_submenu", $el).show();
+                $(".lhnavigation_selected_submenu", $el).show();
             }
         };
 
         var onContextMenuLeave = function(){
             if (!$("#lhnavigation_submenu").is(":visible")) {
-                //$(".lhnavigation_selected_submenu").hide();
+                $(".lhnavigation_selected_submenu").hide();
                 $(".lhnavigation_selected_submenu_image").removeClass("clicked");
             }
         };
