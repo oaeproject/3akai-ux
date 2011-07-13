@@ -510,13 +510,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-			$(topnavUserLoginButton).bind("focus",function(){
-				$(this).trigger("mouseover");
-			});
-			
-			$("#topnavigation_search_input").bind("focus",function(evt){
-				$(topnavUserLoginButton).trigger("mouseout");
-			});
+            $(topnavUserLoginButton).bind("focus",function(){
+                $(this).trigger("mouseover");
+            });
+            
+            $("#topnavigation_search_input").bind("focus",function(evt){
+                $(topnavUserLoginButton).trigger("mouseout");
+            });
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
