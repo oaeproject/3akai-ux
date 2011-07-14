@@ -670,6 +670,8 @@ define(
                                 }
                             }
                         });
+                    } else if ($.isFunction(callback)) {
+                        callback(false);
                     }
                 });
             } else {
