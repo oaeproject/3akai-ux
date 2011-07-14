@@ -228,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
-            $.getScript('https://s7.addthis.com/js/250/addthis_widget.js?%23pubid=xa-4db72a071927628b&domready=1');
+            $.getScript('https://s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
             $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };

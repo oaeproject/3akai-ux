@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
+require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -154,7 +154,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             // grab all of the newly uploaded content, regardless of target library
             if (!library) {
                 newContentLibrary = allNewContent;
-            } else {
+            } else if (brandNewContent[library]) {
                 newContentLibrary = brandNewContent[library];
             }
             // return a copy
