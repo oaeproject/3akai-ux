@@ -1289,11 +1289,14 @@ define(
              * the moment.
              */
             if (templateData._MODIFIERS) {
-                console.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
+                debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
             }
             templateData._MODIFIERS = {
                 encodeURI: function(str) {
                     return encodeURI(str);
+                },
+                encodeURIComponent: function(str) {
+                    return encodeURIComponent(str);
                 }
             }
 
