@@ -187,6 +187,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 if (success) {
                                     // re-render tooltip
                                     $("#searchgroups_memberimage_" + groupid).show();
+                                    $("#searchgroups_memberimage_" + groupid).parent().removeClass("s3d-actions-addtolibrary");
                                 }
                             },
                             function (success, id) {

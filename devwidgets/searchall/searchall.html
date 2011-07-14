@@ -175,7 +175,7 @@
                             {var resultFound = true}
                             <div class="fl-container fl-fix searchgroups_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
-                                    <div class="searchgroups_result_plus s3d-action-icon s3d-actions-addtolibrary searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
+                                    <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember}  s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button searchgroups_result_message_icon s3d-action-icon s3d-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchall_result_anonuser"></span>
