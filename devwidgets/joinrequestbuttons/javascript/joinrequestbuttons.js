@@ -243,23 +243,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 debug.error("Anonymous user tried to join group id: " + groupid);
                 return false;
             }
-            sakai.api.Groups.getJoinRole(joinrequestbuttons.groupid, function(success, joinRole){
+            sakai.api.Groups.addJoinRequest(sakai.data.me, joinrequestbuttons.groupid, false, false, function (success) {
                 if (success) {
-                    var pseduoGroup = groupid + "-" + joinRole;
-                    sakai.api.Groups.addJoinRequest(sakai.data.me, pseduoGroup, false, false, function (success) {
-                        if (success) {
-                            sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
-                            showButton("leave");
-                        } else {
-                            debug.error("Could not add member: " + sakai.data.me.user.userid + " to pseduoGroup: " + pseduoGroup);
-                            sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_problem_adding.text(), sakai.api.Util.notification.type.ERROR);
-                        }
-                        // call callback
-                        if (joinrequestbuttons.joinCallback &&
-                        typeof(joinrequestbuttons.joinCallback) === "function") {
-                            joinrequestbuttons.joinCallback(success, groupid);
-                        }
-                    });
+                    sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
+                    showButton("leave");
+                } else {
+                    debug.error("Could not add member: " + sakai.data.me.user.userid + " to pseduoGroup: " + pseduoGroup);
+                    sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_problem_adding.text(), sakai.api.Util.notification.type.ERROR);
+                }
+                // call callback
+                if (joinrequestbuttons.joinCallback &&
+                typeof(joinrequestbuttons.joinCallback) === "function") {
+                    joinrequestbuttons.joinCallback(success, groupid);
                 }
             });
         });

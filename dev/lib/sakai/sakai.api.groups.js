@@ -605,6 +605,22 @@ define(
                 sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,false,"join_request");
             };
 
+            /**
+             * Retrieves the join role for the group
+             *
+             * @param {String} groupID the group id for the join role to fetch
+             * @param {Function} callback Callback function
+             */
+            var getJoinRole = function(groupID, callback){
+                sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                    if (success && data && data.properties && data.properties["sakai:joinRole"] && $.isFunction(callback)) {
+                        callback(true, data.properties["sakai:joinRole"]);
+                    } else if ($.isFunction(callback)) {
+                        callback(false);
+                    }
+                });
+            };
+
             if (groupData && groupData.groupMembers && groupData.groupMembers.Manager){
                 groupProfile = groupData.groupProfile;
                 groupManagers = groupData.groupMembers.Manager.results;
@@ -613,40 +629,47 @@ define(
             var userID = meData.user.userid;
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
-                $.ajax({
-                    url: "/~" + groupID + "/joinrequests.create.html",
-                    type: "POST",
-                    data: {
-                        userid: userID
-                    },
-                    success: function (data) {
-                        if (notifyManagers) {
-                            if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
-                                sendJoinRequestMessage();
-                            } else {
-                                sakaiGroupsAPI.getMembers(groupID, false, function(success, members){
-                                    if (success) {
-                                        sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
+
+                getJoinRole(groupID, function(success, joinRole){
+                    if (success) {
+                        var pseduoGroupID = groupID + "-" + joinRole;
+
+                        $.ajax({
+                            url: "/~" + pseduoGroupID + "/joinrequests.create.html",
+                            type: "POST",
+                            data: {
+                                userid: userID
+                            },
+                            success: function (data) {
+                                if (notifyManagers) {
+                                    if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
+                                        sendJoinRequestMessage();
+                                    } else {
+                                        sakaiGroupsAPI.getMembers(groupID, false, function(success, members){
                                             if (success) {
-                                                groupProfile = groupData.authprofile;
-                                                groupManagers = members.Manager.results;
-                                                sendJoinRequestMessage();
+                                                sakaiGroupsAPI.getGroupData(groupID, function(success, groupData){
+                                                    if (success) {
+                                                        groupProfile = groupData.authprofile;
+                                                        groupManagers = members.Manager.results;
+                                                        sendJoinRequestMessage();
+                                                    }
+                                                });
                                             }
                                         });
                                     }
-                                });
-                            }
-                        }
+                                }
 
-                        if ($.isFunction(callback)) {
-                            callback(true);
-                        }
-                    },
-                    error: function (xhr, textStatus, thrownError) {
-                        debug.error("Could not process join request");
-                        if ($.isFunction(callback)) {
-                            callback(false);
-                        }
+                                if ($.isFunction(callback)) {
+                                    callback(true);
+                                }
+                            },
+                            error: function (xhr, textStatus, thrownError) {
+                                debug.error("Could not process join request");
+                                if ($.isFunction(callback)) {
+                                    callback(false);
+                                }
+                            }
+                        });
                     }
                 });
             } else {
@@ -789,22 +812,6 @@ define(
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
-                }
-            });
-        },
-
-        /**
-         * Retrieves the join role for the group
-         *
-         * @param {String} groupID the group id for the join role to fetch
-         * @param {Function} callback Callback function
-         */
-        getJoinRole : function(groupID, callback) {
-            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
-                if (success && data && data.properties  && data.properties["sakai:joinRole"] && $.isFunction(callback)) {
-                    callback(true, data.properties["sakai:joinRole"]);
-                } else if ($.isFunction(callback)) {
-                    callback(false);
                 }
             });
         },
