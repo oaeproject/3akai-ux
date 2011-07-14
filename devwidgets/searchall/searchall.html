@@ -58,7 +58,7 @@
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
                                 </span>
                                 <span class="searchall_result_anonuser"></span>
-                                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
+                                <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|encodeURIComponent}/${i['sakai:pooled-content-file-name']|encodeURIComponent}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|encodeURIComponent}" title="${i['_path']}"{/if}>
                                     {if i.thumbnail}
                                         <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
                                     {elseif i.mimeType.substring(0,6)==="image/"}
@@ -71,7 +71,7 @@
                                 </a>
                                 <div class="s3d-search-result-right">
                                     <div>
-                                        <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']}/${i['sakai:pooled-content-file-name']}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
+                                        <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|encodeURIComponent}/${i['sakai:pooled-content-file-name']|encodeURIComponent}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|encodeURIComponent}" title="${i['_path']}"{/if}>
                                             {if i['sakai:pooled-content-file-name']}
                                                 ${i['sakai:pooled-content-file-name']}{elseif i['_path']}${i['_path']}{/if}</a>
                                         {if i.mimeTypeDescription}
