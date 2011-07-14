@@ -14,7 +14,7 @@
         {for item in items}
             <div class="mycontent_item{if item_index % 2 == 1} s3d-highlight_area_background{/if}">
                 <div class="mycontent_item_img fl-force-left">
-                    <a href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}" title="${item['sakai:pooled-content-file-name']}">
+                    <a href="/content#p=${item['_path']|encodeURIComponent}/{if item.filename}${item.filename|encodeURIComponent}{else}${item.fullname|encodeURIComponent}{/if}" title="${item['sakai:pooled-content-file-name']}">
                         {if item.thumbnail}
                             <img class="s3d-icon-32" src="${item.thumbnail}" alt="${item.type}" />
                         {elseif (item.type.substring(0,6)=="image/")}
@@ -26,7 +26,7 @@
                 </div>
                 <div class="mycontent_item_info">
                     <p class="mycontent_item_title">
-                        <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['_path']}/{if item.filename}${item.filename}{else}${item.fullname}{/if}">
+                        <a class="mycontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item['_path']|encodeURIComponent}/{if item.filename}${item.filename|encodeURIComponent}{else}${item.fullname|encodeURIComponent}{/if}">
                             ${item.name}
                         </a>
                     </p>
