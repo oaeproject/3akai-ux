@@ -1,24 +1,27 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/welcome/css/welcome.css" />
 
-<div class="welcome_widget">
-    <h1 style="font-weight: normal; color: rgb(66, 66, 66); font-size: 24px;">Welcome to The Sakai Open Academic Environment, a new system that embraces a new vision for academic collaboration</h1>
-    <img src="/devwidgets/welcome/images/sakai_default.png" alt="Sakai: Permeable, Social, Personal, Remixable" style="float: left; margin-right: 12px;">
+<span style="display:none;">IE Fix</span>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Permeable</h2>
-    <a class="s3d-regular-links" href="/create#l=categories/group" style="font-size:11px;">Form various types of groups</a><span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> to work with people in your way</span>
+<div class="welcome_widget"></div>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Personal</h2>
-    <a class="s3d-regular-links" href="/me" style="font-size:11px;">Add pages to your space</a><span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> to broadcast your views or experiences, gather options and build your portfolio</span>
+<div id="welcome_template" style="display:none;"><!--
+    <h1>Welcome to The Sakai Open Academic Environment, a new system that embraces a new vision for academic collaboration</h1>
+    <img src="/devwidgets/welcome/images/sakai_default.png" alt="Sakai: Permeable, Social, Personal, Remixable">
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Social</h2>
-    <a class="s3d-regular-links" href="/me#l=profile/basic" style="font-size:11px;">Enter profile information</a> <span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> so Sakai can help you connect with the most appropriate people to you</span>
+    <h2>Permeable</h2>
+    {if !anon}<a class="s3d-regular-links" href="/create#l=categories/group">{else}<span class="s3d-regular-links">{/if}Form various types of groups{if !anon}</a>{else}</span>{/if}<span> to work with people in your way</span>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Remixable</h2>
-    <a class="s3d-regular-links" href="/create#l=categories/courses" style="font-size:11px;">Create Sakai Doc</a> <span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> and author any experience you can think of to share and/or collaborate with others on it</span>
+    <h2>Personal</h2>
+    {if !anon}<a class="s3d-regular-links" href="/me">{else}<span class="s3d-regular-links">{/if}Add pages to your space{if !anon}</a>{else}</span>{/if}<span> to broadcast your views or experiences, gather options and build your portfolio</span>
+
+    <h2>Social</h2>
+    {if !anon}<a class="s3d-regular-links" href="/me#l=profile/basic">{else}<span class="s3d-regular-links">{/if}Enter profile information{if !anon}</a>{else}</span>{/if} <span> so Sakai can help you connect with the most appropriate people to you</span>
+
+    <h2>Remixable</h2>
+    {if !anon}<a class="s3d-regular-links" href="/create#l=categories/courses">{else}<span class="s3d-regular-links">{/if}Create Sakai Doc{if !anon}</a>{else}</span>{/if} <span> and author any experience you can think of to share and/or collaborate with others on it</span>
     <hr class="fl-push fl-hidden"/>
-
-</div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/welcome/javascript/welcome.js"></script>
