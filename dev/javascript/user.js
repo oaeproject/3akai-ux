@@ -49,10 +49,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 _title: pub.structure0.profile._title,
                 _altTitle: pub.structure0.profile._altTitle,
                 _order: pub.structure0.profile._order,
-                _canEdit: pub.structure0.profile._canEdit,
-                _nonEditable: pub.structure0.profile._nonEditable,
-                _reorderOnly: pub.structure0.profile._reorderOnly,
-                _canSubedit: pub.structure0.profile._canSubedit
+                _canEdit: true,
+                _nonEditable: true,
+                _reorderOnly: true,
+                _canSubedit: true
             };
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
@@ -63,8 +63,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _order: section.order,
                     _altTitle: section.label,
                     _title: section.label,
-                    _nonEditable: section._nonEditable,
-                    _reorderOnly: section._reorderOnly
+                    _nonEditable: true
                 };
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
@@ -159,7 +158,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         if (messageCounts && messageCounts.count.length) {
                             for (var i = 0; i < messageCounts.count.length; i++) {
                                 if (messageCounts.count[i].group && messageCounts.count[i].group === "message") {
-                                    debug.log(messageCounts.count[i].count);
                                     addCount(privdata, "messages/inbox", messageCounts.count[i].count);
                                 }
                                 if (messageCounts.count[i].group && messageCounts.count[i].group === "invitation") {
@@ -196,7 +194,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             if (pageid === "library") {
                 pubdata.structure0[pageid]._count += newContent;
-                newContent = 0;
             }
         };
 
@@ -340,8 +337,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (data && data.length && library === sakai.data.me.user.userid) {
-                newContent = data.length;
+            if (isMe && data && data.length && library === sakai.data.me.user.userid) {
+                newContent += data.length;
                 generateNav();
             }
         });
