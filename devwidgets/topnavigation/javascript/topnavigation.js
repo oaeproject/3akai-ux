@@ -386,11 +386,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             if (sakai.config.Navigation[i].id !== "navigation_anon_signup_link") {
                                 temp = createMenuList(i);
                                 menulinks.push(temp);
-                            } else {
-                                if (sakai.config.Authentication.allowInternalAccountCreation) {
-                                    temp = createMenuList(i);
-                                    menulinks.push(temp);
-                                }
+                            } else if (sakai.config.Authentication.allowInternalAccountCreation) {
+                                temp = createMenuList(i);
+                                menulinks.push(temp);
                             }
                         }
                     } else {
