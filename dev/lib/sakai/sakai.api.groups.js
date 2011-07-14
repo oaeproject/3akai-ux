@@ -832,6 +832,23 @@ define(
             });
         },
 
+        leave : function(groupId, role, callback){
+            $.ajax({
+                url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                type: "POST",
+                success: function(){
+                    if ($.isFunction(callback)){
+                        callback(true);
+                    }
+                },
+                error: function() {
+                    if ($.isFunction(callback)){
+                        callback(false);
+                    }
+                }
+            });
+        },
+
         /**
          * Retrieves the profile picture for the group
          *
