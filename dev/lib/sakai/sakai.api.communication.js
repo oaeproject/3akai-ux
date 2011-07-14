@@ -59,7 +59,7 @@ define(
          * @param {Boolean|String} [context] String used in switch to set sakai:templatePath and sakai:templateParams
          *
          */
-        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
+        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context, optionalParams) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
@@ -101,6 +101,22 @@ define(
                     "_charset_": "utf-8"
                 };
 
+                // These checks are needed to work in every area (created group or on group creation)
+                var groupTitle = "";
+                var groupId = "";
+                if(sakai_global.group){
+                    if(sakai_global.group.groupData["sakai:group-title"]){
+                        groupTitle = sakai_global.group.groupData["sakai:group-title"];
+                    } else {
+                        groupTitle = optionalParams.groupTitle;
+                    }
+                    if (sakai_global.group.groupData["sakai:group-id"]) {
+                        groupId = sakai_global.group.groupData["sakai:group-id"];
+                    } else{
+                        groupId = optionalParams.groupId;
+                    }
+                }
+
                 switch(context){
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
@@ -110,16 +126,16 @@ define(
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.group.groupData["sakai:group-title"] +
+                        "|system=Sakai|name=" + groupTitle +
                         "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
-                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.group.groupData["sakai:group-id"];
+                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.group.groupData["sakai:group-title"] +
+                        "|system=Sakai|name=" + groupTitle +
                         "|body=" + body + 
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_global.group.groupData["sakai:group-id"];
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + groupId;
                         break;
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
