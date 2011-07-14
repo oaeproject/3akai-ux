@@ -113,7 +113,7 @@
                         {else}
                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/content#p=${i["_path"]}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                        <a class="pickeradvanced_name" href="/content#p=${i["_path"]|encodeURIComponent}/${i["sakai:pooled-content-file-name"]|encodeURIComponent}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
                         {if i["sakai:description"]}
                             {if i["sakai:description"].length > 125}
