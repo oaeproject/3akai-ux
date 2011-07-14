@@ -122,7 +122,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (entityId === sakai.data.me.user.userid) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
                     } else {
-                        var notificationBody = $("#savecontent_group_add_library_body").html();
+                        var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
                         notificationBody = notificationBody.replace("${groupid}", entityId);
                         notificationBody = notificationBody.replace("${grouplibrary}", $("#savecontent_select option:selected", $rootel).text());
                         sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
