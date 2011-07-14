@@ -555,13 +555,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         searchTerm = null;
                         getMessages();
                     }
-                } else if (!first) {
-                    setInitialState();
-                    getMessages();
                 } else {
                     setInitialState();
                     getMessages();
-                    updateMessageList(true);
                 }
             }
         };
