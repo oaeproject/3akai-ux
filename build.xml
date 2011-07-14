@@ -215,13 +215,15 @@
     <!-- Target: Optimize with requirejs -->
     <target name="optimize" depends="init">
         <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
-        <property name="requireJs.path" value="tools/requirejs-optimizer/build" />
-        <property name="requireJs.pathWin" value="tools\requirejs-optimizer\build" />
+        <path id="reqjs.path">
+            <pathelement location="tools/requirejs-optimizer/build"/>
+        </path>
+        <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
         <exec executable="cmd" osfamily="windows">
             <arg value="/c" />
-            <arg value="${requireJs.pathWin}\buildj.bat" />
+            <arg value="${requireJs.path}\buildj.bat" />
             <arg value="${requireJs.conf}" />
         </exec>
 
