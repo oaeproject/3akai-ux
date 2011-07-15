@@ -143,7 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (data.status === 500 || data.status === 401) {
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
                             sakai_global.captcha.reload();
-                            sakai_global.captcha.showError("create_account_input_error", "signup_form_error");
+                            sakai_global.captcha.showError("create_account_input_error");
                         }
                     }
                 }
