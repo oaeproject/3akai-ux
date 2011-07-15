@@ -600,6 +600,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
 
+
         //////////////
         // OVERLAYS //
         //////////////
