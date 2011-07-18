@@ -98,7 +98,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hides any showing group membership button
          */
         var hideButtons = function () {
-            $("button", $rootel).hide();
+            $(".joinrequestbuttons_join").hide();
+            $(".joinrequestbuttons_leave").hide();
+            $(".joinrequestbuttons_request").hide();
+            $(".joinrequestbuttons_pending").hide();
         };
 
         /**
