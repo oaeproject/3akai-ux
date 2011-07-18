@@ -11,7 +11,7 @@ define(["config/config"], function(config) {
             }, {    
                 label: "Friends",
                 url: "https://ucamoae.caret.cam.ac.uk/system/ucam/auth/friends"
-            }],
+            }];
 
     return config;
 });
