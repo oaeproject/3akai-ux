@@ -584,7 +584,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(topnavUserLoginButton).bind("focus",function(){
                 $(this).trigger("mouseover");
                 mouseOverSignIn = true;
-                $(topnavUserOptionsLoginFields).trigger('click'); 
+                $(topnavUserOptionsLoginFields).trigger('click');
+                $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
             
             $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
