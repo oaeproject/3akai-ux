@@ -294,7 +294,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var generateNav = function(){
             addCounts();
             if (contextType && contextType === "user_me" && contextData && pubdata && privdata) {
-                $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
+                if (pubdata && pubdata["_lastModified"]) {
+                    $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
+                }else{
+                    privdata = false;
+                    pubdata = false;
+                    loadSpaceData();
+                }
             } else if (contextType && contextType !== "user_me" && contextData && pubdata) {
                 $(window).trigger("lhnav.init", [pubdata, false, contextData, puburl, privurl]);
             }
