@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
-                            "url": "/content#p=" + data.results[i]["_path"] + "/" + data.results[i]["sakai:pooled-content-file-name"],
+                            "url": "/content#p=" + encodeURIComponent(data.results[i]["_path"]) + "/" + encodeURIComponent(data.results[i]["sakai:pooled-content-file-name"]),
                             "css_class": mimeType
                         };
                         files.push(tempFile);
