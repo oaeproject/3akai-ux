@@ -21,7 +21,7 @@
 define(
     [
         "jquery",
-        "config/config",
+        "config/config_custom",
         "sakai/sakai.api.server",
         "misc/parseuri"
     ],
@@ -88,7 +88,16 @@ define(
                             "url": contentPath + ".modifyAce.html",
                             "method": "POST",
                             "parameters": {
-                                "principalId": ["everyone", "anonymous"],
+                                "principalId": ["everyone"],
+                                "privilege@jcr:read": "granted"
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["anonymous"],
                                 "privilege@jcr:read": "granted"
                             }
                         };
@@ -108,7 +117,16 @@ define(
                             "url": contentPath + ".modifyAce.html",
                             "method": "POST",
                             "parameters": {
-                                "principalId": ["everyone", "anonymous"],
+                                "principalId": ["everyone"],
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["anonymous"],
                                 "privilege@jcr:read": "denied"
                             }
                         };
@@ -127,7 +145,16 @@ define(
                             "url": contentPath + ".modifyAce.html",
                             "method": "POST",
                             "parameters": {
-                                "principalId": ["everyone", "anonymous"],
+                                "principalId": ["everyone"],
+                                "privilege@jcr:read": "denied"
+                            }
+                        };
+                        data[data.length] = item;
+                        item = {
+                            "url": contentPath + ".modifyAce.html",
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": ["anonymous"],
                                 "privilege@jcr:read": "denied"
                             }
                         };

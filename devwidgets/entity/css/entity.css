@@ -29,15 +29,20 @@
 #entity_container #entity_directory_image img {width:45px; height:45px;}
 
 /* User */
-#entity_container #entity_user_image.s3d-dropdown-menu {padding:5px 6px;margin-left:15px;}
-#entity_container #entity_user_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
-#entity_container #entity_user_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
+#entity_container #entity_user_image, #entity_container #entity_group_image {cursor:pointer;}
+#entity_container #entity_group_image {margin-top:-4px;}
+#entity_container .s3d-dropdown-list {margin-left:18px;position:absolute;width:120px;}
+#entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:62px;right:auto;}
+#entity_container .entity_profile_picture_down_arrow{color:#FFFFFF;cursor:pointer;float:left;height:16px;margin-left:12px;margin-top:34px;padding-top:2px;text-align:center;text-shadow:0 0 1px #999999;width:20px;}
+#entity_container .entity_profile_picture_down_arrow.clicked, #entity_container .entity_profile_picture_down_arrow:hover {background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left -10px transparent;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
+#entity_container #entity_group_image .entity_profile_picture_down_arrow {margin-right:10px;}
 
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
 #entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
-#entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
+#entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;-webkit-box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
+.s3d-page-column-left #entity_container .entity_profilepic_internal {margin-left:20px;}
 
 #entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
 #entity_container .entity_message_icon {background: url("/dev/images/message_icon.png") no-repeat scroll left center transparent;}
@@ -89,7 +94,7 @@
 /* Widget Popup */
 #entity_container .entity_permissions_icon {background:url("/dev/images/settings_icon.png") no-repeat scroll left -1px transparent;margin-left: 5px;padding-left: 20px;margin-right:4px;display:block;margin-top:3px;height:19px;font-size:10px;}
 
-#entity_contentsettings_dropdown, #entity_groupsettings_dropdown {color: #333333;position:absolute;display:none;width:200px;}
+#entity_contentsettings_dropdown, #entity_groupsettings_dropdown {color: #333333;position:absolute;display:none;width:170px;}
 .entity_dropdown_outer { position:relative;clear:right;z-index:1; background-color:#e4e3e3; border: 1px solid #EAEBEC; border-top: none; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ box-shadow: 0px 0px 5px #A9A9A9; -moz-box-shadow: 0px 0px 5px #A9A9A9; /* Firefox 3.6 and earlier */ -webkit-box-shadow: 0px 0px 5px #A9A9A9; /* Safari and Chrome */ }
 .entity_dropdown_inner {margin: 3px; padding: 0; background-color:#ffffff; border-radius: 5px; -moz-border-radius: 5px; /* Firefox 3.6 and earlier */ -webkit-border-radius: 5px; /* Safari */ }
 #entity_dropdown_title {font-size: 13px; margin: 10px 10px 5px;}

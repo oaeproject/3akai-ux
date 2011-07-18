@@ -32,7 +32,7 @@
 define(
     [
         "jquery",
-        "config/config",
+        "config/config_custom",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
@@ -433,61 +433,49 @@ define(
                     // determine visibility state
                     if (visible === sakai_conf.Permissions.Groups.visible.members) {
                         // visible to members only
+                        // also remove everyone & anonymous, as they're not a member
                         batchRequests.push({
                             "url": groupUpdateURL,
                             "method": "POST",
                             "parameters": {
                                 ":viewer": groupid,
-                                ":viewer@Delete": "everyone",
+                                ":viewer@Delete":
+                                [
+                                    "everyone",
+                                    "anonymous"
+                                ],
                                 "sakai:group-visible": visible,
                                 "sakai:group-joinable": joinable
-                            }
-                        });
-                        // also remove anonymous, as they're not a member
-                        batchRequests.push({
-                            "url": groupUpdateURL,
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer@Delete": "anonymous"
                             }
                         });
                     } else if (visible === sakai_conf.Permissions.Groups.visible.allusers) {
                         // visible to all logged in users
-                        batchRequests.push({
-                            "url": groupUpdateURL,
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": "everyone",
-                                "sakai:group-visible": visible,
-                                "sakai:group-joinable": joinable
-                            }
-                        });
                         // remove anonymous, as this is only for logged in users
                         batchRequests.push({
                             "url": groupUpdateURL,
                             "method": "POST",
                             "parameters": {
-                                ":viewer@Delete": "anonymous"
+                                ":viewer": "everyone",
+                                ":viewer@Delete": "anonymous",
+                                "sakai:group-visible": visible,
+                                "sakai:group-joinable": joinable
                             }
                         });
                     } else {
                         // visible to the public
                         // all logged in users 'everyone'
-                        batchRequests.push({
-                            "url": groupUpdateURL,
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": "everyone",
-                                "sakai:group-visible": visible,
-                                "sakai:group-joinable": joinable
-                            }
-                        });
                         // all non-logged in users 'anonymous'
                         batchRequests.push({
                             "url": groupUpdateURL,
                             "method": "POST",
                             "parameters": {
-                                ":viewer": "anonymous"
+                                ":viewer":
+                                [
+                                    "everyone",
+                                    "anonymous"
+                                ],
+                                "sakai:group-visible": visible,
+                                "sakai:group-joinable": joinable
                             }
                         });
                     }
