@@ -221,7 +221,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#username").bind("keyup blur", function(){
-                //$("#create_account_username_error").hide();
                 if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2 && currentUserName !== $.trim($(usernameField).val())) {
                     $(usernameField).removeClass("signup_form_error");
                     currentUserName = $.trim($(usernameField).val());
