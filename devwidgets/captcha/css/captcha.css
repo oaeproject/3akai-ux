@@ -15,8 +15,5 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.welcome_widget .s3d-regular-links {color:#2683BC;font-size:11px;}
-.welcome_widget img {float:left;margin-right:12px;}
-.welcome_widget span {color:#424242;margin-bottom:12px;font-size:11px;}
-.welcome_widget h1 {font-weight:normal;color:#424242;font-size:24px;}
-.welcome_widget h2 {font-size: 14px;font-weight:normal;color:#777;margin:5px 0 0;}
+
+#captcha_error{width: 432px !important; display: inline-block;}

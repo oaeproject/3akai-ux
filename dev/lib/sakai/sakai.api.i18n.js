@@ -33,7 +33,7 @@
 define(
     [
         "jquery",
-        "config/config",
+        "config/config_custom",
         "sakai/sakai.api.util",
         "sakai/sakai.api.server"
     ],

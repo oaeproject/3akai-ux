@@ -21,7 +21,7 @@
 define(
     [
         "jquery",
-        "config/config",
+        "config/config_custom",
         "sakai/sakai.api.server",
         "misc/parseuri"
     ],
