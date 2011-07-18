@@ -65,11 +65,11 @@
                                 <span class="searchpeople_result_user_functions" style="display:none;">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
-                                            <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button searchpeople_result_plus searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
+                                            <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchpeople_result_plus searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
                                             <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid}" style="display:none;"></div>
                                             <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
                                         {elseif i.invited}
-                                            <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button searchpeople_result_plus searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
+                                            <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchpeople_result_plus searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
                                             <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" sakai-entitytype="user"></button>
                                             <div class="searchpeople_result_left_filler" id="search_result_contact_${i.userid}" style="display:none;"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                         {elseif i.pending}
