@@ -506,13 +506,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
-            $(topnavUserLoginButton).bind("focus",function(){
-                $(this).trigger("mouseover");
-            });
-            
-            $("#topnavigation_search_input").bind("focus",function(evt){
-                $(topnavUserLoginButton).trigger("mouseout");
-            });
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
@@ -586,6 +579,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
+            });
+
+            $(topnavUserLoginButton).bind("focus",function(){
+                $(this).trigger("mouseover");
+                mouseOverSignIn = true;
+                $(topnavUserOptionsLoginFields).trigger('click'); 
+            });
+            
+            $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
+                mouseOverSignIn = false; 
+                $(topnavUserLoginButton).trigger("mouseout");
+                $("html").trigger("click");
             });
 
             $(topnavigationlogin).hover(function(){
