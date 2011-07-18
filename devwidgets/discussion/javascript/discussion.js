@@ -24,7 +24,7 @@
  */
 /*global Config, $ */
 
-require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cookie.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], function($, sakai) {
 
     /**
      * @name sakai_global.discussion
@@ -169,12 +169,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status == 404) {
-                            showSettings = true;
-                            continueInit();
                             // we need to create the initial message store
                             $.post(store, {
                                 "sling:resourceType": "sakai/messagestore"
                             });
+                            showSettings = true;
+                            continueInit();
                         }
                     }
                 });
@@ -339,7 +339,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
 
         var parseSettings = function(data){
             var contact = false;
-            var canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            var canEditPage = false;
+            if (!widgetData) {
+                canEditPage = true;
+            }
+            else {
+                var canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            }
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
             if (sakai.api.User.isAnonymous(sakai.data.me)) {
@@ -370,6 +376,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
                     }
                 }
             }
+            getPosts();
         };
 
         var processWidgetData = function(data) {
@@ -382,7 +389,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/jquery.cooki
             } else {
                 // Parse these settings to be usable in templates
                 parseSettings(data);
-                getPosts();
             }
         };
 

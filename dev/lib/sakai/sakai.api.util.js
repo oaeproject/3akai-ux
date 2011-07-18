@@ -33,12 +33,11 @@ define(
         "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
-        "config/config",
         "config/config_custom",
         "misc/trimpath.template",
         "jquery-plugins/jquery.ba-bbq"
     ],
-    function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
+    function($, sakai_serv, sakai_l10n, sakai_conf) {
 
     var sakai_util = {
 
@@ -925,7 +924,6 @@ define(
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
-            $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
                     sakai_util.include.css(val);
