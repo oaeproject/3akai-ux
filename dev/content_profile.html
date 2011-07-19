@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
 
@@ -9,53 +10,56 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.content_profile.css" />
 
     </head>
-
-    <body class="fl-centered fl-container i18nable">
-
-        <!-- TOP BANNER -->
-        <div id="top_banner"><!-- --></div>
-
-        <!-- NAVIGATION -->
-        <div id="widget_topnavigation" class="widget_inline"></div>
-
+    <body class="fl-centered show i18nable">
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-decor-left"><!-- --></div>
-                <div class="s3d-decor"><!-- --></div>
-
-                <!-- ENTITY WIDGET -->
-                <div id="widget_entity" class="widget_inline"></div>
-
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_entity" class="widget_inline"></div>
+                    <div id="widget_uploadnewversion" class="widget_inline"></div>
+                </div>
             </div>
         </div>
 
-        <!-- MAIN CONTAINER -->
+        <!-- HEADER -->
         <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container">
-                <div>
-                    <div class="fl-container-650 fl-force-left content_profile_left_column">
+            <div id="content_profile_main_container" class="fl-fix fl-centered fixed-container s3d-main-container">
+                <div class="s3d-page-column-left" id="content_profile_left_column" style="display:none;">
+                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                </div>
+                <div id="content_profile_right_container" class="s3d-page-main-content s3d-page-fullcolumn-padding">
+                    <div id="content_profile_sakaidoc_container" style="display:none">
+                        <div id="s3d-page-main-content"></div>
+                    </div>
+                    <div id="content_profile_preview_container">
+                        <div id="content_profile_preview_versions_container" style="display:none">
+                            <div id="widget_versions" class="widget_inline"></div>
+                        </div>
                         <div id="widget_contentpreview" class="widget_inline"></div>
+                    </div>
+                    <div id="content_profile_right_metacomments" class="fl-container-650 fl-force-left content_profile_left_column;" style="padding-left: 5px;">
                         <div id="widget_contentmetadata" class="widget_inline"></div>
                         <div id="widget_contentcomments_id123456789" class="widget_inline"></div>
                     </div>
-                    <div class="fl-container-250 fl-force-right">
+                    <div class="fl-container-250 fl-force-right" style="width:245px;">
                         <div id="widget_relatedcontent" class="widget_inline"></div>
                     </div>
+                    <div class="s3d-bottom-spacer"></div>
                 </div>
-                <div class="fl-push fl-widget"><!-- --></div>
             </div>
         </div>
-        
 
         <!-- DELETE CONTENT WIDGET -->
         <div id="widget_deletecontent" class="widget_inline"></div>
-
-        <!-- UPLOAD CONTENT WIDGET -->
-        <div id="widget_fileupload" class="widget_inline"></div>
 
         <!-- VIEW FILE REVISIONS WIDGET -->
         <div id="widget_filerevisions" class="widget_inline"></div>
@@ -63,12 +67,9 @@
         <!-- TOOLTIP WIDGET -->
         <div id="widget_tooltip" class="widget_inline"></div>
 
-        <!-- SEND MESSAGE -->
-        <div id="widget_sendmessage" class="widget_inline"></div>
-
         <div id="content_profile_listpeople_container" class="testing fl-fix fl-centered fixed-container s3d-main-container" style="display:none;">
             <!-- PICKERUSER WIDGET -->
-            <div id="widget_sharecontent" class="widget_inline"></div>
+            <div id="widget_contentpermissions" class="widget_inline"></div>
 
             <span style="display:none;" id="content_profile_text">__MSG__CONTENT_PROFILE__</span>
             <span style="display:none;" id="content_profile_users_added_text">__MSG__THE_FILE_HAS_BEEN_SUCCESSFULLY_SHARED_WITH__</span>
@@ -79,19 +80,16 @@
 
         </div>
 
-        <!-- ASSIGN LOCATION WIDGET -->
-        <div id="widget_assignlocation" class="widget_inline"></div>
-
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <!-- CHAT -->
-        <div id="widget_chat" class="widget_inline"></div>
+        <div id="widget_assignlocation" class="widget_inline"></div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- Page JS -->
-        <script>require(["/dev/javascript/content_profile.js", "/devwidgets/video/jwplayer/swfobject.js"]);</script>
-    </body>
+        <script>require(["/dev/lib/tinymce/tiny_mce_src.js", "/dev/javascript/content_profile.js"]);</script>
+		
+	</body>
 </html>

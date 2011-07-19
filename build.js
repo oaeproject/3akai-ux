@@ -21,13 +21,14 @@
     //By default, all modules are located relative to this path. If baseUrl
     //is not explicitly set, then all modules are loaded relative to
     //the directory that holds the build file.
-    baseUrl: ".",
+    baseUrl: "./dev/lib",
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     paths: {
-        "jquery": "dev/lib/jquery/jquery-1.5.2",
-        "jquery-ui": "dev/lib/jquery/jquery-ui-1.8.13.custom",
-        "sakai": "dev/lib/sakai"
+        "jquery-plugins": "jquery/plugins",
+        "jquery": "jquery/jquery-1.5.2",
+        "jquery-ui": "jquery/jquery-ui-1.8.13.custom",
+        "config": "../configuration"
     },
 
     //The directory path to save the output. If not specified, then
@@ -106,7 +107,7 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "dev/lib/sakai/sakai.dependencies"
+            name: "sakai/sakai.dependencies"
         }
 
         //Just specifying a module name means that module will be converted into

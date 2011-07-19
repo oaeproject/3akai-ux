@@ -56,8 +56,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var passwordShort = "#password_short";
         var passwordRepeatEmpty = "#password_repeat_empty";
         var passwordRepeatNoMatch = "#password_repeat_nomatch";
-        var captchaEmpty = "#uword_empty";
-        var captchaNoMatch = "#uword_nomatch";
         var errorFields = ".create_account_error_msg";
         var usernameLabel = "#username_label";
         var inputFields = ".create_account_input";
@@ -88,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
             for (var i in values) {
-                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) == -1) {
+                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) === -1) {
                     values[i] = escape(values[i]);
                 }
             }
@@ -135,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             "password": values.password
                         }, function(){
                             // Relocate to the user home space
-                            document.location = "/dev/me.html";
+                            document.location = "/me";
                         });
                     }, 2000);
                 }
@@ -144,8 +142,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("input").removeAttr("disabled");
                     if (data.status === 500 || data.status === 401) {
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
-                            $(captchaNoMatch).show();
                             sakai_global.captcha.reload();
+                            sakai_global.captcha.showError("create_account_input_error");
                         }
                     }
                 }
@@ -174,10 +172,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // If we reach this point, we have a username in a valid format. We then go and check
             // on the server whether this eid is already taken or not. We expect a 200 if it already
             // exists and a 401 if it doesn't exist yet.
+            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username);
             if (errObj.length === 0) {
                 $.ajax({
                     // Replace the preliminary parameter in the service URL by the real username entered
-                    url: sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username),
+                    url: url,
                     cache: false,
                     async: async,
                     success: function(){
@@ -222,11 +221,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#username").bind("keyup blur", function(){
-                $("#create_account_username_error").hide();
-                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2) {
+                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2 && currentUserName !== $.trim($(usernameField).val())) {
                     $(usernameField).removeClass("signup_form_error");
-                    currentUserName = $(usernameField).val();
+                    currentUserName = $.trim($(usernameField).val());
                     checkUserName(true, function(success){
+                        $("#create_account_username_error").hide();
                         if (success) {
                             $(usernameField).removeClass("signup_form_error");
                             $(usernameField).addClass("username_available_icon");
@@ -235,8 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             $(usernameField).removeClass("username_available_icon");
                         }
                     });
-                } else {
-                    $(usernameField).removeClass("username_available_icon");
                 }
             });
 
@@ -312,6 +309,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $("#save_account").click(function(){
+            sakai_global.captcha.hideError();
             $(".signup_form_column_labels label").removeClass("signup_form_error_label");
             $(".create_account_input_error").hide("");
         });

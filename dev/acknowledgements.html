@@ -2,49 +2,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
-        <!-- Sakai Error CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
-
+        <!-- Sakai Page CSS -->
+        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
+        
         <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.acknowledgements.css" />
+
     </head>
-
-    <body class="fl-centered fl-container acknowledgements i18nable">
-
-        <!-- TOP BANNER -->
-        <div id="top_banner"><!-- --></div>
-
-        <!-- NAVIGATION -->
-        <div id="widget_topnavigation" class="widget_inline"></div>
-
-        <!-- TITLE BAR  -->
+    <body class="fl-centered acknowledgements i18nable">
+        <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
+            <div class="s3d-navigation-container">
+                <div id="widget_topnavigation" class="widget_inline"></div>
+            </div>
             <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-decor-left"><!-- --></div>
-                <div class="s3d-decor"></div>
-
-                <!-- TITLE BAR  -->
-                <div class="s3d-site-heading">
-                    <h1 class="title">__MSG__ACKNOWLEDGEMENTS__</h1>
+                <div class="s3d-container-shadow-left"><!----></div>
+                <div class="s3d-container-shadow-right"><!----></div>
+                <div class="s3d-page-header">
+                    <div id="widget_entity" class="widget_inline"></div>
                 </div>
-                <span id="ackenowledgements_content">__MSG__SPECIAL_THANKS_TO__</span>
             </div>
         </div>
-
+        
         <!-- CONTENT -->
-        <div class="fl-container fl-fix acknowledgements_content">
+        
+        <!-- CONTENT -->
+        <div id="acknowledgements_featured" style="display:none">
+            
+            <div class="acknowledgements_content">
 
             <!-- JQUERY -->
-            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
+            <div class="fl-fix fl-centered">
                 <div class="fl-container fl-fix acknowledgement_container s3d-highlight_area_background">
                     <div class="fl-container">
-                        <div class="acknowledgement_image_container">
+                        <div class="acknowledgement_image_container" style="float:left; width:200px;padding:10px;">
                         <img src="/dev/images/logo_jquery.png" alt="__MSG__JQUERY__"></img>
                         <img src="/dev/images/logo_jquery_ui.png" alt="__MSG__JQUERY__"></img>
                         </div>
@@ -58,15 +56,15 @@
             </div>
 
             <!-- APACHE SLING -->
-            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
+            <div class="fl-fix fl-centered">
                 <div class="fl-container fl-fix acknowledgement_container s3d-highlight_area_background">
                     <div class="fl-container">
-                        <div class="acknowledgement_image_container">
+                        <div class="acknowledgement_image_container" style="float:left; width:200px;padding:10px;">
                             <img src="/dev/images/logo_sling.png" alt="__MSG__APACHE_SLING__"></img>
                         </div>
                         <div class="acknowledgement_information">
                             <h1>__MSG__APACHE_SLING__</h1>
-                            <a href="http://www.sling.apache.com">www.sling.apache.com</a> <br /><br />
+                            <a href="http://sling.apache.org">sling.apache.org</a> <br /><br />
                             <span>__MSG__APACHE_SLING_IS_A_WEB_FRAMWORK__</span>
                         </div>
                     </div>
@@ -74,23 +72,27 @@
             </div>
 
             <!-- FLUID -->
-            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container">
+            <div class="fl-fix fl-centered">
                 <div class="fl-container fl-fix acknowledgement_container s3d-highlight_area_background">
                     <div class="fl-container">
-                        <div class="acknowledgement_image_container">
+                        <div class="acknowledgement_image_container" style="float:left; width:200px;padding:10px;">
                             <img src="/dev/images/logo_fluid.png" alt="__MSG__FLUID_INFUSION__"></img>
                         </div>
                         <div class="acknowledgement_information">
                             <h1>__MSG__FLUID_INFUSION__</h1>
-                            <a href="http://www.fluidproject.org/products/infusion">www.fluidproject.org/products/infusion</a> <br /><br />
+                            <a href="http://www.fluidproject.org/products/infusion">http://www.fluidproject.org/products/infusion</a> <br /><br />
                             <span>__MSG__WE_THINK_GOOD_INTERFACES__</span>
                         </div>
                     </div>
                 </div>
               </div>
 
+            </div>
+        </div>
+        <div id="acknowledgements_uitech" style="display:none">
+
             <!-- SOFTWARE FROM THIRD PARTIES LIST -->
-            <div class="fl-fix fl-centered fixed-container main-container s3d-main-container acknowledgements_third_party">
+            <div class="acknowledgements_content acknowledgements_third_party">
                 <span>__MSG__THE_PRODUCT_INCLUDES_SOFTWARE_FROM__</span>
 
                 <div class="acknowledgement_information">
@@ -101,13 +103,13 @@
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__MOXIECODE_SYSTEMS_AB__</h2>
-                    <a href="http://tinymce.moxiecode.com/" target="_blank" title="__MSG__MOXIECODE_SYSTEMS_AB__">http://tinymce.moxiecode.com/</a>
+                    <a href="http://tinymce.moxiecode.com/" target="_blank" title="__MSG__MOXIECODE_SYSTEMS_AB__">tinymce.moxiecode.com</a>
                     <br/>
                     <span>__MSG__TINYMCE_JAVASCRIPT_WYSIWYG_EDITOR__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__GOOGLE_INC__</h2>
-                    <a href="http://code.google.com/p/google-caja/wiki/JsHtmlSanitizer" target="_blank" title="__MSG__GOOGLE_INC__">code.google.com/p/google-caja/wiki/JsHtmlSanitizer</a>
+                    <a href="http://code.google.com/p/google-caja/wiki/JsHtmlSanitizer" target="_blank" title="__MSG__GOOGLE_INC__">http://code.google.com/p/google-caja/wiki/JsHtmlSanitizer</a>
                     <br/>
                     <span>__MSG__JSHTMLSANITIZER_LIBRARY_FROM_THE_CAJA_PROJECT__</span>
                 </div>
@@ -119,25 +121,19 @@
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__BRICE_BURGESS__</h2>
-                    <a href="http://dev.iceburg.net/jquery/jqModal" target="_blank" title="__MSG__BRICE_BURGESS__">dev.iceburg.net/jquery/jqModal</a>
+                    <a href="http://dev.iceburg.net/jquery/jqModal" target="_blank" title="__MSG__BRICE_BURGESS__">http://dev.iceburg.net/jquery/jqModal</a>
                     <br/>
                     <span>__MSG__JQMODAL_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>__MSG__KELVIN_LUCK__</h2>
-                    <a href="http://kelvinluck.com/assets/jquery/jScrollPane" target="_blank" title="__MSG__KELVIN_LUCK__">kelvinluck.com/assets/jquery/jScrollPane</a>
-                    <br/>
-                    <span>__MSG__JSCROLLPANE_JQUERY_PLUGIN__</span>
-                </div>
-                <div class="acknowledgement_information">
                     <h2>__MSG__DREW_WILSON__</h2>
-                    <a href="http://code.drewwilson.com/entry/autosuggest-jquery-plugin" target="_blank" title="__MSG__DREW_WILSON__">code.drewwilson.com/entry/autosuggest-jquery-plugin</a>
+                    <a href="http://code.drewwilson.com/entry/autosuggest-jquery-plugin" target="_blank" title="__MSG__DREW_WILSON__">http://code.drewwilson.com/entry/autosuggest-jquery-plugin</a>
                     <br/>
                     <span>__MSG__AUTOSUGGEST_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__COWBOY_BEN_ALMAN__</h2>
-                    <a href="http://benalman.com/about/license" target="_blank" title='__MSG__COWBOY_BEN_ALMAN__'>benalman.com/about/license</a>
+                    <a href="http://benalman.com/about/license" target="_blank" title='__MSG__COWBOY_BEN_ALMAN__'>http://benalman.com/about/license</a>
                     <br/>
                     <span>__MSG__JQUERY_BBQ__</span>
                 </div>
@@ -155,13 +151,13 @@
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__MICHAL_WOJCIECHOWSKI__</h2>
-                    <a href="http://odyniec.net/projects/imgareaselect" target="_blank" title="__MSG__MICHAL_WOJCIECHOWSKI__">odyniec.net/projects/imgareaselect</a>
+                    <a href="http://odyniec.net/projects/imgareaselect" target="_blank" title="__MSG__MICHAL_WOJCIECHOWSKI__">http://odyniec.net/projects/imgareaselect</a>
                     <br/>
                     <span>__MSG__IMGAREASELECT_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__MIKA_TUUPOLA_DYLAN_VERHEUL__</h2>
-                    <a href="http://www.appelsiini.net/projects/jeditable" target="_blank" title="__MSG__MIKA_TUUPOLA_DYLAN_VERHEUL__">www.appelsiini.net/projects/jeditable</a>
+                    <a href="http://www.appelsiini.net/projects/jeditable" target="_blank" title="__MSG__MIKA_TUUPOLA_DYLAN_VERHEUL__">http://www.appelsiini.net/projects/jeditable</a>
                     <br/>
                     <span>__MSG__JEDITABLE_JQUERY_PLUGIN__</span>
                 </div>
@@ -179,19 +175,19 @@
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__FYNETWORKS_COM__</h2>
-                    <a href="http://www.fyneworks.com/jquery/multiple-file-upload" target="_blank" title="__MSG__FYNETWORKS_COM__">www.fyneworks.com/jquery/multiple-file-upload</a>
+                    <a href="http://www.fyneworks.com/jquery/multiple-file-upload" target="_blank" title="__MSG__FYNETWORKS_COM__">http://www.fyneworks.com/jquery/multiple-file-upload</a>
                     <br/>
                     <span>__MSG__JQUERY_MULTIPLE_FILE_UPLOAD_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__JON_PAUL_DAVIES__</h2>
-                    <a href="http://jonpauldavies.github.com/JQuery/Pager" target="_blank" title="__MSG__JON_PAUL_DAVIES__">jonpauldavies.github.com/JQuery/Pager</a>
+                    <a href="http://jonpauldavies.github.com/JQuery/Pager" target="_blank" title="__MSG__JON_PAUL_DAVIES__">http://jonpauldavies.github.com/JQuery/Pager</a>
                     <br/>
                     <span>__MSG__JQUERY_PAGER_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__AUTHOR_JEREMY_HORN__</h2>
-                    <a href="http://tpgblog.com/ThreeDots" target="_blank" title="__MSG__AUTHOR_JEREMY_HORN__">tpgblog.com/ThreeDots</a>
+                    <a href="http://tpgblog.com/ThreeDots" target="_blank" title="__MSG__AUTHOR_JEREMY_HORN__">http://tpgblog.com/ThreeDots</a>
                     <br/>
                     <span>__MSG__THREEDOTS_JQUERY_PLUGIN__</span>
                 </div>
@@ -199,11 +195,11 @@
                     <h2>__MSG__RYAN_MCGEARY__</h2>
                     <a href="http://timeago.yarp.com" target="_blank" title="__MSG__RYAN_MCGEARY__">timeago.yarp.com</a>
                     <br/>
-                    <span>__MSG__TIMEAGE_JQUERY_PLUGIN__</span>
+                    <span>__MSG__TIMEAGO_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__JORN_ZAEFFERER__</h2>
-                    <a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation" target="_blank" title="__MSG__JORN_ZAEFFERER__">bassistance.de/jquery-plugins/jquery-plugin-validation</a>
+                    <a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation" target="_blank" title="__MSG__JORN_ZAEFFERER__">http://bassistance.de/jquery-plugins/jquery-plugin-validation</a>
                     <br/>
                     <span>__MSG__JQUERY_VALIDATION_PLUGIN__</span>
                 </div>
@@ -215,31 +211,31 @@
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__DOMINIC_MITCHELL__</h2>
-                    <a href="http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/" target="_blank" title="__MSG__DOMINIC_MITCHELL__">http://search.cpan.org/~hdm/JavaScript-JSLint-0.06/</a>
+                    <a href="http://search.cpan.org/~hdm/JavaScript-JSLint-0.06" target="_blank" title="__MSG__DOMINIC_MITCHELL__">http://search.cpan.org/~hdm/JavaScript-JSLint-0.06</a>
                     <br/>
                     <span>__MSG__JAVASCRIPT_JSLINT__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__MICHAEL_MATHEWS__</h2>
-                    <a href="http://code.google.com/p/jsdoc-toolkit" target="_blank" title="__MSG__MICHAEL_MATHEWS__">code.google.com/p/jsdoc-toolkit</a>
+                    <a href="http://code.google.com/p/jsdoc-toolkit" target="_blank" title="__MSG__MICHAEL_MATHEWS__">http://code.google.com/p/jsdoc-toolkit</a>
                     <br/>
                     <span>__MSG__JSDOC_TOOLKIT__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__YAHOO_INC__</h2>
-                    <a href="http://developer.yahoo.com/yui/compressor/" target="_blank" title="__MSG__YAHOO_INC__">http://developer.yahoo.com/yui/compressor/</a>
+                    <a href="http://developer.yahoo.com/yui/compressor" target="_blank" title="__MSG__YAHOO_INC__">http://developer.yahoo.com/yui/compressor</a>
                     <br/>
                     <span>__MSG__YUI_COMPRESSOR__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__YUSUKE_KAMIYAMANE__</h2>
-                    <a href="http://p.yusukekamiyamane.com" target="_blank" title="__MSG__YUSUKE_KAMIYAMANE__">http://p.yusukekamiyamane.com</a>
+                    <a href="http://p.yusukekamiyamane.com" target="_blank" title="__MSG__YUSUKE_KAMIYAMANE__">p.yusukekamiyamane.com</a>
                     <br/>
                     <span>__MSG__FUGUE_ICONS__</span>
                 </div>
                 <div class="acknowledgement_information">
                     <h2>__MSG__MARK_JAMES__</h2>
-                    <a href="http://www.famfamfam.com/lab/icons/silk" target="_blank" title="__MSG__MARK_JAMES__">www.famfamfam.com/lab/icons/silk</a>
+                    <a href="http://www.famfamfam.com/lab/icons/silk" target="_blank" title="__MSG__MARK_JAMES__">http://www.famfamfam.com/lab/icons/silk</a>
                     <br/>
                     <span>__MSG__SILK_ICONS__</span>
                 </div>
@@ -253,6 +249,13 @@
                     <a href="http://sourceforge.net/projects/ant-contrib" target="_blank" title="__MSG__ANT_CONTRIB__">http://sourceforge.net/projects/ant-contrib</a>
                     <br/>
                 </div>
+
+            </div>
+        </div>
+        <div id="acknowledgements_backendtech" style="display:none">
+
+            <!-- SOFTWARE FROM THIRD PARTIES LIST -->
+            <div class="acknowledgements_content acknowledgements_third_party">
 
                 <!-- NAKAMURA -->
                 <div class="acknowledgement_information">
@@ -310,28 +313,35 @@
                         <li>__MSG__APACHE_SLING_THREAD_SUPPORT__</li>
                         <li>__MSG__APACHE_SLING_WEB_CONSOLE_BRANDING__</li>
                         <li>__MSG__APACHE_SLING_WEB_CONSOLE_SECURITY_PROVIDER__</li>
+                        <li>__MSG__COMMONS_CODE__</li>
                         <li>__MSG__COMMONS_COLLECTIONS__</li>
+                        <li>__MSG__COMMONS_EMAIL__</li>
                         <li>__MSG__COMMONS_FILEUPLOAD__</li>
                         <li>__MSG__COMMONS_LANG__</li>
-                        <li>__MSG__ECLIPSELINK_JPA__</li>
+                        <li>__MSG__COMMONS_POOL__</li>
+                        <li>__MSG__CONTENT_REPOSITORY_FOR_JAVATM_TECHNOLOGY_API__</li>
+                        <li>__MSG__GERONIMO_EJB__</li>
                         <li>__MSG__GERONIMO_J2EE_CONNECTOR__</li>
+                        <li>__MSG__GERONIMO_J2EE_MANAGEMENT__</li>
+                        <li>__MSG__GERONIMO_JMS__</li>
                         <li>__MSG__GERONIMO_JTA__</li>
                         <li>__MSG__GROOVY_RUNTIME__</li>
                         <li>__MSG__JACKRABBIT_JCR_COMMONS__</li>
                         <li>__MSG__JACKRABBIT_JCR_RMI__</li>
                         <li>__MSG__JACKRABBIT_SPI__</li>
                         <li>__MSG__JACKRABBIT_SPI_COMMONS__</li>
+                        <li>__MSG__JAXB_API__</li>
+                        <li>__MSG__NAKAMURA_HTTP_JETTY__</li>
                         <li>__MSG__OPS4J_PAX_WEB_SERVICE__</li>
                         <li>__MSG__SAKAI_3_UX_LOADER__</li>
                         <li>__MSG__SAKAI_NAKAMURA_ACTIVE_MQ_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_ACTIVITY_BUNDLE__</li>
-                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_CODE_BUNDLE__</li>
-                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_EMAIL_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_HTTPCLIENT_BUNDLE__</li>
-                        <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_POOLS_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_AUTHORIZATION_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_BASIC_LTI_CONSUMER_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_BATCH_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_CALENDAR_BASED_EVENTS_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_CAPTCHA_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_CHAT_SERVICES_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_CONFIGURATION_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_CONNECTIONS_MANAGEMENT_BUNDLE__</li>
@@ -341,6 +351,8 @@
                         <li>__MSG__SAKAI_NAKAMURA_DOCUMENTATION_SUPPORT_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_FILES_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_FORM_AUTH_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_GOOGLE_COLLECTIONS__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_HTTP_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_IMAGE_SERVICE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_JAVAX_ACTIVATION_AND_MAIL_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_JAXP_API_BUNDLE__</li>
@@ -350,10 +362,13 @@
                         <li>__MSG__SAKAI_NAKAMURA_ME_SERVICE_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_MEMORY_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_MESSAGING_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_MODEL_DIRECTORY__</li>
                         <li>__MSG__SAKAI_NAKAMURA_OSGI_TO_JMS_EVENTS_BRIDGE_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_OUTGOING_EMAIL_SENDER__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_PAGES_STRUCTURED_CONTENT__</li>
                         <li>__MSG__SAKAI_NAKAMURA_PERSONAL_SPACE_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_PRESENCE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_PROFILE_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_PROXY_SERVICE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_SAKAI_CLUSTER_TRACKING__</li>
                         <li>__MSG__SAKAI_NAKAMURA_SEARCH_SUPPORT_BUNDLE__</li>
@@ -361,11 +376,16 @@
                         <li>__MSG__SAKAI_NAKAMURA_SITE_SERVICE_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_SLING_RESOURCE_EXTENSION BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_SMTP_SERVER__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SOLR_BASED_SEARCH_SERVICE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_SPARSE_MAP_CONTENT_STORAGE_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_TEMPLATES_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_TIKA_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_TRUSTED_AUTHENTICATION_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_USER_EXTENSIONS_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_UTILITIES__</li>
                         <li>__MSG__SAKAI_NAKAMURA_VERSION_EXTENSION_BUNDLE__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_WOODSTOX_STAX__</li>
+                        <li>__MSG__SAKAI_NAKAMURA_WORLD_SUPPORT__</li>
                       </ul>
                   </div>
 
@@ -373,16 +393,27 @@
               </div>
         </div>
 
+        <!-- HEADER -->
+        <div class="fl-container-flex">
+            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
+                <div class="s3d-page-column-left">
+                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                </div>
+                <div class="s3d-page-column-right">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- FOOTER WIDGET -->
         <div id="widget_footer" class="widget_inline footercontainer"></div>
 
-        <!-- CHAT -->
-        <div id="widget_chat" class="widget_inline"></div>
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
-        <!-- Page JS -->
-        <script>require(["/dev/javascript/mysakai.js"]);</script>
+        <!-- GROUP JS -->
+        <script>require(["/dev/javascript/acknowledgements.js"]);</script>
     </body>
 </html>

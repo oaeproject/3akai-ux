@@ -1,10 +1,10 @@
 /*** LAYOUT ***/
 
 .mycontent_widget #mycontent_no_content_wrap{padding:0 20px; text-align: center;}
-.mycontent_widget .mycontent_no_content_text {display:block;}
+.mycontent_widget .mycontent_no_content_text {display:block;margin-bottom:10px;}
 
 div.mycontent_item{padding:10px 10px 10px 10px;}
-div.mycontent_item:first-child{padding:5px 10px 10px 10px;}
+div.mycontent_item:first-child{padding:0 10px 10px 10px;}
 .mycontent_item_mime{display:block;}
 div.mycontent_item_img{margin-left:3px;}
 div.mycontent_item_info{margin-left:40px;}
@@ -12,10 +12,7 @@ p.mycontent_item_title,p.mycontent_item_meta,p.mycontent_error_msg{margin:0;}
 p.mycontent_error_msg{padding-left:15px;}
 .mycontent .s3d-highlight_area_background{margin:0;}
 
-.mycontent_widget .add_content_button {margin-top: 5px; margin-bottom: 10px; background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent;width:100%; max-width: 325px;}
-.mycontent_widget .add_content_button span{line-height:40px;height:40px;background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important;}
-.mycontent_widget .add_content_button:hover {background:url("/dev/images/button_large_grey.png") no-repeat right -41px transparent !important;}
-.mycontent_widget .add_content_button:hover span{background:url("/dev/images/button_large_grey.png") no-repeat top left transparent !important; color: #333 !important;}
+.mycontent_widget .add_content_button {margin-top: 5px; margin-bottom: 10px;width:100%; max-width: 325px;}
 
 /*** TYPOGRAPHY ***/
 p.mycontent_item_meta{font-size:.9em;color:#444;}

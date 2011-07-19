@@ -4,62 +4,52 @@
 <div id="entity_container"><span style="display:none;">__MSG__IE_PLACEHOLDER__</span></div>
 
 <div id="entity_contentsettings_dropdown" style="display:none"><!--
-    <div id="entity_dropdown_wrapper" class="entity_dropdown_dialog">
-        <div class="entity_dropdown_header_arrow"></div>
-        <div class="entity_dropdown_outer clearfix">
-            <div class="entity_dropdown_inner">
-                <div id="entity_dropdown_container">
-                    <div>
-                        <ul>
-                            <li id="ew_permissions">
-                                <button class="s3d-button s3d-link-button">__MSG__PERMISSIONS__</button>
-                            </li>
-                            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
-                            <li id="ew_upload">
-                                <button class="s3d-button s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
-                            </li>
-                            {/if}
-                            {if sakai_global.content_profile.content_data.data["sakai:custom-mimetype"] != "x-sakai/document"}
-                                <li id="ew_revhistory">
-                                    <button class="s3d-button s3d-link-button">__MSG__REVISION_HISTORY__</button>
-                                </li>
-                            {/if}
-                            <li id="ew_content_preview_delete">
-                                <button class="s3d-button s3d-link-button">__MSG__DELETE__</button>
-                            </li>
-                        <ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="entity_dropdown_wrapper" class="s3d-dropdown-list">
+        <div class="s3d-dropdown-list-arrow-up"></div>
+        <ul>
+            <li id="ew_permissions">
+                <button class="s3d-link-button">__MSG__PERMISSIONS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
+                <li id="ew_upload">
+                    <button class="s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
+                </li>
+                <hr class="s3d-split-line"/>
+            {/if}
+            {if sakai_global.content_profile.content_data.data["sakai:custom-mimetype"] != "x-sakai/document"}
+                <li id="ew_revhistory">
+                    <button class="s3d-link-button">__MSG__REVISION_HISTORY__</button>
+                </li>
+                <hr class="s3d-split-line"/>
+            {/if}
+            <li id="ew_content_preview_delete">
+                <button class="s3d-link-button">__MSG__DELETE__</button>
+            </li>
+        <ul>
     </div>
 --></div>
 
 <div id="entity_groupsettings_dropdown" style="display:none"><!--
-    <div id="entity_dropdown_wrapper" class="entity_dropdown_dialog">
-        <div class="entity_dropdown_header_arrow"></div>
-        <div class="entity_dropdown_outer clearfix">
-            <div class="entity_dropdown_inner">
-                <div id="entity_dropdown_container">
-                    <div>
-                        <ul>
-                            <li id="ew_group_add_content">
-                                <button class="s3d-button s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button>
-                            </li>
-                            <li id="ew_group_participants">
-                                <button class="s3d-button s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
-                            </li>
-                            <li id="ew_group_settings">
-                                <button class="s3d-button s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
-                            </li>
-                            <li id="ew_group_categories">
-                                <button class="s3d-button s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
-                            </li>
-                        <ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="entity_dropdown_wrapper" class="s3d-dropdown-list">
+        <div class="s3d-dropdown-list-arrow-up"></div>
+        <ul>
+            <li id="ew_group_add_content">
+                <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_CONTENT__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            <li id="ew_group_participants">
+                <button class="s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            <li id="ew_group_settings">
+                <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            <li id="ew_group_categories">
+                <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
+            </li>
+        <ul>
     </div>
 --></div>
 
@@ -79,12 +69,14 @@
         {/if}
     </div>
     {if type && type == "user_me"}
-        <div id="entity_user_image" class="s3d-dropdown-menu">
+        <div id="entity_user_image">
             <div class="entity_profilepic_internal">
                 <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
+            <div class="entity_profile_picture_down_arrow">&#9660;</div>
             <div class="s3d-dropdown-menu-arrow"></div>
-            <div class="s3d-dropdown-container" style="display:none;">
+            <div class="s3d-dropdown-list" style="display:none;">
+                <div class="s3d-dropdown-list-arrow-up"></div>
                 <ul>
                     <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
@@ -160,14 +152,14 @@
     </span>
     <div id="entity_owns" class="s3d-regular-links">
         {var peopleCount = data.members.counts.people}
-        <span class="entity_number">
+        <div class="entity_number">
             <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
             Used by
             <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
                 ${peopleCount}
                 {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
             </a>
-        </span>
+        </div>
         {var groupCount = data.members.counts.groups}
         {if groupCount}
             and
@@ -181,7 +173,7 @@
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
             <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
         </span>
-        <span class="entity_number entity_permissions_label">
+        <div class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
             <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
             {if permissions == "public"}
@@ -194,7 +186,7 @@
                     + ${groupCount + peopleCount - 1} __MSG__OTHERS__
                 {/if}
             {/if}
-        </span>
+        </div>
     </div>
 --></div>
 
@@ -210,17 +202,20 @@
         {/if}
     </div>
     {if type && type == "group_managed"}
-        <div id="entity_group_image" class="s3d-dropdown-menu">
+        <div id="entity_group_image">
             <div class="entity_profilepic_internal">
                 <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
+            <div class="entity_profile_picture_down_arrow">&#9660;</div>
             <div class="s3d-dropdown-menu-arrow"></div>
-            <div class="s3d-dropdown-container" style="display:none;">
+            <div class="s3d-dropdown-list" style="display:none;">
+                <div class="s3d-dropdown-list-arrow-up"></div>
                 <ul>
                     <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
         </div>
+
     {else}
         <div id="entity_group_image" class="entity_other_profilepic">
             <div class="entity_profilepic_internal">

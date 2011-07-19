@@ -1,8 +1,15 @@
-define(function() {
-    // Insert custom configuration here
-    var config = {
+define(["config/config"], function(config) {
+
+    if ( ! config.customizationComplete ) {
+        // Insert custom configuration here
+
         // Custom CSS Files to load in
-        skinCSS : ["/dev/skins/default/skin.css"]
-    };
+        config.skinCSS = ["/dev/skins/default/skin.css"];
+
+        // End custom configuration
+
+        config.customizationComplete = true;
+    }
+
     return config;
 });

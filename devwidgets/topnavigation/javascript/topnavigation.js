@@ -52,6 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserOptions = ".topnavigation_user_options";
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
+        var topnavigationExternalLogin= ".topnavigation_external_login";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -141,7 +142,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
 
         var renderUser = function(){
-            $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {"anon" : sakai.data.me.user.anon}));
+            var externalAuth = false;
+            if (!sakai.config.Authentication.internal && !sakai.config.Authentication.allowInternalAccountCreation) {
+                externalAuth = true;
+            }
+            var auth = {
+                "externalAuth": externalAuth,
+                "Authentication": sakai.config.Authentication
+            };
+            $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
+                "anon" : sakai.data.me.user.anon,
+                "auth": auth
+            }));
         };
 
 
@@ -334,7 +346,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
-                        "url": "/dev/createnew.html#l=categories/" + category.id
+                        "url": "/create#l=categories/" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
@@ -430,7 +442,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 var pos = $li.position();
                 $subnav.css("left", pos.left - 2);
-                $subnav.css("margin-top", "10px");
                 $subnav.show();
             }, function(){
                 var $li = $(this);
@@ -459,11 +470,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Make sure that the results only disappear when you click outside
             // of the search box and outside of the results box
-            $(window).click(function(ev){
-                if (ev.target.id !== "topnavigation_search_input") {
-                    $("#topnavigation_search_results").hide();
-                }
-            });
+            sakai.api.Util.hideOnClickOut("#topnavigation_search_results", "#topnavigation_search_results_container,#topnavigation_search_results_bottom_container,#topnavigation_search_input");
 
             $("#subnavigation_preferences_link").live("click", function(){
                 $(window).trigger("init.accountpreferences.sakai");
@@ -511,8 +518,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register") {
-                            window.location = "/dev/me.html";
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register"
+                            || window.location.pathname === "/index" || window.location.pathname === "/") {
+                            window.location = "/me";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
                             var url = qs.get("url");
@@ -523,7 +531,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         // 500 not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
-                            window.location = "/dev/me.html";
+                            window.location = "/me";
                         } else {
                             // Just reload the page
                             location.reload(true);
@@ -571,11 +579,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(topnavigationlogin).hover(function(){
+                var $menu = $(this);
+                if ($menu.children(topnavigationExternalLogin).length){
+                    // adjust margin of external login menu to position correctly according to padding and width of menu
+                    var $externalAuth = $menu.children(topnavigationExternalLogin);
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
+                         + $menu.width()
+                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
+                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
+
+                    var margin = ($externalAuth.width() - menuPadding) * -1;
+                    $externalAuth.css("margin-left", margin + "px");
+                }
                 $(topnavUserOptionsLoginFields).show();
             },
             function(){
                 $(topnavUserOptionsLoginFields).hide();
             });
+
+            $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
 
 

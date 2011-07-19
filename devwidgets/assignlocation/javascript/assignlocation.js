@@ -181,8 +181,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             break;
                         case "group":
                             contextVariables = {
-                                "data": sakai_global.group2.groupData,
-                                "path": "/~" + sakai_global.group2.groupId + "/public/authprofile",
+                                "data": sakai_global.group.groupData,
+                                "path": "/~" + sakai_global.group.groupId + "/public/authprofile",
                                 "context": "group"
                             };
                             break;
@@ -192,6 +192,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "path": "/p/" + sakai_global.content_profile.content_data.data["_path"],
                                 "context" : "content"
                             };
+                            // check if content tags are stored another level down
+                            if (!contextVariables.data["sakai:tags"]
+                                && sakai_global.content_profile.content_data.data
+                                && sakai_global.content_profile.content_data.data["sakai:tags"]) {
+                                contextVariables.data["sakai:tags"] = sakai_global.content_profile.content_data.data["sakai:tags"];
+                            }
                             break;
                     }
                 }

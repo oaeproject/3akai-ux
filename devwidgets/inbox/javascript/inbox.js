@@ -29,6 +29,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortBy = "_created",
             sortOrder = "desc",
             currentPage = 0,
+            numJustDeleted = 0,
             invitations = [],
             rejections = [],
             removals = [],
@@ -163,13 +164,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_mark_as_read.live("click", function() {
             var unreadMessages = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container.unread");
-            pathList = [];
+            readList = [];
             $.each(unreadMessages, function(i,elt) {
-                var path = messages.results[$(elt).attr("id")].path;
+                var message = messages.results[$(elt).attr("id")];
                 $(elt).removeClass("unread");
-                pathList.push(path);
+                readList.push(message);
             });
-            sakai.api.Communication.markMessagesAsRead(pathList);
+            sakai.api.Communication.markMessagesAsRead(readList);
         });
 
         /**
@@ -184,6 +185,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(pathList, hardDelete, function(success, data) {
+                numJustDeleted = pathList.length;
                 messagesToDelete.fadeOut(getMessages);
             });
         });
@@ -271,6 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /** Messages **/
 
         var showMessage = function() {
+            var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             hideReply();
@@ -286,8 +289,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
                 }
             }, $inbox_show_message);
+            $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
-                sakai.api.Communication.markMessagesAsRead(currentMessage.path);
+                sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
             }
             $(detailViewClass).show();
@@ -312,14 +316,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var hardDelete = widgetData.box === "trash" ? true : false;
             sakai.api.Communication.deleteMessages(msg.path, hardDelete, function(success, data) {
                 if (!success) {
-                    debug.log("deleting failed");
+                    debug.error("deleting failed");
                     // show a gritter message indicating deleting it failed
                 } else {
                     getMessages();
                 }
             });
             if ($inbox_show_message.is(":visible")) {
-                backToMessages();
+                $.bbq.removeState("message", "reply");
             } else {
                 $("#" + mid).fadeOut(200);
             }
@@ -329,6 +333,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getMessages = function(callback) {
             var doFlip = widgetData.box === "outbox";
+            if (numJustDeleted) {
+                var currentPaging = totalMessages & MESSAGES_PER_PAGE,
+                    newPaging = (totalMessages - numJustDeleted) % MESSAGES_PER_PAGE;
+                // newPaging === 0 means we need a new page, as nothing will show on this one
+                // newPaging > currentPaging means that there are more on the new page than before, so
+                //    we should show the previous page (should rarely, if ever, happen)
+                if (newPaging === 0 || newPaging > currentPaging) {
+                    currentPage--;
+                }
+                // if we can destroy the pager now, lets do it
+                if (currentPage === 0 && totalMessages - numJustDeleted <= MESSAGES_PER_PAGE) {
+                    $inbox_pager.empty();
+                }
+                numJustDeleted = 0;
+            }
             sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
                 var update = true;
                 if (!searchTerm) {
@@ -536,13 +555,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         searchTerm = null;
                         getMessages();
                     }
-                } else if (!first) {
-                    setInitialState();
-                    getMessages();
                 } else {
                     setInitialState();
                     getMessages();
-                    updateMessageList(true);
                 }
             }
         };

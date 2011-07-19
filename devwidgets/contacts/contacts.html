@@ -31,15 +31,15 @@
                     <div class="contacts_list">
                         <a href="/~${p.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(p.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(p.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=library" title="${p.profile.counts.contentCount}{if p.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${p.profile.userid}#l=library" title="${p.profile.counts.contentCount}{if p.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                 ${p.profile.counts.contentCount} {if p.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=contacts" title="${p.profile.counts.contactsCount}{if p.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${p.profile.userid}#l=contacts" title="${p.profile.counts.contactsCount}{if p.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
                                 ${p.profile.counts.contactsCount} {if p.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${p.profile.userid}#l=memberships" title="${p.profile.counts.membershipsCount}{if p.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${p.profile.userid}#l=memberships" title="${p.profile.counts.membershipsCount}{if p.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                 ${p.profile.counts.membershipsCount} {if p.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                             </a>
                         </div>
@@ -71,23 +71,23 @@
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler">
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary contacts_item_plus contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}"></button>
                         <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
                     </div>
-                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${i.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" sakai-entitytype="user"></button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${i.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" data-sakai-entitytype="user"></button>
                     <a href="/~${i.profile.userid}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${i.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(i.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=library" title="${i.profile.counts.contentCount}{if i.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${i.profile.userid}#l=library" title="${i.profile.counts.contentCount}{if i.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                 ${i.profile.counts.contentCount} {if i.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=contacts" title="${i.profile.counts.contactsCount}{if i.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${i.profile.userid}#l=contacts" title="${i.profile.counts.contactsCount}{if i.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
                                 ${i.profile.counts.contactsCount} {if i.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${i.profile.userid}#l=memberships" title="${i.profile.counts.membershipsCount}{if i.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${i.profile.userid}#l=memberships" title="${i.profile.counts.membershipsCount}{if i.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                 ${i.profile.counts.membershipsCount} {if i.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                             </a>
                         </div>
@@ -130,20 +130,21 @@
                             <input type="checkbox" name="checkbox_${a.profile.userid}" />
                         {/if}
                     </div>
-                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" sakai-entityid=${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" sakai-entitytype="user"></button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" data-sakai-entitytype="user"></button>
+                    <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
                     <a href="/~${a.profile.userid}"><img alt="accepted icon" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${a.profile.userid}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(a.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold")}</a>
                         <div class="contacts_item_counts">
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=library" title="${a.profile.counts.contentCount}{if a.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${a.profile.userid}#l=library" title="${a.profile.counts.contentCount}{if a.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                 ${a.profile.counts.contentCount} {if a.profile.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=contacts" title="${a.profile.counts.contactsCount}{if a.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${a.profile.userid}#l=contacts" title="${a.profile.counts.contactsCount}{if a.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}">
                                 ${a.profile.counts.contactsCount} {if a.profile.counts.contactsCount == 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
                             </a>
                             <span class="contacts_item_detail_separator">|</span>
-                            <a class="s3d-regular-light-links" href="/dev/user.html?id=${a.profile.userid}#l=memberships" title="${a.profile.counts.membershipsCount}{if a.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                            <a class="s3d-regular-light-links" href="/~${a.profile.userid}#l=memberships" title="${a.profile.counts.membershipsCount}{if a.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                 ${a.profile.counts.membershipsCount} {if a.profile.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                             </a>
                         </div>
@@ -158,15 +159,6 @@
                                 </p>
                             </div>
                         {/if}
-
-                    <div style="display:none;">
-                        {if sakai_global.profile.main.mode.value !== "view"}
-                            <button type="button" class="s3d-button s3d-button-link-2-state contact_delete_button" id="contacts_delete_contact_${a.profile.userid}">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">X</span>
-                            </button>
-                        {/if}
-                    </div>
-
                     </div>
                 </div>
             {/for}
@@ -191,6 +183,16 @@
          {/if}
     </div>
 --></div>
+
+<div class="s3d-dialog s3d-dialog-container" id="contacts_delete_contacts_dialog" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__REMOVE_CONTACT__</h1>
+    <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_REMOVE__ <span id="contacts_contact_to_delete" class="s3d-bold"></span> __MSG__FROM_YOUR_CONTACTS__</p>
+    <div class="dialog_buttons fl-force-right">
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="contacts_delete_contact_confirm" data-sakai-entityid="placeholder">__MSG__REMOVE_CONTACT__</button>
+    </div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contacts/javascript/contacts.js"></script>

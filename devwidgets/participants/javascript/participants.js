@@ -182,7 +182,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var loadParticipants = function(){
             if (widgetData && widgetData.participants) {
                 var query = $.trim($participantsSearchField.val());
-                sakai.api.Groups.getMembers(widgetData.participants.groupid, query, renderParticipants);
+                sakai.api.Groups.getMembers(widgetData.participants.groupid, query, renderParticipants, true);
             }
         };
 

@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
         var grouptags = $newcreategroupGroupTags.val().split(",");
-        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, currentTemplate, widgetData.category, function(success, nameTaken){
+        sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, currentTemplate, widgetData.category, function(success, groupData, nameTaken){
             if (success) {
                 creationComplete.groupid = groupid;
 
@@ -120,7 +120,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Set permissions on group
                 var joinable = $newcreategroupGroupMembership.val();
                 var visible = $newcreategroupCanBeFoundIn.val();
-                sakai.api.Groups.setPermissions(groupid, joinable, visible, function(){
+                var roles = $.parseJSON(groupData["sakai:roles"]);
+                sakai.api.Groups.setPermissions(groupid, joinable, visible, roles, function(){
                     creationComplete.permissions = true;
                     checkCreationComplete();
                 });
@@ -389,7 +390,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     $(window).bind("sakai.addpeople.usersselected", function(ev, initTuid, users){
         if (initTuid === tuid) {
-            selectedUsers = users;
+            selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
                 "roles": currentTemplate.roles

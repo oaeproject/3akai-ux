@@ -19,10 +19,11 @@
 .recentmessages .widget_title_icon{background:url(/dev/images/icons_sprite.png) no-repeat scroll -420px -19px transparent;}
 
 /* Error messages */
-.recentmessages_error{padding:5px 0 0 15px;}
+.recentmessages_error{padding:0 0 0 15px;}
 
 /* Container text */
 #recentmessages_container ul li{color:#333;}
+#recentmessages_container ul {margin:-10px 0 0;}
 
 /* List items */
 #recentmessages_container ul li{border-bottom:1px solid #ccc;list-style:none;padding:5px 15px;margin:0;}

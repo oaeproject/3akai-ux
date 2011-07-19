@@ -22,6 +22,7 @@ h2 {color:#666;font-size:15px;}
 #signup_form_container input:-moz-placeholder {color:#aaa;font-size:12px;}
 
 #signup_form_container .username_available_icon {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;}
+#signup_form_container .username_available_icon[disabled] {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;}
 #signup_form_container .username_unavailable_icon {background:url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;}
 
 .signup_form_error {border:3px solid #ffba00 !important;margin-bottom:5px !important;}
@@ -46,6 +47,6 @@ label.signup_form_error_label{margin-top:25px !important;}
 #signup_institution_logos {background:url("/dev/images/signup_institution_logos.jpg") no-repeat top left transparent;height:40px;width:920px;margin-top:25px;}
 
 /* Override CSS */
-.s3d-page-header {height:0;margin-top: 15px;}
+.s3d-page-header {height:0;margin-top:15px;min-height:0;}
 .recaptchatable {background:#FFF;}
 .recaptchatable input {border:1px solid #E0E1E2 !important;}

@@ -72,43 +72,47 @@ if (!(Array.indexOf || [].indexOf)) {
     };
 }
 
-require({
-    baseUrl:"/dev/lib/",
-    paths: {
-        "jquery": "jquery/jquery-1.5.2",
-        "jquery-ui": "jquery/jquery-ui-1.8.13.custom"
-    },
-    priority: ["jquery"]
-});
+require(
+    {
+        baseUrl:"/dev/lib/",
+        paths: {
+            "jquery-plugins": "jquery/plugins",
+            "jquery": "jquery/jquery-1.5.2",
+            "jquery-ui": "jquery/jquery-ui-1.8.13.custom",
+            "config": "../configuration"
+        },
+        priority: ["jquery"]
+    }
+);
 
 require(
     [
         "jquery",
         "sakai/sakai.api.core",
-        "/dev/lib/sakai/sakai.jquery-extensions.js",
-        "/dev/configuration/config.js",
-        "/dev/configuration/config_custom.js",
+        "sakai/sakai.jquery-extensions",
+        "config/config",
+        "config/config_custom",
         "jquery-ui",
-        "/dev/lib/jquery/plugins/jquery.validate.js",
-        "/dev/lib/jquery/plugins/jquery.autoSuggest.sakai-edited.js",
-        "/dev/lib/misc/l10n/globalization.js",
-        "/dev/lib/misc/underscore.js",
-        "/dev/lib/jquery/plugins/jquery.json.js",
-        "/dev/lib/misc/google/html-sanitizer.js",
-        "/dev/lib/misc/querystring.js",
-        "/dev/lib/fluid/3akai_Infusion.js",
-        "/dev/lib/jquery/plugins/jquery.timeago.js",
-        "/dev/lib/jquery/plugins/jqmodal.sakai-edited.js",
-        "/dev/lib/jquery/plugins/jquery.cookie.js",
-        "/dev/lib/jquery/plugins/jquery.ba-bbq.js",
-        "/dev/lib/jquery/plugins/jquery.pager.js",
-        "/dev/lib/jquery/plugins/jquery.threedots.js",
-        "/dev/lib/jquery/plugins/jquery.form.js",
-        "/dev/lib/jquery/plugins/jquery.MultiFile.js",
-        "/dev/lib/jquery/plugins/jquery.hoverIntent.sakai-edit.js",
-        "/dev/lib/jquery/plugins/jsTree/jquery.jstree.sakai-edit.js",
-        "/dev/lib/jquery/plugins/gritter/jquery.gritter.js",
-        "/dev/lib/jquery/plugins/jquery.jcarousel.js"
+        "jquery-plugins/jquery.validate",
+        "jquery-plugins/jquery.autoSuggest.sakai-edited",
+        "misc/l10n/globalization",
+        "misc/underscore",
+        "jquery-plugins/jquery.json",
+        "misc/google/html-sanitizer",
+        "misc/querystring",
+        "fluid/3akai_Infusion",
+        "jquery-plugins/jquery.timeago",
+        "jquery-plugins/jqmodal.sakai-edited",
+        "jquery-plugins/jquery.cookie",
+        "jquery-plugins/jquery.ba-bbq",
+        "jquery-plugins/jquery.pager",
+        "jquery-plugins/jquery.threedots",
+        "jquery-plugins/jquery.form",
+        "jquery-plugins/jquery.MultiFile",
+        "jquery-plugins/jquery.hoverIntent.sakai-edit",
+        "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
+        "jquery-plugins/gritter/jquery.gritter",
+        "jquery-plugins/jquery.jcarousel.sakai-edit"
     ],
     function($, sakai) {
         require.ready(function() {
