@@ -32,7 +32,7 @@
  */
 define(
     [
-        "config/config",
+        "config/config_custom",
         "misc/l10n/globalization",
         "misc/l10n/detect_timezone"
     ],

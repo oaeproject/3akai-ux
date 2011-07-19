@@ -56,8 +56,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var passwordShort = "#password_short";
         var passwordRepeatEmpty = "#password_repeat_empty";
         var passwordRepeatNoMatch = "#password_repeat_nomatch";
-        var captchaEmpty = "#uword_empty";
-        var captchaNoMatch = "#uword_nomatch";
         var errorFields = ".create_account_error_msg";
         var usernameLabel = "#username_label";
         var inputFields = ".create_account_input";
@@ -144,8 +142,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("input").removeAttr("disabled");
                     if (data.status === 500 || data.status === 401) {
                         if (data.responseText.indexOf("Untrusted request") !== -1) {
-                            $(captchaNoMatch).show();
                             sakai_global.captcha.reload();
+                            sakai_global.captcha.showError("create_account_input_error");
                         }
                     }
                 }
@@ -223,11 +221,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#username").bind("keyup blur", function(){
-                $("#create_account_username_error").hide();
                 if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2 && currentUserName !== $.trim($(usernameField).val())) {
                     $(usernameField).removeClass("signup_form_error");
                     currentUserName = $.trim($(usernameField).val());
                     checkUserName(true, function(success){
+                        $("#create_account_username_error").hide();
                         if (success) {
                             $(usernameField).removeClass("signup_form_error");
                             $(usernameField).addClass("username_available_icon");
@@ -311,6 +309,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         $("#save_account").click(function(){
+            sakai_global.captcha.hideError();
             $(".signup_form_column_labels label").removeClass("signup_form_error_label");
             $(".create_account_input_error").hide("");
         });

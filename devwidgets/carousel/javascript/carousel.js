@@ -258,8 +258,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
                     obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                 }
-                if (group.picture && group.picture.value && group.picture.value.length){
-                    obj.picture = $.parseJSON(group.picture.value);
+                if (group.picture){
+                    obj.picture = sakai.api.Groups.getProfilePicture(group);
                 }
                 obj.counts = group.counts;
 

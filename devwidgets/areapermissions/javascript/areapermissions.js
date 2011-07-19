@@ -210,12 +210,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      var parameters = {
                          ":viewer@Delete": role,
                          ":manager@Delete": role
-                     }
+                     };
                      var aclParameters = {
                         "principalId": role,
                         "privilege@jcr:write": "denied",
                         "privilege@jcr:read": "denied"
-                     }
+                     };
                      if (selectedPermission === "edit"){
                          parameters = {
                              ":viewer@Delete": role,
@@ -236,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                              "privilege@jcr:write": "denied",
                              "privilege@jcr:read": "granted"
                          }
-                     }
+                     };
                      permissionsBatch.push({
                          "url": contextData.pageSavePath + ".members.json",
                          "method": "POST",
