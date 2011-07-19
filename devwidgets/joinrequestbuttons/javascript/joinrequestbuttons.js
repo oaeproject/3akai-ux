@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideButtons();
             }
 
-            if (joinrequestbuttons.onShow && typeof(joinrequestbuttons.onShow) === "function") {
+            if (joinrequestbuttons.onShow && $.isFunction(joinrequestbuttons.onShow)) {
                 joinrequestbuttons.onShow($("#joinrequestbuttons_widget"));
             }
         };
@@ -228,7 +228,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // call callback
                 if (joinrequestbuttons.requestCallback &&
-                    typeof(joinrequestbuttons.requestCallback) === "function") {
+                    $.isFunction(joinrequestbuttons.requestCallback)) {
                     joinrequestbuttons.requestCallback(success, groupid);
                 }
             });
@@ -262,7 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // call callback
                 if (joinrequestbuttons.joinCallback &&
-                    typeof(joinrequestbuttons.joinCallback) === "function") {
+                    $.isFunction(joinrequestbuttons.joinCallback)) {
                     joinrequestbuttons.joinCallback(success, groupid);
                 }
             });
@@ -297,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                         // call callback
                         if (joinrequestbuttons.leaveCallback &&
-                            typeof(joinrequestbuttons.leaveCallback) === "function") {
+                            $.isFunction(joinrequestbuttons.leaveCallback)) {
                             joinrequestbuttons.leaveCallback(success, groupid);
                         }
                     });
