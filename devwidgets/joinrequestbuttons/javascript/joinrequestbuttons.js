@@ -191,7 +191,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideButtons();
             }
 
-            if (joinrequestbuttons.onShow && typeof(joinrequestbuttons.onShow) === "function") {
+            if (joinrequestbuttons.onShow && $.isFunction(joinrequestbuttons.onShow)) {
                 joinrequestbuttons.onShow($("#joinrequestbuttons_widget"));
             }
         };
@@ -201,6 +201,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Event Bindings          //
         /////////////////////////////
 
+        $joinrequestbuttons_request.die("click");
         $joinrequestbuttons_request.live("click", function (ev) {
             var groupid = this.id.split("joinrequestbuttons_request_")[1];
             if (!groupid || $.trim(groupid) === "") {
@@ -227,12 +228,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // call callback
                 if (joinrequestbuttons.requestCallback &&
-                    typeof(joinrequestbuttons.requestCallback) === "function") {
+                    $.isFunction(joinrequestbuttons.requestCallback)) {
                     joinrequestbuttons.requestCallback(success, groupid);
                 }
             });
         });
 
+        $joinrequestbuttons_join.die("click");
         $joinrequestbuttons_join.live("click", function (ev) {
             hideButtons();
             var groupid = this.id.split("joinrequestbuttons_join_")[1];
@@ -260,12 +262,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 // call callback
                 if (joinrequestbuttons.joinCallback &&
-                    typeof(joinrequestbuttons.joinCallback) === "function") {
+                    $.isFunction(joinrequestbuttons.joinCallback)) {
                     joinrequestbuttons.joinCallback(success, groupid);
                 }
             });
         });
 
+        $joinrequestbuttons_leave.die("click");
         $joinrequestbuttons_leave.live("click", function (ev) {
             var groupid = this.id.split("joinrequestbuttons_leave_")[1];
             if (!groupid || $.trim(groupid) === "") {
@@ -277,33 +280,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
 
-            // if this user is a manager, we need to remove them from the manager group
-            var groupType = "members";
-            if (sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me)) {
-                groupType = "managers";
-            }
-            sakai.api.Groups.removeUsersFromGroup(groupid, groupType,
-                [sakai.data.me.user.userid], sakai.data.me, function (success) {
-                if (success) {
-                    $(window).trigger("updated.counts.lhnav.sakai");
-                    sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
-                        $joinrequestbuttons_group_removal_successful.text(),
-                        sakai.api.Util.notification.type.INFORMATION);
-                    // re-render to determine which button to now show
-                    render();
-                } else {
-                    sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
-                        $joinrequestbuttons_group_problem_removing.text(),
-                        sakai.api.Util.notification.type.ERROR);
-                }
-                // call callback
-                if (joinrequestbuttons.leaveCallback &&
-                    typeof(joinrequestbuttons.leaveCallback) === "function") {
-                    joinrequestbuttons.leaveCallback(success, groupid);
+            sakai.api.Groups.getRole(sakai.data.me.user.userid, groupid, function(success, myRole){
+                if (success){
+                    sakai.api.Groups.leave(groupid, myRole, function (success) {
+                        if (success) {
+                            $(window).trigger("updated.counts.lhnav.sakai");
+                            sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
+                                $joinrequestbuttons_group_removal_successful.text(),
+                                sakai.api.Util.notification.type.INFORMATION);
+                            // re-render to determine which button to now show
+                            render();
+                        } else {
+                            sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
+                                $joinrequestbuttons_group_problem_removing.text(),
+                                sakai.api.Util.notification.type.ERROR);
+                        }
+                        // call callback
+                        if (joinrequestbuttons.leaveCallback &&
+                            $.isFunction(joinrequestbuttons.leaveCallback)) {
+                            joinrequestbuttons.leaveCallback(success, groupid);
+                        }
+                    });
                 }
             });
         });
-
 
         /////////////////////////////
         // Initialization          //
