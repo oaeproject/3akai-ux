@@ -142,3 +142,4 @@ a.searchgroups_results_part_title{color:#5a6a7c;}
 .searchgroups_result_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
 .searchgroups_result_plus:hover{cursor:pointer;}
 .searchgroups_result:hover {background-color: #f2f9fc;}
+.searchgroups_result_user_functions img {position: relative; top: -1px; left: 2px;}
