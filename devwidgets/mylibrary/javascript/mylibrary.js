@@ -372,12 +372,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                         mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
                     });
-                    if (callback && $.isFunction(callback)) {
+                    if (callback && typeof(callback) === "function") {
                         callback(true, items);
                     }
                 } else {
                     debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
-                    if (callback && $.isFunction(callback)) {
+                    if (callback && typeof(callback) === "function") {
                         callback(false, null, query);
                     }
                 }
