@@ -158,15 +158,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addUser = function (userid, displayName) {
             // add user to group
-            sakai.api.Groups.addUsersToGroup(sakai_global.currentgroup.id, "members", [userid], sakai.data.me, function (success) {
+            sakai.api.Groups.addJoinRequest(sakai.data.me, sakai_global.currentgroup.id, false, false, function (success) {
                 if (success) {
                     // show notification
                     var name = displayName;
                     if (!name) {
                         name = $("#joinrequests_username_link_" + userid).html();
                     }
-                    sakai.api.Util.notification.show($joinrequestsTitle.html(),
-                        name + " " + $joinrequestsSuccess.html());
+                    sakai.api.Util.notification.show($joinrequestsTitle.html(), name + " " + $joinrequestsSuccess.html());
 
                     // trigger the member list on group_edit.html to refresh
                     $(window).trigger("ready.listpeople.sakai", "members");
