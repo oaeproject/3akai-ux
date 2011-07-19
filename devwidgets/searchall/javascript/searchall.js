@@ -277,6 +277,16 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }, 0);
         });
 
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            sakai_global.data.search.getMyContacts();
+            $('.sakai_addtocontacts_overlay').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                    $(this).hide();
+                    $("#searchpeople_result_left_filler_"+userToAdd.uuid).show();
+                }
+            });
+        });
+
         /////////////////////////
         // Initialise Function //
         /////////////////////////
