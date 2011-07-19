@@ -104,17 +104,15 @@ define(
                 // These checks are needed to work in every area (created group or on group creation)
                 var groupTitle = "";
                 var groupId = "";
-                if(sakai_global.group){
-                    if(sakai_global.group.groupData["sakai:group-title"]){
-                        groupTitle = sakai_global.group.groupData["sakai:group-title"];
-                    } else {
-                        groupTitle = optionalParams.groupTitle;
-                    }
-                    if (sakai_global.group.groupData["sakai:group-id"]) {
-                        groupId = sakai_global.group.groupData["sakai:group-id"];
-                    } else{
-                        groupId = optionalParams.groupId;
-                    }
+                if(sakai_global.group && sakai_global.group.groupData["sakai:group-title"]){
+                    groupTitle = sakai_global.group.groupData["sakai:group-title"];
+                } else if(optionalParams.groupTitle){
+                    groupTitle = optionalParams.groupTitle;
+                }
+                if (sakai_global.group && sakai_global.group.groupData["sakai:group-id"]) {
+                    groupId = sakai_global.group.groupData["sakai:group-id"];
+                } else if (optionalParams.groupId){
+                    groupId = optionalParams.groupId;
                 }
 
                 switch(context){
