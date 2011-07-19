@@ -109,35 +109,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var render = function () {
             // render the template
-            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer(
-                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid}));
+            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer($joinrequestbuttons_template, {id:joinrequestbuttons.groupid}));
 
             // determine which button to show
-            var isMember = sakai.api.Groups.isCurrentUserAMember(
-                joinrequestbuttons.groupid, sakai.data.me);
-            var isManager = sakai.api.Groups.isCurrentUserAManager(
-                joinrequestbuttons.groupid, sakai.data.me);
+            var isMember = sakai.api.Groups.isCurrentUserAMember(joinrequestbuttons.groupid, sakai.data.me);
+            var isManager = sakai.api.Groups.isCurrentUserAManager(joinrequestbuttons.groupid, sakai.data.me);
             var isAnon = sakai.data.me.user.userid ? false : true;
 
             if ((isMember && !isManager) || (isManager && joinrequestbuttons.managerCount > 1)) {
                 // we have either a group member or manager, but not the last group manager
                 showButton("leave");
-            }
-            else if ((isManager && joinrequestbuttons.managerCount === 1) ||
-                (!isMember && joinrequestbuttons.joinability ===
-                    sakai.config.Permissions.Groups.joinable.manager_add) ||
-                isAnon) {
+            } else if ((isManager && joinrequestbuttons.managerCount === 1) ||
+                        (!isMember && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.manager_add) || isAnon) {
                 // we have either the last group manager or a non-member with
                 // joinability set to 'only managers can add' or an anonymous user
                 hideButtons();
-            }
-            else if (!isMember && !isAnon && joinrequestbuttons.joinability ===
-                sakai.config.Permissions.Groups.joinable.user_direct) {
+            } else if (!isMember && !isAnon && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.user_direct) {
                 // we have a non-member with joinability set to 'users can join directly'
                 showButton("join");
-            }
-            else if (!isMember && !isAnon && joinrequestbuttons.joinability ===
-                sakai.config.Permissions.Groups.joinable.user_request) {
+            } else if (!isMember && !isAnon && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.user_request) {
                 // we have a non-member with joinability set to 'users must request to join'
 
                 /**
@@ -188,13 +178,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     false);  // this is an non-async call
                 }
-            }
-            else {
+            } else {
                 // unrecognized combination of user and joinability setting
                 hideButtons();
             }
 
-            if (joinrequestbuttons.onShow && typeof(joinrequestbuttons.onShow) === "function") {
+            if ($.isFunction(joinrequestbuttons.onShow)) {
                 joinrequestbuttons.onShow($("#joinrequestbuttons_widget"));
             }
         };
@@ -211,8 +200,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 return false;
             }
             if (!sakai.data.me.user.userid) {
-                debug.error("Anonymous user tried to request group (id: " + groupid +
-                    ") membership");
+                debug.error("Anonymous user tried to request group (id: " + groupid + ") membership");
                 return false;
             }
             sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, joinrequestbuttons.groupData, true, function (success) {
@@ -228,11 +216,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.type.ERROR);
                 }
                 // call callback
-                if (joinrequestbuttons.requestCallback &&
-                    typeof(joinrequestbuttons.requestCallback) === "function") {
+                if ($.isFunction(joinrequestbuttons.requestCallback)) {
                     joinrequestbuttons.requestCallback(success, groupid);
                 }
             });
+            return true;
         });
 
         $joinrequestbuttons_join.live("click", function (ev) {
@@ -255,11 +243,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_problem_adding.text(), sakai.api.Util.notification.type.ERROR);
                 }
                 // call callback
-                if (joinrequestbuttons.joinCallback &&
-                typeof(joinrequestbuttons.joinCallback) === "function") {
+                if ($.isFunction(joinrequestbuttons.joinCallback)) {
                     joinrequestbuttons.joinCallback(success, groupid);
                 }
             });
+            return true;
         });
 
         $joinrequestbuttons_leave.live("click", function (ev) {
@@ -293,11 +281,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.type.ERROR);
                 }
                 // call callback
-                if (joinrequestbuttons.leaveCallback &&
-                    typeof(joinrequestbuttons.leaveCallback) === "function") {
+                if ($.isFunction(joinrequestbuttons.leaveCallback)) {
                     joinrequestbuttons.leaveCallback(success, groupid);
                 }
             });
+            return true;
         });
 
 

@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $tooltip_content.html(tooltipHTML);
             $tooltip_widget.jqmShow();
-            if (tooltipOnShow && typeof(tooltipOnShow) === "function") {
+            if ($.isFunction(tooltipOnShow)) {
                 tooltipOnShow();
             }
 

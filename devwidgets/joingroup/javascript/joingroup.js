@@ -112,14 +112,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
-                        group.groupProfile =
-                            groupdata.authprofile;
-                        group.joinability =
-                            groupdata.authprofile["sakai:group-joinable"];
-                        group.title =
-                            groupdata.authprofile["sakai:group-title"];
-                        group.id =
-                            groupid;
+                        group.groupProfile = groupdata.authprofile;
+                        group.joinability = groupdata.authprofile["sakai:group-joinable"];
+                        group.title = groupdata.authprofile["sakai:group-title"];
+                        group.id = groupid;
                     }
                     sakai.api.Groups.getMembers(groupid, false, function(success, members) {
                         group.groupMembers = members;

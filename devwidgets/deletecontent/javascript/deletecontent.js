@@ -100,25 +100,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Server.batch(batchRequests, function (success, data) {
                     if (success) {
-                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
+                        if (_.isString(deletedata.path) || deletedata.path.length === 1) {
                             sakai.api.Util.notification.show($deletecontent_deleted.html(),
                                 $deletecontent_successfully_deleted.html());
                         } else {
                             sakai.api.Util.notification.show($deletecontent_deleted.html(),
                                 sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_SUCCESSFULLY_DELETED"));
                         }
-                        if (callback && typeof(callback) === "function") {
+                        if ($.isFunction(callback)) {
                             callback(true);
                         }
                     } else {
-                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
+                        if (_.isString(deletedata.path) || deletedata.path.length === 1) {
                             sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
                                 $deletecontent_not_successfully_deleted.html());
                         } else {
                             sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
                                 sakai.api.i18n.Widgets.getValueForKey("deletecontent","","ITEMS_NOT_SUCCESSFULLY_DELETED"));
                         }
-                        if (callback && typeof(callback) === "function") {
+                        if ($.isFunction(callback)) {
                             callback(false);
                         }
                     }
