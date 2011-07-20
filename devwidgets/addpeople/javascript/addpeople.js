@@ -148,6 +148,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (managerSelected || !sakai_global.group) {
                 $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
                 $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
                 $addpeopleContainer.jqmHide();
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","SELECT_AT_LEAST_ONE_MANAGER"));
