@@ -328,58 +328,65 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              * Process library item results from the server
              */
             var handleLibraryItems = function (success, data) {
-                if (data && data.results && _.isEqual(mylibrary.oldResults, data.results)) {
-                    $mylibrary_items.show();
-                    $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
-                    return;
-                } else if (!success || (data && data.total === 0)) {
-                    mylibrary.oldResults = false;
-                } else {
-                    mylibrary.oldResults = data.results;
-                }
-                if (success && data && data.results) {
-                    mylibrary.totalItems = data.total;
-                    var items = [];
-                    if (mylibrary.totalItems === 0) {
-                        callback(true, items, query);
-                        return;
-                    }
-                    $.each(data.results, function (i, result) {
-                        var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"] || result["sakai:custom-mimetype"]);
-                        items.push({
-                            id: result["_path"],
-                            filename: result["sakai:pooled-content-file-name"],
-                            link: "/content#p=" + sakai.api.Util.encodeURIComponentI18n(result["_path"]),
-                            last_updated: $.timeago(new Date(result["_lastModified"])),
-                            type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
-                            type_src: mimetypeObj.URL,
-                            ownerid: result["sakai:pool-content-created-for"],
-                            ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ?
-                                sakai.api.i18n.General.getValueForKey("YOU") :
-                                result["sakai:pool-content-created-for"],  // using id for now - need to get firstName lastName
-                            tags: formatTags(result["sakai:tags"]),
-                            numPeopleUsing: getNumPeopleUsing(),
-                            numGroupsUsing: getNumGroupsUsing(),
-                            numPlaces: sakai.api.Content.getPlaceCount(result),
-                            numComments: sakai.api.Content.getCommentCount(result),
-                            mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
-                            thumbnail: sakai.api.Content.getThumbnail(result),
-                            description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt"),
-                            fullResult: result
-                        });
-                        mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
+                var userIds = [];
+                $.each(data.results, function(index, content){
+                    userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
+                });
+                if (userIds.length) {
+                    sakai.api.User.getMultipleUsers(userIds, function(users){
+                        if (data && data.results && _.isEqual(mylibrary.oldResults, data.results)) {
+                            $mylibrary_items.show();
+                            $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
+                            return;
+                        }
+                        else if (!success || (data && data.total === 0)) {
+                                mylibrary.oldResults = false;
+                            } else {
+                                mylibrary.oldResults = data.results;
+                            }
+                        if (success && data && data.results) {
+                            mylibrary.totalItems = data.total;
+                            var items = [];
+                            if (mylibrary.totalItems === 0) {
+                                callback(true, items, query);
+                                return;
+                            }
+                            $.each(data.results, function(i, result){
+                                var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"] || result["sakai:custom-mimetype"]);
+                                items.push({
+                                    id: result["_path"],
+                                    filename: result["sakai:pooled-content-file-name"],
+                                    link: "/content#p=" + result["_path"],
+                                    last_updated: $.timeago(new Date(result["_lastModified"])),
+                                    type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
+                                    type_src: mimetypeObj.URL,
+                                    ownerid: result["sakai:pool-content-created-for"],
+                                    ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.General.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]), // using id for now - need to get firstName lastName
+                                    tags: formatTags(result["sakai:tags"]),
+                                    numPeopleUsing: getNumPeopleUsing(),
+                                    numGroupsUsing: getNumGroupsUsing(),
+                                    numPlaces: sakai.api.Content.getPlaceCount(result),
+                                    numComments: sakai.api.Content.getCommentCount(result),
+                                    mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                                    thumbnail: sakai.api.Content.getThumbnail(result),
+                                    description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
+                                        max_rows: 1,
+                                        whole_word: false
+                                    }, "searchcontent_result_course_site_excerpt"),
+                                    fullResult: result
+                                });
+                                mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
+                            });
+                            if (callback && typeof(callback) === "function") {
+                                callback(true, items);
+                            }
+                        } else {
+                            debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
+                            if (callback && typeof(callback) === "function") {
+                                callback(false, null, query);
+                            }
+                        }
                     });
-                    if (callback && typeof(callback) === "function") {
-                        callback(true, items);
-                    }
-                } else {
-                    debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
-                    if (callback && typeof(callback) === "function") {
-                        callback(false, null, query);
-                    }
                 }
             };
 
@@ -442,15 +449,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_items.html(sakai.api.Util.TemplateRenderer("mylibrary_items_template", json));
                 showPager(mylibrary.currentPagenum);
                 $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
-
-                // Update dom with user display names
-                sakai.api.User.getMultipleUsers(mylibrary.userArray, function(users){
-                    for (var u in users) {
-                        if (users.hasOwnProperty(u)) {
-                            setUsername(u, users);
-                        }
-                    }
-                });
             } else if (query) {
                 $mylibrary_items.hide();
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:"nosearchresults", query:query}));
@@ -474,16 +472,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:who}));
                 $mylibrary_empty.show();
             }
-        };
-
-        var setUsername = function(u, users) {
-            $(".mylibrary_item_username").each(function(index, val){
-               var userId = $(val).text();
-               if (userId === u) {
-                   $(val).text(sakai.api.User.getDisplayName(users[u]));
-                   $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
-               }
-            });
         };
 
         /**

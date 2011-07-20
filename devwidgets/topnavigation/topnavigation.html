@@ -110,7 +110,7 @@
 <div id="topnavigation_user_template"><!--
     {if anon}
         <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
-            <span class="s3d-bold" id="topnavigation_user_options_login">__MSG__SIGN_IN__</span>
+            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
                 {if auth.externalAuth}
                     <ul>
@@ -131,14 +131,14 @@
                             <span>__MSG__INVALID_USERNAME_OR_PASSWORD__</span>
                         </div>
                         <label for="topnavigation_user_options_login_fields_username">__MSG__USERNAME__</label>
-                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" tabindex="1"/>
+                        <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" />
                         <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
-                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" tabindex="2" />
+                        <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" />
                         <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
                         <span class="topnavigation_sign_up_link">No account yet?</span>
                         <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">Sign up</a>
-                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login" tabindex="3">__MSG__SIGN_IN__</button>
+                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
                     </div>

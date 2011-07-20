@@ -185,7 +185,7 @@ define(
             for (var ii in uniqueUserArray) {
                 if (uniqueUserArray.hasOwnProperty(ii)) {
                     sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
-                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile",
+                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
                     });
                 }
