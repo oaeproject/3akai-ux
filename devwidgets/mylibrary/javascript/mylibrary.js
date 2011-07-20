@@ -356,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 items.push({
                                     id: result["_path"],
                                     filename: result["sakai:pooled-content-file-name"],
-                                    link: "/content#p=" + result["_path"],
+                                    link: "/content#p=" + sakai.api.Util.encodeURIComponentI18n(result["_path"]),
                                     last_updated: $.timeago(new Date(result["_lastModified"])),
                                     type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                                     type_src: mimetypeObj.URL,
