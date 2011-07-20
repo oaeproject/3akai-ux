@@ -57,6 +57,7 @@ define(
          * @param {Function} [callback] A callback function which is executed at the end of the operation
          * @param {Boolean} [sendMail] True if a mail needs to be sent, False if no mail is needed. Unles specified false the default will be true and a mail will be sent
          * @param {Boolean|String} [context] String used in switch to set sakai:templatePath and sakai:templateParams
+         * @param {Object} [optionalParams] Passed in when out of the group context to provide data necessary to send the message (Ids, titles) that can't be retrieved from the global object
          *
          */
         sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context, optionalParams) {
@@ -104,14 +105,14 @@ define(
                 // These checks are needed to work in every area (created group or on group creation)
                 var groupTitle = "";
                 var groupId = "";
-                if(sakai_global.group && sakai_global.group.groupData["sakai:group-title"]){
+                if(sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-title"]){
                     groupTitle = sakai_global.group.groupData["sakai:group-title"];
-                } else if(optionalParams.groupTitle){
+                } else if(optionalParams && optionalParams.groupTitle){
                     groupTitle = optionalParams.groupTitle;
                 }
-                if (sakai_global.group && sakai_global.group.groupData["sakai:group-id"]) {
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"]) {
                     groupId = sakai_global.group.groupData["sakai:group-id"];
-                } else if (optionalParams.groupId){
+                } else if (optionalParams && optionalParams.groupId){
                     groupId = optionalParams.groupId;
                 }
 
