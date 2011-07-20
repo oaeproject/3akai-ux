@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
         var topnavigationExternalLogin= ".topnavigation_external_login";
+        var topnavUserLoginButton = "#topnavigation_user_options_login";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -505,6 +506,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
+
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
             $(topnavUserOptionsLoginForm).submit(function(){
@@ -542,6 +544,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavuserOptionsLoginButtonLogin).show();
                         $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
                         $(topnavUserOptionsLoginError).show();
+                        $(topnavUseroptionsLoginFieldsUsername).focus();
                     }
                 });
                 return false;
@@ -576,6 +579,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
+            });
+
+            $(topnavUserLoginButton).bind("focus",function(){
+                $(this).trigger("mouseover");
+                mouseOverSignIn = true;
+                $(topnavUserOptionsLoginFields).trigger('click');
+                $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
+            });
+            
+            $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
+                mouseOverSignIn = false; 
+                $(topnavUserLoginButton).trigger("mouseout");
+                $("html").trigger("click");
             });
 
             $(topnavigationlogin).hover(function(){
