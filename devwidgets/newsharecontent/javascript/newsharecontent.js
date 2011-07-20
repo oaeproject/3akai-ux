@@ -228,7 +228,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
-            $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
+            var addthisPrefix = ('https:' == document.location.protocol ? 'https://' : 'http://');
+            $.getScript(addthisPrefix + 's7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
             $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };
