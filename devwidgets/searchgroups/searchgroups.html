@@ -90,7 +90,9 @@
                                         {var participantCount = i.counts.membersCount}
                                         {if participantCount > 0}
                                             <span class="searchgroups_result_detail_separator"> | </span>
-                                            <a class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                                            <a id="searchgroups_result_participant_link_${i['sakai:group-id']}" class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">
+                                                <span id="searchgroups_result_participant_count_${i['sakai:group-id']}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']}">{if participantCount == 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                            </a>
                                         {/if}
                                     </div>
                                     {if i["sakai:group-description-short"]}<div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>{/if}

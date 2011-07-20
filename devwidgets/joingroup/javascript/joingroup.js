@@ -65,6 +65,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Adjust the number of participants listed in the search result
+         *
+         * @param {String} groupid The group ID
+         * @param {Integer} value Value to adjust the number of participants by
+         */
+        var adjustParticipantCount = function (groupid, value) {
+            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text());
+            participantCount = participantCount + value;
+            $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
+            if (participantCount === 1) {
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.General.getValueForKey("PARTICIPANT"));
+            } else {
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.General.getValueForKey("PARTICIPANTS"));
+            }
+            $("#searchgroups_result_participant_link_" + groupid).attr("title", $.trim($("#searchgroups_result_participant_link_" + groupid).text()));
+        };
+
+        /**
          * Push the given member to the given list of members to be rendered.
          * If the member is a manager, set is_manager to 'true'
          *
@@ -190,6 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     resetTooltip(groupid, $item);
                                     $("#searchgroups_memberimage_" + groupid).show();
                                     $("#searchgroups_memberimage_" + groupid).parent().removeClass("s3d-actions-addtolibrary");
+                                    adjustParticipantCount(groupid, 1);
                                 }
                             },
                             function (success, id) {
@@ -199,6 +218,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     resetTooltip(groupid, $item);
                                     $("#searchgroups_memberimage_" + groupid).hide();
                                     $("#searchgroups_memberimage_" + groupid).parent().addClass("s3d-actions-addtolibrary");
+                                    adjustParticipantCount(groupid, -1);
                                 }
                             },
                             group.joinrequests
