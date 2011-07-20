@@ -52,6 +52,43 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var entityGroupDropdown = "#entity_group_image.s3d-dropdown-menu";
 
         /**
+         * Filters out pseudogroups and adds the parent group to the list to be displayed
+         * @param {Array} data required array of user and group objects to filter
+         * @param {Boolean} setCount required Set to true if the context is content and the counts should be updated (Filtered pseudogroups don't count)
+         * @param {Object} context not required if setCount is false, provides the context of the entity widget and holds the counts
+         * @Return {Object} parentGroups Object containing the parent groups to display
+         */
+        var getParentGroups = function(data, setCount, context){
+            var parentGroups = {};
+            if (setCount) {
+                context.data.members.counts.groups = 0;
+            }
+            $.each(data, function(index, group){
+                // Check for pseudogroups, if a pseudogroup filter out the parent
+                if (group.pseudoGroup) {
+                    // Only groups should be added to the object
+                    if (!parentGroups.hasOwnProperty(group.parent["sakai:group-id"]) && group.parent["sakai:group-id"]) {
+                        if (setCount) {
+                            context.data.members.counts.groups++;
+                        }
+                        // Discard pseudogroup but store parent group
+                        parentGroups[group.parent["sakai:group-id"]] = {
+                            "sakai:group-id": group.parent["sakai:group-id"],
+                            "sakai:group-title": group.parent["sakai:group-title"]
+                        };
+                    }
+                // If no pseudogroup store the group as it is
+                } else if (!parentGroups.hasOwnProperty(group["sakai:group-id"]) && group["sakai:group-id"]) {
+                    if (setCount) {
+                        context.data.members.counts.groups++;
+                    }
+                    parentGroups[group["sakai:group-id"]] = group;
+                }
+            });
+            return parentGroups;
+        };
+
+        /**
          * The 'context' variable can have the following values:
          * - 'user_me' When the viewed user page is the current logged in user
          * - 'user_other' When the viewed user page is a user that is not a contact
@@ -178,8 +215,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var userList = sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers);
                         $entityContentUsersDialog.jqmShow();
 
+                        var parentGroups = getParentGroups(userList, false);
+
                         var json = {
-                            "userList": userList,
+                            "userList": parentGroups,
                             "type": "groups",
                             sakai: sakai
                         };
@@ -205,6 +244,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
        };
 
         var renderEntity = function(context){
+            if (context.context === "content") {
+                getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
+            }
             context.sakai = sakai;
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
         };
@@ -291,7 +333,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
-            
+
             $("#ew_content_preview_delete").bind("click", function(e){
                 e.preventDefault();
                 window.scrollTo(0,0);
