@@ -621,7 +621,7 @@ define(
                 });
             };
 
-            if (groupData && groupData.groupMembers && groupData.groupMembers.Manager){
+            if (groupData && groupData.groupMembers && groupData.groupMembers.Manager && groupData.groupProfile){
                 groupProfile = groupData.groupProfile;
                 groupManagers = groupData.groupMembers.Manager.results;
             }

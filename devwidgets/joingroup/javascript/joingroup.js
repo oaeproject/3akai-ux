@@ -170,6 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             groupid,
                             group.joinability,
                             group.managerCount,
+                            false,
                             function (renderedButtons) {
                                 // onShow
                                 $("#joingroup_joinrequestbuttons").html(
@@ -193,21 +194,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             function (success, id) {
                                 // leaveCallback
                                 if (success) {
-                                    if (joingroup.isOwnerViewing) {
-                                        $(window).trigger("done.tooltip.sakai");
-                                        // remove this group from sakai.data.me.groups cache
-                                        // and re-render joingroup
-                                        $.each(sakai.data.me.groups, function (i, group) {
-                                            if (group.groupid === id) {
-                                                sakai.data.me.groups.splice(i, 1);
-                                                return false;
-                                            }
-                                        });
-                                        doInit();
-                                    } else {
-                                        // re-render tooltip
-                                        resetTooltip(groupid, $item);
-                                    }
+                                    // re-render tooltip
+                                    resetTooltip(groupid, $item);
+                                    $("#searchgroups_memberimage_" + groupid).hide();
+                                    $("#searchgroups_memberimage_" + groupid).parent().addClass("s3d-actions-addtolibrary");
                                 }
                             },
                             group.joinrequests

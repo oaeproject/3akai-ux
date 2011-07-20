@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var render = function () {
             // render the template
             $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer(
-                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid}));
+                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid, buttonStyle:joinrequestbuttons.buttonStyle}));
 
             // determine which button to show
             var isMember = sakai.api.Groups.isCurrentUserAMember(
@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *      widget will issue a server request to get the data if needed.
          */
         $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupData, groupid,
-            joinability, managerCount, onShow, requestCallback, joinCallback, leaveCallback,
+            joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback,
             joinrequests) {
             if (!groupid || !joinability) {
                 return;
@@ -329,6 +329,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             joinrequestbuttons.groupid = groupid;
             joinrequestbuttons.joinability = joinability;
             joinrequestbuttons.managerCount = managerCount || 1;
+            joinrequestbuttons.buttonStyle = buttonStyle || false;
             joinrequestbuttons.onShow = onShow || false;
             joinrequestbuttons.joinrequests = joinrequests || false;
             joinrequestbuttons.requestCallback = requestCallback || false;
