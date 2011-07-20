@@ -641,6 +641,9 @@ define(
                                 userid: userID
                             },
                             success: function (data) {
+                                meData.user.subjects.push(groupID);
+                                meData.user.subjects.push(pseduoGroupID);
+
                                 if (notifyManagers) {
                                     if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
                                         sendJoinRequestMessage();
@@ -860,11 +863,16 @@ define(
             });
         },
 
-        leave : function(groupId, role, callback){
+        leave : function(groupId, role, meData, callback){
             $.ajax({
                 url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
                 type: "POST",
                 success: function(){
+                    var pseduoGroupId = groupId + "-" + role;
+                    var index = meData.user.subjects.indexOf(groupId);
+                    meData.user.subjects.splice(index, 1);
+                    index = meData.user.subjects.indexOf(pseduoGroupId);
+                    meData.user.subjects.splice(index, 1);
                     if ($.isFunction(callback)){
                         callback(true);
                     }

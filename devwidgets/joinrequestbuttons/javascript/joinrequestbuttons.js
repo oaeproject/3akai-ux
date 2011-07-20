@@ -278,7 +278,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             sakai.api.Groups.getRole(sakai.data.me.user.userid, groupid, function(success, myRole){
                 if (success){
-                    sakai.api.Groups.leave(groupid, myRole, function (success) {
+                    sakai.api.Groups.leave(groupid, myRole, sakai.api.User.data.me, function (success) {
                         if (success) {
                             $(window).trigger("updated.counts.lhnav.sakai");
                             sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
