@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Left Hand nav */
-#newaddcontent_container {width:1018px;height:540px;left:31%;z-index:9999;}
+#newaddcontent_container {width:1018px;margin-left:-529px;height:540px;left:50%;z-index:9999;}/* Center by applying - half width in margin-left + padding  and left:50%*/
 #newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;margin:0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:204px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span {line-height:56px; color:#006E96;}

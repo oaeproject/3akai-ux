@@ -39,7 +39,7 @@ define(
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.util",
-        "config/config"
+        "config/config_custom"
     ],
     function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
 
@@ -185,7 +185,7 @@ define(
             for (var ii in uniqueUserArray) {
                 if (uniqueUserArray.hasOwnProperty(ii)) {
                     sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
-                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile",
+                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
                     });
                 }
