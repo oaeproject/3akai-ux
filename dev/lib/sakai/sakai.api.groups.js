@@ -632,17 +632,16 @@ define(
 
                 getJoinRole(groupID, function(success, joinRole){
                     if (success) {
-                        var pseduoGroupID = groupID + "-" + joinRole;
+                        var pseudoGroupID = groupID + "-" + joinRole;
 
                         $.ajax({
-                            url: "/~" + pseduoGroupID + "/joinrequests.create.html",
+                            url: "/~" + pseudoGroupID + "/joinrequests.create.html",
                             type: "POST",
                             data: {
                                 userid: userID
                             },
                             success: function (data) {
-                                meData.user.subjects.push(groupID);
-                                meData.user.subjects.push(pseduoGroupID);
+                                meData.user.subjects.push(groupID, pseudoGroupID);
 
                                 if (notifyManagers) {
                                     if (groupProfile && groupManagers && groupProfile["sakai:group-id"] === groupID) {
@@ -868,10 +867,10 @@ define(
                 url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
                 type: "POST",
                 success: function(){
-                    var pseduoGroupId = groupId + "-" + role;
+                    var pseudoGroupID = groupId + "-" + role;
                     var index = meData.user.subjects.indexOf(groupId);
                     meData.user.subjects.splice(index, 1);
-                    index = meData.user.subjects.indexOf(pseduoGroupId);
+                    index = meData.user.subjects.indexOf(pseudoGroupID);
                     meData.user.subjects.splice(index, 1);
                     if ($.isFunction(callback)){
                         callback(true);
