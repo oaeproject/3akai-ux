@@ -224,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback();
             }
         });
-    }
+    };
 
     var setSakaiDocPermissions = function(groupid, currentTemplate, callback){
         var filesArray = {};
@@ -239,7 +239,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             filesArray[definition._pid] = {
                 "hashpath": definition._pid,
                 "permissions": permission
-            }
+            };
         }
         sakai.api.Content.setFilePermissions(filesArray, function(){
             var batchRequests = [];
@@ -256,13 +256,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                for (var i = 0; i < definition._edit.length; i++){
-                    if (definition._edit[i].substring(0, 1) === "-") {
+                for (var j = 0; j < definition._edit.length; j++){
+                    if (definition._edit[j].substring(0, 1) === "-") {
                         batchRequests.push({
                             "url": "/p/" + definition._pid + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":manager": groupid + definition._edit[i]
+                                ":manager": groupid + definition._edit[j]
                             }
                         });
                     }
@@ -337,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback(groupid, currentTemplate);
             }
         });
-    }
+    };
 
     /**
      * Add binding to the elements and validate the forms on submit

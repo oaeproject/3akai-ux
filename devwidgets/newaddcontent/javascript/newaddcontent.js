@@ -629,28 +629,21 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
             sakai.api.Content.setFilePermissions(data, false);
 
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(objArr)
-                },
-                success: function(data){
+            sakai.api.Server.batch(objArr, function(success, data){
+                if (success) {
                     // save tags
-                    $.each(itemsToUpload, function(i,arrayItem){
+                    $.each(itemsToUpload, function(i, arrayItem){
                         if (arrayItem.hashpath && arrayItem.hashpath.poolId) {
                             sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
                         }
                     });
-
+                    
                     checkUploadCompleted(true);
-                }, error: function(){
+                }
+                else {
                     checkUploadCompleted(true);
                 }
             });
-
         };
 
         /**
