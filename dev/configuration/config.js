@@ -245,7 +245,7 @@ define(function(){
                 visible: {
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
-                    "public": "public", // Anyone on the Internet
+                    "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
