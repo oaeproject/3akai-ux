@@ -96,7 +96,7 @@ require(
 
         // remove the user from the group
         asyncTest("Removing user from the group's members", function() {
-            sakai.api.Groups.removeUsersFromGroup(group_id, "members", [user_random], sakai.data.me, function(success) {
+            sakai.api.Groups.removeUsersFromGroup(group_id, [{userid:user_random, permission:"members"}], sakai.data.me, function(success) {
                 ok(success, "Removing a user was successful");
                 if (success) {
                     // check to see that they've been removed from the group
@@ -136,7 +136,7 @@ require(
 
         // remove the user from the group
         asyncTest("Removing user from the group's managers", function() {
-            sakai.api.Groups.removeUsersFromGroup(group_id, "managers", [user_random], sakai.data.me, function(success) {
+            sakai.api.Groups.removeUsersFromGroup(group_id, [{userid:user_random, permission:"managers"}], sakai.data.me, function(success) {
                 ok(success, "Removing a user was successful");
                 if (success) {
                     // check to see that they've been removed from the group

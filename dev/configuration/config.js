@@ -169,8 +169,9 @@ define(function(){
                 "/logout": "LOGGING_OUT",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
-                "/search": "SEARCH"
-                /**  show.html  **/
+                "/search": "SEARCH",
+                /**  createnew.html  **/
+                "/create": "CREATE"
             }
         },
 
