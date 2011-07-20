@@ -130,9 +130,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             url: url,
                             success: function(managers){
                                 $(window).trigger("init.joinrequestbuttons.sakai", [
-                                    context.data.authprofile.groupid,
+                                    false,
+                                    context.data.authprofile["sakai:group-id"],
                                     context.data.authprofile["sakai:group-joinable"],
                                     managers.length,
+                                    "s3d-header-button",
                                     function (renderedButtons) {
                                         // onShow
                                         $("#joinrequestbuttons_widget", $rootel).show();
