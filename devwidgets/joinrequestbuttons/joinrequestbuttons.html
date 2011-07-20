@@ -9,8 +9,9 @@
         class="s3d-button s3d-overlay-button joinrequestbuttons_join" style="display:none;">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__JOIN_GROUP__</span>
     </button>
+    ${debug.log(leaveAllowed)}
     <button type="button" id="joinrequestbuttons_leave_${id}"
-        class="s3d-button s3d-overlay-button joinrequestbuttons_leave" style="display:none;">
+        class="s3d-button s3d-overlay-button joinrequestbuttons_leave" style="display:none;" {if !leaveAllowed} disabled="disabled"{/if}>
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__LEAVE_GROUP__</span>
     </button>
     <button type="button" id="joinrequestbuttons_pending_${id}" disabled="disabled"
