@@ -196,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (success) {
                         contentObj = {
                             "data": data,
-                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + sakai.api.Util.encodeURIComponentI18n(data["_path"]) + "/" + sakai.api.Util.encodeURIComponentI18n(data["sakai:pooled-content-file-name"])
+                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + sakai.api.Util.uriCompSafe(data["_path"]) + "/" + sakai.api.Util.uriCompSafe(data["sakai:pooled-content-file-name"])
                         };
                         if (window["addthis"]) {
                             $newsharecontentContainer.jqmShow();

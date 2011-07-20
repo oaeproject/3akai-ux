@@ -1233,7 +1233,7 @@ define(
          * @param {String} String to be encoded.
          * @returns Encoded string.
          */
-        encodeURIComponentI18n: function(str) {
+        uriCompSafe: function(str) {
             var togo='';
             for(var i = 0; i < str.length; i++) { 
                 if (str.charCodeAt(i) < 127) {
@@ -1322,7 +1322,7 @@ define(
                     return encodeURI(str);
                 },
                 encodeURIComponent: function(str) {
-                    return sakai_util.encodeURIComponentI18n(str);
+                    return sakai_util.uriCompSafe(str);
                 }
             }
 

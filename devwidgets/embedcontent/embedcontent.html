@@ -35,27 +35,27 @@
                         {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                         {if embedmethod === "thumbnail" && thumbnail}
                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                            <a href="/content#p=${item.link|encodeURIComponent}">
+                            <a href="/content#p=${item.link|uriCompSafe}">
                                 <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                             </a>
                         {elseif sakai.api.Content.hasPreview(item.fullresult) && embedmethod !== "thumbnail"}
                             <div id="widget_documentviewer_${item.placement}" class="widget_inline"></div>
                         {elseif sakai.config.MimeTypes[mimeType]}
-                            <a href="/content#p=${item.link|encodeURIComponent}">
+                            <a href="/content#p=${item.link|uriCompSafe}">
                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
                             </a>
                         {else}
-                            <a href="/content#p=${item.path|encodeURIComponent}">
+                            <a href="/content#p=${item.path|uriCompSafe}">
                                 <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                             </a>
                         {/if}
                         <div class="embedcontent_details fl-push">
-                            {if name}<span><a href="/content#p=${item.link|encodeURIComponent}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
+                            {if name}<span><a href="/content#p=${item.link|uriCompSafe}" class="s3d-action embedcontent_include_name">${item.name}</a></span>{/if}
                             {if details}<span class="embedcontent_include_details">${item.description}</span>{/if}
                             {if download}
                                 <span>
                                 {if item._mimeType === "x-sakai/document"}
-                                    <a href="/content#p=${item.link|encodeURIComponent}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
+                                    <a href="/content#p=${item.link|uriCompSafe}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
                                 {elseif item._mimeType === "x-sakai/link"}
                                     <a href="${item.name}" class="s3d-action embedcontent_include_download" target="_blank">__MSG__OPEN_LINK__</a>
                                 {else}

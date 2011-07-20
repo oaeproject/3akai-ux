@@ -88,22 +88,22 @@
                                 </span>
                                 <span class="searchpeople_result_anonuser"></span>
                                 {if ! i.picture}
-                                    <a href="/~${i.userid|encodeURIComponent}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                                    <a href="/~${i.userid|uriCompSafe}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                 {else}
-                                    <a href="/~${i.userid|encodeURIComponent}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
+                                    <a href="/~${i.userid|uriCompSafe}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
                                 {/if}
                                 <div class="searchpeople_result_right">
-                                    <a href="/~${i.userid|encodeURIComponent}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
+                                    <a href="/~${i.userid|uriCompSafe}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                                     <div class="searchpeople_result_counts">
-                                        <a class="s3d-regular-light-links" href="/~${i.userid|encodeURIComponent}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid|uriCompSafe}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                             ${i.counts.contentCount} {if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                         </a>
                                         <span class="searchpeople_result_detail_separator">|</span>
-                                        <a class="s3d-regular-light-links" href="/~${i.userid|encodeURIComponent}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid|uriCompSafe}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
                                             ${i.counts.contactsCount} {if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                                         </a>
                                         <span class="searchpeople_result_detail_separator">|</span>
-                                        <a class="s3d-regular-light-links" href="/~${i.userid|encodeURIComponent}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid|uriCompSafe}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                             ${i.counts.membershipsCount} {if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                         </a>
                                     </div>

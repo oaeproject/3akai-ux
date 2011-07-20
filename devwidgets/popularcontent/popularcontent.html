@@ -11,7 +11,7 @@
             {var index = 0}
             {for item in result.content}
                 {if index < 5}
-                    <li><a href="/content#p=${item.id|encodeURIComponent}/${item.filename|encodeURIComponent}" class="s3d-regular-links">${item.name}</a></li>
+                    <li><a href="/content#p=${item.id|uriCompSafe}/${item.filename|uriCompSafe}" class="s3d-regular-links">${item.name}</a></li>
                 {/if}
                 ${index++|eat}
             {forelse}
