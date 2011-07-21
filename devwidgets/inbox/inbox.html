@@ -46,7 +46,7 @@
                     <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
                 {/if}
                 {for message in data.results}
-                    <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true"} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
+                    <div class="inbox_item fl-container fl-fix inbox_items_container{if message.read !== "true" && message.read !== true} unread{/if}{if message_index == data.results.length-1} last{/if}" id="${message.id}">
                         <div class="inbox_items_inner">
                             <div class="inbox_left_col inbox_col">
                                 <div class="inbox_placeholder"><input type="checkbox"/></div>

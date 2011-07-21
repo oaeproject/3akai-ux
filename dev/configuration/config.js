@@ -24,7 +24,6 @@ define(function(){
             GATEWAY_URL: "/",
             GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
-            GROUP_EDIT_URL: "/group/edit",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
@@ -170,8 +169,9 @@ define(function(){
                 "/logout": "LOGGING_OUT",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
-                "/search": "SEARCH"
-                /**  show.html  **/
+                "/search": "SEARCH",
+                /**  createnew.html  **/
+                "/create": "CREATE"
             }
         },
 
@@ -244,7 +244,7 @@ define(function(){
                 visible: {
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
-                    "public": "public", // Anyone on the Internet
+                    "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },

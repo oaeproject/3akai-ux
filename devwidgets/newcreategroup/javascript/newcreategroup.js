@@ -141,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         checkCreationComplete();
                     });
                     $.each(users, function(index, item){
-                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, false, "group_invitation");
+                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
                         if(users.length - 1 == index){
                             creationComplete.message = true;
                             checkCreationComplete();
@@ -224,7 +224,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback();
             }
         });
-    }
+    };
 
     var setSakaiDocPermissions = function(groupid, currentTemplate, callback){
         var filesArray = {};
@@ -239,7 +239,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             filesArray[definition._pid] = {
                 "hashpath": definition._pid,
                 "permissions": permission
-            }
+            };
         }
         sakai.api.Content.setFilePermissions(filesArray, function(){
             var batchRequests = [];
@@ -256,13 +256,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                for (var i = 0; i < definition._edit.length; i++){
-                    if (definition._edit[i].substring(0, 1) === "-") {
+                for (var j = 0; j < definition._edit.length; j++){
+                    if (definition._edit[j].substring(0, 1) === "-") {
                         batchRequests.push({
                             "url": "/p/" + definition._pid + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":manager": groupid + definition._edit[i]
+                                ":manager": groupid + definition._edit[j]
                             }
                         });
                     }
@@ -337,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback(groupid, currentTemplate);
             }
         });
-    }
+    };
 
     /**
      * Add binding to the elements and validate the forms on submit

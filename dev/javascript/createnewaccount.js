@@ -319,7 +319,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $('body').hide();
 
             // check if using internalaccountcreation is false if so redirect
-            if (!sakai.config.Authentication.allowInternalAccountCreation && !sakai.config.Authentication.internal) {
+            if (!sakai.config.Authentication.allowInternalAccountCreation) {
                 document.location = sakai.config.URL.GATEWAY_URL;
             }
             else {
