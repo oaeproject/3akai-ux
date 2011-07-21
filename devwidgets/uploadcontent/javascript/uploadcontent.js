@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // default POST URL
         var now = new Date();
-        var defaultposturl = "/~" + sakai.data.me.user.userid + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
+        var defaultposturl = "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
 
 
         ///////////////////
