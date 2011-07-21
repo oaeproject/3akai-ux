@@ -113,7 +113,7 @@
                             {/if}
                         </div>
                         <div class="mylibrary_item_by">
-                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
+                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|uriCompSafe}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
                         </div>
                         {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
                         <div class="mylibrary_item_usedin">
