@@ -87,9 +87,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON(puburl, function(success, data){
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
-                    publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
                     setupProfile(pubdata);
-                    setupProfile(publicToStore);
+                    publicToStore = $.extend(true, {}, pubdata);
                 } else {
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
