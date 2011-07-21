@@ -10,7 +10,7 @@ define(["config/config"], function(config) {
         config.Navigation.splice(4,1);
 
         // Set UK style dates:
-        config.defaultLanguage = "en_UK";
+        config.defaultLanguage = "en_GB";
 
         // Prevent users changing their internal passwords through the UI:
         config.allowPasswordChange = false;
