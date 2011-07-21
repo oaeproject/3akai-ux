@@ -337,7 +337,7 @@ sakai_global.s23_site = function(){
     var hideNotification = function(){
         var json = {"sakai2notification":false};
         sakai.api.Util.notification.removeAll();
-        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
+        sakai.api.Server.saveJSON("/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid)+"/private/sakai2notification", json, function(success, data){});
     };
 
     /////////////////////////////
@@ -349,7 +349,7 @@ sakai_global.s23_site = function(){
      */
     var init = function(){
         // show sticky notification
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", function(success, data){
+        sakai.api.Server.loadJSON("/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid)+"/private/sakai2notification", function(success, data){
             // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
             if (success === false || (success === true && data.sakai2notification !== false)) { 
                 sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
