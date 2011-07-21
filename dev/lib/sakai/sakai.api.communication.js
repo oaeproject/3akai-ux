@@ -126,7 +126,7 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|name=" + groupTitle +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai.api.Util.uriCompSafe(meData.user.userid) + 
                         "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
@@ -148,7 +148,7 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|body=" + body +
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai.api.Util.uriCompSafe(meData.user.userid) +"?accepttrue";
                         break;
                 }
                 return toSend;
@@ -159,7 +159,7 @@ define(
                 var toSend = buildEmailParams();
                 // Send message
                 $.ajax({
-                    url: "/~" + meData.user.userid + "/message.create.html",
+                    url: "/~" + sakai.api.Util.uriCompSafe(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -202,7 +202,7 @@ define(
                 }
                 // Send message
                 $.ajax({
-                    url: "/~" + meData.user.userid + "/message.create.html",
+                    url: "/~" + sakai.api.Util.uriCompSafe(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
@@ -450,7 +450,7 @@ define(
         },
 
         getMessage : function(id, callback){
-            var url = "/~" + sakai_user.data.me.user.userid + "/message/inbox/" + id + ".json";
+            var url = "/~" + sakai.api.Util.uriCompSafe(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
             $.ajax({
                 url: url,
                 cache: false,
@@ -478,7 +478,7 @@ define(
          * the current user
          */
         getUnreadMessagesCountOverview : function(box, callback) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            var url = "/~" + sakai.api.Util.uriCompSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
@@ -500,7 +500,7 @@ define(
          * to the current user
          */
         getUnreadMessageCount : function(box, callback, category) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            var url = "/~" + sakai.api.Util.uriCompSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
