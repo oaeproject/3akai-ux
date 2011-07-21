@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         case "user":
                             contextVariables = {
                                 "data": sakai.data.me.profile,
-                                "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                                "path": "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.profile["rep:userId"]) + "/public/authprofile",
                                 "context" : "user"
                             };
                             break;
