@@ -1321,7 +1321,7 @@ define(
                 encodeURI: function(str) {
                     return encodeURI(str);
                 },
-                encodeURIComponent: function(str) {
+                uriCompSafe: function(str) {
                     return sakai_util.uriCompSafe(str);
                 }
             }
