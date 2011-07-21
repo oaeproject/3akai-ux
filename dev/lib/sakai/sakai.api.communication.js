@@ -38,7 +38,7 @@ define(
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.util",
         "sakai/sakai.api.server",
-        "config/config"
+        "config/config_custom"
     ],
     function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf) {
 
@@ -57,9 +57,10 @@ define(
          * @param {Function} [callback] A callback function which is executed at the end of the operation
          * @param {Boolean} [sendMail] True if a mail needs to be sent, False if no mail is needed. Unles specified false the default will be true and a mail will be sent
          * @param {Boolean|String} [context] String used in switch to set sakai:templatePath and sakai:templateParams
+         * @param {Object} [optionalParams] Passed in when out of the group context to provide data necessary to send the message (Ids, titles) that can't be retrieved from the global object
          *
          */
-        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
+        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context, optionalParams) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
@@ -101,6 +102,20 @@ define(
                     "_charset_": "utf-8"
                 };
 
+                // These checks are needed to work in every area (created group or on group creation)
+                var groupTitle = "";
+                var groupId = "";
+                if(sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-title"]){
+                    groupTitle = sakai_global.group.groupData["sakai:group-title"];
+                } else if(optionalParams && optionalParams.groupTitle){
+                    groupTitle = optionalParams.groupTitle;
+                }
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"]) {
+                    groupId = sakai_global.group.groupData["sakai:group-id"];
+                } else if (optionalParams && optionalParams.groupId){
+                    groupId = optionalParams.groupId;
+                }
+
                 switch(context){
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
@@ -110,16 +125,16 @@ define(
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|system=Sakai|name=" + groupTitle +
                         "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
-                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
+                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|system=Sakai|name=" + groupTitle +
                         "|body=" + body + 
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_global.currentgroup.id;
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + groupId;
                         break;
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";

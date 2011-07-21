@@ -47,7 +47,7 @@
 .contentcomments_avatar{height:40px;float:left;padding:1px;border:1px solid #DEDEDE;clear:left;*margin-top:18px;/* IE margin fix */}
 .contentcomments_dateComment{font-size:1em;color:#000;margin-left:5px;}
 .contentcomments_leftCommentBar{float:left;margin-right:15px;}
-.contentcomments_topCommentBar{margin-top:15px;overflow:auto;overflow-x:hidden;}
+.contentcomments_topCommentBar{margin-top:15px;overflow:auto;overflow:hidden;}
 .contentcomments_commentMessage{float:left;}
 .contentcomments_fillInCommentTopContainer input[type=text]{width:350px;}
 .contentcomments_txtMessage{height:50px;width:auto;}

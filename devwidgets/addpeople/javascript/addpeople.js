@@ -130,9 +130,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai_global.group) {
                 var managerSelected = false;
                 var permissionsToDelete = [];
+                var newUsers = [];
                 $.each(selectedUsers, function(index, user){
                     if (user.originalPermission && user.permission !== user.originalPermission) {
                         permissionsToDelete.push(user);
+                    }
+
+                    if (!user.originalPermission){
+                        newUsers.push(user);
                     }
 
                     $.each(currentTemplate.roles, function(i, role){
@@ -148,6 +153,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (managerSelected || !sakai_global.group) {
                 $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
                 $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
+                if (sakai_global.group) {
+                    $.merge(permissionsToDelete, newUsers);
+                    $.each(permissionsToDelete, function(index, user){
+                        sakai.api.Communication.sendMessage(user.userid,
+                        sakai.data.me,
+                        sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("${role}", user.permission).replace("${groupName}", sakai_global.group.groupData["sakai:group-title"]),
+                        $("#addpeople_message_template", $rootel).text().replace("${role}", user.permission).replace("${firstname}", user.name).replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("${groupName}", sakai_global.group.groupData["sakai:group-title"]).replace("${groupURL}", sakai.config.SakaiDomain + "/~"+sakai_global.group.groupData["sakai:group-id"]),
+                        "message",
+                        false,
+                        false,
+                        true,
+                        "group_invitation");
+                    });
+                }
                 $addpeopleContainer.jqmHide();
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","SELECT_AT_LEAST_ONE_MANAGER"));
@@ -252,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(item).parent().next().remove();
                     $(item).parent().remove();
                 });
-                sakai.api.Groups.removeUsersFromGroup(sakai_global.group.groupData["sakai:group-id"], false, usersToDelete, sakai.data.me);
+                sakai.api.Groups.removeUsersFromGroup(sakai_global.group.groupData["sakai:group-id"], usersToDelete, sakai.data.me);
                 $addpeopleSelectAllSelectedContacts.removeAttr("checked");
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "SELECT_AT_LEAST_ONE_MANAGER"));

@@ -1,24 +1,27 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/welcome/css/welcome.css" />
 
-<div class="welcome_widget">
-    <h1 style="font-weight: normal; color: rgb(66, 66, 66); font-size: 24px;">Welcome to The Sakai Open Academic Environment, a new system that embraces a new vision for academic collaboration</h1>
-    <img src="/devwidgets/welcome/images/sakai_default.png" alt="Sakai: Permeable, Social, Personal, Remixable" style="float: left; margin-right: 12px;">
+<span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Permeable</h2>
-    <a class="s3d-regular-links" href="/create#l=categories/group" style="font-size:11px;">Form various types of groups</a><span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> to work with people in your way</span>
+<div class="welcome_widget"></div>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Personal</h2>
-    <a class="s3d-regular-links" href="/me" style="font-size:11px;">Add pages to your space</a><span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> to broadcast your views or experiences, gather options and build your portfolio</span>
+<div id="welcome_template" style="display:none;"><!--
+    <h1>__MSG__WELCOME__</h1>
+    <img src="/devwidgets/welcome/images/sakai_default.png" alt="__MSG__KEYWORDS__">
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Social</h2>
-    <a class="s3d-regular-links" href="/me#l=profile/basic" style="font-size:11px;">Enter profile information</a> <span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> so Sakai can help you connect with the most appropriate people to you</span>
+    <h2>__MSG__PERMEABLE__</h2>
+    {if !anon}<a class="s3d-regular-links" href="/create#l=categories/group">{else}<span class="s3d-regular-links">{/if}__MSG__FORM_VARIOUS_TYPES__{if !anon}</a>{else}</span>{/if}<span> __MSG__TO_WORK_WITH__</span>
 
-    <h2 style="font-size: 14px; font-weight: normal; color: rgb(119, 119, 119);margin:5px 0 0;">Remixable</h2>
-    <a class="s3d-regular-links" href="/create#l=categories/courses" style="font-size:11px;">Create Sakai Doc</a> <span style="color: rgb(66, 66, 66);margin-bottom: 12px;font-size:11px;"> and author any experience you can think of to share and/or collaborate with others on it</span>
+    <h2>__MSG__PERSONAL__</h2>
+    {if !anon}<a class="s3d-regular-links" href="/me">{else}<span class="s3d-regular-links">{/if}__MSG__ADD_PAGES_TO_YOUR_SPACE__{if !anon}</a>{else}</span>{/if}<span> __MSG__TO_BROADCAST__</span>
+
+    <h2>__MSG__SOCIAL__</h2>
+    {if !anon}<a class="s3d-regular-links" href="/me#l=profile/basic">{else}<span class="s3d-regular-links">{/if}__MSG__ENTER_PROFILE_INFO__{if !anon}</a>{else}</span>{/if} <span> __MSG__SO_SAKAI_CAN_HELP_YOU__</span>
+
+    <h2>__MSG__REMIXABLE__</h2>
+    {if !anon}<a class="s3d-regular-links" href="/create#l=categories/courses">{else}<span class="s3d-regular-links">{/if}__MSG__CREATE_SAKAI_DOC__{if !anon}</a>{else}</span>{/if} <span> __MSG__AND_AUTHOR_EXPERIENCE__</span>
     <hr class="fl-push fl-hidden"/>
-
-</div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/welcome/javascript/welcome.js"></script>

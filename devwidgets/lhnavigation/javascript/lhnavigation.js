@@ -545,19 +545,22 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var onContextMenuLeave = function(){
             if (!$("#lhnavigation_submenu").is(":visible")) {
                 $(".lhnavigation_selected_submenu").hide();
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
             }
         };
 
         var showContextMenu = function($clickedItem){
             var contextMenu = $("#lhnavigation_submenu");
-            contextMenu.css("left", $clickedItem.position().left + 140 - 48 + "px");
-            contextMenu.css("top", $clickedItem.position().top - 8 + "px");
+            $clickedItem.children(".lhnavigation_selected_submenu_image").addClass("clicked");
+            contextMenu.css("left", $clickedItem.position().left + 130 - 50 + "px");
+            contextMenu.css("top", $clickedItem.position().top + 6 + "px");
             toggleContextMenu();
         };
 
         var toggleContextMenu = function(forceHide){
             var contextMenu = $("#lhnavigation_submenu");
             if (forceHide) {
+                $(".lhnavigation_selected_submenu_image").removeClass("clicked");
                 contextMenu.hide();
             } else {
                 contextMenu.toggle();
