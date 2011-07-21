@@ -65,6 +65,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Adjust the number of participants listed in the search result
+         *
+         * @param {String} groupid The group ID
+         * @param {Integer} value Value to adjust the number of participants by
+         */
+        var adjustParticipantCount = function (groupid, value) {
+            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text());
+            participantCount = participantCount + value;
+            $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
+            if (participantCount === 1) {
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.General.getValueForKey("PARTICIPANT"));
+            } else {
+                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.General.getValueForKey("PARTICIPANTS"));
+            }
+            $("#searchgroups_result_participant_link_" + groupid).attr("title", $.trim($("#searchgroups_result_participant_link_" + groupid).text()));
+        };
+
+        /**
          * Push the given member to the given list of members to be rendered.
          * If the member is a manager, set is_manager to 'true'
          *
@@ -171,6 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             groupid,
                             group.joinability,
                             group.managerCount,
+                            false,
                             function (renderedButtons) {
                                 // onShow
                                 $("#joingroup_joinrequestbuttons").html(
@@ -188,26 +207,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 if (success) {
                                     // re-render tooltip
                                     resetTooltip(groupid, $item);
+                                    $("#searchgroups_memberimage_" + groupid).show();
+                                    $("#searchgroups_memberimage_" + groupid).parent().removeClass("s3d-actions-addtolibrary");
+                                    adjustParticipantCount(groupid, 1);
                                 }
                             },
                             function (success, id) {
                                 // leaveCallback
                                 if (success) {
-                                    if (joingroup.isOwnerViewing) {
-                                        $(window).trigger("done.tooltip.sakai");
-                                        // remove this group from sakai.data.me.groups cache
-                                        // and re-render joingroup
-                                        $.each(sakai.data.me.groups, function (i, group) {
-                                            if (group.groupid === id) {
-                                                sakai.data.me.groups.splice(i, 1);
-                                                return false;
-                                            }
-                                        });
-                                        doInit();
-                                    } else {
-                                        // re-render tooltip
-                                        resetTooltip(groupid, $item);
-                                    }
+                                    // re-render tooltip
+                                    resetTooltip(groupid, $item);
+                                    $("#searchgroups_memberimage_" + groupid).hide();
+                                    $("#searchgroups_memberimage_" + groupid).parent().addClass("s3d-actions-addtolibrary");
+                                    adjustParticipantCount(groupid, -1);
                                 }
                             },
                             group.joinrequests
