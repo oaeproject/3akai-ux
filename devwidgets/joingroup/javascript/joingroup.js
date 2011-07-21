@@ -242,20 +242,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(window).bind("initialize.joingroup.sakai", function(evObj, groupid, target){
                 sakai.api.Groups.getMembers(groupid,"",function(membersSuccess, memberData){
                     sakai.api.Groups.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
-                        var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
-                        var numManagers = 0;
-                        $.each(roles, function(index, role){
-                            if(role.allowManage){
-                                numManagers = numManagers + memberData[role.title].results.length;
+                        // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
+                        if (!sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me, membershipData.properties)) {
+                            openTooltip(groupid, $(target), true);
+                        } else {
+                            var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
+                            var numManagers = 0;
+                            $.each(roles, function(index, role){
+                                if (role.allowManage) {
+                                    numManagers = numManagers + memberData[role.title].results.length;
+                                }
+                            });
+                            var leaveAllowed = false;
+                            if (numManagers > 1) {
+                                leaveAllowed = true;
                             }
-                        });
-                        var leaveAllowed = false;
-                        if(numManagers > 1){
-                            leaveAllowed = true;
+                            openTooltip(groupid, $(target), leaveAllowed);
                         }
-                        openTooltip(groupid, $(target), leaveAllowed);
                     })
-                });
+                }, "everyone");
                 return false;
             });
         };
