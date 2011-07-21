@@ -66,11 +66,11 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i.userid}" />{/if}
                 {if i.pictureUrl}
-                    <a href="/~${i.userid}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.userid|uriCompSafe}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i.userid}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i.userid|uriCompSafe}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name s3d-regular-links s3d-bold" href="/~${i.userid}" target="_blank">${unescape(i.displayName)}</a>
+                <a class="listpeople_name s3d-regular-links s3d-bold" href="/~${i.userid|uriCompSafe}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
                 {if i.subNameInfo && i.subNameInfo.length > 115}
                     <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
@@ -84,11 +84,11 @@
             {/if}
                 {if selectable}<input type="checkbox" name="selected" value="${i['rep:userId']}" />{/if}
                 {if i.pictureUrl}
-                    <a href="/~${i['rep:userId']}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['rep:userId']|uriCompSafe}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${unescape(i.displayName)}" class="listpeople_ppicture"/></a>
                 {else}
-                    <a href="/~${i['rep:userId']}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
+                    <a href="/~${i['rep:userId']|uriCompSafe}" target="_blank"><img src="/dev/images/user_avatar_icon_32x32.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="listpeople_ppicture"/></a>
                 {/if}
-                <a class="listpeople_name s3d-regular-links s3d-bold" href="/~${i['rep:userId']}" target="_blank">${unescape(i.displayName)}</a>
+                <a class="listpeople_name s3d-regular-links s3d-bold" href="/~${i['rep:userId']|uriCompSafe}" target="_blank">${unescape(i.displayName)}</a>
                 <br />
                 {if i.subNameInfo && i.subNameInfo.length > 115}
                     <span class="listpeople_subnameinfo">${i.subNameInfo.substring(0, 115)}...</span>
