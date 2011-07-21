@@ -382,11 +382,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         } else {
                             debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
-                            if (callback && typeof(callback) === "function") {
+                            if ($.isFunction(callback)) {
                                 callback(false, null, query);
                             }
                         }
                     });
+                } else if ($.isFunction(callback)) {
+                    callback(false, null, query);
                 }
             };
 
@@ -503,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_groupfilter_selection.find("button").text(groupTitle);
 
                 mylibrary.currentPagenum = 1;
-                getLibraryItems(groupId, renderLibraryItems);
+                getLibraryItems(renderLibraryItems, groupId);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,
                     firstName: groupTitle
