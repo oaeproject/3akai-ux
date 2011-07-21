@@ -50,7 +50,7 @@
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_selected_checkbox" id="${contact.userid}_chkselected"/>
                 <label for="${contact.userid}_chkselected"><img class="s3d-list-entity-picture" src="${contact.picture}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${contact.userid}" target="_blank" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
+                <a href="/~${contact.userid|uriCompSafe}" target="_blank" title="${contact.name}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${contact.dottedname}</a>
                 <select class="addpeople_selected_permissions" id="${contact.userid}_permissions">
                     {for role in roles}
                         <option value="${role.id}" {if contact.permission == role.id || contact.permission == role.title} selected="selected" {/if}>${role.title}</option>
@@ -71,7 +71,7 @@
                 <li class="s3d-list-item">
                     <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
                     <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                    <a href="/~${contact.profile.userid}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
+                    <a href="/~${contact.profile.userid|uriCompSafe}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
                 </li>
                 <hr/>
             {/if}
