@@ -37,7 +37,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             forced = false,
             alreadySet = false,
             authprofileURL = "/~" +
-                            sakai.data.me.user.userid +
+                            sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) +
                             "/public/authprofile";
         
         var $rootel = $("#" + tuid);
