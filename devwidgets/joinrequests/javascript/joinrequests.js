@@ -82,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var pic_src = "/dev/images/default_profile_picture_64.png";
                         if (joinrequests[i].pic_src) {
                             var pic_src_json = $.parseJSON(joinrequests[i].pic_src);
-                            pic_src = "/~" + joinrequests[i].userid +
+                            pic_src = "/~" + sakai.api.Util.uriCompSafe(joinrequests[i].userid) +
                                 "/public/profile/" + pic_src_json.name;
                         }
                         $("#joinrequests_userpicture_" + joinrequests[i].userid).attr(
