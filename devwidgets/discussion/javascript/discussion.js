@@ -173,7 +173,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                             $.post(store, {
                                 "sling:resourceType": "sakai/messagestore"
                             });
-                            showSettings = true;
                             continueInit();
                         }
                     }
@@ -344,7 +343,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 canEditPage = true;
             }
             else {
-                var canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+                canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
             }
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
@@ -406,6 +405,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         // We don't have settings for this widget yet.
                         if (showSettings) {
                             displaySettings();
+                        } else {
+                            saveSettings(getWidgetSettings);
                         }
                     }
 
@@ -428,8 +429,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = widgetSettings;
 
             widgetSettings['replytype'] = $("#discussion_settings_reply_options input[type='radio']:checked", $rootel).val();
-            widgetSettings['whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val();
-            widgetSettings['whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val();
+            widgetSettings['whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val() || "anyone";
+            widgetSettings['whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val() || "anyone";
             widgetSettings['marker'] = marker;
 
             // JCR properties are not necessary.

@@ -16,7 +16,7 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a class="s3d-bold" {if i.id}id="${i.id}" {/if}  href="${i.url}" title="${i.label}">${i.label} </a>
+            <a class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}" title="${i.label}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul>
@@ -136,8 +136,10 @@
                         <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" />
                         <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
-                        <span class="topnavigation_sign_up_link">No account yet?</span>
-                        <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">Sign up</a>
+                        {if auth.Authentication.allowInternalAccountCreation}
+                            <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
+                            <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
+                        {/if}
                         <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
