@@ -148,6 +148,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             });
                         });
 
+                        if (group.groupMembers.Manager && group.groupMembers.Manager.results){
+                            group.managerCount = group.groupMembers.Manager.results.length;
+                        }
                         group.totalParticipants = participants.length;
                         if (participants.length > 1) {
                             participants = participants.sort(participantSort);
@@ -162,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if ($.isFunction(callback)){
                             callback(group);
                         }
-                    });
+                    }, true);
                 } else {
                     debug.error("Batch request to fetch group (id: " + id + ") data failed.");
                 }
