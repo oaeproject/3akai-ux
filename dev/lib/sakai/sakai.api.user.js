@@ -663,7 +663,7 @@ define(
         parseDirectory : function(profile){
             var obj = {"elements":[]};
             if (profile.main.data["sakai:tags"] && profile.main.data["sakai:tags"].length > 0) {
-                profile.main.data["sakai:tags"].sort(sakai_util.orderTagsAlphabetically);
+                profile.main.data["sakai:tags"].sort(sakai_util.Sorting.naturalSort);
                 for (var i in profile.main.data["sakai:tags"]) {
                     if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
                         var tag = profile.main.data["sakai:tags"][i] + "";
