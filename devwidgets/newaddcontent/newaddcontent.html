@@ -59,11 +59,11 @@
                     <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
                     <input type="text" placeholder="__MSG__SEPARATE_EACH_TAG__" id="newaddcontent_upload_content_tags"/>
 
-                    <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
+                    <label for="newaddcontent_upload_content_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                     <select id="newaddcontent_upload_content_permissions">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__PRIVATE__</option>
+                        <option value="private">__MSG__ONLY_ME__</option>
                     </select>
 
                     <div id="newaddcontent_upload_content_copyright_container"></div>
@@ -171,7 +171,7 @@
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
-            <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__PERMISSIONS__:</label>
+            <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_permissions">
                 <option value="public" {if "public" == item.permissions} selected="selected"{/if}>__MSG__PUBLIC__</option>
                 <option value="everyone" {if "everyone" == item.permissions} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
