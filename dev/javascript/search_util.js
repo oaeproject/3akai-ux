@@ -138,8 +138,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.preparePeopleForRender = function(results, finaljson) {
             for (var i = 0, j = results.length; i<j; i++) {
                 var item = results[i];
+                var details = false;
                 if (item.target){
                     item = results[i].profile;
+                    details = results[i].details;
                 }
                 if (item && item["rep:userId"] && item["rep:userId"] != "anonymous") {
                     var user = {};
@@ -181,24 +183,34 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     user.connected = false;
+                    user.accepted = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
                     // Check if this user is a friend of us already.
-
-                    if (sakai_global.data.search.contacts.results) {
+                    var connectionState = false;
+                    if (item["sakai:state"]) {
+                        connectionState = item["sakai:state"];
+                    } else if (details && details["sakai:state"]) {
+                        connectionState = details["sakai:state"];
+                    } else if (sakai_global.data.search.contacts && sakai_global.data.search.contacts.results) {
                         for (var ii = 0, jj = sakai_global.data.search.contacts.results.length; ii<jj; ii++) {
                             var friend = sakai_global.data.search.contacts.results[ii];
                             if (friend.target === user.userid) {
-                                user.connected = true;
-                                // if invited state set invited to true
-                                if(friend.details["sakai:state"] === "INVITED"){
-                                    user.invited = true;
-                                } else if(friend.details["sakai:state"] === "PENDING"){
-                                    user.pending = true;
-                                } else if(friend.details["sakai:state"] === "NONE"){
-                                    user.none = true;
-                                    user.connected = false;
-                                }
+                                connectionState = friend.details["sakai:state"];
                             }
+                        }
+                    }
+                    if (connectionState) {
+                        user.connected = true;
+                        // if invited state set invited to true
+                        if(connectionState === "INVITED"){
+                            user.invited = true;
+                        } else if(connectionState === "PENDING"){
+                            user.pending = true;
+                        } else if(connectionState === "ACCEPTED"){
+                            user.accepted = true;
+                        } else if(connectionState === "NONE"){
+                            user.none = true;
+                            user.connected = false;
                         }
                     }
                     // Check if the user you found in the list isn't the current
@@ -250,7 +262,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 type: "POST",
                 data : {"targetUserId": userid},
                 success: function(data) {
-                    sakai_global.data.search.getMyContacts();;
+                    sakai_global.data.search.getMyContacts();
                 },
                 error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
@@ -277,7 +289,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // Util initialisation //
         /////////////////////////
 
-        sakai_global.data.search.getMyContacts(finishUtilInit);
+        finishUtilInit();
 
     });
 
