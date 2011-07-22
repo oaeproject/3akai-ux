@@ -1219,6 +1219,34 @@ define(
          */
 
         /**
+         * A version of encodeURIComponent that does not encode i18n characters
+         * when using utf8.  The javascript global encodeURIComponent works on
+         * the ascii character set, meaning it encodes all the reserved characters
+         * for URI components, and then all characters above Char Code 127. This
+         * version uses the regular encodeURIComponent function for ascii
+         * characters, and passes through all higher char codes.
+         *
+         * At the time of writing I couldn't find a version with these symantics
+         * (which may or may not be legal according to various RFC's), but this
+         * implementation can be swapped out with one if it presents itself.
+         * 
+         * @param {String} String to be encoded.
+         * @returns Encoded string.
+         */
+        urlSafe: function(str) {
+            var togo='';
+            for(var i = 0; i < str.length; i++) { 
+                if (str.charCodeAt(i) < 127) {
+                    togo+=encodeURIComponent(str[i]);
+                }
+                else {
+                    togo+=str[i];
+                }
+            }
+            return togo;
+        },
+
+        /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
          * we avoid having to parse the same template over and over again.
          */
@@ -1283,6 +1311,18 @@ define(
                 }
             }
 
+            /* A grep of the code base indicates no one is using _MODIFIERS at
+             * the moment.
+             */
+            if (templateData._MODIFIERS) {
+                debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
+            }
+            templateData._MODIFIERS = {
+                urlSafe: function(str) {
+                    return sakai_util.urlSafe(str);
+                }
+            }
+
             // Run the template and feed it the given JSON object
             var render = "";
             try {
@@ -1290,6 +1330,8 @@ define(
             } catch (err) {
                 debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
+
+            delete templateData._MODIFIERS;
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
