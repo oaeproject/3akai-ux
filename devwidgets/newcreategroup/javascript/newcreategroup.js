@@ -167,7 +167,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var templateParameters = {
             "groupid": groupid,
             "mylibrary": "id" + Math.round(Math.random() * 10000000),
-            "mylibraryimg": "id" + Math.round(Math.random() * 10000000)
+            "mylibraryimg": "id" + Math.round(Math.random() * 10000000),
+            "participants": "id" + Math.round(Math.random() * 10000000),
+            "participantsimg": "id" + Math.round(Math.random() * 10000000)
         };
         replaceTemplateParameters(templateParameters, groupid, currentTemplate, function(groupid, currentTemplate){
             createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){

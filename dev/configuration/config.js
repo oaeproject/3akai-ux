@@ -1767,22 +1767,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_title":"Participants",
                                         "_nonEditable": true,
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2074,22 +2074,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2171,22 +2171,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2268,22 +2268,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2365,22 +2365,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2498,22 +2498,22 @@ define(function(){
                             "${pid}2": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2620,22 +2620,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${participants}",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${participants}",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${participants}": {
+                                    page: "<img id='widget_participants_${participantsimg}' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${participantsimg}": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
