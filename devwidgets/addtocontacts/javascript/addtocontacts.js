@@ -159,7 +159,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Do the invite and send a message
                 $.ajax({
-                    url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
+                    url: "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/contacts.invite.html",
                     type: "POST",
                     traditional: true,
                     data: {

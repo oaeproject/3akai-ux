@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else {

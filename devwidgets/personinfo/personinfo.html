@@ -56,7 +56,7 @@
                 {/if}
                 </div>
                 <div class="personinfo_content_list_right">
-                    <a href="/content#p=${i['_path']}/${i["sakai:pooled-content-file-name"]}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
+                    <a href="/content#p=${i['_path']|urlSafe}/${i["sakai:pooled-content-file-name"]|urlSafe}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
                     {if mimeTypeDescription}
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}
