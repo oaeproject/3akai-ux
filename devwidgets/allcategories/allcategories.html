@@ -10,6 +10,7 @@
 <div id="allcategories_items_template"><!--
     <div id="allcategories_items_content">
         <ul>
+            {var size = 125}
             {for item in directory}
                 <li>
                     <div class="allcategories_item">
@@ -28,10 +29,9 @@
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="allcategories_item_content_preview"/>
                                 {/if}
-                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
+                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], size)}</a>
                                 <span style="display:none"><span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
                                 {if item.content["sakai:description"]}
-                                    {var size = 125}
                                     <span class="allcategories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                 {/if}
                                 <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>

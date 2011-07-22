@@ -151,7 +151,7 @@
                     {else}
                         <img src="${sakai.api.Content.getMimeTypeData(small["_mimeType"]).URL}" class="featuredcontent_thumbnail_image"/>
                     {/if}
-                    <a href="/content#p=${small["_path"]|urlSafe}/${small["sakai:pooled-content-file-name"]|urlSafe}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 90)}</a>
+                    <a href="/content#p=${small["_path"]|urlSafe}/${small["sakai:pooled-content-file-name"]|urlSafe}" title="${small["sakai:pooled-content-file-name"]}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(small["sakai:pooled-content-file-name"], 76)}</a>
                     <span class="featuredcontent_content_category_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${small.usedin} {if small.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
                     {if small.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${small["_path"]|urlSafe}/${small["sakai:pooled-content-file-name"]|urlSafe}" title="${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${small.commentcount} {if small.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                 </div>
