@@ -171,44 +171,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             "participants": "id" + Math.round(Math.random() * 10000000),
             "participantsimg": "id" + Math.round(Math.random() * 10000000)
         };
-        replaceTemplateParameters(templateParameters, groupid, currentTemplate, function(groupid, currentTemplate){
-            createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
-                fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
-                    setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
-                        addStructureToGroup(groupid, currentTemplate, function(){
-                            creationComplete.docs = true;
-                            checkCreationComplete();
-                        });
+        currentTemplate = sakai.api.Util.replaceTemplateParameters(templateParameters, currentTemplate);
+        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+            fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+                setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
+                    addStructureToGroup(groupid, currentTemplate, function(){
+                        creationComplete.docs = true;
+                        checkCreationComplete();
                     });
                 });
             });
         });
-    };
-
-    var replaceTemplateParameters = function(variables, groupid, currentTemplate, callback){
-        for (var variable in variables){
-            for (var doc in currentTemplate.docs){
-                currentTemplate.docs[doc] = loopAndReplace(currentTemplate.docs[doc], variable, variables[variable]);
-            }
-        }
-        callback(groupid, currentTemplate);
-    };
-
-    var loopAndReplace = function(structure, variable, replace){
-        for (var i in structure){
-            if (structure.hasOwnProperty(i)){
-                if (typeof structure[i] === "string"){
-                    structure[i] = structure[i].replace("${" + variable + "}", replace);
-                } else if (typeof structure[i] === "object"){
-                    structure[i] = loopAndReplace(structure[i], variable, replace);
-                }
-                if (i === "${" + variable + "}"){
-                    structure[replace] = structure[i];
-                    delete structure[i];
-                }
-            }
-        }
-        return structure;
     };
 
     var addStructureToGroup = function(groupid, currentTemplate, callback){
