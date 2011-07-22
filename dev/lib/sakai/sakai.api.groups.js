@@ -590,7 +590,7 @@ define(
                 var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.General.getValueForKey("SAKAI");
-                var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
+                var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.uriCompSafe(meData.user.userid);
                 var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
                 var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                      .replace(/\$\{sender\}/g, userString)
@@ -697,7 +697,7 @@ define(
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
-                    url: "/~" + groupID + "/joinrequests/" + userID,
+                    url: "/~" + groupID + "/joinrequests/" + sakai_util.uriCompSafe(userID),
                     data: {
                         ":operation": "delete"
                     },

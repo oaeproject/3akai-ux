@@ -197,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                     "tooltipAutoClose": false
                 };
 
-                var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+                var authprofileURL = "/~" + sakai.api.Util.uriCompSafe(me.user.userid) + "/public/authprofile/userprogress";
                 sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
                     // Check whether save was successful
                     if (success) {
@@ -265,7 +265,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js", "/dev
                 "hideSystemTour": true,
                 "reminderTimestamp": curTimestamp
             };
-            var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+            var authprofileURL = "/~" + sakai.api.Util.uriCompSafe(me.user.userid) + "/public/authprofile/userprogress";
             sakai.api.Server.saveJSON(authprofileURL, progressData, function(success, data){
                 // Check whether save was successful
                 if (success) {

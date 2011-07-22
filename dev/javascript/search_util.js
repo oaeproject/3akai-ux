@@ -162,7 +162,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             picture = person.picture;
                         }
                         if (picture.name) {
-                            user.picture = "/~" + person["rep:userId"] + "/public/profile/" + picture.name;
+                            user.picture = "/~" + sakai.api.Util.uriCompSafe(person["rep:userId"]) + "/public/profile/" + picture.name;
                         } else {
                             user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                         }
@@ -258,7 +258,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $(".link_accept_invitation").live("click", function(ev){
             var userid = $(this).attr("sakai-entityid");
             $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
+                url: "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/contacts.accept.html",
                 type: "POST",
                 data : {"targetUserId": userid},
                 success: function(data) {
