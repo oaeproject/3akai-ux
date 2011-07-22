@@ -1767,22 +1767,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"${refid}0",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_title":"Participants",
                                         "_nonEditable": true,
                                         "main":{
-                                            "_ref":"${refid}0",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "${refid}0": {
-                                    page: "<img id='widget_participants_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "${refid}1": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
