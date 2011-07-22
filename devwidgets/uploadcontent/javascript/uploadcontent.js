@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // default POST URL
         var now = new Date();
-        var defaultposturl = "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
+        var defaultposturl = "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
 
 
         ///////////////////
@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
 
                     // Redirect to the profile page of the newly updated link
-                    document.location = "/content#p=" + sakai.api.Util.uriCompSafe(this.url);
+                    document.location = "/content#p=" + sakai.api.Util.urlSafe(this.url);
 
                     // Reset the current form
                     resetForm();

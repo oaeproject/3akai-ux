@@ -19,7 +19,7 @@
                         <div class="relatedcontent_content">
                             {var mimeType = sakai.api.Content.getMimeType(i)}
                             {var thumbnail = sakai.api.Content.getThumbnail(i)}
-                            <a href="/content#p=${i['_path']|uriCompSafe}/${i['sakai:pooled-content-file-name']|uriCompSafe}" title="${i['sakai:pooled-content-file-name']}">
+                            <a href="/content#p=${i['_path']|urlSafe}/${i['sakai:pooled-content-file-name']|urlSafe}" title="${i['sakai:pooled-content-file-name']}">
                                 {if thumbnail}
                                     {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
                                     <img class="s3d-icon-32" src="${thumbnail}" alt="${mimeTypeDescription}" />
@@ -35,7 +35,7 @@
                                 {/if}
                             </a>
                             <div class="relatedcontent_content_right">
-                                <a class="s3d-regular-light-links threedots_text" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|uriCompSafe}/${i['sakai:pooled-content-file-name']|uriCompSafe}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|uriCompSafe}" title="${i['_path']}"{/if}>
+                                <a class="s3d-regular-light-links threedots_text" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|urlSafe}/${i['sakai:pooled-content-file-name']|urlSafe}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']|urlSafe}" title="${i['_path']}"{/if}>
                                 <span class="ellipsis_text">
                                     {if i['sakai:pooled-content-file-name']}
                                         ${i['sakai:pooled-content-file-name']}

@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var removeRequest = function(user){
             $.ajax({
-                url: "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/contacts.remove.html",
+                url: "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/contacts.remove.html",
                 type: "POST",
                 data: {
                     "targetUserId": user

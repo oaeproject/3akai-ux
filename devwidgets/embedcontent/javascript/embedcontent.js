@@ -427,7 +427,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (sakai_global.currentgroup.data.authprofile) {
                             itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                         } else {
-                            itemUrl = "/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
+                            itemUrl = "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                         }
 
                         // Create batch request data for the video

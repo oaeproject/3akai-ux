@@ -1233,7 +1233,7 @@ define(
          * @param {String} String to be encoded.
          * @returns Encoded string.
          */
-        uriCompSafe: function(str) {
+        urlSafe: function(str) {
             var togo='';
             for(var i = 0; i < str.length; i++) { 
                 if (str.charCodeAt(i) < 127) {
@@ -1318,11 +1318,8 @@ define(
                 debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
             }
             templateData._MODIFIERS = {
-                encodeURI: function(str) {
-                    return encodeURI(str);
-                },
-                uriCompSafe: function(str) {
-                    return sakai_util.uriCompSafe(str);
+                urlSafe: function(str) {
+                    return sakai_util.urlSafe(str);
                 }
             }
 

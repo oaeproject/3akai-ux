@@ -332,7 +332,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 picture = $.parseJSON(json.picture);
             }
 
-            $(picForm).attr("action", "/~" + sakai.api.Util.uriCompSafe(id) + "/public/profile");
+            $(picForm).attr("action", "/~" + sakai.api.Util.urlSafe(id) + "/public/profile");
 
             // Get the preferred size for the thumbnail.
             var prefThumbWidth = parseInt($(thumbnailContainer).css("width").replace(/px/gi,""), 10);
@@ -350,7 +350,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 $(tabSelect).show();
 
                 // Set the unvisible image to the full blown image. (make sure to filter the # out)
-                $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + sakai.api.Util.uriCompSafe(id) + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
+                $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + sakai.api.Util.urlSafe(id) + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
 
                 // Check the current picture's size
                 $(pictureMeasurerImage).bind("load", function(ev){
@@ -468,8 +468,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
             // The parameters for the cropit service.
             var data = {
-                img: "/~" + sakai.api.Util.uriCompSafe(id) + "/public/profile/" + picture._name,
-                save: "/~" + sakai.api.Util.uriCompSafe(id) + "/public/profile",
+                img: "/~" + sakai.api.Util.urlSafe(id) + "/public/profile/" + picture._name,
+                save: "/~" + sakai.api.Util.urlSafe(id) + "/public/profile",
                 x: Math.floor(userSelection.x1 * ratio),
                 y: Math.floor(userSelection.y1 * ratio),
                 width: Math.floor(userSelection.width * ratio),
@@ -508,7 +508,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
                     // Do a patch request to the profile info so that it gets updated with the new information.
                     $.ajax({
-                        url: "/~" + sakai.api.Util.uriCompSafe(id) + "/public/authprofile.json",
+                        url: "/~" + sakai.api.Util.urlSafe(id) + "/public/authprofile.json",
                         type : "POST",
                         data : {
                             "picture" : $.toJSON(tosave),

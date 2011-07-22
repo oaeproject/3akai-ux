@@ -34,7 +34,7 @@
             ${formattedDate.toLocaleTimeString()}
         {/macro}
         {macro by(userId)}
-            __MSG__BY__: <a href="/~${userId|uriCompSafe}" class="filerevisions_editor_name"> ${data.revEditors[userId]}</a>
+            __MSG__BY__: <a href="/~${userId|urlSafe}" class="filerevisions_editor_name"> ${data.revEditors[userId]}</a>
         {/macro}
         <ul>
             <li class="s3d-highlight_area_background">

@@ -160,7 +160,7 @@ define(
         },
 
         getUser: function(userid, callback){
-            var authprofileURL = "/~" + sakai_util.uriCompSafe(userid) + "/public/authprofile.profile.json";
+            var authprofileURL = "/~" + sakai_util.urlSafe(userid) + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
                 if (success && data) {
                     callback(true, data);
@@ -578,7 +578,7 @@ define(
 
         acceptContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + sakai_util.uriCompSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.accept.html",
+                url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.accept.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
@@ -607,7 +607,7 @@ define(
 
         ignoreContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + sakai_util.uriCompSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.ignore.html",
+                url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.ignore.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
@@ -619,7 +619,7 @@ define(
                         }
                     });
                     $.ajax({
-                        url: "/~" + sakai_util.uriCompSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.remove.html",
+                        url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.remove.html",
                         type: "POST",
                         data: {
                             "targetUserId": inviteFrom
@@ -742,7 +742,7 @@ define(
             }
 
             if (progressData !== ""){
-                var authprofileURL = "/~" + sakai_util.uriCompSafe(me.user.userid) + "/public/authprofile/userprogress";
+                var authprofileURL = "/~" + sakai_util.urlSafe(me.user.userid) + "/public/authprofile/userprogress";
                 sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
                     // Check whether save was successful
                     if (success && refresh) {

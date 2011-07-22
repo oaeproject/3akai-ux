@@ -27,7 +27,7 @@
                             {var mimeType = activity["sakai:custom-mimetype"]}
                         {/if}
                         {var filename = activity["sakai:pooled-content-file-name"]}
-                        <a href="/content#p=${activity["_path"]|uriCompSafe}/${filename|uriCompSafe}" title="__MSG__VIEW_FILE__" class="s3d-bold">
+                        <a href="/content#p=${activity["_path"]|urlSafe}/${filename|urlSafe}" title="__MSG__VIEW_FILE__" class="s3d-bold">
                             {if mimeType.indexOf("image/") !== -1}
                                 <img src="/p/${activity["_path"]}" class="recentactivity_activity_item_image" alt="${filename}"/>
                             {elseif activity["sakai:custom-mimetype"]}
@@ -38,7 +38,7 @@
                                 <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="activity["sakai:pooled-content-file-name"]" class="recentactivity_activity_item_image"/>
                             {/if}
                         </a>
-                        <a href="/content#p=${activity["_path"]|uriCompSafe}/${activity["sakai:pooled-content-file-name"]|uriCompSafe}" title="__MSG__VIEW_FILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${filename}</a>
+                        <a href="/content#p=${activity["_path"]|urlSafe}/${activity["sakai:pooled-content-file-name"]|urlSafe}" title="__MSG__VIEW_FILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${filename}</a>
                         <span class="recentactivity_activity_item_description">__MSG__USED_IN__ ${activity.usedin} {if activity.usedin == 1} __MSG__PLACE__ {else} __MSG__PLACES__{/if}</span>
                     </div>
                 {/if}

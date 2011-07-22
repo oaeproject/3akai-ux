@@ -291,7 +291,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var pictureURL = "";
             var userid = userData.attributes.value;
             if (userData.attributes.picture) {
-                pictureURL = "/~" + sakai.api.Util.uriCompSafe(userid) + "/public/profile/" + userData.attributes.picture;
+                pictureURL = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + userData.attributes.picture;
             } else {
                 if (userData.attributes.type=== "group") {
                     pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
@@ -357,7 +357,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                         if (data[role].results[user].picture) {
-                            userObj.picture = "/~" + sakai.api.Util.uriCompSafe(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
+                            userObj.picture = "/~" + sakai.api.Util.urlSafe(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
                         }
                         else {
                             if (data[role].results[user]["sakai:group-id"]) {

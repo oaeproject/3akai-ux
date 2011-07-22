@@ -49,11 +49,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (success) {
                 $.each(data.results, function(index, item){
                     if (item.picture) {
-                        item.picture = "/~" + sakai.api.Util.uriCompSafe(item.userid) + "/public/profile/" + $.parseJSON(item.picture).name;
+                        item.picture = "/~" + sakai.api.Util.urlSafe(item.userid) + "/public/profile/" + $.parseJSON(item.picture).name;
                     } else {
                         item.picture = "/dev/images/default_User_icon_50x50.png";
                     }
-                    item.baseHref = "/~" + sakai.api.Util.uriCompSafe(item.userid);
+                    item.baseHref = "/~" + sakai.api.Util.urlSafe(item.userid);
                     if (item.userid === sakai.data.me.user.userid) {
                         item.baseHref = "/me";
                     }

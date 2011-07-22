@@ -303,7 +303,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Avatar
                     if (result.picture) {
                         result.picture = $.parseJSON(result.picture);
-                        result.listgeneral.avatar = "/~" + sakai.api.Util.uriCompSafe(result["rep:userId"]) + "/public/profile/" + result.picture.name;
+                        result.listgeneral.avatar = "/~" + sakai.api.Util.urlSafe(result["rep:userId"]) + "/public/profile/" + result.picture.name;
                     } else {
                         result.listgeneral.avatar = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     }

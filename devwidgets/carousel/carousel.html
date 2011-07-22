@@ -101,21 +101,21 @@
                                 {for user in item.suggestions}
                                     <div>
                                         {if user.picture}
-                                            <img src="/~${user.userid|uriCompSafe}/public/profile/${user.picture.name}" />
+                                            <img src="/~${user.userid|urlSafe}/public/profile/${user.picture.name}" />
                                         {else}
                                             <img src="/dev/images/default_User_icon_50x50.png" />
                                         {/if}
-                                        <h2><a href="/~${user.userid|uriCompSafe}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h2>
+                                        <h2><a href="/~${user.userid|urlSafe}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h2>
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|uriCompSafe}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|uriCompSafe}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|uriCompSafe}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                                                 </li>
                                             </ul>
                                         </div>

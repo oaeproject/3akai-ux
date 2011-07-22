@@ -86,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global.siterecentactivity.getRecentActivity = function(callback){
 
-            sakai.api.Server.loadJSON("/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/private/recentactivity", function(success, data) {
+            sakai.api.Server.loadJSON("/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/private/recentactivity", function(success, data) {
                 if (success) {
                     sakai_global.siterecentactivity.recentactivity = data;
                 }
@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveRecentActivity = function(){
 
             // Save the recentactivity json file
-            sakai.api.Server.saveJSON("/~" + sakai.api.Util.uriCompSafe(sakai.data.me.user.userid) + "/private/recentactivity", sakai_global.siterecentactivity.recentactivity, sakai_global.siterecentactivity.render());
+            sakai.api.Server.saveJSON("/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/private/recentactivity", sakai_global.siterecentactivity.recentactivity, sakai_global.siterecentactivity.render());
         };
 
 
