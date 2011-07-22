@@ -439,6 +439,38 @@ define(
         },
 
         /**
+         * Search for and replace parameters in a template (replaces both keys and properties)
+         * @param {Object} variables The variables to replace in the template with
+         * @param {Object} currentTemplate The template to modify
+         * @return {Object} the template structure with replaced variables
+         */
+        replaceTemplateParameters : function(variables, currentTemplate){
+            var loopAndReplace = function(structure, variable, replace){
+                for (var i in structure){
+                    if (structure.hasOwnProperty(i)){
+                        if (typeof structure[i] === "string"){
+                            structure[i] = structure[i].replace("${" + variable + "}", replace);
+                        } else if (typeof structure[i] === "object"){
+                            structure[i] = loopAndReplace(structure[i], variable, replace);
+                        }
+                        if (i === "${" + variable + "}"){
+                            structure[replace] = structure[i];
+                            delete structure[i];
+                        }
+                    }
+                }
+                return structure;
+            };
+
+            for (var variable in variables){
+                for (var doc in currentTemplate.docs){
+                    currentTemplate.docs[doc] = loopAndReplace(currentTemplate.docs[doc], variable, variables[variable]);
+                }
+            }
+            return currentTemplate;
+        },
+
+        /**
          * Check whether there is a valid picture for the user
          * @param {Object} profile The profile object that could contain the profile picture
          * @param {String} type The type of profile we're getting the picture for (group or user)
