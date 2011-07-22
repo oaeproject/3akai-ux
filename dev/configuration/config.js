@@ -1515,108 +1515,108 @@ define(function(){
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
-                    "_ref": "id267187828",
+                    "_ref": "${refid}0",
                     "_title": "My Dashboard",
                     "_order": 0,
                     "_canEdit": true,
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
-                        "_ref": "id267187828",
+                        "_ref": "${refid}0",
                         "_order": 0,
                         "_title": "Dashboard"
                     }
                 },
                 "messages": {
                     "_title": "My Messages",
-                    "_ref": "id1165301022",
+                    "_ref": "${refid}1",
                     "_order": 1,
                     "_canEdit": true,
                     "_reorderOnly": true,
                     "_canSubedit": true,
                     "_nonEditable": true,
                     "inbox": {
-                        "_ref": "id1165301022",
+                        "_ref": "${refid}1",
                         "_order": 0,
                         "_title": "Inbox",
                         "_nonEditable": true
                     },
                     "invitations": {
-                        "_ref": "id9867733100",
+                        "_ref": "${refid}2",
                         "_order": 1,
                         "_title": "Invitations",
                         "_nonEditable": true
                     },
                     "sent": {
-                        "_ref": "id4253485084",
+                        "_ref": "${refid}3",
                         "_order": 2,
                         "_title": "Sent",
                         "_nonEditable": true
                     },
                     "trash": {
-                        "_ref": "id3915412565",
+                        "_ref": "${refid}4",
                         "_order": 3,
                         "_title": "Trash",
                         "_nonEditable": true
                     }
                 }
             },
-            "id267187828": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+            "${refid}0": {
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='${refid}5'>Edit Layout</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='${refid}5'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
             },
-            "id1165301022": {
-                "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
+            "${refid}1": {
+                "page": "<div id='widget_inbox_${refid}6' class='widget_inline'/>"
             },
-            "id9867733100": {
-                "page": "<div id='widget_inbox_id3679202964' class='widget_inline'/>"
+            "${refid}2": {
+                "page": "<div id='widget_inbox_${refid}7' class='widget_inline'/>"
             },
-            "id4253485084": {
-                "page": "<div id='widget_inbox_id66582410046' class='widget_inline'/>"
+            "${refid}3": {
+                "page": "<div id='widget_inbox_${refid}8' class='widget_inline'/>"
             },
-            "id3915412565": {
-                "page": "<div id='widget_inbox_id3519294282' class='widget_inline'/>"
+            "${refid}4": {
+                "page": "<div id='widget_inbox_${refid}9' class='widget_inline'/>"
             },
-            "id2024634737": {
-                "box": "inbox",
-                "category": "message",
-                "title": "INBOX"
-            },
-            "id3679202964": {
-                "box": "inbox",
-                "category": "invitation",
-                "title": "INVITATIONS"
-            },
-            "id66582410046": {
-                "box": "outbox",
-                "category": "*",
-                "title": "SENT"
-            },
-            "id3519294282": {
-                "box": "trash",
-                "category": "*",
-                "title": "TRASH"
-            },
-            "id546341435": {
+            "${refid}5": {
                 "dashboard": {
                     "layout": "threecolumn",
                     "columns": {
                         "column1": [{
-                            "uid": "id6902437615810",
+                            "uid": "${refid}10",
                             "visible": "block",
                             "name": "recentchangedcontent"
                         }],
                         "column2": [{
-                            "uid": "id9495917029618",
+                            "uid": "${refid}11",
                             "visible": "block",
                             "name": "recentmemberships"
                         }],
                         "column3": [{
-                            "uid": "id7360391172040",
+                            "uid": "${refid}12",
                             "visible": "block",
                             "name": "recentcontactsnew"
                         }]
                     }
                 }
+            },
+            "${refid}6": {
+                "box": "inbox",
+                "category": "message",
+                "title": "INBOX"
+            },
+            "${refid}7": {
+                "box": "inbox",
+                "category": "invitation",
+                "title": "INVITATIONS"
+            },
+            "${refid}8": {
+                "box": "outbox",
+                "category": "*",
+                "title": "SENT"
+            },
+            "${refid}9": {
+                "box": "trash",
+                "category": "*",
+                "title": "TRASH"
             }
         },
 
@@ -1630,14 +1630,14 @@ define(function(){
                     "_nonEditable": true
                 },
                 "library": {
-                    "_ref": "id9834611274",
+                    "_ref": "${refid}0",
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
-                        "_ref": "id9834611274",
+                        "_ref": "${refid}0",
                         "_order": 0,
                         "_title": "Content"
                     }
@@ -1645,12 +1645,12 @@ define(function(){
                 "memberships": {
                     "_title": "My Memberships",
                     "_order": 2,
-                    "_ref": "id213623673",
+                    "_ref": "${refid}1",
                     "_altTitle": "${user}'s Memberships",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
-                        "_ref": "id213623673",
+                        "_ref": "${refid}1",
                         "_order": 0,
                         "_title": "Memberships"
                     }
@@ -1658,26 +1658,26 @@ define(function(){
                 "contacts": {
                     "_title": "My Contacts",
                     "_order": 3,
-                    "_ref": "id1193715035",
+                    "_ref": "${refid}2",
                     "_altTitle": "${user}'s Contacts",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
-                        "_ref": "id1193715035",
+                        "_ref": "${refid}2",
                         "_order": 0,
                         "_title": "Contacts"
                     }
                 }
             },
-            "id9834611274": {
+            "${refid}0": {
                 "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
             },
-            "id213623673": {
+            "${refid}1": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
                     "<div id='widget_tooltip' class='widget_inline'></div> " +
                     "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
-            "id1193715035": {
+            "${refid}2": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
             }
         },
@@ -1743,22 +1743,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -1767,22 +1767,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_title":"Participants",
                                         "_nonEditable": true,
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -1847,63 +1847,63 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "week1": {
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_title":"Week 1",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_title":"Week 1"
                                         }
                                     },
                                     "week2":{
-                                        "_ref":"id569856425",
+                                        "_ref":"${refid}1",
                                         "_title":"Week 2",
                                         "_order":1,
                                         "main":{
-                                            "_ref":"id569856425",
+                                            "_ref":"${refid}1",
                                             "_order":0,
                                             "_title":"Week 2"
                                         }
                                     },
                                     "week3":{
-                                        "_ref":"id647321988",
+                                        "_ref":"${refid}2",
                                         "_title":"Week 3",
                                         "_order":2,
                                         "main":{
-                                            "_ref":"id647321988",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_title":"Week 3"
                                         }
                                     }
                                 },
-                                "id6573920372": {
+                                "${refid}0": {
                                     page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
                                 },
-                                "id569856425": {
+                                "${refid}1": {
                                     page: "<p>Week 2<br></p>"
                                 },
-                                "id647321988": {
+                                "${refid}2": {
                                     page: "<p>Week 3<br></p>"
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
                                     "contact":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}3",
                                         "_order":0,
                                         "_title": "Contact",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}3",
                                             "_order":0,
                                             "_title":"Contact"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}3": {
+                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_${refid}4' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}4": {
                                     googlemaps: {
                                         "mapinput": "16 Mill Lane, Cambridge, UK",
                                         "mapzoom": "14",
@@ -1918,64 +1918,64 @@ define(function(){
                             "${pid}2": {
                                 structure0: {
                                     "about":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}5",
                                         "_order":0,
                                         "_title":"About",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}5",
                                             "_order":0,
                                             "_title":"About"
                                         }
                                     },
                                     "prospective":{
-                                        "_ref":"id373710599",
+                                        "_ref":"${refid}6",
                                         "_title":"Prospective Students",
                                         "_order":1,
                                         "main":{
-                                            "_ref":"id373710599",
+                                            "_ref":"${refid}6",
                                             "_order":0,
                                             "_title":"Prospective Students"
                                         }
                                     }
                                 },
-                                "id6573920372": {
+                                "${refid}5": {
                                     page: "<p>This is some information about the course<br></p>"
                                 },
-                                "id373710599": {
+                                "${refid}6": {
                                     page: "<p>This is some information for prospective students<br></p>"
                                 }
                             },
                             "${pid}3": {
                                 structure0: {
                                     "organizationnotes":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}7",
                                         "_order":0,
                                         "_title":"Organization Notes",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}7",
                                             "_order":0,
                                             "_title":"Organization Notes"
                                         }
                                     }
                                 },
-                                "id6573920372": {
+                                "${refid}7": {
                                     page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
                                 }
                             },
                             "${pid}4": {
                                 structure0: {
                                     "studentwiki":{
-                                        "_ref":"id849031890418",
+                                        "_ref":"${refid}8",
                                         "_order":0,
                                         "_title":"Student Wiki",
                                         "main":{
-                                            "_ref":"id849031890418",
+                                            "_ref":"${refid}8",
                                             "_order":0,
                                             "_title":"Organization Notes"
                                         }
                                     }
                                 },
-                                "id849031890418": {
+                                "${refid}8": {
                                     page: "<p>Student wiki editable by all members of this course<br></p>"
                                 }
                             }
@@ -2050,22 +2050,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2074,22 +2074,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2147,22 +2147,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2171,22 +2171,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2244,22 +2244,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2268,22 +2268,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2341,22 +2341,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2365,22 +2365,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2457,39 +2457,39 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "introduction":{
-                                        "_ref": "id7109843181",
+                                        "_ref": "${refid}0",
                                         "_order": 0,
                                         "_title": "Introduction",
                                         "main":{
-                                            "_ref":"id7109843181",
+                                            "_ref":"${refid}0",
                                             "_order": 0,
                                             "_title": "Introduction"
                                         }
                                     }
                                 },
-                                "id7109843181": {
+                                "${refid}0": {
                                     page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0; width: 30%; display: block;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>Research Introduction</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><div style='float: right; margin: 0; padding: 20px 0 0 0; width:60%; display: block;'><p style='margin: 0 0 10px 0;'>Introduction text...</p><ul style='margin: 0 0 20px -15px; padding: 0 0 0 15px; list-style: none;'><p style=''><strong>Investigators:</strong></p><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li></ul></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Benefit</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>The benefit of this research...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Scope</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>We intend to study...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /></div>"
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}1",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}1",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}1": {
+                                    page: "<img id='widget_mylibrary_${refid}2' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}2": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2498,22 +2498,22 @@ define(function(){
                             "${pid}2": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}3",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}3",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}3": {
+                                    page: "<img id='widget_participants_${refid}4' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}4": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2522,17 +2522,17 @@ define(function(){
                             "${pid}3": {
                                 structure0: {
                                     "references": {
-                                        "_ref":"id3468294321",
+                                        "_ref":"${refid}5",
                                         "_order":0,
                                         "_title":"References",
                                         "main": {
-                                            "_ref":"id3468294321",
+                                            "_ref":"${refid}5",
                                             "_order":0,
                                             "_title":"References" 
                                         }
                                     }
                                 },
-                                "id3468294321": {
+                                "${refid}5": {
                                     page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>References</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div></div>"
                                 }
                             }
@@ -2596,22 +2596,22 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2620,22 +2620,22 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
