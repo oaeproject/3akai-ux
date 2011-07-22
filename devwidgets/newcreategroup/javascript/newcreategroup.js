@@ -164,7 +164,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     var createGroupDocs = function(groupid, currentTemplate){
-        replaceTemplateParameters({"groupid": groupid}, groupid, currentTemplate, function(groupid, currentTemplate){
+        var templateParameters = {
+            "groupid": groupid,
+            "mylibrary": "id" + Math.round(Math.random() * 10000000),
+            "mylibraryimg": "id" + Math.round(Math.random() * 10000000)
+        }
+        replaceTemplateParameters(templateParameters, groupid, currentTemplate, function(groupid, currentTemplate){
             createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
                 fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
                     setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
@@ -194,6 +199,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     structure[i] = structure[i].replace("${" + variable + "}", replace);
                 } else if (typeof structure[i] === "object"){
                     structure[i] = loopAndReplace(structure[i], variable, replace);
+                }
+                if (i === "${" + variable + "}"){
+                    structure[replace] = structure[i];
+                    delete structure[i];
                 }
             }
         }
