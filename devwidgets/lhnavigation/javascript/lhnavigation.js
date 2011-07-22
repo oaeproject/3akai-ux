@@ -90,31 +90,29 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             }
 
             var adjustCount = function(pageStructure, pageid, subpage, value){
+                var listitem = "li[data-sakai-path='";
+                var count;
+                var element;
                 if (subpage) {
-                    pageStructure.items[pageid][subpage]._count = (pageStructure.items[pageid][subpage]._count || 0) + value;
-                    var listitem = $("li[data-sakai-path='" + pageid + "/" + subpage + "']");
-                    if (listitem.length) {
-                        $(".lhnavigation_sublevelcount", listitem).text(" (" + pageStructure.items[pageid][subpage]._count + ")");
-                        if (pageStructure.items[pageid][subpage]._count <= 0){
-                            $(".lhnavigation_sublevelcount", listitem).hide();
-                        } else {
-                            $(".lhnavigation_sublevelcount", listitem).show();
-                        }
-                    }
+                    count = pageStructure.items[pageid][subpage];
+                    listitem = $(listitem + pageid + "/" + subpage + "']");
+                    element = ".lhnavigation_sublevelcount";
                 } else {
-                    pageStructure.items[pageid]._count = (pageStructure.items[pageid]._count || 0) + value;
-                    var listitem = $("li[data-sakai-path='" + pageid + "']");
-                    if (listitem.length) {
-                        $(".lhnavigation_levelcount", listitem).text(" (" + pageStructure.items[pageid]._count + ")");
-                        if (pageStructure.items[pageid]._count <= 0){
-                            $(".lhnavigation_levelcount", listitem).hide();
-                        } else {
-                            $(".lhnavigation_levelcount", listitem).show();
-                        }
+                    count = pageStructure.items[pageid];
+                    listitem = $(listitem + pageid + "']");
+                    element = ".lhnavigation_levelcount";
+                }
+                count._count = (countContainer._count || 0) + value;
+                if (listitem.length) {
+                    $(element, listitem).text(" (" + count._count + ")");
+                    if (count._count <= 0){
+                        $(element, listitem).hide();
+                    } else {
+                        $(element, listitem).show();
                     }
                 }
                 return pageStructure;
-            }
+            };
 
             if (pubstructure.items[pageid]) {
                 pubstructure = adjustCount(pubstructure, pageid, subpage, value);
