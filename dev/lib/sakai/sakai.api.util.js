@@ -440,21 +440,30 @@ define(
 
         /**
          * Search for and replace parameters in a template (replaces both keys and properties)
-         * @param {Object} variables The variables to replace in the template with
-         * @param {Object} currentTemplate The template to modify
+         * primarily used for making unique IDs for the group/course templates in config.js
+         *
+         * @param {Object} variables The variables to replace in the template with, ie. "groupid"
+         * @param {Object} replaceIn The object to modify
          * @return {Object} the template structure with replaced variables
          */
-        replaceTemplateParameters : function(variables, currentTemplate){
-            var loopAndReplace = function(structure, variable, replace){
-                for (var i in structure){
-                    if (structure.hasOwnProperty(i)){
-                        if (typeof structure[i] === "string"){
-                            structure[i] = structure[i].replace("${" + variable + "}", replace);
-                        } else if (typeof structure[i] === "object"){
+        replaceTemplateParameters : function(variables, replaceIn) {
+            var loopAndReplace = function(structure, variable, replace) {
+                var toReplace = "${" + variable + "}";
+                var regex = new RegExp("\\$\\{" + variable + "\\}", 'g');
+                for (var i in structure) {
+                    if (structure.hasOwnProperty(i)) {
+                        if (_.isString(structure[i]) && structure[i].indexOf(toReplace) !== -1) {
+                            structure[i] = structure[i].replace(regex, replace);
+                        } else if ($.isPlainObject(structure[i])) {
                             structure[i] = loopAndReplace(structure[i], variable, replace);
+                        } else if (_.isArray(structure[i])) {
+                            $.each(structure[i], function(j, elt) {
+                                structure[i][j] = loopAndReplace(elt, variable, replace);
+                            });
                         }
-                        if (i === "${" + variable + "}"){
-                            structure[replace] = structure[i];
+                        if (i.indexOf(toReplace) !== -1) {
+                            var newKey = i.replace(regex, replace);
+                            structure[newKey] = structure[i];
                             delete structure[i];
                         }
                     }
@@ -462,12 +471,11 @@ define(
                 return structure;
             };
 
-            for (var variable in variables){
-                for (var doc in currentTemplate.docs){
-                    currentTemplate.docs[doc] = loopAndReplace(currentTemplate.docs[doc], variable, variables[variable]);
-                }
-            }
-            return currentTemplate;
+            $.each(variables, function(variable,value) {
+                replaceIn = loopAndReplace(replaceIn, variable, value);
+            });
+
+            return replaceIn;
         },
 
         /**
@@ -1305,13 +1313,13 @@ define(
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.log("TemplateRenderer: parsing failed: " + e);
+                        debug.error("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
+                    debug.error("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
 
@@ -1320,7 +1328,7 @@ define(
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
+                debug.error("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
 
             // Run the rendered html through the sanitizer
@@ -1406,7 +1414,7 @@ define(
                             }
                         }
                     } catch (err){
-                        debug.log("Error occured when decoding URI Component");
+                        debug.error("Error occured when decoding URI Component");
                     }
 
                     return url;
@@ -1680,7 +1688,7 @@ define(
                             }
                         }, searchoptions);
                     }
-                }
+                };
                 var opts = $.extend(defaults, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 element = (element instanceof jQuery) ? element:$(element);

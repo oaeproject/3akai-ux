@@ -87,6 +87,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON(puburl, function(success, data){
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                    pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                     setupProfile(pubdata);
                     publicToStore = $.extend(true, {}, pubdata);
                 } else {
@@ -100,7 +102,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
                         if (!success2){
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
-                            privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
+                            var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                            privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
+                            privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
