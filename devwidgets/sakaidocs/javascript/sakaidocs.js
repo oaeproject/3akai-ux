@@ -629,7 +629,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                     $contentEl.html(sanitizedContent);
                     // Insert widgets
-                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
+                    sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
                     // Render Math formulas in the text
                     sakai.api.Util.renderMath(currentPageShown.ref);
                     $contentEl.show();
@@ -797,9 +797,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // External event binding //
         ////////////////////////////
 
-        $(window).bind("showpage.sakaidocs.sakai", function(ev, _currentPageShown){
+        $(window).bind("showpage.sakaidocs.sakai", function(ev, _currentPageShown, reloadPage){
             currentPageShown = _currentPageShown;
-            renderPage();
+            renderPage(reloadPage);
         });
 
         $(window).bind("editpage.sakaidocs.sakai", function(ev, _currentPageShown){

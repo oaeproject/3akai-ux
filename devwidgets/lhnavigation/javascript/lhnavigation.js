@@ -383,7 +383,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return structureFoundIn;
         };
 
-        var selectPage = function(newPageMode){
+        var selectPage = function(newPageMode, reloadPage){
             if (contextData.forceOpenPage) {
                 $.bbq.pushState({
                     "l": contextData.forceOpenPage
@@ -426,12 +426,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         selectNavItem(menuitem, $(navSelectedItem));
                     }
                     // Render page
-                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode);
+                    preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode, reloadPage);
                 }
             }
         };
 
-        var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode){
+        var preparePageRender = function(ref, path, savePath, pageSavePath, nonEditable, canEdit, newPageMode, reloadPage){
             var content = getPageContent(ref);
             var pageContent = content && content.page ? content.page : "";
             var lastModified = content && content._lastModified ? content._lastModified : null;
@@ -464,7 +464,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 };
                 editPageTitle();
             } else {
-                $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown]);
+                $(window).trigger("showpage.sakaidocs.sakai", [currentPageShown, reloadPage]);
             }
         };
 
@@ -913,7 +913,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Prepare the navigation to render //
         //////////////////////////////////////
 
-        var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+        var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl, reloadPage){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
             if (mainPubUrl) {
@@ -930,7 +930,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 processData(pubdata, cData.puburl, function(processedPub){
                     pubstructure = processedPub;
                     renderData();
-                    selectPage();
+                    selectPage(null, reloadPage);
                     enableSorting();
                     if (cData.parametersToCarryOver) {
                         parametersToCarryOver = cData.parametersToCarryOver;
@@ -946,7 +946,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var sakaiDocsInitialized = false;
 
-        var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
+        var prepareRenderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl, reloadPage){
             if (!sakaiDocsInitialized){
                 sakaiDocsInitialized = true;
                 $("#s3d-page-main-content").append($("#lhnavigation_sakaidocs_declaration"));
@@ -955,7 +955,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 });
                 sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
             } else {
-                renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+                renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl, reloadPage);
             }
         };
 
@@ -1021,8 +1021,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             selectPage($.bbq.getState("newPageMode") === "true");
         });
 
-        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
-            prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
+        $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl, reloadPage){
+            prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl, reloadPage);
         });
 
         $(window).bind("lhnav.updateCount", function(e, pageid, value){
