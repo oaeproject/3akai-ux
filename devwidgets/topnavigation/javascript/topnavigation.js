@@ -262,6 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             renderObj.query = searchText;
+            searchText = sakai.api.Server.createSearchString(searchText);
             var requests = [];
             requests.push({
                 "url": filesUrl,
