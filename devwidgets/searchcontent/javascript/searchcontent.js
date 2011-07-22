@@ -185,6 +185,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
+            var updateItemsAndRenderTemplate = function() {
+                // Make the content items available to other widgets
+                sakai_global.searchcontent.content_items = finaljson.items;
+                finaljson.sakai = sakai;
+                // Render the results.
+                $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+                $(".searchcontent_results_container").show();
+                // display functions available to logged in users
+                if (!sakai.data.me.user.anon) {
+                    $(".searchcontent_result_user_functions").show();
+                    $(".searchcontent_result_anonuser").hide();
+                }
+            };
+
             // Get displaynames for the users that created content
             if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
@@ -193,19 +207,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                         item.displayName = sakai.api.User.getDisplayName(users[userid]);
                     });
 
-                    // Make the content items available to other widgets
-                    sakai_global.searchcontent.content_items = finaljson.items;
-                    finaljson.sakai = sakai;
-                    // Render the results.
-                    $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-                    $(".searchcontent_results_container").show();
-
-                    // display functions available to logged in users
-                    if (!sakai.data.me.user.anon) {
-                        $(".searchcontent_result_user_functions").show();
-                        $(".searchcontent_result_anonuser").hide();
-                    }
+                    updateItemsAndRenderTemplate();
                 });
+            }
+            else {
+                updateItemsAndRenderTemplate();
             }
         };
 
