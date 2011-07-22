@@ -466,7 +466,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             tagsArray.push(sakai_global.profile.main.directory.elements[i].locationtitle.value);
                         }
                     }
-                    var profileURL = "/~" + sakai_global.profile.main.data["rep:userId"] + "/public/authprofile";
+                    var profileURL = "/~" + sakai.api.Util.urlSafe(sakai_global.profile.main.data["rep:userId"]) + "/public/authprofile";
                     sakai.api.Util.tagEntity(profileURL, tagsArray, currentTags, function(success, newtags) {
                         sakai_global.profile.main.data["sakai:tags"] = sakai_global.profile.main.data.basic.elements.tags = newtags;
                         $selected_element.val($selected_element.val().toString().replace(/\s+/g, " "));
