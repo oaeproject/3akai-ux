@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
                 }
             }
             structure._childCount = childCount;
