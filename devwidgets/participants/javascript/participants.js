@@ -122,7 +122,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     "content": contentCount,
                                     "contacts": contactsCount,
                                     "memberships": membershipsCount,
-                                    "profilePicture": sakai.api.Groups.getProfilePicture(data[role].results[i])
+                                    "profilePicture": sakai.api.Groups.getProfilePicture(data[role].results[i]),
+                                    "membersCount": data[role].results[i].counts.membersCount
                                 });
                             } else {
                                 // Check if this user is a friend of us already.
