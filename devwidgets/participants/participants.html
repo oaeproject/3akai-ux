@@ -59,7 +59,7 @@
                 </a>
             {else}
                 <a href="/~${participant.id}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.memberships} {if participant.memberships == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
+                    ${participant.membersCount} {if participant.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                 </a>
             {/if}
         </li>
