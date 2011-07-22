@@ -196,7 +196,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             directory = sakai.api.Util.getDirectoryTags(contentInfo["sakai:tags"].toString());
                         }
 
-                        var fullPath = content_path + "/" + encodeURIComponent(contentInfo["sakai:pooled-content-file-name"]);
+                        var fullPath = content_path + "/" + sakai.api.Util.urlSafe(contentInfo["sakai:pooled-content-file-name"]);
 
                         // filter out the the everyone group and the anonymous user
                         contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
