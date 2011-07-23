@@ -147,7 +147,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             }
                             versionInfo.versions = versions.reverse();
                         }
-                        
+
                         if (data.results.hasOwnProperty(3)) {
                             contentActivity = $.parseJSON(data.results[3].body);;
                         }
@@ -294,7 +294,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 filename = content_path[1];
             }
             content_path = "/p/" + content_path[0];
-            
+
             if (content_path != previous_content_path) {
                 previous_content_path = content_path;
                 globalPageStructure = false;
@@ -342,7 +342,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $(window).trigger("render.contentmetadata.sakai");
                             ready_event_fired++;
                         });
-                    }                   
+                    }
                     sakai.api.Security.showPage();
 
                     // rerender comments widget
@@ -530,13 +530,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var globalPageStructure = false;
 
-        var generateNav = function(pagestructure){
+        var generateNav = function(pagestructure, reloadPage){
             if (pagestructure) {
                 $(window).trigger("lhnav.init", [pagestructure, {}, {
                     parametersToCarryOver: {
                         "p": sakai_global.content_profile.content_data.content_path.replace("/p/", "")
                     }
-                }, sakai_global.content_profile.content_data.content_path]);
+                }, sakai_global.content_profile.content_data.content_path, null, reloadPage]);
             }
         };
 
@@ -590,7 +590,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 switchToOneColumnLayout(true);
             }
             globalPageStructure = pagestructure;
-            generateNav(pagestructure);
+            generateNav(pagestructure, true);
         };
 
         var switchToTwoColumnLayout = function(isSakaiDoc){
