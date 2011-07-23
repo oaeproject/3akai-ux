@@ -428,7 +428,7 @@ define(
             $.ajax({
                 url: url,
                 data: parameters,
-                cache: true,
+                cache: false,
                 success: function(data){
                     if (box === "inbox") {
                         sakai_user.data.me.messages.unread = data.unread;
