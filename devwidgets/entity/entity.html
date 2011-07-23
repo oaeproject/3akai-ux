@@ -42,6 +42,12 @@
                 <button class="s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
             </li>
             <hr class="s3d-split-line"/>
+            {if joinable}
+            <li id="ew_group_join_requests">
+                <button class="s3d-link-button" id="ew_group_join_requests_link">__MSG__JOIN_REQUESTS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            {/if}
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
             </li>
