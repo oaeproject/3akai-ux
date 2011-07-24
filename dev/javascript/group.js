@@ -147,7 +147,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var generateNav = function(forceOpenPage){
             if (pubdata) {
-                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true, "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
+                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": "world", "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
                 sakai_global.group.pubdata = pubdata;
             }
         };

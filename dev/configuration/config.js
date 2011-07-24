@@ -308,6 +308,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "permission": "anonymous",
                         "order": 0,
                         "elements": {
                             "firstName": {
@@ -385,6 +386,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "everyone",
                         "order": 1,
                         "elements": {
                             "aboutme": {
@@ -418,6 +420,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "contacts",
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -437,6 +440,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "private",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                         "order": 3,
@@ -1626,6 +1630,7 @@ define(function(){
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "_order": 0,
+                    "_view": "anonymous",
                     "_reorderOnly": true,
                     "_nonEditable": true
                 },
@@ -1634,8 +1639,9 @@ define(function(){
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
-                    "_reorderOnly": true,
+                    "_reorderOnly": false,
                     "_nonEditable": true,
+                    "_view": "everyone",
                     "main": {
                         "_ref": "id9834611274",
                         "_order": 0,
@@ -1647,8 +1653,9 @@ define(function(){
                     "_order": 2,
                     "_ref": "id213623673",
                     "_altTitle": "${user}'s Memberships",
-                    "_reorderOnly": true,
+                    "_reorderOnly": false,
                     "_nonEditable": true,
+                    "_view": "private",
                     "main": {
                         "_ref": "id213623673",
                         "_order": 0,
@@ -1660,8 +1667,9 @@ define(function(){
                     "_order": 3,
                     "_ref": "id1193715035",
                     "_altTitle": "${user}'s Contacts",
-                    "_reorderOnly": true,
+                    "_reorderOnly": false,
                     "_nonEditable": true,
+                    "_view": "contacts",
                     "main": {
                         "_ref": "id1193715035",
                         "_order": 0,

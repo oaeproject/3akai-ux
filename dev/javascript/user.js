@@ -38,6 +38,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var messageCounts = false;
         var isMe = false;
         var entityID = false;
+        var isContact = false;
 
         var contextType = false;
         var contextData = false;
@@ -63,8 +64,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _order: section.order,
                     _altTitle: section.label,
                     _title: section.label,
-                    _nonEditable: true
+                    _nonEditable: true,
+                    _view: section.permission
                 };
+                if (title === "basic"){
+                    profilestructure[title]._reorderOnly = true;
+                } else {
+                    profilestructure[title]._reorderOnly = false;
+                }
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
                 }
@@ -96,6 +103,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (!isMe){
                     pubdata.structure0 = setManagerProperty(pubdata.structure0, false);
+                    for (var i in pubdata.structure0) {
+                        pubdata.structure0[i] = determineUserAreaPermissions(pubdata.structure0[i]);
+                    }
                 }
                 if (isMe){
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
@@ -170,6 +180,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        var determineUserAreaPermissions = function(structure){
+            var permission = structure._view || "anonymous";
+            if (permission === "contacts" && isContact) {
+                structure._canView = true;
+            } else if (permission === "everyone" && !sakai.data.me.user.anon) {
+                structure._canView = true;
+            } else if (permission === "anonymous") {
+                structure._canView = true;
+            } else {
+                structure._canView = false;
+            }
+            for (var i in structure) {
+                if (i.substring(0, 1) !== "_") {
+                    structure[i] = determineUserAreaPermissions(structure[i]);
+                }
+            }
+            return structure;
+        };
+
         var setManagerProperty = function(structure, value){
             for (var i in structure){
                 if (i.substring(0, 1) !== "_" && typeof structure[i] === "object") {
@@ -212,7 +241,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             if (entityID && entityID !== sakai.data.me.user.userid){
                 sakai.api.User.getUser(entityID, getProfileData);
-                loadSpaceData();
             } else if (!sakai.data.me.user.anon){
                 if (entityID){
                     document.location = "/me";
@@ -227,7 +255,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "profile": sakai.data.me.profile,
                     "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile),
                     "userid": sakai.data.me.user.userid,
-                    "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid)
+                    "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid),
+                    "addArea": "user"
                 };
                 document.title = document.title + " " + contextData.displayName;
                 renderEntity();
@@ -264,7 +293,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var checkContact = function(){
             var contacts = sakai.data.me.mycontacts;
-            var isContact = false;
             var isContactInvited = false;
             var isContactPending = false;
             for (var i = 0; i < contacts.length; i++){
@@ -293,6 +321,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var generateNav = function(){
             addCounts();
+            sakai_global.user.pubdata = pubdata;
             if (contextType && contextType === "user_me" && contextData && pubdata && privdata) {
                 $(window).trigger("lhnav.init", [pubdata, privdata, contextData, puburl, privurl]);
             } else if (contextType && contextType !== "user_me" && contextData && pubdata) {
