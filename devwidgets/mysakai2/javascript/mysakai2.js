@@ -68,7 +68,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var loadSakai2SiteList = function(){
             // get sakai2favouriteList
-            sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
+            sakai.api.Server.loadJSON("/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/private/sakai2favouriteList",function(savedsuccess,saveddata){
                 var url = "/dev/s23/bundles/sites.json";
                 if (sakai.config.useLiveSakai2Feeds){
                     url = "/var/proxy/s23/sitesUnread.json?unread=true";

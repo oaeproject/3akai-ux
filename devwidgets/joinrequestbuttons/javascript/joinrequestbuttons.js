@@ -109,8 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var render = function () {
             // render the template
-            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer(
-                $joinrequestbuttons_template, {id:joinrequestbuttons.groupid, buttonStyle:joinrequestbuttons.buttonStyle}));
+            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer($joinrequestbuttons_template, {id:joinrequestbuttons.groupid, buttonStyle:joinrequestbuttons.buttonStyle}));
 
             // determine which button to show
             var isMember = sakai.api.Groups.isCurrentUserAMember(
@@ -119,7 +118,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 joinrequestbuttons.groupid, sakai.data.me);
             var isAnon = sakai.data.me.user.userid ? false : true;
 
-            if ((isMember && !isManager) || (isManager && joinrequestbuttons.managerCount > 1)) {
+            if (joinrequestbuttons.groupData.leaveAllowed) {
                 // we have either a group member or manager, but not the last group manager
                 showButton("leave");
             }
