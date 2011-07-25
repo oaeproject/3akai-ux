@@ -13,14 +13,14 @@
         <div id="joinrequests_joinrequest_${jr.userid}"
             class="joinrequests_joinrequest s3d-highlight_area_background fl-force-left">
             <div class="fl-force-left">
-                <a href="/~${jr.userid}" target="_blank"
+                <a href="/~${jr.userid|urlSafe}" target="_blank"
                     class="joinrequests_userpicture_link"
                     title="__MSG__VIEW_PROFILE__"><img class="joinrequests_userpicture"
                     id="joinrequests_userpicture_${jr.userid}" /></a>
             </div>
             <div class="fl-force-left joinrequests_details">
                 <div class="joinrequests_username" style="width:150px;">
-                    <a href="/~${jr.userid}" title="__MSG__VIEW_PROFILE__"
+                    <a href="/~${jr.userid|urlSafe}" title="__MSG__VIEW_PROFILE__"
                     id="joinrequests_username_link_${jr.userid}"
                     class="joinrequests_username_link"
                     target="_blank">${jr.firstName} ${jr.lastName}</a>
