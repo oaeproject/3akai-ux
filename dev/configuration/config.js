@@ -334,7 +334,7 @@ define(function(){
                             },
                             "email": {
                                 "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
-                                "required": false,
+                                "required": true,
                                 "display": true,
                                 "type": "email"
                             },
