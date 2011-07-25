@@ -133,11 +133,13 @@
                     <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" data-sakai-entitytype="user"></button>
                     {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
                         <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
-                    {elseif !a.connected}
-                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" {if a.profile.picture}sakai-entitypicture="${a.profile.picture}"{/if}></button>
-                        <div class="left_filler" id="left_filler_${a.profile.userid}" style="display:none;"></div>
-                    {else}
-                        <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
+                    {elseif !sakai.data.me.user.anon}
+                        {if !a.connected}
+                            <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" {if a.profile.picture}sakai-entitypicture="${a.profile.picture}"{/if}></button>
+                            <div class="left_filler" id="left_filler_${a.profile.userid}" style="display:none;"></div>
+                        {else}
+                            <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
+                        {/if}
                     {/if}
                     <a href="/~${a.profile.userid|urlSafe}"><img alt="accepted icon" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
                     <div class="contacts_list">
