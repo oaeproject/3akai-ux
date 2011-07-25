@@ -36,6 +36,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.captcha = function(tuid, showSettings) {
 
         var $rootel = $("#" + tuid);
+        var captchaError = $("#captcha_error", $rootel);
 
         /**
          * @returns {Object} Data that should be used in a request to send to a captcha validator.
@@ -45,6 +46,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             values["recaptcha-challenge"] = Recaptcha.get_challenge();
             values["recaptcha-response"] = Recaptcha.get_response();
             return values;
+        };
+
+        /**
+         * Displays the captcha validation error message
+         * @param {String} messageErrorClass Class to apply to the error message html element
+         */
+        sakai_global.captcha.showError = function(messageErrorClass) {
+            if (messageErrorClass && !captchaError.hasClass(messageErrorClass)){
+                captchaError.addClass(messageErrorClass);
+            }
+            captchaError.show();
+        };
+
+        /**
+         * Hides the captcha validation error message
+         */
+        sakai_global.captcha.hideError = function() {
+            captchaError.hide();
         };
 
         /**

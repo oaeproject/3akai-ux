@@ -169,12 +169,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status == 404) {
-                            showSettings = true;
-                            continueInit();
                             // we need to create the initial message store
                             $.post(store, {
                                 "sling:resourceType": "sakai/messagestore"
                             });
+                            continueInit();
                         }
                     }
                 });
@@ -339,7 +338,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
         var parseSettings = function(data){
             var contact = false;
-            var canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            var canEditPage = false;
+            if (!widgetData) {
+                canEditPage = true;
+            }
+            else {
+                canEditPage = sakai.api.Widgets.canEditContainer(widgetData);
+            }
             parsedSettings["ismanager"] = canEditPage;
             // Anonymous can't do anything
             if (sakai.api.User.isAnonymous(sakai.data.me)) {
@@ -370,6 +375,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     }
                 }
             }
+            getPosts();
         };
 
         var processWidgetData = function(data) {
@@ -382,7 +388,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             } else {
                 // Parse these settings to be usable in templates
                 parseSettings(data);
-                getPosts();
             }
         };
 
@@ -400,6 +405,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         // We don't have settings for this widget yet.
                         if (showSettings) {
                             displaySettings();
+                        } else {
+                            saveSettings(getWidgetSettings);
                         }
                     }
 
@@ -422,8 +429,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = widgetSettings;
 
             widgetSettings['replytype'] = $("#discussion_settings_reply_options input[type='radio']:checked", $rootel).val();
-            widgetSettings['whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val();
-            widgetSettings['whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val();
+            widgetSettings['whocanaddtopic'] = $("#discussion_settings_permissions_add_new input[type='radio']:checked", $rootel).val() || "anyone";
+            widgetSettings['whocanreply'] = $("#discussion_settings_permissions_who_can_reply input[type='radio']:checked", $rootel).val() || "anyone";
             widgetSettings['marker'] = marker;
 
             // JCR properties are not necessary.

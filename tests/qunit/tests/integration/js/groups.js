@@ -74,7 +74,7 @@ require(
                 ok(success, "The user has been successfully created");
                 if (success) {
                     // add the user to the group
-                    sakai.api.Groups.addUsersToGroup(group_id, "members", sakai.data.me, [user_random], function(success) {
+                    sakai.api.Groups.addUsersToGroup(group_id, sakai.data.me, [user_random], function(success) {
                         ok(success, "User was added to group");
                         if (success) {
                             setTimeout(function() {
@@ -114,7 +114,7 @@ require(
         // create a user to add to the group as a manager
         asyncTest("Adding the user to the group as a manager", function() {
             // add the user to the group
-            sakai.api.Groups.addUsersToGroup(group_id, "managers", [user_random], sakai.data.me, function(success) {
+            sakai.api.Groups.addUsersToGroup(group_id, [user_random], sakai.data.me, function(success) {
                 ok(success, "User was added to group");
                 if (success) {
                     // check to see that they've been added to the group
@@ -169,7 +169,7 @@ require(
                 "password": "test"
             }, function(success, data) {
                 if (success) {
-                    sakai.api.Groups.addJoinRequest(user_random, group_id, false, function(success) {
+                    sakai.api.Groups.addJoinRequest(user_random, group_id, false, false, function(success) {
                         ok(success, "Added a join request for the user");
                         if (success) {
                             // check to see that the user is now a member of the group

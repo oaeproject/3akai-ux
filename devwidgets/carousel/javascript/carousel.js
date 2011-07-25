@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
                 obj.lastModifiedBy = item["_lastModifiedBy"];
-                obj.url = "/content#p=" + item["_path"] + "/" + item["sakai:pooled-content-file-name"];
+                obj.url = "/content#p=" + sakai.api.Util.urlSafe(item["_path"]) + "/" + sakai.api.Util.urlSafe(item["sakai:pooled-content-file-name"]);
                 obj.contentType = "content";
                 obj.id = item["_path"];
 
@@ -258,8 +258,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
                     obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                 }
-                if (group.picture && group.picture.value && group.picture.value.length){
-                    obj.picture = $.parseJSON(group.picture.value);
+                if (group.picture){
+                    obj.picture = sakai.api.Groups.getProfilePicture(group);
                 }
                 obj.counts = group.counts;
 

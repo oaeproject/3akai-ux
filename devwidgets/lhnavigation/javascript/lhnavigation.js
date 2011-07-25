@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
                 }
             }
             structure._childCount = childCount;
@@ -480,7 +480,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else {

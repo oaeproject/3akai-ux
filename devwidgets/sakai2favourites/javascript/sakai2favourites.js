@@ -305,7 +305,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (toSave.id.length === 0){
                     toSave.id[0] = "invalidSite";
                 }
-                sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/sakai2favouriteList",toSave, function(success,data){
+                sakai.api.Server.saveJSON("/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/private/sakai2favouriteList",toSave, function(success,data){
                     $("#sakai2favourites_container").jqmHide();
                     $(window).trigger("sakai2-favourites-selected");
                 });

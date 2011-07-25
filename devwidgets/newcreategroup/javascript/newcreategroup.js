@@ -136,12 +136,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 });
                 if (users.length > 0) {
-                    sakai.api.Groups.addUsersToGroup(groupid, false, users, sakai.data.me, false, function(){
+                    sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
                         creationComplete.members = true;
                         checkCreationComplete();
                     });
                     $.each(users, function(index, item){
-                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, false, "group_invitation");
+                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
                         if(users.length - 1 == index){
                             creationComplete.message = true;
                             checkCreationComplete();
@@ -164,40 +164,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     var createGroupDocs = function(groupid, currentTemplate){
-        replaceTemplateParameters({"groupid": groupid}, groupid, currentTemplate, function(groupid, currentTemplate){
-            createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
-                fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
-                    setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
-                        addStructureToGroup(groupid, currentTemplate, function(){
-                            creationComplete.docs = true;
-                            checkCreationComplete();
-                        });
+        var templateParameters = {
+            "groupid": groupid,
+            "refid": sakai.api.Util.generateWidgetId()
+        };
+        currentTemplate = sakai.api.Util.replaceTemplateParameters(templateParameters, currentTemplate);
+        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+            fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+                setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
+                    addStructureToGroup(groupid, currentTemplate, function(){
+                        creationComplete.docs = true;
+                        checkCreationComplete();
                     });
                 });
             });
         });
-    };
-
-    var replaceTemplateParameters = function(variables, groupid, currentTemplate, callback){
-        for (var variable in variables){
-            for (var doc in currentTemplate.docs){
-                currentTemplate.docs[doc] = loopAndReplace(currentTemplate.docs[doc], variable, variables[variable]);
-            }
-        }
-        callback(groupid, currentTemplate);
-    };
-
-    var loopAndReplace = function(structure, variable, replace){
-        for (var i in structure){
-            if (structure.hasOwnProperty(i)){
-                if (typeof structure[i] === "string"){
-                    structure[i] = structure[i].replace("${" + variable + "}", replace);
-                } else if (typeof structure[i] === "object"){
-                    structure[i] = loopAndReplace(structure[i], variable, replace);
-                }
-            }
-        }
-        return structure;
     };
 
     var addStructureToGroup = function(groupid, currentTemplate, callback){
@@ -224,7 +205,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback();
             }
         });
-    }
+    };
 
     var setSakaiDocPermissions = function(groupid, currentTemplate, callback){
         var filesArray = {};
@@ -239,7 +220,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             filesArray[definition._pid] = {
                 "hashpath": definition._pid,
                 "permissions": permission
-            }
+            };
         }
         sakai.api.Content.setFilePermissions(filesArray, function(){
             var batchRequests = [];
@@ -256,13 +237,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                for (var i = 0; i < definition._edit.length; i++){
-                    if (definition._edit[i].substring(0, 1) === "-") {
+                for (var j = 0; j < definition._edit.length; j++){
+                    if (definition._edit[j].substring(0, 1) === "-") {
                         batchRequests.push({
                             "url": "/p/" + definition._pid + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":manager": groupid + definition._edit[i]
+                                ":manager": groupid + definition._edit[j]
                             }
                         });
                     }
@@ -337,7 +318,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 callback(groupid, currentTemplate);
             }
         });
-    }
+    };
 
     /**
      * Add binding to the elements and validate the forms on submit

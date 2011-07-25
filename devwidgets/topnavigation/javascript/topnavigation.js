@@ -53,6 +53,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavUserDropdown = ".topnavigation_user_dropdown";
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
         var topnavigationExternalLogin= ".topnavigation_external_login";
+        var topnavUserLoginButton = "#topnavigation_user_options_login";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -229,7 +230,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
-                            "url": "/content#p=" + data.results[i]["_path"] + "/" + data.results[i]["sakai:pooled-content-file-name"],
+                            "url": "/content#p=" + sakai.api.Util.urlSafe(data.results[i]["_path"]) + "/" + sakai.api.Util.urlSafe(data.results[i]["sakai:pooled-content-file-name"]),
                             "css_class": mimeType
                         };
                         files.push(tempFile);
@@ -261,6 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             renderObj.query = searchText;
+            searchText = sakai.api.Server.createSearchString(searchText);
             var requests = [];
             requests.push({
                 "url": filesUrl,
@@ -293,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "q": searchText,
                         "category": category.id
                     }
-                });                        
+                });
             }
             
 
@@ -383,8 +385,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var temp = "";
                     if (sakai.data.me.user.anon) {
                         if (sakai.config.Navigation[i].anonymous) {
-                            temp = createMenuList(i);
-                            menulinks.push(temp);
+                            if (sakai.config.Navigation[i].id !== "navigation_anon_signup_link") {
+                                temp = createMenuList(i);
+                                menulinks.push(temp);
+                            } else if (sakai.config.Authentication.allowInternalAccountCreation) {
+                                temp = createMenuList(i);
+                                menulinks.push(temp);
+                            }
                         }
                     } else {
                         if (!sakai.config.Navigation[i].anonymous) {
@@ -470,11 +477,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Make sure that the results only disappear when you click outside
             // of the search box and outside of the results box
-            $(window).click(function(ev){
-                if (ev.target.id !== "topnavigation_search_input") {
-                    $("#topnavigation_search_results").hide();
-                }
-            });
+            sakai.api.Util.hideOnClickOut("#topnavigation_search_results", "#topnavigation_search_results_container,#topnavigation_search_results_bottom_container,#topnavigation_search_input");
 
             $("#subnavigation_preferences_link").live("click", function(){
                 $(window).trigger("init.accountpreferences.sakai");
@@ -508,6 +511,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     evt.preventDefault();
                 }
             });
+
 
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
@@ -546,6 +550,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(topnavuserOptionsLoginButtonLogin).show();
                         $(topnavUserOptionsLoginForm).addClass("topnavigation_user_options_login_sign_in_error_margin");
                         $(topnavUserOptionsLoginError).show();
+                        $(topnavUseroptionsLoginFieldsUsername).focus();
                     }
                 });
                 return false;
@@ -582,15 +587,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
+            $(topnavUserLoginButton).bind("focus",function(){
+                $(this).trigger("mouseover");
+                mouseOverSignIn = true;
+                $(topnavUserOptionsLoginFields).trigger('click');
+                $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
+            });
+
+            $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
+                mouseOverSignIn = false;
+                $(topnavUserLoginButton).trigger("mouseout");
+                $("html").trigger("click");
+            });
+
             $(topnavigationlogin).hover(function(){
                 var $menu = $(this);
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
-                         + $menu.width()
-                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
-                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10);
+                         $menu.width();
 
                     var margin = ($externalAuth.width() - menuPadding) * -1;
                     $externalAuth.css("margin-left", margin + "px");
