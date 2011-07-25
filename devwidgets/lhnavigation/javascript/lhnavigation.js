@@ -102,7 +102,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     listitem = $(listitem + pageid + "']");
                     element = ".lhnavigation_levelcount";
                 }
-                count._count = (countContainer._count || 0) + value;
+                count._count = (count._count || 0) + value;
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
                     if (count._count <= 0){
