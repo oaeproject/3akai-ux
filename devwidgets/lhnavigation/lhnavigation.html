@@ -55,7 +55,7 @@
     </ul>
     <ul id="lhnavigation_public_pages" class="lhnavigation_menu_list" data-sakai-space="public">
         {for level in public.orderedItems}
-            {if level._childCount > 1}
+            {if level._childCount > 1 || !level._poolpath}
                 <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_hassubnav lhnavigation_outer" data-sakai-addcontextoption="${contextData.addArea}" data-sakai-savepath="${contextData.puburl}" data-sakai-pagesavepath="${level._poolpath}" data-sakai-ref="${level._ref}" data-sakai-path="${level._id}" data-sakai-noneditable="${level._nonEditable}" data-sakai-reorder-only="${level._reorderOnly}" data-sakai-manage="${level._canEdit}" data-sakai-submanage="${level._canSubedit}" {if level.canView === false} style="display:none;" {/if}>
                     <div class="lhnavigation_item_content">
                         <div class="lhnavigation_has_subnav"></div>
