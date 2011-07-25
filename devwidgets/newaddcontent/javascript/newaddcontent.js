@@ -880,7 +880,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var enableContentFields = function() {
             $(newaddcontentUploadContentTitle).removeAttr("disabled");
-            $(newaddcontentUploadContentDescription).removeAttr("diabled");
+            $(newaddcontentUploadContentDescription).removeAttr("disabled");
             $(newaddcontentUploadContentTags).removeAttr("disabled");
         }
 
