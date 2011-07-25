@@ -76,7 +76,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showButton = function (type) {
             hideButtons();
-            if (type && typeof(type) === "string") {
+            if (_.isString(type)) {
                 switch(type) {
                     case "join":
                         $(".joinrequestbuttons_join").show();
@@ -109,34 +109,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var render = function () {
             // render the template
-            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer($joinrequestbuttons_template, {id:joinrequestbuttons.groupid, buttonStyle:joinrequestbuttons.buttonStyle}));
+            $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer($joinrequestbuttons_template, {
+                id:joinrequestbuttons.groupid,
+                buttonStyle:joinrequestbuttons.buttonStyle
+            }));
 
             // determine which button to show
-            var isMember = sakai.api.Groups.isCurrentUserAMember(
-                joinrequestbuttons.groupid, sakai.data.me);
-            var isManager = sakai.api.Groups.isCurrentUserAManager(
-                joinrequestbuttons.groupid, sakai.data.me);
+            var isMember = sakai.api.Groups.isCurrentUserAMember(joinrequestbuttons.groupid, sakai.data.me);
+            var isManager = sakai.api.Groups.isCurrentUserAManager(joinrequestbuttons.groupid, sakai.data.me);
             var isAnon = sakai.data.me.user.userid ? false : true;
 
-            if (joinrequestbuttons.groupData.leaveAllowed) {
+            if ((isManager || isMember) && joinrequestbuttons.groupData.leaveAllowed) {
                 // we have either a group member or manager, but not the last group manager
                 showButton("leave");
             }
             else if ((isManager && joinrequestbuttons.managerCount === 1) ||
-                (!isMember && joinrequestbuttons.joinability ===
-                    sakai.config.Permissions.Groups.joinable.manager_add) ||
-                isAnon) {
+                (!isMember && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.manager_add) || isAnon) {
                 // we have either the last group manager or a non-member with
                 // joinability set to 'only managers can add' or an anonymous user
                 hideButtons();
             }
-            else if (!isMember && !isAnon && joinrequestbuttons.joinability ===
-                sakai.config.Permissions.Groups.joinable.user_direct) {
+            else if (!isMember && !isAnon && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.user_direct) {
                 // we have a non-member with joinability set to 'users can join directly'
                 showButton("join");
             }
-            else if (!isMember && !isAnon && joinrequestbuttons.joinability ===
-                sakai.config.Permissions.Groups.joinable.user_request) {
+            else if (!isMember && !isAnon && joinrequestbuttons.joinability === sakai.config.Permissions.Groups.joinable.user_request) {
                 // we have a non-member with joinability set to 'users must request to join'
 
                 /**
@@ -181,8 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         } else {
                             // not sure if this user has requested, show request button
                             showButton("request");
-                            debug.warn("Could not get join requests for group id: " +
-                                joinrequestbuttons.groupid);
+                            debug.warn("Could not get join requests for group id: " + joinrequestbuttons.groupid);
                         }
                     },
                     false);  // this is an non-async call
@@ -193,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 hideButtons();
             }
 
-            if (joinrequestbuttons.onShow && $.isFunction(joinrequestbuttons.onShow)) {
+            if ($.isFunction(joinrequestbuttons.onShow)) {
                 joinrequestbuttons.onShow($("#joinrequestbuttons_widget"));
             }
         };
@@ -228,11 +224,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.type.ERROR);
                 }
                 // call callback
-                if (joinrequestbuttons.requestCallback &&
-                    $.isFunction(joinrequestbuttons.requestCallback)) {
+                if (joinrequestbuttons.requestCallback && $.isFunction(joinrequestbuttons.requestCallback)) {
                     joinrequestbuttons.requestCallback(success, groupid);
                 }
             });
+            return true;
         });
 
         $joinrequestbuttons_join.die("click");
@@ -261,6 +257,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     joinrequestbuttons.joinCallback(success, groupid);
                 }
             });
+            return true;
         });
 
         $joinrequestbuttons_leave.die("click");
@@ -298,6 +295,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
             });
+            return true;
         });
 
         /////////////////////////////
@@ -318,9 +316,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *  {Object} joinrequests  optional joinrequest data from the server. If not provided, this
          *      widget will issue a server request to get the data if needed.
          */
-        $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupData, groupid,
-            joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback,
-            joinrequests) {
+        $(window).bind("init.joinrequestbuttons.sakai", function (ev, groupData, groupid, joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback, joinrequests) {
             if (!groupid || !joinability) {
                 return;
             }
