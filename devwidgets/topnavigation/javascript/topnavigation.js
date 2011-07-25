@@ -526,8 +526,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register"
-                            || window.location.pathname === "/index" || window.location.pathname === "/") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+                            window.location.pathname === "/index" || window.location.pathname === "/") {
                             window.location = "/me";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
@@ -605,8 +605,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10);
-                         $menu.width();
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
+                         $menu.width() -
+                         parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
+                         parseInt($externalAuth.css("paddingLeft").replace("px", ""), 10);
 
                     var margin = ($externalAuth.width() - menuPadding) * -1;
                     $externalAuth.css("margin-left", margin + "px");
