@@ -119,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var isManager = sakai.api.Groups.isCurrentUserAManager(joinrequestbuttons.groupid, sakai.data.me);
             var isAnon = sakai.data.me.user.userid ? false : true;
 
-            if ((isMember || isMember) && joinrequestbuttons.groupData.leaveAllowed) {
+            if ((isManager || isMember) && joinrequestbuttons.groupData.leaveAllowed) {
                 // we have either a group member or manager, but not the last group manager
                 showButton("leave");
             }
