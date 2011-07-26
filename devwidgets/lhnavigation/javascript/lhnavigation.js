@@ -680,8 +680,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var changingPageTitle = false;
 
         var checkSaveEditPageTitle = function(ev){
-            if(!$(ev.target).is("input")){
-                $(window).unbind("click", checkSaveEditPageTitle);
+            $(window).unbind("click", checkSaveEditPageTitle);
+            if (!$(ev.target).is("input") && changingPageTitle) {
                 savePageTitle();
             }
         };
@@ -1016,13 +1016,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         });
 
         $(".lhnavigation_change_title").live("keyup", function(ev){
-            if(ev.keyCode === 13){
+            if (ev.keyCode === 13 && changingPageTitle) {
                 savePageTitle();
             }
-        })
+        });
 
         $(".lhnavigation_change_title").live("blur", function(ev){
-            savePageTitle();
+            if (changingPageTitle) {
+                savePageTitle();
+            }
         });
 
         $("#lhavigation_submenu_deletepage").live("click", function(ev){
