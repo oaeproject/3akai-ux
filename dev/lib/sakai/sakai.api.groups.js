@@ -307,8 +307,8 @@ define(
                     toProcess.splice(0, 1);
                     createGroup(group, saveGroup);
                 } else {
-                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, true, managershipsToProcess, meData, true, function(){
-                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, false, membershipsToProcess, meData, false, function(){
+                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, managershipsToProcess, meData, true, function(){
+                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, membershipsToProcess, meData, false, function(){
                             if (mainCallback){
                                 mainCallback(true, data, false);
                             }
@@ -734,7 +734,7 @@ define(
          *  -- {Object} joinrequest data if successful
          */
         getJoinRequests : function(groupID, callback, async) {
-            if (groupID && typeof(groupID) === "string") {
+            if (_.isString(groupID)) {
                 if (async === null || async === undefined) {
                     async = true;
                 }
@@ -898,12 +898,11 @@ define(
          * Add users to the specified group
          *
          * @param {String} groupID the ID of the group to add members to
-         * @param {String} list Either 'members' or 'managers'
          * @param {Array} users Array of user/group IDs to add to the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
          */
-        addUsersToGroup : function(groupID, list, users, medata, managerShip, callback) {
+        addUsersToGroup : function(groupID, users, medata, managerShip, callback) {
             var reqData = [];
             var currentUserIncluded = false;
 
