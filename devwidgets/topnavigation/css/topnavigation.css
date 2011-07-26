@@ -20,6 +20,7 @@
 
 /* NAVIGATION */
 .topnavigation_explore {margin: 0 0 0 6px;float:left;}
+.topnavigation_explore li {float:left;}
 .topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login{display:block;padding:7px 25px 10px;color:#fff; text-decoration:none;}
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
