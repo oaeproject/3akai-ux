@@ -863,23 +863,24 @@ define(
         },
 
         leave : function(groupId, role, meData, callback){
-            $.ajax({
-                url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
-                type: "POST",
-                success: function(){
-                    var pseudoGroupID = groupId + "-" + role;
-                    var index = meData.user.subjects.indexOf(groupId);
-                    meData.user.subjects.splice(index, 1);
-                    index = meData.user.subjects.indexOf(pseudoGroupID);
-                    meData.user.subjects.splice(index, 1);
-                    if ($.isFunction(callback)){
-                        callback(true);
-                    }
+            var reqs = [
+                {
+                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    method: "POST"
                 },
-                error: function() {
-                    if ($.isFunction(callback)){
-                        callback(false);
-                    }
+                {
+                    url: "/system/userManager/group/"+ groupId + ".leave.json",
+                    method: "POST"
+                }
+            ];
+            sakai_serv.batch(reqs, function(success){
+                var pseudoGroupID = groupId + "-" + role;
+                var index = meData.user.subjects.indexOf(groupId);
+                meData.user.subjects.splice(index, 1);
+                index = meData.user.subjects.indexOf(pseudoGroupID);
+                meData.user.subjects.splice(index, 1);
+                if ($.isFunction(callback)){
+                    callback(success);
                 }
             });
         },
