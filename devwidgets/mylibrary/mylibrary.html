@@ -94,7 +94,7 @@
                         id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
-                    <a href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
+                    <a href="${item.link}/${item.filename|urlSafe}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.type}" />
                         {elseif (item.mimeType && item.mimeType.substring(0,6)=="image/")}
@@ -105,7 +105,7 @@
                     </a>
                     <div class="mylibrary_item_right s3d-regular-links">
                         <div>
-                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename}" title="__MSG__VIEW_THIS_ITEM__">
+                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename|urlSafe}" title="__MSG__VIEW_THIS_ITEM__">
                                 ${item.filename}
                             </a>
                             {if item.type}
