@@ -370,7 +370,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(entityUserImage).click(toggleDropdownList);
             $(entityGroupImage).click(toggleDropdownList);
 
-            sakai.api.Util.hideOnClickOut(".s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityGroupImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityUserImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
 
         });
 
