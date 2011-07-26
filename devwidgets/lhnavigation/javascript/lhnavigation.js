@@ -1015,6 +1015,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showAreaPermissions();
         });
 
+        $(".lhnavigation_change_title").live("keyup", function(ev){
+            if(ev.keyCode === 13){
+                savePageTitle();
+            }
+        })
+
         $(".lhnavigation_change_title").live("blur", function(ev){
             savePageTitle();
         });
