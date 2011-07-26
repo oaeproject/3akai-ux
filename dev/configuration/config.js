@@ -244,7 +244,7 @@ define(function(){
                 visible: {
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
-                    "public": "public", // Anyone on the Internet
+                    "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
@@ -386,7 +386,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
-                        "permission": "everyone",
+                        "permission": "anonymous",
                         "order": 1,
                         "elements": {
                             "aboutme": {
@@ -420,7 +420,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
-                        "permission": "contacts",
+                        "permission": "anonymous",
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -440,7 +440,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
-                        "permission": "private",
+                        "permission": "anonymous",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                         "order": 3,
@@ -1641,7 +1641,7 @@ define(function(){
                     "_altTitle": "${user}'s Library",
                     "_reorderOnly": false,
                     "_nonEditable": true,
-                    "_view": "everyone",
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "id9834611274",
                         "_order": 0,
@@ -1655,7 +1655,7 @@ define(function(){
                     "_altTitle": "${user}'s Memberships",
                     "_reorderOnly": false,
                     "_nonEditable": true,
-                    "_view": "private",
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "id213623673",
                         "_order": 0,
@@ -1669,7 +1669,7 @@ define(function(){
                     "_altTitle": "${user}'s Contacts",
                     "_reorderOnly": false,
                     "_nonEditable": true,
-                    "_view": "contacts",
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "id1193715035",
                         "_order": 0,

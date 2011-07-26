@@ -56,140 +56,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // Storing new permissions //
          /////////////////////////////
 
-         /* var applyPermissions = function(){
-             var groupData = sakai_global.group.groupData;
-             var roles = $.parseJSON(groupData["sakai:roles"]);
-
-             var newView = [];
-             var newEdit = [];
-
-             // Collect everyone and anonymous value
-             var generalVisibility = $("#areapermissions_area_general_visibility").val();
-             if (generalVisibility === "everyone"){
-                 newView.push("everyone"); 
-                 newView.push("anonymous");
-             } else if (generalVisibility === "loggedin"){
-                 newView.push("everyone");
+         var applyPermissions = function(){             
+             var currentPath = contextData.path;
+             var page = false;
+             if (currentPath.indexOf("/") !== -1){
+                 var split = currentPath.split("/");
+                 page = sakai_global.user.pubdata.structure0[split[0]][split[1]];
+             } else {
+                 page = sakai_global.user.pubdata.structure0[currentPath];
              }
 
-             // Collect new view roles and new edit roles
-             for (var i = 0; i < roles.length; i++){
-                 var el = $("select[data-roleid='" + roles[i].id + "']");
-                 var selectedPermission = el.val();
-                 if (selectedPermission === "edit"){
-                     newEdit.push("-" + roles[i].id);
-                 } else if (selectedPermission === "view"){
-                     newView.push("-" + roles[i].id);
-                 }
-             }
+             // Collect selected permission
+             var permission = $("#userpermissions_area_general_visibility").val();
+             page._view = permission
 
-             // Refetch docstructure information
-             $.ajax({
-                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
-                 success: function(data){
-                     // Store view and edit roles
-                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
-                     pubdata.structure0[contextData.path]._view = $.toJSON(newView);
-                     pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
-                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
-                     sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
-                        "structure0": $.toJSON(pubdata.structure0)
-                    });
-                 }
+             sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/public/pubspace", {
+                 "structure0": $.toJSON(sakai_global.user.pubdata.structure0)
              });
-
-             // If I manage the document, add/remove appropriate roles from document
-             if (contextData.isManager){
-
-                 // General visibility
-                 // Options are public, everyone or private
-                 var permissionsBatch = [];
-
-                 var $generalVisEl = $("#areapermissions_area_general_visibility");
-                 var generalValue = $generalVisEl.val();
-                 var originalGeneralValue = $generalVisEl.data("original-selection");
-                 var generalPermission = "";
-                 if (generalValue !== originalGeneralValue){
-                     if (generalValue === "everyone"){
-                         generalPermission = "public";
-                     } else if (generalValue === "loggedin"){
-                         generalPermission = "everyone";
-                     } else if (generalValue === "selected"){
-                         generalPermission = "private";
-                     }
-                 }
-                 permissionsBatch.push({
-                     "url": contextData.pageSavePath + ".json",
-                     "method": "POST",
-                     "parameters": {
-                         "sakai:permissions": generalPermission
-                     }
-                 });
-
-                 // Per role visibility
-                 for (var i = 0; i < roles.length; i++) {
-                     var role = sakai_global.group.groupId + "-" + roles[i].id;
-                     var el = $("select[data-roleid='" + roles[i].id + "']");
-                     var selectedPermission = el.val();
-                     var parameters = {
-                         ":viewer@Delete": role,
-                         ":manager@Delete": role
-                     };
-                     var aclParameters = {
-                        "principalId": role,
-                        "privilege@jcr:write": "denied",
-                        "privilege@jcr:read": "denied"
-                     };
-                     if (selectedPermission === "edit"){
-                         parameters = {
-                             ":viewer@Delete": role,
-                             ":manager": role
-                         }
-                         aclParameters = {
-                             "principalId": role,
-                             "privilege@jcr:write": "granted",
-                             "privilege@jcr:read": "granted"
-                         }
-                     } else if (selectedPermission === "view"){
-                         parameters = {
-                             ":viewer": role,
-                             ":manager@Delete": role
-                         }
-                         aclParameters = {
-                             "principalId": role,
-                             "privilege@jcr:write": "denied",
-                             "privilege@jcr:read": "granted"
-                         }
-                     };
-                     permissionsBatch.push({
-                         "url": contextData.pageSavePath + ".members.json",
-                         "method": "POST",
-                         "parameters": parameters
-                     });
-                     permissionsBatch.push({
-                            "url": contextData.pageSavePath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": aclParameters
-                     });
-                 }
-
-                 // Send requests
-                 sakai.api.Server.batch(permissionsBatch, function(success, data){
-                     if (generalPermission) {
-                         sakai.api.Content.setFilePermissions([{
-                             "hashpath": contextData.pageSavePath.substring(3),
-                             "permissions": generalPermission
-                         }]);
-                     }
-                 });
-             }
-
-             $("#areapermissions_container").jqmHide();
+             $("#userpermissions_container").jqmHide();
 
              // Show gritter notification
-             sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
+             sakai.api.Util.notification.show($("#userpermissions_notification_title").text(), $("#userpermissions_notification_body").text());
 
-         } */
+         }
 
          /////////////////////////////////
          // Modal dialog initialization //
@@ -210,9 +99,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // Internal events //
          /////////////////////
 
-         //$("#areapermissions_apply_permissions").live("click", function(){
-         //    applyPermissions();
-         //});
+         $("#userpermissions_apply_permissions").live("click", function(){
+             applyPermissions();
+         });
 
          /////////////////////
          // External events //

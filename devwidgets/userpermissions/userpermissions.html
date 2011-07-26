@@ -8,9 +8,7 @@
     <div id="userpermissions_content_container" ></div>
     <div class="fl-force-right userpermissions_buttons">
         <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-button-link-2-state" id="areapermissions_apply_permissions" title="Apply permissions">
-            <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__APPLY_PERMISSIONS__</span>
-        </button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="userpermissions_apply_permissions" title="Apply permissions">__MSG__APPLY_PERMISSIONS__</button>
     </div>
     <div class="fl-push"></div>
 </div>
@@ -19,8 +17,8 @@
     <div class="userpermissions_visible_to">
         <span>__MSG__CAN_BE_SEEN_BY__:</span>
         <select id="userpermissions_area_general_visibility" data-original-selection="${permission}">
-            <option value="everyone" {if permission === "anonymous"} selected="true" {/if}>__MSG__EVERYONE__</option>
-            <option value="loggedin" {if permission === "everyone"} selected="true" {/if}>__MSG__LOGGED_IN_ONLY__</option>
+            <option value="anonymous" {if permission === "anonymous"} selected="true" {/if}>__MSG__EVERYONE__</option>
+            <option value="everyone" {if permission === "everyone"} selected="true" {/if}>__MSG__LOGGED_IN_ONLY__</option>
             <option value="contacts" {if permission === "contacts"} selected="true" {/if}>__MSG__MY_CONTACTS_ONLY__</option>
 			<option value="private" {if permission === "private"} selected="true" {/if}>__MSG__PRIVATE__</option>
         </select>
