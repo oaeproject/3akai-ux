@@ -1865,87 +1865,174 @@ define(function(){
                                             "_order":0,
                                             "_title":"Week 2"
                                         }
-                                    },
-                                    "week3":{
-                                        "_ref":"id647321988",
-                                        "_title":"Week 3",
-                                        "_order":2,
-                                        "main":{
-                                            "_ref":"id647321988",
-                                            "_order":0,
-                                            "_title":"Week 3"
-                                        }
                                     }
                                 },
                                 "id6573920372": {
-                                    page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
+                                    page: '<div class="leftCol" style="float: left; margin: 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Week 01</strong></span> <p style="margin: 0pt;"><a target="_blank" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); font-size: 1.85em; font-weight: normal; text-decoration: none; line-height: 1em;">Real and Hyperreal Numbers</a><br data-mce-bogus="1"></p> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 75%; display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Monday January 10</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <span style="color: rgb(38, 131, 188);"><a data-mce-href="group.html?id=Elementary-Calculus#l=id7624869/id9641417" href="group.html?id=Elementary-Calculus#l=id7624869/id9641417"><span style="color: rgb(38, 131, 188); font-size: 0.95em;"><strong>Anaytic Geometry</strong></span></a></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a target="_blank" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.1-1.3</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a target="_blank" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.1: 1, 5, 7, 1.2: 3, 7, 9, 1.3: 3, 5, 11</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="rightCol" style="display: block;"> <div class="dateCol" style="margin-top: 6px; float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Tuesday January 11</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <div class="dueContainer" style="margin: 5px 0pt 10px; background-color: rgb(51, 51, 51); padding: 2px 0pt 1px 2px; font-size: 0.85em; clear: both;"> <div style="float: left; color: rgb(255, 255, 255); padding: 0pt; font-weight: bold; height: 10px;"> <p style="margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px; background-image: url(&quot;http://sampeck.co.uk/files/Sakai/due_icon.png&quot;); background-repeat: no-repeat; background-position: 2px 0pt;"><span style="padding: 0pt 0pt 0pt 27px;">Due</span></p> </div> <div style="float: left; margin: 0pt 0pt 0pt 40px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold; height: 20px;"> <p style="width: 100%; margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px;"><a data-mce-href="group.html?id=Elementary-Calculus#l=id3590016/id2870731" href="group.html?id=Elementary-Calculus#l=id3590016/id2870731" target="_self"><span style="color: rgb(107, 199, 255); text-decoration: none;">Problem Set 1</span></a><a target="_self" data-mce-href="group.html?id=Elementary-Calculus#l=id3590016/id2870731" href="group.html?id=Elementary-Calculus#l=id3590016/id2870731"><br data-mce-bogus="1"><br data-mce-bogus="1"></a></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Wednesday January 12</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <span style="color: rgb(38, 131, 188);"><a data-mce-href="group.html?id=Elementary-Calculus#l=id7624869/id8652137" href="group.html?id=Elementary-Calculus#l=id7624869/id8652137"><span style="color: rgb(38, 131, 188); font-size: 0.95em;"><strong>Functions</strong></span></a></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a target="_blank" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.4</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a target="_blank" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.4: 1, 5, 7</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Friday January 14</div> <div class="entryCol" style="float: left; width: 75%; display: block;"><span style="color: rgb(38, 131, 188);"> <a data-mce-href="group.html?id=Elementary-Calculus#l=id7624869/id6432369" href="group.html?id=Elementary-Calculus#l=id7624869/id6432369"><span style="color: rgb(38, 131, 188); font-size: 0.95em;"><strong>Approximations and Infinitesimals</strong></span></a></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a target="_blank" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.5-1.6</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a target="_blank" href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" data-mce-href="content_profile2.html#p=hqc3vC9maa/01%20Real%20and%20Hyperreal%20Numbers" style="color: rgb(38, 131, 188); text-decoration: none;">1.5: 1, 9, 13, 1.6: 3, 5, 21</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> </div> <hr style="visibility: hidden; clear: both;"> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Week 02</strong></span> <p style="margin: 0pt;"><a style="color: rgb(38, 131, 188); font-size: 1.85em; font-weight: normal; text-decoration: none; line-height: 1em;">Differentiation</a><br data-mce-bogus="1"></p> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 75%; display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Monday January 17</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <span style="color: rgb(51, 51, 51); font-size: 0.95em;"><strong>Derivatives</strong></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.1-2.3</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.1: 1, 5, 7, 2.2: 3, 7, 9, 2.3: 3, 5, 11</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="rightCol" style="display: block;"> <div class="dateCol" style="margin-top: 6px; float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Tuesday January 18</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <div class="dueContainer" style="margin: 5px 0pt 10px; background-color: rgb(51, 51, 51); padding: 2px 0pt 1px 2px; font-size: 0.85em; clear: both;"> <div style="float: left; color: rgb(255, 255, 255); padding: 0pt; font-weight: bold; height: 10px;"> <p style="margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px; background-image: url(&quot;http://sampeck.co.uk/files/Sakai/due_icon.png&quot;); background-repeat: no-repeat; background-position: 2px 0pt;"><span style="padding: 0pt 0pt 0pt 27px;">Due</span></p> </div> <div style="float: left; margin: 0pt 0pt 0pt 40px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold; height: 20px;"> <p style="margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px;"><a style="color: rgb(107, 199, 255); text-decoration: none;">Problem Set 2</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Wednesday January 19</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.4-2.6</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.4: 1, 5, 7 2.5: 3, 7, 9, 2.6: 1, 5, 7</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Friday January 21</div> <div class="entryCol" style="float: left; width: 75%; display: block;"> <span style="color: rgb(51, 51, 51); font-size: 0.95em;"><strong>Differentiation</strong></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.7-2.8</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.7: 1, 5, 7, 2.8: 3, 7, 9</a><br data-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> </div> <hr style="visibility: hidden; clear: both;"> </div> </div>'
                                 },
                                 "id569856425": {
-                                    page: "<p>Week 2<br></p>"
-                                },
-                                "id647321988": {
-                                    page: "<p>Week 3<br></p>"
+                                    page: '<p> </p><div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <p style="margin: 0pt 0pt 20px; color: rgb(102, 102, 102); font-size: 1.25em; font-weight: bold; line-height: 1em;">Elementary Calculus</p> <span style="color: rgb(153, 153, 153); font-size: 0.95em;">Autumn, M, W, F, 9:00-10:50 AM. Building 300<br>James Gleason, PhD</span><br> <p><a href="http://www2.norwalk-city.k12.oh.us/wordpress/apcalc0910/files/2009/10/image.png" target="_blank"><img style="padding: 20px 0pt 0pt;" src="http://www2.norwalk-city.k12.oh.us/wordpress/apcalc0910/files/2009/10/image.png" alt="Calculus" width="100%"></a><br data-mce-bogus="1"></p> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt;">Calculus was originally developed in the 1670s by Leibnitz and Newton based on the intuitive notion of infinitesimals, or an infinitely small number. Weierstrass formalized the concept of limit and eliminated infinitesimals, which was more rigourous, but harder to grasp. Abraham Robinson developed non-standard calculus, the modern application of infinitessimals, which is both precise as well as intuitive, as it is closer to the intuitions that lead to the development of calculus. It is this non-standard approach that we will teach.</p> <ul style="padding: 0pt 0pt 0pt 15px;"><li><a target="_blank" data-mce-href="user.html?id=isabel" href="user.html?id=isabel"><span style="color: rgb(38, 131, 188);"><strong>Isabel Ringloud </strong>Senior Instructor</span></a><br data-mce-bogus="1"></li><li><a href="http://3akai.sakaiproject.org/dev/user.html?id=stacey" target="_blank" style="color: rgb(38, 131, 188);"><strong>Stacey Florence</strong> TA</a><br data-mce-bogus="1"></li></ul> <a data-mce-href="group.html?id=Elementary-Calculus#l=syllabus/week1" href="group.html?id=Elementary-Calculus#l=syllabus/week1" style="color: rgb(38, 131, 188); text-decoration: none;"><strong style="color: rgb(38, 131, 188); text-decoration: none;">View the full syllabus outline</strong></a> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Required textbooks and materials</strong></span> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; margin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt; color: rgb(38, 131, 188); text-decoration: none;"><a href="http://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" style="color: rgb(38, 131, 188); text-decoration: none;"><strong>Elementary Calculus: An Infinitesimal Approach</strong></a> <a href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" target="_blank"><img style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 10%;" src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" alt="Elementary Calculus: An Infinitesimal Approach"></a><br data-mce-bogus="1"></p> <p>You will need only a basic scientific calculator; graphic calculators are not required and will not be allowed in tests.</p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Policies and Expectations</strong></span> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; margin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt;">The course meets for three lectures a week, with one sectional, led by a TA. We expect you to attend every lecture, as it will be difficult to keep up without doing so, then complete the assigned reading and homework once you have gotten an overview of the concept. The answers to this daily homework are in the back of your text and therefore are ungraded; you are encouraged to discuss solutions with your peers. You will also have the opportunity to review your daily homework during Tuesday sectionals, which you are also expected to attend.</p> <p>Weekly problem sets are graded and you must turn these in by 3:15 or preferably during your Tuesday section, both as a courtesy to your TA who must grade these (They will be returned in class on Friday) as well as to insure that you are keeping up. Consider these a take home quiz; collaboration on these problem sets would therefore be a violoation of the <a target="_blank" style="color: rgb(38, 131, 188); text-decoration: none;">Honor Code</a>.</p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Grading</strong></span> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; margin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt;">Grading is based on the following. Regarding weekly problem sets, late problem sets will count as a zero, but we will throw out your lowest two problem set scores</p> <ul style="padding: 0pt 0pt 0pt 15px;"><li><a target="_blank" style="color: rgb(38, 131, 188);"><strong>Midterm Exam 1: 25%</strong></a><br data-mce-bogus="1"></li><li><a target="_blank" style="color: rgb(38, 131, 188);"><strong>Midterm Exam 2: 25%</strong></a><br data-mce-bogus="1"></li><li><a target="_blank" style="color: rgb(38, 131, 188);"><strong>Weekly Problem Sets: 10%</strong></a><br data-mce-bogus="1"></li><li><a target="_blank" style="color: rgb(38, 131, 188);"><strong>Final Exam: 40%</strong></a><br data-mce-bogus="1"></li></ul> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Additional information</strong></span> </div> <div class="rightCol" style="float: right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; margin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt;">A Note from the Office of Accessible Education: Students who may need an academic accommodation based on the impact of a disability must initiate the request with the Office of Accessible Education (OAE).</p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div>'
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
-                                    "contact":{
-                                        "_ref":"id6573920372",
+                                    "lecture01": {
+                                        "_ref":"id5908480923849",
                                         "_order":0,
-                                        "_title": "Contact",
+                                        "_title":"Lecture 01",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"id5908480923849",
                                             "_order":0,
-                                            "_title":"Contact"
+                                            "_title":"Lecture 01"
+                                        }
+                                    },
+                                    "lecture02":{
+                                        "_ref":"id32432505",
+                                        "_title":"Lecture 02",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id32432505",
+                                            "_order":0,
+                                            "_title":"Lecture 02"
+                                        }
+                                    },
+                                    "lecture03":{
+                                        "_ref":"id954354389",
+                                        "_title":"Lecture 03",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"id954354389",
+                                            "_order":0,
+                                            "_title":"Lecture 03"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "id5908480923849": {
+                                    page: '<p style="padding-left: 30px;"> </p><p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Week 01: Real and Hyperreal Numbers</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #666666;">Lecture 01: Analytic Geometry</p><p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Date: Monday 10th January<br>Location: <a style="color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="color: #2683bc; text-decoration: none;">Building 600, Lecture Hall 209</a><br data-mce-bogus="1"></p><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;"><img id="widget_remotecontent_id1145805" class="widget_inline" style="display: block; padding: 10px; margin: 4px;" src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-style="display: block; padding: 10px; margin: 4px;" border="1">The following was covered in this lecture:</p><ol style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: #333333; font-size: 0.85em; font-weight: bold;"><li>The development of Cartesian geometry</li><li>Euclidean geometry</li><li>Conics, cubics, Bezout&quot;s theorem, and the beginnings of a projective view to curves</li><li>Irrational numbers and decimal expansions</li><li>Pi and its continued fraction approximations</li></ol><p style="color: rgb(51, 51, 51); font-size: 0.85em;" data-mce-style="color: #333333; font-size: 0.85em;">Please read and complete the following before the lecture, bring text books, along with, your workings with you and printouts of the Analytic Geometry lecture slides.</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;">Reading material</p><p style="margin: 0pt; color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="margin: 0pt; color: #2683bc; text-decoration: none;"><a style="color: rgb(38, 131, 188); text-decoration: none;" href="http://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" data-mce-href="http://www.math.wisc.edu/%7Ekeisler/calc.html" data-mce-style="color: #2683bc; text-decoration: none;">Elementary Calculus: An Infinitesimal Approach</a> <a href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" target="_blank" data-mce-href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg"><img style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" alt="Elementary Calculus: An Infinitesimal Approach" src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" border="0 0"></a><br data-mce-bogus="1"></p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">H. Jerome Kliesler</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p><span style="float: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);" data-mce-style="float: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color: #ffffff; color: #999999;">Before class</span></p><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">Chapters: 1.1 - 1.3</p><p style="padding-left: 30px;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.1 - The real line</a><br data-mce-bogus="1"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.2 - Functions of Real Numbers</a><br data-mce-bogus="1"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.3 - Straight Lines</a><br data-mce-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Complete the following problems:</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">1.1: 1, 5, 7 <br>1.2: 3, 7, 9 <br>1.3: 3, 5, 11</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;">'
                                 },
-                                "id439704665": {
-                                    googlemaps: {
-                                        "mapinput": "16 Mill Lane, Cambridge, UK",
-                                        "mapzoom": "14",
-                                        "mapsize": "LARGE",
-                                        "lng": "0.11648790000003828",
-                                        "sling:resourceType": "sakai/widget-data",
-                                        "maphtml": "16 Mill Ln, Cambridge CB2 1, UK",
-                                        "lat": "52.201596"
+                                "id1145805": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/embed/rXOGLlKuvzU",
+                                        border_size: 0
                                     }
+                                },
+                                "id9490062": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/embed/dNyLGmiYQY0",
+                                        border_size: 0
+                                    }
+                                },
+                                "id3229571": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/v/Fe9DPXvt2ps",
+                                        border_size: 0
+                                    }
+                                },
+                                "id32432505": {
+                                    page: '<p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Week 01: Real and Hyperreal Numbers</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #666666;">Lecture 02: Functions</p><p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Date: Wednesday 12th January<br>Location: <a style="color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="color: #2683bc; text-decoration: none;">Building 600, Lecture Hall 209</a><br data-mce-bogus="1"></p><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;"><img id="widget_remotecontent_id9490062" class="widget_inline" style="display: block; padding: 10px; margin: 4px;" src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-style="display: block; padding: 10px; margin: 4px;" border="1">The following was covered in this lecture:</p><ol style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: #333333; font-size: 0.85em; font-weight: bold;"><li>Real Function of One Variable</li><li>Drawing Graphs of Functions</li><li>Domain of a Real Function</li><li>Constant Function</li><li>Absolute Value Function</li><li>Theorem and Proof: Absolute Value Function</li><li>Applications Of Functions</li><li>Real Function of Two Variables</li><li>Applications Of Functions With Two Or More Variables</li></ol><p style="color: rgb(51, 51, 51); font-size: 0.85em;" data-mce-style="color: #333333; font-size: 0.85em;">Please read and complete the following before the lecture, bring text books, along with, your workings with you and printouts of the Analytic Geometry lecture slides.</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;">Reading material</p><p style="margin: 0pt; color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="margin: 0pt; color: #2683bc; text-decoration: none;"><a style="color: rgb(38, 131, 188); text-decoration: none;" href="http://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" data-mce-href="http://www.math.wisc.edu/%7Ekeisler/calc.html" data-mce-style="color: #2683bc; text-decoration: none;">Elementary Calculus: An Infinitesimal Approach</a> <a href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" target="_blank" data-mce-href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg"><img style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" alt="Elementary Calculus: An Infinitesimal Approach" src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" border="0 0"></a><br data-mce-bogus="1"></p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">H. Jerome Kliesler</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Before class<br></p><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">Chapter: 1.4</p><p style="padding-left: 30px;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.4 - The real line</a><br data-mce-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Complete the following problems:</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt 0pt 0pt 30px; color: rgb(51, 51, 51);">1.4: 1, 5, 7</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;">'
+                                },
+                                "id954354389": {
+                                    page: '<p style="padding-left: 30px;"> </p><p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Week 01: Real and Hyperreal Numbers</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #666666;">Lecture 03: Approximations and Infinitesimals</p><p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Date: Friday 14th January<br>Location: <a style="color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="color: #2683bc; text-decoration: none;">Building 600, Lecture Hall 209</a><br data-mce-bogus="1"></p><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;"><img id="widget_remotecontent_id3229571" class="widget_inline" style="display: block; padding: 10px; margin: 4px;" src="http://173.255.241.176:8080/devwidgets/remotecontent/images/remotecontent.png" data-mce-src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-style="display: block; padding: 10px; margin: 4px;" border="1">The following was covered in this lecture:</p><ol style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: #333333; font-size: 0.85em; font-weight: bold;"><li>I. The Extension Principle</li><li>II. Transfer Principle</li><li>Application of the Principles</li><li>Hyperreal Numbers</li><li>Rules For Infinitesimal, Finite and Infinite Numbers</li><li>Hyperreals</li><li>Theorem 1</li><li>Theorem 2</li><li>III. Standard Part Principle</li><li>Theorem 3</li></ol><p style="color: rgb(51, 51, 51); font-size: 0.85em;" data-mce-style="color: #333333; font-size: 0.85em;">Please read and complete the following before the lecture, bring text books, along with, your workings with you and printouts of the Analytic Geometry lecture slides.</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;">Reading material</p><p style="margin: 0pt; color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="margin: 0pt; color: #2683bc; text-decoration: none;"><a style="color: rgb(38, 131, 188); text-decoration: none;" href="http://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" data-mce-href="http://www.math.wisc.edu/%7Ekeisler/calc.html" data-mce-style="color: #2683bc; text-decoration: none;">Elementary Calculus: An Infinitesimal Approach</a> <a href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" target="_blank" data-mce-href="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg"><img style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" alt="Elementary Calculus: An Infinitesimal Approach" src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-src="http://t1.gstatic.com/images?q=tbn:ANd9GcSvWRbV3UuwcI6N6lmTW32TxeoCDAdMOp6d1V044bdbi44o01nKZg" data-mce-style="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" border="0 0"></a><br data-mce-bogus="1"></p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">H. Jerome Kliesler</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;"><span style="float: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);" data-mce-style="float: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color: #ffffff; color: #999999;"></span>Before class<br></p><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">Chapters: 1.5-1.6</p><p style="padding-left: 30px;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.5 - Infinitesimal, Finite, and Infinite Numbers</a><br data-mce-bogus="1"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.6 - Standard Parts</a><br data-mce-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Complete the following problems:</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt 0pt 0pt 30px; color: rgb(51, 51, 51);">1.5: 1, 9, 13 <br>1.6: 3, 5, 21</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;">'
                                 }
                             },
                             "${pid}2": {
                                 structure0: {
-                                    "about":{
+                                    "problemset01":{
                                         "_ref":"id6573920372",
                                         "_order":0,
-                                        "_title":"About",
+                                        "_title":"Problem set 01",
                                         "main":{
                                             "_ref":"id6573920372",
                                             "_order":0,
-                                            "_title":"About"
+                                            "_title":"Problem set 01"
                                         }
                                     },
-                                    "prospective":{
+                                    "problemset02":{
                                         "_ref":"id373710599",
-                                        "_title":"Prospective Students",
+                                        "_title":"Problem set 02",
                                         "_order":1,
                                         "main":{
                                             "_ref":"id373710599",
                                             "_order":0,
-                                            "_title":"Prospective Students"
+                                            "_title":"Problem set 02"
                                         }
                                     }
                                 },
                                 "id6573920372": {
-                                    page: "<p>This is some information about the course<br></p>"
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="margin: 0pt; padding: 0pt; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Problem set 01</p> <p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);">Due: Tuesday January 11</p> </div> <div class="rightCol" style="margin: 0pt 20px 0pt 0pt; display: block; width: 100%; color: rgb(102, 102, 102); font-size: 1em;"> <p>Problem Set 1</p> <p>For the following 2 functions, make a table showing the value of f(x) when X = -1, - ½, 0, ½, 1 Put a * where f(x) is undefined.</p> <p>For each of the following functions, find fx+∆x- f(x)</p> <p><strong>Function 1.</strong> $$fx=5x+1$$</p> <p>$$fx+∆x- f(x) = 5(x+∆x)+1-5x+1$$</p> <p>$$ = 5x+5∆x+1-5x+1$$</p> <p>$$ = 5∆x $$</p> <p><strong>Function 2.</strong> $$fx=5$$</p> <p>$$fx+∆x- fx = 5-5$$</p> <p>$$= 0 $$</p> </div> <hr style="visibility: hidden; clear: both;"> </div>'
                                 },
                                 "id373710599": {
-                                    page: "<p>This is some information for prospective students<br></p>"
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="margin: 0pt; padding: 0pt; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Problem set 01</p> <p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);">Due: Tuesday January 11</p> </div> <div class="rightCol" style="margin: 0pt 20px 0pt 0pt; display: block; width: 100%; color: rgb(102, 102, 102); font-size: 1em;"> <p>Problem Set 2</p> <p>Two bugs are walking along lines in 3-space. At time t bug 1 is at the point $$(x, y, z)$$ on the line $$x=4−t, y=1−t, z=2+t$$ and at the same time t bug 2 is at the point $$(x,y,z)$$ on the line $$x=t, y=1+t, z=1+2t$$</p> <p>Assume that the distance is in centimeters and that the time is in minutes.</p> <p>(a) Find the distance between the bugs at time $$t = 0$$</p> <p>(b) Use a graphing utility to graph the distance between the bugs as a function of time from $$t = 0 to t = 5$$ <br>Please print out a copy of your graph.</p> <p>(c) What does the graph tell you about the distance between the bugs?</p> <p>(d) How close do the bugs get? (Please be exact.)</p> </div> <hr style="visibility: hidden; clear: both;"> </div>'
                                 }
                             },
                             "${pid}3": {
+                                structure0: {
+                                    "about":{
+                                        "_ref":"id94329432489",
+                                        "_order":0,
+                                        "_title":"About",
+                                        "main":{
+                                            "_ref":"id94329432489",
+                                            "_order":0,
+                                            "_title":"About"
+                                        }
+                                    },
+                                    "prospectivestudents":{
+                                        "_ref":"id4832998389423",
+                                        "_title":"Prospective students",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"id4832998389423",
+                                            "_order":0,
+                                            "_title":"Prospective students"
+                                        }
+                                    },
+                                    "contactus":{
+                                        "_ref":"id9302198321",
+                                        "_title":"Contact us",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"id9302198321",
+                                            "_order":0,
+                                            "_title":"Contact us"
+                                        }
+                                    }
+                                },
+                                "id94329432489": {
+                                    page: '<p> </p><div id="wrap" style="font-family: Arial,Helvetica,sans-serif; width: 750px; margin: 0pt auto;"> <div id="header" style=""> <h1 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 15px; font-weight: normal;">About the course</h1> <hr style="color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); height: 5px; border: 0pt none;"> </div> <div id="main" style="float: left; width: 500px; background: none repeat scroll 0% 0% rgb(255, 255, 255); margin-top: 20px;"> <img src="http://ultimedia.biz/images/image1.png" alt="" style="float: left; padding: 0pt 15px 30px 0pt;"> <p style="color: rgb(99, 99, 99); font-size: 16px; line-height: 18px; padding: 0pt 0pt 10px; margin: 0pt;"> Elementary Calculus is extremely diverse and our course enables you to specialise in the areas that are of particular interest to you. Whether your interest is more in the area of pure maths, applied maths, or operational research and statistics, this course will give you a good grounding in the subject </p> <hr style="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); height: 0pt;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: normal;">Overview</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> To introduce students to the concepts and methods of calculus of one real variable to rational, exponential and logarithmic functions. To introduce basic concepts of differentiation and integration and their application to problem solving. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> The student will demonstrate proficiency in analytic and graphical techniques of both differential and integral calculus. Students will be required to demonstrate the ability to model and solve real-world application problems using calculus techniques. In the first year (only), there are two options: Pure and Applied Mathematics; and Mathematics with Mathematics with Physics. In the second year and, especially, the third year there is a wide choice of lecture courses, but no opportunity to substitute courses from other Faculties. There is no coursework or continuous assessment, except for the Computational Projects courses (see below). </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> You can read more about the course in the documentation section below and in the sections on lectures, examinations, and supervisions. </p> <hr style="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); height: 0pt; margin: 0pt 0pt 20px;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; display: inline; font-weight: normal;">Prerequisite</h2> <h4 style="color: rgb(48, 132, 186); padding: 0pt; font-size: 14px; margin: 0pt 0pt 0pt 100px; display: inline;">Math 1710.</h4> <hr style="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); height: 0pt; margin: 18px 0pt 0pt;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: normal;">Course objectives</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> To introduce students to the concepts and methods of calculus of one real variable to rational, exponential and logarithmic functions. To introduce basic concepts of differentiation and integration and their application to problem solving. </p> <hr style="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); height: 0pt;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: normal;">Lectures</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> For each course, the Faculty Board agrees a syllabus and a number of lectures. The purpose of lectures is to cover all the material in the syllabus in a concise and consistent way. Unlike many universities courses (in the U.S. particularly), there is generally no `book of the course&quot; that covers the right material at the right level. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> Lectures are provided by the Faculty (not the colleges) and take place in central lecture theatres for Parts IA and IB, and in the CMS for Part II (the third year). Each lecture lasts about 50 minutes. All lectures take place in week day and Saturday (but not Sunday) mornings. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> In the first year, there are two lectures a day (i.e. 12 a week), for 20 weeks, and students should attend all lectures. In the second and third years, the lecturing load is roughly the same, but because there is a choice of lectures the timetables of individual students may differ. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> There is no standard way of lecturing: some lecturers write exclusively on blackboards; some use overhead projectors or powerpoint displays; some give out printed notes. The method used by individual lecturers depends on their style and also on the sort of material that they are covering. </p> <hr style="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); height: 0pt;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: normal;">Examinations</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> Each year&quot;s work is examined by means of four three-hour papers taken at the end of May. For part IB and II, each paper of the four papers is cross-sectional, meaning that there are questions relating to each course on each of the papers. Students can decide for themselves the number of courses they wish to revise for examinations; some students revise a wide range of courses and others prefer to revise a small number very thoroughly. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> Students are classed (first class, upper second class, lower second class, third class) in each part of the Tripos, but no attempt is made to give an overall class. For Part II, the traditional name of Wrangler is given to anyone in the first class. This derives from the ancient form of the examination, which was not written but took the form of a dispute or &quot;wrangle&quot;. The practice of ranking all the candidates, the top candidate being the Senior Wrangler, was abandoned in 1909. </p> </div> <div id="footer" style="clear: both; padding: 0px; margin: 0px;"><div id="footerBox" style="background: -moz-linear-gradient(center top , rgb(249, 249, 249), rgb(240, 240, 238)) repeat scroll 0% 0% transparent;"><p style="color: rgb(110, 110, 110); padding: 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: underline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div style="float: left; width: 190px; height: 250px; padding: 0pt 0px 0pt 20px;"> <img src="http://ultimedia.biz/images/image2.png" alt=""> </div> <div style="padding: 0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); font-size: 1.4em; font-weight: normal;">Apply to Join Elementary Calculus</h1> <p style="color: rgb(110, 110, 110); font-size: 14px;"> You&quot;ll apply to Admissions Office Main Site, A portal leading to sites for undergraduate, transfer, and graduate admissions, and professional (non-degree) programs. The Centre sends your information to the University of Waterloo. The Faculty of Mathematics will send you an email acknowledging receipt of your application, usually within 3 weeks of receiving your application. </p> <p style="color: rgb(110, 110, 110); font-size: 14px;"> AFTER YOU HAVE APPLIED </p> <div style="padding-left: 0px;"> <ul style="color: rgb(110, 110, 110); font-size: 14px; margin: 5px 5px 20px 0pt; padding: 0pt 0pt 0pt 220px;"><li> You&quot;ll be asked to complete an Admission Information Form (AIF). Please note that a completed AIF is now required for admission. </li><li style="padding: 10px 0pt 0pt;"> Arrange to have your grades and, in some cases, course descriptions sent to us. </li><li style="padding: 10px 0pt;"> After you&quot;ve applied, stay informed about important dates and deadlines and what comes next in the admissions process at the next step website. </li></ul> </div> </div> </div> <h2 style="margin: 30px 0pt 10px; color: rgb(102, 102, 102); font-size: 17px; font-weight: bold;">Alumni</h2> <div style="margin: 0pt 0pt 20px;"> <div style="width: 177px; float: left; margin-right: 8px; display: block;"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px 15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-height: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but after a weeks intensive tutoring I&quot;d fully grasped the basics and was able to progress onto the more advanced Problem Sets" </p> </div> <div style="float: left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="color: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> <div style="width: 177px; float: left; margin-right: 8px; display: block;"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px 15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-height: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but after a weeks intensive tutoring I&quot;d fully grasped the basics and was able to progress onto the more advanced Problem Sets" </p> </div> <div style="float: left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="color: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> <div style="width: 177px; float: left; margin-right: 8px; display: block;"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px 15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-height: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but after a weeks intensive tutoring I&quot;d fully grasped the basics and was able to progress onto the more advanced Problem Sets" </p> </div> <div style="float: left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="color: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> <div style="width: 177px; float: left; margin-right: 0px; display: block;"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px 15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-height: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but after a weeks intensive tutoring I&quot;d fully grasped the basics and was able to progress onto the more advanced Problem Sets" </p> </div> <div style="float: left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="color: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> </div> </div> </div>'
+                                },
+                                "id4832998389423": {
+                                    page: '<div style="font-family: Arial,Helvetica,sans-serif;"> <div id="header"> <h1 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 15px; font-weight: normal;">Prospective students</h1> <hr style="color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); border: 0pt none; height: 5px;"> <h2 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 10px; padding: 0pt; font-weight: normal;">Campus life</h2> <div id="widgetHolder" style="margin: 0pt; padding: 0pt; min-height: 20px; display: block; border-left: 5px solid rgb(235, 235, 235);"> </div> </div> <div id="main" style="width: 50%; float: left; background: none repeat scroll 0% 0% rgb(255, 255, 255); margin-top: 20px;"> <p style="color: rgb(66, 66, 66); font-size: 18px; line-height: 20px; padding: 0pt 0pt 15px; margin: 0pt;"> With thousands of lectures, conferences, and cultural events being created by and open to the community each year. Intellectual stimulation is inescapable. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> Recent lectures include Modern Optics and Spectroscopy; The Perilous Earth: Understanding Natural Hazards; What&quot;s the Matter with Antimatter?; Information and Decision Systems colloquium; and an architecture lecture on Transgressions. </p> <h2 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 15px; font-weight: normal;">Activities</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> There is much more to an education than study and research in classrooms and laboratories. Numerous activities and services are available that complement academic pursuits and provide opportunities for students to grow and develop new interests. This section describes just a few of the activities that define campus life. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> There are more than 400 co-curricular student organizations at MIT (many open to both faculty and students), including the Outing Club, the Solar Electric Vehicle Team, the Debate Team, the FM local broadcasting station (WMBR), the MIT Society for Women Engineers, the Student Art Association, Model UN, Circle K, the Black Students&quot; Union, the Latino Cultural Center, the Asian American Association, and the South Asian American Students Association. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> Many students are actively engaged in service work either through the Public Service Center or on their own. Groups such as the Intrafraternity Council and Alpha Phi Omega, the national service fraternity, Share a Vital Earth, and Educational Studies Program sponsor active social service programs. For example, the Educational Studies Program provides opportunities for MIT students to work with area high school students. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> MIT also has a number of groups oriented toward different backgrounds and lifestyles. Over 30 international student groups sponsor a rich array of programs, including discussion groups and social events. The International Students&quot; Association sponsors a newsletter, assemblies, and other events. MIT has an active organization of Gays, Lesbians, Bisexuals and Friends at MIT (GAMIT), which organizes weekly awareness programs and discussion groups, and sponsors social events throughout the year. The Technology Community Women (TCW) is composed of spouses of MIT students, undergraduate as well as graduate, and sponsors monthly programs as a social and service organization. Other interest groups focus on bridge, chess, ham radio, and strategic games. </p> <p style="color: rgb(99, 99, 99); font-size: 14px; margin-top: 40px;"> For more information, contact the Association of Student Activities, Room W20-401, see the ASA website at http://web.mit.edu/asa/www/, or contact the Student Activities Office, Room W20-549, 617-253-6777. </p> </div> <div id="sidebar" style="float: left; margin-left: 10px; width: 20%; margin-top: 20px; background: none repeat scroll 0% 0% rgb(210, 235, 239); -moz-border-radius: 6px 6px 6px 6px;"> <div style="padding: 0pt 0pt 20px;"> <div style="padding: 0pt 15px;"> <h2 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 10px; font-weight: normal;">Student Profile</h2> <h4 style="color: rgb(48, 132, 186); padding: 0pt; margin: 0pt; font-size: 14px;">Mike Learner</h4> <h5 style="color: rgb(110, 110, 110); margin: 0pt; padding: 0pt; font-weight: normal; font-size: 14px; line-height: 1.2em;">2nd year Calculus Student</h5> <p style="font-style: italic; color: rgb(102, 102, 102); font-size: 13px; line-height: 17px;"> "I chose to study maths at university because, whilst I enjoyed each of my A-level subjects, it was the only one that I could see myself studying for three or four years. One of the major benefits of Oxford&quot;s maths course is that you don&quot;t have to decide how long you want to stay for until your third year. This enables you to make an informed decision, as I found maths at university different to anything I&quot;d done before. </p> <p style="font-style: italic; color: rgb(102, 102, 102); font-size: 13px; line-height: 17px;"> "The thing I&quot;ve enjoyed most about my experience of Oxford is meeting a wide variety of new people. University gives you an opportunity to socialise and work with people from a huge spectrum of backgrounds. I&quot;m not too sure what I&quot;d like the future to hold, but I&quot;m sure that the training I&quot;ve had here will stand me in good stead." </p> <img src="http://ultimedia.biz/images/mike.jpg" alt=""> </div> </div> </div> <div id="footer" style="clear: both; padding: 20px 0pt 0pt; margin: 0pt;"> <div id="footerBox" style="background: -moz-linear-gradient(center top , rgb(249, 249, 249), rgb(240, 240, 238)) repeat scroll 0% 0% transparent;"> <p style="color: rgb(110, 110, 110); padding: 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: underline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div style="float: left; height: 250px; margin: 0pt 0px 0pt 20px;"> <img style="margin: 0pt 20px 0pt 0pt;" src="http://ultimedia.biz/images/image2.png" alt=""> </div> <div style="padding: 0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); font-size: 1.4em; font-weight: normal;">Apply to Join Elementary Calculus</h1> <p style="color: rgb(110, 110, 110); font-size: 14px;"> You&quot;ll apply to Admissions Office Main Site, A portal leading to sites for undergraduate, transfer, and graduate admissions, and professional (non-degree) programs. The Centre sends your information to the University of Waterloo. The Faculty of Mathematics will send you an email acknowledging receipt of your application, usually within 3 weeks of receiving your application. </p> <p style="color: rgb(110, 110, 110); font-size: 14px;"> AFTER YOU HAVE APPLIED </p> <div style="padding-left: 0px;"> <ul style="color: rgb(110, 110, 110); font-size: 14px; margin: 5px 5px 20px 0pt; padding: 0pt 0pt 0pt 20px;"><li> You&quot;ll be asked to complete an Admission Information Form (AIF). Please note that a completed AIF is now required for admission. </li><li style="padding: 10px 0pt;"> Arrange to have your grades and, in some cases, course descriptions sent to us. </li><li style="padding: 10px 0pt;"> After you&quot;ve applied, stay informed about important dates and deadlines and what comes next in the admissions process at the next step website. </li></ul> </div> </div> </div> </div> </div>'
+                                },
+                                "id9302198321": {
+                                    page: '<p> </p><p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Department of mathematics</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #666666;">EC enquiries number: 617.253.4381</p><p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Postal address: Building 2, Room 236, 77 Massachusetts Avenue, Cambridge, MA 02139-4307 Date: Day ##th Month<br>Location: <a style="color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="color: #2683bc; text-decoration: none;">Building, Lecture Hall</a><br data-mce-bogus="1"></p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;"><img id="widget_googlemaps_id6489842" class="widget_inline" style="display: block; padding: 10px; margin: 4px;" src="/devwidgets/googlemaps/images/googlemaps.png" data-mce-src="/devwidgets/googlemaps/images/googlemaps.png" data-mce-style="display: block; padding: 10px; margin: 4px;" border="1"><br></p><p><br style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" target="_blank" data-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;"></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>'
+                                },
+                                "id6489842": {
+                                    googlemaps: {
+                                        "mapinput": "Building 2, Room 236, 77 Massachusetts Avenue, Cambridge, MA",
+                                        "mapzoom": 14,
+                                        "mapsize": "LARGE",
+                                        "sakai:indexed-fields": "mapinput,maphtml",
+                                        "lng": -71.09096829999999,
+                                        "sling:resourceType": "sakai/widget-data",
+                                        "maphtml": "77 Massachusetts Ave #236, Cambridge, MA 02139, USA",
+                                        "lat": 42.35804050000001
+                                    }
+                                }
+                            },
+                            "${pid}4": {
                                 structure0: {
                                     "organizationnotes":{
                                         "_ref":"id6573920372",
@@ -1959,24 +2046,24 @@ define(function(){
                                     }
                                 },
                                 "id6573920372": {
-                                    page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif; color: rgb(51, 51, 51); font-size: 1em;"> <div class="leftCol" style="float: left; margin: 0pt; padding: 0pt; display: block; width: 30%; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 10px 0pt 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Organizational Notes</p> <p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);">Date: 15th January 2012</p> </div> <div class="rightCol" style="float: left; margin: 0pt 20px 0pt 0pt; display: block; width: 60%;"> <hr style="visibility: hidden; clear: both;"> <div class="entryCol" style="padding: 0pt; margin: 10px 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 102);">Course lectures</p> <p style="margin: 10px 0pt 5px;">Ensure that we keep all lecture content going through at least 3 weeks ahead of our current week.</p> <p style="margin: 0pt 0pt 5px;">Videos for each lecture need to go into the Lecture page 24hours after each (so I have time to ensure they are ok).</p> </div> <hr style="visibility: hidden; clear: both;"> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: 2px solid rgb(229, 229, 229);"> <div class="entryCol" style="padding: 0pt; margin: 10px 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 102);">Course problem sets</p> <p style="margin: 10px 0pt 5px;">Ensure that we have problem sets ready for each week at least 3 weeks ahead of our current week.</p> <p style="margin: 0pt 0pt 5px;">Please keep track of the due dates and run them past me before adding them to the lecture pages and the outline.</p> </div> <hr style="visibility: hidden; clear: both;"> <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); border: 2px solid rgb(229, 229, 229);"> <div class="entryCol" style="padding: 0pt; margin: 10px 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 102);">Course midterms</p> <p style="margin: 10px 0pt 5px;"><a data-mce-href="group.html?id=Elementary-Calculus#l=id2390158" href="group.html?id=Elementary-Calculus#l=id2390158" style="color: rgb(38, 131, 188); font-weight: bold; text-decoration: none;">I&quot;ve started the first midterm</a>, please have a look and comment if you see any discrepancies</p> <p style="margin: 0pt 0pt 5px;">Please keep track of the due dates and run them past me before adding them to the <a style="color: rgb(38, 131, 188); font-weight: bold; text-decoration: none;">lecture pages</a> and <a style="color: rgb(38, 131, 188); font-weight: bold; text-decoration: none;">the outline</a>.</p> </div> <hr style="visibility: hidden; clear: both;"> </div> <hr style="visibility: hidden; clear: both;"> </div>'
                                 }
                             },
-                            "${pid}4": {
+                            "${pid}5": {
                                 structure0: {
-                                    "studentwiki":{
-                                        "_ref":"id849031890418",
+                                    "lecturetemplate":{
+                                        "_ref":"id454353232124",
                                         "_order":0,
-                                        "_title":"Student Wiki",
+                                        "_title":"Lecture Template",
                                         "main":{
-                                            "_ref":"id849031890418",
+                                            "_ref":"id454353232124",
                                             "_order":0,
-                                            "_title":"Organization Notes"
+                                            "_title":"Lecture Template"
                                         }
                                     }
                                 },
-                                "id849031890418": {
-                                    page: "<p>Student wiki editable by all members of this course<br></p>"
+                                "id454353232124": {
+                                    page: '<p> </p><div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float: left; margin: 0pt; padding: 0pt 20px 0pt 0pt; display: block; width: 30%; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Week ##: Title</p> <p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);">Lecture 0#</p> <p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);">Date: Day ##th Month<br>Location: <a style="color: rgb(38, 131, 188); text-decoration: none;">Building, Lecture Hall</a></p> </div> <div class="rightCol" style="float: left; margin: 0pt; display: block; width: 60%;"> <div class="rightCol" style="margin: 20px 0pt 0pt; padding: 10px 20px; color: rgb(102, 102, 102); font-size: 1em; background: -moz-linear-gradient(center top , rgb(244, 243, 242), rgb(230, 230, 227)) repeat scroll 0% 0% transparent;"> <p>Post-lecture materials/video will be displayed here 48 hrs after each lecture</p> </div> <hr style="visibility: hidden; clear: both;"> <div class="entryCol" style="padding: 0pt; margin: 10px 0pt 0pt;"> <p style="color: rgb(102, 102, 102); font-size: 1em;">The following is to be covered in this lecture:</p> <ol style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;"><li>Topic one</li><li>Topic two...</li></ol> <p style="color: rgb(51, 51, 51); font-size: 0.85em;">Lecture notes</p> </div> <hr style="visibility: hidden; clear: both;"> <div class="entryCol" style="padding: 10px 0pt 0pt; margin: 10px 0pt 0pt; border-top: 3px solid rgb(229, 229, 229);"> <p style="color: rgb(102, 102, 102); font-size: 1em;">Reading material</p> <p style="margin: 0pt; padding: 0pt;"><a target="_blank" style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;">Text book/reference material</a></p> <p style="margin: 0pt; padding: 0pt; color: rgb(51, 51, 51);">Author/creator</p> <hr style="visibility: hidden; clear: both;"> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; padding: 10px 10px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before class</span> <p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;">Read</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);">Chapters: ##</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; list-style: none outside none;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;">Chapter one</a></p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; list-style: none outside none;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;">Chapter two...</a></p> <p style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;">Complete the following excerises:</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);">Excersise one</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);">Excersise two...</p> <hr style="visibility: hidden; clear: both;"> </div> </div> </div> </div>'
                                 }
                             }
                         },
@@ -1988,44 +2075,51 @@ define(function(){
                                 "_view": ["everyone", "-student", "-ta"],
                                 "_edit": ["-lecturer"]
                             },
-                            "contactus": {
-                                "_title": "Contact us",
+                            "lectures": {
+                                "_title": "Lectures",
                                 "_order": 1,
                                 "_docref": "${pid}1",
                                 "_view": ["-student"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
-                            "coursewebsite": {
-                                "_title": "Course website",
+                            "problemsets": {
+                                "_title": "Problem sets",
                                 "_order": 2,
                                 "_docref": "${pid}2",
-                                "_view": ["everyone", "anonymous"],
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "coursewebsite": {
+                                "_title": "Course website",
+                                "_order": 3,
+                                "_docref": "${pid}3",
+                                "_view": ["-student", "everyone", "anonmyous"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
                             "organizationnotes": {
                                 "_title": "Organization Notes",
-                                "_order": 3,
-                                "_docref": "${pid}3",
+                                "_order": 4,
+                                "_docref": "${pid}4",
                                 "_view": ["-ta"],
                                 "_edit": ["-lecturer"]
                             },
-                            "studentwiki": {
-                                "_title": "Student Wiki",
-                                "_order": 4,
-                                "_docref": "${pid}4",
-                                "_view": [],
-                                "_edit": ["-lecturer", "-ta", "-student"]
+                            "lecturetemplate": {
+                                "_title": "Lecture Template",
+                                "_order": 5,
+                                "_docref": "${pid}5",
+                                "_view": ["-ta"],
+                                "_edit": ["-lecturer"]
                             }
                         },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
                     {
-                        id: "medicalscience",
-                        title: "Medical science course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        id: "basiccourse",
+                        title: "Basic course",
+                        img: "/dev/images/worldtemplates/basiccourse.png",
+                        fullImg: "/dev/images/worldtemplates/basiccourse-full.png",
+                        perfectFor: "Basic course using content sharing and messaging",
                         roles: [
                             {
                                 id: "student",
@@ -2102,307 +2196,16 @@ define(function(){
                                 "_order": 0,
                                 "_docref": "${pid}0",
                                 "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
+                                "_view": ["everyone", "anonymous", "-student"],
+                                "_edit": ["-ta", "-lecturer"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
                                 "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "physicscourse",
-                        title: "Physics course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "engineeringcourse",
-                        title: "Engineering course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "humanitiescourse",
-                        title: "Humanities course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
+                                "_view": ["everyone", "anonymous", "-student"],
+                                "_edit": ["-ta", "-lecturer"]
                             }
                         },
                         joinRole: "student",
@@ -2573,11 +2376,11 @@ define(function(){
                         creatorRole: "leadresearcher"
                     },
                     {
-                        id: "bidwriting",
-                        title: "Bid writing",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Writing a collaborative research bid",
+                        id: "researchsupport",
+                        title: "Research support group",
+                        img: "/dev/images/worldtemplates/researchsupport.png",
+                        fullImg: "/dev/images/worldtemplates/researchsupport-full.png",
+                        perfectFor: "Support a research project using content sharing and messaging",
                         roles: [
                             {
                                 id: "participant",
