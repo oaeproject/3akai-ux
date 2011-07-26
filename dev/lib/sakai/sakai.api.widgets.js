@@ -266,13 +266,13 @@ define(
                                     for (var data in widgetsInternal[widgetname][i].widgetData){
                                         var widgetSaveId = widgetsInternal[widgetname][i].uid;
                                         if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
-                                            thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
+                                            thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]);
                                         } else {
                                             for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
                                                 if (pagetitle.indexOf("-") != -1){
                                                     var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
                                                     if (altPageTitle === widgetSaveId){
-                                                        thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];
+                                                        thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
                                                     }
                                                 }
                                             } 
