@@ -1624,6 +1624,13 @@ define(function(){
             }
         },
 
+        /**
+         * In order to set permissions on specific private areas, the following parameter should be added:
+         *   _view: "anonymous" // Area is visible to all users by default
+         *   _view: "everyone" // Area is visible to all logged in users by default
+         *   _view: "contacts" // Area is visible to all contacts by default
+         *   _view: "private" // Area is not visible to other users by default
+         */
         defaultpubstructure: {
             "structure0": {
                 "profile": {
