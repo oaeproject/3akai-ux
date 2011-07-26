@@ -6,6 +6,6 @@
     "enabled":true,
     "i18n": {
         "default": "/devwidgets/profilesection/bundles/default.properties"
-    },    
+    },
     "url":"/devwidgets/profilesection/profilesection.html"
 }

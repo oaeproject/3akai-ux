@@ -637,7 +637,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
                         }
                     });
-                    
+
                     checkUploadCompleted(true);
                 }
                 else {
