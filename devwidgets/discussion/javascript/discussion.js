@@ -508,6 +508,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 type: "POST",
                 success: function(data){
                     $parentDiv.hide();
+                    $parentDiv.parents(discussionTopicContainer).find(discussionReplyTopicBottom).show()
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message.profile);
