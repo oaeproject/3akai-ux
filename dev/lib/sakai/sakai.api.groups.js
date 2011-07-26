@@ -1004,6 +1004,15 @@ define(
                         ":member@Delete": user.userid,
                         ":viewer@Delete": user.userid
                     }
+                },
+                {
+                    "url": "/system/userManager/group/" + groupID + ".update.json",
+                    "method": "POST",
+                    "parameters": {
+                        "_charset_":"utf-8",
+                        ":member@Delete": user.userid,
+                        ":viewer@Delete": user.userid
+                    }
                 });
                 if (user.userid === medata.user.userid){
                     currentUserIncluded = true;
