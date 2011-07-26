@@ -1,49 +1,54 @@
 <!-- CSS -->
 <link href="/devwidgets/joinrequests/css/joinrequests.css" type="text/css" />
 
-<div class="joinrequests_widget" style="display:none;">
-    <div class="group_userlist_header">  <!-- relies on group_edit.html css -->
-        <h2>__MSG__PENDING_REQUESTS_TO_JOIN__</h2>
-    </div>
+<div id="joinrequests_container" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__PENDING_REQUESTS_TO_JOIN__</h1>
+    <div id="joinrequests_widget_container">
+        <div id="joinrequests_joinrequests"><!-- TEMPLATE HERE --></div>
 
-    <div id="joinrequests_joinrequests"><!-- TEMPLATE HERE --></div>
-
-    <div id="joinrequests_template" class="fl-push"><!--
-    {for jr in joinrequests}
-        <div id="joinrequests_joinrequest_${jr.userid}"
-            class="joinrequests_joinrequest s3d-highlight_area_background fl-force-left">
-            <div class="fl-force-left">
-                <a href="/~${jr.userid|urlSafe}" target="_blank"
-                    class="joinrequests_userpicture_link"
-                    title="__MSG__VIEW_PROFILE__"><img class="joinrequests_userpicture"
-                    id="joinrequests_userpicture_${jr.userid}" /></a>
-            </div>
-            <div class="fl-force-left joinrequests_details">
-                <div class="joinrequests_username" style="width:150px;">
-                    <a href="/~${jr.userid|urlSafe}" title="__MSG__VIEW_PROFILE__"
-                    id="joinrequests_username_link_${jr.userid}"
-                    class="joinrequests_username_link"
-                    target="_blank">${jr.firstName} ${jr.lastName}</a>
+        <div id="joinrequests_template" class="fl-push"><!--
+        <p>__MSG__USERS_WILL_BE_JOINED_AS__ ${joinrole}<br/>__MSG__CHANGE_LATER__</p>
+        {for jr in joinrequests}
+            <div id="joinrequests_joinrequest_${jr.userid}"
+                class="joinrequests_joinrequest s3d-highlight_area_background fl-force-left">
+                <div class="fl-force-left">
+                    <a href="/~${jr.userid|urlSafe}" target="_blank"
+                        class="joinrequests_userpicture_link"
+                        title="__MSG__VIEW_PROFILE__"><img class="joinrequests_userpicture"
+                        id="joinrequests_userpicture_${jr.userid}" /></a>
                 </div>
-                <p class="joinrequests_request_age">
-                    <span class="joinrequests_timeago">${jr.request_age}</span>
-                </p>
-                <p id="joinrequests_actions_${jr.userid}" class="joinrequests_actions s3d-regular-links">
-                    <button type="button" class="joinrequests_add_link s3d-link-button s3d-action" id="joinrequests_add_${jr.userid}">__MSG__ADD_AS_A_MEMBER__</button>
-                    |
-                    <button type="button" class="joinrequests_ignore_link s3d-link-button s3d-action" id="joinrequests_ignore_${jr.userid}">__MSG__IGNORE__</button>
-                </p>
-                <p id="joinrequests_loading_${jr.userid}"
-                    class="joinrequests_loading" style="display:none;"></p>
+                <div class="fl-force-left joinrequests_details">
+                    <div class="joinrequests_username" style="width:150px;">
+                        <a href="/~${jr.userid|urlSafe}" title="__MSG__VIEW_PROFILE__"
+                        id="joinrequests_username_link_${jr.userid}"
+                        class="joinrequests_username_link"
+                        target="_blank">${jr.firstName} ${jr.lastName}</a>
+                    </div>
+                    <p class="joinrequests_request_age">
+                        <span class="joinrequests_timeago">${jr.request_age}</span>
+                    </p>
+                    <p id="joinrequests_actions_${jr.userid}" class="joinrequests_actions s3d-regular-links">
+                        <button type="button" class="joinrequests_add_link s3d-link-button s3d-action" id="joinrequests_add_${jr.userid}">__MSG__ADD_AS_A_MEMBER__</button>
+                        |
+                        <button type="button" class="joinrequests_ignore_link s3d-link-button s3d-action" id="joinrequests_ignore_${jr.userid}">__MSG__IGNORE__</button>
+                    </p>
+                    <p id="joinrequests_loading_${jr.userid}"
+                        class="joinrequests_loading" style="display:none;"></p>
+                </div>
             </div>
+        {/for}
+        --></div>
+
+        <div id="joinrequests_actions">
+            <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__DONE__</button>
         </div>
-    {/for}
-    --></div>
-    <!-- MESSAGES -->
-    <span style="display:none;" id="joinrequests_title">__MSG__GROUP_MEMBERSHIP__</span>
-    <span style="display:none;" id="joinrequests_success">__MSG__HAS_SUCCESSFULLY_ADDED_TO_THE_GROUP__</span>
-    <span style="display:none;" id="joinrequests_error">__MSG__SORRY_THERE_WAS_A_PROBLEM__</span>
+    </div>
 </div>
 
+<!-- MESSAGES -->
+<span style="display:none;" id="joinrequests_title">__MSG__GROUP_MEMBERSHIP__</span>
+<span style="display:none;" id="joinrequests_success">__MSG__HAS_SUCCESSFULLY_ADDED_TO_THE_GROUP__</span>
+<span style="display:none;" id="joinrequests_error">__MSG__SORRY_THERE_WAS_A_PROBLEM__</span>
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/joinrequests/javascript/joinrequests.js"></script>

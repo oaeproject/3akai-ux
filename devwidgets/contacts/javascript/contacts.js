@@ -144,12 +144,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 async: true,
                 data: data,
                 success: function(data){
+                    $.each(data.results, function(index, user){
+                        if (sakai.api.User.checkIfConnected(user.details.targetUserId)){
+                            user.connected = true;
+                        } else {
+                            user.connected = false;
+                        }
+                    })
                     contacts.totalItems = data.total;
                     contacts.accepted = data;
                     determineRenderContacts();
                 }
             });
         };
+
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            $('.sakai_addtocontacts_overlay').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                    $(this).hide();
+                    $("#left_filler_"+userToAdd.uuid).show();
+                }
+            });
+        });
 
         var getPending = function(){
             $.ajax({
