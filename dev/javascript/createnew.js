@@ -21,18 +21,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.createnew = function() {
 
         var pubdata = {
-            "structure0": {
-                "categories": {
-                    "_ref": "id6573920372",
-                    "_order": 0,
-                    "_title": "Categories"
-                }
-            }
+            "structure0": {}
         };
 
         for (var i = 0; i < sakai.config.worldTemplates.length; i++){
             var category = sakai.config.worldTemplates[i];
-            pubdata.structure0.categories[category.id] = {
+            pubdata.structure0[category.id] = {
                 "_order": i,
                 "_title": sakai.api.i18n.General.getValueForKey(category.title),
                 "_ref": category.id
