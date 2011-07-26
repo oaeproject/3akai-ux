@@ -31,7 +31,8 @@
 /* User */
 #entity_container #entity_user_image, #entity_container #entity_group_image {cursor:pointer;}
 #entity_container #entity_group_image {margin-top:-4px;}
-#entity_container .s3d-dropdown-list {margin-left:18px;position:absolute;width:120px;}
+#entity_container #entity_user_image .s3d-dropdown-list {margin-left:18px;}
+#entity_container .s3d-dropdown-list {position:absolute;width:120px;}
 #entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:62px;right:auto;}
 #entity_container .entity_profile_picture_down_arrow{color:#FFFFFF;cursor:pointer;float:left;height:16px;margin-left:12px;margin-top:34px;padding-top:2px;text-align:center;text-shadow:0 0 1px #999999;width:20px;}
 #entity_container .entity_profile_picture_down_arrow.clicked, #entity_container .entity_profile_picture_down_arrow:hover {background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left -10px transparent;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
