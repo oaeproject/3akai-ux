@@ -60,7 +60,7 @@
                             {var groupsFound = true}
                             <div class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
                                 <span class="searchgroups_result_user_functions" style="display:none;">
-                                    <div class="searchgroups_result_plus s3d-action-icon s3d-actions-addtolibrary searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}">{if i.userMember}<img src="/dev/images/accept.png">{/if}</div>
+                                    <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchgroups_result_anonuser"></span>
@@ -90,7 +90,9 @@
                                         {var participantCount = i.counts.membersCount}
                                         {if participantCount > 0}
                                             <span class="searchgroups_result_detail_separator"> | </span>
-                                            <a class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                                            <a id="searchgroups_result_participant_link_${i['sakai:group-id']}" class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">
+                                                <span id="searchgroups_result_participant_count_${i['sakai:group-id']}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']}">{if participantCount == 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                            </a>
                                         {/if}
                                     </div>
                                     {if i["sakai:group-description-short"]}<div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>{/if}
@@ -113,7 +115,7 @@
                         <div class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=categories/${categoryid}" title="__MSG__ADD__ ${category}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" title="__MSG__ADD__ ${category}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
                         </div>
                     {/if}
                 --></div>

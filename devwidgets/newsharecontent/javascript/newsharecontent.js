@@ -196,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if (success) {
                         contentObj = {
                             "data": data,
-                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + data["_path"] + "/" + encodeURI(data["sakai:pooled-content-file-name"])
+                            "shareUrl": sakai.config.SakaiDomain + "/content#p=" + sakai.api.Util.urlSafe(data["_path"]) + "/" + sakai.api.Util.urlSafe(data["sakai:pooled-content-file-name"])
                         };
                         if (window["addthis"]) {
                             $newsharecontentContainer.jqmShow();
@@ -228,7 +228,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;
-            $.getScript('http://s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
+            // the peculiar form of the addthis url is not a typo! see http://paulirish.com/2010/the-protocol-relative-url/
+            $.getScript('//s7.addthis.com/js/250/addthis_widget.js?%23pubid=' + sakai.widgets.newsharecontent.defaultConfiguration.newsharecontent.addThisAccountId + '&domready=1');
             $.ajaxSettings.cache = ajaxcache;
             sakai.api.Util.AutoSuggest.setup($newsharecontentSharelist, {"asHtmlID": tuid});
         };

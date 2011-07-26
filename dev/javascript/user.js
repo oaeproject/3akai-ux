@@ -94,6 +94,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON(puburl, function(success, data){
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                    pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                     setupProfile(pubdata);
                     publicToStore = $.extend(true, {}, pubdata);
                 } else {
@@ -110,7 +112,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
                         if (!success2){
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
-                            privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
+                            var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                            privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
+                            privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
@@ -143,8 +147,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 userid = entityID;
             }
-            privurl = "/~" + userid + "/private/privspace/";
-            puburl = "/~" + userid + "/public/pubspace/";
+            privurl = "/~" + sakai.api.Util.urlSafe(userid) + "/private/privspace/";
+            puburl = "/~" + sakai.api.Util.urlSafe(userid) + "/public/pubspace/";
             if (isMe){
                 sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts){
                     messageCounts = counts;
@@ -158,7 +162,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var addCounts = function(){
             if (pubdata && pubdata.structure0) {
-                if (contextData && contextData.profile) {
+                if (contextData && contextData.profile && contextData.profile.counts) {
                     addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
                     addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
@@ -229,7 +233,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var picture = "";
             if (profile.picture) {
                 var picture_name = $.parseJSON(profile.picture).name;
-                picture = "/~" + userid + "/public/profile/" + picture_name;
+                picture = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + picture_name;
             }
             return picture;
         };

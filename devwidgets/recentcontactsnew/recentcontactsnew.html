@@ -23,7 +23,7 @@
                 </div>
                 <div class="recentcontactsnew_item_info">
                     <p class="recentcontactsnew_item_title">
-                        <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${profile.userid}">
+                        <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${profile.userid|urlSafe}">
                             ${displayName}
                         </a>
                     </p>
@@ -70,7 +70,7 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${author.authorName} __MSG__RECENT_UPLOAD__</p>
                 <div class="fl-force-left">
-                    <a href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
+                    <a href="/content#p=${content['_path']|urlSafe}/${content["sakai:pooled-content-file-name"]|urlSafe}" title="${content.name}">
                     <span>
                         {if content.thumbnail}
                             <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
@@ -83,7 +83,7 @@
                     </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|urlSafe}/${content["sakai:pooled-content-file-name"]|urlSafe}">
                         ${content.name}
                     </a>
                     <span class="recentcontactsnew_content_mimetype">${content.type}</span>

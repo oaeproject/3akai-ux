@@ -2,19 +2,19 @@
 
 <div id="joinrequestbuttons_template"><!--
     <button type="button" id="joinrequestbuttons_request_${id}"
-        class="s3d-button s3d-overlay-button joinrequestbuttons_request" style="display:none;">
+        class="s3d-button{if buttonStyle} ${buttonStyle}{else} s3d-overlay-button{/if} joinrequestbuttons_request" style="display:none;">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_TO_JOIN__</span>
     </button>
     <button type="button" id="joinrequestbuttons_join_${id}"
-        class="s3d-button s3d-overlay-button joinrequestbuttons_join" style="display:none;">
+        class="s3d-button{if buttonStyle} ${buttonStyle}{else} s3d-overlay-button{/if} joinrequestbuttons_join" style="display:none;">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__JOIN_GROUP__</span>
     </button>
     <button type="button" id="joinrequestbuttons_leave_${id}"
-        class="s3d-button s3d-overlay-button joinrequestbuttons_leave" style="display:none;">
+        class="s3d-button{if buttonStyle} ${buttonStyle}{else} s3d-overlay-button{/if} joinrequestbuttons_leave" style="display:none;">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__LEAVE_GROUP__</span>
     </button>
     <button type="button" id="joinrequestbuttons_pending_${id}" disabled="disabled"
-        class="s3d-button s3d-overlay-button joinrequestbuttons_pending" style="display:none;">
+        class="s3d-button{if buttonStyle} ${buttonStyle}{else} s3d-overlay-button{/if} joinrequestbuttons_pending" style="display:none;">
         <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__REQUEST_PENDING__</span>
     </button>
 --></div>

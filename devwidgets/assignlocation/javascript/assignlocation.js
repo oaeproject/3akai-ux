@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         case "user":
                             contextVariables = {
                                 "data": sakai.data.me.profile,
-                                "path": "/~" + sakai.data.me.profile["rep:userId"] + "/public/authprofile",
+                                "path": "/~" + sakai.api.Util.urlSafe(sakai.data.me.profile["rep:userId"]) + "/public/authprofile",
                                 "context" : "user"
                             };
                             break;
@@ -241,7 +241,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 "themes": {
                     "dots": false,
-                    "icons": false
+                    "icons": false,
+                    "url": "/dev/lib/jquery/plugins/jsTree/themes/default/style.css"
                 },
                 "search" : {
                     "case_insensitive" : true

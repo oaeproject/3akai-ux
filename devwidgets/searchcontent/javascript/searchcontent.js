@@ -148,14 +148,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (success) {
 
                 // Adjust display global total
-                // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
-                if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
-                    $(searchConfig.global.numberFound).text("" + results.total);
-                } else if (results.results.length <= 0) {
-                    $(searchConfig.global.numberFound).text(0);
-                } else {
-                    $(searchConfig.global.numberFound).text($(searchConfig.global.resultExceed).html());
-                }
+                $(searchConfig.global.numberFound).text("" + results.total);
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass).pager({
@@ -192,6 +185,20 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 }
             }
 
+            var updateItemsAndRenderTemplate = function() {
+                // Make the content items available to other widgets
+                sakai_global.searchcontent.content_items = finaljson.items;
+                finaljson.sakai = sakai;
+                // Render the results.
+                $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+                $(".searchcontent_results_container").show();
+                // display functions available to logged in users
+                if (!sakai.data.me.user.anon) {
+                    $(".searchcontent_result_user_functions").show();
+                    $(".searchcontent_result_anonuser").hide();
+                }
+            };
+
             // Get displaynames for the users that created content
             if (fetchUsers) {
                 sakai.api.User.getMultipleUsers(userArray, function(users){
@@ -200,19 +207,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                         item.displayName = sakai.api.User.getDisplayName(users[userid]);
                     });
 
-                    // Make the content items available to other widgets
-                    sakai_global.searchcontent.content_items = finaljson.items;
-                    finaljson.sakai = sakai;
-                    // Render the results.
-                    $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-                    $(".searchcontent_results_container").show();
-
-                    // display functions available to logged in users
-                    if (!sakai.data.me.user.anon) {
-                        $(".searchcontent_result_user_functions").show();
-                        $(".searchcontent_result_anonuser").hide();
-                    }
+                    updateItemsAndRenderTemplate();
                 });
+            }
+            else {
+                updateItemsAndRenderTemplate();
             }
         };
 

@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"><!----></div>
                     <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=categories/group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
                 </div>
             </div>
        </div>
@@ -67,7 +67,7 @@
             <div class="recentmemberships_item_related_info">
                 <p class="recentmemberships_item_meta_data">__MSG__LATEST_CONTENT_TO__ <span>${group["sakai:group-title"]}</span></p>
                 <div class="fl-force-left">
-                    <a href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}" title="${content.name}">
+                    <a href="/content#p=${content['_path']|urlSafe}/${content["sakai:pooled-content-file-name"]|urlSafe}" title="${content.name}">
                     <span>
                         {if content.thumbnail}
                             <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
@@ -80,7 +80,7 @@
                     </a>
                 </div>
                 <div class="recentmemberships_item_div">
-                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']}/${content["sakai:pooled-content-file-name"]}">
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|urlSafe}/${content["sakai:pooled-content-file-name"]|urlSafe}">
                         ${content.name}
                     </a>
                     <span class="recentmemberships_content_mimetype">${content.type}</span>
