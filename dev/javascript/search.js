@@ -61,9 +61,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             },
             "id49294509202": {
                 "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
-            },
-            "id1234567890": {
-                "page": "<div id='widget_searchsakai2' class='widget_inline'></div>"
             }
         };
 
@@ -79,6 +76,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "_order": 0,
                     "_title": "Sakai 2"
                 }
+            };
+            pubdata["id1234567890"] = {
+                "page": "<div id='widget_searchsakai2' class='widget_inline'></div>"
             };
         }
         
