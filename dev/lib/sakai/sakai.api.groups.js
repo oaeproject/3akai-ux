@@ -778,14 +778,6 @@ define(
                     var batchRequests = [];
                     var dataToReturn = {};
                     for (var i = 0; i < roles.length; i++) {
-                        //var url = "/var/search/groupmembers-all.json";
-                        //var parameters = {
-                        //    group: groupID + "-" + roles[i].id,
-                        //    q: searchquery
-                        //};
-                        //if (searchquery !== "*"){
-                        //    url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
-                        //}
                         var selector = "members";
                         if (everyone) {
                             selector = "everyone";
@@ -793,8 +785,10 @@ define(
                         var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + "." + selector + ".json";
                         batchRequests.push({
                             "url": url,
-                            "method": "GET"
-                        //  "parameters": parameters
+                            "method": "GET",
+                            "parameters": {
+                                items: 1000
+                            }
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
