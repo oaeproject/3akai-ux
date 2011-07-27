@@ -72,7 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userIDArr = [];
             $.each($(participantsListParticipantCheckbox + ":checked", rootel), function(index, item){
                 userIDArr.push($(item)[0].id.split("_")[0]);
-                userArr.push($(item).nextAll(participantsListParticipantName).text());
+                userArr.push($(item).parent().nextAll(participantsListParticipantName).text());
             });
             $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
             $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
