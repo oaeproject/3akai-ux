@@ -24,7 +24,7 @@ define(function(){
             GATEWAY_URL: "/",
             GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
-            I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
+            I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.min.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
