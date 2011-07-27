@@ -195,8 +195,9 @@ sakai_global.s23_site = function(){
                 var firstFrameSrcUrl;
                 var otherframes = [];
                 for (var tool = 0; tool < page.tools.length; tool++){
-                    var iframe = $("#Main" + page.tools[tool].xid);
-                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                    // Some special Sakai 2 Sites start with ~ or !
+                    var iframe = $("#Main" + page.tools[tool].xid.replace(/([~!])/g,'\\$1')); 
+                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";                     
                     if(isSameOriginPolicy(window.location.href, srcUrl)) {
                         iframe.load(loadIframe);
                     }
