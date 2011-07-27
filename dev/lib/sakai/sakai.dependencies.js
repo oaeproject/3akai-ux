@@ -95,7 +95,7 @@ require(
         "jquery-ui",
         "jquery-plugins/jquery.validate",
         "jquery-plugins/jquery.autoSuggest.sakai-edited",
-        "misc/l10n/globalization",
+        "misc/l10n/globalize",
         "misc/underscore",
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
