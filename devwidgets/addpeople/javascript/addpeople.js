@@ -167,6 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "group_invitation");
                     });
                 }
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
                 $addpeopleContainer.jqmHide();
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","SELECT_AT_LEAST_ONE_MANAGER"));
