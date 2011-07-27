@@ -81,7 +81,7 @@
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk"/>
                 <label for="${group["sakai:group-id"]}_chk"><img class="s3d-list-entity-picture" src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"])}</a>
+                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 100)}</a>
             </li>
             <hr/>
         {/for}
