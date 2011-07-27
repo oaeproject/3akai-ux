@@ -508,6 +508,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 type: "POST",
                 success: function(data){
                     $parentDiv.hide();
+                    $parentDiv.parents(discussionTopicContainer).find(discussionReplyTopicBottom).show()
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message.profile);
@@ -753,6 +754,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             // Open quoted reply fields
             $(discussionQuote, $rootel).live("click", function(){
                 var replyParent = $(this).parents(discussionTopicContainer);
+                replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent[0].id.split("discussion_post_")[1];
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).text(), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
                 replyParent.children(discussionTopicReplyContainer).show();
@@ -762,6 +764,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             // Open reply fields
             $(discussionReplyTopic, $rootel).live("click", function(){
                 var replyParent = $(this).parents(discussionTopicContainer);
+                replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent[0].id.split("discussion_post_")[1];
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":false, "postId": postId}, replyParent.children(discussionTopicReplyContainer));
                 replyParent.children(discussionTopicReplyContainer).show();
@@ -770,6 +773,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
             $(discussionDontAddReply, $rootel).live("click", function(){
                 $(this).parents(discussionTopicReplyContainer).hide();
+                if (!$(this).parents(discussionTopicContainer).find(discussionRepliesIcon).hasClass(discussionShowRepliesIcon)) {
+                    $(this).parents(discussionTopicContainer).find(discussionReplyTopicBottom).show();
+                }
             });
 
             // Make the actual reply

@@ -337,7 +337,7 @@ define(
          * @param {Function} callback Callback function, passes (success)
          */
         updateGroupInfo : function(id, title, description, kind, callback) {
-            var groupProfileURL = "/~" + id + "/public/authprofile";
+            var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
 
             $.ajax({
                 url: groupProfileURL,
@@ -367,7 +367,7 @@ define(
          * @param {Function} callback Callback function, passes (success)
          */
         updateGroupProfile : function(id, profile, callback) {
-            var groupProfileURL = "/~" + id + "/public/authprofile";
+            var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
             sakai_serv.saveJSON(groupProfileURL, profile, function(success, data) {
                 if ($.isFunction(callback)) {
                     callback(success);
@@ -778,14 +778,6 @@ define(
                     var batchRequests = [];
                     var dataToReturn = {};
                     for (var i = 0; i < roles.length; i++) {
-                        //var url = "/var/search/groupmembers-all.json";
-                        //var parameters = {
-                        //    group: groupID + "-" + roles[i].id,
-                        //    q: searchquery
-                        //};
-                        //if (searchquery !== "*"){
-                        //    url = "/var/search/groupmembers.json?group=" + groupID + "-" + roles[i].id;
-                        //}
                         var selector = "members";
                         if (everyone) {
                             selector = "everyone";
@@ -793,8 +785,10 @@ define(
                         var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + "." + selector + ".json";
                         batchRequests.push({
                             "url": url,
-                            "method": "GET"
-                        //  "parameters": parameters
+                            "method": "GET",
+                            "parameters": {
+                                items: 1000
+                            }
                         });
                     }
                     sakai_serv.batch(batchRequests, function(success, data){
@@ -863,23 +857,24 @@ define(
         },
 
         leave : function(groupId, role, meData, callback){
-            $.ajax({
-                url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
-                type: "POST",
-                success: function(){
-                    var pseudoGroupID = groupId + "-" + role;
-                    var index = meData.user.subjects.indexOf(groupId);
-                    meData.user.subjects.splice(index, 1);
-                    index = meData.user.subjects.indexOf(pseudoGroupID);
-                    meData.user.subjects.splice(index, 1);
-                    if ($.isFunction(callback)){
-                        callback(true);
-                    }
+            var reqs = [
+                {
+                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    method: "POST"
                 },
-                error: function() {
-                    if ($.isFunction(callback)){
-                        callback(false);
-                    }
+                {
+                    url: "/system/userManager/group/"+ groupId + ".leave.json",
+                    method: "POST"
+                }
+            ];
+            sakai_serv.batch(reqs, function(success){
+                var pseudoGroupID = groupId + "-" + role;
+                var index = meData.user.subjects.indexOf(groupId);
+                meData.user.subjects.splice(index, 1);
+                index = meData.user.subjects.indexOf(pseudoGroupID);
+                meData.user.subjects.splice(index, 1);
+                if ($.isFunction(callback)){
+                    callback(success);
                 }
             });
         },
@@ -997,6 +992,15 @@ define(
             $.each(users, function(index, user) {
                 reqData.push({
                     "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
+                    "method": "POST",
+                    "parameters": {
+                        "_charset_":"utf-8",
+                        ":member@Delete": user.userid,
+                        ":viewer@Delete": user.userid
+                    }
+                },
+                {
+                    "url": "/system/userManager/group/" + groupID + ".update.json",
                     "method": "POST",
                     "parameters": {
                         "_charset_":"utf-8",
