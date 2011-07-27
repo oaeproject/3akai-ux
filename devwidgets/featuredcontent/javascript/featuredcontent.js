@@ -121,8 +121,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if(!candidate && data.results.length){
                         data.results[0].mode = "large";
                         data.results[0].thumbnail = sakai.api.Content.getThumbnail(data.results[0]);
-                        debug.log(data.results[0].thumbnail);
-                        debug.log(data.results[0]);
                         if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
                             data.results[0].image = true;
                         }

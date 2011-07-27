@@ -42,6 +42,12 @@
                 <button class="s3d-link-button addpeople_init">__MSG__MANAGE_PARTICIPANTS__</button>
             </li>
             <hr class="s3d-split-line"/>
+            {if joinable}
+            <li id="ew_group_join_requests">
+                <button class="s3d-link-button" id="ew_group_join_requests_link">__MSG__JOIN_REQUESTS__</button>
+            </li>
+            <hr class="s3d-split-line"/>
+            {/if}
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
             </li>
@@ -286,12 +292,12 @@
                         {else} <li id="${i["rep:userId"]}" class="entity_content_even">
                         {/if}
                         {if i.pictureUrl}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|urlSafe}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i["rep:userId"]}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|urlSafe}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]}" target="_blank">${displayName}</a>
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|urlSafe}" target="_blank">${displayName}</a>
                         </span>
                         </li>
                     {/if}

@@ -356,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 items.push({
                                     id: result["_path"],
                                     filename: result["sakai:pooled-content-file-name"],
-                                    link: "/content#p=" + result["_path"],
+                                    link: "/content#p=" + sakai.api.Util.urlSafe(result["_path"]),
                                     last_updated: $.timeago(new Date(result["_lastModified"])),
                                     type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                                     type_src: mimetypeObj.URL,
@@ -382,11 +382,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         } else {
                             debug.error("Fetching library items for userid: " + mylibrary.contextId + " failed");
-                            if (callback && typeof(callback) === "function") {
+                            if ($.isFunction(callback)) {
                                 callback(false, null, query);
                             }
                         }
                     });
+                } else if ($.isFunction(callback)) {
+                    callback(false, null, query);
                 }
             };
 
@@ -503,7 +505,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_groupfilter_selection.find("button").text(groupTitle);
 
                 mylibrary.currentPagenum = 1;
-                getLibraryItems(groupId, renderLibraryItems);
+                getLibraryItems(renderLibraryItems, groupId);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,
                     firstName: groupTitle

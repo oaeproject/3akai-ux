@@ -81,17 +81,43 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateCounts = function(pageid, value){
             // Adjust the count value by the specified value for the page ID
-            if (pubstructure.items[pageid]) {
-                pubstructure.items[pageid]._count = (pubstructure.items[pageid]._count || 0) + value;
-                var listitem = $("li[data-sakai-path='" + pageid + "']");
+
+            var subpage = false;
+            if (pageid.indexOf("/") !== -1){
+                var parts = pageid.split("/");
+                pageid = parts[0];
+                subpage = parts[1];
+            }
+
+            var adjustCount = function(pageStructure, pageid, subpage, value){
+                var listitem = "li[data-sakai-path='";
+                var count;
+                var element;
+                if (subpage) {
+                    count = pageStructure.items[pageid][subpage];
+                    listitem = $(listitem + pageid + "/" + subpage + "']");
+                    element = ".lhnavigation_sublevelcount";
+                } else {
+                    count = pageStructure.items[pageid];
+                    listitem = $(listitem + pageid + "']");
+                    element = ".lhnavigation_levelcount";
+                }
+                count._count = (count._count || 0) + value;
                 if (listitem.length) {
-                    $(".lhnavigation_levelcount", listitem).text(" (" + pubstructure.items[pageid]._count + ")");
-                    if (pubstructure.items[pageid]._count <= 0){
-                        $(".lhnavigation_levelcount", listitem).hide();
+                    $(element, listitem).text(" (" + count._count + ")");
+                    if (count._count <= 0){
+                        $(element, listitem).hide();
                     } else {
-                        $(".lhnavigation_levelcount", listitem).show();
+                        $(element, listitem).show();
                     }
                 }
+                return pageStructure;
+            };
+
+            if (pubstructure.items[pageid]) {
+                pubstructure = adjustCount(pubstructure, pageid, subpage, value);
+            } else if (privstructure.items[pageid]) {
+                privstructure = adjustCount(privstructure, pageid, subpage, value);
             }
         };
 
@@ -161,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
                 }
             }
             structure._childCount = childCount;
@@ -480,7 +506,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + $elLI.data("sakai-pagesavepath").substring(3));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else {

@@ -307,8 +307,8 @@ define(
                     toProcess.splice(0, 1);
                     createGroup(group, saveGroup);
                 } else {
-                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, true, managershipsToProcess, meData, true, function(){
-                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, false, membershipsToProcess, meData, false, function(){
+                    sakaiGroupsAPI.addUsersToGroup(mainGroupId, managershipsToProcess, meData, true, function(){
+                        sakaiGroupsAPI.addUsersToGroup(mainGroupId, membershipsToProcess, meData, false, function(){
                             if (mainCallback){
                                 mainCallback(true, data, false);
                             }
@@ -539,7 +539,7 @@ define(
                 if (!groupid || typeof(groupid) !== "string") {
                     return false;
                 }
-                var managersGroupId = groupid + "-managers";
+                var managersGroupId = groupid + "-manager";
                 return $.inArray(managersGroupId, meData.user.subjects) !== -1;
             }
         },
@@ -590,7 +590,7 @@ define(
                 var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.General.getValueForKey("SAKAI");
-                var profileLink = sakai_conf.SakaiDomain + "/~" + meData.user.userid;
+                var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid);
                 var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
                 var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                      .replace(/\$\{sender\}/g, userString)
@@ -697,7 +697,7 @@ define(
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
-                    url: "/~" + groupID + "/joinrequests/" + userID,
+                    url: "/~" + groupID + "/joinrequests/" + sakai_util.urlSafe(userID),
                     data: {
                         ":operation": "delete"
                     },
@@ -734,7 +734,7 @@ define(
          *  -- {Object} joinrequest data if successful
          */
         getJoinRequests : function(groupID, callback, async) {
-            if (groupID && typeof(groupID) === "string") {
+            if (_.isString(groupID)) {
                 if (async === null || async === undefined) {
                     async = true;
                 }
@@ -863,23 +863,24 @@ define(
         },
 
         leave : function(groupId, role, meData, callback){
-            $.ajax({
-                url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
-                type: "POST",
-                success: function(){
-                    var pseudoGroupID = groupId + "-" + role;
-                    var index = meData.user.subjects.indexOf(groupId);
-                    meData.user.subjects.splice(index, 1);
-                    index = meData.user.subjects.indexOf(pseudoGroupID);
-                    meData.user.subjects.splice(index, 1);
-                    if ($.isFunction(callback)){
-                        callback(true);
-                    }
+            var reqs = [
+                {
+                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    method: "POST"
                 },
-                error: function() {
-                    if ($.isFunction(callback)){
-                        callback(false);
-                    }
+                {
+                    url: "/system/userManager/group/"+ groupId + ".leave.json",
+                    method: "POST"
+                }
+            ];
+            sakai_serv.batch(reqs, function(success){
+                var pseudoGroupID = groupId + "-" + role;
+                var index = meData.user.subjects.indexOf(groupId);
+                meData.user.subjects.splice(index, 1);
+                index = meData.user.subjects.indexOf(pseudoGroupID);
+                meData.user.subjects.splice(index, 1);
+                if ($.isFunction(callback)){
+                    callback(success);
                 }
             });
         },
@@ -898,12 +899,11 @@ define(
          * Add users to the specified group
          *
          * @param {String} groupID the ID of the group to add members to
-         * @param {String} list Either 'members' or 'managers'
          * @param {Array} users Array of user/group IDs to add to the group
          * @param {Object} meData the data from sakai.api.User.data.me
          * @param {Function} callback Callback function
          */
-        addUsersToGroup : function(groupID, list, users, medata, managerShip, callback) {
+        addUsersToGroup : function(groupID, users, medata, managerShip, callback) {
             var reqData = [];
             var currentUserIncluded = false;
 
@@ -998,6 +998,15 @@ define(
             $.each(users, function(index, user) {
                 reqData.push({
                     "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
+                    "method": "POST",
+                    "parameters": {
+                        "_charset_":"utf-8",
+                        ":member@Delete": user.userid,
+                        ":viewer@Delete": user.userid
+                    }
+                },
+                {
+                    "url": "/system/userManager/group/" + groupID + ".update.json",
                     "method": "POST",
                     "parameters": {
                         "_charset_":"utf-8",

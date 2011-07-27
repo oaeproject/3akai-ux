@@ -173,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return group;
         };
 
-        var openTooltip = function (groupid, $item) {
+        var openTooltip = function (groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
                 $(window).trigger("init.tooltip.sakai", {
                     tooltipHTML: sakai.api.Util.TemplateRenderer(
@@ -186,7 +186,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(window).trigger("init.joinrequestbuttons.sakai", [
                             {
                                 "groupProfile": group.groupProfile,
-                                "groupMembers": group.groupMembers
+                                "groupMembers": group.groupMembers,
+                                "leaveAllowed": leaveAllowed
                             },
                             groupid,
                             group.joinability,
@@ -242,7 +243,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function () {
             $(window).bind("initialize.joingroup.sakai", function(evObj, groupid, target){
-                openTooltip(groupid, $(target));
+                sakai.api.Groups.getMembers(groupid,"",function(membersSuccess, memberData){
+                    sakai.api.Groups.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
+                        // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
+                        if (!sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me, membershipData.properties)) {
+                            openTooltip(groupid, $(target), true);
+                        } else {
+                            var roles = $.parseJSON(membershipData.properties["sakai:roles"]);
+                            var numManagers = 0;
+                            $.each(roles, function(index, role){
+                                if (role.allowManage) {
+                                    numManagers = numManagers + memberData[role.title].results.length;
+                                }
+                            });
+                            var leaveAllowed = false;
+                            if (numManagers > 1) {
+                                leaveAllowed = true;
+                            }
+                            openTooltip(groupid, $(target), leaveAllowed);
+                        }
+                    })
+                }, "everyone");
                 return false;
             });
         };

@@ -445,6 +445,10 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             }
         };
 
+        var proofTitle = function(input){
+            return input.replace(/=/g,"_").replace(/\//g, "_");
+        };
+
         /**
          * Creates a sakaidocument
          * @param {Object} documentObj Object containing data needed to create a sakai document
@@ -452,7 +456,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
             var document = {
-                "sakai:pooled-content-file-name": documentObj.title,
+                "sakai:pooled-content-file-name": proofTitle(documentObj.title),
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
@@ -534,7 +538,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         var uploadLink = function(linkObj){
             var preview = sakai.api.Content.getPreviewUrl(linkObj.url);
             var link = {
-                "sakai:pooled-content-file-name": linkObj.title,
+                "sakai:pooled-content-file-name": proofTitle(linkObj.title),
                 "sakai:pooled-content-url": linkObj.url,
                 "sakai:description": linkObj.description,
                 "sakai:permissions": linkObj.permissions,
@@ -588,7 +592,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                                 "parameters": {
                                     "sakai:description": arrayItem.description,
                                     "sakai:fileextension": savedItem.filename.substring(savedItem.filename.lastIndexOf("."), savedItem.filename.length),
-                                    "sakai:pooled-content-file-name": arrayItem.title,
+                                    "sakai:pooled-content-file-name": proofTitle(arrayItem.title),
                                     "sakai:permissions": arrayItem.permissions,
                                     "sakai:copyright": arrayItem.copyright,
                                     "sakai:allowcomments": "true",
@@ -633,7 +637,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
                         }
                     });
-                    
+
                     checkUploadCompleted(true);
                 }
                 else {
