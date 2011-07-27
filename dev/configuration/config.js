@@ -1043,7 +1043,7 @@ define(function(){
                     agriculturalsciences: {
                         title: "Agricultural Sciences"
                     },
-                    others: {
+                    othersinveterinarysciencesandagriculture: {
                         title: "Others in Veterinary Sciences and Agriculture"
                     }
                 }
@@ -1072,7 +1072,7 @@ define(function(){
                     oceansciences: {
                         title: "Ocean Sciences"
                     },
-                    others: {
+                    othersinphysicalsciences: {
                         title: "Others in Physical Sciences"
                     }
                 }
@@ -1101,7 +1101,7 @@ define(function(){
                     artificialintelligence: {
                         title: "Artificial Intelligence"
                     },
-                    others: {
+                    othersinmathematicalandcomputingsciences: {
                         title: "Others in Mathematical and Computing Sciences"
                     }
                 }
@@ -1133,7 +1133,7 @@ define(function(){
                     chemicalprocessandenergyengineering: {
                         title: "Chemical, Process and Energy Engineering"
                     },
-                    others: {
+                    othersinengineering: {
                         title: "Others in Engineering"
                     }
                 }
@@ -1162,7 +1162,7 @@ define(function(){
                     industrialbiotechnology: {
                         title: "Industrial Biotechnology"
                     },
-                    others: {
+                    othersintechnology: {
                         title: "Others in Technology"
                     }
                 }
@@ -1182,7 +1182,7 @@ define(function(){
                     planning: {
                         title: "Planning (Urban, Rural and Regional)"
                     },
-                    others: {
+                    othersinarchitecturebuildingandplanning: {
                         title: "Others in Architecture, Building and Planning"
                     }
                 }
@@ -1211,7 +1211,7 @@ define(function(){
                     humanandsocialgeography: {
                         title: "Human and Social Geography"
                     },
-                    others: {
+                    othersinsocialstudies: {
                         title: "Others in Social studies"
                     }
                 }
@@ -1266,7 +1266,7 @@ define(function(){
                     tourismtransportandtravel: {
                         title: "Tourism, Transport and Travel"
                     },
-                    others: {
+                    othersinbusandadminstudies: {
                         title: "Others in Business and Administrative studies"
                     }
                 }
@@ -1289,7 +1289,7 @@ define(function(){
                     journalism: {
                         title: "Journalism"
                     },
-                    others: {
+                    othersinmasscommanddoc: {
                         title: "Others in Mass Communications and Documentation"
                     }
                 }
@@ -1321,7 +1321,7 @@ define(function(){
                     classicalstudies: {
                         title: "Classical studies"
                     },
-                    others: {
+                    othersinlinguisticsclassicsandrelsubject: {
                         title: "Others in Linguistics, Classics and related subjects"
                     }
                 }
@@ -1350,7 +1350,7 @@ define(function(){
                     russianandeasteuropeanstudies: {
                         title: "Russian and East European studies"
                     },
-                    others: {
+                    othersineurolangliteratureandrelsubjects: {
                         title: "Others in European Languages, Literature and related subjects"
                     }
                 }
@@ -1382,7 +1382,7 @@ define(function(){
                     australasianstudies: {
                         title: "Australasian studies"
                     },
-                    others: {
+                    othersineasternasiaafriamericaaustralianlang: {
                         title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
                     }
                 }
@@ -1408,7 +1408,7 @@ define(function(){
                     theologyandreligiousstudies: {
                         title: "Theology and Religious studies"
                     },
-                    others: {
+                    othersinhistoricalandphilosophicalstudies: {
                         title: "Others in Historical and Philosophical studies"
                     }
                 }
@@ -1440,7 +1440,7 @@ define(function(){
                     imaginativewriting: {
                         title: "Imaginative Writing"
                     },
-                    others: {
+                    othersincreativeartsanddesign: {
                         title: "Others in Creative Arts and Design"
                     }
                 }

@@ -152,7 +152,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var addCounts = function(){
             if (pubdata && pubdata.structure0) {
-                if (contextData && contextData.profile) {
+                if (contextData && contextData.profile && contextData.profile.counts) {
                     addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
                     addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);

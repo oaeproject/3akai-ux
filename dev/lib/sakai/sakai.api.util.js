@@ -1269,7 +1269,7 @@ define(
          * At the time of writing I couldn't find a version with these symantics
          * (which may or may not be legal according to various RFC's), but this
          * implementation can be swapped out with one if it presents itself.
-         * 
+         *
          * @param {String} String to be encoded.
          * @returns Encoded string.
          */
