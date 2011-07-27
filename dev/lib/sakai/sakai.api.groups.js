@@ -337,7 +337,7 @@ define(
          * @param {Function} callback Callback function, passes (success)
          */
         updateGroupInfo : function(id, title, description, kind, callback) {
-            var groupProfileURL = "/~" + id + "/public/authprofile";
+            var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
 
             $.ajax({
                 url: groupProfileURL,
@@ -367,7 +367,7 @@ define(
          * @param {Function} callback Callback function, passes (success)
          */
         updateGroupProfile : function(id, profile, callback) {
-            var groupProfileURL = "/~" + id + "/public/authprofile";
+            var groupProfileURL = "/~" + id + "/public/authprofile.profile.json";
             sakai_serv.saveJSON(groupProfileURL, profile, function(success, data) {
                 if ($.isFunction(callback)) {
                     callback(success);
