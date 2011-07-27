@@ -46,7 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $participantsSearchField = $("#participants_search_field", rootel);
         var participantsListParticipantRequestConnection = ".participants_list_participant_request_connection";
         var $participantsSelectAll = $("#participants_select_all", rootel);
-        var participantsListParticipantCheckbox = ".participants_list_participant_checkbox";
+        var participantsListParticipantCheckbox = ".participants_list_participant_checkbox input:checkbox";
         var $participantsSendSelectedMessage = $("#participants_send_selected_message", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
 
