@@ -71,7 +71,7 @@
                 <li class="s3d-list-item">
                     <input type="checkbox" class="addpeople_checkbox" id="${contact.profile.userid}_chk"/>
                     <label for="${contact.profile.userid}_chk"><img class="s3d-list-entity-picture" src="${contact.profile.basic.elements.picture || "/dev/images/default_profile_picture_32.png"}" alt="__MSG__PROFILE_PICTURE__"/></label>
-                    <a href="/~${contact.profile.userid|urlSafe}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 100)}</a>
+                    <a href="/~${contact.profile.userid|urlSafe}" target="_blank" title="${sakai.api.User.getDisplayName(contact.profile)}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(contact.profile), 90)}</a>
                 </li>
                 <hr/>
             {/if}
@@ -81,7 +81,7 @@
             <li class="s3d-list-item">
                 <input type="checkbox" class="addpeople_checkbox" id="${group["sakai:group-id"]}_chk"/>
                 <label for="${group["sakai:group-id"]}_chk"><img class="s3d-list-entity-picture" src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__PROFILE_PICTURE__"/></label>
-                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 100)}</a>
+                <a href="/~${group["sakai:group-id"]}" target="_blank" title="${group["sakai:group-title"]}'s __MSG__PROFILE__" class="s3d-entity-displayname s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(group["sakai:group-title"], 90)}</a>
             </li>
             <hr/>
         {/for}

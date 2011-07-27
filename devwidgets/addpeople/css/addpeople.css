@@ -53,4 +53,4 @@
 #addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}
 
 /* Override sakai.base.css */
-#addpeople_container #addpeople_contacts_container a.s3d-entity-displayname{width:200px;}
+#addpeople_container #addpeople_contacts_container a.s3d-entity-displayname{width:185px;}
