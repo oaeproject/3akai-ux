@@ -177,6 +177,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 results.total = Math.abs(results.total);
                 if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass, rootel).show();
+                } else {
+                    $(searchConfig.global.pagerClass, rootel).hide();
                 }
             }
 

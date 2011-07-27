@@ -56,6 +56,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         // CSS IDs
         var search = "#searchcontent";
+        var rootel = $("#" + tuid);
 
         var searchConfig = {
             search: "#searchcontent",
@@ -151,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(searchConfig.global.numberFound).text("" + results.total);
 
                 // Reset the pager.
-                $(searchConfig.global.pagerClass).pager({
+                $(searchConfig.global.pagerClass, rootel).pager({
                     pagenumber: params["page"],
                     pagecount: Math.ceil(Math.abs(results.total) / resultsToDisplay),
                     buttonClickCallback: pager_click_handler
@@ -181,7 +182,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 // they are less then the number we should display
                 results.total = Math.abs(results.total);
                 if (results.total > resultsToDisplay) {
-                    $(searchConfig.global.pagerClass).show();
+                    $(searchConfig.global.pagerClass, rootel).show();
+                } else {
+                    $(searchConfig.global.pagerClass, rootel).hide();
                 }
             }
 
