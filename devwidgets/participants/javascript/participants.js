@@ -46,7 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $participantsSearchField = $("#participants_search_field", rootel);
         var participantsListParticipantRequestConnection = ".participants_list_participant_request_connection";
         var $participantsSelectAll = $("#participants_select_all", rootel);
-        var participantsListParticipantCheckbox = ".participants_list_participant_checkbox";
+        var participantsListParticipantCheckbox = ".participants_list_participant_checkbox input:checkbox";
         var $participantsSendSelectedMessage = $("#participants_send_selected_message", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
 
@@ -72,7 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userIDArr = [];
             $.each($(participantsListParticipantCheckbox + ":checked", rootel), function(index, item){
                 userIDArr.push($(item)[0].id.split("_")[0]);
-                userArr.push($(item).nextAll(participantsListParticipantName).text());
+                userArr.push($(item).parent().nextAll(participantsListParticipantName).text());
             });
             $participantsSendSelectedMessage.attr("sakai-entitytype", "user");
             $participantsSendSelectedMessage.attr("sakai-entityname", userArr);
