@@ -361,22 +361,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             var reqs = [
                 {
-                    url: "/var/search/pool/me/related-content.json?items=11",
+                    url: "/var/search/pool/me/related-content.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 },
                 {
-                    url: "/var/contacts/related-contacts.json?items=11",
+                    url: "/var/contacts/related-contacts.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 },
                 {
-                    url: "/var/search/myrelatedgroups.json?items=11",
+                    url: "/var/search/myrelatedgroups.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 }
             ];
 
@@ -390,7 +393,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.groups = $.parseJSON(data.results[2].body);
                 }
                 parseData(dataArr);
-            });
+            }, false);
 
         };
 
