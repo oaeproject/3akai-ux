@@ -236,7 +236,7 @@ define(
             if (typeof(to) === "object") {
                 for (i = 0; i < to.length; i++) {
                     reqs[reqs.length] = {
-                        "url": "/~" + to[i] + "/public/authprofile.json",
+                        "url": "/~" + to[i] + "/public/authprofile.profile.json",
                         "method": "GET"
                     };
                 }

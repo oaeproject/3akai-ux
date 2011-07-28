@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Integer} value Value to adjust the number of participants by
          */
         var adjustParticipantCount = function (groupid, value) {
-            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text());
+            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text(), 10);
             participantCount = participantCount + value;
             $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
             if (participantCount === 1) {
@@ -97,8 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 picsrc = sakai.api.Groups.getProfilePicture(member);
                 link = "~" + member.groupid;
                 displayname = member["sakai:group-title"];
-            }
-            else {
+            } else {
                 picsrc = sakai.api.User.getProfilePicture(member);
                 link = "~" + member.userid;
                 displayname = sakai.api.User.getDisplayName(member);
@@ -269,7 +268,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                             openTooltip(groupid, $(target), leaveAllowed);
                         }
-                    })
+                    });
                 }, "everyone");
                 return false;
             });
