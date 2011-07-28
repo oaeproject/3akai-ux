@@ -152,11 +152,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         group.groupMembers = members;
 
                         $.each(members, function(role, users) {
-                            $.each(users.results, function(index, user) {
-                                push_member_to_list(user, participants, role);
-                            });
+                            if (users.results) {
+                                $.each(users.results, function(index, user) {
+                                    push_member_to_list(user, participants, role);
+                                });
+                            }
                         });
 
+                        if (group.groupMembers.Manager && group.groupMembers.Manager.results){
+                            group.managerCount = group.groupMembers.Manager.results.length;
+                        }
                         group.totalParticipants = participants.length;
                         if (participants.length > 1) {
                             participants = participants.sort(participantSort);
