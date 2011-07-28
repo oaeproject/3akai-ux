@@ -64,7 +64,7 @@
         {if !anon}
             {if type != "user_anon" && type != "user_me"}
                 {if type == "user_other"}
-                    <button type="button" id="entity_user_add_to_contacts" class="s3d-button s3d-header-button sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}">__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
+                    <button type="button" id="entity_user_add_to_contacts" class="s3d-button s3d-header-button sakai_addtocontacts_overlay" sakai-entityid="${data.userid}" sakai-entityname="${data.displayName}" {if data.picture}sakai-entitypicture="${data.picture}"{/if}>__MSG__ADD_TO_CONTACTS__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
                 {elseif type == "contact_invited"}
                     <button type="button" id="entity_user_accept_invitation" class="s3d-button s3d-header-button">__MSG__ACCEPT_INVITATION__<span class="entity_add_to_contacts_icon entity_user_action_icon"></span></button>
                 {elseif type == "contact_pending"}
