@@ -92,16 +92,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     is a manager or not
          */
         var push_member_to_list = function (member, list, role) {
-            var picsrc = "/dev/images/default_profile_picture_32.png";
-            if (member.basic.elements.picture &&
-                member.basic.elements.picture.name &&
-                member.basic.elements.picture.name.value) {
-                picsrc = member.basic.elements.picture.name.value;
+            var link, picsrc, displayname = "";
+            if (member["sakai:category"] == "group") {
+                picsrc = "/dev/images/group_avatar_icon_35x35_nob.png";
+                if (member.basic.elements.picture && member.basic.elements.picture.name && member.basic.elements.picture.name.value) {
+                    picsrc = member.basic.elements.picture.name.value;
+                }
+                displayname = member["sakai:group-title"];
+            }
+            else {
+                picsrc = "/dev/images/default_profile_picture_32.png";
+                if (member.basic.elements.picture && member.basic.elements.picture.name && member.basic.elements.picture.name.value) {
+                    picsrc = member.basic.elements.picture.name.value;
+                }
+                displayname = sakai.api.User.getDisplayName(member);
             }
             list.push({
-                link: member.homePath,
+                link: link,
                 picsrc: picsrc,
-                displayname: sakai.api.User.getDisplayName(member),
+                displayname: displayname,
                 role: role
             });
         };
@@ -143,11 +152,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         group.groupMembers = members;
 
                         $.each(members, function(role, users) {
-                            $.each(users.results, function(index, user) {
-                                push_member_to_list(user, participants, role);
-                            });
+                            if (users.results) {
+                                $.each(users.results, function(index, user) {
+                                    push_member_to_list(user, participants, role);
+                                });
+                            }
                         });
 
+                        if (group.groupMembers.Manager && group.groupMembers.Manager.results){
+                            group.managerCount = group.groupMembers.Manager.results.length;
+                        }
                         group.totalParticipants = participants.length;
                         if (participants.length > 1) {
                             participants = participants.sort(participantSort);
@@ -162,7 +176,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if ($.isFunction(callback)){
                             callback(group);
                         }
-                    });
+                    }, true);
                 } else {
                     debug.error("Batch request to fetch group (id: " + id + ") data failed.");
                 }

@@ -348,7 +348,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
-                        "url": "/create#l=categories/" + category.id
+                        "url": "/create#l=" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
@@ -526,8 +526,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register"
-                            || window.location.pathname === "/index" || window.location.pathname === "/") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+                            window.location.pathname === "/index" || window.location.pathname === "/") {
                             window.location = "/me";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
@@ -593,9 +593,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginFields).trigger('click');
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
-            
+
             $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
-                mouseOverSignIn = false; 
+                mouseOverSignIn = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
             });
@@ -605,10 +605,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
-                         + $menu.width()
-                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
-                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
+                         $menu.width() -
+                         parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
+                         parseInt($externalAuth.css("paddingLeft").replace("px", ""), 10);
 
                     var margin = ($externalAuth.width() - menuPadding) * -1;
                     $externalAuth.css("margin-left", margin + "px");

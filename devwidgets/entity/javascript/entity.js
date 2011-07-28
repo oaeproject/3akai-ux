@@ -170,24 +170,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
-                        var url = "/system/userManager/group/" +
-                            context.data.authprofile["sakai:group-id"] + ".managers.json";
-                        $.ajax({
-                            url: url,
-                            success: function(managers){
-                                $(window).trigger("init.joinrequestbuttons.sakai", [
-                                    false,
-                                    context.data.authprofile["sakai:group-id"],
-                                    context.data.authprofile["sakai:group-joinable"],
-                                    managers.length,
-                                    "s3d-header-button",
-                                    function (renderedButtons) {
-                                        // onShow
-                                        $("#joinrequestbuttons_widget", $rootel).show();
-                                    }
-                                ]);
+                        sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
+                            var managerCount = false;
+                            if (members.Manager && members.Manager.results){
+                                managerCount = members.Manager.results.length;
                             }
-                        });
+                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                                {
+                                    "groupProfile": context.data.authprofile,
+                                    "groupMembers": members
+                                },
+                                context.data.authprofile["sakai:group-id"],
+                                context.data.authprofile["sakai:group-joinable"],
+                                managerCount,
+                                "s3d-header-button",
+                                function (renderedButtons) {
+                                    // onShow
+                                    $("#joinrequestbuttons_widget", $rootel).show();
+                                }
+                            ]);
+                        }, true);
                     });
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, $rootel);
                     break;
@@ -263,9 +265,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleDropdownList = function(){
-            $(this).children(".s3d-dropdown-list").toggle();
-            $(this).children(".entity_profile_picture_down_arrow").toggleClass("clicked");
-            $(this).children(".s3d-dropdown-list").css("top", $(this).position().top + 60);
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
+            $(".entity_profile_picture_down_arrow").toggleClass("clicked");
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 60);
         };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
@@ -369,6 +371,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(entityUserImage).click(toggleDropdownList);
             $(entityGroupImage).click(toggleDropdownList);
+
+            sakai.api.Util.hideOnClickOut(entityGroupImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityUserImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
 
         });
 
