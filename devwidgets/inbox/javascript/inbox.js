@@ -30,9 +30,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortOrder = "desc",
             currentPage = 0,
             numJustDeleted = 0,
-            invitations = [],
-            rejections = [],
-            removals = [],
             searchTerm = null,
             selectWhat = "all",
             listViewClass = ".inbox-message-list-view",
@@ -219,29 +216,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /** Sending messages **/
         var sendMessageFinished = function() {
             $.bbq.removeState("newmessage");
-        };
-
-        /** Contact invitations **/
-
-        var getContacts = function(callback) {
-            // reset the arrays
-            sakai.api.User.getContacts(function() {
-                invitations = []; rejections = []; removals = [];
-                // move this to an APi function
-                $.each(sakai.api.User.data.me.mycontacts, function(i, contact) {
-                    var state = contact.details["sakai:state"];
-                    if (state === "INVITED") {
-                        invitations.push(contact.target);
-                    } else if (state === "IGNORED") {
-                        rejections.push(contact.target);
-                    } else if (state === "NONE") {
-                        removals.push(contact.target);
-                    }
-                });
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            });
         };
 
         var handleContactInvitation = function(e) {
