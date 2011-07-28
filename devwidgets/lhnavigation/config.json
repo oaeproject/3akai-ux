@@ -14,5 +14,6 @@
     "type":               "core",
     "url":                "/devwidgets/lhnavigation/lhnavigation.html",
     "userdashboard":      false,
-    "userpages":          false
+    "userpages":          false,
+    "hashParams":         ["newPageMode", "l"]
 }

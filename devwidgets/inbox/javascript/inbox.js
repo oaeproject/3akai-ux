@@ -272,7 +272,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /** Messages **/
 
-        var showMessage = function() {
+        var showMessage = function(message, _focusReply) {
+            currentMessage = message;
+            if (_focusReply) {
+                focusReply();
+            }
             var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
@@ -527,18 +531,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($rootel.is(":visible")) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
-                        getMessages(function() {
-                            updateMessageList(true);
-                            var message = messages.results[changed.message || all.message];
-                            currentMessage = message;
-                            // this handles multiple instances of the widget
-                            if (currentMessage) {
-                                showMessage();
-                                if (changed.hasOwnProperty("reply") || all.hasOwnProperty("reply")) {
-                                    focusReply();
+                        if ((messages.results && !messages.results[changed.message || all.message]) || !messages.results) {
+                            getMessages(function() {
+                                updateMessageList(true);
+                                var message = messages.results[changed.message || all.message];
+                                currentMessage = message;
+                                // this handles multiple instances of the widget
+                                if (currentMessage) {
+                                    showMessage(message, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
                                 }
+                            });
+                        } else {
+                            var messageCached = messages.results[changed.message || all.message];
+                            if (messageCached) {
+                                showMessage(messageCached, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
                             }
-                        });
+                        }
                     } else if (changed.hasOwnProperty("newmessage") || all.hasOwnProperty("newmessage")) {
                         showNewMessage();
                     } else if (changed.hasOwnProperty("iq") || all.hasOwnProperty("iq")) {
