@@ -900,7 +900,7 @@ define(
         /**
          * Retrieves the profile picture for the group
          *
-         * @param {Object} profile the groups profile (data.me.profile for the current user)
+         * @param {Object} profile the groups profile
          * @return {String} the url for the profile picture
          */
         getProfilePicture : function(profile) {
