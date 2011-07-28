@@ -167,7 +167,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "group_invitation");
                     });
                 }
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
                 $addpeopleContainer.jqmHide();
             } else {
                 sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","SELECT_AT_LEAST_ONE_MANAGER"));
@@ -210,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         userid: $(this)[0].id.split("_")[0],
                         roleid: $(this).val(),
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
-                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 80),
+                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 100),
                         permission: currentTemplate.joinRole,
                         picture: $(this).next().children("img").attr("src"),
                         tmpsrc:"checklistadded"
@@ -303,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userObj = {
                 userid: userid,
                 name: userData.attributes.name,
-                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 80),
+                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 100),
                 permission: currentTemplate.joinRole,
                 picture: pictureURL,
                 tmpsrc:"autsuggestadded"
@@ -341,13 +340,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             userObj = {
                                 userid: data[role].results[user]["sakai:group-id"],
                                 name: data[role].results[user]["sakai:group-title"],
-                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 80)
+                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 100)
                             };
                         } else {
                             userObj = {
                                 userid: data[role].results[user]["rep:userId"],
                                 name: sakai.api.User.getDisplayName(data[role].results[user]),
-                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 80)
+                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 100)
                             };
                         }
 
