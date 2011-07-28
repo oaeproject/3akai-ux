@@ -517,6 +517,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $inbox_title_total_wrapper.hide();
             }
             if (showing) {
+                getMessages();
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             } else {
                 clearInterval(checkInterval);
