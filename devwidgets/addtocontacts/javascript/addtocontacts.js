@@ -99,7 +99,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var fillInUserInfo = function(user){
             if (user) {
                 $(addToContactsInfoDisplayName).text(user.username);
-                user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+                if (!user.pictureLink) {
+                    user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+                }
                 // Check for picture
                 if (user.pictureLink) {
                     $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.pictureLink + '" class="s3d-icon-50" />');
