@@ -2509,7 +2509,7 @@ define(function(){
                                     't the course</h1> <hr style="color: rgb(255, 0, 0); background-color: rgb(232, '+
                                     '232, 232); height: 5px; border: 0pt none;"> </div> <div id="main" style="float:'+
                                     ' left; width: 500px; background: none repeat scroll 0% 0% rgb(255, 255, 255); m'+
-                                    'argin-top: 20px;"> <img src="http://ultimedia.biz/images/image1.png" alt="" sty'+
+                                    'argin-top: 20px;"> <img src="/dev/images/worldtemplates/math/whiteboard.png" alt="" sty'+
                                     'le="float: left; padding: 0pt 15px 30px 0pt;"> <p style="color: rgb(99, 99, 99)'+
                                     '; font-size: 16px; line-height: 18px; padding: 0pt 0pt 10px; margin: 0pt;"> Ele'+
                                     'mentary Calculus is extremely diverse and our course enables you to specialise '+
@@ -2592,7 +2592,7 @@ define(function(){
                                     ' 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: unde'+
                                     'rline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div style='+
                                     '"float: left; width: 190px; height: 250px; padding: 0pt 0px 0pt 20px;"> <img sr'+
-                                    'c="http://ultimedia.biz/images/image2.png" alt=""> </div> <div style="padding: '+
+                                    'c="/dev/images/worldtemplates/math/building_fisheye.png" alt=""> </div> <div style="padding: '+
                                     '0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); font-size: 1.4em; font-'+
                                     'weight: normal;">Apply to Join Elementary Calculus</h1> <p style="color: rgb(11'+
                                     '0, 110, 110); font-size: 14px;"> You&quot;ll apply to Admissions Office Main Si'+
@@ -2722,15 +2722,15 @@ define(function(){
                                     'ng a wide variety of new people. University gives you an opportunity to sociali'+
                                     'se and work with people from a huge spectrum of backgrounds. I&quot;m not too s'+
                                     'ure what I&quot;d like the future to hold, but I&quot;m sure that the training '+
-                                    'I&quot;ve had here will stand me in good stead." </p> <img src="http://ultimedi'+
-                                    'a.biz/images/mike.jpg" alt=""> </div> </div> </div> <div id="footer" style="cle'+
+                                    'I&quot;ve had here will stand me in good stead." </p> <img src="/dev/images/worldtemplates/'+
+                                    'math/mike.jpg" alt=""> </div> </div> </div> <div id="footer" style="cle'+
                                     'ar: both; padding: 20px 0pt 0pt; margin: 0pt;"> <div id="footerBox" style="back'+
                                     'ground: -moz-linear-gradient(center top , rgb(249, 249, 249), rgb(240, 240, 238'+
                                     ')) repeat scroll 0% 0% transparent;"> <p style="color: rgb(110, 110, 110); padd'+
                                     'ing: 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: '+
                                     'underline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div st'+
                                     'yle="float: left; height: 250px; margin: 0pt 0px 0pt 20px;"> <img style="margin'+
-                                    ': 0pt 20px 0pt 0pt;" src="http://ultimedia.biz/images/image2.png" alt=""> </div'+
+                                    ': 0pt 20px 0pt 0pt;" src="/dev/images/worldtemplates/math/building_fisheye.png" alt=""> </div'+
                                     '> <div style="padding: 0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); '+
                                     'font-size: 1.4em; font-weight: normal;">Apply to Join Elementary Calculus</h1> '+
                                     '<p style="color: rgb(110, 110, 110); font-size: 14px;"> You&quot;ll apply to Ad'+
