@@ -30,9 +30,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortOrder = "desc",
             currentPage = 0,
             numJustDeleted = 0,
-            invitations = [],
-            rejections = [],
-            removals = [],
             searchTerm = null,
             selectWhat = "all",
             listViewClass = ".inbox-message-list-view",
@@ -221,40 +218,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.bbq.removeState("newmessage");
         };
 
-        /** Contact invitations **/
-
-        var getContacts = function(callback) {
-            // reset the arrays
-            sakai.api.User.getContacts(function() {
-                invitations = []; rejections = []; removals = [];
-                // move this to an APi function
-                $.each(sakai.api.User.data.me.mycontacts, function(i, contact) {
-                    var state = contact.details["sakai:state"];
-                    if (state === "INVITED") {
-                        invitations.push(contact.target);
-                    } else if (state === "IGNORED") {
-                        rejections.push(contact.target);
-                    } else if (state === "NONE") {
-                        removals.push(contact.target);
-                    }
-                });
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            });
-        };
-
         var handleContactInvitation = function(e) {
             $(".inbox_invitation", $rootel).hide();
             if ($(e.target).hasClass("inbox_invitation_accept")) {
                 $(".inbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
+                    currentMessage.from.connectionState = "ACCEPTED";
                 });
             } else {
                 $(".inbox_ignored", $rootel).show();
                 sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
+                    currentMessage.from.connectionState = "IGNORED";
                 });
             }
         };
@@ -263,9 +237,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var determineInviteStatus = function(message) {
             message.invitation = true;
-            if (invitations.indexOf(message.from.userObj.uuid) !== -1) {
+            if (message.from.connectionState && message.from.connectionState === "INVITED") {
                 message.invited = true;
-            } else if (rejections.indexOf(message.from.userObj.uuid) !== -1) {
+            } else if (message.from.connectionState && message.from.connectionState === "IGNORED") {
                 message.ignored = true;
             }
         };
@@ -490,7 +464,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var updateMessageList = function(update) {
             if (update !== false) {
-                getContacts();
                 // make the results an array so we can know if we've hit the last
                 // one when we're iterating in the template
                 var data = $.extend(true, {}, messages);
@@ -585,7 +558,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // we need to check invitation status before we render any messages
             // if we're in the invitation category
             if (widgetData.category === "invitation") {
-                getContacts(postInit);
+                postInit();
             } else {
                 postInit();
             }
