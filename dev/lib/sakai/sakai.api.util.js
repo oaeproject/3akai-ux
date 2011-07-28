@@ -1479,6 +1479,7 @@ define(
                 html4.ATTRIBS["button::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
+                html4.ATTRIBS["button::sakai-entitypicture"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
