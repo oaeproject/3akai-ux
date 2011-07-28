@@ -222,10 +222,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".inbox_invitation", $rootel).hide();
             if ($(e.target).hasClass("inbox_invitation_accept")) {
                 $(".inbox_accepted", $rootel).show();
-                sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid);
+                sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function(){
+                    currentMessage.from.connectionState = "ACCEPTED"
+                });
             } else {
                 $(".inbox_ignored", $rootel).show();
-                sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid);
+                sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid, function(){
+                    currentMessage.from.connectionState = "IGNORED"
+                });
             }
         };
 
