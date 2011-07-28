@@ -584,11 +584,13 @@ define(
                     "targetUserId": inviteFrom
                 },
                 success: function(data) {
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "ACCEPTED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact){
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "ACCEPTED";
+                            }
+                        });
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -613,11 +615,13 @@ define(
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "IGNORED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "IGNORED";
+                            }
+                        });
+                    }
                     $.ajax({
                         url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.remove.html",
                         type: "POST",
