@@ -248,14 +248,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".inbox_invitation", $rootel).hide();
             if ($(e.target).hasClass("inbox_invitation_accept")) {
                 $(".inbox_accepted", $rootel).show();
-                sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
-                });
+                sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid);
             } else {
                 $(".inbox_ignored", $rootel).show();
-                sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
-                });
+                sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid);
             }
         };
 
@@ -263,9 +259,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var determineInviteStatus = function(message) {
             message.invitation = true;
-            if (invitations.indexOf(message.from.userObj.uuid) !== -1) {
+            if (message.from.connectionState && message.from.connectionState === "INVITED") {
                 message.invited = true;
-            } else if (rejections.indexOf(message.from.userObj.uuid) !== -1) {
+            } else if (message.from.connectionState && message.from.connectionState === "IGNORED") {
                 message.ignored = true;
             }
         };
@@ -490,7 +486,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var updateMessageList = function(update) {
             if (update !== false) {
-                getContacts();
                 // make the results an array so we can know if we've hit the last
                 // one when we're iterating in the template
                 var data = $.extend(true, {}, messages);
@@ -585,7 +580,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // we need to check invitation status before we render any messages
             // if we're in the invitation category
             if (widgetData.category === "invitation") {
-                getContacts(postInit);
+                postInit();
             } else {
                 postInit();
             }
