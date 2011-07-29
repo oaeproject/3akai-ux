@@ -16,14 +16,14 @@
                     <a href="/~${jr.userid|urlSafe}" target="_blank"
                         class="joinrequests_userpicture_link"
                         title="__MSG__VIEW_PROFILE__"><img class="joinrequests_userpicture"
-                        id="joinrequests_userpicture_${jr.userid}" /></a>
+                        src="${jr.pic_src}" /></a>
                 </div>
                 <div class="fl-force-left joinrequests_details">
                     <div class="joinrequests_username" style="width:150px;">
                         <a href="/~${jr.userid|urlSafe}" title="__MSG__VIEW_PROFILE__"
                         id="joinrequests_username_link_${jr.userid}"
                         class="joinrequests_username_link"
-                        target="_blank">${jr.firstName} ${jr.lastName}</a>
+                        target="_blank">${jr.displayName}</a>
                     </div>
                     <p class="joinrequests_request_age">
                         <span class="joinrequests_timeago">${jr.request_age}</span>

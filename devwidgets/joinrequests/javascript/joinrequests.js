@@ -82,17 +82,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "joinrole": joinRole
                 };
                 $joinrequests.html(sakai.api.Util.TemplateRenderer($joinrequestsTemplate, json));
-                // set images for users that have a profile picture
-                for (var i in joinrequests) {
-                    if (joinrequests.hasOwnProperty(i)) {
-                        var pic_src = "/dev/images/default_profile_picture_64.png";
-                        if (joinrequests[i].pic_src) {
-                            var pic_src_json = $.parseJSON(joinrequests[i].pic_src);
-                            pic_src = "/~" + sakai.api.Util.urlSafe(joinrequests[i].userid) + "/public/profile/" + pic_src_json.name;
-                        }
-                        $("#joinrequests_userpicture_" + joinrequests[i].userid).attr("src", pic_src);
-                    }
-                }
                 // show the widget
                 $joinrequestsWidget.show();
             }
@@ -119,10 +108,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 } else {
                                     joinrequests.push({
                                         "userid": jr.userid,
-                                        "firstName": jr.basic.elements.firstName.value,
-                                        "lastName": jr.basic.elements.lastName.value,
+                                        "displayName": sakai.api.User.getDisplayName(jr),
                                         "request_age": $.timeago(jr["_created"]),
-                                        "pic_src": jr.picture
+                                        "pic_src": sakai.api.User.getProfilePicture(jr)
                                     });
                                 }
                             }
