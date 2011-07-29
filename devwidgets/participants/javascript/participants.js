@@ -117,7 +117,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 participantsArr.push({
                                     "name": data.results[i]["sakai:group-title"],
                                     "id": data.results[i]["sakai:group-id"],
-                                    //"title": role,
+                                    "title": data.results[i].role,
                                     "type": "group",
                                     "connected": false,
                                     "content": contentCount,
@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 participantsArr.push({
                                     "name": sakai.api.User.getDisplayName(data.results[i]),
                                     "id": data.results[i]["rep:userId"],
-                                    //"title": role,
+                                    "title": data.results[i].role,
                                     "type": "user",
                                     "content": contentCount,
                                     "contacts": contactsCount,
@@ -185,16 +185,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (widgetData && widgetData.participants) {
                 var query = $.trim($participantsSearchField.val()) || "*";
                 $.ajax({
-                    url: sakai.config.URL.SEARCH_GROUP_MEMBERS + "?group=Discussion-Group&q=" + query,
+                    url: sakai.config.URL.SEARCH_GROUP_MEMBERS + "?group=" + sakai_global.group.groupId + "&q=" + query,
                     type: "GET",
                     success: function(data){
-                        debug.log(data);
-                        renderParticipants(true, data);
+                        var participantCount = 0;
+                        $.each(data.results, function(index, user){
+                            sakai.api.Groups.getRole(user.userid, sakai_global.group.groupId, function(success, role){
+                                user.role = role;
+                                participantCount++;
+                                if(participantCount == data.results.length){
+                                    renderParticipants(true, data);
+                                }
+                            });
+                        });
                     },
                     error: function(err){
                         debug.log(err);
                     }
-                })
+                });
                 //sakai.api.Groups.getMembers(widgetData.participants.groupid, query, renderParticipants, true);
             }
         };
