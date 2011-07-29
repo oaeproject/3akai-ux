@@ -49,7 +49,7 @@
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="categories_item_content_preview"/>
                                 {/if}
-                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${item.content["sakai:pooled-content-file-name"]}</a>
+                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], 70, null, "s3d-bold")}</a>
                                 <span style="display:none"><span class="categories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
                                 {if item.content["sakai:description"]}
                                     {var size = 125}
