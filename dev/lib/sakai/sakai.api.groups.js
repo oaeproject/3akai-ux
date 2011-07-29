@@ -789,7 +789,7 @@ define(
         searchMembers: function(groupId, query, callback){
             if (groupId) {
                 var url = "";
-                if(query){
+                if(query && query !== "*"){
                     url = sakai_conf.URL.SEARCH_GROUP_MEMBERS + "?group=" + groupId + "&q=" + query;
                 }else {
                     url = sakai_conf.URL.SEARCH_GROUP_MEMBERS_ALL + "?group=" + groupId;
