@@ -43,7 +43,7 @@
             </label>
             <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">${participant.name}</a>
             <br/>
-            <span class="participants_list_participant_details">${participant.title}</span>
+            <span class="participants_list_participant_details participants_list_participant_details_capitalize">${participant.title}</span>
             <br/>
             <a href="/~${participant.id}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
