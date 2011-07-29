@@ -175,32 +175,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Init functions //
         ////////////////////
 
-        /**
-         * Load the managers and viewers of the group
-         */
         var loadParticipants = function(){
-            if (widgetData && widgetData.participants) {
-                var query = $.trim($participantsSearchField.val()) || "*";
-                $.ajax({
-                    url: sakai.config.URL.SEARCH_GROUP_MEMBERS + "?group=" + sakai_global.group.groupId + "&q=" + query,
-                    type: "GET",
-                    success: function(data){
-                        var participantCount = 0;
-                        $.each(data.results, function(index, user){
-                            sakai.api.Groups.getRole(user.userid, sakai_global.group.groupId, function(success, role){
-                                user.role = role;
-                                participantCount++;
-                                if(participantCount == data.results.length){
-                                    renderParticipants(true, data);
-                                }
-                            });
-                        });
-                    },
-                    error: function(err){
-                        debug.log(err);
-                    }
-                });
-            }
+            sakai.api.Groups.searchMembers(sakai_global.group.groupId, $.trim($participantsSearchField.val()), renderParticipants);
         };
 
         var addBinding = function(){
