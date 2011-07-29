@@ -50,22 +50,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             obj.buttons = "default";
             var callback = null;
-            var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
-            if (qs.get("nopreview") === "true"){
-                callback = renderDefaultPreview;
-                obj.type = "default";
-            } else if (mimeType === "x-sakai/link"){
-                obj.buttons = "links";
-            }
-            if (sakai.api.Content.hasPreview(sakai_global.content_profile.content_data.data)) {
-                callback = renderFullSizePreview;
-            } else {
-                obj.type = "default";
-                callback = renderDefaultPreview;
-            }
-            obj.sakai = sakai;
-            sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
-            callback();
+            sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, userdata){
+                var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+                obj.userName = sakai.api.User.getDisplayName(userdata);
+                if (qs.get("nopreview") === "true"){
+                    callback = renderDefaultPreview;
+                    obj.type = "default";
+                } else if (mimeType === "x-sakai/link"){
+                    obj.buttons = "links";
+                }
+                if (sakai.api.Content.hasPreview(sakai_global.content_profile.content_data.data)) {
+                    callback = renderFullSizePreview;
+                } else {
+                    obj.type = "default";
+                }
+                obj.sakai = sakai;
+                sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
+                if (callback) {
+                    callback();
+                }
+            });
         };
 
         var renderFullSizePreview = function(){
@@ -73,10 +77,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var fullSizeContainer = $("#contentpreview_fullsize_preview");
             sakai.api.Util.TemplateRenderer($("#contentpreview_fullsize_template"), {}, fullSizeContainer);
             sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:sakData}]);
-        };
-
-        var renderDefaultPreview = function(){
-            //Nothing really, it's all part of the template
         };
 
         var hidePreview = function(){
