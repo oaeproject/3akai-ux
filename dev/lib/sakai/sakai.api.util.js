@@ -1653,6 +1653,22 @@ define(
             return "id" + Math.round(Math.random() * 10000000);
         },
 
+        /**
+         * Make a unique URL, given a primary and secondary desired url
+         * and a structure passed in to ensure uniqueness of the key.
+         * The first argument will be used as the primary URL, and used if possible.
+         * The second argument will be used if passed, but if none of these work,
+         * or if the second argument isn't passed and the first argument doesn't work,
+         * the first argument will be appended with '0', '1', etc until a unique
+         * key for the structure is found. That string will be returned.
+         *
+         * @param {String} desiredURL The URL (or object key) you'd like to use first
+         * @param {String} secondaryURL The URL (or orject key) that you'd like to use as
+         *                  a backup in case the desiredURL isn't available. Pass null here
+         *                  if you want to use the number-append feature
+         * @param {Object} structure The structure to test against its top-level keys for
+         *                  uniqueneness of the URL/key
+         */
         makeUniqueURL : function(desiredURL, secondaryURL, structure) {
             desiredURL = sakai_util.makeSafeURL(desiredURL);
             if (!structure[desiredURL]) {
