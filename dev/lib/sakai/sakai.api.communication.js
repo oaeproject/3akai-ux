@@ -236,7 +236,7 @@ define(
             if (typeof(to) === "object") {
                 for (i = 0; i < to.length; i++) {
                     reqs[reqs.length] = {
-                        "url": "/~" + to[i] + "/public/authprofile.json",
+                        "url": "/~" + to[i] + "/public/authprofile.profile.json",
                         "method": "GET"
                     };
                 }
@@ -338,6 +338,7 @@ define(
                     newMsg.from = {
                         name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
                         picture: sakai_util.constructProfilePicture(userFrom),
+                        connectionState: userFrom["sakai:state"] ? userFrom["sakai:state"] : false,
                         userObj : {
                             uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
                             username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],

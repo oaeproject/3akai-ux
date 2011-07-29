@@ -1050,10 +1050,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         $(window).bind("lhnav.addHashParam", function(ev, params){
             storeNavigationParameters(params);
         });
-
-        $(window).bind("hashchange", function(e, data){
-            selectPage($.bbq.getState("newPageMode") === "true");
-        });
+        var handleHashChange = function(e, changed, deleted, all, currentState, first) {
+            selectPage(all && all.newPageMode && all.newPageMode === "true");
+        };
+        $(window).bind("hashchanged.lhnavigation.sakai", handleHashChange);
 
         $(window).bind("lhnav.init", function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);

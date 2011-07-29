@@ -98,7 +98,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName).text(user.username);
+                $(addToContactsInfoDisplayName).text(user.displayName);
                 if (!user.pictureLink) {
                     user.pictureLink = sakai.api.Util.constructProfilePicture(user);
                 }
@@ -210,7 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.User.getDisplayName(contactToAdd)));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.displayName));
             hash.w.show();
         };
 
