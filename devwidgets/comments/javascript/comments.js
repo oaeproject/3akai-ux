@@ -204,7 +204,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (pictureUrl){
                         user.pictureUrl = pictureUrl;
                     }
-                    user.profile = "/~" + user.uid;
+                    user.profile = "/~" + sakai.api.Util.urlSafe(user.uid);
                 }
                 else {
                     // This is an anonymous user.
@@ -472,7 +472,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
-            // These properties are noy yet used in the comments-widget, but are saved in JCR
+            // These properties are not yet used in the comments-widget, but are saved in JCR
             comments['sakai:allowanonymous'] = false;
             if ($("#comments_RequireLogInID", rootel).is(":checked")) {
                 comments['sakai:allowanonymous'] = false;
@@ -505,6 +505,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getWidgetSettings = function(){
 
             sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (!sakai.api.User.isAnonymous(sakai.data.me)) {
+                    $(commentsCommentBtn, rootel).show();
+                }
+
                 if (success) {
                     if (!data.message) {
                         sakai.api.Widgets.saveWidgetData(tuid, {"message":{"sling:resourceType":"sakai/messagestore"}}, null);
@@ -513,10 +517,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Clean up some values so that true is really true and not "true" or 1 ...
                     var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
                     cleanBooleanSettings(keysToClean);
-
-                    if (!sakai.api.User.isAnonymous(sakai.data.me)) {
-                        $(commentsCommentBtn, rootel).show();
-                    }
 
                     if (showSettings) {
                         showSettingScreen(true, data);
@@ -527,11 +527,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (showSettings) {
                         showSettingScreen(false, data);
                     } else {
+                        saveSettings();
                         pagerClickHandler(1);
                     }
                 }
             });
 
+        };
+
+        var saveSettings = function(){
+            // If the settings-input is valid an object will be returned else false will be returned
+            var settings = getCommentsSettings();
+            if (settings) {
+                settings["_charset_"] = "utf-8";
+
+                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
+                    if (success) {
+                        finishNewSettings();
+                    }
+                    else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
+                    }
+                });
+
+            }
+            return false;
         };
 
         ////////////////////
@@ -559,22 +579,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /** Bind the settings submit button*/
         $(commentsSubmit, rootel).bind("click", function(e, ui){
-            // If the settings-input is valid an object will be returned else false will be returned
-            var settings = getCommentsSettings();
-            if (settings) {
-                settings["_charset_"] = "utf-8";
-
-                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
-                    if (success) {
-                        finishNewSettings();
-                    }
-                    else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
-                    }
-                });
-
-            }
-            return false;
+            saveSettings();
         });
 
         /** Bind the insert comment button*/

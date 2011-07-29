@@ -90,9 +90,9 @@
 						<label for="select_${member.userid}">
 							<img src="/dev/images/default_User_icon_35x35.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
 							{if member.isAutoSuggested}
-								<a href="/~${member.userid}" title="__MSG__VIEW__ ${member.username}'s __MSG__PROFILE__">${member.username}</a>
+								<a href="/~${member.userid|urlSafe}" title="__MSG__VIEW__ ${member.username}'s __MSG__PROFILE__">${member.username}</a>
 							{else}
-								<a href="/~${member.userid}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
+								<a href="/~${member.userid|urlSafe}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)}'s __MSG__PROFILE__">${api.User.getDisplayName(member)}</a>
 							{/if}
 						</label>
 					</li>

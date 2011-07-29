@@ -49,10 +49,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 _title: pub.structure0.profile._title,
                 _altTitle: pub.structure0.profile._altTitle,
                 _order: pub.structure0.profile._order,
-                _canEdit: pub.structure0.profile._canEdit,
-                _nonEditable: pub.structure0.profile._nonEditable,
-                _reorderOnly: pub.structure0.profile._reorderOnly,
-                _canSubedit: pub.structure0.profile._canSubedit
+                _canEdit: true,
+                _nonEditable: true,
+                _reorderOnly: true,
+                _canSubedit: true
             };
             pub.structure0.profile = {};
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
@@ -63,8 +63,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _order: section.order,
                     _altTitle: section.label,
                     _title: section.label,
-                    _nonEditable: section._nonEditable,
-                    _reorderOnly: section._reorderOnly
+                    _nonEditable: true
                 };
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
@@ -88,9 +87,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.loadJSON(puburl, function(success, data){
                 if (!success){
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
-                    publicToStore = $.extend(true, {}, sakai.config.defaultpubstructure);
+                    var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                    pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
                     setupProfile(pubdata);
-                    setupProfile(publicToStore);
+                    publicToStore = $.extend(true, {}, pubdata);
                 } else {
                     pubdata = data;
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(pubdata);
@@ -102,7 +102,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Server.loadJSON(privurl, function(success2, data2){
                         if (!success2){
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
-                            privateToStore = $.extend(true, {}, sakai.config.defaultprivstructure);
+                            var refid = {"refid": sakai.api.Util.generateWidgetId()};
+                            privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
+                            privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;
                             privdata = sakai.api.Server.cleanUpSakaiDocObject(privdata);
@@ -135,8 +137,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             } else {
                 userid = entityID;
             }
-            privurl = "/~" + userid + "/private/privspace/";
-            puburl = "/~" + userid + "/public/pubspace/";
+            privurl = "/~" + sakai.api.Util.urlSafe(userid) + "/private/privspace";
+            puburl = "/~" + sakai.api.Util.urlSafe(userid) + "/public/pubspace";
             if (isMe){
                 sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts){
                     messageCounts = counts;
@@ -150,7 +152,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var addCounts = function(){
             if (pubdata && pubdata.structure0) {
-                if (contextData && contextData.profile) {
+                if (contextData && contextData.profile && contextData.profile.counts) {
                     addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
                     addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
@@ -195,7 +197,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             if (pageid === "library") {
                 pubdata.structure0[pageid]._count += newContent;
-                newContent = 0;
             }
         };
 
@@ -203,7 +204,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var picture = "";
             if (profile.picture) {
                 var picture_name = $.parseJSON(profile.picture).name;
-                picture = "/~" + userid + "/public/profile/" + picture_name;
+                picture = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + picture_name;
             }
             return picture;
         };
@@ -339,8 +340,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         });
 
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (data && data.length && library === sakai.data.me.user.userid) {
-                newContent = data.length;
+            if (isMe && data && data.length && library === sakai.data.me.user.userid) {
+                newContent += data.length;
                 generateNav();
             }
         });

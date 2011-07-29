@@ -226,7 +226,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var templateDeleted = this.id.split("_")[1];
             delete sakai_global.sitespages.mytemplates[templateDeleted];
             // Save updated template preferences
-            sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid + "/private/templates",
+            sakai.api.Server.saveJSON("/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/private/templates",
                 sakai_global.sitespages.mytemplates, function(success, response) {
                 if (success) {
                     showTemplates();

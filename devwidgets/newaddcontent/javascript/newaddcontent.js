@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
+require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -152,38 +152,16 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         // Get newly uploaded content //
         ////////////////////////////////
 
-        sakai_global.newaddcontent.getNewList = function(_data, library, offset, max) {
-            var data = $.extend({}, _data),
-                newAdditions = 0,
-                newContentLibrary = [];
+        sakai_global.newaddcontent.getNewContent = function(library) {
+            var newContentLibrary = [];
             // grab all of the newly uploaded content, regardless of target library
             if (!library) {
                 newContentLibrary = allNewContent;
-            } else {
+            } else if (brandNewContent[library]) {
                 newContentLibrary = brandNewContent[library];
             }
-            if (newContentLibrary && newContentLibrary.length) {
-                var newContent = $.merge([], newContentLibrary);
-                // only use the amount from the current page number
-                newContent = _.rest(newContent, offset * max);
-                $.each(newContent, function(i, elt) {
-                    var exists = false;
-                    $.each(data.results, function(j, result) {
-                        if (result._path === elt._path) {
-                            exists = true;
-                        }
-                    });
-                    if (!exists) {
-                        // put the element as the first result
-                        data.results = $.merge([elt], data.results);
-                        // modify the results to be the proper length
-                        data.results = _.first(data.results, max);
-                        newAdditions++;
-                    }
-                });
-            }
-            data.total += newAdditions;
-            return data;
+            // return a copy
+            return $.merge([], newContentLibrary);
         };
 
         var deleteContent = function(e, obj) {
@@ -476,6 +454,10 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
             }
         };
 
+        var proofTitle = function(input){
+            return input.replace(/=/g,"_").replace(/\//g, "_");
+        };
+
         /**
          * Creates a sakaidocument
          * @param {Object} documentObj Object containing data needed to create a sakai document
@@ -483,7 +465,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
             var document = {
-                "sakai:pooled-content-file-name": documentObj.title,
+                "sakai:pooled-content-file-name": proofTitle(documentObj.title),
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
@@ -565,7 +547,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
         var uploadLink = function(linkObj){
             var preview = sakai.api.Content.getPreviewUrl(linkObj.url);
             var link = {
-                "sakai:pooled-content-file-name": linkObj.title,
+                "sakai:pooled-content-file-name": proofTitle(linkObj.title),
                 "sakai:pooled-content-url": linkObj.url,
                 "sakai:description": linkObj.description,
                 "sakai:permissions": linkObj.permissions,
@@ -619,7 +601,7 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
                                 "parameters": {
                                     "sakai:description": arrayItem.description,
                                     "sakai:fileextension": savedItem.filename.substring(savedItem.filename.lastIndexOf("."), savedItem.filename.length),
-                                    "sakai:pooled-content-file-name": arrayItem.title,
+                                    "sakai:pooled-content-file-name": proofTitle(arrayItem.title),
                                     "sakai:permissions": arrayItem.permissions,
                                     "sakai:copyright": arrayItem.copyright,
                                     "sakai:allowcomments": "true",
@@ -656,28 +638,21 @@ require(["jquery", "/dev/configuration/sakaidoc.js", "sakai/sakai.api.core"], fu
 
             sakai.api.Content.setFilePermissions(data, false);
 
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(objArr)
-                },
-                success: function(data){
+            sakai.api.Server.batch(objArr, function(success, data){
+                if (success) {
                     // save tags
-                    $.each(itemsToUpload, function(i,arrayItem){
+                    $.each(itemsToUpload, function(i, arrayItem){
                         if (arrayItem.hashpath && arrayItem.hashpath.poolId) {
                             sakai.api.Util.tagEntity("/p/" + arrayItem.hashpath.poolId, arrayItem.tags.split(","));
                         }
                     });
 
                     checkUploadCompleted(true);
-                }, error: function(){
+                }
+                else {
                     checkUploadCompleted(true);
                 }
             });
-
         };
 
         /**

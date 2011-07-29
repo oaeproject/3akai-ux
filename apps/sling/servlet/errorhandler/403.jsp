@@ -60,7 +60,7 @@ response.setStatus(403);
                             {for w in worlds}
                                 <div class="error_content_second_column_box_item_container">
                                     <div class="error_content_second_column_box_item_content">
-                                        <a class="s3d-regular-links s3d-bold" href="/search#l=\${w.label}">\${w.label}</a>
+                                        <a class="s3d-regular-links s3d-bold" href="/search#l=\${w.id}">\${w.label}</a>
                                     </div>
                                 </div>
                                 {if !w.last}

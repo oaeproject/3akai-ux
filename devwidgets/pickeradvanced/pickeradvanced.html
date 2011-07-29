@@ -71,11 +71,11 @@
                     <li id="${i['rep:userId']}">
                         <input type="checkbox" name="selected" value="${i['rep:userId']}" />
                         {if i.picture}
-                            <img src="/~${i["rep:userId"]}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
+                            <img src="/~${i["rep:userId"]|urlSafe}/public/profile/${$.parseJSON(i.picture).name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeradvanced_ppicture"/>
                         {else}
                             <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/~${i['rep:userId']}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
+                        <a class="pickeradvanced_name" href="/~${i['rep:userId']|urlSafe}" target="_blank">${sakai.api.User.getDisplayName(i)}</a>
                         <br />
                         {if sakai.api.User.getShortDescription(i).length > 125}
                             <span class="pickeradvanced_subnameinfo">${sakai.api.User.getShortDescription(i).substring(0, 125)}...</span>
@@ -113,7 +113,7 @@
                         {else}
                             <img src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}" class="pickeradvanced_ppicture"/>
                         {/if}
-                        <a class="pickeradvanced_name" href="/content#p=${i["_path"]}/${i["sakai:pooled-content-file-name"]}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
+                        <a class="pickeradvanced_name" href="/content#p=${i["_path"]|urlSafe}/${i["sakai:pooled-content-file-name"]|urlSafe}" target="_blank">${i["sakai:pooled-content-file-name"]}</a>
                         <br />
                         {if i["sakai:description"]}
                             {if i["sakai:description"].length > 125}

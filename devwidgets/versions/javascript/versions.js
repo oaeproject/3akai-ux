@@ -110,7 +110,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if ($(versionsContainer, $rootel).is(":visible")) {
                         renderVersions();
                     } else {
-                        //$(versionsContainer, $rootel).show();
                         renderVersions();
                     }
                 });
@@ -145,8 +144,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
                 $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                $("#" + currentPageShown.ref).remove();
                 $("#" + currentPageShown.ref + "_previewversion").show();
-                $("#" + currentPageShown.ref).hide();
+                sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
+                sakai.api.Util.renderMath(currentPageShown.ref + "_previewversion");
             } else{
                 window.open(currentPageShown.pageSavePath + ".version.," + $(this).attr("data-version") + ",/" + $(this).attr("data-pooleditemname"), "_blank");
             }

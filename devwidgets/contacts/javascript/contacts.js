@@ -57,12 +57,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var removeRequest = function(user){
             $.ajax({
-                url: "/~" + sakai.data.me.user.userid + "/contacts.remove.html",
+                url: "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/contacts.remove.html",
                 type: "POST",
                 data: {
                     "targetUserId": user
                 },
                 success: function(data){
+                    $(window).trigger("lhnav.updateCount", ["contacts", -1]);
+                    $("#contacts_delete_contacts_dialog").jqmHide();
                     getContacts();
                 }
             });
@@ -73,8 +75,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 acceptRequest($(this)[0].id.split("contacts_add_to_contacts_")[1]);
             });
 
-            $(".contact_delete_button").live("click", function(){
-                removeRequest($(this)[0].id.split("contacts_delete_contact_")[1]);
+            $("#contacts_delete_contacts_dialog").jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true,
+            });
+
+            $(".s3d-actions-delete").live("click", function(){
+                $("#contacts_contact_to_delete").text($(this).data("sakai-entityname"));
+                $("#contacts_delete_contact_confirm").data("sakai-entityid", $(this).data("sakai-entityid"));
+                $("#contacts_delete_contacts_dialog").jqmShow();
+            });
+
+            $("#contacts_delete_contact_confirm").live("click", function(){
+                removeRequest($(this).data("sakai-entityid"));
             });
 
             $(window).bind("contacts.accepted.sakai", getContacts);
@@ -130,12 +144,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 async: true,
                 data: data,
                 success: function(data){
+                    $.each(data.results, function(index, user){
+                        if (sakai.api.User.checkIfConnected(user.details.targetUserId)){
+                            user.connected = true;
+                        } else {
+                            user.connected = false;
+                        }
+                    })
                     contacts.totalItems = data.total;
                     contacts.accepted = data;
                     determineRenderContacts();
                 }
             });
         };
+
+        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+            $('.sakai_addtocontacts_overlay').each(function(index) {
+                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                    $(this).hide();
+                    $("#left_filler_"+userToAdd.uuid).show();
+                }
+            });
+        });
 
         var getPending = function(){
             $.ajax({

@@ -272,7 +272,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             }
             else {
-                sakai.api.Server.loadJSON(authprofileURL, function(success, data) {
+                sakai.api.Server.loadJSON(authprofileURL + ".profile.json", function(success, data) {
                     if (success && data) {
                         // Set the correct userprofile data
                         userprofile = $.extend(true, {}, data);
@@ -449,9 +449,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             filterTagsProperties(sakai_global.profile.main.data);
 
             // Save the profile properties
-            var obj = {};
-            obj[sectionName] = sakai_global.profile.main.data[sectionName];
-            sakai.api.Server.saveJSON(authprofileURL, obj, function(success, data){
+            var obj = sakai_global.profile.main.data[sectionName];
+            var saveURL = authprofileURL + "/" + sectionName + ".profile.json";
+            sakai.api.Server.saveJSON(saveURL, obj, function(success, data){
 
                 // Check whether is was successful
                 if (success) {
@@ -503,7 +503,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 }
 
-            }, false);
+            }, true);
         });
 
 

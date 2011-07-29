@@ -104,16 +104,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#carousel_view_toggle_" + carousel.last).removeClass("carousel_view_toggle_selected");
             $("#carousel_view_toggle_" + index).addClass("carousel_view_toggle_selected");
 
-            var contentButtonContainers = [".carousel_three_column_left", ".carousel_three_column_middle", ".carousel_two_high_top", ".carousel_two_high_bottom", ".carousel_4x2_grid_container > div"];
-            $.each(contentButtonContainers, function(index, container) {
-                $(container).bind("mouseover", function(evObj){
-                    $(evObj.target).find(".carousel_bottom_buttons").show();
-                });
-                $(container).bind("mouseleave", function(){
-                    $(container + " .carousel_bottom_buttons").hide();
-                });
-            });
-
             $(window).bind("sakai.addToContacts.requested", function(evObj, user){
                 var addbutton = $.grep($("#carousel_container .sakai_addtocontacts_overlay"), function(value, index) {
                     return $(value).attr("sakai-entityid") === user.userid;
@@ -231,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 obj.createdBy = item["sakai:pool-content-created-for"];
                 obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
                 obj.lastModifiedBy = item["_lastModifiedBy"];
-                obj.url = "/content#p=" + item["_path"] + "/" + item["sakai:pooled-content-file-name"];
+                obj.url = "/content#p=" + sakai.api.Util.urlSafe(item["_path"]) + "/" + sakai.api.Util.urlSafe(item["sakai:pooled-content-file-name"]);
                 obj.contentType = "content";
                 obj.id = item["_path"];
 
@@ -268,8 +258,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (group["sakai:tags"] && group["sakai:tags"].length) {
                     obj.tags = sakai.api.Util.formatTagsExcludeLocation(group["sakai:tags"]);
                 }
-                if (group.picture && group.picture.value && group.picture.value.length){
-                    obj.picture = $.parseJSON(group.picture.value);
+                if (group.picture){
+                    obj.picture = sakai.api.Groups.getProfilePicture(group);
                 }
                 obj.counts = group.counts;
 
@@ -371,22 +361,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             var reqs = [
                 {
-                    url: "/var/search/pool/me/related-content.json?items=11",
+                    url: "/var/search/pool/me/related-content.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 },
                 {
-                    url: "/var/contacts/related-contacts.json?items=11",
+                    url: "/var/contacts/related-contacts.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 },
                 {
-                    url: "/var/search/myrelatedgroups.json?items=11",
+                    url: "/var/search/myrelatedgroups.json",
                     method: "GET",
-                    cache: false,
-                    dataType: "json"
+                    parameters: {
+                        "items": 11
+                    }
                 }
             ];
 
@@ -400,7 +393,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     dataArr.groups = $.parseJSON(data.results[2].body);
                 }
                 parseData(dataArr);
-            });
+            }, false);
 
         };
 

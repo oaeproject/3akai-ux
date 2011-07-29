@@ -32,7 +32,7 @@
 define(
     [
         "jquery",
-        "config/config"
+        "config/config_custom"
     ],
     function($, sakai_conf) {
 

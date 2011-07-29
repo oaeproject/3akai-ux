@@ -8,5 +8,10 @@
     "name": "Share Content",
     "type":"core",
     "enabled":true,
-    "url": "/devwidgets/newsharecontent/newsharecontent.html"
+    "url": "/devwidgets/newsharecontent/newsharecontent.html",
+    "defaultConfiguration": {
+        "newsharecontent": {
+            "addThisAccountId": "xa-4db72a071927628b"
+        }
+    }
 }

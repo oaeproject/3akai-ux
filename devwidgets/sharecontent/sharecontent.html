@@ -56,7 +56,7 @@
                                         {if manager.hasOwnProperty("sakai:group-id")}
                                             <img src="/~${manager["sakai:group-id"]}/public/profile/${manager.picture.name}" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                         {else}
-                                            <img src="/~${manager["rep:userId"]}/public/profile/${manager.picture.name}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
+                                            <img src="/~${manager["rep:userId"]|urlSafe}/public/profile/${manager.picture.name|urlSafe}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                         {/if}
                                     {else}
                                         {if manager.hasOwnProperty("sakai:group-id")}
@@ -109,7 +109,7 @@
                                                 {if viewer.hasOwnProperty("sakai:group-id")}
                                                     <img src="/~${viewer["sakai:group-id"]}/public/profile/${viewer.picture.name}" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                                 {else}
-                                                    <img src="/~${viewer["rep:userId"]}/public/profile/${viewer.picture.name}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
+                                                    <img src="/~${viewer["rep:userId"]|urlSafe}/public/profile/${viewer.picture.name|urlSafe}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                                 {/if}
                                             {else}
                                                 {if viewer.hasOwnProperty("sakai:group-id")}
