@@ -44,5 +44,5 @@
 .allcategories_widget .allcategories_content_icon {display:inline-block;height:10px;width:15px;margin-right:5px;}
 .allcategories_widget .allcategories_content_category_description {font-size:11px;color:#424242;display:block; margin-top: 5px;}
 .allcategories_widget .allcategories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
-.allcategories_widget .allcategories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#424242;padding-left:20px;background:url("/dev/images/tag_icon.png") no-repeat scroll left center transparent; clear: both;}
+.allcategories_widget .allcategories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#424242;padding-left:20px;padding-top:5px;background:url("/dev/images/tag_icon.png") no-repeat scroll left bottom transparent; clear: both;}
 .allcategories_widget .allcategories_content_tags a {font-size:11px !important;font-weight:normal !important;}
