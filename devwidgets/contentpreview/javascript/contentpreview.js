@@ -50,7 +50,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             obj.buttons = "default";
             var callback = null;
-            sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, userdata){
+            sakai.api.User.getUser(sakai_global.content_profile.content_data.data["_bodyLastModifiedBy"], function(success, userdata){
                 var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
                 obj.userName = sakai.api.User.getDisplayName(userdata);
                 if (qs.get("nopreview") === "true"){
