@@ -44,10 +44,7 @@ strong{color:#000;}
 
 /* widget icon (for widgets that may appear on a dashboard) 
    icons are usually around 18 x 18 pixels */
-.searchsakai2.s3d-widget .s3d-widget-titlebar .widget_title {
-    background: url('/devwidgets/searchsakai2/images/searchsakai2_icon.png') 
-        17px 18px no-repeat;
-}
+.searchsakai2.s3d-widget .s3d-widget-titlebar .widget_title {background: url('/devwidgets/searchsakai2/images/searchsakai2_icon.png') 17px 18px no-repeat;}
 
 /* SEARCH RESULTS */
 #searchsakai2_results_container{margin: 10px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}

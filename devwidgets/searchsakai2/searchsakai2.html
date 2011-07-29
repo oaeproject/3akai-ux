@@ -10,10 +10,10 @@
             </span>
         </div>
         <div class="fl-left fl-container searchsakai2_result_title" id="results_header">
-            __MSG__CONTENT__ (<strong id="searchsakai2_numberFound">0</strong>) 
+            __MSG__CONTENT__ (<span class="s3d-bold" id="searchsakai2_numberFound">0</span>) 
             <div class="searchsakai2_selects">
                 <!-- FACETED WIDGET -->
-                <div id="widget_faceted_845719741363" class="searchsakai2_facted widget_inline"></div>
+                <div id="widget_faceted_id845719741363" class="searchsakai2_facted widget_inline"></div>
                 <!-- <div class="search_sortby">
                     __MSG__SORT_BY__: <select id="search_select_sortby">
                         <option value="desc">__MSG__CHANGED_RECENTLY__</option>
@@ -54,14 +54,14 @@
                     {for i in sites}
                     <div class="fl-container fl-fix searchsakai2_result">
                         <a href="${i.url}">
-                            <img src="/dev/images/sakai2sites.png" alt="" />
+                            <img src="/dev/images/sakai2sites.png" alt="__MSG__SAKAI2_SEARCH_ICON_ALT__" />
                         </a>
                         <div class="searchsakai2_result_right">
                             <div>
                                 <a class="s3d-bold s3d-regular-light-links" href="${i.url}" title="${i.title}">
                                     ${i.title}                                
                                 </a>                          
-                                <span class="searchsakai2_result_mimetype">Sakai 2 Site</span>
+                                <span class="searchsakai2_result_mimetype">__MSG__SAKAI2_SITE__</span>
                             </div>
                             {if i.description}<div>${i.description}</div>
                             {/if}

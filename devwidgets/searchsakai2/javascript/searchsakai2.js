@@ -143,7 +143,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         var renderResults = function(jsondata) {
             var qparams = sakai_global.data.search.getQueryParams();
-            console.log(sakai_global.data.search.getQueryParams());
             finaljson = {};
             finaljson.sakai = sakai;
             
@@ -233,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          */
         $(window).bind("sakai.search.util.finish", function(ev){
             sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
-                "845719741363": {
+                "id845719741363": {
                     "facetedConfig": searchConfig.facetedConfig
                 }
             }]);
