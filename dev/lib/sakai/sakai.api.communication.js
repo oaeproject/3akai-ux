@@ -370,7 +370,7 @@ define(
                     // We are adding the div to force jQuery to interpret this
                     // as html and not a selector (in case there are no tags
                     // in the messsage body).
-                    var bodyToAutolink = $('<div>'+msg["sakai:body"]+'</div>');
+                    var bodyToAutolink = $('<div>'+msg["sakai:body"].replace(/\n/gi, "<br />")+'</div>');
                     newMsg.body = bodyToAutolink.autolink().html();
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
