@@ -1653,6 +1653,25 @@ define(
             return "id" + Math.round(Math.random() * 10000000);
         },
 
+        makeUniqueURL : function(desiredURL, secondaryURL, structure) {
+            desiredURL = sakai_util.makeSafeURL(desiredURL);
+            if (!structure[desiredURL]) {
+                return desiredURL;
+            } else if (secondaryURL && !structure[secondaryURL]) {
+                return secondaryURL;
+            } else {
+                var ret = "",
+                    count = 0;
+                while (ret === "") {
+                    if (!structure[desiredURL + count]) {
+                        ret = desiredURL + count;
+                    }
+                    count++;
+                }
+                return ret;
+            }
+        },
+
         /**
          * Sets up events to hide a dialog when the user clicks outside it
          *
