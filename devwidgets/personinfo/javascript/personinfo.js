@@ -97,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $personinfo_pending.hide();
             if (userId !== sakai.data.me.user.userid) {
                 $personinfo_message.show();
-                if (!dataCache[userId].connectionState) {
+                if (!dataCache[userId].connectionState || dataCache[userId].connectionState === "NONE") {
                     $personinfo_invite.show();
                 } else if (dataCache[userId].connectionState === "PENDING") {
                     $personinfo_pending.show();
