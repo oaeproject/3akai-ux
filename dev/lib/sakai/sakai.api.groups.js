@@ -797,7 +797,7 @@ define(
                             sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
                                 user.role = role;
                                 participantCount++;
-                                if (participantCount == data.results.length) {
+                                if (participantCount === data.results.length) {
                                     if ($.isFunction(callback)) {
                                         callback(true, data);
                                     }
