@@ -21,21 +21,13 @@
                 </div>
                 {if activity.showdetails}
                     <div class="recentactivity_activity_item_content">
-                        {if activity["_mimeType"]}
-                            {var mimeType = activity["_mimeType"]}
-                        {else}
-                            {var mimeType = activity["sakai:custom-mimetype"]}
-                        {/if}
                         {var filename = activity["sakai:pooled-content-file-name"]}
+                        {var thumbnail = sakai.api.Content.getThumbnail(activity)}
                         <a href="/content#p=${activity["_path"]|urlSafe}/${filename|urlSafe}" title="__MSG__VIEW_FILE__" class="s3d-bold">
-                            {if mimeType.indexOf("image/") !== -1}
-                                <img src="/p/${activity["_path"]}" class="recentactivity_activity_item_image" alt="${filename}"/>
-                            {elseif activity["sakai:custom-mimetype"]}
-                                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" class="recentactivity_activity_item_image"/>
-                            {elseif sakai.api.Content.hasPreview(activity)}
-                                <img src="/p/${activity["_path"]}.page1-small.png" class="recentactivity_activity_item_image" alt="${filename}"/>
+                            {if thumbnail}
+                                <img src="${thumbnail}" class="recentactivity_activity_item_image" alt="${filename}"/>
                             {else}
-                                <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" alt="activity["sakai:pooled-content-file-name"]" class="recentactivity_activity_item_image"/>
+                                <img src="${sakai.api.Content.getMimeTypeData(activity["sakai:custom-mimetype"] || activity["_mimeType"]).URL}" alt="activity["sakai:pooled-content-file-name"]" class="recentactivity_activity_item_image"/>
                             {/if}
                         </a>
                         <a href="/content#p=${activity["_path"]|urlSafe}/${activity["sakai:pooled-content-file-name"]|urlSafe}" title="__MSG__VIEW_FILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${filename}</a>
