@@ -665,7 +665,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
                 var person = {
                     "uuid": el.attr("sakai-entityid"),
-                    "username": el.attr("sakai-entityname"),
+                    "displayName": el.attr("sakai-entityname"),
                     "pictureLink": el.attr("sakai-entitypicture") || false
                 };
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
