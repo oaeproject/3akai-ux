@@ -1718,6 +1718,30 @@ define(
             });
         },
 
+        /**
+         * Extracts the entity ID from the URL
+         * also handles encoded URLs
+         * Example:
+         *   input: "/~user1"
+         *   return: "user1"
+         * Encoded Exmaple:
+         *   input: "/%7E%D8%B4%D8%B3"
+         *   return: "شس"
+         *
+         * @param {String} pathname The window.location.pathname
+         * @return {String} The entity ID
+         */
+        extractEntity : function(pathname) {
+            var entity = null;
+            if (pathname.substring(1,4) === "%7E") {
+                pathname = pathname.replace("%7E", "~");
+            }
+            if (pathname.substring(0,2) === "/~") {
+                entity = decodeURIComponent(pathname.substring(2));
+            }
+            return entity;
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new

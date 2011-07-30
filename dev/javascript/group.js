@@ -28,7 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Get the group id from the querystring
          */
         var processEntityInfo = function(){
-            groupId = decodeURIComponent(window.location.pathname.substring(2));
+            groupId = sakai.api.Util.extractEntity(window.location.pathname);
             sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
                     groupData = {};

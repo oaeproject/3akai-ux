@@ -210,9 +210,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var determineContext = function(){
-            if (window.location.pathname.substring(0, 2) === "/~") {
-                entityID = decodeURIComponent(window.location.pathname.substring(2));
-            }
+            entityID = sakai.api.Util.extractEntity(window.location.pathname);
             if (entityID && entityID !== sakai.data.me.user.userid){
                 sakai.api.User.getUser(entityID, getProfileData);
                 loadSpaceData();
