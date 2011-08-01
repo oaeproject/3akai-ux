@@ -1274,6 +1274,8 @@ define(
          * @returns Encoded string.
          */
         urlSafe: function(str) {
+            // First, ensure that the incoming value is treated as a string.
+            str = "" + str;
             var togo="";
             for (var i = 0; i < str.length; i++) {
                 if (str.charCodeAt(i) < 127) {
