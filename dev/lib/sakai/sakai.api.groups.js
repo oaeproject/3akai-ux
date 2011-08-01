@@ -799,17 +799,23 @@ define(
                     type: "GET",
                     success: function(data){
                         var participantCount = 0;
-                        $.each(data.results, function(index, user){
-                            sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
-                                user.role = role;
-                                participantCount++;
-                                if (participantCount === data.results.length) {
-                                    if ($.isFunction(callback)) {
-                                        callback(true, data);
+                        if (data.results.length) {
+                            $.each(data.results, function(index, user){
+                                sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
+                                    user.role = role;
+                                    participantCount++;
+                                    if (participantCount === data.results.length) {
+                                        if ($.isFunction(callback)) {
+                                            callback(true, data);
+                                        }
                                     }
-                                }
+                                });
                             });
-                        });
+                        } else {
+                            if ($.isFunction(callback)) {
+                                callback(true, {});
+                            }
+                        }
                     },
                     error: function(err){
                         debug.error(err);
