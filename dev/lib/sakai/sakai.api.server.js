@@ -133,37 +133,45 @@ define(
         /**
          * Performs a batch request for a number of specified requests.
          *
-         * @param {String} groupId Identifier for the group of requests so we can keep the requests grouped separatly
-         * @param {Integer} numRequests The number of requests for the group, so we know when to fire off the request
+         * @param {String} bundleId Identifier for the bundle of requests so we can keep the requests grouped separatly
+         * @param {Integer} numRequests The number of requests for the group, so we know when to fire off the batch request
          * @param {String} requestId Identifier for the request so we can map it
          * @param {Object} request Request object for the batch request. If this is false the request is not added to the queue.
+         * @param {Function} callback Callback function, passes ({Boolean} success, {Object} data)
          */
-        bundleRequests : function(groupId, numRequests, requestId, request){
+        bundleRequests : function(bundleId, numRequests, requestId, request, callback){
             if (!sakaiServerAPI.initialRequests) {
                 sakaiServerAPI.initialRequests = sakaiServerAPI.initialRequests || {};
             }
-            if (!sakaiServerAPI.initialRequests[groupId]){
-                sakaiServerAPI.initialRequests[groupId] = {};
-                sakaiServerAPI.initialRequests[groupId].count = 0;
-                sakaiServerAPI.initialRequests[groupId].requests = [];
-                sakaiServerAPI.initialRequests[groupId].requestId = [];
+            if (!sakaiServerAPI.initialRequests[bundleId]){
+                sakaiServerAPI.initialRequests[bundleId] = {};
+                sakaiServerAPI.initialRequests[bundleId].count = 0;
+                sakaiServerAPI.initialRequests[bundleId].requests = [];
+                sakaiServerAPI.initialRequests[bundleId].requestId = [];
             }
             if (request) {
-                sakaiServerAPI.initialRequests[groupId].requests.push(request);
-                sakaiServerAPI.initialRequests[groupId].requestId.push(requestId);
+                sakaiServerAPI.initialRequests[bundleId].requests.push(request);
+                sakaiServerAPI.initialRequests[bundleId].requestId.push(requestId);
             }
-            sakaiServerAPI.initialRequests[groupId].count++;
-            if (numRequests === sakaiServerAPI.initialRequests[groupId].count) {
-                sakaiServerAPI.batch(sakaiServerAPI.initialRequests[groupId].requests, function(success, data) {
+            if ($.isFunction(callback)) {
+                // store the callback function for the request bundle
+                sakaiServerAPI.initialRequests[bundleId].callback = callback;
+            }
+            sakaiServerAPI.initialRequests[bundleId].count++;
+            if (numRequests === sakaiServerAPI.initialRequests[bundleId].count
+                && $.isFunction(sakaiServerAPI.initialRequests[bundleId].callback)) {
+                sakaiServerAPI.batch(sakaiServerAPI.initialRequests[bundleId].requests, function(success, data) {
                     if (success) {
                         var jsonData = {
-                            "groupId": groupId,
-                            "responseId": sakaiServerAPI.initialRequests[groupId].requestId,
+                            "groupId": bundleId,
+                            "responseId": sakaiServerAPI.initialRequests[bundleId].requestId,
                             "responseData": data.results
                         };
-                        $(window).trigger("complete.bundleRequest.Server.api.sakai", jsonData);
+                        sakaiServerAPI.initialRequests[bundleId].callback(true, jsonData);
+                    } else {
+                        sakaiServerAPI.initialRequests[bundleId].callback(false);
                     }
-                    delete sakaiServerAPI.initialRequests[groupId];
+                    delete sakaiServerAPI.initialRequests[bundleId];
                 });
             }
         },
