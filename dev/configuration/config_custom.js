@@ -89,78 +89,78 @@ define(["config/config"], function(config) {
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: Departmental address & room / College address & room / Personal address"
+                        "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
                     "primary_contact_phone": {
                         "label": "Primary phone",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental phone / College phone / Personal phone or mobile"
+                        "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
                     "primary_contact_fax": {
                         "label": "Primary fax",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental fax / College fax / Personal fax"
+                        "example": "Example: Departmental fax / College fax / Personal fax"
                     },
                     "primary_contact_email": {
                         "label": "Primary email",
                         "required": true,
                         "display": true,
                         "type": "email",
-                        "example": "For example: Departmental email address / University email address / College email address / Your personal email address"
+                        "example": "Example: Departmental email address / University email address / College email address / Your personal email address"
                     },
                     "secondary_contact_address": {
                         "label": "Secondary address",
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: Departmental address & room / College addres & room / Personal address"
+                        "example": "Example: Departmental address & room / College addres & room / Personal address"
                     },
                     "secondary_contact_phone": {
                         "label": "Secondary phone",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental phone / College phone / Personal phone or mobile"
+                        "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
                     "secondary_contact_fax": {
                         "label": "Secondary fax",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental fax / College fax / Personal fax"
+                        "example": "Example: Departmental fax / College fax / Personal fax"
                     },
                     "secondary_contact_email": {
                         "label": "Secondary email",
                         "required": false,
                         "display": true,
                         "type": "email",
-                        "example": "For example: Departmental email address / University email address / College email address / Your personal email address"
+                        "example": "Example: Departmental email address / University email address / College email address / Your personal email address"
                     },
                     "tertiary_contact_address": {
                         "label": "Tertiary address",
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: Departmental address & room / College addres & room / Personal address"
+                        "example": "Example: Departmental address & room / College addres & room / Personal address"
                     },
                     "tertiary_contact_phone": {
                         "label": "Tertiary phone",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental phone / College phone / Personal phone or mobile"
+                        "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
                     "tertiary_contact_fax": {
                         "label": "Tertiary fax",
                         "required": false,
                         "display": true,
-                        "example": "For example: Departmental fax / College fax / Personal fax"
+                        "example": "Example: Departmental fax / College fax / Personal fax"
                     },
                     "tertiary_contact_email": {
                         "label": "Tertiary email",
                         "required": false,
                         "display": true,
                         "type": "email",
-                        "example": "For example: Departmental email address / University email address / College email address / Your personal email address"
+                        "example": "Example: Departmental email address / University email address / College email address / Your personal email address"
                     }
                 }
             },
@@ -255,26 +255,27 @@ define(["config/config"], function(config) {
                 "access": "everybody",
                 "modifyacl": true,
                 "multiple": true,
-                "multipleLabel": "Add another degree or position",
+                "multipleLabel": "degree or position",
+                "template": "profilesection_degreesandpositions_template",
                 "order": 3,
                 "elements": {
-                    "Name_studies_or_position": {
+                    "namestudiesorposition": {
                         "label": "Name of studies OR position/role",
                         "required": true,
                         "display": true,
-                        "example": "For example: Bachelor in Primary Education/ Teaching Assistant/ Professor..."
+                        "example": "Example: Bachelor in Primary Education/ Teaching Assistant/ Professor..."
                     },
-                    "type_degree_business": {
-                        "label": "Type of degree OR business/department",
+                    "typedegreebusiness": {
+                        "label": "Type of degree OR business / department",
                         "required": true,
                         "display": true,
-                        "example": "For example: Bachelor/ Master/ PhD/ Microsoft Research Centre"
+                        "example": "Example: Bachelor/ Master/ PhD/ Microsoft Research Centre"
                     },
-                    "school_university_overarching_organisation": {
-                        "label": "School/ University OR overarching organisation ",
+                    "schooluniversityoverarchingorganisation": {
+                        "label": "School / University OR overarching organisation ",
                         "required": false,
                         "display": true,
-                        "example": "For example: Artevelde University Ghent/ University of Cambridge"
+                        "example": "Example: Artevelde University Ghent/ University of Cambridge"
                     },
                     "country": {
                         "label": "Country",
@@ -285,10 +286,10 @@ define(["config/config"], function(config) {
                         "label": "Duration",
                         "required": false,
                         "display": true,
-                        "example": "For example: 2009-2010"
+                        "example": "Example: 2009-2010"
                     }
                 }
-            
+
             },
             "publications": {
                 "label": "Publications",
@@ -297,76 +298,77 @@ define(["config/config"], function(config) {
                 "access": "everybody",
                 "modifyacl": true,
                 "multiple": true,
-                "multipleLabel": "Add another publication",
+                "multipleLabel": "publication",
                 "order": 4,
+                "template": "profilesection_publications_template",
                 "elements": {
                     "mainauthor": {
                         "label": "Main author",
                         "required": true,
                         "display": true,
-                        "example": "SURNAME, first name; For example: Lindberg, M."
+                        "example": "SURNAME, first name; Example: Lindberg, M."
                     },
-                    "co_authors": {
+                    "coauthors": {
                         "label": "Co-authors",
                         "required": false,
                         "display": true,
-                        "example": "For example: Martin, J., Sukojev, B."
+                        "example": "Example: Martin, J., Sukojev, B."
                     },
-                    "book_paper_article_title": {
-                        "label": "Title of book/ Paper/ Article/... ",
+                    "bookpaperarticletitle": {
+                        "label": "Title of book, paper or article... ",
                         "required": true,
                         "display": true,
-                        "example": "For example: Heart disease and rehabilitation"
+                        "example": "Example: Heart disease and rehabilitation"
                     },
-                    "magazine_journal_title": {
-                        "label": "Title of magazine/ journal/...",
+                    "magazinejournaltitle": {
+                        "label": "Title of magazine or journal...",
                         "required": false,
                         "display": true,
-                        "example": "For example: Horizon/ Scientists Magazine"
+                        "example": "Example: Horizon / Scientists Magazine"
                     },
-                    "edition_number": {
+                    "editionnumber": {
                         "label": "Edition number",
                         "required": false,
                         "display": true,
-                        "example": "For example: 3rd (not required if it's the first edition)"
+                        "example": "Example: 3rd (not required if it's the first edition)"
                     },
-                    "city_of_publication": {
+                    "cityofpublication": {
                         "label": "City of publication",
                         "required": true,
                         "display": true,
-                        "example": "For example: Cambridge"
+                        "example": "Example: Cambridge"
                     },
-                    "publisher_name": {
+                    "publishername": {
                         "label": "Publisher's name",
                         "required": true,
                         "display": true,
-                        "example": "For example: Cambridge University Press"
+                        "example": "Example: Cambridge University Press"
                     },
-                    "year_of_publication": {
+                    "yearofpublication": {
                         "label": "Year of publication",
                         "required": true,
                         "display": true
                     },
-                    "number_of_pages": {
+                    "numberofpages": {
                         "label": "Number of pages",
                         "required": true,
                         "display": true,
-                        "example": "For books/ papers: total number of pages; eg. 84p., For articles: pages of article; eg. pp.4-10 or p.6"
+                        "example": "For books / papers: total number of pages; eg. 84p., For articles: pages of article; eg. pp.4-10 or p.6"
                     },
-                    "volume_number": {
+                    "volumenumber": {
                         "label": "Volume number",
                         "required": false,
                         "display": true,
-                        "example": "For example: 7 (ie. number 7 of that year )"
+                        "example": "Example: 7 (ie. number 7 of that year )"
                     },
-                    "honours_awards": {
-                        "label": "Honours and awards",
+                    "honoursawards": {
+                        "label": "Honours &amp; awards",
                         "required": false,
                         "display": true,
-                        "example": "For example: If you got nominated for this publication, you could mention it here"
+                        "example": "Example: If you got nominated for this publication, you could mention it here"
                     }
                 }
-            
+
             },
             "locations": {
                 "label": "Categories",
@@ -405,14 +407,14 @@ define(["config/config"], function(config) {
                         "required": true,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: Queens' college rowing club, member of the Graduate Union"
+                        "example": "Example: Queens' college rowing club, member of the Graduate Union"
                     },
                     "personal_interests_activites_hobbies": {
                         "label": "Personal interests, activities and hobbies",
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: reading, classical music, environment and animals, tennis"
+                        "example": "Example: reading, classical music, environment and animals, tennis"
                     },
                     "where_im_from": {
                         "label": "Where I'm originally from",
@@ -424,14 +426,14 @@ define(["config/config"], function(config) {
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "For example: Listening to Bach whilst laying in Midsummer Common"
+                        "example": "Example: Listening to Bach whilst laying in Midsummer Common"
                     }
-                
+
                 }
             }
         }
-            
-        
+
+
         config.Directory = {
             turbomachineryenergyfluidmechanics: {
                 title: "Turbomachinery, Energy and Fluid Mechanics",

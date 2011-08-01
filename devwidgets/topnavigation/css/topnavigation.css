@@ -18,9 +18,17 @@
 
 #topnavigation_container {width:960px; margin-left:auto; margin-right:auto;}
 
+/* Core CSS Overrides */
+.s3d-navigation-container
+{ -webkit-box-shadow: 0 1px 2px #000000; -moz-box-shadow: 0 1px 2px #000000; box-shadow: 0 1px 2px #000000; }
+
+/* Logo */
+.topnavigation_logo
+{ display: block; float: left; margin: 6px 20px 0 20px; }
+
+
 /* NAVIGATION */
-.topnavigation_explore {margin: 0 0 0 6px;float:left;}
-.topnavigation_explore > li {float:left;}
+.topnavigation_explore {margin: 0 0 0 6px; float:left;}
 .topnavigation_explore li a, .topnavigation_user_container #topnavigation_user_options_name, .topnavigation_user_container #topnavigation_user_options_login{display:block;padding:7px 25px 10px;color:#fff; text-decoration:none;}
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
@@ -49,7 +57,7 @@
 /* USER */
 .topnavigation_user_container {float:right;}
 .topnavigation_user_container ul {margin:0;}
-.topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;margin-right:20px;}
+.topnavigation_usersection_splitter {float:right; color:#454a4f; margin-top:11px;}
 
 .s3d-dropdown-menu .topnavigation_external_login {width: auto !important;}
 .s3d-dropdown-menu #topnavigation_user_options_login_form .s3d-split-line {display: block;margin: 15px 0;}

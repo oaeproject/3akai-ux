@@ -54,6 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
         var topnavigationExternalLogin= ".topnavigation_external_login";
         var topnavUserLoginButton = "#topnavigation_user_options_login";
+        var topnavLogo = "#topnavigation_container .topnavigation_logo";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -348,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
-                        "url": "/create#l=" + category.id
+                        "url": "/create#l=categories/" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
@@ -526,8 +527,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (success) {
                         var qs = new Querystring();
                         // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
-                            window.location.pathname === "/index" || window.location.pathname === "/") {
+                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register"
+                            || window.location.pathname === "/index" || window.location.pathname === "/") {
                             window.location = "/me";
                         // 403/404 and not logged in
                         } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
@@ -593,9 +594,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavUserOptionsLoginFields).trigger('click');
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
-
+            
             $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
-                mouseOverSignIn = false;
+                mouseOverSignIn = false; 
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
             });
@@ -605,10 +606,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
                     var $externalAuth = $menu.children(topnavigationExternalLogin);
-                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""), 10) +
-                         $menu.width() -
-                         parseInt($externalAuth.css("paddingRight").replace("px", ""), 10) -
-                         parseInt($externalAuth.css("paddingLeft").replace("px", ""), 10);
+                    var menuPadding = parseInt($menu.css("paddingRight").replace("px", ""))
+                         + $menu.width()
+                         - parseInt($externalAuth.css("paddingRight").replace("px", ""))
+                         - parseInt($externalAuth.css("paddingLeft").replace("px", ""));
 
                     var margin = ($externalAuth.width() - menuPadding) * -1;
                     $externalAuth.css("margin-left", margin + "px");
@@ -665,8 +666,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
                 var person = {
                     "uuid": el.attr("sakai-entityid"),
-                    "displayName": el.attr("sakai-entityname"),
-                    "pictureLink": el.attr("sakai-entitypicture") || false
+                    "username": el.attr("sakai-entityname"),
+                    "picture": el.attr("sakai-entitypicture") || false
                 };
                 $(window).trigger("initialize.addToContacts.sakai", [person]);
             }
@@ -696,6 +697,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setUserName();
             addBinding();
             renderOverlays();
+
+            // Hide logo if logged in
+            if(!sakai.data.me.user.anon){
+                $(topnavLogo).hide();
+            }
+
         };
 
         doInit();
