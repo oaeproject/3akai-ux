@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Integer} value Value to adjust the number of participants by
          */
         var adjustParticipantCount = function (groupid, value) {
-            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text());
+            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text(), 10);
             participantCount = participantCount + value;
             $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
             if (participantCount === 1) {
@@ -94,17 +94,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var push_member_to_list = function (member, list, role) {
             var link, picsrc, displayname = "";
             if (member["sakai:category"] == "group") {
-                picsrc = "/dev/images/group_avatar_icon_35x35_nob.png";
-                if (member.basic.elements.picture && member.basic.elements.picture.name && member.basic.elements.picture.name.value) {
-                    picsrc = member.basic.elements.picture.name.value;
-                }
+                picsrc = sakai.api.Groups.getProfilePicture(member);
+                link = "~" + member.groupid;
                 displayname = member["sakai:group-title"];
-            }
-            else {
-                picsrc = "/dev/images/default_profile_picture_32.png";
-                if (member.basic.elements.picture && member.basic.elements.picture.name && member.basic.elements.picture.name.value) {
-                    picsrc = member.basic.elements.picture.name.value;
-                }
+            } else {
+                picsrc = sakai.api.User.getProfilePicture(member);
+                link = "~" + member.userid;
                 displayname = sakai.api.User.getDisplayName(member);
             }
             list.push({
@@ -273,7 +268,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                             openTooltip(groupid, $(target), leaveAllowed);
                         }
-                    })
+                    });
                 }, "everyone");
                 return false;
             });

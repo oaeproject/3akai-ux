@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (success) {
 
                 // Adjust display global total
-                $(searchConfig.global.numberFound).text("" + results.total);
+                $(searchConfig.global.numberFound, rootel).text("" + results.total);
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass, rootel).pager({
