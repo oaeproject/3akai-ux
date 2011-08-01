@@ -808,7 +808,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             editPage();
         });
 
-        sakai.api.Util.hideOnClickOut("#sakaidocs_insert_dropdown","#sakaidocs_insert_dropdown_button");
+        sakai.api.Util.hideOnClickOut("#sakaidocs_insert_dropdown","#sakaidocs_insert_dropdown_button,.sakaidocs_insert_widgets_dd");
 
         ///////////////////////
         // Widget has loaded //
