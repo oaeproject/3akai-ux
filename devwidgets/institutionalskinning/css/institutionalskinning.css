@@ -15,4 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.institutionalskinning_widget #institutionalskinning_logo {width:100%;height:91px;background:url('/devwidgets/institutionalskinning/images/sakai_default.png') no-repeat top left #fff;}
+.institutionalskinning_widget #institutionalskinning_logo
+{width:100%;height:91px;background:url('/devwidgets/institutionalskinning/images/ucam-header.jpg') no-repeat top left #fff;}
+
+.institutionalskinning_widget .is-product-title
+{ font-size: 1.61em; font-weight: bold; color: #fff; padding: 30px 0 0 20px; text-shadow: 0 0 2px #333; }
+
+.institutionalskinning_widget .is-product-title span
+{ font-weight: normal; display: block; font-size: 0.75em; }
