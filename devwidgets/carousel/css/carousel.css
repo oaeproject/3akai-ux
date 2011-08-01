@@ -93,4 +93,4 @@
 #carousel_container .carousel_add_to_contacts {}
 
 /* Make the savecontent arrow line up with the link */
-.savecontent_dialog {position:relative; left:10px;}
+.savecontent_dialog {position:relative; top:8px;}
