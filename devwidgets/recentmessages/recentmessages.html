@@ -15,7 +15,7 @@
             {for message in results}
                 <li {if message_index % 2} class="recentmessages_alterrow"{/if}>
                     <span class="recentmessages_sendername" title="${sakai.api.User.getDisplayName(message.userFrom[0])}">${message.dotteduserFrom} {if message.userFrom.length > 1} __MSG__AND_OTHERS__...{/if}:</span>
-                        <a href="/inbox#message=${message.id}" class="s3d-regular-links {if message["sakai:read"]==="false" || message["sakai:read"]===false} s3d-bold{/if}">
+                        <a href="/me#l=messages{if message["sakai:category"]==="invitation"}/invitations{else}/${message["sakai:messagebox"]}{/if}&amp;message=${message.id}" class="s3d-regular-links {if message["sakai:read"]==="false" || message["sakai:read"]===false} s3d-bold{/if}">
                             <div class="recentmessages_ellipsis_container">
                             <span class="recentmessages_ellipsis_text">
                             {if message["sakai:type"] === "chat"}
