@@ -502,7 +502,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             var val = $selected_element.val();
                             if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
                                 // convert the date into a Date object for storage
-                                val = Globalization.parseDate(val);
+                                val = Globalize.parseDate(val);
                             }
                             if ($.isPlainObject(prop)) {
                                 // Set the correct value

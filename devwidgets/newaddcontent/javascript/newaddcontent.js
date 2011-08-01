@@ -340,11 +340,11 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         if (!$(item).is(":disabled")) {
                             var viewers = [];
                             if ($(item).data("sakai-pooled-content-viewer")){
-                                viewers = $(item).data("sakai-pooled-content-viewer").split(",");
+                                viewers = ("" + $(item).data("sakai-pooled-content-viewer")).split(",");
                             }
                             var managers = [];
                             if ($(item).data("sakai-pooled-content-manager")){
-                                managers = $(item).data("sakai-pooled-content-manager").split(",");
+                                managers = ("" + $(item).data("sakai-pooled-content-manager")).split(",");
                             }
                             var contentObj = {
                                 "title": $(item).next().text(),

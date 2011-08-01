@@ -170,24 +170,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
-                        var url = "/system/userManager/group/" +
-                            context.data.authprofile["sakai:group-id"] + ".managers.json";
-                        $.ajax({
-                            url: url,
-                            success: function(managers){
-                                $(window).trigger("init.joinrequestbuttons.sakai", [
-                                    false,
-                                    context.data.authprofile["sakai:group-id"],
-                                    context.data.authprofile["sakai:group-joinable"],
-                                    managers.length,
-                                    "s3d-header-button",
-                                    function (renderedButtons) {
-                                        // onShow
-                                        $("#joinrequestbuttons_widget", $rootel).show();
-                                    }
-                                ]);
+                        sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
+                            var managerCount = false;
+                            if (members.Manager && members.Manager.results){
+                                managerCount = members.Manager.results.length;
                             }
-                        });
+                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                                {
+                                    "groupProfile": context.data.authprofile,
+                                    "groupMembers": members
+                                },
+                                context.data.authprofile["sakai:group-id"],
+                                context.data.authprofile["sakai:group-joinable"],
+                                managerCount,
+                                "s3d-header-button",
+                                function (renderedButtons) {
+                                    // onShow
+                                    $("#joinrequestbuttons_widget", $rootel).show();
+                                }
+                            ]);
+                        }, true);
                     });
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, $rootel);
                     break;

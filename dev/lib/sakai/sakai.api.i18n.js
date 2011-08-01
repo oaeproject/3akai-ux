@@ -209,11 +209,11 @@ define(
                 }
                 i10nCode = langCode.replace("_", "-");
 
-                if (Globalization.cultures && Globalization.cultures[i10nCode]) {
-                    Globalization.preferCulture(i10nCode);
+                if (Globalize.cultures && Globalize.cultures[i10nCode]) {
+                    Globalize.culture(i10nCode);
                 } else {
                     $.getScript(sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
-                        Globalization.preferCulture(i10nCode);
+                        Globalize.culture(i10nCode);
                     });
                 }
 

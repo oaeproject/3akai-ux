@@ -71,8 +71,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
                         type: "POST",
                         dataType: "json",
-                        success: function(){
+                        success: function(data){
                             $uploadnewversionContainer.jqmHide();
+                            sakai_global.content_profile.content_data.data = data;
                             $(window).trigger("updated.version.content.sakai");
                             $(window).trigger("update.versions.sakai", {
                                 pageSavePath: sakai_global.content_profile.content_data.content_path,
@@ -82,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         },error: function(err){
                             debug.log(err);
                         }
-                    })
+                    });
                 }
             });
             $(uploadnewversionUploadContentForm).submit();

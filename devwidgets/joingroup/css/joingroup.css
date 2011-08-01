@@ -3,6 +3,7 @@
 .joingroup_hover_top {padding:10px 10px 0;border-bottom:1px solid #EAEBEC;}
 .joingroup_group_participants {padding:0 10px;width:225px;}
 .joingroup_group_participants td {padding-top:10px;}
+.joingroup_group_participants img {width:50px;height:50px;}
 .joingroup_userimg {width:32px;vertical-align:top;}
 .joingroup_userinfo {vertical-align:top;padding-left:10px;}
 .joingroup_userinfo p {margin:0 0 3px 0;}

@@ -31,7 +31,7 @@
 .discussion_topic_subject{font-size:16px; color:#444; margin-bottom:2px; font-weight:normal;}
 .discussion_topic_number_of_replies, .discussion_poster_name, .discussion_posting_date{color:#878A8C; display: block; margin-bottom: 4px;}
 .discussion_topic_number_of_replies{display:inline-block;}
-.discussion_reply_topic, .discussion_hide_reply{float:right;}
+.discussion_reply_topic, .discussion_hide_reply{float:right;margin-bottom:10px;}
 .discussion_poster_name {font-size:15px; color:#666;}
 .discussion_post_message{margin-bottom:10px;white-space: pre-line;}
 .discussion_topic_replies_container .discussion_post_message{display:block;}

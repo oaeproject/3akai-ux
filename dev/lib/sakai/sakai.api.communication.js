@@ -38,7 +38,8 @@ define(
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.util",
         "sakai/sakai.api.server",
-        "config/config_custom"
+        "config/config_custom",
+        "jquery-plugins/jquery.autolink"
     ],
     function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf) {
 
@@ -236,7 +237,7 @@ define(
             if (typeof(to) === "object") {
                 for (i = 0; i < to.length; i++) {
                     reqs[reqs.length] = {
-                        "url": "/~" + to[i] + "/public/authprofile.json",
+                        "url": "/~" + to[i] + "/public/authprofile.profile.json",
                         "method": "GET"
                     };
                 }
@@ -338,6 +339,7 @@ define(
                     newMsg.from = {
                         name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
                         picture: sakai_util.constructProfilePicture(userFrom),
+                        connectionState: userFrom["sakai:state"] ? userFrom["sakai:state"] : false,
                         userObj : {
                             uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
                             username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
@@ -365,7 +367,11 @@ define(
                         newMsg.toList.push(tmpUsr.name);
                         newMsg.to.push(tmpUsr);
                     });
-                    newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
+                    // We are adding the div to force jQuery to interpret this
+                    // as html and not a selector (in case there are no tags
+                    // in the messsage body).
+                    var bodyToAutolink = $('<div>'+msg["sakai:body"].replace(/\n/gi, "<br />")+'</div>');
+                    newMsg.body = bodyToAutolink.autolink().html();
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
                     newMsg.box = msg["sakai:messagebox"];
