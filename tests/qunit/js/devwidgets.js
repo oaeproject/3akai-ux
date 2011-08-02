@@ -88,7 +88,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "mygroups",
         "mylibrary",
         "mymemberships",
-        "myplaces",
         "mysakai2",
         "navigation",
         "newaddcontent",

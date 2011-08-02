@@ -95,7 +95,7 @@ require(
         "jquery-plugins/jquery.validate",
         "jquery-plugins/jquery.autoSuggest.sakai-edited",
         "fluid/3akai_Infusion",
-        "misc/l10n/globalization",
+        "misc/l10n/globalize",
         "jquery-plugins/jquery.json",
         "misc/google/html-sanitizer",
         "misc/querystring",
