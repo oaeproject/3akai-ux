@@ -60,7 +60,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Notify the user that the permissions have been changed or an error has occurred
          * @param {Boolean} success Indicates the success or failure of setting the permissions
          */
-        var permissionsSet = function(success){
+        var permissionsSet = function(success, data){
             if (success) {
                 // Hide the dialog
                 $("#userpermissions_container").jqmHide();
@@ -73,181 +73,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         /**
-         * Sets ACLs on a profile section
-         * @param {String} pageRef ID of the page to be updated
-         * @param {String} permission anonymous, everyone, contacts or private determining what ACLs need to be set
-         */
-        var setACLs = function(pageRef, permission){
-            var path = "/~" + sakai.data.me.user.userid + "/public/authprofile/" + pageRef;
-            var ACLs = [];
-            switch (permission) {
-                case "anonymous":
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["everyone"],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["anonymous"],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["g-contacts-" + sakai.data.me.user.userid],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    break;
-                case "everyone":
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["g-contacts-" + sakai.data.me.user.userid],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["everyone"],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["anonymous"],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
-                case "contacts":
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": [sakai.data.me.user.userid],
-                            "privilege@jcr:write": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": [sakai.data.me.user.userid],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["g-contacts-" + sakai.data.me.user.userid],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["everyone"],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["anonymous"],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
-                case "private":
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": [sakai.data.me.user.userid],
-                            "privilege@jcr:write": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": [sakai.data.me.user.userid],
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["g-contacts-" + sakai.data.me.user.userid],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["everyone"],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path + ".modifyAce.html",
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": ["anonymous"],
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
-            }
-
-            $.ajax({
-                url: sakai.config.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                cache: false,
-                data: {
-                    requests: $.toJSON(ACLs)
-                },
-                success: function(data){
-                    permissionsSet(true);
-                },
-                error: function(xhr, textStatus, thrownError){
-                    debug.err(xhr, textStatus, thrownError);
-                    permissionsSet(false);
-                }
-            });
-        };
-
-        /**
          * Apply the selected permissions to the page
          */
         var applyPermissions = function(){
             var currentPath = contextData.path;
             var page = false;
+            var split = "";
             if (currentPath.indexOf("/") !== -1) {
-                var split = currentPath.split("/");
+                split = currentPath.split("/");
                 page = sakai_global.user.pubdata.structure0[split[0]][split[1]];
-            }
-            else {
+            } else {
                 page = sakai_global.user.pubdata.structure0[currentPath];
             }
 
@@ -260,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             if (currentPath !== "library" && currentPath !== "memberships" && currentPath !== "contacts") {
-                setACLs(split[1], permission.toString());
+                sakai.api.Content.setACLsOnPath("/~" + sakai.data.me.user.userid + "/public/authprofile/" + split[1], permission.toString(), sakai.data.me.user.userid, permissionsSet);
             } else {
                 permissionsSet(true);
             }
