@@ -1652,7 +1652,7 @@ define(function(){
                     "_order": 1,
                     "_title": "My Library",
                     "_altTitle": "${user}'s Library",
-                    "_reorderOnly": false,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
@@ -1666,7 +1666,7 @@ define(function(){
                     "_order": 2,
                     "_ref": "${refid}1",
                     "_altTitle": "${user}'s Memberships",
-                    "_reorderOnly": false,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
@@ -1680,7 +1680,7 @@ define(function(){
                     "_order": 3,
                     "_ref": "${refid}2",
                     "_altTitle": "${user}'s Contacts",
-                    "_reorderOnly": false,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
