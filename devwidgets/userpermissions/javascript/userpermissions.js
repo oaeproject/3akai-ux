@@ -41,8 +41,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (currentPath.indexOf("/") !== -1) {
                 var split = currentPath.split("/");
                 page = sakai_global.user.pubdata.structure0[split[0]][split[1]];
-            }
-            else {
+            } else {
                 page = sakai_global.user.pubdata.structure0[currentPath];
             }
             var permission = page._view;
