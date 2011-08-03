@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_mark_as_read.live("click", function() {
             var unreadMessages = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container.unread");
-            readList = [];
+            var readList = [];
             $.each(unreadMessages, function(i,elt) {
                 var message = messages.results[$(elt).attr("id")];
                 $(elt).removeClass("unread");
@@ -175,15 +175,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_delete_selected.live("click", function() {
             var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container");
-            pathList = [];
+            var messageList = [];
             $.each(messagesToDelete, function(i,elt) {
-                var path = messages.results[$(elt).attr("id")].path;
-                pathList.push(path);
+                var msg = messages.results[$(elt).attr("id")];
+                messageList.push(msg);
             });
             var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(pathList, hardDelete, function(success, data) {
-                numJustDeleted = pathList.length;
-                messagesToDelete.fadeOut(getMessages);
+            sakai.api.Communication.deleteMessages(messageList, hardDelete, function(success, data) {
+                numJustDeleted = messageList.length;
+                var done = false;
+                messagesToDelete.fadeOut(function() {
+                    if (!done) {
+                        getMessages();
+                        done = true;
+                    }
+                });
             });
         });
 
@@ -292,7 +298,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mid = $(e.currentTarget).parents(".inbox_items_container").attr("id");
             var msg = messages.results[mid];
             var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(msg.path, hardDelete, function(success, data) {
+            sakai.api.Communication.deleteMessages(msg, hardDelete, function(success, data) {
                 if (!success) {
                     debug.error("deleting failed");
                     // show a gritter message indicating deleting it failed
@@ -317,7 +323,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // newPaging === 0 means we need a new page, as nothing will show on this one
                 // newPaging > currentPaging means that there are more on the new page than before, so
                 //    we should show the previous page (should rarely, if ever, happen)
-                if (newPaging === 0 || newPaging > currentPaging) {
+                if ((newPaging === 0 || newPaging > currentPaging) && currentPage !== 0) {
                     currentPage--;
                 }
                 // if we can destroy the pager now, lets do it
