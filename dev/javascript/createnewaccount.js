@@ -221,7 +221,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $("#username").bind("keyup blur", function(){
                 var username = $.trim($(usernameField).val());
-                debug.log(username);
                 if (username && username.length > 2) {
                     $(usernameField).removeClass("signup_form_error");
                     checkUserName(true, function(success){
