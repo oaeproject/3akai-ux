@@ -70,6 +70,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var errObj = [];
 
         var currentUserName = "";
+        var availableUserName = false;
+
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -230,10 +232,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             $(usernameField).removeClass("signup_form_error");
                             $(usernameField).addClass("username_available_icon");
                             $("."+ $(usernameField)[0].id).removeClass("signup_form_error_label");
+                            availableUserName = true;
                         } else {
                             $(usernameField).removeClass("username_available_icon");
+                            availableUserName = false;
                         }
                     });
+                } else if (!$(usernameField).hasClass("username_available_icon") && availableUserName && currentUserName === $.trim($(usernameField).val())) {
+                    $(usernameField).addClass("username_available_icon");
+                } else if ($(usernameField).hasClass("username_available_icon") && !(availableUserName && currentUserName === $.trim($(usernameField).val()))){
+                    $(usernameField).removeClass("username_available_icon");
                 }
             });
 
