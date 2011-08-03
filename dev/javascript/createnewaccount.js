@@ -69,7 +69,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Contains executable errors
         var errObj = [];
 
-        var currentUserName = "";
         ///////////////////////
         // Utility functions //
         ///////////////////////
@@ -221,9 +220,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#username").bind("keyup blur", function(){
-                if ($.trim($(usernameField).val()) !== "" && $(usernameField).val().length > 2 && currentUserName !== $.trim($(usernameField).val())) {
+                var username = $.trim($(usernameField).val());
+                debug.log(username);
+                if (username && username.length > 2) {
                     $(usernameField).removeClass("signup_form_error");
-                    currentUserName = $.trim($(usernameField).val());
                     checkUserName(true, function(success){
                         $("#create_account_username_error").hide();
                         if (success) {
@@ -234,6 +234,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             $(usernameField).removeClass("username_available_icon");
                         }
                     });
+                } else {
+                    $(usernameField).removeClass("username_available_icon");
                 }
             });
 
