@@ -92,7 +92,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
             sakai.api.Server.batch(initialProfilePost, function(success, data){
                 if (!success) {
-                    debug.error("Error saving initial profile fields")
+                    debug.error("Error saving initial profile fields");
                 }
             });
             pub.structure0.profile = profilestructure;
@@ -394,8 +394,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (isMe){
                 sakai.api.Communication.getUnreadMessagesCountOverview("inbox", function(success, counts){
                     messageCounts = counts;
-                    $(window).trigger("updated.counts.lhnav.sakai");
-                });
+                    var totalCount = 0;
+                    // The structure of these objects make for O(n^2) comparison :(
+                    $.each(messageCounts.count, function(index, countObj){
+                        var pageid = "messages/";
+                        if (countObj.group === "message"){
+                            pageid += "inbox";
+                        } else if (countObj.group === "invitation"){
+                            pageid += "invitations";
+                        }
+                        totalCount += countObj.count;
+                        $(window).trigger("lhnav.updateCount", [pageid, countObj.count, false]);
+                    });
+                    $(window).trigger("lhnav.updateCount", ["messages", totalCount, false]);
+                }, false);
             }
         });
 
