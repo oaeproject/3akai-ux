@@ -185,6 +185,163 @@ define(
         },
 
         /**
+         * Sets ACLs on a specified path and executes a callback if specified.
+         * @param {String} path The path on which the ACLs need to be set
+         * @param {String} permission 'anonymous', 'everyone', 'contacts' or 'private' determining what ACLs need to be set
+         * @param {String} me Userid of the currently logged in user
+         * @param {Function} callback Function to execute when permissions have been set or failed to be set
+         */
+        setACLsOnPath: function(path, permission, me, callback){
+            var path = path + ".modifyAce.html";
+            var ACLs = [];
+            switch (permission) {
+                case "anonymous":
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "everyone",
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "anonymous",
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "g-contacts-" + me,
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    break;
+                case "everyone":
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "g-contacts-" + me,
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "everyone",
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "anonymous",
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    break;
+                case "contacts":
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": me,
+                            "privilege@jcr:write": "granted",
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "g-contacts-" + me,
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "everyone",
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "anonymous",
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    break;
+                case "private":
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": me,
+                            "privilege@jcr:write": "granted",
+                            "privilege@jcr:read": "granted"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "g-contacts-" + me,
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "everyone",
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    ACLs.push({
+                        "url": path,
+                        "method": "POST",
+                        "parameters": {
+                            "principalId": "anonymous",
+                            "privilege@jcr:read": "denied"
+                        }
+                    });
+                    break;
+            }
+
+            $.ajax({
+                url: sakai_conf.URL.BATCH,
+                traditional: true,
+                type: "POST",
+                cache: false,
+                data: {
+                    requests: $.toJSON(ACLs)
+                },
+                success: function(data){
+                    if ($.isFunction(callback)) {
+                       callback(true, data);
+                    }
+                },
+                error: function(xhr, textStatus, thrownError){
+                    debug.error(xhr, textStatus, thrownError);
+                    if ($.isFunction(callback)) {
+                       callback(false, xhr);
+                    }
+                }
+            });
+        },
+
+        /**
          * Returns true if the user is a viewer for the given content item,
          * false otherwise.
          *
