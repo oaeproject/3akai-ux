@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "structure0": $.toJSON(sakai_global.user.pubdata.structure0)
             });
 
-            if (currentPath !== "library" && currentPath !== "memberships" && currentPath !== "contacts") {
+            if (_.indexOf(["library", "memberships", "contacts"], currentPath) === -1) {
                 sakai.api.Content.setACLsOnPath("/~" + sakai.data.me.user.userid + "/public/authprofile/" + split[1], permission.toString(), sakai.data.me.user.userid, permissionsSet);
             } else {
                 permissionsSet(true);
