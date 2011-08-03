@@ -56,6 +56,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 _canSubedit: true
             };
             pub.structure0.profile = {};
+            var initialProfilePost = [];
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
                 var widgetID = sakai.api.Util.generateWidgetId();
                 var widgetUUID = sakai.api.Util.generateWidgetId();
@@ -67,6 +68,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     _nonEditable: true,
                     _view: section.permission
                 };
+                initialProfilePost.push({
+                    "url": "/~" + sakai.data.me.user.userid + "/public/authprofile/" + title,
+                    "method": "POST",
+                    "parameters": {
+                        "init": true
+                    }
+                });
                 if (title === "basic"){
                     profilestructure[title]._reorderOnly = true;
                 } else {
@@ -81,6 +89,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 pub[widgetUUID] = {
                     sectionid: title
                 };
+            });
+            sakai.api.Server.batch(initialProfilePost, function(success, data){
+                if (!success) {
+                    debug.error("Error saving initial profile fields")
+                }
             });
             pub.structure0.profile = profilestructure;
             pub.structure0.profile._ref = firstWidgetRef;
