@@ -308,6 +308,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "permission": "anonymous",
                         "order": 0,
                         "elements": {
                             "firstName": {
@@ -385,6 +386,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "order": 1,
                         "elements": {
                             "aboutme": {
@@ -418,6 +420,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -437,6 +440,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                         "order": 3,
@@ -1626,12 +1630,20 @@ define(function(){
             }
         },
 
+        /**
+         * In order to set permissions on specific private areas, the following parameter should be added:
+         *   _view: "anonymous" // Area is visible to all users by default
+         *   _view: "everyone" // Area is visible to all logged in users by default
+         *   _view: "contacts" // Area is visible to all contacts by default
+         *   _view: "private" // Area is not visible to other users by default
+         */
         defaultpubstructure: {
             "structure0": {
                 "profile": {
                     "_title": "My Profile",
                     "_altTitle": "${user}'s Profile",
                     "_order": 0,
+                    "_view": "anonymous",
                     "_reorderOnly": true,
                     "_nonEditable": true
                 },
@@ -1642,6 +1654,7 @@ define(function(){
                     "_altTitle": "${user}'s Library",
                     "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}0",
                         "_order": 0,
@@ -1655,6 +1668,7 @@ define(function(){
                     "_altTitle": "${user}'s Memberships",
                     "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}1",
                         "_order": 0,
@@ -1668,6 +1682,7 @@ define(function(){
                     "_altTitle": "${user}'s Contacts",
                     "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}2",
                         "_order": 0,
