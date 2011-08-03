@@ -502,7 +502,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
-            if ($rootel.is(":visible")) {
+            // check if the inbox is open, or if the hashchange will open an inbox message
+            if ($rootel.is(":visible") || (currentState && currentState.l && currentState.l.substr(0, 8) === "messages")) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
                         if ((messages.results && !messages.results[changed.message || all.message]) || !messages.results) {
