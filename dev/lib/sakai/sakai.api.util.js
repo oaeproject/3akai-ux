@@ -1709,7 +1709,7 @@ define(
                     } else {
                         $el = $(el);
                     }
-                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements))){
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
                         if ($.isFunction(callback)){
                             callback();
                         } else {
