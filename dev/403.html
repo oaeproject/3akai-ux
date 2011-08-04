@@ -100,7 +100,7 @@
                         <div id="error_page_links_template" style="display:none"><!--
                             <ul>
                                 {for w in links.whatToDo}
-                                    <li><a class="s3d-regular-links s3d-bold" href="${w.url}">${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
+                                    <li><a class="s3d-regular-links s3d-bold" href="${w.url}">${sakai.api.i18n.getValueForKey(w.title)}</a></li>
                                 {/for}
                                 <li><a href="{if document.referrer === ""}/{else}${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
                             </ul>
@@ -109,7 +109,7 @@
                                 <h3>__MSG__GET_IN_TOUCH__</h3>
                                 <ul>
                                     {for g in links.getInTouch}
-                                        <li><a class="s3d-regular-links s3d-bold" href="${g.url}">${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
+                                        <li><a class="s3d-regular-links s3d-bold" href="${g.url}">${sakai.api.i18n.getValueForKey(g.title)}</a></li>
                                     {/for}
                                 </ul>
                             {/if}

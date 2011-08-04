@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var selectedCategoryId = "";
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             if (sakai.config.worldTemplates[c].id === widgetData.category) {
-                selectedCategory = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].title);
+                selectedCategory = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].title);
                 selectedCategoryId = sakai.config.worldTemplates[c].id;
             }
         }

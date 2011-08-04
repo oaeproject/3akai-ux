@@ -386,9 +386,9 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
 
                           var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
                           if (el.is(":visible")) {
-                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.General.getValueForKey("HIDE"));
+                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.getValueForKey("HIDE"));
                           } else {
-                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.General.getValueForKey("SHOW"));
+                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.getValueForKey("SHOW"));
                           }
 
                           var x = $(this).position().left;
@@ -697,7 +697,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
                 showDashboard();
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("CONNECTION_LOST"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CONNECTION_LOST"),"",sakai.api.Util.notification.type.ERROR);
             }
         };
 

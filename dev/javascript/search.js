@@ -85,7 +85,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             var category = sakai.config.worldTemplates[c];
             var refId = sakai.api.Util.generateWidgetId();
-            var title = sakai.api.i18n.General.getValueForKey(category.title);
+            var title = sakai.api.i18n.getValueForKey(category.title);
             pubdata.structure0[category.id] = {
                 "_title": title,
                 "_ref": refId,

@@ -65,9 +65,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var parseDataResult = function(result, isRelatedContent) {
             // initialize parsed item with default values
             var mimeType = sakai.api.Content.getMimeType(result);
-            var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+            var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
             if (sakai.config.MimeTypes[mimeType]){
-                mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
             var item = {
                 name: result["sakai:pooled-content-file-name"],

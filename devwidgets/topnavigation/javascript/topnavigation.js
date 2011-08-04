@@ -329,7 +329,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     temp.url = array[index].url;
                 }
-                temp.label = sakai.api.i18n.General.getValueForKey(array[index].label);
+                temp.label = sakai.api.i18n.getValueForKey(array[index].label);
             }
             return temp;
         };

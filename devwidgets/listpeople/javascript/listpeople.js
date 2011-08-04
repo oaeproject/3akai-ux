@@ -440,10 +440,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai_global.data.listpeople[listType].total += 1;
                         if (sakai.config.MimeTypes[resultObject["jcr:mimeType"]]) {
                             sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['avatar'] = sakai.config.MimeTypes[resultObject["jcr:mimeType"]].URL;
-                            sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[resultObject["jcr:mimeType"]].description);
+                            sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['mimeTypeDescripton'] = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[resultObject["jcr:mimeType"]].description);
                         } else {
                             sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['avatar'] = "/dev/images/mimetypes/empty.png";
-                            sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['mimeTypeDescripton'] = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
+                            sakai_global.data.listpeople[listType].userList[resultObject["_path"]]['mimeTypeDescripton'] = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description);
                         }
                         if (!sakai_global.data.listpeople[listType].userList[resultObject["_path"]]["subNameInfo"]) {
                             sakai_global.data.listpeople[listType].userList[resultObject["_path"]]["subNameInfo"] = resultObject[iSubNameInfoContent];

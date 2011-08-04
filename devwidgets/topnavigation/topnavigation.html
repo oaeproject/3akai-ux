@@ -67,7 +67,7 @@
         {/if}
         {for c in sakai.config.worldTemplates}
             {if groups[c.id] && groups[c.id].length}
-                <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.General.getValueForKey(c.title)}</a>
+                <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.getValueForKey(c.title)}</a>
                 <ul>
                     {for group in groups[c.id]}
                         <li>

@@ -86,9 +86,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // set mimetype
                     var mimeType = sakai.api.Content.getMimeType(results[i]);
                     finaljson.items[i].mimeType = mimeType;
-                    finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                    finaljson.items[i].mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
                     if (sakai.config.MimeTypes[mimeType]){
-                        finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                        finaljson.items[i].mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     finaljson.items[i].thumbnail = sakai.api.Content.getThumbnail(results[i]);
                 }
@@ -107,11 +107,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-description"]), 580, {max_rows: 2,whole_word: false}, "");
                     }
 
-                    var groupType = sakai.api.i18n.General.getValueForKey("OTHER");
+                    var groupType = sakai.api.i18n.getValueForKey("OTHER");
                     if (results[group]["sakai:category"]){
                         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                             if (sakai.config.worldTemplates[c].id === results[group]["sakai:category"]){
-                                groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                                groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
                             }
                         }
                     }
@@ -265,7 +265,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai_global.data.search.getMyContacts();
                 },
                 error: function(xhr, textStatus, thrownError) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),"",sakai.api.Util.notification.type.ERROR);
                 }
             });
             $('.link_accept_invitation').each(function(index) {

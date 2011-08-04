@@ -179,7 +179,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             if(members){
                 sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function(){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), sakai.api.i18n.getValueForKey("NEW_SETTINGS_HAVE_BEEN_APPLIED", "addpeople"));
                     $(window).trigger("usersselected.addpeople.sakai");
                 });
             }

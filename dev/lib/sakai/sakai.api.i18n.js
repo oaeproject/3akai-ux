@@ -346,7 +346,7 @@ define(
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     } else {
-                        toreplace = quotes + this.getValueForKey(lastParen) + quotes;
+                        toreplace = quotes + sakaii18nAPI.getValueForKey(lastParen) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     }
@@ -354,77 +354,58 @@ define(
                 processed += toprocess.substring(lastend);
                 return processed;
 
-            },
+            }
+        },
 
-            /**
-             * Get the internationalised value for a specific key.
-             * We expose this function so you can do internationalisation within JavaScript.
-             * @example sakai.api.i18n.General.getValueForKey("CHANGE_LAYOUT");
-             * @param {String} key The key that will be used to get the internationalised value
-             * @return {String} The translated value for the provided key
-             */
-            getValueForKey : function(key) {
-                // Check for i18n debug
-                if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === "lu" && sakaii18nAPI.data.meData.user.locale.country === "GB"){
-                    return key;
+        /**
+         * Get the internationalised value for a specific key.
+         * We expose this function so you can do internationalisation within JavaScript.
+         * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
+         * @param {String} key The key that will be used to get the translation
+         * @param {String} optional widget name. This will cause the widget language
+         *                 bundles to be checked for a translation first
+         * @return {String} The translated value for the provided key
+         */
+        getValueForKey: function(key, widgetname) {
+            // Get the user's current locale from the me object
+            var currentLocale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            // Check for i18n debug language
+            //   Because the debug language has to be a valid Java locale, 
+            //   we are currently using lu_GB to identify the debug language
+            if (currentLocale === "lu_GB") {
+                return key;
+            } else {
+                // First check the bundle for the widget, if provided
+                if (widgetname) {
+                    // First check if the key can be found in the widget's locale bundle
+                    if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {
+                        return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
+                    } 
+                    // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
+                    else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && sakaii18nAPI.data.widgets[widgetname]["default"][key]){
+                        return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
+                    }
                 }
-                // First check if the key can be found in the locale bundle
-                else if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
-                    return sakaii18nAPI.data.localBundle[key];
+                // First check if the key can be found in the general locale bundle
+                if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
+                    return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.localBundle[key]);
                 }
-                // If the key wasn't found in the localbundle, search in the default bundle
+                // If the key wasn't found in the general locale bundle, search in the general default bundle
                 else if (sakaii18nAPI.data.defaultBundle && sakaii18nAPI.data.defaultBundle[key]) {
-                    return sakaii18nAPI.data.defaultBundle[key];
-                }
+                    return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.defaultBundle[key]);
+                } 
                 // If none of the about found something, log an error message
                 else {
-                    debug.warn("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
+                    debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
                     return false;
                 }
             }
         },
 
-        /**
-         * @class i18nWidgets
-         *
-         * @description
-         * Internationalisation in widgets
-         *
-         * @namespace
-         * Internationalisation in widgets
-         */
-        Widgets : {
-
-            /**
-             * Get the value for a specific key in a specific widget.
-             * @example sakai.api.i18n.Widgets.getValueForKey("myprofile", "en_US", "PREVIEW_PROFILE");
-             * @param {String} widgetname The name of the widget
-             * @param {String|Object} locale The locale for the getting the value, either in string form or
-             *                               the user's locale object from sakai.api.User.data.me.user.locale
-             * @param {String} key The key which you want to be translated
-             * @return {String} The value you wanted to translate for a specific widget
-             */
-            getValueForKey : function(widgetname, locale, key) {
-                if ($.isPlainObject(locale) && locale.language && locale.country) {
-                    locale = locale.language + "_" + locale.country;
-                }
-                // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
-                if ((typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object") && (typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string")){
-                    return sakaii18nAPI.data.widgets[widgetname][locale][key];
-
-                } else if ((typeof sakaii18nAPI.data.widgets[widgetname]["default"][key] === "string") && (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object")) {
-                    return sakaii18nAPI.data.widgets[widgetname]["default"][key];
-
-                } else if (sakaii18nAPI.data.localBundle[key]) {
-                    return sakaii18nAPI.data.localBundle[key];
-
-                } else if (sakaii18nAPI.data.defaultBundle[key]) {
-                    return sakaii18nAPI.data.defaultBundle[key];
-
-                }
-
-            }
+        processUTF16ToText: function(translation){
+            return translation;
         }
+
     };
 
     return sakaii18nAPI;

@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
+                type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 size: "",
@@ -77,10 +77,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set the mimetype and corresponding image
             if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             } else {
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
                 item.type_img_url = sakai.config.MimeTypes["other"].URL;
             }
 

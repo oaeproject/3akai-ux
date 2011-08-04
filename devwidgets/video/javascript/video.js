@@ -128,7 +128,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
 
             } catch(err) {
                 sakai.api.Util.notification.show(err,"",sakai.api.Util.notification.type.ERROR);
-                $(videoTempShowMain, rootel).text(sakai.api.i18n.General.getValueForKey("__MSG__NO_VALID_VIDEO_FOUND__"));
+                $(videoTempShowMain, rootel).text(sakai.api.i18n.getValueForKey("__MSG__NO_VALID_VIDEO_FOUND__"));
             }
         };
 
@@ -212,7 +212,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
                     showVideo(video, videoShowMain, video.isSakaiVideoPlayer);
                 }
                 catch(err) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_RETRIEVE_VIDEO"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_RETRIEVE_VIDEO"),"",sakai.api.Util.notification.type.ERROR);
                 }
             }
 
@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/video/jwplayer/swfobject
             required: true,
             url: true,
             messages: {
-                url: (sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_VALID_URL"))
+                url: (sakai.api.i18n.getValueForKey("PLEASE_ENTER_VALID_URL"))
             }
         });
 

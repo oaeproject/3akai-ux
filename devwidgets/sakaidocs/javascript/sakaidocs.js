@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
                 // SAKIII-3162 the content is too large, display an error and skip autosave
                 if (!autosaveDisabled){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                 }
                 autosaveDisabled = true;
             } else {
@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
                             if (!success){
                                 // the content is probably too large, display an error
-                                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                             }
                         });
                         var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
@@ -715,7 +715,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 error: function(xhr, textStatus, thrownError){
                     // the content is probably too large, display an error
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
