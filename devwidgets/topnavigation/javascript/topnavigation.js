@@ -94,6 +94,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var lastSearchVal = "",
             searchTimeout = false;
 
+        var $openMenu = false;
+        var $selectedMenu = false;
+
 
         ////////////////////////
         ///// USER ACTIONS /////
@@ -443,6 +446,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Navigation hover binding
             var openMenu = function(){
                 var $li = $(this);
+                $openMenu = $li;
                 $li.removeClass("topnavigation_close_override");
                 $li.children(subnavtl).show();
                 var $subnav = $li.children(navLinkDropdown);
@@ -472,19 +476,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var $target = $(e.target);
 
                 // check if focus is on a child element
-                var $children = $li.children();
-
                 var hasFocus = checkForFocus($li);
 
                 if (!hasFocus && !$.contains($li.get(0), $target.get(0))) {
                     $li.children(subnavtl).hide();
                     $li.children(navLinkDropdown).hide();
                 }
-            }
+            };
 
-            $(hasSubnav).hover(openMenu, closeMenu);
+            $(hasSubnav).hover(openMenu/*, closeMenu*/);
             $(hasSubnav).focusin(openMenu);
-            $(hasSubnav).focusout(closeMenu);
+            //$(hasSubnav).focusout(closeMenu);
+
+            $('body').focusin(function(e) {
+                var openMenuId = $openMenu.children("div").attr("id");
+                if ($selectedMenu) {
+                    var selectedMenuId = $selectedMenu.children("div").attr("id");
+                }
+                if (selectedMenuId && (selectedMenuId !== openMenuId || $(e.target).parent(".topnavigation_user_container").length || $(e.target).attr("id") === "topnavigation_search_input")){
+                    $selectedMenu.children(subnavtl).hide();
+                    $selectedMenu.children(navLinkDropdown).hide();
+                }
+                $selectedMenu = $openMenu;
+            });
+
 
             // hide the menu after an option has been clicked
             $(hasSubnav + " a").live("click", function(){
