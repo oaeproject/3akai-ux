@@ -28,7 +28,7 @@ define(function(){
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/inbox",
             LOGOUT_URL: "/logout",
-            MY_DASHBOARD_URL: "/me",
+            MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/profile/edit",
             PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
             PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
@@ -840,12 +840,12 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/me",
+            "url": "/me#l=dashboard",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/me",
+                "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {

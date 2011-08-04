@@ -73,6 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         // Utility functions //
         ///////////////////////
 
+        var usernameEntered = "";
 
         /**
          * Get all of the values out of the form fields. This will return
@@ -221,20 +222,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             $("#username").bind("keyup blur", function(){
                 var username = $.trim($(usernameField).val());
-                if (username && username.length > 2) {
-                    $(usernameField).removeClass("signup_form_error");
-                    checkUserName(true, function(success){
-                        $("#create_account_username_error").hide();
-                        if (success) {
-                            $(usernameField).removeClass("signup_form_error");
-                            $(usernameField).addClass("username_available_icon");
-                            $("."+ $(usernameField)[0].id).removeClass("signup_form_error_label");
-                        } else {
-                            $(usernameField).removeClass("username_available_icon");
-                        }
-                    });
-                } else {
-                    $(usernameField).removeClass("username_available_icon");
+                if (usernameEntered != username) {
+                    usernameEntered = username;
+                    if (username && username.length > 2) {
+                        $(usernameField).removeClass("signup_form_error");
+                        checkUserName(true, function(success){
+                            $("#create_account_username_error").hide();
+                            if (success) {
+                                $(usernameField).removeClass("signup_form_error");
+                                $(usernameField).addClass("username_available_icon");
+                                $("." + $(usernameField)[0].id).removeClass("signup_form_error_label");
+                            } else {
+                                $(usernameField).removeClass("username_available_icon");
+                            }
+                        });
+                    } else {
+                        $(usernameField).removeClass("username_available_icon");
+                    }
                 }
             });
 
