@@ -38,7 +38,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $rootel = $("#" + tuid);
 
         // Data
-        var renderData = undefined;
+        var renderData = null;
 
         // Containers
         var entityContainer = "#entity_container";
