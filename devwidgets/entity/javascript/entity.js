@@ -151,6 +151,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
+                    $(".sakai_add_content_overlay").live("click", function(ev){
+                        $('#entity_groupsettings_dropdown').jqmHide();
+                    });
+
                     $(entityGroupDropdown).hover(function(){
                         var $li = $(this);
                         var $subnav = $li.children(".s3d-dropdown-container");
@@ -319,6 +323,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             sakai.api.Util.hideOnClickOut("#entity_groupsettings_dropdown", "#entity_group_permissions,.entity_permissions_icon", function(){
                 $("#entity_groupsettings_dropdown").jqmHide();
+            });
+
+            sakai.api.Util.hideOnClickOut("#entity_contentsettings_dropdown", "#entity_content_permissions, .entity_permissions_icon", function(){
+                $("#entity_contentsettings_dropdown").jqmHide();
             });
 
             $("#ew_group_categories_link").click(function(){
