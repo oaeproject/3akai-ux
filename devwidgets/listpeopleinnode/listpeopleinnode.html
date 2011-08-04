@@ -37,9 +37,9 @@
         <ul>
             {for person in results}
                 <li {if person_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if}>
-                    <a href="/~${person["rep:userId"]}" target="_blank" class="s3d-list-link-full-space s3d-action">
+                    <a href="/~${person["rep:userId"]|urlSafe}" target="_blank" class="s3d-list-link-full-space s3d-action">
                         {if person.picture != null}
-                            <img src="/~${person["rep:userId"]}/public/profile/${person.picture.name}" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
+                            <img src="/~${person["rep:userId"]|urlSafe}/public/profile/${person.picture.name|urlSafe}" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
                         {else}
                             <img src="/dev/images/user_avatar_icon_32x32.png" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
                          {/if}

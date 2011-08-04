@@ -28,16 +28,21 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "/dev/configuration/config.js",
-        "/var/widgets.json?callback=define"], 
-        function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
+        "config/config_custom",
+        "../../../var/widgets.json?callback=define"
+    ],
+    function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
-    var sakai = {}; sakai.widgets = sakai_widgets_config;
+    var sakai = {
+        widgets: sakai_widgets_config
+    };
     var sakaiWidgetsAPI = {
         /**
          * @class Container
@@ -261,13 +266,13 @@ define(["jquery",
                                     for (var data in widgetsInternal[widgetname][i].widgetData){
                                         var widgetSaveId = widgetsInternal[widgetname][i].uid;
                                         if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
-                                            thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
+                                            thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]);
                                         } else {
                                             for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
                                                 if (pagetitle.indexOf("-") != -1){
                                                     var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
                                                     if (altPageTitle === widgetSaveId){
-                                                        thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];
+                                                        thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
                                                     }
                                                 }
                                             } 

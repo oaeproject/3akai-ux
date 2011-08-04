@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 resources: {
                     pdf: url,
                     page: {
-                        image: url + ".page{page}-{size}.jpg"
+                        image: url + "/page{page}.{size}.jpg"
                     }
                 }
             };

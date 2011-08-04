@@ -297,13 +297,13 @@
         <span>__MSG__WHO_CAN_ADD_NEW_TOPIC__:</span>
         <ul id="discussion_settings_permissions_add_new">
             <li>
-                <input type="radio" id="discussion_settings_permissions_add_new_managers_only" name="discussion_settings_permissions_add_new" value="managers_only" {if settings["sakai:whocanaddtopic"] == "managers_only"}checked{/if}/>
+                <input type="radio" id="discussion_settings_permissions_add_new_managers_only" name="discussion_settings_permissions_add_new" value="managers_only" {if settings["whocanaddtopic"] === "managers_only"}checked{/if}/>
                 <label for="discussion_settings_permissions_add_new_managers_only">
                     __MSG__MANAGERS_ONLY__
                 </label>
             </li>
             <li>
-                <input type="radio" id="discussion_settings_permissions_add_new_anyone" name="discussion_settings_permissions_add_new" value="anyone" {if settings["sakai:whocanaddtopic"] == "anyone" || settings["sakai:whocanaddtopic"] == undefined}checked{/if}/>
+                <input type="radio" id="discussion_settings_permissions_add_new_anyone" name="discussion_settings_permissions_add_new" value="anyone" {if settings["whocanaddtopic"] === "anyone" || settings["whocanaddtopic"] === undefined}checked{/if}/>
                 <label for="discussion_settings_permissions_add_new_anyone">
                     __MSG__ANYONE__
                 </label>
@@ -312,13 +312,13 @@
         <span>__MSG__WHO_CAN_REPLY__:</span>
         <ul id="discussion_settings_permissions_who_can_reply">
             <li>
-                <input type="radio" id="discussion_settings_permissions_who_can_reply_managers_and_members" name="discussion_settings_permissions_who_can_reply" value="managers_and_members" {if settings["sakai:whocanreply"] == "managers_and_members"}checked{/if}/>
+                <input type="radio" id="discussion_settings_permissions_who_can_reply_managers_and_members" name="discussion_settings_permissions_who_can_reply" value="managers_and_members" {if settings["whocanreply"] === "managers_and_members"}checked{/if}/>
                 <label for="discussion_settings_permissions_who_can_reply_managers_and_members">
                     __MSG__MANAGERS_ONLY__
                 </label>
             </li>
             <li>
-                <input type="radio" id="discussion_settings_permissions_who_can_reply_anyone" name="discussion_settings_permissions_who_can_reply" value="anyone" {if settings["sakai:whocanreply"] == "anyone" || settings["sakai:whocanreply"] == undefined}checked{/if}/>
+                <input type="radio" id="discussion_settings_permissions_who_can_reply_anyone" name="discussion_settings_permissions_who_can_reply" value="anyone" {if settings["whocanreply"] === "anyone" || settings["whocanreply"] === undefined}checked{/if}/>
                 <label for="discussion_settings_permissions_who_can_reply_anyone">
                     __MSG__ANYONE__
                 </label>

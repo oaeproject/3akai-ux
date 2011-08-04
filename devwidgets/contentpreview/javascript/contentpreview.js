@@ -50,22 +50,30 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             obj.type = "showpreview";
             obj.buttons = "default";
             var callback = null;
-            var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
-            if (qs.get("nopreview") === "true"){
-                callback = renderDefaultPreview;
-                obj.type = "default";
-            } else if (mimeType === "x-sakai/link"){
-                obj.buttons = "links";
+            var user = sakai_global.content_profile.content_data.data["_bodyLastModifiedBy"];
+            if (user === "admin") {
+                user = sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"];
             }
-            if (sakai.api.Content.hasPreview(sakai_global.content_profile.content_data.data)) {
-                callback = renderFullSizePreview;
-            } else {
-                obj.type = "default";
-                callback = renderDefaultPreview;
-            }
-            obj.sakai = sakai;
-            sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
-            callback();
+            sakai.api.User.getUser(user, function(success, userdata){
+                var mimeType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+                obj.userName = sakai.api.User.getDisplayName(userdata);
+                if (qs.get("nopreview") === "true"){
+                    callback = renderDefaultPreview;
+                    obj.type = "default";
+                } else if (mimeType === "x-sakai/link"){
+                    obj.buttons = "links";
+                }
+                if (sakai.api.Content.hasPreview(sakai_global.content_profile.content_data.data)) {
+                    callback = renderFullSizePreview;
+                } else {
+                    obj.type = "default";
+                }
+                obj.sakai = sakai;
+                sakai.api.Util.TemplateRenderer("contentpreview_widget_main_template", obj, $("#contentpreview_widget_main_container"));
+                if (callback) {
+                    callback();
+                }
+            });
         };
 
         var renderFullSizePreview = function(){
@@ -75,51 +83,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, [{cpFullSizePreview:sakData}]);
         };
 
-        var renderDefaultPreview = function(){
-            //Nothing really, it's all part of the template
-        };
-
         var hidePreview = function(){
             $("#contentpreview_widget_main_container").html("");
             $("#contentpreview_image_preview").html("");
         };
 
-        var bindButtons = function(){
-            $("#content_preview_delete").unbind("click");
-            $("#upload_content").unbind("click");
-            // Open the delete content pop-up
-            $("#content_preview_delete").bind("click", function(e){
-                e.preventDefault();
-                window.scrollTo(0,0);
-                $(window).trigger('init.deletecontent.sakai', [sakai_global.content_profile.content_data,
-                    function (success) {
-                        if (success) {
-                            // Wait for 2 seconds
-                            setTimeout(function () {
-                                // Relocate to the my sakai page
-                                document.location = "/dev/me.html";  // TODO TEMPORARY REDIRECT!!!
-                            }, 2000);
-                        }
-                    }]
-                );
-                $('#entity_contentsettings_dropdown').jqmHide();
-            });
-            $("#upload_content").die("click");
-            $("#upload_content").live("click", function() {
-                $(window).trigger("init.fileupload.sakai", {
-                    newVersion: true,
-                    isLink: sakai.api.Content.getMimeType(data["_mimeType"]) === "x-sakai/link",
-                    contentPath: sakai_global.content_profile.content_data.data["_path"]
-                });
-            });
-            $("#upload_content").bind("click", function(){
-                $(window).trigger("init.fileupload.sakai");
-            });
-        };
-
         $(window).bind("start.contentpreview.sakai", function(){
             determineDataType();
-            bindButtons();
         });
 
         $(window).bind("updated.version.content.sakai",function() {

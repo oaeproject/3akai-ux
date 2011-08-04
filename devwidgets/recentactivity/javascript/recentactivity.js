@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
                         item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
                         if (item.who.picture) {
-                            item.who.picture = "/~" + item.who.userid + "/public/profile/" + $.parseJSON(item.who.picture).name;
+                            item.who.picture = "/~" + sakai.api.Util.urlSafe(item.who.userid) + "/public/profile/" + $.parseJSON(item.who.picture).name;
                         }
                         else {
                             item.who.picture = "/dev/images/default_User_icon_50x50.png";

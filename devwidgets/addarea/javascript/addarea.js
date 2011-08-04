@@ -74,7 +74,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerDescription.html(sakai.api.Util.TemplateRenderer(addareaContentsContainerDescriptionTemplate, {
                     areadescription: areadescription,
                     context: context,
-                    group: sakai_global.group2.groupData
+                    group: sakai_global.group.groupData
                 }));
                 $addareaContentsContainerForm.hide();
                 $("#addarea_action_buttons").hide();
@@ -92,10 +92,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
                     context: context,
                     data: data,
-                    group: sakai_global.group2.groupData
+                    group: sakai_global.group.groupData
                 }));
                 $(addareaSelectTemplate).hide();
-                
+
                 var width = "250px";
                 if(context == "sakaidoc"){
                     width = "500px";
@@ -103,10 +103,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (context === "sakaidoc"){
                     showSearchResults();
                 }
-                
+
                 $("#addarea_action_buttons").show();
                 $("#addarea_create_new_area").attr("disabled", true);
-                
+
                 $addareaContentsContainerForm.css({"width":"1px","display":"block"}).animate({
                     width: width
                 }, 300, "linear");
@@ -124,10 +124,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             selectedSakaiDoc = false;
             selectedCanManage = false;
             checkExistingReady();
-            var url = "/var/search/pool/all.infinity.json";
+            var url = "/var/search/pool/all.0.json";
             if (!query){
-                url = "/var/search/pool/all-all.infinity.json";
-            };
+                url = "/var/search/pool/all-all.0.json";
+            }
             sakai.api.Server.loadJSON(url,
                 function(success, data){
                     var sortOrder = $("#addarea_sakaidoc_existingdocs_sort").val();
@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             selectedCanManage = $(this).data("sakai-manage");
             $("#addarea_sakaidoc_permissions").html(sakai.api.Util.TemplateRenderer("addarea_existing_sakaidoc_visibility_template", {
                 canManage: selectedCanManage,
-                group: sakai_global.group2.groupData
+                group: sakai_global.group.groupData
             }));
             checkExistingReady();
         });
@@ -220,7 +220,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var addBinding = function(){
             $(addareaContentsListItem).bind("click", renderDescription);
-            $(addareaSelectTemplate).live("click", decideRenderForm)
+            $(addareaSelectTemplate).live("click", decideRenderForm);
+            sakai.api.Util.hideOnClickOut(".addarea_dropdown", "#group_create_new_area", toggleOverlay);
         };
 
         var doInit = function(){
@@ -233,7 +234,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////////
 
         $("#addarea_create_new_area").live("click", function(){
-            debug.log(context);
             switch(context){
                 case "pages":
                     createNewSakaiDoc();
@@ -243,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     break;
                 case "participantlist":
                     createParticipantsList();
-                    break;  
+                    break;
                 case "contentlibrary":
                     createContentLibrary();
                     break;
@@ -254,7 +254,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     createSakai2Tool();
                     break;
                 default:
-                  debug.log("unrecognized area type: " + context);
+                  debug.warn("unrecognized area type: " + context);
+                  break;
             }
         });
 
@@ -264,8 +265,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var docId = selectedSakaiDoc;
             var existingNotMine = !selectedCanManage;
             var nonEditable = false;
-            setSakaiDocPermissions(docId, docPermission, existingNotMine, function(poolId){
-                addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, existingNotMine, function(poolId, path){
+            setSakaiDocPermissions(docId, docId, docPermission, existingNotMine, function(poolId){
+                addSakaiDocToWorld(poolId, poolId, docTitle, docPermission, nonEditable, existingNotMine, function(poolId, path){
                     selectPageAndShowPermissions(poolId, path, docPermission);
                 });
             });
@@ -278,12 +279,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var nonEditable = false;
             var pageContents = [];
             for (var i = 0; i < numPages; i++){
+                // TODO put this in config.js
                 pageContents.push("Default Content");
             }
-            createSakaiDoc(docTitle, docPermission, pageContents, {}, nonEditable, function(poolId){
-                setSakaiDocPermissions(poolId, docPermission, false, function(poolId){
-                    addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, false, function(poolId, path){
-                        selectPageAndShowPermissions(poolId, path, docPermission);
+            createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
+                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                        selectPageAndShowPermissions(poolId2, path, docPermission);
                     });
                 });
             });
@@ -298,13 +300,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var widgetContents = {};
             widgetContents[widgetID] = {
                 participants: {
-                    "groupid": sakai_global.group2.groupId
+                    "groupid": sakai_global.group.groupId
                 }
-            }
-            createSakaiDoc(docTitle, docPermission, pageContents, widgetContents, nonEditable, function(poolId){
-                setSakaiDocPermissions(poolId, docPermission, false, function(poolId){
-                    addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, false, function(poolId, path){
-                        selectPageAndShowPermissions(poolId, path, docPermission);
+            };
+            createSakaiDoc(docTitle, docPermission, pageContents, "participants", widgetContents, nonEditable, function(poolId, urlName){
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
+                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                        selectPageAndShowPermissions(poolId2, path, docPermission);
                     });
                 });
             });
@@ -319,13 +321,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var widgetContents = {};
             widgetContents[widgetID] = {
                 mylibrary: {
-                    "groupid": sakai_global.group2.groupId
+                    "groupid": sakai_global.group.groupId
                 }
-            }
-            createSakaiDoc(docTitle, docPermission, pageContents, widgetContents, nonEditable, function(poolId){
-                setSakaiDocPermissions(poolId, docPermission, false, function(poolId){
-                    addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, false, function(poolId, path){
-                        selectPageAndShowPermissions(poolId, path, docPermission);
+            };
+            createSakaiDoc(docTitle, docPermission, pageContents, "library", widgetContents, nonEditable, function(poolId, urlName){
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
+                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                        selectPageAndShowPermissions(poolId2, path, docPermission);
                     });
                 });
             });
@@ -349,10 +351,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             var pageContents = ["<img id='widget_" + selectedWidget + "_" + widgetID + "' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='" + avatar + "' data-mce-src='" + avatar + "' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'></p>"];
             var nonEditable = false;
-            createSakaiDoc(docTitle, docPermission, pageContents, widgetContents, nonEditable, function(poolId){
-                setSakaiDocPermissions(poolId, docPermission, false, function(poolId){
-                    addSakaiDocToWorld(poolId, docTitle, docPermission, nonEditable, false, function(poolId, path){
-                        selectPageAndShowPermissions(poolId, path, docPermission);
+            createSakaiDoc(docTitle, docPermission, pageContents, false, widgetContents, nonEditable, function(poolId, urlName){
+                setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
+                    addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path){
+                        selectPageAndShowPermissions(poolId2, path, docPermission);
                     });
                 });
             });
@@ -375,7 +377,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         };
 
         var fetchGroupRoles = function(){
-            return $.parseJSON(sakai_global.group2.groupData["sakai:roles"]);
+            return $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
         };
 
         var selectPageAndShowPermissions = function(poolId, path, docPermission){
@@ -385,16 +387,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     isManager: true,
 	                pageSavePath: "/p/" + poolId,
 	                path: path,
-	                savePath: "/~" + sakai_global.group2.groupId + "/docstructure"
+	                savePath: "/~" + sakai_global.group.groupId + "/docstructure"
                 }]);
             }
             $(window).trigger("rerender.group.sakai", [path]);
-        }
+        };
 
-        var addSakaiDocToWorld = function(poolId, docTitle, docPermission, nonEditable, existingNotMine, callback){
+        var addSakaiDocToWorld = function(urlName, poolId, docTitle, docPermission, nonEditable, existingNotMine, callback){
             // Refetch docstructure information
             $.ajax({
-                 url: "/~" + sakai_global.group2.groupId + "/docstructure.infinity.json",
+                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
                  success: function(data){
 
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
@@ -422,29 +424,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     }
 
-                    var toAdd = {};
-                    var newPath = sakai.api.Util.generateWidgetId();
-                    pubdata.structure0[newPath] = {
+                    pubdata.structure0[urlName] = {
                         "_title": docTitle,
                         "_order": getTotalCount(pubdata.structure0),
                         "_pid": poolId,
                         "_view": $.toJSON(newView),
                         "_edit": $.toJSON(newEdit),
-                        "_nonEditable": nonEditable,
-                    }
+                        "_nonEditable": nonEditable
+                    };
 
                     // Store view and edit roles
-                    sakai_global.group2.pubdata.structure0 = pubdata.structure0;
-                    sakai.api.Server.saveJSON("/~" + sakai_global.group2.groupId + "/docstructure", {
+                    sakai_global.group.pubdata.structure0 = pubdata.structure0;
+                    sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
                         "structure0": $.toJSON(pubdata.structure0)
                     }, function(){
-                        callback(poolId, newPath);
+                        callback(poolId, urlName);
                     });
                 }
             });
         };
 
-        var setSakaiDocPermissions = function(poolId, docPermission, existingNotMine, callback){
+        var setSakaiDocPermissions = function(urlName, poolId, docPermission, existingNotMine, callback){
             var filesArray = {};
             var permission = "private";
             if (docPermission === "public"){
@@ -452,10 +452,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else if (docPermission === "everyone"){
                 permission = "everyone";
             }
-            filesArray[poolId] = {
+            filesArray[urlName] = {
                 "hashpath": poolId,
                 "permissions": permission
-            }
+            };
             var viewRoles = [];
             var editRoles = [];
             var roles = fetchGroupRoles();
@@ -469,22 +469,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
             if (existingNotMine) {
                 var batchRequests = [];
-                for (var i = 0; i < editRoles.length; i++) {
+                for (var j = 0; j < editRoles.length; j++) {
                     batchRequests.push({
                         "url": "/p/" + poolId + ".members.html",
                         "method": "POST",
                         "parameters": {
-                            ":viewer": sakai_global.group2.groupId + "-" + editRoles[i]
+                            ":viewer": sakai_global.group.groupId + "-" + editRoles[j]
                         }
                     });
                 }
                 if (docPermission !== "advanced") {
-                    for (var i = 0; i < viewRoles.length; i++) {
+                    for (var k = 0; k < viewRoles.length; k++) {
                         batchRequests.push({
                             "url": "/p/" + poolId + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":viewer": sakai_global.group2.groupId + "-" + viewRoles[i]
+                                ":viewer": sakai_global.group.groupId + "-" + viewRoles[k]
                             }
                         });
                     }
@@ -497,22 +497,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else {
                 sakai.api.Content.setFilePermissions(filesArray, function(){
                     var batchRequests = [];
-                    for (var i = 0; i < editRoles.length; i++) {
+                    for (var l = 0; l < editRoles.length; l++) {
                         batchRequests.push({
                             "url": "/p/" + poolId + ".members.html",
                             "method": "POST",
                             "parameters": {
-                                ":manager": sakai_global.group2.groupId + "-" + editRoles[i]
+                                ":manager": sakai_global.group.groupId + "-" + editRoles[l]
                             }
                         });
                     }
                     if (docPermission !== "advanced") {
-                        for (var i = 0; i < viewRoles.length; i++) {
+                        for (var m = 0; m < viewRoles.length; m++) {
                             batchRequests.push({
                                 "url": "/p/" + poolId + ".members.html",
                                 "method": "POST",
                                 "parameters": {
-                                    ":viewer": sakai_global.group2.groupId + "-" + viewRoles[i]
+                                    ":viewer": sakai_global.group.groupId + "-" + viewRoles[m]
                                 }
                             });
                         }
@@ -526,7 +526,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var createSakaiDoc = function(title, permission, pageContents, widgetContents, nonEditable, callback){
+        var createSakaiDoc = function(title, permission, pageContents, preferredTitle, widgetContents, nonEditable, callback){
             var batchRequests = [];
             var realPermission = permission;
             if (permission === "advanced"){
@@ -538,30 +538,54 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:permissions": permission,
                 "sakai:copyright": "creativecommons",
                 "sakai:custom-mimetype": "x-sakai/document"
-            }
+            };
 
             // Prepare Sakai Doc
-            var structure0 = {};
-            for (var i = 0; i < pageContents.length; i++){
-                var pageID = sakai.api.Util.generateWidgetId();
+            var structure0 = {},
+                toCreate = {};
+            for (var i = 0; i < pageContents.length; i++) {
+                var pageID = "",
+                    pageTitle = "";
+
+                // for multi-page creation, we don't care as much about the URL
+                // since they're auto-generated pages
+                if (pageContents.length > 1) {
+                    pageTitle = "Page " + (i+1);
+                    // if we wanted to make the URL names 'Page 1', etc, we'd make
+                    // that change here by..
+                    //   pageID = sakai.api.Util.makeSafeURL(pageId);
+                    // buf I figure since it's expected that the user will change these
+                    // pages names an id might be better in the URL at least until
+                    // we allow changing the lhnav title to change the url/data store of the page
+                    pageID = sakai.api.Util.generateWidgetId();
+                // if we have a preferred title, let's use that
+                } else if (preferredTitle) {
+                    pageTitle = title;
+                    pageID = sakai.api.Util.makeUniqueURL(preferredTitle, title, sakai_global.group.pubdata.structure0);
+                // otherwise use the title of the page for the URL
+                } else {
+                    pageTitle = title;
+                    pageID = sakai.api.Util.makeUniqueURL(title, null, sakai_global.group.pubdata.structure0);
+                }
                 var refID = sakai.api.Util.generateWidgetId();
+
                 structure0[pageID] = {
-                    "_title": "Page " + (i+1),
+                    "_title": pageTitle,
                     "_order": i,
                     "_ref": refID,
                     "_nonEditable": nonEditable,
                     "main": {
-                        "_title": "Page " + (i+1),
+                        "_title": pageTitle,
                         "_order": 0,
                         "_ref": refID,
                         "_nonEditable": nonEditable
                     }
-                }
-                
-                var toCreate = {};
+                };
+
+                toCreate = {};
                 toCreate[refID] = {
                     "page": pageContents[i]
-                }
+                };
                 batchRequests.push({
                     method: "POST",
                     parameters: {
@@ -575,9 +599,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 });
             }
 
-            for (var i in widgetContents){
-                var toCreate = {};
-                toCreate[i] = widgetContents[i];
+            for (var j in widgetContents){
+                toCreate = {};
+                toCreate[j] = widgetContents[j];
                 batchRequests.push({
                     method: "POST",
                     parameters: {
@@ -595,21 +619,34 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.ajax({
                 url: "/system/pool/createfile",
                 type:"POST",
-                data: parameters, 
+                data: parameters,
                 dataType: "json",
                 success: function(data){
                     var poolId = data._contentItem.poolId;
+                    var struct = $.parseJSON(data._contentItem.item.structure0);
+                    var itemURLName = "";
+                    if (pageContents.length === 1) {
+                        // looks strange, I know, but this is how we get the key of the
+                        // first element in struct, which is our URL name for this
+                        for (itemURLName in struct) {
+                            if (struct.hasOwnProperty(itemURLName)) {
+                                break;
+                            }
+                        }
+                    } else {
+                        itemURLName = sakai.api.Util.makeSafeURL(title);
+                    }
                     for (var b = 0; b < batchRequests.length; b++){
                         batchRequests[b].url = "/p/" + poolId + ".resource";
                     }
                     sakai.api.Server.batch(batchRequests, function(success2, data2) {
                         if (success2) {
-                            callback(poolId);
+                            callback(poolId, itemURLName);
                         }
                     });
                 }
             });
-        }
+        };
 
         ////////////////
         // Validation //
@@ -622,7 +659,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else {
                 $("#addarea_create_new_area").attr("disabled", true);
             }
-        }
+        };
 
         var checkExistingReady = function(){
             var pageName = $("#addarea_sakaidoc_page_name").val();
@@ -631,7 +668,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             } else {
                 $("#addarea_create_new_area").attr("disabled", true);
             }
-        }
+        };
 
         $("#addarea_pages_page_name").live("keyup", checkEmpty);
         $("#addarea_participantlist_page_name").live("keyup", checkEmpty);
@@ -659,7 +696,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         //////////./////////////////
         // Internal event binding //
         ////////////////////////////
-        
+
         $("#addarea_cancel_new_area").live("click", function(){
             toggleOverlay();
         });

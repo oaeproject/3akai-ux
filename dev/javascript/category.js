@@ -22,6 +22,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.category = function() {
 
+        var originalTitle = document.title;
         var pubdata = {};
         var privdata = {};
 
@@ -44,7 +45,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
                 "id": bbqData[0],
                 "link": true,
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             });
             breadcrumb.push({
                 "title": dirData.title,
@@ -64,9 +65,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (children.children) {
                     children = children.children[bbqData[index]];
                 }
-            })
+            });
 
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
+            document.title = originalTitle + " " + dirData.title;
         };
 
         /**
@@ -97,17 +99,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-            }
+            };
             privdata[fcRnd] = {
-                navData: navData,
                 category: navData.id
             };
             privdata[fpRnd] = {
-                navData: navData,
                 category: navData.id
             };
             privdata[fwRnd] = {
-                navData: navData,
                 category: navData.id
             };
 
@@ -131,18 +130,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var fwRnd = sakai.api.Util.generateWidgetId();
                 pubdata[rnd] = {
                     page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-                }
+                };
                 pubdata[fcRnd] = {
-                    navData: navData,
                     category: navData.id + "-" + index
                 };
                 pubdata[fpRnd] = {
-                    navData: navData,
                     category: navData.id + "-" + index
                 };
                 pubdata[fwRnd] = {
-                    navData: navData,
-                    category: navData.id
+                    category: navData.id + "-" + index
                 };
 
                 count++;

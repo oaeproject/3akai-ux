@@ -62,13 +62,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     toplevel.content = data[i].content;
                     toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                     toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                    var mimeType = sakai.api.Content.getMimeType(toplevel.content);
-                    if (mimeType.indexOf("image/") !== -1){
-                        toplevel.content.image = true;
-                    }
-                    if (sakai.api.Content.getThumbnail(toplevel.content)){
-                        toplevel.content.haspreview = true;
-                    }
                     toplevel.count = data[i]["sakai:tag-count"];
                 }
                 toplevel.id = i;

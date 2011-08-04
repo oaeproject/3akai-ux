@@ -130,12 +130,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
-                var placement = "ecDocViewer" + tuid + value["_path"] + index;
-                wData.items[index].placement = placement;
-                docData[placement] = {
-                    data : value.fullresult,
-                    url : window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
-                };
+                if (value.fullresult) {
+                    var placement = "ecDocViewer" + tuid + value["_path"] + index;
+                    wData.items[index].placement = placement;
+                    docData[placement] = {
+                        data: value.fullresult,
+                        url: window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
+                    };
+                }
             });
             // boolean are return as string from ajax call so change back to boolean value
             wData.download = wData.download === "true" || wData.download === true;
@@ -427,7 +429,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (sakai_global.currentgroup.data.authprofile) {
                             itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                         } else {
-                            itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
+                            itemUrl = "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
                         }
 
                         // Create batch request data for the video

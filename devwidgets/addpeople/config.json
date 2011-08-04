@@ -3,8 +3,7 @@
     "name":"Add people",
     "id":"addpeople",
     "i18n": {
-        "default": "/devwidgets/addpeople/bundles/default.properties",
-        "en_US": "/devwidgets/addpeople/bundles/en_US.properties"
+        "default": "/devwidgets/addpeople/bundles/default.properties"
     },
     "type":"core",
     "enabled":true,

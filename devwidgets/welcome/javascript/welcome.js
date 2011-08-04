@@ -30,6 +30,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.welcome = function (tuid, showSettings) {
 
+        var $welcomeWidget = $(".welcome_widget");
+        var welcomeTemplate = "welcome_template";
+
+        var renderWidget = function(){
+            $welcomeWidget.html(sakai.api.Util.TemplateRenderer(welcomeTemplate, {
+                "anon": sakai.data.me.user.anon || false
+            }));
+        };
+
+        renderWidget();
+
     };
 
     sakai.api.Widgets.widgetLoader.informOnLoad("welcome");

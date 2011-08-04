@@ -30,7 +30,19 @@
  * @namespace
  * Communication related convenience functions
  */
-define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.api.i18n", "sakai/sakai.api.util", "/dev/configuration/config.js"], function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
+define(
+    [
+        "jquery",
+        "sakai/sakai.api.user",
+        "sakai/sakai.api.l10n",
+        "sakai/sakai.api.i18n",
+        "sakai/sakai.api.util",
+        "sakai/sakai.api.server",
+        "config/config_custom",
+        "jquery-plugins/jquery.autolink"
+    ],
+    function($, sakai_user, sakai_l10n, sakai_i18n, sakai_util, sakai_server, sakai_conf) {
+
     var sakaiCommunicationsAPI =  {
         /**
          * Sends a Sakai message to one or more users. If a group id is received, the
@@ -46,9 +58,10 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * @param {Function} [callback] A callback function which is executed at the end of the operation
          * @param {Boolean} [sendMail] True if a mail needs to be sent, False if no mail is needed. Unles specified false the default will be true and a mail will be sent
          * @param {Boolean|String} [context] String used in switch to set sakai:templatePath and sakai:templateParams
+         * @param {Object} [optionalParams] Passed in when out of the group context to provide data necessary to send the message (Ids, titles) that can't be retrieved from the global object
          *
          */
-        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context) {
+        sendMessage : function(to, meData, subject, body, category, reply, callback, sendMail, context, optionalParams) {
 
             var toUsers = "";              // aggregates all message recipients
             var sendDone = false;          // has the send been issued?
@@ -90,6 +103,20 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     "_charset_": "utf-8"
                 };
 
+                // These checks are needed to work in every area (created group or on group creation)
+                var groupTitle = "";
+                var groupId = "";
+                if(sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-title"]){
+                    groupTitle = sakai_global.group.groupData["sakai:group-title"];
+                } else if(optionalParams && optionalParams.groupTitle){
+                    groupTitle = optionalParams.groupTitle;
+                }
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData["sakai:group-id"]) {
+                    groupId = sakai_global.group.groupData["sakai:group-id"];
+                } else if (optionalParams && optionalParams.groupId){
+                    groupId = optionalParams.groupId;
+                }
+
                 switch(context){
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
@@ -99,16 +126,16 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid + 
-                        "|acceptlink=" + sakai_conf.SakaiDomain + sakai_conf.URL.GROUP_EDIT_URL + "?id=" +  sakai_global.currentgroup.id;
+                        "|system=Sakai|name=" + groupTitle +
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid) +
+                        "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
-                        "|system=Sakai|name=" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] +
+                        "|system=Sakai|name=" + groupTitle +
                         "|body=" + body + 
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_global.currentgroup.id;
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + groupId;
                         break;
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
@@ -122,7 +149,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value + 
                         "|system=Sakai|body=" + body +
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + meData.user.userid +"?accepttrue";
+                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid) +"?accepttrue";
                         break;
                 }
                 return toSend;
@@ -133,7 +160,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 var toSend = buildEmailParams();
                 // Send message
                 $.ajax({
-                    url: "/~" + meData.user.userid + "/message.create.html",
+                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -176,7 +203,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 }
                 // Send message
                 $.ajax({
-                    url: "/~" + meData.user.userid + "/message.create.html",
+                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
@@ -210,7 +237,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             if (typeof(to) === "object") {
                 for (i = 0; i < to.length; i++) {
                     reqs[reqs.length] = {
-                        "url": "/~" + to[i] + "/public/authprofile.json",
+                        "url": "/~" + to[i] + "/public/authprofile.profile.json",
                         "method": "GET"
                     };
                 }
@@ -259,21 +286,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                 };
                 requests.push(req);
             });
-
-            $.ajax({
-                url: sakai_conf.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    requests: $.toJSON(requests)
-                },
-                success: function(data) {
-                    if ($.isFunction(callback)) {
+            sakai_server.batch(requests, function(success, data) {
+                if ($.isFunction(callback)) {
+                    if (success) {
                         callback(true, data);
-                    }
-                },
-                error: function(xhr, textStatus, thrownError){
-                    if ($.isFunction(callback)) {
+                    } else {
                         callback(false, {});
                     }
                 }
@@ -291,15 +308,8 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                var req = {url: message.path + ".json", method: "POST", parameters: {"sakai:read": "true"}};
                requests.push(req);
             });
-
-            $.ajax({
-                url: sakai_conf.URL.BATCH,
-                traditional: true,
-                type: "POST",
-                data: {
-                    "requests": $.toJSON(requests)
-                },
-                success: function(data) {
+            sakai_server.batch(requests, function(success, data) {
+                if (success) {
                     sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
                         return message.box === "inbox";
                     }).length;
@@ -307,8 +317,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
-                },
-                error: function(xhr, textStatus, thrownError){
+                } else {
                     if ($.isFunction(callback)) {
                         callback(false, {});
                     }
@@ -330,6 +339,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                     newMsg.from = {
                         name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
                         picture: sakai_util.constructProfilePicture(userFrom),
+                        connectionState: userFrom["sakai:state"] ? userFrom["sakai:state"] : false,
                         userObj : {
                             uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
                             username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
@@ -357,7 +367,11 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
                         newMsg.toList.push(tmpUsr.name);
                         newMsg.to.push(tmpUsr);
                     });
-                    newMsg.body = sakai_util.Security.replaceURL($.trim(msg["sakai:body"].replace(/\n/gi, "<br />")));
+                    // We are adding the div to force jQuery to interpret this
+                    // as html and not a selector (in case there are no tags
+                    // in the messsage body).
+                    var bodyToAutolink = $('<div>'+msg["sakai:body"].replace(/\n/gi, "<br />")+'</div>');
+                    newMsg.body = bodyToAutolink.autolink().html();
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
                     newMsg.box = msg["sakai:messagebox"];
@@ -420,7 +434,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
             $.ajax({
                 url: url,
                 data: parameters,
-                cache: true,
+                cache: false,
                 success: function(data){
                     if (box === "inbox") {
                         sakai_user.data.me.messages.unread = data.unread;
@@ -442,7 +456,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
         },
 
         getMessage : function(id, callback){
-            var url = "/~" + sakai_user.data.me.user.userid + "/message/inbox/" + id + ".json";
+            var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
             $.ajax({
                 url: url,
                 cache: false,
@@ -470,7 +484,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * the current user
          */
         getUnreadMessagesCountOverview : function(box, callback) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,
@@ -492,7 +506,7 @@ define(["jquery", "sakai/sakai.api.user", "sakai/sakai.api.l10n", "sakai/sakai.a
          * to the current user
          */
         getUnreadMessageCount : function(box, callback, category) {
-            var url = "/~" + sakai_user.data.me.user.userid + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+            var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
             $.ajax({
                 url: url,
                 cache: false,

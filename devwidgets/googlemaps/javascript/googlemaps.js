@@ -154,7 +154,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     renderMap(success, data);
                 });
             }
-                
         };
 
         var renderMap = function(success, data){

@@ -2,10 +2,10 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../../tests/qunit/js/qunit.js",
-    "../../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../../tests/qunit/js/dev.js",
-    "../../../../../tests/qunit/js/devwidgets.js"
+    "../../../../tests/qunit/js/qunit.js",
+    "../../../../tests/qunit/js/sakai_qunit_lib.js",
+    "../../../../tests/qunit/js/dev.js",
+    "../../../../tests/qunit/js/devwidgets.js"
     ], 
     function($, sakai) {
 
@@ -36,7 +36,7 @@ require(
                          (
                              regex.test(str) ||
                              (
-                                 templateRegex(str) &&
+                                 templateRegex.test(str) &&
                                  !(
                                      regex.test(str) ||
                                      templateStartAlphaRegex.test(str) ||
@@ -48,7 +48,7 @@ require(
                          // allow numbers to be non-internationalized
                          !alpha.test(str) ||
                          urlRegex.test(str) ||
-                         requireRegex(str)
+                         requireRegex.test(str)
                      );
          };
 

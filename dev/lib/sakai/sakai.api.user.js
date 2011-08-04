@@ -32,13 +32,16 @@
  * Advanced user related functionality, especially common actions
  * that originate from a logged in user.
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.util",
-        "/dev/configuration/config.js"],
-        function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
+        "config/config_custom"
+    ],
+    function($, sakai_serv, sakai_l10n, sakai_i18n, sakai_util, sakai_conf) {
 
     var sakaiUserAPI = {
         data : {
@@ -67,7 +70,6 @@ define(["jquery",
                 "lastName": lastName,
                 "email": email,
                 ":name": username,
-                ":sakai:pages-template": "/var/templates/site/" + sakai_conf.defaultUserTemplate,
                 ":sakai:profile-import": $.toJSON(profileData)
             };
             for (var i in extraOptions) {
@@ -158,7 +160,7 @@ define(["jquery",
         },
 
         getUser: function(userid, callback){
-            var authprofileURL = "/~" + userid + "/public/authprofile.profile.json";
+            var authprofileURL = "/~" + sakai_util.urlSafe(userid) + "/public/authprofile.profile.json";
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
                 if (success && data) {
                     callback(true, data);
@@ -175,6 +177,17 @@ define(["jquery",
         getMultipleUsers: function(userArray, callback){
             var uniqueUserArray = [];
 
+            // callback function for response from batch request
+            var bundleReqFunction = function(success, reqData){
+                var users = {};
+                for (var j in reqData.responseId) {
+                    if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                        users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
+                    }
+                }
+                callback(users);
+            };
+
             for (var i in userArray) {
                 if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
                     uniqueUserArray.push(userArray[i]);
@@ -183,24 +196,11 @@ define(["jquery",
             for (var ii in uniqueUserArray) {
                 if (uniqueUserArray.hasOwnProperty(ii)) {
                     sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
-                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile",
+                        "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
-                    });
+                    }, bundleReqFunction);
                 }
             }
-
-            // bind response from batch request
-            $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
-                if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
-                    var users = {};
-                    for (var j in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
-                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
-                        }
-                    }
-                    callback(users);
-                }
-            });
         },
 
         /**
@@ -576,17 +576,19 @@ define(["jquery",
 
         acceptContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.accept.html",
+                url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.accept.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
                 },
                 success: function(data) {
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "ACCEPTED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact){
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "ACCEPTED";
+                            }
+                        });
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -605,19 +607,21 @@ define(["jquery",
 
         ignoreContactInvite : function(inviteFrom, callback) {
             $.ajax({
-                url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.ignore.html",
+                url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.ignore.html",
                 type: "POST",
                 data: {
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "IGNORED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "IGNORED";
+                            }
+                        });
+                    }
                     $.ajax({
-                        url: "/~" + sakaiUserAPI.data.me.user.userid + "/contacts.remove.html",
+                        url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.remove.html",
                         type: "POST",
                         data: {
                             "targetUserId": inviteFrom
@@ -661,7 +665,7 @@ define(["jquery",
         parseDirectory : function(profile){
             var obj = {"elements":[]};
             if (profile.main.data["sakai:tags"] && profile.main.data["sakai:tags"].length > 0) {
-                profile.main.data["sakai:tags"].sort(sakai_util.orderTagsAlphabetically);
+                profile.main.data["sakai:tags"].sort(sakai_util.Sorting.naturalSort);
                 for (var i in profile.main.data["sakai:tags"]) {
                     if (profile.main.data["sakai:tags"].hasOwnProperty(i)) {
                         var tag = profile.main.data["sakai:tags"][i] + "";
@@ -740,7 +744,7 @@ define(["jquery",
             }
 
             if (progressData !== ""){
-                var authprofileURL = "/~" + me.user.userid + "/public/authprofile/userprogress";
+                var authprofileURL = "/~" + sakai_util.urlSafe(me.user.userid) + "/public/authprofile/userprogress";
                 sakai_serv.saveJSON(authprofileURL, progressData, function(success, data){
                     // Check whether save was successful
                     if (success && refresh) {
@@ -753,7 +757,7 @@ define(["jquery",
 
         getUpdatedCounts : function(medata, callback) {
             $.ajax({
-                url: medata.profile.homePath + "/public/authprofile.json",
+                url: medata.profile.homePath + "/public/authprofile.profile.json",
                 success: function(profile){
                     medata.profile.counts = profile.counts;
                     if ($.isFunction(callback)){

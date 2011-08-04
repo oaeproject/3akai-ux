@@ -26,7 +26,7 @@
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
 .mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
 .mymemberships_item_right_buttons{display: inline-block;float:right;}
-.mymemberships_item_message_icon{height: 16px;width: 16px;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;float:right;}
+.mymemberships_item_message_icon{float:right;}
 .mymemberships_item_edit {display:block;margin:30px 0 10px 10px;}
 .mymemberships_item_usedin{font-size: 11px;padding:3px 0;}
 .mymemberships_item_detail_separator {color:#cccccc;padding: 0 5px;}
@@ -38,9 +38,7 @@
 .mymemberships_item_anonuser{display:inline;float:left;height:15px;width:15px;}
 .mymemberships_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .mymemberships_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
-.mymemberships_item:hover .mymemberships_item_plus{cursor:pointer;color:#42a2dc;}
-.mymemberships_item:hover {background-color: #f2f9fc;}
-.mymemberships_item:hover .mymemberships_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
+.mymemberships_item:hover {background-color:#f2f9fc;}
 
 .mymemberships_item .sakai_joingroup_overlay {float: left; margin-right: 10px;}
 

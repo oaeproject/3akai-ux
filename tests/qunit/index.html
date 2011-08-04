@@ -2,10 +2,10 @@
 <html>
     <head>
         <title>Sakai 3 Javascript QUnit Test Suite</title>
-        <link rel="stylesheet" type="text/css" href="/dev/css/FSS/fss-base.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="/tests/qunit/css/sakai_qunit_runner.css" />
-        <script data-main="../../tests/qunit/js/sakai.testdependencies.js" src="../../dev/lib/jquery/require.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../dev/css/FSS/fss-base.css" />
+        <link rel="stylesheet" type="text/css" href="../../dev/css/sakai/sakai.base.css" />
+        <link rel="stylesheet" type="text/css" href="../../tests/qunit/css/sakai_qunit_runner.css" />
+        <script data-main="../../tests/qunit/js/sakai.runnerdependencies.js" src="../../dev/lib/jquery/require.js"></script>
     </head>
     <body class="fl-centered fl-container">
         <div class="fl-container-flex">
@@ -16,7 +16,7 @@
         </div>
         <div class="fl-container-flex">
             <div class="fl-fix fl-centered fixed-container">
-                <div id="show_list"><a href="javascript:;" class="s3d-action">Hide Tests</a></div>
+                <div id="show_list"><button class="s3d-button">Hide Tests</button></div>
                 <div id="tests_list">
                     <h1>Unit Tests</h1>
                     <hr/>
@@ -51,10 +51,9 @@
                         <li><a href="tests/integration/search.html" class="s3d-action test integration">Search</a></li>
                         <li><a href="tests/integration/tagging.html" class="s3d-action test integration">Tagging</a></li>
                     </ul>
-                    </ul>
-                    <h2><a href="javascript:;" id="run_all_unit" class="s3d-action">Run all unit tests on this page</a></h2>
-                    <h2><a href="javascript:;" id="run_all_integration" class="s3d-action">Run all integration tests on this page</a></h2>
-                    <h2><a href="javascript:;" id="run_all" class="s3d-action">Run all tests on this page</a></h2>
+                    <button id="run_all_unit" class="s3d-button">Run all unit tests on this page</button>
+                    <button id="run_all_integration" class="s3d-button">Run all integration tests on this page</button>
+                    <button id="run_all" class="s3d-button">Run all tests on this page</button>
                 </div>
                 <div id="run_all_results" style="display:none" class="fl-container-flex">
                     <div id="run_all_results_status" class="fl-container-flex">

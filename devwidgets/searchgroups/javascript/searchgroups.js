@@ -153,14 +153,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (success) {
 
                 // Adjust display global total
-                // If number is higher than a configurable threshold show a word instead conveying ther uncountable volume -- TO DO: i18n this
-                if ((results.total <= sakai.config.Search.MAX_CORRECT_SEARCH_RESULT_COUNT) && (results.total >= 0)) {
-                    $(searchConfig.global.numberFound, rootel).text("" + results.total);
-                } else if (results.results.length <= 0) {
-                    $(searchConfig.global.numberFound, rootel).text(0);
-                } else {
-                    $(searchConfig.global.numberFound, rootel).text($(searchConfig.global.resultExceed, rootel).html());
-                }
+                $(searchConfig.global.numberFound, rootel).text("" + results.total);
 
                 // Reset the pager.
                 $(searchConfig.global.pagerClass, rootel).pager({
@@ -184,6 +177,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 results.total = Math.abs(results.total);
                 if (results.total > resultsToDisplay) {
                     $(searchConfig.global.pagerClass, rootel).show();
+                } else {
+                    $(searchConfig.global.pagerClass, rootel).hide();
                 }
             }
 

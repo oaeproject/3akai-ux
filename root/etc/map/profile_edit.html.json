@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/profile/edit',
-  'sling:internalRedirect': '/dev/profile_edit.html'
-}

@@ -32,7 +32,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $errorPageLinksTemplate = $("#error_page_links_template");
         var $errorPageLinksContainer = $("#error_page_links_container");
-        var $goback = $("#error_goback");
         var $searchinput = $("#errorsearch_text");
 
         var doInit = function(){
@@ -44,7 +43,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
-            
+
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
@@ -67,11 +66,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
             if (sakai.data.me.user.anon){
-                
+
                 $signinbuttonwrapper.show();
                 $signinbutton.live("click", forceLoginOverlay);
                 $signinfromcontent.live("click", forceLoginOverlay);
-                
+
                 $('html').addClass("requireAnon");
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(pageNotFoundErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
@@ -95,16 +94,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(pageNotFoundError).append(renderedTemplate);
                 $("#page_not_found_error").addClass("error_page_bringdown");
             }
-            $goback.click(function(){
-                window.history.go(-1);
-            });
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
                     document.location = "/search#q=" + $.trim($searchinput.val());
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
+            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("PAGE_NOT_FOUND");
         };
 
         var forceLoginOverlay = function(){
@@ -115,6 +111,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
 
     };
-    sakai.api.Widgets.Container.registerForLoad("nopermissions");    
+    sakai.api.Widgets.Container.registerForLoad("nopermissions");
 });
 

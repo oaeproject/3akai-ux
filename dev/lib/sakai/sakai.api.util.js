@@ -28,15 +28,17 @@
  * @namespace
  * General utility functions
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
-        "/dev/configuration/config.js",
-        "/dev/configuration/config_custom.js",
-        "/dev/lib/misc/trimpath.template.js",
-        "/dev/lib/jquery/plugins/jquery.ba-bbq.js"],
-        function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
-    
+        "config/config_custom",
+        "misc/trimpath.template",
+        "jquery-plugins/jquery.ba-bbq"
+    ],
+    function($, sakai_serv, sakai_l10n, sakai_conf) {
+
     var sakai_util = {
 
         startup : function(meData) {
@@ -434,6 +436,46 @@ define(["jquery",
             var dotted = $container.children("span").text();
             $container.remove();
             return (dotted);
+        },
+
+        /**
+         * Search for and replace parameters in a template (replaces both keys and properties)
+         * primarily used for making unique IDs for the group/course templates in config.js
+         *
+         * @param {Object} variables The variables to replace in the template with, ie. "groupid"
+         * @param {Object} replaceIn The object to modify
+         * @return {Object} the template structure with replaced variables
+         */
+        replaceTemplateParameters : function(variables, replaceIn) {
+            var loopAndReplace = function(structure, variable, replace) {
+                var toReplace = "${" + variable + "}";
+                var regex = new RegExp("\\$\\{" + variable + "\\}", 'g');
+                for (var i in structure) {
+                    if (structure.hasOwnProperty(i)) {
+                        if (_.isString(structure[i]) && structure[i].indexOf(toReplace) !== -1) {
+                            structure[i] = structure[i].replace(regex, replace);
+                        } else if ($.isPlainObject(structure[i])) {
+                            structure[i] = loopAndReplace(structure[i], variable, replace);
+                        } else if (_.isArray(structure[i])) {
+                            $.each(structure[i], function(j, elt) {
+                                structure[i][j] = loopAndReplace(elt, variable, replace);
+                            });
+                        }
+                        if (i.indexOf(toReplace) !== -1) {
+                            var newKey = i.replace(regex, replace);
+                            structure[newKey] = structure[i];
+                            delete structure[i];
+                        }
+                    }
+                }
+                return structure;
+            };
+
+            $.each(variables, function(variable,value) {
+                replaceIn = loopAndReplace(replaceIn, variable, value);
+            });
+
+            return replaceIn;
         },
 
         /**
@@ -922,7 +964,6 @@ define(["jquery",
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
-            $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
                     sakai_util.include.css(val);
@@ -934,7 +975,7 @@ define(["jquery",
         getPageContext : function() {
             if (sakai_global.content_profile) {
                 return "content";
-            } else if (sakai_global.group || sakai_global.group2 || sakai_global.groupedit) {
+            } else if (sakai_global.group || sakai_global.groupedit) {
                 return "group";
             } else if (sakai_global.directory) {
                 return "directory";
@@ -1218,6 +1259,35 @@ define(["jquery",
          */
 
         /**
+         * A version of encodeURIComponent that does not encode i18n characters
+         * when using utf8.  The javascript global encodeURIComponent works on
+         * the ascii character set, meaning it encodes all the reserved characters
+         * for URI components, and then all characters above Char Code 127. This
+         * version uses the regular encodeURIComponent function for ascii
+         * characters, and passes through all higher char codes.
+         *
+         * At the time of writing I couldn't find a version with these symantics
+         * (which may or may not be legal according to various RFC's), but this
+         * implementation can be swapped out with one if it presents itself.
+         *
+         * @param {String} String to be encoded.
+         * @returns Encoded string.
+         */
+        urlSafe: function(str) {
+            // First, ensure that the incoming value is treated as a string.
+            str = "" + str;
+            var togo="";
+            for (var i = 0; i < str.length; i++) {
+                if (str.charCodeAt(i) < 127) {
+                    togo += encodeURIComponent(str[i]);
+                } else {
+                    togo += str[i];
+                }
+            }
+            return togo;
+        },
+
+        /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
          * we avoid having to parse the same template over and over again.
          */
@@ -1272,23 +1342,37 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.log("TemplateRenderer: parsing failed: " + e);
+                        debug.error("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
+                    debug.error("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
+
+            /* A grep of the code base indicates no one is using _MODIFIERS at
+             * the moment.
+             */
+            if (templateData._MODIFIERS) {
+                debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
+            }
+            templateData._MODIFIERS = {
+                urlSafe: function(str) {
+                    return sakai_util.urlSafe(str);
+                }
+            };
 
             // Run the template and feed it the given JSON object
             var render = "";
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
+                debug.error("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
+
+            delete templateData._MODIFIERS;
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
@@ -1373,7 +1457,7 @@ define(["jquery",
                             }
                         }
                     } catch (err){
-                        debug.log("Error occured when decoding URI Component");
+                        debug.error("Error occured when decoding URI Component");
                     }
 
                     return url;
@@ -1397,6 +1481,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
+                html4.ATTRIBS["button::sakai-entitypicture"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
@@ -1569,7 +1654,96 @@ define(["jquery",
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
         },
-        
+
+        /**
+         * Make a unique URL, given a primary and secondary desired url
+         * and a structure passed in to ensure uniqueness of the key.
+         * The first argument will be used as the primary URL, and used if possible.
+         * The second argument will be used if passed, but if none of these work,
+         * or if the second argument isn't passed and the first argument doesn't work,
+         * the first argument will be appended with '0', '1', etc until a unique
+         * key for the structure is found. That string will be returned.
+         *
+         * @param {String} desiredURL The URL (or object key) you'd like to use first
+         * @param {String} secondaryURL The URL (or orject key) that you'd like to use as
+         *                  a backup in case the desiredURL isn't available. Pass null here
+         *                  if you want to use the number-append feature
+         * @param {Object} structure The structure to test against its top-level keys for
+         *                  uniqueneness of the URL/key
+         */
+        makeUniqueURL : function(desiredURL, secondaryURL, structure) {
+            desiredURL = sakai_util.makeSafeURL(desiredURL);
+            if (!structure[desiredURL]) {
+                return desiredURL;
+            } else if (secondaryURL && !structure[secondaryURL]) {
+                return secondaryURL;
+            } else {
+                var ret = "",
+                    count = 0;
+                while (ret === "") {
+                    if (!structure[desiredURL + count]) {
+                        ret = desiredURL + count;
+                    }
+                    count++;
+                }
+                return ret;
+            }
+        },
+
+        /**
+         * Sets up events to hide a dialog when the user clicks outside it
+         *
+         * @param elementToHide {String} a jquery selector, jquery object, dom element, or array thereof containing the element to be hidden, clicking this element or its children won't cause it to hide
+         * @param ignoreElements any elements that match a jquery.is(ignoreElements) will not hide the target element when clicked
+         * @param callback {function} a function to be called instead of the default jquery.hide()
+         */
+        hideOnClickOut : function(elementToHide, ignoreElements, callback) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                if (! $.isArray(elementToHide)){
+                    elementToHide = [elementToHide];
+                }
+                $.each(elementToHide, function(index, el){
+                    if (el instanceof jQuery){
+                        $el = el;
+                    } else {
+                        $el = $(el);
+                    }
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
+                        if ($.isFunction(callback)){
+                            callback();
+                        } else {
+                            $el.hide();
+                        }
+                    }
+                });
+            });
+        },
+
+        /**
+         * Extracts the entity ID from the URL
+         * also handles encoded URLs
+         * Example:
+         *   input: "/~user1"
+         *   return: "user1"
+         * Encoded Exmaple:
+         *   input: "/%7E%D8%B4%D8%B3"
+         *   return: "شس"
+         *
+         * @param {String} pathname The window.location.pathname
+         * @return {String} The entity ID
+         */
+        extractEntity : function(pathname) {
+            var entity = null;
+            if (pathname.substring(1,4) === "%7E") {
+                pathname = pathname.replace("%7E", "~");
+            }
+            if (pathname.substring(0,2) === "/~") {
+                entity = decodeURIComponent(pathname.substring(2));
+            }
+            return entity;
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
@@ -1617,7 +1791,7 @@ define(["jquery",
                             }
                         }, searchoptions);
                     }
-                }
+                };
                 var opts = $.extend(defaults, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 element = (element instanceof jQuery) ? element:$(element);
