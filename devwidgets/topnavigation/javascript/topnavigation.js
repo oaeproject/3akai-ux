@@ -441,7 +441,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // Navigation hover binding
-            $(hasSubnav).hover(function(){
+            var openMenu = function(){
                 var $li = $(this);
                 $li.removeClass("topnavigation_close_override");
                 $li.children(subnavtl).show();
@@ -450,11 +450,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var pos = $li.position();
                 $subnav.css("left", pos.left - 2);
                 $subnav.show();
-            }, function(){
+            };
+            var closeMenu = function(e){
+                var checkForFocus = function($element){
+                    var elemtentWithFocus = false;
+                    $.each($element, function(index, el){
+                        if (el instanceof jQuery){
+                            $el = el;
+                        } else {
+                            $el = $(el);
+                        }
+                        if ($el.is(":focus")){
+                            elemtentWithFocus = true;
+                        } else if ($el.children().size() > 0 && !elemtentWithFocus){
+                            elemtentWithFocus = checkForFocus($el.children());
+                        }
+                    });
+                    return elemtentWithFocus;
+                };
                 var $li = $(this);
-                $li.children(subnavtl).hide();
-                $li.children(navLinkDropdown).hide();
-            });
+                var $target = $(e.target);
+
+                // check if focus is on a child element
+                var $children = $li.children();
+
+                var hasFocus = checkForFocus($li);
+
+                if (!hasFocus && !$.contains($li.get(0), $target.get(0))) {
+                    $li.children(subnavtl).hide();
+                    $li.children(navLinkDropdown).hide();
+                }
+            }
+
+            $(hasSubnav).hover(openMenu, closeMenu);
+            $(hasSubnav).focusin(openMenu);
+            $(hasSubnav).focusout(closeMenu);
 
             // hide the menu after an option has been clicked
             $(hasSubnav + " a").live("click", function(){
