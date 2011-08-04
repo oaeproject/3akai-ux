@@ -465,8 +465,6 @@ define(
                                 $(window).trigger("updated.messageCount.sakai");
                             }, false);
                         });
-                        // sakai_user.data.me.messages.unread = data.unread;
-
                     }
                     if (doProcessing !== false) {
                         data.results = sakaiCommunicationsAPI.processMessages(data.results, doFlip);
@@ -551,7 +549,10 @@ define(
                     success: function(data){
                         var count = 0;
                         if (category){
-                            // {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                            /*
+                             * Data format for this return is:
+                             * {"count":[{"group":"message","count":3},{"group":"invitation","count":2}]}
+                             */
                             if (data.count && data.count.length){
                                 for (var i = 0; i < data.count.length; i++){
                                     if (data.count[i].group && data.count[i].group === category && data.count[i].count){
@@ -559,10 +560,8 @@ define(
                                     }
                                 }
                             }
-                        } else {
-                            if (data.count && data.count[0] && data.count[0].count) {
-                                count = data.count[0].count;
-                            }
+                        } else if (data.count && data.count[0] && data.count[0].count) {
+                            count = data.count[0].count;
                         }
                         if (box === "inbox") {
                             sakai_user.data.me.messages.unread = count;
