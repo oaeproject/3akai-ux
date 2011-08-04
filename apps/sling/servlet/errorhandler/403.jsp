@@ -89,7 +89,7 @@ response.setStatus(403);
                     </div>
                 </div>
                 <div id="error_content_first_column">
-                    <img src="/dev/images/403_sinking.png" alt="403 sinking" />
+                    <img src="/dev/images/403_sinking.png" alt="__MSG__YOU_ARE_NOT_ALLOWED_TO_SEE_THIS_PAGE__" />
                     <div id="error_content_first_column_content">
                         <h1>__MSG__YOU_ARE_NOT_ALLOWED_TO_SEE_THIS_PAGE__</h1>
                         <h3 class="first">__MSG__YOU_TRIED_TO_ACCESS_PAGE_WITHOUT_PERMISSIONS__</h3>

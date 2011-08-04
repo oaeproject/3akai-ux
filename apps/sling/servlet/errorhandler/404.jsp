@@ -89,7 +89,7 @@ response.setStatus(404);
                     </div>
                 </div>
                 <div id="error_content_first_column">
-                    <img src="/dev/images/404_sinking.png" alt="404 sinking" />
+                    <img src="/dev/images/404_sinking.png" alt="__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__" />
                     <div id="error_content_first_column_content">
                         <h1>__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</h1>
                         <h3 class="first">__MSG__POSSIBLE_REASONS_FOR_THE_PAGE_NOT_BEING_FOUND__</h3>
