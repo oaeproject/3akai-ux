@@ -134,7 +134,7 @@
                     {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
                         <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
                     {elseif !sakai.data.me.user.anon}
-                        {if !a.connected}
+                        {if !a.connected && sakai.data.me.user.userid !== a.profile.userid}
                             <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" {if a.profile.picture}sakai-entitypicture="${a.profile.picture}"{/if}></button>
                             <div class="left_filler" id="left_filler_${a.profile.userid}" style="display:none;"></div>
                         {else}
