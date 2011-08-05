@@ -537,7 +537,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:description": "",
                 "sakai:permissions": permission,
                 "sakai:copyright": "creativecommons",
-                "sakai:custom-mimetype": "x-sakai/document"
+                "mimeType": "x-sakai/document"
             };
 
             // Prepare Sakai Doc
