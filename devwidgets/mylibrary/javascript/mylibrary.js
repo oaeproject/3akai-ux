@@ -352,7 +352,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             }
                             $.each(data.results, function(i, result){
-                                var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"] || result["sakai:custom-mimetype"]);
+                                var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);
                                 items.push({
                                     id: result["_path"],
                                     filename: result["sakai:pooled-content-file-name"],
@@ -367,7 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     numGroupsUsing: getNumGroupsUsing(),
                                     numPlaces: sakai.api.Content.getPlaceCount(result),
                                     numComments: sakai.api.Content.getCommentCount(result),
-                                    mimeType: result["_mimeType"] || result["sakai:custom-mimetype"],
+                                    mimeType: result["_mimeType"],
                                     thumbnail: sakai.api.Content.getThumbnail(result),
                                     description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
                                         max_rows: 1,
