@@ -82,5 +82,5 @@
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
-.topnavigation_explore .s3d-dropdown-menu a:focus, #topnavigation_user_options_login:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
+.topnavigation_explore .s3d-dropdown-menu a:focus, .topnavigation_user_container a:focus, #topnavigation_user_options_login:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}

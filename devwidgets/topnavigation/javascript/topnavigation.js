@@ -444,7 +444,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // Navigation hover binding
+            var mouseOverSubMenu = false;
+            var closeMenu = function(e){
+                if ($openMenu.length){
+                    $openMenu.children("a").removeClass(topnavigationForceSubmenuDisplayTitle);
+                    $openMenu.children(subnavtl).hide();
+                    $openMenu.children(navLinkDropdown).hide();
+                    $openMenu = false;
+                }
+            };
             var openMenu = function(){
+                // close another sub menu if ones open
+                closeMenu();
+
                 var $li = $(this);
                 $openMenu = $li;
                 $li.removeClass("topnavigation_close_override");
@@ -455,51 +467,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $subnav.css("left", pos.left - 2);
                 $subnav.show();
             };
-            var closeMenu = function(e){
-                var checkForFocus = function($element){
-                    var elemtentWithFocus = false;
-                    $.each($element, function(index, el){
-                        if (el instanceof jQuery){
-                            $el = el;
-                        } else {
-                            $el = $(el);
-                        }
-                        if ($el.is(":focus")){
-                            elemtentWithFocus = true;
-                        } else if ($el.children().size() > 0 && !elemtentWithFocus){
-                            elemtentWithFocus = checkForFocus($el.children());
-                        }
-                    });
-                    return elemtentWithFocus;
-                };
-                var $li = $(this);
-                var $target = $(e.target);
 
-                // check if focus is on a child element
-                var hasFocus = checkForFocus($li);
+            $(hasSubnav).hover(openMenu, closeMenu);
 
-                if (!hasFocus && !$.contains($li.get(0), $target.get(0))) {
-                    $li.children(subnavtl).hide();
-                    $li.children(navLinkDropdown).hide();
+            $(hasSubnav + " a").bind("focus",function(){
+                if ($(this).parent().hasClass("hassubnav")) {
+                    $(this).trigger("mouseover");
+                    $(this).parents(".s3d-dropdown-menu").children("a").addClass(topnavigationForceSubmenuDisplayTitle);
                 }
-            };
-
-            $(hasSubnav).hover(openMenu/*, closeMenu*/);
-            $(hasSubnav).focusin(openMenu);
-            //$(hasSubnav).focusout(closeMenu);
-
-            $('body').focusin(function(e) {
-                var openMenuId = $openMenu.children("div").attr("id");
-                if ($selectedMenu) {
-                    var selectedMenuId = $selectedMenu.children("div").attr("id");
-                }
-                if (selectedMenuId && (selectedMenuId !== openMenuId || $(e.target).parent(".topnavigation_user_container").length || $(e.target).attr("id") === "topnavigation_search_input")){
-                    $selectedMenu.children(subnavtl).hide();
-                    $selectedMenu.children(navLinkDropdown).hide();
-                }
-                $selectedMenu = $openMenu;
             });
-
 
             // hide the menu after an option has been clicked
             $(hasSubnav + " a").live("click", function(){
@@ -630,6 +606,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
+                if (!mouseOverSubMenu) {
+                    closeMenu();
+                }
             });
 
             $(topnavUserLoginButton).bind("focus",function(){
@@ -639,8 +618,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(topnavigationlogin).addClass(topnavigationForceSubmenuDisplayTitle);
             });
 
-            $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
+            $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container").bind("focus",function(evt){
                 mouseOverSignIn = false;
+                mouseOverSubMenu = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
             });
