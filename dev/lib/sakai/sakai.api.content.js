@@ -586,8 +586,6 @@ define(
             var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
-            } else if (content['sakai:custom-mimetype']){
-                mimeType = content['sakai:custom-mimetype'];
             }
             return mimeType;
         },
