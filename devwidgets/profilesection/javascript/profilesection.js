@@ -320,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 $profilesection_generalinfo.html(sakai.api.Security.saneHTML(sakai.api.i18n.General.process(generalinfo, sakai.data.me)));
                 $(".profile-section-save-button", $rootel).hide();
             }
-            $(window).trigger("ready.profilesection.sakai", $rootel.attr("id"));
+            $(window).trigger("ready.profilesection.sakai", [$rootel.attr("id"), profilesection]);
         };
 
         var renderAdditionalTemplateEditSection = function(profilesection, $parentSection, addLink, value) {
@@ -374,7 +374,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 sakai: sakai
             };
             $(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me)).insertAfter($newSection);
-            $(window).trigger("ready.profilesection.sakai", $rootel.attr("id"));
+            $(window).trigger("ready.profilesection.sakai", [$rootel.attr("id"), profilesection]);
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {

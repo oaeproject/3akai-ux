@@ -523,11 +523,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /**
          * Add binding to the profile form
          */
-        var addBindingForm = function(e, sectionid){
+        var addBindingForm = function(e, sectionid, profilesection){
+            // Get the error messages for form elements
+            var messages = {};
+            if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.config && sakai_global.profile.main.config[profilesection]){
+                for (var i in sakai_global.profile.main.config[profilesection].elements){
+                    if (sakai_global.profile.main.config[profilesection].elements.hasOwnProperty(i)
+                        && sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
+                        var formKey = profilesection + "_elements_" + i;
+                        var errorKey = sakai_global.profile.main.config[profilesection].elements[i].errorMessage;
+                        messages[formKey] = sakai.api.i18n.General.getValueForKey(errorKey.substr(7, errorKey.length - 9));
+                    }
+                }
+            }
+
             // Reinitialize the jQuery form selector
             var $profile_form = $("#profile_form_" + sectionid);
             // Initialize the validate plug-in
             $profile_form.validate({
+                messages: messages,
                 submitHandler: function(form) {
                     $(".profile-section-save-button").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
