@@ -470,6 +470,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             $(hasSubnav).hover(openMenu, closeMenu);
 
+            // remove focus of menu item if mouse is used
+            $(hasSubnav + " div").find("a").hover(function(){
+                if ($openMenu.length) {
+                    $openMenu.find("a").blur();
+                }
+            });
+
             $(hasSubnav + " a").bind("focus",function(){
                 if ($(this).parent().hasClass("hassubnav")) {
                     $(this).trigger("mouseover");
