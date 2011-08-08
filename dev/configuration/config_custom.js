@@ -115,7 +115,7 @@ define(["config/config"], function(config) {
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "Example: Departmental address & room / College addres & room / Personal address"
+                        "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
                     "secondary_contact_phone": {
                         "label": "Secondary phone",
@@ -141,7 +141,7 @@ define(["config/config"], function(config) {
                         "required": false,
                         "display": true,
                         "type": "textarea",
-                        "example": "Example: Departmental address & room / College addres & room / Personal address"
+                        "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
                     "tertiary_contact_phone": {
                         "label": "Tertiary phone",
@@ -492,7 +492,7 @@ define(["config/config"], function(config) {
                 }
             },
             manufacturingmanagement: {
-                title: "Manufactoring and Management",
+                title: "Manufacturing and Management",
                 children: {
                     distributedinformationautomationlaboratory: {
                         title: "Distributed Information and Automation Laboratory"
