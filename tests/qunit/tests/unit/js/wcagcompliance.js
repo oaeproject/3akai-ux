@@ -43,9 +43,8 @@ require(
             if (divHtml.substr(0, 5) === "<!--\n" && divHtml.substr(divHtml.length - 4, divHtml.length) === "\n-->") {
                 // this is a javascript template, check the elements in the template
                 var templateData = divHtml.substr(5, divHtml.length - 4);
-                templateData = templateData.replace(/\s*\{[^}]*\}/g, '');
                 var div = document.createElement('div');
-                div.innerHTML = templateData;
+                div.innerHTML = templateData.replace(/\s*\{[^}]*\}/g, '');
                 checkElements($(div), false);
             }
         });
