@@ -1274,6 +1274,8 @@ define(
          * @returns Encoded string.
          */
         urlSafe: function(str) {
+            // First, ensure that the incoming value is treated as a string.
+            str = "" + str;
             var togo="";
             for (var i = 0; i < str.length; i++) {
                 if (str.charCodeAt(i) < 127) {
@@ -1707,7 +1709,7 @@ define(
                     } else {
                         $el = $(el);
                     }
-                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements))){
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
                         if ($.isFunction(callback)){
                             callback();
                         } else {
@@ -1716,6 +1718,30 @@ define(
                     }
                 });
             });
+        },
+
+        /**
+         * Extracts the entity ID from the URL
+         * also handles encoded URLs
+         * Example:
+         *   input: "/~user1"
+         *   return: "user1"
+         * Encoded Exmaple:
+         *   input: "/%7E%D8%B4%D8%B3"
+         *   return: "شس"
+         *
+         * @param {String} pathname The window.location.pathname
+         * @return {String} The entity ID
+         */
+        extractEntity : function(pathname) {
+            var entity = null;
+            if (pathname.substring(1,4) === "%7E") {
+                pathname = pathname.replace("%7E", "~");
+            }
+            if (pathname.substring(0,2) === "/~") {
+                entity = decodeURIComponent(pathname.substring(2));
+            }
+            return entity;
         },
 
         AutoSuggest: {

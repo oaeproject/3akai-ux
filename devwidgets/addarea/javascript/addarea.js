@@ -124,9 +124,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             selectedSakaiDoc = false;
             selectedCanManage = false;
             checkExistingReady();
-            var url = "/var/search/pool/all.infinity.json";
+            var url = "/var/search/pool/all.0.json";
             if (!query){
-                url = "/var/search/pool/all-all.infinity.json";
+                url = "/var/search/pool/all-all.0.json";
             }
             sakai.api.Server.loadJSON(url,
                 function(success, data){

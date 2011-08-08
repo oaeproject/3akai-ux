@@ -177,6 +177,17 @@ define(
         getMultipleUsers: function(userArray, callback){
             var uniqueUserArray = [];
 
+            // callback function for response from batch request
+            var bundleReqFunction = function(success, reqData){
+                var users = {};
+                for (var j in reqData.responseId) {
+                    if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                        users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
+                    }
+                }
+                callback(users);
+            };
+
             for (var i in userArray) {
                 if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
                     uniqueUserArray.push(userArray[i]);
@@ -187,22 +198,9 @@ define(
                     sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
                         "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
-                    });
+                    }, bundleReqFunction);
                 }
             }
-
-            // bind response from batch request
-            $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
-                if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
-                    var users = {};
-                    for (var j in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
-                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
-                        }
-                    }
-                    callback(users);
-                }
-            });
         },
 
         /**

@@ -30,7 +30,7 @@ strong{color:#000;}
 
 /* SEARCH RESULTS TITLE */
 .searchpeople_result_title{text-align:center;font-size:1.1em;color:#6d6d6d;padding:0;}
-.searchpeople_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;}
+.searchpeople_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;width:712px;}
 .searchpeople_selects{float:right;}
 .search_sortby{margin-left:10px;}
 .searchpeople_selects div{display:inline !important;}

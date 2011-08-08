@@ -79,9 +79,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Update page counts //
         ////////////////////////
 
-        var updateCounts = function(pageid, value){
+        var updateCounts = function(pageid, value, add){
             // Adjust the count value by the specified value for the page ID
-
+            if (add !== false) {
+                add = true;
+            }
             var subpage = false;
             if (pageid.indexOf("/") !== -1){
                 var parts = pageid.split("/");
@@ -102,7 +104,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     listitem = $(listitem + pageid + "']");
                     element = ".lhnavigation_levelcount";
                 }
-                count._count = (count._count || 0) + value;
+                if (add) {
+                    count._count = (count._count || 0) + value;
+                } else {
+                    count._count = value;
+                }
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
                     if (count._count <= 0){
@@ -505,10 +511,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#lhnavigation_submenu").hide();
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
-                if (additionalOptions){
+                if (additionalOptions === "world"){
                     $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
+                } else if (additionalOptions === "user") {
+                    $("#lhnavigation_submenu li").hide();
+                    $("#lhnavigation_submenu_user_permissions_li").show();
                 } else {
                     $("#lhnavigation_submenu_profile_li").hide();
                     $("#lhnavigation_submenu_permissions_li").hide();
@@ -553,6 +562,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         //////////////////////
 
         var showAreaPermissions = function(){
+            toggleContextMenu(true);
+            $(window).trigger("permissions.area.trigger", [contextMenuHover]);
+        };
+
+        //////////////////////
+        // User permissions //
+        //////////////////////
+
+        var showUserPermissions = function(){
             toggleContextMenu(true);
             $(window).trigger("permissions.area.trigger", [contextMenuHover]);
         };
@@ -1015,6 +1033,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             showAreaPermissions();
         });
 
+        $("#lhnavigation_submenu_user_permissions").live("click", function(ev){
+            showUserPermissions();
+        });
+
         $(".lhnavigation_change_title").live("keyup", function(ev){
             if (ev.keyCode === 13 && changingPageTitle) {
                 savePageTitle();
@@ -1051,7 +1073,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             storeNavigationParameters(params);
         });
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
-            selectPage(all && all.newPageMode && all.newPageMode === "true");
+            if (!($.isEmptyObject(changed) && $.isEmptyObject(deleted))) {
+                selectPage(all && all.newPageMode && all.newPageMode === "true");
+            }
         };
         $(window).bind("hashchanged.lhnavigation.sakai", handleHashChange);
 
@@ -1059,8 +1083,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
-        $(window).bind("lhnav.updateCount", function(e, pageid, value){
-            updateCounts(pageid, value);
+        $(window).bind("lhnav.updateCount", function(e, pageid, value, add){
+            updateCounts(pageid, value, add);
         });
 
         ///////////////////////

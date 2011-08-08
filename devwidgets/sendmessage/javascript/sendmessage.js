@@ -274,6 +274,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (replyID) {
                     replyMessageID = replyID;
+                } else {
+                    replyMessageID = null;
                 }
 
                 if (buttonText) {

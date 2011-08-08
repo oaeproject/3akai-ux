@@ -394,8 +394,8 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
                           var x = $(this).position().left;
                           var y = $(this).position().top;
                           $("#widget_settings_menu", $rootel).css("left", x - $("#widget_settings_menu", $rootel).width() + 28 + "px");
-                          if ($.browser.msie) {
-                              $("#widget_settings_menu", $rootel).css("top", document.documentElement.scrollTop + y + 24 + "px");
+                          if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                             $("#widget_settings_menu", $rootel).css("top", document.documentElement.scrollTop + y + 24 + "px");
                           } else {
                               $("#widget_settings_menu", $rootel).css("top", y + 24 + "px");
                           }
