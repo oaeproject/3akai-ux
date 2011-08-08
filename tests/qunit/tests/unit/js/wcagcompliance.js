@@ -38,6 +38,10 @@ require(
             ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $("<div/>").html(elt).html());
         });
 
+        $.each($elt.find("button"), function(i, elt) {
+            ok($(elt).attr("title"), "BUTTON tag has TITLE attribute: " + $("<div/>").html(elt).html());
+        });
+
         $.each($elt.find("div"), function(i, elt) {
             var divHtml = $(elt).html();
             if (divHtml.substr(0, 5) === "<!--\n" && divHtml.substr(divHtml.length - 4, divHtml.length) === "\n-->") {
