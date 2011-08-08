@@ -153,7 +153,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
                 "anon" : sakai.data.me.user.anon,
-                "auth": auth
+                "auth": auth,
+                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
             }));
         };
 
