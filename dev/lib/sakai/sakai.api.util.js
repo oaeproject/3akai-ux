@@ -1204,34 +1204,34 @@ define(
                     var iTimeAgo = (currentDate - date) / (1000);
                     if (iTimeAgo < 60) {
                         if (Math.floor(iTimeAgo) === 1) {
-                            return Math.floor(iTimeAgo) +" " + require("sakai/sakai.api.i18n").General.getValueForKey("SECOND");
+                            return Math.floor(iTimeAgo) +" " + require("sakai/sakai.api.i18n").getValueForKey("SECOND");
                         }
-                        return Math.floor(iTimeAgo) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("SECONDS");
+                        return Math.floor(iTimeAgo) + " "+ require("sakai/sakai.api.i18n").getValueForKey("SECONDS");
                     } else if (iTimeAgo < 3600) {
                         if (Math.floor(iTimeAgo / 60) === 1) {
-                            return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTE");
+                            return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").getValueForKey("MINUTE");
                         }
-                        return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTES");
+                        return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").getValueForKey("MINUTES");
                     } else if (iTimeAgo < (3600 * 60)) {
                         if (Math.floor(iTimeAgo / (3600)) === 1) {
-                            return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOUR");
+                            return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").getValueForKey("HOUR");
                         }
-                        return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOURS");
+                        return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").getValueForKey("HOURS");
                     } else if (iTimeAgo < (3600 * 60 * 30)) {
                         if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAY");
+                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").getValueForKey("DAY");
                         }
-                        return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAYS");
+                        return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").getValueForKey("DAYS");
                     } else if (iTimeAgo < (3600 * 60 * 30 * 12)) {
                         if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTH");
+                            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").getValueForKey("MONTH");
                         }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTHS");
+                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").getValueForKey("MONTHS");
                     } else {
                         if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEAR");
+                            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").getValueForKey("YEAR");
                         }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEARS");
+                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").getValueForKey("YEARS");
                     }
                 }
                 return null;
@@ -1613,9 +1613,9 @@ define(
                 sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
-                var pageTitle = require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.prefix);
+                var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content

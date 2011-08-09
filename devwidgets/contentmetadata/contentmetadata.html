@@ -70,7 +70,7 @@
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
                 {for copyrightLabel in sakai.config.Permissions.Copyright}
-                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}</option>
+                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}</option>
                 {/for}
             </select>
         {else}
@@ -78,7 +78,7 @@
             {for copyrightLabel in sakai.config.Permissions.Copyright}
                 {if data.data["sakai:copyright"] === copyrightLabel_index}
                     <label class="content_profile_basic_info_form_anon_label">
-                        ${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}
+                        ${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}
                     </label>
                 {/if}
             {/for}

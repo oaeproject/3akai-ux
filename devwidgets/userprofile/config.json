@@ -1,5 +1,8 @@
 {
     "description":"User Profile",
+    "i18n": {
+        "default": "/devwidgets/userprofile/bundles/default.properties"
+    },
     "ca":false,
     "hasSettings":false,
     "id":"userprofile",

@@ -243,7 +243,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(commentsNumComments, rootel).html(json.total);
             // Change to "comment" or "comments"
             if (json.total === 1) {
-                $(commentsCommentComments, rootel).text(sakai.api.i18n.Widgets.getValueForKey("comments", sakai.api.User.data.me.locale, "COMMENT"));
+                $(commentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT", "comments"));
             }
 
 

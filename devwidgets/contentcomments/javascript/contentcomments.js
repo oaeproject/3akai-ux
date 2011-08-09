@@ -270,14 +270,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT"));
             }
 
-
-            // Change the page-number on the display
-    /*        $(contentcommentsPager, rootel).pager({
-                pagenumber: clickedPage,
-                pagecount: Math.ceil(json.total / widgetSettings.perPage),
-                buttonClickCallback: pagerClickHandler
-            });*/
-
             if (json.total > widgetSettings.perPage) {
                 $(contentcommentsPager, rootel).show();
             }
@@ -309,7 +301,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentcomments","","COMMENTS_AN_ERROR_OCCURRED"), " (" + xhr.status + ")",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COMMENTS_AN_ERROR_OCCURRED", "contentcomments"), " (" + xhr.status + ")",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };

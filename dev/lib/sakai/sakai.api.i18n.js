@@ -368,22 +368,27 @@ define(
          */
         getValueForKey: function(key, widgetname) {
             // Get the user's current locale from the me object
-            var currentLocale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            var locale = false;
+            if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
+                locale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            }
             // Check for i18n debug language
             //   Because the debug language has to be a valid Java locale, 
             //   we are currently using lu_GB to identify the debug language
-            if (currentLocale === "lu_GB") {
+            if (locale === "lu_GB") {
                 return key;
             } else {
                 // First check the bundle for the widget, if provided
                 if (widgetname) {
-                    // First check if the key can be found in the widget's locale bundle
-                    if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {
-                        return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
-                    } 
-                    // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
-                    else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && sakaii18nAPI.data.widgets[widgetname]["default"][key]){
-                        return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
+                    if (typeof sakaii18nAPI.data.widgets[widgetname]) {
+                        // First check if the key can be found in the widget's locale bundle
+                        if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {
+                            return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
+                        }
+                        // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
+                        else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && sakaii18nAPI.data.widgets[widgetname]["default"][key]) {
+                            return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
+                        }
                     }
                 }
                 // First check if the key can be found in the general locale bundle
@@ -402,7 +407,25 @@ define(
             }
         },
 
+        /**
+         * Utility regular expression that is used to find
+         * escaped unicode characters in translation string
+         */
+        UnicodeExpression: new RegExp("[\\][u][A-F0-9][A-F0-9][A-F0-9][A-F0-9]"),
+
+        /**
+         * Utility function that will take a translation string
+         * and replace escaped unicode characters with the actual unicode
+         * character
+         * @param {String} translation   Translation key that we want to scan for escaped unicode
+         * @return {String} Translation key where all escaped unicode characters
+         *                  have been replaced by the actual unicode character
+         */
         processUTF16ToText: function(translation){
+            while (sakaii18nAPI.UnicodeExpression.test(translation)) {
+                var replace = RegExp.lastMatch;
+                translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
+            }
             return translation;
         }
 

@@ -3,6 +3,9 @@
     "showinsakaigoodies": true,
     "groupdashboard": true,
     "description":"Group lister",
+	"i18n": {
+        "default": "/devwidgets/listpeoplewrappergroup/bundles/default.properties"
+    },
     "hasSettings": true,
     "id": "listpeoplewrappergroup",
     "img":"/devwidgets/listpeoplewrappergroup/images/icon.png",

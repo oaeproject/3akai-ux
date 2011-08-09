@@ -1,5 +1,8 @@
 {
     "grouppages":true,
+    "i18n": {
+        "default": "/devwidgets/siterecentactivity/bundles/default.properties"
+    },
     "description":"Site Recent Activity",
     "hasSettings": false,
     "id":"siterecentactivity",
