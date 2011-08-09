@@ -20,7 +20,7 @@
                     <p class="fileupload_main_option">__MSG__SELECT_ONE_OR_MORE_FILES__</p>
                     <div id="fileupload_limit_container"></div>
                 </form>
-                <p id="fileupload_add_link_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_add_link">__MSG__ADD_A_NEW_LINK__</button></p>
+                <p id="fileupload_add_link_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_add_link" title="__MSG__ADD_A_NEW_LINK__">__MSG__ADD_A_NEW_LINK__</button></p>
             </div>
             <div id="fileupload_rendered_tagging"></div>
         </div>
@@ -32,7 +32,7 @@
                     <p id="fileupload_link_input_container">
                         <input id="fileupload_link_box_input" type="text" name="fileupload_link_box_input" class="appendhttp url required"/>
                     </p>
-                    <p id="fileupload_upload_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_upload_file">__MSG__UPLOAD_A_NEW_FILE__</button></p>
+                    <p id="fileupload_upload_option">__MSG__OR_LOWER__ <button type="button" class="s3d-link-button s3d-action s3d-bold" id="fileupload_upload_file" title="__MSG__UPLOAD_A_NEW_FILE__">__MSG__UPLOAD_A_NEW_FILE__</button></p>
                 </div>
                 <div id="fileupload_rendered_tagging_link"></div>
             </form>
@@ -98,19 +98,19 @@
             <div class="dialog_buttons">
                 {if contextData.context !== "new_version"}
                     <span id="fileupload_ajax_loader" style="display:none;"><img src="/dev/images/ajax_load.gif" alt="__MSG__LOADING_PLEASE_HOLD_ON__." /></span>
-                    <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
+                    <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image" title="__MSG__DONT_ADD__">
                         <span class="s3d-button-inner">__MSG__DONT_ADD__</span>
                     </button>
 
-                    <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary">
+                    <button id="fileupload_form_submit" type="button" class="s3d-button s3d-button-primary" title="__MSG__ADD_CONTENT__">
                         <span class="s3d-button-inner">__MSG__ADD_CONTENT__</span>
                     </button>
                 {else}
-                    <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image">
+                    <button type="button" id="fileupload_cancel" class="fileupload_close s3d-button jqmClose dialog_close_image" title="__MSG__DONT_UPDATE__">
                         <span class="s3d-button-inner">__MSG__DONT_UPDATE__</span>
                     </button>
 
-                    <button type="button" id="fileupload_update_submit" class="s3d-button s3d-button-primary">
+                    <button type="button" id="fileupload_update_submit" class="s3d-button s3d-button-primary" title="__MSG__UPDATE_FILE__">
                         <span class="s3d-button-inner">__MSG__UPDATE_FILE__</span>
                     </button>
                 {/if}

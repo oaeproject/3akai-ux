@@ -86,7 +86,7 @@
 <div id="search_bottom_template" style="display:none;"><!--
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
         <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all">
-            <button class="s3d-button s3d-overlay-button">__MSG__SEE_ALL__</button>
+            <button class="s3d-button s3d-overlay-button" title="__MSG__SEE_ALL__">__MSG__SEE_ALL__</button>
         </a>
     {/if}
     <span id="topnavigation_search_results_bottom_content">
@@ -110,7 +110,7 @@
 <div id="topnavigation_user_template"><!--
     {if anon}
         <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
-            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
+            <button id="topnavigation_user_options_login" title="__MSG__SIGN_IN__">__MSG__SIGN_IN__</button>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
                 {if auth.externalAuth}
                     <ul>
@@ -134,13 +134,13 @@
                         <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" />
                         <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
                         <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" />
-                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;" title="__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
                         {if auth.Authentication.allowInternalAccountCreation}
                             <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
                             <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
                         {/if}
-                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
+                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login" title="__MSG__SIGN_IN__">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
                     </div>

@@ -147,10 +147,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Show the debug info
                     $footer_debug_info.show();
 
+                    $footer_logo.attr("title", sakai.api.i18n.Widgets.getValueForKey("footer","","HIDE_DEBUG_INFO"));
+
                 },function(){
 
                     // Hide the debug info
                     $footer_debug_info.hide();
+
+                    $footer_logo.attr("title", sakai.api.i18n.Widgets.getValueForKey("footer","","SHOW_DEBUG_INFO"));
 
                 }).addClass("footer_clickable");
 

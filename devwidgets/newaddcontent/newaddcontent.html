@@ -96,7 +96,7 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
-                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear">__MSG__CLEAR__</button>
+                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear" title="__MSG__CLEAR__">__MSG__CLEAR__</button>
                 <div id="newaddcontent_existingitems_list_container">
                     <div id="newaddcontent_existingitems_list_container_actions">
                         <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
@@ -128,12 +128,12 @@
             </div>
 
         </div>
-        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
+        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled" title="__MSG__ADD__">__MSG__ADD__</button>
     </div>
 
     <div id="newaddcontent_container_actions">
-        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled">__MSG__DONE_ADD_COLLECTED__</button>
+        <button type="button" class="s3d-link-button jqmClose s3d-bold" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled" title="__MSG__DONE_ADD_COLLECTED__">__MSG__DONE_ADD_COLLECTED__</button>
     </div>
 
     <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
@@ -162,7 +162,7 @@
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_data_actions">
-        <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes">__MSG__SAVE__</button>
+        <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">__MSG__SAVE__</button>
     </div>
 --></div>
 
@@ -186,7 +186,7 @@
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_permissions_actions">
-        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes">__MSG__SAVE__</button>
+        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">__MSG__SAVE__</button>
     </div>
 --></div>
 
@@ -213,9 +213,9 @@
                 {if item.type !== "existing"}
                     <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
                     <span class="newaddcontent_selecteditems_actions">
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit" title="__MSG__EDIT_DETAILS__">__MSG__EDIT_DETAILS__</button>
                         <span class="newaddcontent_selecteditems_split">|</span>
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions" title="__MSG__ADD_PERMISSIONS__">__MSG__ADD_PERMISSIONS__</button>
                     </span>
                 {else}
                     {if $.inArray(currentSelectedLibrary, item.viewers) !== -1 || $.inArray(currentSelectedLibrary, item.managers) !== -1}

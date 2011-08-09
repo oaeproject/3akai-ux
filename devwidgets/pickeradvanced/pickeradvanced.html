@@ -11,7 +11,7 @@
             <span class="fl-force-left">
                 <form id="pickeradvanced_content_search_form" method="post" action="#">
                     __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
-                    <button type="button" id="pickeradvanced_search_button" class="s3d-button s3d-header-button">__MSG__SEARCH__</button>
+                    <button type="button" id="pickeradvanced_search_button" class="s3d-button s3d-header-button" title="__MSG__SEARCH__">__MSG__SEARCH__</button>
                 </form>
             </span>
 
@@ -26,28 +26,28 @@
         </div>
 
         <div id="pickeradvanced_content" class="s3d-highlight_area_background">
-            <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-button s3d-link-button s3d-bold">__MSG__SELECT_ALL__</button></span></div>
+            <div id="pickeradvanced_results_header" class="fl-force-left"><span><button type="button" id="pickeradvanced_select_all_button" class="s3d-button s3d-link-button s3d-bold" title="__MSG__SELECT_ALL__">__MSG__SELECT_ALL__</button></span></div>
             <div id="pickeradvanced_content_list" class="fl-force-left">
                 <ul id="pickeradvanced_file_filters" style="display:none" class="pickeradvanced_search_content">
-                    <li><button type="button" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_files_mylibrary" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__MY_LIBRARY__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_files_all" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__ALL_CONTENT_I_CAN_SEE__">__MSG__ALL_CONTENT_I_CAN_SEE__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_files_mylibrary" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__MY_LIBRARY__">__MSG__MY_LIBRARY__</button></li>
                 </ul>
                 <ul id="pickeradvanced_people_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><button type="button" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_CONTACTS__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_USERS__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__ALL_GROUPS__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_contacts" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__ALL_CONTACTS__">__MSG__ALL_CONTACTS__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_users" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__ALL_USERS__">__MSG__ALL_USERS__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_groups" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__ALL_GROUPS__">__MSG__ALL_GROUPS__</button></li>
                 </ul>
                 <ul id="pickeradvanced_group_filters" style="display:none" class="pickeradvanced_search_people">
-                    <li><button type="button" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_CAN_SEE__</button></li>
-                    <li><button type="button" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold">__MSG__GROUPS_I_MANAGE__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_groups_member" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__GROUPS_I_CAN_SEE__">__MSG__GROUPS_I_CAN_SEE__</button></li>
+                    <li><button type="button" id="pickeradvanced_search_groups_manager" class="pickeradvanced_search_filter s3d-action s3d-link-button s3d-bold" title="__MSG__GROUPS_I_MANAGE__">__MSG__GROUPS_I_MANAGE__</button></li>
                 </ul>
                 <ul id="pickeradvanced_group_specific_filters" class="last pickeradvanced_search_people" style="display:none">
                 </ul>
             </div>
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
             <div class="pickeradvanced_selection_buttons fl-force-right">
-                <button type="button" class="s3d-button s3d-link-button jqmClose">__MSG__CANCEL__</button>
-                <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-button" disabled="disabled">__MSG__ADD_SELECTED__</button>
+                <button type="button" class="s3d-button s3d-link-button jqmClose" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
+                <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-button" disabled="disabled" title="__MSG__ADD_SELECTED__">__MSG__ADD_SELECTED__</button>
             </div>
         </div>
 
@@ -131,7 +131,7 @@
         </div>
 
         <div id="pickeradvanced_group_search_template" style="display:none"><!--
-            <li><button type="button" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action s3d-bold s3d-link-button">${data["sakai:group-title"]}</button></li>
+            <li><button type="button" id="pickeradvanced_search_groups_${data.groupid}" class="pickeradvanced_search_filter s3d-action s3d-bold s3d-link-button" title="${data["sakai:group-title"]}">${data["sakai:group-title"]}</button></li>
         --></div>
 
         <div id="pickeradvanced_error_template" style="display:none;">

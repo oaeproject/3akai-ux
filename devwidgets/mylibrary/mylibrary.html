@@ -26,7 +26,7 @@
         <input id="mylibrary_livefilter" class="mylibrary_meta" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
-            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>
+            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled" title="__MSG__REMOVE__">__MSG__REMOVE__</button>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
@@ -92,8 +92,8 @@
                 <div class="fl-container fl-fix mylibrary_item{if count == 1} mylibrary_item_first{/if}">
                     <div class="mylibrary_item_left_filler">{if user_is_owner(item)}<input class="mylibrary_check"
                         id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
+                    <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
+                    <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}" title="__MSG__VIEW_OWNER_INFO__"></button>
                     <a href="${item.link}/${item.filename|urlSafe}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.type}" />
@@ -136,7 +136,7 @@
                             </div>
                         {/if}
                         {if user_is_owner(item)}
-                            <button type="button" class="s3d-button s3d-button-link-2-state" style="display:none;">
+                            <button type="button" class="s3d-button s3d-button-link-2-state" style="display:none;" title="__MSG__EDIT__">
                                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__EDIT__</span>
                            </button>
                         {/if}

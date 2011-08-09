@@ -25,7 +25,7 @@
                     {/if}
                 </h1>
                 {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
-                    <button type="button" id="sharecontent_change_global_permissions" class="s3d-bold s3d-link-button">__MSG__CHANGE__</button>
+                    <button type="button" id="sharecontent_change_global_permissions" class="s3d-bold s3d-link-button" title="__MSG__CHANGE__">__MSG__CHANGE__</button>
                     <p id="sharecontent_editors_note">__MSG__EDITORS_CAN_SHARE_THIS__</p>
                 {/if}
             </div>
@@ -37,9 +37,9 @@
                             <span id="sharecontent_share_link" class="fl-force-left fl-push">
                                 <span id="sharecontent_content_link" class="s3d-bold">__MSG__URL__</span><input type="text" value="${window.location}" readonly="readonly" dir="rtl"/>
                                 {if !data.me.user.anon}
-                                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
+                                    <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_message_link" title="__MSG__MESSAGE_LINK__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__MESSAGE_LINK__</span></button>
                                 {/if}
-                                <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_email_link"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
+                                <button type="submit" class="s3d-button s3d-button-link-2-state" id="sharecontent_email_link" title="__MSG__EMAIL_THE_LINK__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__EMAIL_THE_LINK__</span></button>
                             </span>
                             <hr class="fl-push fl-hidden"/>
                         <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
@@ -69,13 +69,13 @@
                                         <span class="sharecontent_positioned sharecontent_manager_name s3d-bold">${unescape(manager["sakai:group-title"])}</span>
                                         <span class="sharecontent_positioned sharecontent_right_floats">
                                             {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}">
+                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["sakai:group-id"]}" title="__MSG__CAN_EDIT__">
                                                     <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                                         <span class="fl-fix">__MSG__CAN_EDIT__</span>
                                                         <span class="fl-fix s3d-button-arrow-down"></span>
                                                     </span>
                                                 </button>
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["sakai:group-id"]}" title="__MSG__REMOVE__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                             {else}
                                                 <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
                                             {/if}
@@ -84,13 +84,13 @@
                                         <span class="sharecontent_positioned sharecontent_manager_name s3d-bold">${unescape(manager.basic.elements.firstName.value)} ${unescape(manager.basic.elements.lastName.value)}{if data.me.user.userid == manager["rep:userId"]}<span id="sharecontent_you"> (__MSG__YOU__)</span>{/if}</span>
                                         <span class="sharecontent_positioned sharecontent_right_floats">
                                             {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}">
+                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${manager["rep:userId"]}" title="__MSG__CAN_EDIT__">
                                                     <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                                         <span class="fl-fix">__MSG__CAN_EDIT__</span>
                                                         <span class="fl-fix s3d-button-arrow-down"></span>
                                                     </span>
                                                 </button>
-                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="manager-${manager["rep:userId"]}" title="__MSG__REMOVE__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                             {else}
                                                 <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_EDIT__</span>
                                             {/if}
@@ -122,13 +122,13 @@
                                                 <span class="sharecontent_positioned sharecontent_viewer_name s3d-bold">${unescape(viewer["sakai:group-title"])}</span>
                                                 <span class="sharecontent_positioned sharecontent_right_floats">
                                                     {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
-                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}">
+                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["sakai:group-id"]}" title="__MSG__CAN_VIEW__">
                                                             <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                                                 <span class="fl-fix">__MSG__CAN_VIEW__</span>
                                                                 <span class="fl-fix s3d-button-arrow-down"></span>
                                                             </span>
                                                         </button>
-                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["sakai:group-id"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["sakai:group-id"]}" title="__MSG__REMOVE__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                     {else}
                                                         <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
                                                     {/if}
@@ -137,13 +137,13 @@
                                                 <span class="sharecontent_positioned sharecontent_viewer_name s3d-bold">${unescape(viewer.basic.elements.firstName.value)} ${unescape(viewer.basic.elements.lastName.value)}{if data.me.user.userid == viewer["rep:userId"]}<span id="sharecontent_you"> (__MSG__YOU__)</span>{/if}</span>
                                                 <span class="sharecontent_positioned sharecontent_right_floats">
                                                     {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
-                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}">
+                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_permission_link_${viewer["rep:userId"]}" title="__MSG__CAN_VIEW__">
                                                             <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                                                 <span class="fl-fix">__MSG__CAN_VIEW__</span>
                                                                 <span class="fl-fix s3d-button-arrow-down"></span>
                                                             </span>
                                                         </button>
-                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["rep:userId"]}"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
+                                                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_remove" id="viewer-${viewer["rep:userId"]}" title="__MSG__REMOVE__"><span class="s3d-button-inner s3d-button-link-2-state-inner s3d-button-link-2-state-inner-secondary">__MSG__REMOVE__</span></button>
                                                     {else}
                                                         <span class="s3d-bold sharecontent_permission_anon">__MSG__CAN_VIEW__</span>
                                                     {/if}
@@ -159,17 +159,17 @@
                 <div id="sharecontent_edit_permission" style="display:none;">
                     <ul>
                         <li>
-                            <button type="button" id="sharecontent_edit_permission_picker_viewer" class="sharecontent_edit_permission_picker s3d-link-button s3d-bold">__MSG__CAN_VIEW__</button>
+                            <button type="button" id="sharecontent_edit_permission_picker_viewer" class="sharecontent_edit_permission_picker s3d-link-button s3d-bold" title="__MSG__CAN_VIEW__">__MSG__CAN_VIEW__</button>
                         </li>
                         <li>
-                            <button type="button" id="sharecontent_edit_permission_picker_manager" class="sharecontent_edit_permission_picker s3d-link-button s3d-bold">__MSG__CAN_EDIT__</button>
+                            <button type="button" id="sharecontent_edit_permission_picker_manager" class="sharecontent_edit_permission_picker s3d-link-button s3d-bold" title="__MSG__CAN_EDIT__">__MSG__CAN_EDIT__</button>
                         </li>
                     </ul>
                 </div>
 
                 {if !data.me.user.anon && sakai_global.content_profile.content_data.isManager}
                     <div class="s3d-highlight_area_background_darker1 sharecontent_search_container">
-                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_new_members_permission_link" style="display:none;" value="viewer">
+                        <button type="submit" class="s3d-button s3d-button-link-2-state sharecontent_permission_link sharecontent_new_members_permission_link" style="display:none;" value="viewer" title="__MSG__CAN_VIEW__">
                             <span class="s3d-button-inner s3d-button-link-2-state-inner">
                                 <span class="fl-fix">__MSG__CAN_VIEW__</span>
                                 <span class="fl-fix s3d-button-arrow-down"></span>
@@ -196,9 +196,9 @@
         --></div>
 
         <div id="sharecontent_footer_options">
-            <button type="button" id="sharecontent_close_button" class="s3d-button s3d-header-button fl-force-right">__MSG__CLOSE__</button>
-            <button type="button" id="sharecontent_add_button" class="s3d-button s3d-header-button fl-force-right" disabled="disabled" style="display:none;">__MSG__SHARE__</button>
-            <button type="button" id="sharecontent_dont_share_button" class="s3d-button s3d-header-button fl-force-right">__MSG__DONT_SHARE__</button>
+            <button type="button" id="sharecontent_close_button" class="s3d-button s3d-header-button fl-force-right" title="__MSG__CLOSE__">__MSG__CLOSE__</button>
+            <button type="button" id="sharecontent_add_button" class="s3d-button s3d-header-button fl-force-right" disabled="disabled" style="display:none;" title="__MSG__SHARE__">__MSG__SHARE__</button>
+            <button type="button" id="sharecontent_dont_share_button" class="s3d-button s3d-header-button fl-force-right" title="__MSG__DONT_SHARE__">__MSG__DONT_SHARE__</button>
             <hr class="fl-push fl-hidden"/>
         </div>
     </div>
@@ -239,8 +239,8 @@
         <h4>__MSG__WARNING__:</h4>
         <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_REMOVE_YOUR_ACCESS__</p>
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="sharecontent_remove_own_access_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
+            <button type="button" class="s3d-button jqmClose" title="__MSG__NO__"><span class="s3d-button-inner">__MSG__NO__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="sharecontent_remove_own_access_confirm" title="__MSG__YES__"><span class="s3d-button-inner">__MSG__YES__</span></button>
         </div>
     </div>
     <!-- DIALOG FOOTER -->
@@ -280,10 +280,10 @@
             </ul>
             <div class="s3d-highlight_area_background_bl"><div class="s3d-highlight_area_background_binner"></div></div>
         </div>
-        <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="sharecontent_permission_settings_save">
+        <button type="button" class="s3d-button s3d-button-primary fl-force-right" id="sharecontent_permission_settings_save" title="__MSG__SAVE__">
             <span class="s3d-button-inner">__MSG__SAVE__</span>
         </button>
-        <button type="button" class="s3d-button fl-force-right" id="sharecontent_permission_settings_dont_save">
+        <button type="button" class="s3d-button fl-force-right" id="sharecontent_permission_settings_dont_save" title="__MSG__DONT_SAVE__">
             <span class="s3d-button-inner">__MSG__DONT_SAVE__</span>
         </button>
         <hr class="fl-push fl-hidden"/>
