@@ -17,8 +17,8 @@
             </div>
             <div id="assignlocation_ajax_loader" style="display:none;"><!-- --></div>
             <div id="assignlocation_actions" class="fl-force-right">
-                <button type="button" class="s3d-button s3d-link-button jqmClose">__MSG__DONT_SAVE__</button>
-                <button type="button" id="assignlocation_save_button" class="s3d-button s3d-overlay-button">__MSG__SAVE__</button>
+                <button type="button" class="s3d-button s3d-link-button jqmClose" title="__MSG__DONT_SAVE__">__MSG__DONT_SAVE__</button>
+                <button type="button" id="assignlocation_save_button" class="s3d-button s3d-overlay-button" title="__MSG__SAVE__">__MSG__SAVE__</button>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 {for locationpiece in location.split("/")}
                     ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
                 {/for}
-                <button type="button" class="assignlocation_close_image s3d-link-button"></button>
+                <button type="button" class="assignlocation_close_image s3d-link-button" title="__MSG__REMOVE__"></button>
             </li>
         {/for}
     </ul>

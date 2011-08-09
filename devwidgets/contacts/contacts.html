@@ -103,7 +103,7 @@
                             </div>
                         {/if}
                         <div style="display:none;">
-                            <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}">__MSG__ADD_TO_CONTACTS__</button>
+                            <button type="button" class="s3d-link-button s3d-bold contacts_add_to_contacts" id="contacts_add_to_contacts_${i.profile.userid}" title="__MSG__ADD_TO_CONTACTS__">__MSG__ADD_TO_CONTACTS__</button>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                     </div>
                     <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" data-sakai-entitytype="user"></button>
                     {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
-                        <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
+                        <button title="${sakai.api.User.getDisplayName(a.profile)}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}"></button>
                     {elseif !sakai.data.me.user.anon}
                         {if !a.connected && sakai.data.me.user.userid !== a.profile.userid}
                             <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.profile.userid}" sakai-entityname="${sakai.api.User.getDisplayName(a.profile)}" {if a.profile.picture}sakai-entitypicture="${a.profile.picture}"{/if}></button>
@@ -198,8 +198,8 @@
     <h1 class="s3d-dialog-header">__MSG__REMOVE_CONTACT__</h1>
     <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_REMOVE__ <span id="contacts_contact_to_delete" class="s3d-bold"></span> __MSG__FROM_YOUR_CONTACTS__</p>
     <div class="dialog_buttons fl-force-right">
-        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="contacts_delete_contact_confirm" data-sakai-entityid="placeholder">__MSG__REMOVE_CONTACT__</button>
+        <button type="button" class="s3d-link-button s3d-bold jqmClose" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="contacts_delete_contact_confirm" data-sakai-entityid="placeholder" title="__MSG__REMOVE_CONTACT__">__MSG__REMOVE_CONTACT__</button>
     </div>
 </div>
 

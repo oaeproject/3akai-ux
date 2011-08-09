@@ -30,8 +30,8 @@
             </div>
             <hr />
             <div class="dialog_buttons">
-                <button type="button" class="s3d-button" id="poll_preview_back"><span class="s3d-button-inner">__MSG__BACK__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
+                <button type="button" class="s3d-button" id="poll_preview_back" title="__MSG__BACK__"><span class="s3d-button-inner">__MSG__BACK__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert" title="__MSG__INSERT_WIDGET__"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
             </div>
             <br class="poll_cls"/>
         </div>
@@ -40,11 +40,11 @@
     <!-- Main template for the settings view -->
     <div id="poll_settings_template" style="display:none"><!--
     <ul id="poll_tabs">
-        <li><button type="button" id="poll_create_new_tab" class="poll_selectedtab s3d-link-button s3d-bold">__MSG__CREATE_NEW_POLL__</button></li>
+        <li><button type="button" id="poll_create_new_tab" class="poll_selectedtab s3d-link-button s3d-bold" title="__MSG__CREATE_NEW_POLL__">__MSG__CREATE_NEW_POLL__</button></li>
     </ul>
     <div id="poll_create_new">
         <form>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder"><span class="s3d-button-inner">__MSG__CREATE_A_NEW_PLACEHOLDER__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder" title="__MSG__CREATE_A_NEW_PLACEHOLDER__"><span class="s3d-button-inner">__MSG__CREATE_A_NEW_PLACEHOLDER__</span></button>
             <br class="poll_cls" />
             <label for="poll_question">__MSG__QUESTION__:</label>
             <textarea id="poll_question">${poll.question}</textarea><br />
@@ -53,13 +53,13 @@
 
             </div>
             <div id="poll_add_new_option_container">
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_add_new_option"><span class="s3d-button-inner">__MSG__ADD_NEW_OPTION__...</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_add_new_option" title="__MSG__ADD_NEW_OPTION__..."><span class="s3d-button-inner">__MSG__ADD_NEW_OPTION__...</span></button>
             </div>
             <br class="poll_cls" />
             <div class="poll_left">
                 <input id="poll_allow_multiple" {if poll.allow_multiple==1}checked="checked"{/if} type="checkbox"/><label for="poll_allow_multiple" class="poll_radiocheck_label">Allow users to select multiple options</label>
             </div>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_toggle_advanced_settings"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_toggle_advanced_settings" title="__MSG__ADVANCED_SETTINGS__"><span class="s3d-button-inner">__MSG__ADVANCED_SETTINGS__ <span id="poll_toggle_advanced_settings_down">&#8595;</span><span id="poll_toggle_advanced_settings_up">&#8593;</span></span></button>
             <br class="poll_cls" />
             <div id="poll_advanced_settings">
                 <div id="poll_date_left">
@@ -88,10 +88,10 @@
                 <hr />
                 <label>__MSG__POLL_TYPE__:</label>
                 <ul id="poll_polltype">
-                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__VERTICAL__</span></button></li>
-                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__HORIZONTAL__</span></button></li>
-                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__PIECHART__</span></button></li>
-                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><button type="button" class="s3d-link-button s3d-bold"><span>__MSG__TEXT_ONLY__</span></button></li>
+                    <li{if poll.poll_type == 0} class="poll_polltype_active"{/if} id="poll_polltype_vertical"><button type="button" class="s3d-link-button s3d-bold" title="__MSG__VERTICAL__"><span>__MSG__VERTICAL__</span></button></li>
+                    <li{if poll.poll_type == 1} class="poll_polltype_active"{/if} id="poll_polltype_horizontal"><button type="button" class="s3d-link-button s3d-bold" title="__MSG__HORIZONTAL__"><span>__MSG__HORIZONTAL__</span></button></li>
+                    <li{if poll.poll_type == 2} class="poll_polltype_active"{/if} id="poll_polltype_pie"><button type="button" class="s3d-link-button s3d-bold" title="__MSG__PIECHART__"><span>__MSG__PIECHART__</span></button></li>
+                    <li{if poll.poll_type == 3} class="poll_polltype_active"{/if} id="poll_polltype_text"><button type="button" class="s3d-link-button s3d-bold" title="__MSG__TEXT_ONLY__"><span>__MSG__TEXT_ONLY__</span></button></li>
                 </ul>
                 <br class="poll_cls" />
                 <input id="poll_not_see_chart_view" {if poll.not_see_chart_view}checked="checked"{/if} type="checkbox"/><label for="poll_not_see_chart_view" class="poll_radiocheck_label">__MSG__USER_CAN_NOT_SEE_THE_CHART_VIEW__</label><br class="poll_cls" />
@@ -99,8 +99,8 @@
             </div>
             <br class="poll_cls" />
             <div class="dialog_buttons">
-                <button type="button" class="s3d-button" id="poll_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
+                <button type="button" class="s3d-button" id="poll_cancel" title="__MSG__CANCEL__"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_preview_insert" title="__MSG__INSERT_WIDGET__"><span class="s3d-button-inner">__MSG__INSERT_WIDGET__</span></button>
             </div>
             <br class="poll_cls" />
         </form>
@@ -111,7 +111,7 @@
     <div id="poll_options_template"><!--
         {for option in poll.options}
             <div id="poll_question${option_index}">
-                <input type="text" id="poll_question_input${option_index}" value="${option}" /><button type="button" class="poll_close s3d-link-button s3d-bold">x</button>
+                <input type="text" id="poll_question_input${option_index}" value="${option}" /><button type="button" class="poll_close s3d-link-button s3d-bold" title="__MSG__CLOSE__">x</button>
             </div>
         {/for}
     --></div>
@@ -148,11 +148,11 @@
             <hr />
             <div class="poll_question_view_bar_bottom">
                 {if poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
-                <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
+                <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote" title="__MSG__VOTE__"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
                 {/if}
                 {if poll.allow_see_results == 1}
                     {if poll.not_see_chart_view == 0}
-                    <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results" title="__MSG__VIEW_RESULTS__"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
                     {/if}
                 {/if}
             </div>
@@ -174,8 +174,8 @@
         </div>
         <hr />
         <div class="poll_question_view_bar_bottom">
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_vote" title="__MSG__VOTE__"><span class="s3d-button-inner">__MSG__VOTE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_question_view_results" title="__MSG__VIEW_RESULTS__"><span class="s3d-button-inner">__MSG__VIEW_RESULTS__</span></button>
         </div>
     </form>
     <div class="poll_specimen">
@@ -225,7 +225,7 @@
         {if poll.allow_see_results == 1 && poll.temp.userVoted == 0 && poll.temp.polldateok == 1}
         <hr />
         <div class="poll_question_view_bar_bottom">
-            <button type="button" class="s3d-button s3d-button-primary" id="poll_chart_view_back"><span class="s3d-button-inner">__MSG__BACK__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="poll_chart_view_back" title="__MSG__BACK__"><span class="s3d-button-inner">__MSG__BACK__</span></button>
         </div>
         {/if}
     </form>

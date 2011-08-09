@@ -798,6 +798,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
             $(discussionHideReply, $rootel).live("click", function(){
                 $(this).children("span").toggle();
+                $(this).attr("title", $.trim($(this).children("span:visible").text()));
                 $(this).parent().nextAll(discussionReplyContents).toggle();
             });
 

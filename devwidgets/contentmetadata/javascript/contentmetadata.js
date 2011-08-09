@@ -448,6 +448,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 height: 'toggle'
             }, 400);
             $("#contentmetadata_show_more > div").toggle();
+            $("#contentmetadata_show_more").attr("title", $.trim($("#contentmetadata_show_more div:visible").text()));
         };
 
         /**
