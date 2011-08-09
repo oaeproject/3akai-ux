@@ -477,6 +477,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
+            // bind down/left/right keys for top menu
+            $("#topnavigation_container .s3d-dropdown-menu").keydown(function(e) {
+                if (e.which == $.ui.keyCode.DOWN && $(this).hasClass("hassubnav")) {
+                    $(this).find("div a:first").focus();
+                    return false; // prevent browser page from scrolling down
+                } else if (e.which == $.ui.keyCode.LEFT) {
+                    if ($(this).prevAll("li:first").length > 0){
+                        $(this).prevAll("li:first").children("a").focus();
+                    } else if ($(this).parent().hasClass("topnavigation_user_container")) {
+                        $(this).parent().prevAll("ul").find("li:last a").focus();
+                    } else if ($(this).parent().parent().hasClass("topnavigation_user_container")) {
+                        $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
+                    }
+                    return false;
+                } else if (e.which == $.ui.keyCode.RIGHT) {
+                    if ($(this).nextAll("li:first").length > 0){
+                        $(this).nextAll("li:first").children("a").focus();
+                   } else if ($(this).parent().hasClass("topnavigation_explore")) {
+                        if ($("#topnavigation_user_options_login").length) {
+                            // focus on login menu
+                            $("#topnavigation_user_options_login").focus();
+                            $(topnavUseroptionsLoginFieldsUsername).focus();
+                        } else if ($("#topnavigation_user_options_name").length) {
+                            // focus on user options menu
+                            $("#topnavigation_user_options_name").focus();
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            // bind up/down keys in sub menu
+            $(hasSubnav + " div a").keydown(function(e) {
+                if (e.which == $.ui.keyCode.DOWN) {
+                    if ($(this).parent().nextAll("li:first").length > 0){
+                        $(this).parent().nextAll("li:first").children("a").focus();
+                    }
+                    return false; // prevent browser page from scrolling down
+                } else if (e.which == $.ui.keyCode.UP && $(this).parent().prevAll("li:first").length > 0) {
+                    $(this).parent().prevAll("li:first").children("a").focus();
+                    return false;
+                }
+            });
+
             $(hasSubnav + " a").bind("focus",function(){
                 if ($(this).parent().hasClass("hassubnav")) {
                     $(this).trigger("mouseover");
