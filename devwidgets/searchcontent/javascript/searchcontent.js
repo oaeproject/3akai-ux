@@ -47,7 +47,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             mycontacts: sakai.config.URL.SEARCH_MY_CONTACTS,
             myfiles: sakai.config.URL.SEARCH_MY_FILES,
             myfilesall: sakai.config.URL.SEARCH_MY_FILES_ALL,
-            mysites: sakai.config.URL.SEARCH_MY_SITES,
             pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
             pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
             pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,

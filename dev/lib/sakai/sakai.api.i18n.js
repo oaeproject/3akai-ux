@@ -98,32 +98,6 @@ define(
              */
             var tostring = $i18nable.html();
 
-
-            ////////////////////////////
-            // LANGUAGE BUNDLE LOADER //
-            ////////////////////////////
-
-            /**
-             * Gets the site id if the user is currently on a site
-             * if the user is on any other page then false is returned
-             *
-             * Proposed addin: Check to see if there is a siteid querystring parameter.
-             * This will then i18n pages like site settings as well.
-             */
-            var getSiteId = function(){
-                var site = false;
-                var loc = ("" + document.location);
-                var siteid = loc.indexOf(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
-                if (siteid !== -1) {
-                    var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
-                    var uri = loc.substring(0, mark);
-                    site = uri.substring(siteid, loc.length).replace(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
-                    site = site.substring(0, site.indexOf("#"));
-                }
-                return site;
-            };
-
-
             ////////////////////
             // I18N FUNCTIONS //
             ////////////////////
@@ -180,14 +154,14 @@ define(
              *  in the default language
              */
             var doI18N = function(localjson, defaultjson){
-                var newstring = sakaii18nAPI.General.process(tostring, meData);
+                var newstring = sakaii18nAPI.General.process(tostring);
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
                 // will already be loaded
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = sakaii18nAPI.General.process(document.title, meData);
+                document.title = sakaii18nAPI.General.process(document.title);
                 finishI18N();
             };
 
@@ -257,22 +231,17 @@ define(
                         if (loadDefaultBundleSuccess) {
                             loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
                             sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
-                            var site = getSiteId();
-                            if (!site) {
-                                if (localeSet) {
-                                    if (loadLocalBundleSuccess) {
-                                        loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
-                                        sakaii18nAPI.data.localBundle = loadLocalBundleData;
-                                        doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
-                                    } else {
-                                        doI18N(null, sakaii18nAPI.data.defaultBundle);
-                                    }
+                            if (localeSet) {
+                                if (loadLocalBundleSuccess) {
+                                    loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
+                                    sakaii18nAPI.data.localBundle = loadLocalBundleData;
+                                    doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
                                 } else {
-                                    // There is no locale set for the current user. We'll switch to using the default bundle only
                                     doI18N(null, sakaii18nAPI.data.defaultBundle);
                                 }
                             } else {
-                                loadSiteLanguage(site);
+                                // There is no locale set for the current user. We'll switch to using the default bundle only
+                                doI18N(null, sakaii18nAPI.data.defaultBundle);
                             }
                         } else {
                             finishI18N();
@@ -315,11 +284,10 @@ define(
              *  HTML string in which we want to replace messages. Messages have the following
              *  format: __MSG__KEY__
              *  in the default language
-             * @param {Object} meData the data from sakai.api.User.data.me
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
 
-            process : function(toprocess, meData) {
+            process : function(toprocess) {
 
                 if(!toprocess){
                     return "";
@@ -341,7 +309,7 @@ define(
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_config.displayDebugInfo === true && meData.user && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
+                    if (sakai_config.displayDebugInfo === true && sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === "lu" && sakaii18nAPI.data.meData.user.locale.country === "GB"){
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;

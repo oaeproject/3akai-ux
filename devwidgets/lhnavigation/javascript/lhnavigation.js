@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
             });
-            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
+            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML);
             $("#lhnavigation_container").html(lhnavHTML);
         };
 

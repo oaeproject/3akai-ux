@@ -618,6 +618,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $contentEl = $("#" + currentPageShown.ref);
                 // Add sanitized content
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                sanitizedContent = sakai.api.i18n.General.process(sanitizedContent);
                 $contentEl.html(sanitizedContent);
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
