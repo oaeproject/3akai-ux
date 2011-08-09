@@ -1518,9 +1518,9 @@ define(function(){
             "${refid}0": {
                 "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
                 "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
-                "a-tuid='${refid}5'>Edit Layout</button><button type='button' class='s3d-button "+
+                "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
                 "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
-                "dd_widget' data-tuid='${refid}5'>Add Widget</button></div><div class='s3d-conte"+
+                "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
                 "ntpage-title'>__MSG__MY_DASHBOARD__</div><div id='widget_carousel' class='widget_inline'"+
                 "></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
             },
