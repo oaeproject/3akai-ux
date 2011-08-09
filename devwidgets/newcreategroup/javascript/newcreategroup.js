@@ -303,7 +303,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "sakai:permissions": permission,
                     "sakai:copyright": "creativecommons",
                     "structure0": $.toJSON(toCreate.structure0),
-                    "sakai:custom-mimetype": "x-sakai/document"
+                    "mimeType": "x-sakai/document"
                 }
             });
         }
