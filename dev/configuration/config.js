@@ -1561,22 +1561,22 @@ define(function(){
             "${refid}6": {
                 "box": "inbox",
                 "category": "message",
-                "title": "INBOX"
+                "title": "__MSG__INBOX__"
             },
             "${refid}7": {
                 "box": "inbox",
                 "category": "invitation",
-                "title": "INVITATIONS"
+                "title": "__MSG__INVITATIONS__"
             },
             "${refid}8": {
                 "box": "outbox",
                 "category": "*",
-                "title": "SENT"
+                "title": "__MSG__SENT__"
             },
             "${refid}9": {
                 "box": "trash",
                 "category": "*",
-                "title": "TRASH"
+                "title": "__MSG__TRASH__"
             }
         },
 
@@ -1600,15 +1600,15 @@ define(function(){
                 "library": {
                     "_ref": "${refid}0",
                     "_order": 1,
-                    "_title": "My Library",
-                    "_altTitle": "${user}'s Library",
+                    "_title": "__MSG__MY_LIBRARY__",
+                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}0",
                         "_order": 0,
-                        "_title": "Content"
+                        "_title": "__MSG__MY_LIBRARY__"
                     }
                 },
                 "memberships": {

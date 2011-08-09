@@ -589,7 +589,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,
                     isGroup: isGroup,
-                    firstName: contextName
+                    user: contextName
                 }, $("#mylibrary_title_container", $rootel));
             } else {
                 debug.warn("No user found for My Library");
