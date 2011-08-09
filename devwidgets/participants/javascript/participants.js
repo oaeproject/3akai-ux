@@ -183,7 +183,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var loadParticipants = function(){
-            sakai.api.Groups.searchMembers(sakai_global.group.groupId, $.trim($participantsSearchField.val()), renderParticipants);
+            sakai.api.Groups.searchMembers(widgetData.participants.groupid, $.trim($participantsSearchField.val()), renderParticipants);
         };
 
         var addBinding = function(){
