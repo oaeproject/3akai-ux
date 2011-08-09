@@ -152,6 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         data: data
                     }));
                 }, {
+                    mimetype: "x-sakai/document",
                     q: query,
                     items: 50
                 }
