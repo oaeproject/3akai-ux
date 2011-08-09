@@ -255,7 +255,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             sakai.api.Util.TemplateRenderer("mymemberships_title_template", {
                 isMe: mymemberships.isOwnerViewing,
-                firstName: sakai_global.profile.main.data.basic.elements.firstName.value
+                user: sakai_global.profile.main.data.basic.elements.firstName.value
             }, $("#mymemberships_title_container", $rootel));
         };
 

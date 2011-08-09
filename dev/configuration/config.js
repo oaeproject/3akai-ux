@@ -1612,17 +1612,17 @@ define(function(){
                     }
                 },
                 "memberships": {
-                    "_title": "My Memberships",
+                    "_title": "__MSG__MY_MEMBERSHIPS__",
                     "_order": 2,
                     "_ref": "${refid}1",
-                    "_altTitle": "${user}'s Memberships",
+                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Memberships"
+                        "_title": "__MSG__MY_MEMBERSHIPS__"
                     }
                 },
                 "contacts": {
