@@ -152,6 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         data: data
                     }));
                 }, {
+                    mimetype: "x-sakai/document",
                     q: query,
                     items: 50
                 }
@@ -537,7 +538,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "sakai:description": "",
                 "sakai:permissions": permission,
                 "sakai:copyright": "creativecommons",
-                "sakai:custom-mimetype": "x-sakai/document"
+                "mimeType": "x-sakai/document"
             };
 
             // Prepare Sakai Doc
