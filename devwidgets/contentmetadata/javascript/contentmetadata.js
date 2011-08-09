@@ -203,6 +203,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
+            if (mode === "edit") {
+                $contentmetadataCopyrightContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataCopyrightContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
