@@ -19,10 +19,11 @@
  * Dependencies
  *
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ * /dev/lib/jquery/plugins/jquery.fieldselection.js (fieldselection)
  */
 /*global Config, $, jQuery, get_cookie, delete_cookie, set_cookie, window, alert */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection"], function($, sakai) {
 
 
     /**
@@ -486,16 +487,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if ($(this).prevAll("li:first").length > 0){
                         $(this).prevAll("li:first").children("a").focus();
                     } else if ($(this).parent().hasClass("topnavigation_user_container")) {
-                        $(this).parent().prevAll("ul").find("li:last a").focus();
+                        if ($("#topnavigation_search_input").length) {
+                            $("#topnavigation_search_input").focus();
+                        } else {
+                            $(this).parent().prevAll("ul").find("li:last a").focus();
+                        }
                     } else if ($(this).parent().parent().hasClass("topnavigation_user_container")) {
-                        $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
+                        if ($("#topnavigation_user_inbox_container").length){
+                            $("#topnavigation_user_inbox_container").focus();
+                        } else if ($("#topnavigation_search_input").length) {
+                            $("#topnavigation_search_input").focus();
+                        } else {
+                            $(this).parent().parent().parent().prevAll("ul").children("li:last").children("a").focus();
+                        }
                     }
                     return false;
                 } else if (e.which == $.ui.keyCode.RIGHT) {
                     if ($(this).nextAll("li:first").length > 0){
                         $(this).nextAll("li:first").children("a").focus();
-                   } else if ($(this).parent().hasClass("topnavigation_explore")) {
-                        if ($("#topnavigation_user_options_login").length) {
+                    } else if ($(this).parent().hasClass("topnavigation_explore")) {
+                        if ($("#topnavigation_search_input").length) {
+                            $("#topnavigation_search_input").focus();
+                        } else if ($("#topnavigation_user_options_login").length) {
                             // focus on login menu
                             $("#topnavigation_user_options_login").focus();
                             $(topnavUseroptionsLoginFieldsUsername).focus();
@@ -505,6 +518,40 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                     }
                     return false;
+                }
+            });
+
+            $("#topnavigation_search_input").keydown(function(e) {
+                if (e.which == $.ui.keyCode.LEFT && $(this).getSelection().start === 0) {
+                    $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
+                    return false;
+                } else if (e.which == $.ui.keyCode.RIGHT && $(this).getSelection().start === $(this).val().length) {
+                    if ($("#topnavigation_user_inbox_container").length) {
+                            // focus on inbox link
+                            $("#topnavigation_user_inbox_container").focus();
+                    } else if ($("#topnavigation_user_options_login").length) {
+                            // focus on login menu
+                            $("#topnavigation_user_options_login").focus();
+                            $(topnavUseroptionsLoginFieldsUsername).focus();
+                    } else if ($("#topnavigation_user_options_name").length) {
+                            // focus on user options menu
+                            $("#topnavigation_user_options_name").focus();
+                    }
+                    return false;
+                }
+            });
+
+            $("#topnavigation_user_inbox_container").keydown(function(e) {
+                if (e.which == $.ui.keyCode.LEFT) {
+                    if ($("#topnavigation_search_input").length) {
+                        // focus on search input
+                        $("#topnavigation_search_input").focus();
+                    }
+                } else if (e.which == $.ui.keyCode.RIGHT) {
+                    if ($("#topnavigation_user_options_name").length) {
+                        // focus on user options menu
+                        $("#topnavigation_user_options_name").focus();
+                    }
                 }
             });
 
