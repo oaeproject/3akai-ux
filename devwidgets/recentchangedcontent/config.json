@@ -1,6 +1,6 @@
 {
-    "description":"My recent content",
-    "name":"My recent content",
+    "description":"MY_RECENT_CONTENT_DESCRIPTION",
+    "name":"MY_RECENT_CONTENT_NAME",
     "id":"recentchangedcontent",
     "i18n": {
         "default": "/devwidgets/recentchangedcontent/bundles/default.properties"

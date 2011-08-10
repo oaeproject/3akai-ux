@@ -348,6 +348,7 @@ define(
             } else {
                 // First check the bundle for the widget, if provided
                 if (widgetname) {
+                    debug.log(widgetname);
                     if (typeof sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
                         if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {

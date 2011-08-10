@@ -339,6 +339,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
 
 
             if (isValid) {
+                final2.sakai = sakai;
                 $('#widgetscontainer', $rootel).html(sakai.api.Util.TemplateRenderer("widgetscontainer_template", final2));
 
 
@@ -725,6 +726,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
             newjson.layouts = sakai.config.widgets.layouts;
             newjson.selected = selected;
             currentlySelectedLayout = selected;
+            newjson.sakai = sakai;
             $("#layouts_list", $rootelClass).html(sakai.api.Util.TemplateRenderer("layouts_template", newjson));
             // once template is render, it loses the event handling
             // so need to call again
@@ -811,6 +813,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
             newjson.layouts = sakai.config.widgets.layouts;
             newjson.selected = settings.layout;
             currentlySelectedLayout = settings.layout;
+            newjson.sakai = sakai;
             $("#layouts_list", $rootelClass).html(sakai.api.Util.TemplateRenderer("layouts_template", newjson));
             bindLayoutPickerEventHandlers();
             hash.w.show();
@@ -939,6 +942,7 @@ require(["jquery", "sakai/sakai.api.core", "fluid/3akai_Infusion"], function($, 
             // Render the list of widgets. The template will render a remove and add row for each widget, but will
             // only show one based on whether that widget is already on my dashboard
 
+            addingPossible.sakai = sakai;
             $(addGoodiesListContainer, $rootelClass).html(sakai.api.Util.TemplateRenderer(addGoodiesListTemplate, addingPossible));
             bindGoodiesEventHandlers();
 

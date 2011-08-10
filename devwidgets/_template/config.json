@@ -38,8 +38,8 @@
  */
 {
     "id":                 "WIDGET_ID",
-    "name":               "WIDGET NAME",
-    "description":        "WIDGET DESCRIPTION",
+    "name":               "WIDGET_ID_NAME",
+    "description":        "WIDGET_ID_DESCRIPTION",
     "type":               "contrib",
     "enabled":            false,
     "hasSettings":        false,
