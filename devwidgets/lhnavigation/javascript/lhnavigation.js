@@ -46,6 +46,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var navSelectedItemArrow = ".lhnavigation_selected_item_arrow";
         var navSelectedItem = ".lhnavigation_selected_item";
 
+        var $lhnavigation_sakaidocs_declaration = $("#lhnavigation_sakaidocs_declaration"),
+            $lhnavigation_sakaidocs_declaration_template = $("#lhnavigation_sakaidocs_declaration_template");
+
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -57,6 +60,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var parametersToCarryOver = {};
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
+
+        var doNotRenderSakaiDocsOnPaths = ["/content"];
 
 
         //////////////////////////////
@@ -997,6 +1002,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(window).bind("ready.sakaidocs.sakai", function(){
                     renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
                 });
+                // Don't render sakaidocs on paths in the doNotRenderSakaiDocsOnPaths array
+                // so we don't double-render it on those that already include it
+                if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
+                    sakai.api.Util.TemplateRenderer($lhnavigation_sakaidocs_declaration_template, {}, $lhnavigation_sakaidocs_declaration);
+                }
                 sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
