@@ -639,6 +639,7 @@ define(
                     sakai_content.getThumbnail(content) ||
                     mimeType.substring(0,6) === "image/" ||
                     mimeType.substring(0,5) === "text/" ||
+                    mimeType === "application/x-shockwave-flash" ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }
