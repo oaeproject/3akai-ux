@@ -46,7 +46,7 @@
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer li {list-style:none;padding:8px 12px;clear:both;color:#424242;cursor:pointer;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search {padding:5px 0 8px 12px;border-bottom:1px solid #CCC;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search_clear {font-size:11px;margin-top:3px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs input#addarea_sakaidoc_searchfield {width:200px;}
+.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs input#addarea_sakaidoc_searchfield {width:150px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_existingdocs_sort {float:right;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs .s3d-icon-16 {display:block;float:left;margin-right:5px;}
 .addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search label {color:#424242;font-size:12px;margin:3px 7px 0 0;clear:none;}

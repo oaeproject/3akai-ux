@@ -313,12 +313,14 @@ define(function(){
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
@@ -335,6 +337,7 @@ define(function(){
                             },
                             "email": {
                                 "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_EMAIL_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "type": "email"
