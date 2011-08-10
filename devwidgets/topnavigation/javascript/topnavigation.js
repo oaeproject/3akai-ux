@@ -96,7 +96,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             searchTimeout = false;
 
         var $openMenu = false;
-        var $selectedMenu = false;
 
 
         ////////////////////////
@@ -445,7 +444,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          */
         var addBinding = function(){
             // Navigation hover binding
-            var mouseOverSubMenu = false;
             var closeMenu = function(e){
                 if ($openMenu.length){
                     $openMenu.children("a").removeClass(topnavigationForceSubmenuDisplayTitle);
@@ -631,7 +629,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
             $(topnavUserOptionsLoginForm).submit(function(){
@@ -704,9 +701,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     $(topnavUserOptionsLoginFields).removeClass(topnavigationForceSubmenuDisplay);
                     $(topnavigationlogin).removeClass(topnavigationForceSubmenuDisplayTitle);
                 }
-                if (!mouseOverSubMenu) {
-                    closeMenu();
-                }
+                closeMenu();
             });
 
             $(topnavUserLoginButton).bind("focus",function(){
@@ -718,7 +713,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
             $("#topnavigation_search_input,#navigation_anon_signup_link,#topnavigation_user_inbox_container").bind("focus",function(evt){
                 mouseOverSignIn = false;
-                mouseOverSubMenu = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
             });
