@@ -1,14 +1,15 @@
 {
-    "description":        "View and manage a user's library items",
     "enabled":            true,
     "groupdashboard":     false,
     "grouppages":         true,
     "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/mylibrary/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
+            "name":       "My Library",
+            "description":"View and manage a user's library items"
     },
     "id":                 "mylibrary",
-    "name":               "My Library",
     "personalportal":     false,
     "showinsakaigoodies": true,
     "type":               "sakai",

@@ -1,9 +1,11 @@
 {
-    "description":"My recent memberships",
-    "name":"My recent memberships",
     "id":"recentmemberships",
     "i18n": {
-        "default": "/devwidgets/recentmemberships/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/recentmemberships/bundles/default.properties",
+            "name":"My recent memberships",
+            "description":"My recent memberships"
+        }
     },
     "personalportal":true,
     "hasSettings":false,

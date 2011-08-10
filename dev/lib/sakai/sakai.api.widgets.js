@@ -882,6 +882,42 @@ define(
             }
         },
 
+        getWidgetTitle: function(widgetid){
+            // Get the user's current locale from the me object
+            var locale = sakai_i18n.getUserLocale();
+            if (locale === "lu_GB") {
+                return widgetid.toUpperCase();
+            } else {
+                if (sakai.widgets[widgetid]){
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].name){
+                        return sakai.widgets[widgetid].i18n[locale].name;
+                    } else {
+                        return sakai.widgets[widgetid].i18n["default"].name;
+                    }
+                } else {
+                    debug.error("A config file was not found for the following widget: " + widgetid);
+                }
+            }
+        },
+
+        getWidgetDescription: function(widgetid){
+            // Get the user's current locale from the me object
+            var locale = sakai_i18n.getUserLocale();
+            if (locale === "lu_GB") {
+                return widgetid.toUpperCase();
+            } else {
+                if (sakai.widgets[widgetid]){
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].description){
+                        return sakai.widgets[widgetid].i18n[locale].description;
+                    } else {
+                        return sakai.widgets[widgetid].i18n["default"].description;
+                    }
+                } else {
+                    debug.error("A config file was not found for the following widget: " + widgetid);
+                }
+            }
+        },
+
         initialLoad : function() {
             sakaiWidgetsAPI.bindToHash();
             sakaiWidgetsAPI.Container.setReadyToLoad(true);

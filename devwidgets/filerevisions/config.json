@@ -1,12 +1,19 @@
 {
-    "description":"View file revisions",
     "id":"filerevisions",
     "url":"/devwidgets/filerevisions/filerevisions.html",
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/filerevisions/bundles/default.properties",
-        "en_GB": "/devwidgets/filerevisions/bundles/en_GB.properties",
-        "nl_NL": "/devwidgets/filerevisions/bundles/nl_NL.properties"
+        "default": {
+            "bundle": "/devwidgets/filerevisions/bundles/default.properties",
+            "name": "View file revisions",
+            "description":"View file revisions",
+        }
+        "en_GB": {
+            "bundle": "/devwidgets/filerevisions/bundles/en_GB.properties"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/filerevisions/bundles/nl_NL.properties"
+        }
     }
 }

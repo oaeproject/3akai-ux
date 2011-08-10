@@ -1,7 +1,11 @@
 {
     "id":"sakai2favourites",
     "i18n": {
-        "default": "/devwidgets/sakai2favourites/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/sakai2favourites/bundles/default.properties",
+            "name": "Sakai 2 favourites",
+            "description": "Sakai 2 favourites"
+        }
     },
     "type":"core",
     "enabled":true,

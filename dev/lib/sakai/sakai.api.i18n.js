@@ -336,10 +336,7 @@ define(
          */
         getValueForKey: function(key, widgetname) {
             // Get the user's current locale from the me object
-            var locale = false;
-            if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
-                locale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
-            }
+            var locale = sakaii18nAPI.getUserLocale();
             // Check for i18n debug language
             //   Because the debug language has to be a valid Java locale, 
             //   we are currently using lu_GB to identify the debug language
@@ -348,7 +345,6 @@ define(
             } else {
                 // First check the bundle for the widget, if provided
                 if (widgetname) {
-                    debug.log(widgetname);
                     if (typeof sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
                         if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {
@@ -396,6 +392,14 @@ define(
                 translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
             }
             return translation;
+        },
+
+        getUserLocale: function(){
+            var locale = false;
+            if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
+                locale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            }
+            return locale;
         }
 
     };
