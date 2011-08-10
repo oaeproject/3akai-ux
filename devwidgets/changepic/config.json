@@ -4,7 +4,7 @@
             "bundle": "/devwidgets/changepic/bundles/default.properties",
             "name":"Change profile picture",
             "description":"Change profile picture"
-        }
+        },
         "en_US": {
             "bundle": "/devwidgets/changepic/bundles/en_US.properties"
         },

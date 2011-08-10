@@ -92,7 +92,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
                     context: context,
                     data: data,
-                    group: sakai_global.group.groupData
+                    group: sakai_global.group.groupData,
+                    sakai: sakai
                 }));
                 $(addareaSelectTemplate).hide();
 

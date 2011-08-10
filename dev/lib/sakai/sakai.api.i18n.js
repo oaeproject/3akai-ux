@@ -394,6 +394,10 @@ define(
             return translation;
         },
 
+        /**
+         * Function that will return the current user's locale
+         *     Example: en_GB
+         */
         getUserLocale: function(){
             var locale = false;
             if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {

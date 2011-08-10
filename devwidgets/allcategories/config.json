@@ -5,7 +5,7 @@
     "hasSettings":        true,
     "i18n": {
         "default": {
-            "bunlde":     "/devwidgets/allcategories/bundles/default.properties",
+            "bundle":     "/devwidgets/allcategories/bundles/default.properties",
             "name":       "All Categories Widget",
             "description":"All Categories Widget"
         }

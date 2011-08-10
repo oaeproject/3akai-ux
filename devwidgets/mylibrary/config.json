@@ -8,6 +8,7 @@
             "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
             "name":       "My Library",
             "description":"View and manage a user's library items"
+        }
     },
     "id":                 "mylibrary",
     "personalportal":     false,

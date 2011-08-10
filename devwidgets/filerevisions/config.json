@@ -7,8 +7,8 @@
         "default": {
             "bundle": "/devwidgets/filerevisions/bundles/default.properties",
             "name": "View file revisions",
-            "description":"View file revisions",
-        }
+            "description":"View file revisions"
+        },
         "en_GB": {
             "bundle": "/devwidgets/filerevisions/bundles/en_GB.properties"
         },

@@ -391,14 +391,14 @@ define(
                             if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
                                 if (sakai.widgets[widgetname].i18n["default"]){
                                     var bundleItem = {
-                                        "url" : sakai.widgets[widgetname].i18n["default"],
+                                        "url" : sakai.widgets[widgetname].i18n["default"].bundle,
                                         "method" : "GET"
                                     };
                                     bundles.push(bundleItem);
                                 }
                                 if (sakai.widgets[widgetname].i18n[current_locale_string]) {
                                     var item1 = {
-                                        "url" : sakai.widgets[widgetname].i18n[current_locale_string],
+                                        "url" : sakai.widgets[widgetname].i18n[current_locale_string].bundle,
                                         "method" : "GET"
                                     };
                                     bundles.push(item1);
@@ -882,6 +882,10 @@ define(
             }
         },
 
+        /**
+         * This function will return the name of a widget in the current user's language
+         * @param {Object} widgetid  id of the widget as specified in the widget's config file
+         */
         getWidgetTitle: function(widgetid){
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();
@@ -900,6 +904,10 @@ define(
             }
         },
 
+        /**
+         * This function will return the description of a widget in the current user's language
+         * @param {Object} widgetid  id of the widget as specified in the widget's config file
+         */
         getWidgetDescription: function(widgetid){
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();

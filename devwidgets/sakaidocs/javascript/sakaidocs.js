@@ -236,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "uid": nuid
                     };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
-                    $("#dialog_title").html(sakai.widgets[type].name);
+                    $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
@@ -269,6 +269,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             var jsonData = {
+                "sakai": sakai,
                 "media": media,
                 "goodies": goodies
             };
@@ -353,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "uid": id
                 };
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
-                $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
+                $("#dialog_title", $overlayContainer).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widgetid].id));
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
                 if (sakai.widgets[widgetid].settingsWidth) {

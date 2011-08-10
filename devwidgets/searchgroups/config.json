@@ -7,7 +7,7 @@
         "default": {
             "bundle":     "/devwidgets/searchgroups/bundles/default.properties",
             "name":       "Search Groups",
-            "description":"Search Groups",
+            "description":"Search Groups"
         }
     },
     "id":                 "searchgroups",
