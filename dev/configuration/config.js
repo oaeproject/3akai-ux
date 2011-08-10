@@ -791,6 +791,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
+            "video/x-ms-wmv": {
+                cssClass: "icon-video-sprite",
+                URL: "/dev/images/mimetypes/video.png",
+                description: "VIDEO_FILE"
+            },
             "folder": {
                 cssClass: "icon-kmultiple-sprite",
                 URL: "/dev/images/mimetypes/kmultiple.png",
