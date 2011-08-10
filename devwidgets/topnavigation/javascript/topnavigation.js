@@ -453,6 +453,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             };
             var openMenu = function(){
+                $("#topnavigation_search_results").hide();
                 if ($("#navigation_anon_signup_link:focus").length){
                     $("#navigation_anon_signup_link:focus").blur();
                 }
@@ -592,14 +593,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 $parentMenu.children(navLinkDropdown).hide();
             });
 
-            // Search binding (don't fire on following keyup codes: shift)
-            $("#topnavigation_search_input").focus(function(){
-                $(this).keyup();
-                if ($.trim($("#topnavigation_search_input").val())){
-                    $("#topnavigation_search_results").show();
-                }
-            });
-
             // Make sure that the results only disappear when you click outside
             // of the search box and outside of the results box
             sakai.api.Util.hideOnClickOut("#topnavigation_search_results", "#topnavigation_search_results_container,#topnavigation_search_results_bottom_container,#topnavigation_search_input");
@@ -723,6 +716,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 mouseOverSignIn = false;
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
+
+                if ($(this).attr("id") === "topnavigation_search_input") {
+                // Search binding (don't fire on following keyup codes: shift)
+                    $(this).keyup();
+                    if ($.trim($("#topnavigation_search_input").val())) {
+                        $("#topnavigation_search_results").show();
+                    }
+                }
             });
 
             $(topnavigationlogin).hover(function(){
