@@ -90,12 +90,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                    });
                                },
                                error: function(err){
-                                   debug.log(err);
+                                   debug.error(err);
                                }
                            });
                        },
                        error: function(err){
-                           debug.log(err);
+                           debug.error(err);
                        }
                     });
                     
