@@ -453,6 +453,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             };
             var openMenu = function(){
+                if ($("#navigation_anon_signup_link:focus").length){
+                    $("#navigation_anon_signup_link:focus").blur();
+                }
+
                 // close another sub menu if ones open
                 closeMenu();
 
@@ -571,6 +575,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     $(this).trigger("mouseover");
                     $(this).parents(".s3d-dropdown-menu").children("a").addClass(topnavigationForceSubmenuDisplayTitle);
                 }
+            });
+
+            $("#navigation_anon_signup_link").live("hover",function(evt){
+                closeMenu();
             });
 
             // hide the menu after an option has been clicked
@@ -718,6 +726,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             });
 
             $(topnavigationlogin).hover(function(){
+                if ($("#navigation_anon_signup_link:focus").length){
+                    $("#navigation_anon_signup_link:focus").blur();
+                }
+                closeMenu();
                 var $menu = $(this);
                 if ($menu.children(topnavigationExternalLogin).length){
                     // adjust margin of external login menu to position correctly according to padding and width of menu
