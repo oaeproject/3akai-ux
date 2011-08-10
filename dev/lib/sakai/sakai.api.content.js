@@ -592,7 +592,7 @@ define(
 
         getThumbnail : function(content){
             var thumbnail = "";
-            if (content['sakai:pagecount']) {
+            if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
                 thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
             } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
                 thumbnail = "/p/" + content['_path'];
