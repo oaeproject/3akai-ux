@@ -82,26 +82,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var updateCounts = function(pageid, value){
             // Adjust the count value by the specified value for the page ID
 
-            var subpage = false;
+            var oldid = pageid;
             if (pageid.indexOf("/") !== -1){
                 var parts = pageid.split("/");
                 pageid = parts[0];
-                subpage = parts[1];
             }
 
-            var adjustCount = function(pageStructure, pageid, subpage, value){
+            var adjustCount = function(pageStructure, pageid, value){
                 var listitem = "li[data-sakai-path='";
                 var count;
                 var element;
-                if (subpage) {
-                    count = pageStructure.items[pageid][subpage];
-                    listitem = $(listitem + pageid + "/" + subpage + "']");
-                    element = ".lhnavigation_sublevelcount";
-                } else {
-                    count = pageStructure.items[pageid];
-                    listitem = $(listitem + pageid + "']");
-                    element = ".lhnavigation_levelcount";
-                }
+                count = getPage(pageid, pageStructure.items);
+                listitem = $(listitem + pageid + "']");
+                element = ".lhnavigation_levelcount";
                 count._count = (count._count || 0) + value;
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
@@ -115,9 +108,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             };
 
             if (pubstructure.items[pageid]) {
-                pubstructure = adjustCount(pubstructure, pageid, subpage, value);
+                pubstructure = adjustCount(pubstructure, oldid, value);
             } else if (privstructure.items[pageid]) {
-                privstructure = adjustCount(privstructure, pageid, subpage, value);
+                privstructure = adjustCount(privstructure, oldid, value);
             }
         };
 
@@ -143,7 +136,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          * @return {Object} the page
          */
         var getPage = function(path, structure) {
-            if (path.indexOf("/") > -1) {
+            if (!structure)
+                return null;
+            if (path.indexOf("/") > -1) {                  
                 structure = structure[path.split("/")[0]];
                 path = path.substring(path.indexOf("/")+1);
                 return getPage(path, structure);
@@ -247,6 +242,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             return refs;
         };
 
+        var modifyRef = function(level, pid) {
+            for (var sublevel in level) {
+                if (level[sublevel]._ref) {
+                    level[sublevel]._ref = pid + "-" + level[sublevel]._ref;
+                    modifyRef(level[sublevel], pid);
+                }
+                else if (sublevel.substring(0, 1) !== "_") {
+                    modifyRef(level[sublevel], pid);
+                }
+            }
+        };
+
         var insertDocStructure = function(structure0, docInfo, pid){
             for (var level in structure0){
                 if (structure0[level]._pid && structure0[level]._pid === pid){
@@ -255,11 +262,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                         docStructure = $.parseJSON(docStructure);
                     }
                     structure0[level] = $.extend(true, structure0[level], docStructure);
-                    for (var sublevel in structure0[level]){
-                        if (structure0[level][sublevel]._ref){
-                            structure0[level][sublevel]._ref = pid + "-" + structure0[level][sublevel]._ref;
-                        }
-                    }
+                    modifyRef(structure0[level], pid);
                     for (var subpage in docStructure){
                         structure0[level]._ref = pid + "-" + docStructure[subpage]._ref;
                         break;
@@ -363,43 +366,88 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var getFirstSelectablePage = function(structure){
             var selected = false;
-            if (structure.orderedItems) {
-                for (var i = 0; i < structure.orderedItems.length; i++) {
-                    if (structure.orderedItems[i]._canView !== false) {
-                        if (structure.orderedItems[i]._childCount > 1) {
-                            for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
-                                selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
-                                break;
-                            }
-                        }
+            var items = structure.orderedItems;
+            var path = "";
+            while (items.length > 0) {
+                var i = 0;
+                for (; i < items.length; i++) {
+                    if (items[i]._canView !== false) {
+                        if (items[i]._childCount > 1) { 
+                            if (path.length != 0)
+                                path = path + "/";
+                            path = path + items[i]._id;
+                            items = items[i]._elements;
+                            break;
+                        } 
                         else {
-                            selected = structure.orderedItems[i]._id;
+                            if (path.length != 0)
+                                path = path + "/";
+                            path = path + items[i]._id;
+                            items = [];
+                            break;
                         }
-                        break;
                     }
                 }
+                if (i == items.length)
+                    break;
             }
+            if (path.length != 0)
+                selected = path;
             return selected;
+
         };
 
         var getFirstSubPage = function(structure, selected){
-            for (var i = 0; i < structure.orderedItems.length; i++) {
+            var path = selected;
+            var i = 0;
+            for (; i < structure.orderedItems.length; i++) {
                 if (structure.orderedItems[i]._canView !== false && structure.orderedItems[i]._id === selected) {
-                    for (var ii = 0; ii < structure.orderedItems[i]._elements.length; ii++) {
-                        selected = structure.orderedItems[i]._id + "/" + structure.orderedItems[i]._elements[ii]._id;
-                        break;
+                    var items = structure.orderedItems[i]._elements;
+                    while (items.length > 0) {
+                        var ii = 0;
+                        for (; ii < items.length; ii++) {
+                            if (items[ii]._canView !== false) {
+                                if (items[ii]._childCount > 1) {
+                                    if (path.length != 0)
+                                        path = path + "/";
+                                    path = path + items[ii]._id;
+                                    items = items[ii]._elements;
+                                    break;
+                                }
+                                else {
+                                  if (path.length != 0)
+                                      path = path + "/";
+                                  path = path + items[ii]._id;
+                                  items = [];
+                                  break;
+                                }
+                            }
+                        }
+                        if (items.length > 0 && ii == items.length)
+                            return false;
                     }
                 }
             }
-            return selected;
+            return path;
         };
 
         var checkPageExists = function(structure, selected){
             var structureFoundIn = false;
             if (selected.indexOf("/") !== -1){
                 var splitted = selected.split("/");
-                if (structure.items[splitted[0]] && structure.items[splitted[0]][splitted[1]]){
-                    structureFoundIn = structure;
+                var item = structure.items[splitted[0]];
+                if (item) {
+                    var i = 1;
+                    for (; i < splitted.length; i++) {
+                        if (!item[splitted[i]]) {
+                            break;
+                        } else {
+                            item = item[splitted[i]];
+                        }
+                    }
+                    if ( i == splitted.length ) {
+                        structureFoundIn = item;
+                    }
                 }
             } else {
                 if (structure.items[selected]){
@@ -407,7 +455,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
             }
             return structureFoundIn;
-        };
+        };        
 
         var selectPage = function(newPageMode){
             if (contextData.forceOpenPage) {
@@ -430,6 +478,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (selected && selected.indexOf("/") === -1) {
                     if (structureFoundIn.items[selected]._childCount > 1) {
                         selected = getFirstSubPage(structureFoundIn, selected);
+                    } else if (structureFoundIn.items[selected]._childCount == 1) {
+                        if (structureFoundIn.items[selected]._elements.length > 0 && 
+                            structureFoundIn.items[selected]._elements[0]._childCount &&
+                            structureFoundIn.items[selected]._elements[0]._childCount > 1)
+                          selected = getFirstSubPage(structureFoundIn, selected);
                     }
                 }
                 // If no page is selected, select the first one from the nav
@@ -440,8 +493,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var menuitem = $("li[data-sakai-path='" + selected + "']");
                 if (menuitem.length) {
                     if (selected.split("/").length > 1) {
-                        var par = $("li[data-sakai-path='" + selected.split("/")[0] + "']");
-                        showHideSubnav(par, true);
+                        for (var i = 0; i < selected.split("/").length; i++) {
+                            var p = "";
+                            for (var j = 0; j <= i; j++) {
+                                if (j > 0)
+                                    p = p + "/";
+                                p = p + selected.split("/")[j];
+                            }
+                            var par = $("li[data-sakai-path='" + p + "']");
+                            showHideSubnav(par, true);
+                        }
                     }
                     var ref = menuitem.data("sakai-ref");
                     var savePath = menuitem.data("sakai-savepath") || false;
@@ -716,16 +777,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             // Change main structure
             var mainPath = changingPageTitle.path;
-            if (changingPageTitle.path.indexOf("/") !== -1){
-                var parts = changingPageTitle.path.split("/");
-                mainPath = parts[1];
-                pubstructure.items[parts[0]][parts[1]]._title = inputArea.val();
-            } else {
-                pubstructure.items[changingPageTitle.path]._title = inputArea.val();
-            }
+            var page = getPage(mainPath, pubstructure.items);
+            page._title = inputArea.val();
             // Look up appropriate doc and change that structure
             var structure = sakaiDocsInStructure[changingPageTitle.savePath];
-            structure.structure0[mainPath]._title = inputArea.val();
+            if (mainPath.indexOf("/") != -1)
+              if (!structure.structure0[mainPath.substring(0, mainPath.indexOf("/"))])
+                  mainPath = mainPath.substring(mainPath.indexOf("/") + 1);
+            var substructure = getPage(mainPath, structure.structure0);
+            substructure._title = inputArea.val();
             storeStructure(structure.structure0, changingPageTitle.savePath);
 
             changingPageTitle = false;
@@ -745,10 +805,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 realRef = pageToDelete.ref.split("-")[1];
             }
             var realPath = pageToDelete.path;
+            var areaid = "";
             if (pageToDelete.path.indexOf("/") !== -1){
-                realPath = pageToDelete.path.split("/")[1];
+                var splited = pageToDelete.path.split("/");
+                if (!structure.structure0[splited[0]]) {
+                    areaid = splited[0];
+                    realPath = pageToDelete.path.substring(pageToDelete.path.indexOf("/") + 1);
+                }
             }
             updateCountsAfterDelete(structure.structure0, structure, structure.orderedItems, realRef, realPath);
+            structure.structure0 = includeChildCount(structure.structure0);
             structure.orderedItems = orderItems(structure.structure0);
             storeStructure(structure.structure0, pageToDelete.savePath);
 
@@ -774,7 +840,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 } else {
                     var selected = getFirstSelectablePage(structure);
                     $.bbq.pushState({
-                        "l": pageToDelete.path.split("/")[0] + "/" + selected,
+                        "l": areaid + "/" + selected,
                         "_": Math.random(),
                         "newPageMode": ""
                     }, 0);
@@ -789,20 +855,50 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $('#lhnavigation_delete_dialog').jqmHide();
         };
 
+        var checkPageDelete = function (item, ref) {
+            if (item._ref === ref)
+              return false;
+            for (var i = 0; i < item._elements.length; i ++) {
+                if (!checkPageDelete(item._elements[i], ref)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
         var updateCountsAfterDelete = function(structure, pageslist, orderedItems, ref, path){
             var oldOrder = 0;
             if (path.indexOf("/") !== -1){
                 var parts = path.split("/");
-                oldOrder = structure[parts[0]][parts[1]]._order;
-                delete structure[parts[0]][parts[1]];
-                for (var i = 0; i < orderedItems.length; i++){
-                    if (orderedItems[i]._pid === ref.split("-")[0]){
-                        orderedItems[i]._elements.splice(oldOrder, 1);
-                        orderedItems[i]._childCount--;
-                        for (var o = oldOrder; o < orderedItems[i]._elements.length; o++){
-                            orderedItems[i]._elements[o]._order = o;
-                            structure[orderedItems[i]._id][orderedItems[i]._elements[o]._id]._order = o;
+                var father = structure;
+                var loc = parts.length - 1;
+                for (var i = 0; i < loc; i ++) {
+                    father = father[parts[i]];
+                }
+                oldOrder = father[parts[loc]]._order;
+                delete father[parts[loc]];
+                var orderedfather;
+                for (var i = 0; i < orderedItems.length; i++) {
+                    if (parts[0] === orderedItems[i]._id) {
+                        orderedfather = orderedItems[i];
+                    }
+                }
+                for (var i = 1; i < loc; i ++) {
+                    for (var j = 0; j < orderedfather._elements.length; j++) {
+                        if (orderedfather._elements[j]._id === parts[i]) {
+                            orderedfather = orderedfather._elements[j];
+                            break;
                         }
+                    }
+                }
+                orderedfather._elements.splice(oldOrder, 1);
+                orderedfather._childCount = orderedfather._childCount - 1;
+                for (var i = 0; i < orderedfather._elements.length; i++) {
+                    if ( orderedfather._elements[i]._order > oldOrder) {
+                        orderedfather._elements[i]._order --;
+                    }
+                    if (father[orderedfather._elements[i]._id]._order > oldOrder) {
+                        father[orderedfather._elements[i]._id]._order --;
                     }
                 }
             } else {
@@ -814,7 +910,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     structure[orderedItems[z]._id]._order = z;
                 }
             }
-            delete pageslist[ref];
+            var page = true;
+            for (var i = 0; i < orderedItems.length; i++) {
+                if (!checkPageDelete(orderedItems[i], ref)) {
+                    page = false;
+                    break;
+                }
+            }
+            if (page)
+                delete pageslist[ref];
         };
 
         var confirmPageDelete = function(){
@@ -878,10 +982,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $el.children(".lhnavigation_selected_item_subnav").show();
             if ($el.hasClass("lhnavigation_hassubnav")) {
                 if (!$el.children("ul:first").is(":visible") || forceOpen) {
-                    $(".lhnavigation_has_subnav", $el).addClass("lhnavigation_has_subnav_opened");
+                    $(".lhnavigation_has_subnav:first", $el).addClass("lhnavigation_has_subnav_opened");
                     $el.children("ul:first").show();
                 } else {
-                    $(".lhnavigation_has_subnav", $el).removeClass("lhnavigation_has_subnav_opened");
+                    $(".lhnavigation_has_subnav:first", $el).removeClass("lhnavigation_has_subnav_opened");
                     $el.children("ul:first").hide();
                 }
             }
@@ -905,16 +1009,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var struct0path = path;
                 if ($(elt).data("sakai-ref").indexOf("-") === -1) {
                     if (struct0path.indexOf("/") > -1) {
-                        var split = struct0path.split("/");
-                        structure.structure0[split[0]][split[1]]._order = i;
+                        var page = getPage(struct0path, structure.structure0);
+                        page._order = i;
                     } else {
                         structure.structure0[struct0path]._order = i;
                     }
                 } else {
                     if (struct0path.indexOf("/") > -1) {
-                        struct0path = struct0path.split("/")[1];
+                        struct0path = struct0path.substring(struct0path.indexOf("/") + 1);
+                        var page = getPage(struct0path, structure.structure0);
+                        page._order = i;
+                    } else {
+                        structure.structure0[struct0path]._order = i;
                     }
-                    structure.structure0[struct0path]._order = i;
                 }
                 var item = getPage(path, area.items);
                 item._order = i;
