@@ -16,6 +16,7 @@ require(
     var checkElements = function($elt, callback){
         $.each($elt.find("a"), function(i, elt) {
             ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            ok($(elt).attr("title"), "A tag has TITLE attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("img"), function(i, elt) {

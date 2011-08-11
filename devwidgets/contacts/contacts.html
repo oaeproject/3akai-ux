@@ -27,7 +27,7 @@
                 {var count = count + 1}
                 <div class="fl-container fl-fix contacts_item{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler"></div>
-                    <a href="/~${p.profile.userid|safeURL}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(p.profile)}"></a>
+                    <a href="/~${p.profile.userid|safeURL}" title="__MSG__PROFILE_PICTURE__"><img src="${sakai.api.Util.constructProfilePicture(p.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${p.profile.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(p.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(p.profile), 170, null, "s3d-bold", true)}</a>
                         <div class="contacts_item_counts">
@@ -75,7 +75,7 @@
                         <input type="checkbox" name="checkbox_${i.profile.userid}" style="display:none"/>
                     </div>
                     <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button contacts_item_message_icon sakai_sendmessage_overlay" data-sakai-entityid="${i.profile.userid}" data-sakai-entityname="${sakai.api.User.getDisplayName(i.profile)}" data-sakai-entitytype="user"></button>
-                    <a href="/~${i.profile.userid|safeURL}"><img alt="pending icon" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
+                    <a href="/~${i.profile.userid|safeURL}" title="__MSG__PROFILE_PICTURE__"><img alt="__MSG__PROFILE_PICTURE__" src="${sakai.api.Util.constructProfilePicture(i.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${i.profile.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(i.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(i.profile), 170, null, "s3d-bold", true)}</a>
                         <div class="contacts_item_counts">
@@ -141,7 +141,7 @@
                             <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                         {/if}
                     {/if}
-                    <a href="/~${a.profile.userid|safeURL}"><img alt="accepted icon" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
+                    <a href="/~${a.profile.userid|safeURL}" title="__MSG__PROFILE_PICTURE__"><img alt="__MSG__PROFILE_PICTURE__" src="${sakai.api.Util.constructProfilePicture(a.profile)}"></a>
                     <div class="contacts_list">
                         <a href="/~${a.profile.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(a.profile)}">${sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(a.profile), 170, null, "s3d-bold", true)}</a>
                         <div class="contacts_item_counts">
@@ -180,7 +180,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-contacts less-margin"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people" title="__MSG__ADD_CONTACTS__">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people" title="__MSG__FIND_AND_ADD_PEOPLE__">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
                 </div>
             {else}
                 <div class="s3d-no-results-container">

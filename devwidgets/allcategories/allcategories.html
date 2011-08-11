@@ -14,11 +14,11 @@
             {for item in directory}
                 <li>
                     <div class="allcategories_item">
-                        <a href="/category#l=${item.id}">
+                        <a href="/category#l=${item.id}" title="${item.title} ${item.count} __MSG__CONTENT_ITEMS__">
                             <div class="allcategories_item_header">
                                 <div class="allcategories_item_raquo"></div>
                                 <div class="allcategories_item_header_link s3d-regular-links s3d-bold">${item.title}</div>
-                                <span class="allcategories_item_header_meta">${item.count} content items</span>
+                                <span class="allcategories_item_header_meta">${item.count} __MSG__CONTENT_ITEMS__</span>
                             </div>
                         </a>
                         {if item.content}

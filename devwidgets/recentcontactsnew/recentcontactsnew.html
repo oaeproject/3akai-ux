@@ -17,7 +17,7 @@
             <div class="recentcontactsnew_item"></div>
             <div id="recentcontactsnew_item_template"><!--
                 <div class="recentcontactsnew_item_img fl-force-left">
-                    <a href="/~${profile.userid|safeURL}">
+                    <a href="/~${profile.userid|safeURL}" title="__MSG__PROFILE_PICTURE__">
                         <img class="s3d-icon-50" src="${profilePicture}"/>
                     </a>
                 </div>
@@ -52,7 +52,7 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${firstName|safeOutput} __MSG__RECENT_CONNECTION__</p>
                 <div class="fl-force-left">
-                <a href="/~${connection.connectionId}">
+                <a href="/~${connection.connectionId}" title="__MSG__PROFILE_PICTURE__>
                     <img class="s3d-icon-32" src="${connection.connectionPicture}" />
                 </a>
                 </div>
@@ -101,7 +101,7 @@
     --></div>
 
     <div class="s3d-widget-footer">
-        <a class="recentcontactsnew_item_link s3d-widget-links" href="/me#l=contacts">
+        <a class="recentcontactsnew_item_link s3d-widget-links" href="/me#l=contacts" title="__MSG__SEE_ALL_MY_CONTACTS__">
             __MSG__SEE_ALL_MY_CONTACTS__
         </a>
     </div>

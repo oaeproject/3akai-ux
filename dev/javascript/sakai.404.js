@@ -43,6 +43,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
+            $browsecatcount.parent().parent().attr("title", $.trim($browsecatcount.parent().parent().text()));
 
             // Create the world links in the second column after People, Content...
             var worlds = [];

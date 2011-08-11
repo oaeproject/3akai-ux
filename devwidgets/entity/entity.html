@@ -84,7 +84,7 @@
             <div class="s3d-dropdown-list" style="display:none;">
                 <div class="s3d-dropdown-list-arrow-up"></div>
                 <ul>
-                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold" title="__MSG__CHANGE_PICTURE__">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
         </div>
@@ -137,12 +137,12 @@
             <button type="button" id="entity_content_share" class="s3d-button s3d-header-button share_trigger_click" data-entityid="${data.data["_path"]}" title="__MSG__SHARE__">__MSG__SHARE__<span class="entity_share_content"></span></button>
         {/if}
         {if data.data.mimeType === "x-sakai/link"}
-            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Open Link<span class="entity_download_content"></span>
+            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank" title="__MSG__OPEN_LINK__">
+                __MSG__OPEN_LINK__<span class="entity_download_content"></span>
             </a>
         {elseif data.data.mimeType !== "x-sakai/document"}
-            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Download<span class="entity_download_content"></span>
+            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank" title="__MSG__DOWNLOAD__">
+                __MSG__DOWNLOAD__<span class="entity_download_content"></span>
             </a>
         {/if}
     </div>
@@ -177,7 +177,7 @@
         <span class="entity_comments">
             <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
-            <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+            <a id="entity_comments_link" href="#" title="${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
         </span>
         <div class="entity_number entity_permissions_label">
             {var permissions = data.data["sakai:permissions"]}
@@ -217,7 +217,7 @@
             <div class="s3d-dropdown-list" style="display:none;">
                 <div class="s3d-dropdown-list-arrow-up"></div>
                 <ul>
-                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a id="changepic_container_trigger" href="javascript:;" class="s3d-bold" title="__MSG__CHANGE_PICTURE__">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
         </div>
@@ -238,7 +238,7 @@
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
             <div class="entity_dropdown_content s3d-dropdown-menu">
                 <ul>
-                    <li><a href="#" class="s3d-bold">__MSG__CHANGE_PICTURE__</a></li>
+                    <li><a href="#" class="s3d-bold" title="__MSG__CHANGE_PICTURE__">__MSG__CHANGE_PICTURE__</a></li>
                 </ul>
             </div>
         </div>
@@ -279,6 +279,7 @@
                             {/if}
                             <span class="entity_content_name">
                                 <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']|safeURL}" target="_blank">${i['sakai:group-title']|safeOutput}</a>
+
                             </span>
                          {/if}
                         </li>
@@ -298,6 +299,7 @@
                         {/if}
                         <span class="entity_content_name">
                             <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|safeURL}" target="_blank">${displayName}</a>
+
                         </span>
                         </li>
                     {/if}
