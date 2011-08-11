@@ -175,6 +175,7 @@ define(
              * we'll use the default bundle to translate everything.
              */
             var loadLanguageBundles = function(){
+                
                 var localeSet = false;
                 var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest;
 
