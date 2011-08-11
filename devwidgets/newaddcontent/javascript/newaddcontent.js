@@ -1149,7 +1149,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
-            $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
