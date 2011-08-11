@@ -14,11 +14,11 @@
             {for item in directory}
                 <li>
                     <div class="allcategories_item">
-                        <a href="/category#l=${item.id}">
+                        <a href="/category#l=${item.id}" title="${item.title} ${item.count} __MSG__CONTENT_ITEMS__">
                             <div class="allcategories_item_header">
                                 <div class="allcategories_item_raquo"></div>
                                 <div class="allcategories_item_header_link s3d-regular-links s3d-bold">${item.title}</div>
-                                <span class="allcategories_item_header_meta">${item.count} content items</span>
+                                <span class="allcategories_item_header_meta">${item.count} __MSG__CONTENT_ITEMS__</span>
                             </div>
                         </a>
                         {if item.content}
@@ -29,8 +29,8 @@
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(item.content["_mimeType"]).URL}" class="allcategories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
                                 {/if}
-                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], size, null, "s3d-bold")}</a>
-                                <span style="display:none"><span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
+                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold" title="item.content["sakai:pooled-content-file-name"]">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], size, null, "s3d-bold")}</a>
+                                <span style="display:none"><span class="allcategories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold" title="${item.content["sakai:pool-content-created-for"]}">${item.content["sakai:pool-content-created-for"]}</a></span>
                                 {if item.content["sakai:description"]}
                                     <span class="allcategories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                 {/if}
@@ -41,7 +41,7 @@
                                     <span class="allcategories_content_tags">
                                         {for tag in realTags}
                                             {if tag_index < 2}
-                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < realTags.length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#q=${tag}" class="s3d-action" title="${tag}">${tag}</a>{if tag_index < realTags.length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>

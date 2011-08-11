@@ -62,7 +62,7 @@
         <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
-        <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}">${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
+        <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}" title="${data.data["sakai:pooled-content-url"]}">${sakai.api.Security.escapeHTML(data.data["sakai:pooled-content-url"])}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
     {/if}
 --></div>
 
@@ -91,7 +91,7 @@
             <ul>
                 {for dir in directorylocations}
                     <li>
-                        <a href="/category#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
+                        <a href="/category#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="__MSG__SEARCH_CONTENT_LOCATED_AT__ ${dir}">
                             ${dir}
                         </a>
                     </li>
@@ -127,7 +127,7 @@
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>
-                <a href="${creator.homePath}" class="s3d-regular-links">
+                <a href="${creator.homePath}" class="s3d-regular-links" title="${sakai.api.User.getDisplayName(creator)}">
                     ${sakai.api.User.getDisplayName(creator)}
                 </a>
             </span>

@@ -35,7 +35,7 @@
                             <span class="featuredcontent_content_tags">
                                 {for tag in small["sakai:tags"]}
                                     {if tag_index < 2}
-                                        <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                        <a href="/search#q=${tag}" class="s3d-action" title="${tag}">${tag}</a>{if tag_index < small["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                     {/if}
                                 {/for}
                             </span>
@@ -92,7 +92,7 @@
                         <span class="featuredcontent_content_tags">
                             {for tag in item["sakai:tags"]}
                                 {if tag_index < 2}
-                                    <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
+                                    <a href="/search#q=${tag}" class="s3d-action" title="${tag}">${tag}</a>{if tag_index < item["sakai:tags"].length-1 && tag_index < 1}, {/if}
                                 {/if}
                             {/for}
                         </span>
@@ -108,7 +108,7 @@
             <div id="featuredcontent_show_more_container">
                 <a class="s3d-button s3d-large-button" href="/categories" title="__MSG__SHOW_MORE__">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
-                <a/>
+                </a>
             </div>
         {/if}
     {else}

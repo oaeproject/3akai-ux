@@ -15,7 +15,7 @@
                 <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
+                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold" title="${tag}">${tag}</a>
                         {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
                     {/if}
                 {/for}
@@ -44,7 +44,7 @@
                                             <img src="${content0.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {/if}
                                         <h2>
-                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}" title="${content0.title}">
                                                 ${content0.title}
                                             </a>
                                         </h2>
@@ -60,7 +60,7 @@
                                             <img src="${content1.preview}" alt="__MSG__CONTENT_PREVIEW__"/>
                                         {/if}
                                         <h2>
-                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
+                                            <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}" title="${content1.title}">
                                                 ${content1.title}
                                             </a>
                                         </h2>
@@ -74,7 +74,7 @@
                                         {var content2 = item.suggestions[2]}
                                         {if content2}
                                             <h2>
-                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}" title="${content2.title}">
                                                     ${content2.title}
                                                 </a>
                                             </h2>
@@ -86,7 +86,7 @@
                                         {var content3 = item.suggestions[3]}
                                         {if content3}
                                             <h2>
-                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
+                                                <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}" title="${content3.title}">
                                                     ${content3.title}
                                                 </a>
                                             </h2>
@@ -105,7 +105,7 @@
                                         {else}
                                             <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__PROFILE_PICTURE__"/>
                                         {/if}
-                                        <h2><a href="/~${user.userid|urlSafe}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h2>
+                                        <h2><a href="/~${user.userid|urlSafe}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" title="${user.displayName}">${user.displayName}</a></h2>
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
@@ -139,7 +139,7 @@
                                             <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__PROFILE_PICTURE__"/>
                                         {/if}
                                         <h2>
-                                            <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
+                                            <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" title="${group.title}">
                                                 ${group.title}
                                             </a>
                                         </h2>

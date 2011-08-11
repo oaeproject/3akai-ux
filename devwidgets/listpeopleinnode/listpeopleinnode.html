@@ -37,7 +37,7 @@
         <ul>
             {for person in results}
                 <li {if person_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if}>
-                    <a href="/~${person["rep:userId"]|urlSafe}" target="_blank" class="s3d-list-link-full-space s3d-action">
+                    <a href="/~${person["rep:userId"]|urlSafe}" target="_blank" class="s3d-list-link-full-space s3d-action" title="__MSG__PROFILE_PICTURE__">
                         {if person.picture != null}
                             <img src="/~${person["rep:userId"]|urlSafe}/public/profile/${person.picture.name|urlSafe}" alt="${person.basic.elements.firstName.value}" class="s3d-list-entity-picture"/>
                         {else}
@@ -56,7 +56,7 @@
     {/if}
     {if items < total}
         <div class="fl-text-align-right">
-            <a href="/search#l=people&q=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall">__MSG__SEE_ALL__</a>
+            <a href="/search#l=people&q=${selected}" target="_blank" class="s3d-action s3d-action-seeall listpeopleinnode_seeall" title="__MSG__SEE_ALL__">__MSG__SEE_ALL__</a>
         </div>
     {/if}
 --></div>
