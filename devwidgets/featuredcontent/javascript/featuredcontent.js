@@ -200,13 +200,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var url = "/var/search/public/random-content.json";
             if(sakai_global.category){
                 items = 7;
-                q = pageData.category.replace("-", "/");
-                url = "/var/search/pool/all.json"
+                q = "directory/" + pageData.category.replace("-", "/");
+                url = "/var/search/bytag.json";
             }
             sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
                 items: items,
-                q: q
+                tag: q,
+                type: "c"
             });
         };
 

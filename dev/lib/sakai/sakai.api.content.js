@@ -586,15 +586,13 @@ define(
             var mimeType = "other";
             if (content['_mimeType']){
                 mimeType = content['_mimeType'];
-            } else if (content['sakai:custom-mimetype']){
-                mimeType = content['sakai:custom-mimetype'];
             }
             return mimeType;
         },
 
         getThumbnail : function(content){
             var thumbnail = "";
-            if (content['sakai:pagecount']) {
+            if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
                 thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
             } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
                 thumbnail = "/p/" + content['_path'];
@@ -641,6 +639,7 @@ define(
                     sakai_content.getThumbnail(content) ||
                     mimeType.substring(0,6) === "image/" ||
                     mimeType.substring(0,5) === "text/" ||
+                    mimeType === "application/x-shockwave-flash" ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }

@@ -87,7 +87,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 return;
                             } else {
                                 contentInfo = $.parseJSON(data.results[0].body);
-                                if (contentInfo["sakai:custom-mimetype"] && contentInfo["sakai:custom-mimetype"] === "x-sakai/document"){
+                                if (contentInfo["_mimeType"] && contentInfo["_mimeType"] === "x-sakai/document"){
                                     showPreview = false;
                                 } else {
                                     switchToOneColumnLayout(false);

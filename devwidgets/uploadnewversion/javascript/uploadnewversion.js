@@ -68,22 +68,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(uploadnewversionUploadContentForm).ajaxForm({
                 success: function(data){
                     $.ajax({
-                        url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
-                        type: "POST",
-                        dataType: "json",
-                        success: function(data){
-                            $uploadnewversionContainer.jqmHide();
-                            sakai_global.content_profile.content_data.data = data;
-                            $(window).trigger("updated.version.content.sakai");
-                            $(window).trigger("update.versions.sakai", {
-                                pageSavePath: sakai_global.content_profile.content_data.content_path,
-                                saveRef: "",
-                                showByDefault: true
-                            });
-                        },error: function(err){
-                            debug.log(err);
-                        }
+                       url: sakai_global.content_profile.content_data["content_path"] + ".json",
+                       type: "POST",
+                       data: {
+                           "sakai:needsprocessing": true,
+                           "sakai:pagecount": 0,
+                           "sakai:hasPreview": false
+                       },
+                       success: function(data){
+                           $.ajax({
+                               url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
+                               type: "POST",
+                               success: function(data){
+                                   $uploadnewversionContainer.jqmHide();
+                                   sakai_global.content_profile.content_data.data = data;
+                                   $(window).trigger("updated.version.content.sakai");
+                                   $(window).trigger("update.versions.sakai", {
+                                       pageSavePath: sakai_global.content_profile.content_data.content_path,
+                                       saveRef: "",
+                                       showByDefault: true
+                                   });
+                               },
+                               error: function(err){
+                                   debug.error(err);
+                               }
+                           });
+                       },
+                       error: function(err){
+                           debug.error(err);
+                       }
                     });
+                    
                 }
             });
             $(uploadnewversionUploadContentForm).submit();
