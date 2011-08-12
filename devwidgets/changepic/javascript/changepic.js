@@ -508,7 +508,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
                     // Do a patch request to the profile info so that it gets updated with the new information.
                     $.ajax({
-                        url: "/~" + sakai.api.Util.urlSafe(id) + "/public/authprofile.json",
+                        url: "/~" + sakai.api.Util.urlSafe(id) + "/public/authprofile.profile.json",
                         type : "POST",
                         data : {
                             "picture" : $.toJSON(tosave),

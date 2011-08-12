@@ -135,10 +135,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                     break;
                 case "group_managed":
-                    $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", context));
+                    var json = {
+                        "joinable": context.data.authprofile["sakai:group-joinable"] === "withauth",
+                        "context": context
+                    };
+                    $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", json));
 
                     $('#ew_group_settings_edit_link').live("click", function(ev) {
                         $(window).trigger("init.worldsettings.sakai", context.data.authprofile['sakai:group-id']);
+                        $('#entity_groupsettings_dropdown').jqmHide();
+                    });
+
+                    $('#ew_group_join_requests_link').live("click", function(ev) {
+                        $(window).trigger("init.joinrequests.sakai", context.data.authprofile);
+                        $('#entity_groupsettings_dropdown').jqmHide();
+                    });
+
+                    $(".sakai_add_content_overlay").live("click", function(ev){
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
@@ -161,24 +174,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     break;
                 case "group":
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
-                        var url = "/system/userManager/group/" +
-                            context.data.authprofile["sakai:group-id"] + ".managers.json";
-                        $.ajax({
-                            url: url,
-                            success: function(managers){
-                                $(window).trigger("init.joinrequestbuttons.sakai", [
-                                    false,
-                                    context.data.authprofile["sakai:group-id"],
-                                    context.data.authprofile["sakai:group-joinable"],
-                                    managers.length,
-                                    "s3d-header-button",
-                                    function (renderedButtons) {
-                                        // onShow
-                                        $("#joinrequestbuttons_widget", $rootel).show();
-                                    }
-                                ]);
+                        sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
+                            var managerCount = false;
+                            if (members.Manager && members.Manager.results){
+                                managerCount = members.Manager.results.length;
                             }
-                        });
+                            $(window).trigger("init.joinrequestbuttons.sakai", [
+                                {
+                                    "groupProfile": context.data.authprofile,
+                                    "groupMembers": members
+                                },
+                                context.data.authprofile["sakai:group-id"],
+                                context.data.authprofile["sakai:group-joinable"],
+                                managerCount,
+                                "s3d-header-button",
+                                function (renderedButtons) {
+                                    // onShow
+                                    $("#joinrequestbuttons_widget", $rootel).show();
+                                }
+                            ]);
+                        }, true);
                     });
                     sakai.api.Widgets.widgetLoader.insertWidgets("entity_container", false, $rootel);
                     break;
@@ -237,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     $("#entity_comments_link").live("click", function(){
                         $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
-                        $("#comments_txtMessage").focus();
+                        $("#contentcomments_txtMessage").focus();
                        return false;
 
                     });
@@ -254,10 +269,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var toggleDropdownList = function(){
-            $(this).children(".s3d-dropdown-list").toggle();
-            $(this).children(".entity_profile_picture_down_arrow").toggleClass("clicked");
-            $(this).children(".s3d-dropdown-list").css("top", $(this).position().top + 60);
-        }
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").toggle();
+            $(".entity_profile_picture_down_arrow").toggleClass("clicked");
+            $(".entity_profile_picture_down_arrow").nextAll(".s3d-dropdown-list").css("top", $(".entity_profile_picture_down_arrow").position().top + 60);
+        };
 
         $(window).bind("sakai.entity.init", function(ev, context, type, data){
             var obj = {
@@ -310,6 +325,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 
+            sakai.api.Util.hideOnClickOut("#entity_contentsettings_dropdown", "#entity_content_permissions, .entity_permissions_icon", function(){
+                $("#entity_contentsettings_dropdown").jqmHide();
+            });
+
             $("#ew_group_categories_link").click(function(){
                 $("#assignlocation_container").jqmShow();
                 $('#entity_groupsettings_dropdown').jqmHide();
@@ -356,10 +375,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".addpeople_init").click(function(){
                 $(window).trigger("init.addpeople.sakai", [tuid]);
                 $("#entity_groupsettings_dropdown").jqmHide();
-            })
+            });
 
             $(entityUserImage).click(toggleDropdownList);
             $(entityGroupImage).click(toggleDropdownList);
+
+            sakai.api.Util.hideOnClickOut(entityGroupImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
+            sakai.api.Util.hideOnClickOut(entityUserImage + " .s3d-dropdown-list", ".entity_profile_picture_down_arrow", toggleDropdownList);
 
         });
 

@@ -177,6 +177,17 @@ define(
         getMultipleUsers: function(userArray, callback){
             var uniqueUserArray = [];
 
+            // callback function for response from batch request
+            var bundleReqFunction = function(success, reqData){
+                var users = {};
+                for (var j in reqData.responseId) {
+                    if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
+                        users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
+                    }
+                }
+                callback(users);
+            };
+
             for (var i in userArray) {
                 if (userArray.hasOwnProperty(i) && $.inArray(userArray[i], uniqueUserArray) == -1) {
                     uniqueUserArray.push(userArray[i]);
@@ -187,22 +198,9 @@ define(
                     sakai_serv.bundleRequests("sakai.api.User.getMultipleUsers", uniqueUserArray.length, uniqueUserArray[ii], {
                         "url": "/~" + uniqueUserArray[ii] + "/public/authprofile.profile.json",
                         "method": "GET"
-                    });
+                    }, bundleReqFunction);
                 }
             }
-
-            // bind response from batch request
-            $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
-                if (reqData.groupId === "sakai.api.User.getMultipleUsers") {
-                    var users = {};
-                    for (var j in reqData.responseId) {
-                        if (reqData.responseId.hasOwnProperty(j) && reqData.responseData[j]) {
-                            users[reqData.responseId[j]] = $.parseJSON(reqData.responseData[j].body);
-                        }
-                    }
-                    callback(users);
-                }
-            });
         },
 
         /**
@@ -584,11 +582,13 @@ define(
                     "targetUserId": inviteFrom
                 },
                 success: function(data) {
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "ACCEPTED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact){
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "ACCEPTED";
+                            }
+                        });
+                    }
                     if ($.isFunction(callback)) {
                         callback(true, data);
                     }
@@ -613,11 +613,13 @@ define(
                     "targetUserId": inviteFrom
                 },
                 success: function(data){
-                    $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
-                        if (contact.target === inviteFrom) {
-                            contact.details["sakai:state"] = "IGNORED";
-                        }
-                    });
+                    if (sakaiUserAPI.data.me.mycontacts) {
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
+                            if (contact.target === inviteFrom) {
+                                contact.details["sakai:state"] = "IGNORED";
+                            }
+                        });
+                    }
                     $.ajax({
                         url: "/~" + sakai_util.urlSafe(sakaiUserAPI.data.me.user.userid) + "/contacts.remove.html",
                         type: "POST",
@@ -755,7 +757,7 @@ define(
 
         getUpdatedCounts : function(medata, callback) {
             $.ajax({
-                url: medata.profile.homePath + "/public/authprofile.json",
+                url: medata.profile.homePath + "/public/authprofile.profile.json",
                 success: function(profile){
                     medata.profile.counts = profile.counts;
                     if ($.isFunction(callback)){

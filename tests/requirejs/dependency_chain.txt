@@ -109,7 +109,7 @@ i18n
 
 l10n
  - config
- - Globalization
+ - Globalize
 
 Server
  - jquery

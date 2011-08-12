@@ -30,7 +30,7 @@ strong{color:#000;}
 
 /* SEARCH RESULTS TITLE */
 .searchgroups_result_title{text-align:center;font-size:1.1em;color:#6d6d6d;padding:0;}
-.searchgroups_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;}
+.searchgroups_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:20px 10px 0 10px;padding-bottom:10px;width:712px;}
 .searchgroups_selects{float:right;}
 .search_sortby{margin-left:10px;}
 .searchgroups_selects div{display:inline !important;}

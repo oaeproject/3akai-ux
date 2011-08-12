@@ -107,7 +107,10 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "sakai/sakai.dependencies"
+            name: "sakai/sakai.dependencies",
+            exclude: [
+               "config/config_custom"
+            ]
         }
 
         //Just specifying a module name means that module will be converted into

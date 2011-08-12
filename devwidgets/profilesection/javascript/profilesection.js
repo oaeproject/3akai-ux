@@ -64,6 +64,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         var $profilesection_generalinfo_content_items = $(".profilesection_generalinfo_content", $rootel);
         var $profilesection_generalinfo_template = $("#profilesection_generalinfo_template", $rootel);
 
+        var $profilesection_publication_edit_button = $(".profile-section-publications-edit-button", $rootel);
+        var $profilesection_publication_remove_button = $(".profile-section-publications-remove-button", $rootel);
+        var $profilesection_publication_add_button = $(".profilesection_add_publication", $rootel);
+
+        var $profilesection_degreesandpositions_edit_button = $(".profile-section-degreesandpositions-edit-button", $rootel);
+        var $profilesection_degreesandpositions_remove_button = $(".profile-section-degreesandpositions-remove-button", $rootel);
+        var $profilesection_degreesandpositions_add_button = $(".profilesection_add_degreesandpositions", $rootel);
+
         var $profilesection_save_items = $($profilesection_generalinfo_access_items.selector + ", " + $profilesection_generalinfo_content_items.selector);
 
         var $profilesection_add_section = $(".profilesection_add_section", $rootel);
@@ -189,10 +197,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             "config": sectionObject,
                             "data": sakai_global.profile.main.directory,
                             "parentid": "0",
-                            sakai: sakai
+                            "sakai": sakai
                         });
                     }
-                } else if (sakai_global.profile.main.data[currentsection] === undefined || sakai_global.profile.main.data[currentsection].elements === undefined || sakai_global.profile.main.data[currentsection].elements.length === 0) {
+                } else if (sakai_global.profile.main.data[currentsection] === undefined || sakai_global.profile.main.data[currentsection].elements === undefined || sakai_global.profile.main.data[currentsection].elements.length === 0 || _.keys(sakai_global.profile.main.data[currentsection].elements).length === 0) {
                    if (sakai_global.profile.main.mode.value === "edit") {
                        sections = "<div class='profilesection_section' id='profilesection_section_0'>";
                        sakai_global.profile.main.data[currentsection].elements = [];
@@ -200,13 +208,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                            sections += sakai.api.Util.TemplateRenderer($profilesection_add_section_template, {
                                "config": sectionObject,
                                "parentid": "0",
-                               sakai: sakai
+                               "sakai": sakai
                            });
                        } else {
                            sections += sakai.api.Util.TemplateRenderer($profilesection_add_locations_template, {
                                "config": sectionObject,
                                "parentid": "0",
-                               sakai: sakai
+                               "sakai": sakai
                            });
                        }
                        sections += "</div>";
@@ -281,9 +289,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                 "config" : sakai_global.profile.main.config[currentsection],
                 "fields" : $.trim(sections),
                 "currentsection": currentsection,
-                sakai: sakai
+                "sakai": sakai
             };
-
             return sakai.api.Util.TemplateRenderer(sectionTemplate, json_config);
 
         };
@@ -355,14 +362,25 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                     sections += renderTemplateField(fieldTemplate, j, true, elt.id.value);
                 }
             }
+
+            if (currentsection === "publications") {
+                sections += '<button type="submit" class="s3d-button s3d-overlay-button grey profile-publications-update-button" data-sectionid="'+elt.id.value+'">__MSG__UPDATE__</button>';
+            }
+
+            if (currentsection === "degreesandpositions") {
+                sections += '<button type="submit" class="s3d-button s3d-overlay-button grey profile-degreesandpositions-update-button" data-sectionid="'+elt.id.value+'">__MSG__UPDATE__</button>';
+            }
+
+
             if (currentsection !== "locations") {
                 sections += sakai.api.Util.TemplateRenderer($profilesection_remove_section_template, {
                     "config": sectionObject,
                     "parentid": elt.id.value,
-                    sakai: sakai
+                    "sakai": sakai
                 });
             }
             sections += "</div>";
+
             if ($parentSection.find(".profilesection_section:last").length) {
                 $parentSection = $parentSection.find(".profilesection_section:last");
             }
@@ -371,46 +389,46 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
             var dataForTemplate = {
                 "config": sectionObject,
                 "parentid": elt.id.value,
-                sakai: sakai
+                "sakai": sakai
             };
             $(sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me)).insertAfter($newSection);
             $(window).trigger("ready.profilesection.sakai", $rootel.attr("id"));
         };
 
         var removeSection = function($parentSection, sectionIDToRemove) {
-          var newData = {};
-          var oldOrder = 0;
-          // Remove the section from the data
-          $.each(sakai_global.profile.main.data[currentsection].elements, function(i, elts) {
-              if ($.isPlainObject(elts) && elts.id.value !== sectionIDToRemove) {
-                  newData[elts.id.value] = elts;
-              } else {
-                  oldOrder = elts.order;
-              }
-          });
-          // Reset the order of the elements behind this one
-          $.each(sakai_global.profile.main.data[currentsection].elements, function(i, elts) {
-              if (elts.order > oldOrder) {
-                  elts.order--;
-              }
-          });
-          sakai_global.profile.main.data[currentsection].elements = newData;
-          if (!_.size(newData)) {
-              $parentSection.parent().find(".profilesection_add_section").remove();
-              var sections = "<div class='profilesection_section' id='profilesection_section_0'>";
-              if (sakai_global.profile.main.mode.value === "edit") {
-                  sakai_global.profile.main.data[currentsection].elements = [];
-                  var dataForTemplate = {
-                      "config": sakai_global.profile.main.config[currentsection],
-                      "parentid": "0",
-                      sakai: sakai
-                  };
-                  sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me);
-              }
-              sections += "</div>";
-              $parentSection.parent("div").append(sections);
-          }
-          $parentSection.remove();
+            var newData = {};
+            var oldOrder = 0;
+            // Remove the section from the data
+            $.each(sakai_global.profile.main.data[currentsection].elements, function(i, elts) {
+                if ($.isPlainObject(elts) && elts.id.value !== sectionIDToRemove) {
+                    newData[elts.id.value] = elts;
+                } else {
+                    oldOrder = elts.order;
+                }
+            });
+            // Reset the order of the elements behind this one
+            $.each(sakai_global.profile.main.data[currentsection].elements, function(i, elts) {
+                if (elts.order > oldOrder) {
+                    elts.order--;
+                }
+            });
+            sakai_global.profile.main.data[currentsection].elements = newData;
+            if (!_.size(newData)) {
+                $parentSection.parent().find(".profilesection_add_section").remove();
+                var sections = "<div class='profilesection_section' id='profilesection_section_0'>";
+                if (sakai_global.profile.main.mode.value === "edit") {
+                    sakai_global.profile.main.data[currentsection].elements = [];
+                    var dataForTemplate = {
+                        "config": sakai_global.profile.main.config[currentsection],
+                        "parentid": "0",
+                        "sakai": sakai
+                    };
+                    sections += sakai.api.i18n.General.process(sakai.api.Util.TemplateRenderer($profilesection_add_section_template, dataForTemplate), sakai.data.me);
+                }
+                sections += "</div>";
+                $parentSection.parent("div").append(sections);
+            }
+            $parentSection.remove();
         };
 
         $profilesection_add_section.live("click", function(e) {
@@ -431,6 +449,112 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         });
 
 
+        // Publications buttons
+        $profilesection_publication_add_button.live("click", function(){
+            var $parent = $(".profilesection_section", $rootel).last();
+            if ($parent.length === 0) {
+                $parent = $("#profilesection_section_0");
+            }
+            renderAdditionalTemplateEditSection(currentsection, $parent, this);
+
+        });
+
+        $profilesection_publication_edit_button.live("click", function(){
+
+            var $editSection = $("."+$(this).data("manipulates"));
+
+            if ($editSection.is(":visible")) {
+                $editSection.hide();
+            } else {
+                $editSection.show();
+            }
+
+        });
+
+        $(".profile-publications-update-button",$rootel).live("click", function(){
+            var sectionID = $(this).data("sectionid");
+            saveValues($("#profilesection_section_"+sectionID));
+        });
+
+
+        $profilesection_publication_remove_button.live("click", function(){
+            removeCompoundItem("publications", this);
+        });
+
+
+        // Degrees and positions buttons
+        $profilesection_degreesandpositions_add_button.live("click", function(){
+            var $parent = $(".profilesection_section", $rootel).last();
+            if ($parent.length === 0) {
+                $parent = $("#profilesection_section_0");
+            }
+            renderAdditionalTemplateEditSection(currentsection, $parent, this);
+        });
+
+        $profilesection_degreesandpositions_edit_button.live("click", function(){
+
+            var $editSection = $("."+$(this).data("manipulates"));
+
+            if ($editSection.is(":visible")) {
+                $editSection.hide();
+            } else {
+                $editSection.show();
+            }
+
+        });
+
+        $(".profile-degreesandpositions-update-button",$rootel).live("click", function(){
+            var sectionID = $(this).data("sectionid");
+            saveValues($("#profilesection_section_"+sectionID));
+        });
+
+
+        $profilesection_degreesandpositions_remove_button.live("click", function(){
+            removeCompoundItem("degreesandpositions", this);
+        });
+
+
+        // Removes a compund item (one which is displayed one way and edited another way)
+        var removeCompoundItem = function(type, context) {
+
+            var $section = $("#"+$(context).data("manipulates"));
+            var sectionIDToRemove = $(context).data("sectionid");
+
+            // Semove section from DOM
+            $section.remove();
+
+            // Remove the section from the data
+            var newData = {};
+            var oldOrder = 0;
+            $.each(sakai_global.profile.main.data[type]["elements"], function(i, elts) {
+                if ($.isPlainObject(elts) && elts.id.value+"" !== sectionIDToRemove+"") {
+                    newData[elts.id.value] = elts;
+                } else {
+                    oldOrder = elts.order;
+                }
+            });
+
+            // Reset the order of the elements behind this one
+            $.each(sakai_global.profile.main.data[type]["elements"], function(i, elts) {
+                if (elts.order > oldOrder) {
+                    elts.order--;
+                }
+            });
+            sakai_global.profile.main.data[type]["elements"] = newData;
+
+            var elkeys = _.keys(sakai_global.profile.main.data[type]["elements"]);
+            if (typeof sakai_global.profile.main.data[type]["elements"] === "object" && elkeys.length === 0) {
+                sakai_global.profile.main.data[type]["elements"] = [];
+            }
+
+            saveValues();
+
+        };
+
+
+
+
+
         ////////////////////////
         // Save functionality //
         ////////////////////////
@@ -438,12 +562,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
         /**
          * Save the values to the main sakai_global.profile object
          */
-        var saveValues = function() {
+        var saveValues = function($context) {
 
             // Reinitialize the jQuery selector
             $profilesection_generalinfo_content_items = $($profilesection_generalinfo_content_items.selector);
             $profilesection_generalinfo_access_items = $($profilesection_generalinfo_access_items.selector);
-            $profilesection_save_items = $($profilesection_save_items.selector);
+            $profilesection_save_items = ($context) ? $($profilesection_save_items.selector, $context) : $($profilesection_save_items.selector);
 
             // Run over all the items where we need to set the values for
             $profilesection_save_items.each(function(index, element){
@@ -453,6 +577,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
 
                 // Get the attribute that contains the path
                 var title = $selected_element.attr("id").split("profilesection_generalinfo_")[1].replace(/\_/g, ".");
+
                 // Check whether the element has a correct attribute
                 // TODO replace title by data-path as soon as the sanitizer allows it SAKIII-543
                 if (title === "basic.elements.tags") { // tags are special, we save them differently than the rest of the data
@@ -487,8 +612,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                                     return;
                                 }
                             });
-                        // when trying to add data into a new section that doesn't currently have any data,
-                        // we have to create the section's data object
+                            // when trying to add data into a new section that doesn't currently have any data,
+                            // we have to create the section's data object
                         } else if (!parentProp[0]) {
                             sakai_global.profile.main.data[nodeName] = {};
                             sakai_global.profile.main.data[nodeName].elements = {};
@@ -522,6 +647,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
             // tell the profile that this section has finished saving its data
             $(".profile-section-save-button").attr("disabled", "disabled");
             $(window).trigger("ready.data.profile.sakai", currentsection);
+
+            // Re-render publications
+            if (currentsection === "publications") {
+                renderTemplateGeneralInfo("publications", false);
+            }
+
+            // Re-render degrees and positions
+            if (currentsection === "degreesandpositions") {
+                renderTemplateGeneralInfo("degreesandpositions", false);
+            }
+
 
         };
 

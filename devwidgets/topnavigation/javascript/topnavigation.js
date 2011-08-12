@@ -54,6 +54,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var topnavigationlogin = "#topnavigation_user_options_login_wrapper";
         var topnavigationExternalLogin= ".topnavigation_external_login";
         var topnavUserLoginButton = "#topnavigation_user_options_login";
+        var topnavLogo = "#topnavigation_container .topnavigation_logo";
 
         // Form
         var topnavUserOptionsLoginForm = "#topnavigation_user_options_login_form";
@@ -166,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the number of unread messages
          */
         var setCountUnreadMessages = function(){
-            $(topnavUserInboxMessages).text("(" + sakai.data.me.messages.unread + ")");
+            $(topnavUserInboxMessages).text("(" + sakai.api.User.data.me.messages.unread + ")");
         };
 
         var renderResults = function(){
@@ -262,6 +263,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             renderObj.query = searchText;
+            searchText = sakai.api.Server.createSearchString(searchText);
             var requests = [];
             requests.push({
                 "url": filesUrl,
@@ -695,6 +697,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             setUserName();
             addBinding();
             renderOverlays();
+
+            // Hide logo if logged in
+            if(!sakai.data.me.user.anon){
+                $(topnavLogo).hide();
+            }
+
         };
 
         doInit();

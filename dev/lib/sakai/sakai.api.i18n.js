@@ -209,11 +209,11 @@ define(
                 }
                 i10nCode = langCode.replace("_", "-");
 
-                if (Globalization.cultures && Globalization.cultures[i10nCode]) {
-                    Globalization.preferCulture(i10nCode);
+                if (Globalize.cultures && Globalize.cultures[i10nCode]) {
+                    Globalize.culture(i10nCode);
                 } else {
                     $.getScript(sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
-                        Globalization.preferCulture(i10nCode);
+                        Globalize.culture(i10nCode);
                     });
                 }
 
@@ -231,9 +231,9 @@ define(
                     loadLocalBundleRequest = false;
                 }
 
-                // bind response from batch request
-                $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
-                    if (reqData.groupId === "i18n") {
+                // callback function for response from batch request
+                var bundleReqFunction = function(success, reqData){
+                    if (success){
                         var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData;
                         // loop through and allocate response data to their request
                         var i;
@@ -274,11 +274,10 @@ define(
                         } else {
                             finishI18N();
                         }
-
                     }
-                });
+                };
                 // add default language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 2, "loadDefaultBundle", loadDefaultBundleRequest);
+                sakai_serv.bundleRequests("i18n", 2, "loadDefaultBundle", loadDefaultBundleRequest, bundleReqFunction);
                 // add local language bundle to batch request
                 sakai_serv.bundleRequests("i18n", 2, "loadLocalBundle", loadLocalBundleRequest);
             };

@@ -12,7 +12,7 @@
 #contacts_container .contacts_item_first{border-top: 1px solid #DDDDDD;}
 #contacts_container .contacts_item_end{border-bottom: 1px solid #DDDDDD;}
 #contacts_container .contacts_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
-#contacts_container .contacts_item img {float: left;padding: 0 15px 10px 0;width: 35px;}
+#contacts_container .contacts_item a img {float: left;padding: 0 15px 10px 0;width: 35px;}
 #contacts_container .contacts_list{margin-left:75px;}
 #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
 #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
@@ -27,3 +27,5 @@
 #contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
 #contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
 #contacts_container .contacts_item .s3d-actions-delete{float:left;margin:11px 10px 0 0;}
+#contacts_container .contacts_item .left_filler {display:inline;float:left;height:25px;margin:1px 8px 0 0;width:17px;}
+#contacts_container .contacts_item .s3d-actions-addtolibrary {float:left;margin-right:9px;}
