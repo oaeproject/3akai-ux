@@ -133,14 +133,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
 
         /**
-         * returns how many years, months, days or hours since the dateinput
-         * @param {Date} date
-         */
-        var getTimeAgo = function(date){
-            return sakai.api.Datetime.getTimeAgo(date);
-        };
-
-        /**
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
@@ -206,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 }
 
-                comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.getValueForKey("AGO");
+                comment.timeAgo = $.timeago(comment.date);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);

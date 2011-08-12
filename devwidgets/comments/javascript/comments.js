@@ -139,14 +139,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * returns how many years, months, days or hours since the dateinput
-         * @param {Date} date
-         */
-        var getTimeAgo = function(date){
-            return sakai.api.Datetime.getTimeAgo(date);
-        };
-
-        /**
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
@@ -181,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } catch (ex) {
                     comment.date = tempDate;
                 }
-                comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.getValueForKey("AGO");
+                comment.timeAgo = $.timeago(comment.date);
                 // Use the sakai API function to parse the date and convert to the users local time
                 comment.date = parseDate(tempDate, sakai.data.me);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);

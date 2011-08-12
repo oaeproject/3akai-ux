@@ -102,7 +102,7 @@
             ${author.authorName}
         </a>
         {if commentCreated}
-            <span class="recentchangedcontent_timeago"> (${sakai.api.Datetime.getTimeAgo(commentCreated)} __MSG__AGO__)</span>
+            <span class="recentchangedcontent_timeago"> (${jQuery.timeago(commentCreated)})</span>
         {/if}
     --></div>
 

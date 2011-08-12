@@ -119,23 +119,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             item.usedin = usedin;
             var path = result["_path"];
-            if (result[path + "/comments"]) {
+            if (result["comments"]) {
                 var totalcomment = 0; // store total number of comments realted to content
                 var commentpath = ""; // store the path of the comment to display
                 var latestDate = 0; // store the latest date of the comment
-                for (var obj in result[path + "/comments"]) {
+                for (var obj in result["comments"]) {
                     // if the object is comment
-                    if (obj.indexOf(path + "/comments") > -1) {
+                    if (obj.substring(0,1) !== "-1") {
                         // add the comment count
                         totalcomment++;
                         // check if the comment is latest comment
-                        if (result[path + "/comments"][obj]["_created"] > latestDate) {
+                        if (result["comments"][obj]["_created"] > latestDate) {
                             commentpath = obj;
-                            latestDate = result[path + "/comments"][obj]["_created"];
+                            latestDate = result["comments"][obj]["_created"];
                         }
                     }
                 }
-                item.comment = result[path + "/comments"][commentpath];
+                item.comment = result["comments"][commentpath];
                 item.totalcomment = totalcomment;
 
                 if (item.comment.comment) {
@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai: sakai
                     };
                     if (item.comment){
-                        json.commentCreated = item.comment._created;
+                        json.commentCreated = new Date(item.comment._created);
                     }
 
                     $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",json));
