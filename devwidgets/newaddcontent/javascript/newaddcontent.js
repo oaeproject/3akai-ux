@@ -124,7 +124,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
         // Paths
         var uploadPath = "/system/pool/createfile";
-        var importPath = "/system/pool/importimscp";
 
         // Forms
         var $newaddcontentUploadContentForm = $("#newaddcontent_upload_content_form");
@@ -138,10 +137,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
         var multifileQueueAddAllowed = true;
         var contentUploaded = false;
-        var courseImported = false;
-        var courseToImport = false;
         var hideAfterContentUpload = false;
         var currentExistingContext = false;
+        var courseImported = 0;
 
         var currentSelectedLibrary = sakai.data.me.user.userid;
         if (sakai_global.group && sakai_global.group.groupId){
@@ -257,7 +255,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
             switch (obj.type){
                 case "content":
-                case "course":
                     var $found = $("*:contains(\"" + obj.originaltitle + "\")");
                     $found.last().prev("a").click();
                     // If the user removes an item that was selected through browsing the OS reduce the file count to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
@@ -317,11 +314,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         "type": "content",
                         "origin":"user" // 'origin' tells Sakai that this file was selected from the users hard drive
                     };
-                    if (courseToImport) {
-                        courseToImport = false;
-                        contentObj.type = "course";
-                        enableContentFields();
-                    }
                     addContentToQueue(contentObj);
                     multifileQueueAddAllowed = true;
                     $contentForm.find(newaddcontentUploadContentTitle + ", " + newaddcontentUploadContentDescription + ", " + newaddcontentUploadContentTags).val("");
@@ -431,7 +423,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         var checkUploadCompleted = function(files){
             if (files) {
                 $.each(itemsToUpload, function(index, item){
-                    if (item.type == "content" || item.type == "course") {
+                    if (item.type == "content") {
                         itemsUploaded++;
                     }
                 });
@@ -449,7 +441,8 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
                     me: sakai.data.me,
                     libraryid: libraryToUploadTo,
-                    librarytitle: librarytitle
+                    librarytitle: librarytitle,
+                    courseImported: courseImported
                 }));
             }
         };
@@ -664,15 +657,26 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 dataType: "json",
                 success: function(data){
                     var extractedData = [];
+                    var imscpData = [];
                     for (var i in data) {
                         if (data.hasOwnProperty(i)) {
-                            lastUpload.push(data[i].item);
                             var obj = {};
                             obj.filename = i;
                             obj.hashpath = data[i];
-                            extractedData.push(obj);
+                            if (data[i].type && data[i].type === "imscp") {
+                                obj = data[i].item;
+                                obj.filename = i;
+                                obj.hashpath = data[i].poolId;
+                                imscpData.push(obj);
+                                courseImported ++;
+                                lastUpload.push(obj);
+                            } else {
+                                lastUpload.push(data[i].item);
+                                extractedData.push(obj);
+                            }
                         }
                     }
+                    setCourseContent(imscpData);
                     setDataOnContent(extractedData);
                 },
                 error: function(){
@@ -683,88 +687,85 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         };
 
         /**
-         * Execute the multicourse upload
+         * Set course data on server
          */
-        var importCourse = function(courseObj){
-            $newaddcontentUploadContentForm.attr("action", importPath);
-            $newaddcontentUploadContentForm.ajaxForm({
-                dataType: "json",
-                success: function(data){
-                    var itemToPush = data._contentItem.item;
-                    itemToPush["sakai:permissions"] = courseObj.permission;
-                    itemToPush["sakai:copyright"] = courseObj.copyright;
-                    lastUpload.push(itemToPush);
-                    var id = data._contentItem.poolId;
-                    $.ajax({
-                        url: "/p/" + id,
-                        type: "POST",
-                        data: {
-                            "sakai:permissions" : courseObj.permissions,
-                            "sakai:copyright" : courseObj.copyright,
-                            "sakai:allowcomments" : "true",
-                            "sakai:showcomments" : "true"
-                        },
-                        success: function() {
-                            var resources = eval(itemToPush.resources);
-                            var content = {};
-                            var resourceIds = {};
-                            for (var i = 0; i < resources.length; i++) {
-                                resourceIds[i] = resources[i]._id;
-                                content[resourceIds[i]] = {"page" : resources[i].page};
-                            }
+        var setCourseContent = function(data) {
+           $.each(itemsToUpload, function(i,arrayItem){
+                if(arrayItem.type == "content"){
+                    $.each(data, function(ii, savedItem){
+                        if (savedItem.filename == arrayItem.originaltitle) { 
+                            var id = savedItem.hashpath;
+                            arrayItem.hashpath = savedItem.hashpath;
+                            savedItem.permissions = arrayItem.permissions;
+                            savedItem.copyright = arrayItem.copyright;
                             $.ajax({
-                                url : "/p/" + id + ".resource",
-                                type : "POST",
-                                dataType : "json",
-                                data : {
-                                    ":operation" : "import",
-                                    ":contentType" : "json",
-                                    ":replace" : true,
-                                    ":replaceProperties" : true,
-                                    "_charset_" : "utf-8",
-                                    ":content" : $.toJSON(content)
+                                url: "/p/" + id,
+                                type: "POST",
+                                data: {
+                                    "sakai:permissions" : arrayItem.permissions,
+                                    "sakai:copyright" : arrayItem.copyright,
+                                    "sakai:allowcomments" : "true",
+                                    "sakai:showcomments" : "true"
                                 },
-                                success : function() {
+                                success: function(){
+                                    var resources = eval(savedItem.resources);
+                                    var content = {};
+                                    var resourceIds = {};
                                     for (var i = 0; i < resources.length; i++) {
+                                        resourceIds[i] = resources[i]._id;
+                                        content[resourceIds[i]] = {"page" : resources[i].page};
+                                    }
+                                    $.ajax({
+                                        url : "/p/" + id + ".resource",
+                                        type : "POST",
+                                        dataType : "json",
+                                        data : {
+                                            ":operation" : "import",
+                                            ":contentType" : "json",
+                                            ":replace" : true,
+                                            ":replaceProperties" : true,
+                                            "_charset_" : "utf-8",
+                                            ":content" : $.toJSON(content)
+                                        },
+                                        success : function() {
+                                            for (var i = 0; i < resources.length; i++) {
+                                                $.ajax({
+                                                    url : "/p/" + id + "/" + resourceIds[i] + ".save.json",
+                                                    type : "POST",
+                                                    data : {
+                                                        "sling:resourceType" : "sakai/pagecontent",
+                                                        "sakai:pagecontent" : content[resourceIds[i]],
+                                                        "_charset_" : "utf-8"
+                                                    }
+                                                });
+                                            }
+                                            checkUploadCompleted();
+                                        },
+                                        error : function() {
+                                            checkUploadCompleted();
+                                        }
+                                    });
+                                    if (libraryToUploadTo !== sakai.data.me.user.userid) {
                                         $.ajax({
-                                            url : "/p/" + id + "/" + resourceIds[i] + ".save.json",
+                                            url : "/p/" + id + ".members.json",
                                             type : "POST",
-                                            data : {
-                                                "sling:resourceType" : "sakai/pagecontent",
-                                                "sakai:pagecontent" : content[resourceIds[i]],
-                                                "_charset_" : "utf-8"
+                                            parameters: {
+                                                ":viewer" : libraryToUploadTo
                                             }
                                         });
                                     }
+                                    sakai.api.Util.tagEntity("/p/" + id, eval(savedItem["sakai:tags"]));
                                     checkUploadCompleted();
                                 },
-                                error : function() {
+                                error: function() {
                                     checkUploadCompleted();
                                 }
-                            }); 
-                            if (libraryToUploadTo !== sakai.data.me.user.userid) {
-                                $.ajax({
-                                    url : "/p/" + id + ".members.json",
-                                    type : "POST",
-                                    parameters: {
-                                        ":viewer" : libraryToUploadTo
-                                    }
-                                });
-                            }
-                            sakai.api.Util.tagEntity("/p/" + id, eval(itemToPush["sakai:tags"]));
-                            checkUploadCompleted();
-                        },
-                        error: function() {
-                          checkUploadCompleted();
+                            });
                         }
                     });
-                },
-                error: function(){
-                    checkUploadCompleted();
                 }
             });
-            $newaddcontentUploadContentForm.submit();
-        }
+        };
 
         /**
          * Add an already existing item to your own library
@@ -810,12 +811,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         break;
                     case "document":
                         createDocument(item);
-                        break;
-                    case "course":
-                        if (!courseImported) {
-                            importCourse(item);
-                            courseImported = true;
-                        }
                         break;
                     case "existing":
                         addToLibrary(item);
@@ -865,24 +860,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentTitle).val(fileName);
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentOriginalTitle)[0].id = fileName;
         };
-        
-        /**
-         * Disable title description and title elements in content upload field to support course import
-         */
-        var disableContentFields = function() {
-            $(newaddcontentUploadContentTitle).attr("disabled", "disable");
-            $(newaddcontentUploadContentDescription).attr("disabled", "disable");
-            $(newaddcontentUploadContentTags).attr("disabled", "disable");
-        }
-
-        /**
-         * Enable title, description and title elements in content upload field
-         */
-        var enableContentFields = function() {
-            $(newaddcontentUploadContentTitle).removeAttr("disabled");
-            $(newaddcontentUploadContentDescription).removeAttr("disabled");
-            $(newaddcontentUploadContentTags).removeAttr("disabled");
-        }
 
         ///////////////
         // RENDERING //
@@ -922,7 +899,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var renderUploadNewContent = function(){
             showSelectedItem($(newaddcontentUploadContentTemplate));
-            enableContentFields();
             $("#newaddcontent_upload_content_form input").MultiFile({
                 afterFileSelect: function(element, fileName, master_element){
                     var trashPrev = decideTrashPrev();
@@ -933,14 +909,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                     multifileQueueAddAllowed = false;
                     preFillContentFields(fileName);
                     enableAddToQueue();
-                    if (fileName.slice(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase() == "zip") {
-                        if(confirm("You have uploaded a zip file, do you want to import it as IMS content packaging file?")) {
-                            disableContentFields();
-                            courseToImport = true;
-                            enableAddToQueue();
-                            return;
-                        }
-                    }
                 }
             });
             $("#newaddcontent_upload_content_copyright_container").html(sakai.api.Util.TemplateRenderer("newaddcontent_copyright_template", {
@@ -1181,7 +1149,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
-            $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
@@ -1234,10 +1201,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             disableStartUpload();
             multifileQueueAddAllowed = true;
             contentUploaded = false;
-            courseImported = false;
+            courseImported = 0;
             hideAfterContentUpload = false;
             numberOfBrowsedFiles = 0;
-            courseToImport = false;
         };
 
         /**
