@@ -85,13 +85,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ////////////////////////
 
         var updateCounts = function(pageid, value, add){
+            // Adjust the count value by the specified value for the page ID
+            var oldid = pageid;
             if (add !== false) {
                 add = true;
             }
-            var subpage = false;
-
-            var oldid = pageid;
-            // Adjust the count value by the specified value for the page ID
             if (pageid.indexOf("/") !== -1){
                 var parts = pageid.split("/");
                 pageid = parts[0];
@@ -101,26 +99,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 var listitem = "li[data-sakai-path='";
                 var count;
                 var element;
-                if (subpage) {
-                    count = pageStructure.items[pageid][subpage];
-                    listitem = $(listitem + pageid + "/" + subpage + "']");
-                    element = ".lhnavigation_sublevelcount";
-                } else {
-                    count = pageStructure.items[pageid];
-                    listitem = $(listitem + pageid + "']");
-                    element = ".lhnavigation_levelcount";
-                }
+                count = getPage(pageid, pageStructure.items);
+                listitem = $(listitem + pageid + "']");
+                element = ".lhnavigation_levelcount";
                 if (add) {
                     count._count = (count._count || 0) + value;
                 } else {
                     count._count = value;
                 }
-=======
-                count = getPage(pageid, pageStructure.items);
-                listitem = $(listitem + pageid + "']");
-                element = ".lhnavigation_levelcount";
-                count._count = (count._count || 0) + value;
->>>>>>> dbdb8b40304ffed0bb31a2f64d6240e2cea72706:devwidgets/lhnavigation/javascript/lhnavigation.js
+                if (count._childCount <= 1) {
+                    element = ".lhnavigation_sublevelcount";
+                }
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
                     if (count._count <= 0){

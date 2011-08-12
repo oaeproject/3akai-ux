@@ -55,11 +55,6 @@
                     <div class="mymemberships_item_plus mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
                     <span class="mymemberships_item_right_buttons">
                         <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
-                        {if user_manages(group)}
-                            <a class="s3d-link-button mymemberships_item_edit" href="${group.edit_url}">
-                                __MSG__EDIT__
-                            </a>
-                        {/if}
                     </span>
                 </span>
                 <span class="mymemberships_item_anonuser"></span>
