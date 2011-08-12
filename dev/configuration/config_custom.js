@@ -2,7 +2,7 @@ define(["config/config"], function(config) {
 
         // Insert custom configuration here
 
-        // Custom CSS Files to load in
+        // Custom CSS Files to load in:
         config.skinCSS = ["/dev/skins/default/skin.css"];
 
         config.Profile.configuration.defaultConfig = {
@@ -12,6 +12,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": false,
+                "permission": "anonymous",
                 "order": 0,
                 "elements": {
                     "firstName": {
@@ -82,6 +83,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": true,
+                "permission": "everyone",
                 "order": 1,
                 "elements": {
                     "primary_contact_address": {
@@ -170,6 +172,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": true,
+                "permission": "everyone",
                 "order": 2,
                 "elements": {
                     "engineering_disciplines": {
@@ -254,6 +257,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": true,
+                "permission": "everyone",
                 "multiple": true,
                 "multipleLabel": "degree or position",
                 "template": "profilesection_degreesandpositions_template",
@@ -297,6 +301,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": true,
+                "permission": "everyone",
                 "multiple": true,
                 "multipleLabel": "publication",
                 "order": 4,
@@ -376,6 +381,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": true,
+                "permission": "everyone",
                 "multiple": true,
                 "directory": true,
                 "multipleLabel": "Add/remove categories",
@@ -395,6 +401,7 @@ define(["config/config"], function(config) {
                 "display": true,
                 "access": "everybody",
                 "modifyacl": false,
+                "permission": "everyone",
                 "order": 6,
                 "elements": {
                     "college": {
@@ -460,6 +467,21 @@ define(["config/config"], function(config) {
                     },
                     photonicsresearch: {
                         title: "Photonics Research"
+                    },
+                    centreforadvancedphotonicsandelectronics: {
+                        title: "Centre for Advanced Photonics and Electronics"
+                    },
+                    cambridgeintegratedknowledgecentre: {
+                        title: "Cambridge Integrated Knowledge Centre"
+                    },
+                    cambridgenanosciencecentre: {
+                        title: "Cambridge Nanoscience Centre"
+                    },
+                    doctoraltrainingcentrenanoscience: {
+                        title: "Doctoral Training Centre - NanoScience"
+                    },
+                    doctoraltrainingcentrephotonicssystemsdevelopment: {
+                        title: "Doctoral Training Centre - Photonics Systems Development"
                     }
                 }
             },
@@ -488,6 +510,9 @@ define(["config/config"], function(config) {
                     },
                     sustainabledevelopment: {
                         title: "Sustainable Development"
+                    },
+                    laingorourkecentreforconstructionengineeringandtechnology: {
+                        title: "Laing O'Rourke Centre for Construction Engineering and Technology"
                     }
                 }
             },
@@ -540,6 +565,67 @@ define(["config/config"], function(config) {
                     },
                     computationalbiologicallearning: {
                         title: "Computational and Biological Learning"
+                    }
+                }
+            },
+            strategicthemes: {
+                title: "Strategic Themes",
+                children: {
+                    energytransportandurbaninfrastructure: {
+                        title: "Energy, transport and urban infrastructure"
+                    },
+                    uncertaintyriskandresilience: {
+                        title: "Uncertainty, risk and resilience"
+                    },
+                    engineeringforlifesciencesandhealthcare: {
+                        title: "Engineering for life sciences and healthcare"
+                    },
+                    inspiringresearchthroughindustrialcollaboration: {
+                        title: "Inspiring research through industrial collaboration"
+                    }
+                }
+            },
+            cuedteaching: {
+                title: "CUED Teaching",
+                children: {
+                    engineeringtripospartia: {
+                        title: "Engineering Tripos Part IA"
+                    },
+                    engineeringtripospartib: {
+                        title: "Engineering Tripos Part IB"
+                    },
+                    engineeringtripospartiia: {
+                        title: "Engineering Tripos Part IIA"
+                    },
+                    engineeringtripospartiib: {
+                        title: "Engineering Tripos Part IIB"
+                    },
+                    manufacturingengineeringtripospartiia: {
+                        title: "Manufacturing Engineering Tripos Part IIA"
+                    },
+                    manufacturingengineeringtripospartiib: {
+                        title: "Manufacturing Engineering Tripos Part IIB"
+                    },
+                    mphilinnuclearenergy: {
+                        title: "MPhil in Nuclear Energy"
+                    },
+                    mphilinindustrialsystemsmanufactureandmanagement: {
+                        title: "MPhil in Industrial Systems, Manufacture and Management"
+                    },
+                    mphilinenergytechnologies: {
+                        title: "MPhil in Energy Technologies"
+                    },
+                    mphilininterdisciplinarydesignforthebuiltenvironment: {
+                        title: "MPhil in Interdisciplinary Design for the Built Environment"
+                    },
+                    mphilinengineeringforsustainabledevelopment: {
+                        title: "MPhil in Engineering for Sustainable Development"
+                    },
+                    mphilinconstructionengineering: {
+                        title: "MPhil in Construction Engineering"
+                    },
+                    mresinphotonicssystemsdevelopment: {
+                        title: "MRes in Photonics Systems Development"
                     }
                 }
             }
