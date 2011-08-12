@@ -36,17 +36,17 @@ define(["config/config"], function(config) {
                         "display": true,
                         "type": "select",
                         "select_elements": {
-                            "undergraduate_student": "Undergraduate student",
-                            "graduate_student": "Graduate student",
-                            "postgraduate_student": "Postgraduate student",
-                            "phd_student": "PhD student",
-                            "research_assistant": "Research assistant",
-                            "senior_researcher": "Senior Researcher",
+                            "undergraduatestudent": "Undergraduate student",
+                            "graduatestudent": "Graduate student",
+                            "postgraduatestudent": "Postgraduate student",
+                            "phdstudent": "PhD student",
+                            "researchassistant": "Research assistant",
+                            "seniorresearcher": "Senior Researcher",
                             "reader": "Reader",
                             "lecturer": "Lecturer",
-                            "senior_lecturer": "Senior lecturer",
+                            "seniorlecturer": "Senior lecturer",
                             "professor": "Professor",
-                            "support_staff": "Support staff",
+                            "supportstaff": "Support staff",
                             "other": "Other"
                         }
                     },
@@ -86,78 +86,78 @@ define(["config/config"], function(config) {
                 "permission": "everyone",
                 "order": 1,
                 "elements": {
-                    "primary_contact_address": {
+                    "primarycontactaddress": {
                         "label": "Primary address",
                         "required": false,
                         "display": true,
                         "type": "textarea",
                         "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
-                    "primary_contact_phone": {
+                    "primarycontactphone": {
                         "label": "Primary phone",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
-                    "primary_contact_fax": {
+                    "primarycontactfax": {
                         "label": "Primary fax",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental fax / College fax / Personal fax"
                     },
-                    "primary_contact_email": {
+                    "primarycontactemail": {
                         "label": "Primary email",
                         "required": true,
                         "display": true,
                         "type": "email",
                         "example": "Example: Departmental email address / University email address / College email address / Your personal email address"
                     },
-                    "secondary_contact_address": {
+                    "secondarycontactaddress": {
                         "label": "Secondary address",
                         "required": false,
                         "display": true,
                         "type": "textarea",
                         "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
-                    "secondary_contact_phone": {
+                    "secondarycontactphone": {
                         "label": "Secondary phone",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
-                    "secondary_contact_fax": {
+                    "secondarycontactfax": {
                         "label": "Secondary fax",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental fax / College fax / Personal fax"
                     },
-                    "secondary_contact_email": {
+                    "secondarycontactemail": {
                         "label": "Secondary email",
                         "required": false,
                         "display": true,
                         "type": "email",
                         "example": "Example: Departmental email address / University email address / College email address / Your personal email address"
                     },
-                    "tertiary_contact_address": {
+                    "tertiarycontactaddress": {
                         "label": "Tertiary address",
                         "required": false,
                         "display": true,
                         "type": "textarea",
                         "example": "Example: Departmental address & room / College address & room / Personal address"
                     },
-                    "tertiary_contact_phone": {
+                    "tertiarycontactphone": {
                         "label": "Tertiary phone",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental phone / College phone / Personal phone or mobile"
                     },
-                    "tertiary_contact_fax": {
+                    "tertiarycontactfax": {
                         "label": "Tertiary fax",
                         "required": false,
                         "display": true,
                         "example": "Example: Departmental fax / College fax / Personal fax"
                     },
-                    "tertiary_contact_email": {
+                    "tertiarycontactemail": {
                         "label": "Tertiary email",
                         "required": false,
                         "display": true,
@@ -175,74 +175,74 @@ define(["config/config"], function(config) {
                 "permission": "everyone",
                 "order": 2,
                 "elements": {
-                    "engineering_disciplines": {
+                    "engineeringdisciplines": {
                         "label": "Engineering discipline",
                         "required": false,
                         "display": true,
                         "type": "select",
                         "select_elements": {
-                            "turbomachinery_energy_fluid_mechanics": "Turbomachinery, energy and fluid mechanics",
-                            "electrical_engineering": "Electrical engineering",
-                            "mechanics_materials_design": "Mechanics, materials and design",
-                            "civil_structural_environmental": "Civil, structural and environmental engineering",
-                            "manufacturing_management": "Manufacturing and management",
-                            "information_engineering": "Information engineering"
+                            "turbomachineryenergyfluidmechanics": "Turbomachinery, energy and fluid mechanics",
+                            "electricalengineering": "Electrical engineering",
+                            "mechanicsmaterialsdesign": "Mechanics, materials and design",
+                            "civilstructuralenvironmental": "Civil, structural and environmental engineering",
+                            "manufacturingmanagement": "Manufacturing and management",
+                            "informationengineering": "Information engineering"
                         }
                     },
-                    "research_group": {
+                    "researchgroup": {
                         "label": "Research group",
                         "required": false,
                         "display": true,
                         "type": "select",
                         "select_elements": {
                             "energy": "Energy",
-                            "fluid_mechanics": "Fluid Mechanics",
+                            "fluidmechanics": "Fluid Mechanics",
                             "turbomachinery": "Turbomachinery",
-                            "solid_state_electronics": "Solid State Electronics and Nanoscale Science",
-                            "electronics_power_energy_conversion": "Electronics, Power and Energy Conversion",
+                            "solidstateelectronics": "Solid State Electronics and Nanoscale Science",
+                            "electronicspowerenergyconversion": "Electronics, Power and Energy Conversion",
                             "photonics": "Photonics Research",
-                            "applied_mechanics": "Applied Mechanics",
-                            "materials_engineering": "Materials Engineering",
-                            "engineering_design": "Engineering Design",
-                            "geotechnical_environmental": "Geotechnical and Environmental",
+                            "appliedmechanics": "Applied Mechanics",
+                            "materialsengineering": "Materials Engineering",
+                            "engineeringdesign": "Engineering Design",
+                            "geotechnicalenvironmental": "Geotechnical and Environmental",
                             "structures": "Structures",
-                            "sustainable_development": "Sustainable Development",
-                            "distributed_information_and_automation": "Distributed Information and Automation Laboratory",
-                            "decision_support": "Decision Support",
-                            "economics_policy": "Economics and Policy",
-                            "international_manufacturing": "International Manufacturing",
-                            "production_processes": "Production Processes",
-                            "strategy_performance": "Strategy and Performance",
-                            "technology_management": "Technology Management",
-                            "business_research": "Business Research",
-                            "industrial_photonics": "Industrial Photonics",
-                            "innovative_manufacturing_research_centre": "Innovative Manufacturing Research Centre",
-                            "control_laboratory": "Control Laboratory",
-                            "machine_intelligence_laboratory": "Machine Intelligence Laboratory",
-                            "signal_processing_communications": "Signal Processing and Communications Laboratory",
-                            "computational_biological_learning": "Computational and Biological Learning"
+                            "sustainabledevelopment": "Sustainable Development",
+                            "distributedinformationandautomation": "Distributed Information and Automation Laboratory",
+                            "decisionsupport": "Decision Support",
+                            "economicspolicy": "Economics and Policy",
+                            "internationalmanufacturing": "International Manufacturing",
+                            "productionprocesses": "Production Processes",
+                            "strategyperformance": "Strategy and Performance",
+                            "technologymanagement": "Technology Management",
+                            "businessresearch": "Business Research",
+                            "industrialphotonics": "Industrial Photonics",
+                            "innovativemanufacturingresearchcentre": "Innovative Manufacturing Research Centre",
+                            "controllaboratory": "Control Laboratory",
+                            "machineintelligencelaboratory": "Machine Intelligence Laboratory",
+                            "signalprocessingcommunications": "Signal Processing and Communications Laboratory",
+                            "computationalbiologicallearning": "Computational and Biological Learning"
                         }
                     },
-                    "strategic_themes": {
+                    "strategicthemes": {
                         "label": "Strategic themes",
                         "required": false,
                         "display": true,
                         "type": "select",
                         "select_elements": {
-                            "energy_transport_urban_infrastructure": "Energy, transport and urban infrastructure",
-                            "uncertainty_risk_resilience": "Uncertainty, risk and resilience",
-                            "engineering_for_life_sciences_health_care": "Engineering for life sciences and health care",
-                            "inspiring_research_through_industrial_collaboration": "Inspiring research through industrial collaboration"
+                            "energytransporturbaninfrastructure": "Energy, transport and urban infrastructure",
+                            "uncertaintyriskresilience": "Uncertainty, risk and resilience",
+                            "engineeringforlifescienceshealthcare": "Engineering for life sciences and health care",
+                            "inspiringresearchthroughindustrialcollaboration": "Inspiring research through industrial collaboration"
                         }
                     },
-                    "academic_interests": {
+                    "academicinterests": {
                         "label": "Academic interests",
                         "required": false,
                         "display": true,
                         "type": "textarea",
                         "example": "For example different research topics you're interested in, even if you're not working on it"
                     },
-                    "about_my_research_teaching_studies": {
+                    "aboutmyresearchteachingstudies": {
                         "label": "About my research/ teaching/ studies",
                         "required": false,
                         "display": true,
@@ -416,19 +416,19 @@ define(["config/config"], function(config) {
                         "type": "textarea",
                         "example": "Example: Queens' college rowing club, member of the Graduate Union"
                     },
-                    "personal_interests_activites_hobbies": {
+                    "personalinterestsactiviteshobbies": {
                         "label": "Personal interests, activities and hobbies",
                         "required": false,
                         "display": true,
                         "type": "textarea",
                         "example": "Example: reading, classical music, environment and animals, tennis"
                     },
-                    "where_im_from": {
+                    "whereimfrom": {
                         "label": "Where I'm originally from",
                         "required": true,
                         "display": true
                     },
-                    "free_time": {
+                    "freetime": {
                         "label": "When I'm not working for half a day, you can find me here",
                         "required": false,
                         "display": true,
