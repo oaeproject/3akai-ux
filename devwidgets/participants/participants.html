@@ -7,11 +7,12 @@
         <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
         <input type="text" id="participants_search_field"/>
+        <!-- SAKIII-3700 Removing for now, slated for future release.
         <label for="participants_sort_by">__MSG__SORT_BY__</label>
         <select id="participants_sort_by">
             <option>__MSG__ROLE__</option>
             <option>__MSG__NAME__</option>
-        </select>
+        </select> -->
     </div>
     <div id="participants_list_container"><!----></div>
 </div>
@@ -43,7 +44,7 @@
             </label>
             <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">${participant.name}</a>
             <br/>
-            <span class="participants_list_participant_details">${participant.title}</span>
+            <span class="participants_list_participant_details participants_list_participant_details_capitalize">${participant.title}</span>
             <br/>
             <a href="/~${participant.id}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
@@ -63,6 +64,12 @@
                 </a>
             {/if}
         </li>
+    {forelse}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+        </div>
     {/for}
 </ul>
 --></div>

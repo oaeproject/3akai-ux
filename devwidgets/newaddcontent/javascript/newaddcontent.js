@@ -341,11 +341,11 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         if (!$(item).is(":disabled")) {
                             var viewers = [];
                             if ($(item).data("sakai-pooled-content-viewer")){
-                                viewers = $(item).data("sakai-pooled-content-viewer").split(",");
+                                viewers = ("" + $(item).data("sakai-pooled-content-viewer")).split(",");
                             }
                             var managers = [];
                             if ($(item).data("sakai-pooled-content-manager")){
-                                managers = $(item).data("sakai-pooled-content-manager").split(",");
+                                managers = ("" + $(item).data("sakai-pooled-content-manager")).split(",");
                             }
                             var contentObj = {
                                 "title": $(item).next().text(),
@@ -474,7 +474,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         }
                     }
                 }),
-                "sakai:custom-mimetype": "x-sakai/document"
+                "mimeType": "x-sakai/document"
             };
 
             $.ajax({
@@ -545,7 +545,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 "sakai:description": linkObj.description,
                 "sakai:permissions": linkObj.permissions,
                 "sakai:copyright": linkObj.copyright,
-                "sakai:custom-mimetype": "x-sakai/link",
+                "mimeType": "x-sakai/link",
                 "sakai:preview-url": preview.url,
                 "sakai:preview-type": preview.type,
                 "sakai:preview-avatar": preview.avatar

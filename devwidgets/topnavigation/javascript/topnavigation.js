@@ -166,7 +166,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Show the number of unread messages
          */
         var setCountUnreadMessages = function(){
-            $(topnavUserInboxMessages).text("(" + sakai.data.me.messages.unread + ")");
+            $(topnavUserInboxMessages).text("(" + sakai.api.User.data.me.messages.unread + ")");
         };
 
         var renderResults = function(){

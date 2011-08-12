@@ -34,7 +34,7 @@
 .categories_widget #categories_expand_contract span.s3d-bold {float:left;}
 
 /* Content Style */
-.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;}
+.categories_widget .categories_item a.s3d-regular-links {color:#38b6ee;font-size:12px;display:block;overflow:hidden;word-wrap:break-word;}
 .categories_widget .categories_item a.categories_item_header_link{font-size: 17px;}
 .categories_widget .categories_item .categories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
 .categories_widget .categories_item .categories_item_header_meta {color:#ccc;font-size:12px;display:block;}

@@ -46,6 +46,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var navSelectedItemArrow = ".lhnavigation_selected_item_arrow";
         var navSelectedItem = ".lhnavigation_selected_item";
 
+        var $lhnavigation_sakaidocs_declaration = $("#lhnavigation_sakaidocs_declaration"),
+            $lhnavigation_sakaidocs_declaration_template = $("#lhnavigation_sakaidocs_declaration_template");
+
         ////////////////
         // DATA CACHE //
         ////////////////
@@ -57,6 +60,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var parametersToCarryOver = {};
         var sakaiDocsInStructure = {};
         var currentPageShown = {};
+
+        var doNotRenderSakaiDocsOnPaths = ["/content"];
 
 
         //////////////////////////////
@@ -79,10 +84,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Update page counts //
         ////////////////////////
 
-        var updateCounts = function(pageid, value){
+        var updateCounts = function(pageid, value, add){
             // Adjust the count value by the specified value for the page ID
-
             var oldid = pageid;
+            if (add !== false) {
+                add = true;
+            }
             if (pageid.indexOf("/") !== -1){
                 var parts = pageid.split("/");
                 pageid = parts[0];
@@ -95,7 +102,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 count = getPage(pageid, pageStructure.items);
                 listitem = $(listitem + pageid + "']");
                 element = ".lhnavigation_levelcount";
-                count._count = (count._count || 0) + value;
+                if (add) {
+                    count._count = (count._count || 0) + value;
+                } else {
+                    count._count = value;
+                }
+                if (count._childCount <= 1) {
+                    element = ".lhnavigation_sublevelcount";
+                }
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
                     if (count._count <= 0){
@@ -566,10 +580,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $("#lhnavigation_submenu").hide();
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
-                if (additionalOptions){
+                if (additionalOptions === "world"){
                     $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
+                } else if (additionalOptions === "user") {
+                    $("#lhnavigation_submenu li").hide();
+                    $("#lhnavigation_submenu_user_permissions_li").show();
                 } else {
                     $("#lhnavigation_submenu_profile_li").hide();
                     $("#lhnavigation_submenu_permissions_li").hide();
@@ -614,6 +631,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         //////////////////////
 
         var showAreaPermissions = function(){
+            toggleContextMenu(true);
+            $(window).trigger("permissions.area.trigger", [contextMenuHover]);
+        };
+
+        //////////////////////
+        // User permissions //
+        //////////////////////
+
+        var showUserPermissions = function(){
             toggleContextMenu(true);
             $(window).trigger("permissions.area.trigger", [contextMenuHover]);
         };
@@ -1086,6 +1112,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 $(window).bind("ready.sakaidocs.sakai", function(){
                     renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
                 });
+                // Don't render sakaidocs on paths in the doNotRenderSakaiDocsOnPaths array
+                // so we don't double-render it on those that already include it
+                if ($.inArray(window.location.path, doNotRenderSakaiDocsOnPaths) === -1) {
+                    sakai.api.Util.TemplateRenderer($lhnavigation_sakaidocs_declaration_template, {}, $lhnavigation_sakaidocs_declaration);
+                }
                 sakai.api.Widgets.widgetLoader.insertWidgets("s3d-page-main-content", false);
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
@@ -1120,6 +1151,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $("#lhnavigation_submenu_permissions").live("click", function(ev){
             showAreaPermissions();
+        });
+
+        $("#lhnavigation_submenu_user_permissions").live("click", function(ev){
+            showUserPermissions();
         });
 
         $(".lhnavigation_change_title").live("keyup", function(ev){
@@ -1158,7 +1193,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             storeNavigationParameters(params);
         });
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
-            selectPage(all && all.newPageMode && all.newPageMode === "true");
+            if (!($.isEmptyObject(changed) && $.isEmptyObject(deleted))) {
+                selectPage(all && all.newPageMode && all.newPageMode === "true");
+            }
         };
         $(window).bind("hashchanged.lhnavigation.sakai", handleHashChange);
 
@@ -1166,8 +1203,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             prepareRenderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
-        $(window).bind("lhnav.updateCount", function(e, pageid, value){
-            updateCounts(pageid, value);
+        $(window).bind("lhnav.updateCount", function(e, pageid, value, add){
+            updateCounts(pageid, value, add);
         });
 
         ///////////////////////

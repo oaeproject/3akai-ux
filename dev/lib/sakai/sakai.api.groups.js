@@ -781,6 +781,57 @@ define(
         },
 
         /**
+         * Searches through managers and members of a group and returns the results
+         * @param {String} groupId Id of the group to search in
+         * @param {String} query Query put in by the user, if empty a search for all participants is executed
+         * @param {Function} callback Function executed on success or error
+         */
+        searchMembers: function(groupId, query, callback){
+            if (groupId) {
+                var url = "";
+                if(query && query !== "*"){
+                    url = sakai_conf.URL.SEARCH_GROUP_MEMBERS + "?group=" + groupId + "&q=" + query;
+                }else {
+                    url = sakai_conf.URL.SEARCH_GROUP_MEMBERS_ALL + "?group=" + groupId;
+                }
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(data){
+                        var participantCount = 0;
+                        if (data.results.length) {
+                            $.each(data.results, function(index, user){
+                                sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
+                                    user.role = role;
+                                    participantCount++;
+                                    if (participantCount === data.results.length) {
+                                        if ($.isFunction(callback)) {
+                                            callback(true, data);
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            if ($.isFunction(callback)) {
+                                callback(true, {});
+                            }
+                        }
+                    },
+                    error: function(err){
+                        debug.error(err);
+                        if ($.isFunction(callback)) {
+                            callback(false, err);
+                        }
+                    }
+                });
+            } else {
+                if ($.isFunction(callback)) {
+                    callback(false, false);
+                }
+            }
+        },
+
+        /**
          * Returns all the users who are member of a certain group
          *
          * @param {String} groupID The ID of the group we would like to get the members of

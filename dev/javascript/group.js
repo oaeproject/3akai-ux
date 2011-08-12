@@ -28,7 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * Get the group id from the querystring
          */
         var processEntityInfo = function(){
-            groupId = decodeURIComponent(window.location.pathname.substring(2));
+            groupId = sakai.api.Util.extractEntity(window.location.pathname);
             sakai.api.Server.loadJSON("/system/userManager/group/" + groupId + ".json", function(success, data) {
                 if (success){
                     groupData = {};
@@ -147,7 +147,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var generateNav = function(forceOpenPage){
             if (pubdata) {
-                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": true, "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
+                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": "world", "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
                 sakai_global.group.pubdata = pubdata;
             }
         };
@@ -179,6 +179,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
             if(members){
                 sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function(){
+                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
                     $(window).trigger("usersselected.addpeople.sakai");
                 });
             }
