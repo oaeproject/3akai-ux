@@ -115,44 +115,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, [], function(){
                     creationComplete.tags = true;
                     checkCreationComplete();
-                });
-
-                // Set permissions on group
-                var joinable = $newcreategroupGroupMembership.val();
-                var visible = $newcreategroupCanBeFoundIn.val();
-                var roles = $.parseJSON(groupData["sakai:roles"]);
-                sakai.api.Groups.setPermissions(groupid, joinable, visible, roles, function(){
-                    creationComplete.permissions = true;
-                    checkCreationComplete();
-                });
-
-                // Set members and managers on group
-                var users = [];
-                $.each(selectedUsers, function(index, item){
-                    users.push({
-                        "name": item.name,
-                        "user": item.userid,
-                        "permission": item.permission
-                    });
-                });
-                if (users.length > 0) {
-                    sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
-                        creationComplete.members = true;
+                    
+                    // Set permissions on group
+                    var joinable = $newcreategroupGroupMembership.val();
+                    var visible = $newcreategroupCanBeFoundIn.val();
+                    var roles = $.parseJSON(groupData["sakai:roles"]);
+                    sakai.api.Groups.setPermissions(groupid, joinable, visible, roles, function(){
+                        creationComplete.permissions = true;
                         checkCreationComplete();
-                    });
-                    $.each(users, function(index, item){
-                        sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
-                        if(users.length - 1 == index){
+                        
+                        // Set members and managers on group
+                        var users = [];
+                        $.each(selectedUsers, function(index, item){
+                            users.push({
+                                "name": item.name,
+                                "user": item.userid,
+                                "permission": item.permission
+                            });
+                        });
+                        
+                        if (users.length > 0) {
+                            sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
+                                creationComplete.members = true;
+                                checkCreationComplete();
+                            });
+                            $.each(users, function(index, item){
+                                sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
+                                if(users.length - 1 == index){
+                                    creationComplete.message = true;
+                                    checkCreationComplete();
+                                }
+                            });
+                        } else {
+                            creationComplete.members = true;
                             creationComplete.message = true;
                             checkCreationComplete();
                         }
+                        createGroupDocs(groupid, currentTemplate);
+                        
                     });
-                } else {
-                    creationComplete.members = true;
-                    creationComplete.message = true;
-                    checkCreationComplete();
-                }
-                createGroupDocs(groupid, currentTemplate);
+                });
 
             } else {
                 if(nameTaken){
