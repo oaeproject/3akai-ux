@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var push_member_to_list = function (member, list, role) {
             var link, picsrc, displayname = "";
-            if (member["sakai:category"] == "group") {
+            if (member["sakai:group-id"]) {
                 picsrc = sakai.api.Groups.getProfilePicture(member);
                 link = "~" + member.groupid;
                 displayname = member["sakai:group-title"];
