@@ -91,7 +91,7 @@
 
 <!-- ADD LOCATIONS TEMPLATE -->
 <div id="profilesection_add_locations_template"><!--
-
+    
 --></div>
 
 <!-- LOCATION TEMPLATE -->
@@ -117,167 +117,6 @@
     </div>
 --></div>
 
-
-
-
-<!-- DEGREES & POSITIONS TEMPLATE -->
-<div id="profilesection_degreesandpositions_template"><!--
-    {var mode = sakai_global.profile.main.mode.value}
-    {if fields}
-        {if config && config.label}
-            <div class="s3d-contentpage-title">
-                ${config.label}
-            </div>
-        {/if}
-        {var el = _.keys(data.elements)}
-        {if data.elements.length !== 0 && el.length > 0}
-            {for entry in data.elements}
-                <div class="profilesection_section degreesandpositions-section" id="profilesection_section_${entry.id.value}">
-                    <div class="profilesection-degreesandpositions-display">
-                        {if entry.namestudiesorposition}
-                            <span class="namestudiesorposition">${entry.namestudiesorposition.value} </span>
-                        {/if}
-                        {if entry.typedegreebusiness}
-                            <span class="typedegreebusiness">(${entry.typedegreebusiness.value}) </span>
-                        {/if}
-                        {if entry.schooluniversityoverarchingorganisation}
-                            <span class="schooluniversityoverarchingorganisation">${entry.schooluniversityoverarchingorganisation.value} </span>
-                        {/if}
-                        {if entry.country || entry.duration}
-                            <br />
-                        {/if}
-                        {if entry.country}
-                            <span class="country">${entry.country.value} </span>
-                        {/if}
-                        {if entry.duration}
-                            <span class="duration">${entry.duration.value} </span>
-                        {/if}
-                    </div>
-                    {if mode === "edit"}
-                        <div class="profilesection-degreesandpositions-edit-button-container">
-                            <button type="button" class="s3d-bold s3d-link-button profile-section-degreesandpositions-edit-button" data-manipulates="profilesection-degreesandpositions-edit-${entry.id.value}">__MSG__EDIT__</button>
-                            <button type="button" class="s3d-bold s3d-link-button profile-section-degreesandpositions-remove-button" data-sectionid="${entry.id.value}" data-manipulates="profilesection_section_${entry.id.value}" id="profilesection_remove_link_${entry.id.value}"><span>Remove</span></button>
-                        </div>
-                        <div class="profilesection-degreesandpositions-edit profilesection-degreesandpositions-edit-${entry.id.value}" style="display: none;">
-                            {for field in entry}
-                                <div class="edit-list-item">
-                                    {if field.display}
-                                        <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_degreesandpositions_elements_${entry.id.value}_${field_index}">${field.label}</label>
-                                        {if field.required}
-                                            <input type="text" class="profilesection_generalinfo_content required" value="${field.value}" id="profilesection_generalinfo_degreesandpositions_elements_${entry.id.value}_${field_index}" name="profilesection_generalinfo_degreesandpositions_elements_${entry.id.value}_${field_index} ${field.label}" title="${field.label} placeholder="${field.example}">
-                                        {else}
-                                            <input type="text" class="profilesection_generalinfo_content" value="${field.value}" id="profilesection_generalinfo_degreesandpositions_elements_${entry.id.value}_${field_index}" name="profilesection_generalinfo_degreesandpositions_elements_${entry.id.value}_${field_index} ${field.label}" title="${field.label} placeholder="${field.example}">
-                                        {/if}
-                                    {/if}
-                                </div>
-                            {/for}
-                            <button type="submit" class="s3d-button s3d-overlay-button grey profile-degreesandpositions-update-button" data-sectionid="${entry.id.value}">__MSG__UPDATE__</button>
-                        </div>
-                    {/if}
-                </div>
-            {/for}
-            {if sakai_global.profile.main.mode.value === 'edit'}
-                <button type="button" class="profilesection_add_degreesandpositions s3d-link-button s3d-bold"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></button>
-            {/if}
-        {else}
-             No degrees and positions to display yet.
-             <br />
-             ${fields}
-        {/if}
-    {/if}
---></div>
-
-
-
-
-
-
-
-<!-- PUBLICATIONS TEMPLATE -->
-<div id="profilesection_publications_template"><!--
-    {var mode = sakai_global.profile.main.mode.value}
-    {if fields}
-        {if config && config.label}
-            <div class="s3d-contentpage-title">
-                ${config.label}
-            </div>
-        {/if}
-        {var el = _.keys(data.elements)}
-        {if data.elements.length !== 0 && el.length > 0}
-            {for entry in data.elements}
-                <div class="profilesection_section publication-section" id="profilesection_section_${entry.id.value}">
-                    <div class="profilesection-publications-display">
-                        {if entry.mainauthor}
-                            <span class="mainauthor">${entry.mainauthor.value} </span>
-                        {/if}
-                        {if entry.coauthors}
-                            <span class="coauthors">${entry.coauthors.value} </span>
-                        {/if}
-                        {if entry.bookpaperarticletitle}
-                            <span class="bookpaperarticletitle">${entry.bookpaperarticletitle.value} </span>
-                        {/if}
-                        {if entry.magazinejournaltitle}
-                            <span class="magazinejournaltitle">${entry.magazinejournaltitle.value} </span>
-                        {/if}
-                        {if entry.editionnumber}
-                            <span class="editionnumber">${entry.editionnumber.value} </span>
-                        {/if}
-                        {if entry.cityofpublication}
-                            <span class="cityofpublication">${entry.cityofpublication.value} </span>
-                        {/if}
-                        {if entry.publishername}
-                            <span class="publishername">${entry.publishername.value} </span>
-                        {/if}
-                        {if entry.yearofpublication}
-                            <span class="yearofpublication">(${entry.yearofpublication.value}) </span>
-                        {/if}
-                        {if entry.numberofpages}
-                            <span class="numberofpages">${entry.numberofpages.value} </span>
-                        {/if}
-                        {if entry.volumenumber}
-                            <span class="volumenumber">${entry.volumenumber.value} </span>
-                        {/if}
-                        {if entry.honoursawards}
-                            <span class="honoursawards">&raquo; ${entry.honoursawards.value} </span>
-                        {/if}
-                    </div>
-                    {if mode === "edit"}
-                        <div class="profilesection-publications-edit-button-container">
-                            <button type="button" class="s3d-bold s3d-link-button profile-section-publications-edit-button" data-manipulates="profilesection-publications-edit-${entry.id.value}">__MSG__EDIT__</button>
-                            <button type="button" class="s3d-bold s3d-link-button profile-section-publications-remove-button" data-sectionid="${entry.id.value}" data-manipulates="profilesection_section_${entry.id.value}" id="profilesection_remove_link_${entry.id.value}"><span>Remove</span></button>
-                        </div>
-                        <div class="profilesection-publications-edit profilesection-publications-edit-${entry.id.value}" style="display: none;">
-                            {for field in entry}
-                                <div class="edit-list-item">
-                                    {if field.display}
-                                        <label class="profilesection_generalinfo_label" for="profilesection_generalinfo_publications_elements_${entry.id.value}_${field_index}">${field.label}</label>
-                                        {if field.required}
-                                            <input type="text" class="profilesection_generalinfo_content required" value="${field.value}" id="profilesection_generalinfo_publications_elements_${entry.id.value}_${field_index}" name="profilesection_generalinfo_publications_elements_${entry.id.value}_${field_index} ${field.label}" title="${field.label} placeholder="${field.example}">
-                                        {else}
-                                            <input type="text" class="profilesection_generalinfo_content" value="${field.value}" id="profilesection_generalinfo_publications_elements_${entry.id.value}_${field_index}" name="profilesection_generalinfo_publications_elements_${entry.id.value}_${field_index} ${field.label}" title="${field.label} placeholder="${field.example}">
-                                        {/if}
-                                    {/if}
-                                </div>
-                            {/for}
-                            <button type="submit" class="s3d-button s3d-overlay-button grey profile-publications-update-button" data-sectionid="${entry.id.value}">__MSG__UPDATE__</button>
-                        </div>
-                    {/if}
-                </div>
-            {/for}
-            {if sakai_global.profile.main.mode.value === 'edit'}
-                <button type="button" class="profilesection_add_publication s3d-link-button s3d-bold"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></button>
-            {/if}
-        {else}
-             No publications to display yet.
-             <br />
-             ${fields}
-        {/if}
-    {/if}
---></div>
-
-
-
-
 <!-- FIELD TEMPLATES -->
 <div id="profilesection_field_default_template"><!--
     {var mode = sakai_global.profile.main.mode}
@@ -294,7 +133,7 @@
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         <input type="text"
                     {elseif config.type === "textarea"}
-                        <textarea rows="3"
+                        <textarea rows="3" 
                     {elseif config.type === "select"}
                         <select
                     {else}
@@ -309,9 +148,6 @@
                         {/if}
                     {/if}
                         id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${path.replace(/\./g,"_")} ${config.label}" title="${config.label}"
-                    {if config.example}
-                        placeholder="${config.example}"
-                    {/if}
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         />
                     {elseif config.type === "select"}
@@ -326,6 +162,11 @@
                     {else}
                         />${data.value}
                         </span>
+                    {/if}
+                    {if config.example}
+                        <p class="profilesection_generalinfo_example">
+                            ${config.example}
+                        </p>
                     {/if}
                 {/if}
             </div>
@@ -358,8 +199,6 @@
         {/if}
     {/if}
 --></div>
-
-
 
 <!-- ERROR CONTAINER -->
 <div id="profile_error" style="display:none;">
