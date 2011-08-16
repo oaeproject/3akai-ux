@@ -39,6 +39,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Array} bbqData Array of IDs fetched with bbq to help identify correct children
          */
         var createBreadcrumb = function(dirData, bbqData){
+            if (!dirData){
+                sakai.api.Security.send404();
+                return false;
+            }
             // Create top level breadcrumb
             var breadcrumb = [];
             breadcrumb.push({
@@ -157,6 +161,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(){
             var category = getCategory();
+            if (!sakai.config.Directory[category[0]]){
+                sakai.api.Security.send404();
+                return false;
+            }
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);
