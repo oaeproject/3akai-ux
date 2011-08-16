@@ -66,12 +66,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var fetchPeople = function(){
             var q = "";
             if(pageData){
-                q = pageData.category.replace("-", "/");
+                q = "directory/" + pageData.category.replace("-", "/");
             }
-            sakai.api.Server.loadJSON("/var/search/users.infinity.json", parsePeople, {
+            sakai.api.Server.loadJSON("/var/search/bytag.json", parsePeople, {
                 page: 0,
                 items: 3,
-                q: q
+                tag: q,
+                type: "u"
             });
         };
 

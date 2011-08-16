@@ -389,10 +389,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(data, null, false, null, false);
         };
 
-        var registerVideo = function(videoBatchData){
-            sakai.api.Server.batch(videoBatchData, null, false, null, false);
-        };
-
         /**
          * Embed the selected content on the page,
          * Call the function that associates the content with this group
@@ -418,39 +414,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "download": formVals.download ? true : false,
                 "name": formVals.name ? true : false
             };
-            var videoBatchData = [];
-            for (var i in selectedItems){
-                if(selectedItems.hasOwnProperty(i)){
-                    if(selectedItems[i].filetype === "video"){
-                        // Set random ID to the video
-                        selectedItems[i].uId = Math.ceil(Math.random() * 999999999);
-
-                        var itemUrl;
-                        if (sakai_global.currentgroup.data.authprofile) {
-                            itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
-                        } else {
-                            itemUrl = "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
-                        }
-
-                        // Create batch request data for the video
-                        var item = {
-                            "url": itemUrl,
-                            "method": "POST",
-                            "parameters": {
-                                "uid": sakai.data.me.user.userid,
-                                "source": " ",
-                                "URL": sakai.config.SakaiDomain + selectedItems[i].link,
-                                "selectedvalue": "video_noSource",
-                                "isYoutube": false,
-                                "isSakaiVideoPlayer": false
-                            }
-                        };
-                        videoBatchData.push(item);
-                    }
-                }
-            }
-
-            registerVideo(videoBatchData);
 
             if (sakai_global.currentgroup) {
                 // Associate embedded items with the group
