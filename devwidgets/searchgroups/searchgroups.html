@@ -43,8 +43,8 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchgroups_results_container">
-                    </div>
+                    <ul id="searchgroups_results_container">
+                    </ul>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
                     <div class="jq_pager">
@@ -58,7 +58,7 @@
                         {var count = count + 1}
                         {if i['sakai:group-id']}
                             {var groupsFound = true}
-                            <div class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
+                            <li class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
                                 <span class="searchgroups_result_user_functions" style="display:none;">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
@@ -108,7 +108,7 @@
                                         </div>
                                     {/if}
                                 </div>
-                            </div>
+                            </li>
                         {/if}
                     {/for}
                     {if !groupsFound}
