@@ -76,7 +76,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "init": true
                     }
                 });
-                if (title === "basic"){
+                if (title === "basic" || title === "locations"){
                     profilestructure[title]._reorderOnly = true;
                 } else {
                     profilestructure[title]._reorderOnly = false;
