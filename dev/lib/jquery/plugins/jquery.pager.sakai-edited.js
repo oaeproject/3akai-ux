@@ -84,7 +84,7 @@
         // loop thru visible pages and render buttons
         for (var page = startPoint; page <= endPoint; page++) {
 
-            var currentButton = $('<li class="page-number"><span>' + (page) + '</span></li>');
+            var currentButton = $('<li class="page-number"><a href="javascript:;" title="Page ' + (page) + '">' + (page) + '</a></li>');
 
             page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.firstChild.data); });
             currentButton.appendTo($pager);
@@ -159,8 +159,8 @@
             "last" : "last",
             //"prev" : "<span><img src=\"/dev/images/pager_next_left.png\" alt=\"\" /> <span class=\"t\">Prev</span></span>",
             //"next" : "<span><span class=\"t\">Next</span> <img src=\"/dev/images/pager_next_right.png\" alt=\"\" /></span>"
-            "prev" : "<span><div class=\"sakai_pager_prev\"></div> <span class=\"t\">Prev</span></span>",
-            "next" : "<span><span class=\"t\">Next</span><div class=\"sakai_pager_next\"></div></span>"
+            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class=\"t\" title="Previous page">Prev</span></a>',
+            "next" : '<span><a href="javascript:;" class=\"t\" title="Next page">Next</a><div class=\"sakai_pager_next\"></div></span>'
         }
     };
 
