@@ -27,6 +27,7 @@ define(function(){
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/me#l=messages/inbox",
+            INVITATIONS_URL: "/me#l=messages/invitations",
             LOGOUT_URL: "/logout",
             MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/profile/edit",
