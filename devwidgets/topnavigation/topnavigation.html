@@ -2,14 +2,16 @@
 
 <div id="topnavigation_container">
     <ul class="topnavigation_explore"><!----></ul>
-    <div class="topnavigation_user_container"></div>
-    <div class="topnavigation_usersection_splitter">|</div>
-    <div class="topnavigation_search">
-        <input type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
-        <div id="topnavigation_search_results" style="display:none;">
-            <div id="topnavigation_search_results_container"><!----></div>
-            <div id="topnavigation_search_results_bottom_container"><!----></div>
+    <div class="topnavigation_right">
+        <div class="topnavigation_search">
+            <input tabindex_none="40" type="text" id="topnavigation_search_input" title="__MSG__PLEASE_INPUT_SEARCH_KEYWORD__" />
+            <div id="topnavigation_search_results" style="display:none;">
+                <div id="topnavigation_search_results_container"><!----></div>
+                <div id="topnavigation_search_results_bottom_container"><!----></div>
+            </div>
         </div>
+        <div class="topnavigation_user_container"></div>
+        <div class="topnavigation_usersection_splitter">|</div>
     </div>
 </div>
 
@@ -150,6 +152,7 @@
         </div>
     {else}
         <a href="/me#l=messages/inbox" title="__MSG__INBOX__" id="topnavigation_user_inbox_container">
+            <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
             <div id="topnavigation_user_inbox_icon"></div>
             <div id="topnavigation_user_inbox_messages"></div>
         </a>

@@ -186,138 +186,151 @@ define(
 
         /**
          * Sets ACLs on a specified path and executes a callback if specified.
-         * @param {String} path The path on which the ACLs need to be set
-         * @param {String} permission 'anonymous', 'everyone', 'contacts' or 'private' determining what ACLs need to be set
+         * @param {String} _path The path on which the ACLs need to be set or an array of paths on which to set ACLs
+         * @param {String} _permission 'anonymous', 'everyone', 'contacts' or 'private' determining what ACLs need to be set
+         *                 This should be an array of equal length of _path is an array
          * @param {String} me Userid of the currently logged in user
          * @param {Function} callback Function to execute when permissions have been set or failed to be set
          */
-        setACLsOnPath: function(path, permission, me, callback){
-            var path = path + ".modifyAce.html";
-            var ACLs = [];
-            switch (permission) {
-                case "anonymous":
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "g-contacts-" + me,
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    break;
-                case "everyone":
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "g-contacts-" + me,
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
-                case "contacts":
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": me,
-                            "privilege@jcr:write": "granted",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "g-contacts-" + me,
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
-                case "private":
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": me,
-                            "privilege@jcr:write": "granted",
-                            "privilege@jcr:read": "granted"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "g-contacts-" + me,
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "everyone",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    ACLs.push({
-                        "url": path,
-                        "method": "POST",
-                        "parameters": {
-                            "principalId": "anonymous",
-                            "privilege@jcr:read": "denied"
-                        }
-                    });
-                    break;
+        setACLsOnPath: function(_path, _permission, me, callback){
+            var paths = []; var permissions = []; var ACLs = [];
+            if (typeof _path === "string"){
+                paths.push(_path);
+                permissions.push(_permission);
+            } else {
+                paths = _path;
+                permissions = _permission;
             }
+            for (var i = 0; i < paths.length; i++){
+                var path = paths[i] + ".modifyAce.html";
+                var permission = permissions[i];
+                switch (permission) {
+                    case "anonymous":
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "g-contacts-" + me,
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        break;
+                    case "everyone":
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "g-contacts-" + me,
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        break;
+                    case "contacts":
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": me,
+                                "privilege@jcr:write": "granted",
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "g-contacts-" + me,
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        break;
+                    case "private":
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": me,
+                                "privilege@jcr:write": "granted",
+                                "privilege@jcr:read": "granted"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "g-contacts-" + me,
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "everyone",
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        ACLs.push({
+                            "url": path,
+                            "method": "POST",
+                            "parameters": {
+                                "principalId": "anonymous",
+                                "privilege@jcr:read": "denied"
+                            }
+                        });
+                        break;
+                }
+                
+            }
+            
 
             $.ajax({
                 url: sakai_conf.URL.BATCH,
@@ -592,7 +605,7 @@ define(
 
         getThumbnail : function(content){
             var thumbnail = "";
-            if (content['sakai:pagecount']) {
+            if (content['sakai:pagecount'] && content['sakai:pagecount'] !== "0") {
                 thumbnail = "/p/" + content['_path'] + "/page1.small.jpg";
             } else if (sakai_content.getMimeType(content).indexOf("image") !== -1) {
                 thumbnail = "/p/" + content['_path'];
@@ -639,6 +652,7 @@ define(
                     sakai_content.getThumbnail(content) ||
                     mimeType.substring(0,6) === "image/" ||
                     mimeType.substring(0,5) === "text/" ||
+                    mimeType === "application/x-shockwave-flash" ||
                     sakai_content.isJwPlayerSupportedVideo(mimeType)) {
                 result = true;
             }
