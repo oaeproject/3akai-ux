@@ -151,13 +151,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
 
-                var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
+                var personalnote = $.trim(formValues[addToContactsFormPersonalNote.replace(/#/gi, '')]);
 
                 // send message to other person
-                var userstring = sakai.api.User.getDisplayName(sakai.data.me.profile);
+                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile));
 
-                var title = $("#addtocontacts_invitation_title_key").html().replace(/\$\{user\}/g, userstring);
-                var message = $("#addtocontacts_invitation_body_key").html().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n");
+                var title = $.trim($("#addtocontacts_invitation_title_key").text().replace(/\$\{user\}/g, userstring));
+                var message = $.trim($("#addtocontacts_invitation_body_key").text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n"));
 
                 // Do the invite and send a message
                 $.ajax({
