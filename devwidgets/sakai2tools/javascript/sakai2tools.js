@@ -200,6 +200,10 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
         var renderRemoteContentSettings = function(){
             if (json) {
                 $(basicltiSettings, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
+                // Necessary until we parameterize the tool list on the server and client side.            
+                if (isSakai2Tool && json.lti_virtual_tool_id) {
+                    $('#basiclti_settings_lti_virtual_tool_id',rootel).val(json.lti_virtual_tool_id);
+                }
             }
         };
 
