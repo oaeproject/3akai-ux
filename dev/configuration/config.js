@@ -26,7 +26,8 @@ define(function(){
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
-            INBOX_URL: "/inbox",
+            INBOX_URL: "/me#l=messages/inbox",
+            INVITATIONS_URL: "/me#l=messages/invitations",
             LOGOUT_URL: "/logout",
             MY_DASHBOARD_URL: "/me#l=dashboard",
             PROFILE_EDIT_URL: "/profile/edit",
@@ -1516,6 +1517,13 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+
+        Editor: {
+            tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
+                'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',
+                'th','zh-cn','bn','da','eu','hr','ka','ml','pl','sk','tn','zh-tw','br','de','fa','hu','kl','mn','ps','sl',
+                'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
+        },
 
         /*
          * _canEdit: can change the area permissions on this page

@@ -41,7 +41,7 @@ strong{color:#000;}
 .searchcontent_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
 .searchcontent_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
-.searchcontent_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;overflow:hidden;}
+.searchcontent_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;overflow:hidden;list-style:none}
 .searchcontent_result_first{border-top: 1px solid #e9e9e9;}
 .searchcontent_result img{float:left;padding:0 10px 10px 0;width:50px;}
 .searchcontent_result_sites img{width:30px;}
