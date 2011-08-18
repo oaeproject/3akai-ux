@@ -111,6 +111,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
+            if (mode === "edit") {
+                $contentmetadataDescriptionContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataDescriptionContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
@@ -179,6 +184,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai: sakai,
                 tags: sakai.api.Util.formatTagsExcludeLocation(sakai_global.content_profile.content_data.data["sakai:tags"])
             };
+            if (mode === "edit") {
+                $contentmetadataTagsContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataTagsContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
             addEditBinding(mode);
         };
@@ -193,6 +203,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
+            if (mode === "edit") {
+                $contentmetadataCopyrightContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataCopyrightContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
