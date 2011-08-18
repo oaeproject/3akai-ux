@@ -41,7 +41,7 @@ strong{color:#000;}
 .searchgroups_results_part_header{border-bottom:1px solid #ddd;font-size:1.3em;padding-bottom:5px;font-weight:bold;color:#333;}
 .searchgroups_results_part_title{font-weight:bold;color:#333;float:left;}
 .display_more_link{color:#39c;font-size:.85em;font-weight:normal;position:relative;bottom:0;margin:0;padding:0;}
-.searchgroups_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;}
+.searchgroups_result{color:#333;padding:10px;border-top: 1px dotted #cccccc;list-style:none}
 .searchgroups_result_first{border-top: 1px solid #e9e9e9;}
 .searchgroups_result a img{float:left;padding:0 10px 10px 0;width:50px;}
 .searchgroups_result_sites img{width:30px;}

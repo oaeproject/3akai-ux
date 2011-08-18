@@ -34,7 +34,7 @@
 /* SEARCH RESULTS */
 .s3d-search-results{display:block; overflow:hidden;width:710px;}
 .s3d-search-results #searchall_results_container{margin:10px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}
-.s3d-search-result{color:#333;padding:10px;border-top: 1px dotted #cccccc;}
+.s3d-search-result{color:#333;padding:10px;border-top: 1px dotted #cccccc;list-style:none}
 .s3d-search-result-first{border-top: 1px solid #e9e9e9;}
 .s3d-search-result a img{float:left;padding:0 10px 10px 0;width:50px;}
 .s3d-search-result-right{margin-left:90px;}
