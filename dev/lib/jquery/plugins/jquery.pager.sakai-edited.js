@@ -26,8 +26,6 @@
 * The included Pager.CSS file is a dependancy but can obviously tweaked to your wishes
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 *
-* modified by Oszkar Nagy (oszkar@caret.cam.ac.uk) for Sakai
-* modified by Simon Gaeremynck (sg555@caret.cam.ac.uk) for Sakai
 */
 (function($) {
 
