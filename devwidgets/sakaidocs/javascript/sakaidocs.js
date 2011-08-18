@@ -600,7 +600,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "height|nowrap|valign]," +
                     "tt[]," +
                     "u[]," +
-                    "ul[align|clear|height|start|type|width]" +
+                    "ul[align|clear|height|start|type|width]," +
                     "video[src|class|autoplay|controls|height|width|preload|loop]"
                 });
             }
