@@ -48,5 +48,5 @@ label.signup_form_error_label{margin-top:25px !important;}
 
 /* Override CSS */
 .s3d-page-header {height:0;margin-top:15px;min-height:0;}
-.recaptchatable {background:#FFF;}
+.recaptchatable {background:#FFF;float:left;}
 .recaptchatable input {border:1px solid #E0E1E2 !important;}
