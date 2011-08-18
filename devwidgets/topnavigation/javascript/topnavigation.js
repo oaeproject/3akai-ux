@@ -630,6 +630,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
+            $("#subnavigation_logout_link, #topnavigation_user_options_login_button_login").keydown(function(e) {
+                // hide signin or user options menu when tabbing out of the last menu option
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    if ($(this).attr("id") === "topnavigation_user_options_login_button_login") {
+                        mouseOverSignIn = false;
+                        $(topnavUserLoginButton).trigger("mouseout");
+                        $("html").trigger("click");
+                    } else {
+                        closeMenu();
+                    }
+                }
+            });
+
             $(topnavUserOptions).bind("click", decideShowLoginLogout);
 
             $(topnavUserOptionsLoginForm).submit(function(){
