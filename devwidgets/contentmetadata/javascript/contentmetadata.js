@@ -376,7 +376,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 type: "POST",
                 cache: false,
                 data: {
-                    "sakai:copyright": $("#contentmetadata_copyright_copyright").val()
+                    "sakai:copyright": copyright
                 },
                 success: function(){
                     createActivity("UPDATED_COPYRIGHT");
