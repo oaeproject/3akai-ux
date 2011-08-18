@@ -187,6 +187,9 @@ define(
                 }
                 i10nCode = langCode.replace("_", "-");
 
+                // set the language attribute for the html tag
+                $("html").attr("lang", langCode.substr(0, 2));
+
                 if (Globalize.cultures && Globalize.cultures[i10nCode]) {
                     Globalize.culture(i10nCode);
                 } else {

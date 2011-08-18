@@ -57,6 +57,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
             pub.structure0.profile = {};
             var initialProfilePost = [];
+            var paths = []; var permissions = [];
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
                 var widgetID = sakai.api.Util.generateWidgetId();
                 var widgetUUID = sakai.api.Util.generateWidgetId();
@@ -75,10 +76,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         "init": true
                     }
                 });
-                if (title === "basic"){
+                if (title === "basic" || title === "locations"){
                     profilestructure[title]._reorderOnly = true;
                 } else {
                     profilestructure[title]._reorderOnly = false;
+                    paths.push("/~" + sakai.data.me.user.userid + "/public/authprofile/" + title);
+                    permissions.push(section.permission);
                 }
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
@@ -91,7 +94,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
             });
             sakai.api.Server.batch(initialProfilePost, function(success, data){
-                if (!success) {
+                if (success) {
+                    sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.user.userid, function(success){
+                        if (!success){
+                            debug.error("Error setting initial profile ACLs");
+                        }
+                    });
+                } else {
                     debug.error("Error saving initial profile fields");
                 }
             });

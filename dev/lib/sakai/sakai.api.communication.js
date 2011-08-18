@@ -149,7 +149,7 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
                         toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
                         "|system=Sakai|body=" + body +
-                        "|link=" + sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid) +"?accepttrue";
+                        "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INVITATIONS_URL;
                         break;
                 }
                 return toSend;
