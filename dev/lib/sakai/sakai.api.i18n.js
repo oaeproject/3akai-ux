@@ -137,10 +137,40 @@ define(
                 if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
                     sakai_util.Security.showPage();
                 }
+                translateJqueryPlugins();
                 require("sakai/sakai.api.widgets").initialLoad();
                 sakaii18nAPI.done = true;
                 $(window).trigger("done.i18n.sakai");
                 return true;
+            };
+
+            /**
+             * Function that will internationalize the different jquery plugins
+             * we use. For example, we want to make sure that the previous and next
+             * buttons in the pager plugin are properly using the current user's
+             * locale settings
+             */
+            var translateJqueryPlugins = function(){
+                // Translate the jquery.timeago.js plugin
+                $.timeago.settings.strings = {
+                    prefixAgo: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_PREFIXAGO"),
+                    prefixFromNow: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_PREFIXFROMNOW"),
+                    suffixAgo: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SUFFIXAGO"),
+                    suffixFromNow: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SUFFIXFROMNOW"),
+                    seconds: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SECONDS"),
+                    minute: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MINUTE"),
+                    minutes: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MINUTES"),
+                    hour: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_HOUR"),
+                    hours: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_HOURS"),
+                    day: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_DAY"),
+                    days: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_DAYS"),
+                    month: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MONTH"),
+                    months: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MONTHS"),
+                    year: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEAR"),
+                    years: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEARS")
+                }
+                // Translate the jquery.pager.js plugin
+                // TODO
             };
 
             /**
@@ -351,21 +381,21 @@ define(
                 if (widgetname) {
                     if (typeof sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
-                        if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && sakaii18nAPI.data.widgets[widgetname][locale][key]) {
+                        if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string") {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
                         }
                         // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
-                        else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && sakaii18nAPI.data.widgets[widgetname]["default"][key]) {
+                        else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && typeof sakaii18nAPI.data.widgets[widgetname]["default"][key] === "string") {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
                         }
                     }
                 }
                 // First check if the key can be found in the general locale bundle
-                if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
+                if (sakaii18nAPI.data.localBundle && typeof sakaii18nAPI.data.localBundle[key] === "string") {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.localBundle[key]);
                 }
                 // If the key wasn't found in the general locale bundle, search in the general default bundle
-                else if (sakaii18nAPI.data.defaultBundle && sakaii18nAPI.data.defaultBundle[key]) {
+                else if (sakaii18nAPI.data.defaultBundle && typeof sakaii18nAPI.data.defaultBundle[key] === "string") {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.defaultBundle[key]);
                 } 
                 // If none of the about found something, log an error message
