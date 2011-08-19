@@ -546,13 +546,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var getPageCount = function(pagestructure){
             var pageCount = 0;
-            for (var tl in pagestructure) {
-                if (pagestructure.hasOwnProperty(tl)) {
-                    if (tl.substring(0,1) !== "_") {
-                        pageCount ++;
-                        if (pageCount >= 3)
-                            return 3;
-                        pageCount += getPageCount(pagestructure[tl]);
+            for (var tl in pagestructure["structure0"]){
+                if (pagestructure["structure0"].hasOwnProperty(tl)){
+                    pageCount++;
+                    if (pageCount >= 3){
+                        return 3;
+                    }
+                    for (var ll in pagestructure["structure0"][tl]){
+                        if (ll.substring(0,1) !== "_"){
+                            pageCount++;
+                            if (pageCount >= 3){
+                                return 3;
+                            }
+                        }
                     }
                 }
             }
@@ -578,7 +584,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var renderSakaiDoc = function(pagestructure){
             pagestructure = sakai.api.Server.cleanUpSakaiDocObject(pagestructure);
             pagestructure.structure0 = setManagerProperty(pagestructure.structure0, sakai_global.content_profile.content_data.isManager);
-            if (getPageCount(pagestructure.structure0) >= 3){
+            if (getPageCount(pagestructure) >= 3){
                 switchToTwoColumnLayout(true);
             } else {
                 switchToOneColumnLayout(true);

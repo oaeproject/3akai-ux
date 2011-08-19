@@ -144,11 +144,6 @@
             <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
                 Download<span class="entity_download_content"></span>
             </a>
-        {elseif data.data.zipname && data.data.zipname.length != 0}
-            {var zippath = data.smallPath + "/" + data.data.zipname}
-            <a id="contentpreview_download_button" href="${zippath}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Download<span class="entity_download_content"></span>
-            </a>
         {/if}
     </div>
     <div id="entity_content_image" class="entity_content_image">
