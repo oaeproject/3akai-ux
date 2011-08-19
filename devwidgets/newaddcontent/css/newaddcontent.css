@@ -19,7 +19,7 @@
 #newaddcontent_container {width:1018px;margin-left:-529px;height:540px;left:50%;z-index:9999;}/* Center by applying - half width in margin-left + padding  and left:50%*/
 #newaddcontent_container #newaddcontent_container_lhchoice {float: left;width: 214px; position:absolute;z-index:999;margin:0;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item {width:204px;cursor:pointer;list-style:none;padding:1px 0 1px 1px;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span {line-height:56px; color:#006E96;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > span, #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item > a {line-height:56px; color:#006E96;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul {margin:-10px 0 15px 30px;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li {-moz-border-radius: 5px 0 0 5px;border-radius:5px 0 0 5px;clear: both;list-style: none outside none;margin-bottom: 0;padding: 5px 0 5px 7px;color:#424242;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_my_library_icon,
@@ -29,9 +29,9 @@
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_my_content_icon{background:url("/devwidgets/newaddcontent/images/newaddcontent_my_content_icon.png") no-repeat top left transparent;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_item ul li #newaddcontent_everything_icon{background:url("/devwidgets/newaddcontent/images/newaddcontent_everything_icon.png") no-repeat top left transparent;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item {-moz-border-radius: 5px 0 0 5px;border-radius:5px 0 0 5px;background-color: #E5EAED;border-color: #a9a9a9;border-style: solid none solid solid;border-width: 1px 0 1px 1px;padding:0;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item span {color:#424242;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item span, #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item a#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item a {color:#424242;}
 #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem {background: url("/devwidgets/newaddcontent/images/newaddcontent_selected_item_bg.png") repeat-x scroll 0 0 transparent;font-weight:bold;}
-#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem span{color:#fff;}
+#newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem span, #newaddcontent_container #newaddcontent_container_lhchoice .newaddcontent_container_lhchoice_selected_item .newaddcontent_container_lhchoice_selected_subitem a {color:#fff;}
 #newaddcontent_container #newaddcontent_container_lhchoice .lhchoice_icon {display: block;float: left;height: 20px;margin-left: 5px;margin-right: 10px;margin-top: 19px;width: 20px;}
 #newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_upload_content_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_upload_icon.png") no-repeat scroll 0 0 transparent;}
 #newaddcontent_container #newaddcontent_container_lhchoice #newaddcontent_add_new_document_icon {background: url("/devwidgets/newaddcontent/images/newaddcontent_new_document_icon.png") no-repeat scroll 0 0 transparent;}
