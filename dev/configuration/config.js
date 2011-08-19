@@ -1495,7 +1495,7 @@ define(function(){
                     }
                 },
                 "messages": {
-                    "_title": "My Messages",
+                    "_title": "__MSG__MY_MESSAGES__",
                     "_ref": "${refid}1",
                     "_order": 1,
                     "_canEdit": true,
@@ -1505,25 +1505,25 @@ define(function(){
                     "inbox": {
                         "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Inbox",
+                        "_title": "__MSG__INBOX__",
                         "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "${refid}2",
                         "_order": 1,
-                        "_title": "Invitations",
+                        "_title": "__MSG__INVITATIONS__",
                         "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "${refid}3",
                         "_order": 2,
-                        "_title": "Sent",
+                        "_title": "__MSG__SENT__",
                         "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "${refid}4",
                         "_order": 3,
-                        "_title": "Trash",
+                        "_title": "__MSG__TRASH__",
                         "_nonEditable": true
                     }
                 }
@@ -1603,8 +1603,8 @@ define(function(){
         defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_title": "My Profile",
-                    "_altTitle": "${user}'s Profile",
+                    "_title": "__MSG__MY_PROFILE__",
+                    "_altTitle": "__MSG__MY_PROFILE_OTHER__",
                     "_order": 0,
                     "_view": "anonymous",
                     "_reorderOnly": true,
@@ -1639,17 +1639,17 @@ define(function(){
                     }
                 },
                 "contacts": {
-                    "_title": "My Contacts",
+                    "_title": "__MSG__MY_CONTACTS__",
                     "_order": 3,
                     "_ref": "${refid}2",
-                    "_altTitle": "${user}'s Contacts",
+                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}2",
                         "_order": 0,
-                        "_title": "Contacts"
+                        "_title": "__MSG__MY_CONTACTS__"
                     }
                 }
             },
