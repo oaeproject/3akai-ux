@@ -187,9 +187,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ((searchQuery === '*' || searchQuery === '**') && pickerData['searchInAll']) {
                 searchUrl = pickerData['searchInAll'];
                 if (searchUrl.indexOf("?") === -1) {
-                    searchQuery = "?q=*";
+                    searchQuery = "?q=";
                 } else {
-                    searchQuery = "&q=*";
+                    searchQuery = "&q=";
                 }
             }
             var pl_query = searchUrl + searchQuery + "&page=0&items=12&_=" + (Math.random() * 100000000000000000);
