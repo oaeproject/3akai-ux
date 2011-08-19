@@ -596,7 +596,7 @@ define(
                      .replace(/\$\{profilelink\}/g, profileLink)
                      .replace(/\$\{acceptlink\}/g, acceptLink)
                     .replace(/\$\{br\}/g,"\n");
-                sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,false,"join_request");
+                sakai_comm.sendMessage(managerArray, meData, subject, body, false,false,false,true,"join_request");
             };
 
             /**
