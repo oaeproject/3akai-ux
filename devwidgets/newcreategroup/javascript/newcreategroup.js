@@ -89,13 +89,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     /**
-     * If the group has been fully created the user is redirected to the group.
-     * Checking for tags, permissions and members before redirecting.
+     * When a group is created, the creator of the group is added directly to
+     * the managers list. This is good during group creation, but creates
+     * undesired side-effects when managing permissions later on. This function
+     * gets ahead of the issue by removing the creator from the managers
+     * list after group creation
+     *
+     * @param {String} groupid the id of the group to remove the creator
+     *                        (current user) from
      */
-    var checkCreationComplete = function(){
-        if(creationComplete.tags && creationComplete.permissions && creationComplete.members && creationComplete.message && creationComplete.docs){
-            window.location = "/~" + creationComplete.groupid;
-        }
+    var removeCreatorFromManagersOfMainGroup = function(groupid, template, callback) {
+        var members = [];
+        members.push({
+            "userid": sakai.api.User.data.me.user.userid,
+            "removeManagerOnly": true
+        });
+        $.each(template.roles, function(i, role) {
+            members.push({
+                "userid": sakai.api.User.data.me.user.userid,
+                "permission": role.id,
+                "removeManagerOnly": true
+            });
+        });
+        sakai.api.Groups.removeUsersFromGroup(groupid, members, sakai.api.User.data.me, function() {
+            if ($.isFunction(callback)) {
+                callback();
+            }
+        });
     };
 
     /**
@@ -108,22 +128,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var grouptags = $newcreategroupGroupTags.val().split(",");
         sakai.api.Groups.createGroup(groupid, grouptitle, groupdescription, sakai.data.me, currentTemplate, widgetData.category, function(success, groupData, nameTaken){
             if (success) {
-                creationComplete.groupid = groupid;
-
                 // Tag group
                 var groupProfileURL = "/~" + groupid + "/public/authprofile";
                 sakai.api.Util.tagEntity(groupProfileURL, grouptags, [], function(){
-                    creationComplete.tags = true;
-                    checkCreationComplete();
                     
                     // Set permissions on group
                     var joinable = $newcreategroupGroupMembership.val();
                     var visible = $newcreategroupCanBeFoundIn.val();
                     var roles = $.parseJSON(groupData["sakai:roles"]);
                     sakai.api.Groups.setPermissions(groupid, joinable, visible, roles, function(){
-                        creationComplete.permissions = true;
-                        checkCreationComplete();
-                        
+
                         // Set members and managers on group
                         var users = [];
                         $.each(selectedUsers, function(index, item){
@@ -133,26 +147,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 "permission": item.permission
                             });
                         });
-                        
+
                         if (users.length > 0) {
                             sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
-                                creationComplete.members = true;
-                                checkCreationComplete();
-                            });
-                            $.each(users, function(index, item){
-                                sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
-                                if(users.length - 1 == index){
-                                    creationComplete.message = true;
-                                    checkCreationComplete();
-                                }
+                                $.each(users, function(index, item){
+                                    sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
+                                    if(users.length - 1 === index){
+                                        createGroupDocs(groupid, currentTemplate);
+                                    }
+                                });
                             });
                         } else {
-                            creationComplete.members = true;
-                            creationComplete.message = true;
-                            checkCreationComplete();
+                            createGroupDocs(groupid, currentTemplate);
                         }
-                        createGroupDocs(groupid, currentTemplate);
-                        
                     });
                 });
 
@@ -175,8 +182,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
                 setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
                     addStructureToGroup(groupid, currentTemplate, function(){
-                        creationComplete.docs = true;
-                        checkCreationComplete();
+                        removeCreatorFromManagersOfMainGroup(groupid, currentTemplate, function() {
+                            window.location = "/~" + groupid;
+                        });
                     });
                 });
             });
