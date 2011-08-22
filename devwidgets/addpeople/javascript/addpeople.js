@@ -151,7 +151,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             if (managerSelected || !sakai_global.group) {
-                $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
+                // This is called after sakai.addpeople.usersselected completes
+                $(window).unbind("usersselected.addpeople.sakai").bind("usersselected.addpeople.sakai", function() {
+                    $(window).trigger("sakai.addpeople.usersswitchedpermission", [tuid.replace("addpeople", ""), permissionsToDelete]);
+                });
                 $(window).trigger("sakai.addpeople.usersselected", [tuid.replace("addpeople", ""), selectedUsers]);
                 if (sakai_global.group) {
                     $.merge(permissionsToDelete, newUsers);

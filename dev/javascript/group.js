@@ -182,6 +182,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","NEW_SETTINGS_HAVE_BEEN_APPLIED"));
                     $(window).trigger("usersselected.addpeople.sakai");
                 });
+            } else {
+                $(window).trigger("usersselected.addpeople.sakai");
             }
         });
 
