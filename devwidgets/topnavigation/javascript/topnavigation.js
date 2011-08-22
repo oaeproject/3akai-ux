@@ -634,8 +634,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
                     if ($(this).attr("id") === "subnavigation_logout_link"){
+                        // if user is signed in and tabs out of user menu, close the sub menu
                         closeMenu();
                     } else if ($(this).attr("id") === "topnavigation_user_options_login_button_login" || $(this).parent().next().length == 0) {
+                        // if user is not signed in we need to check when they tab out of the login form or the external auth menu, and close the login menu
                         mouseOverSignIn = false;
                         $(topnavUserLoginButton).trigger("mouseout");
                         $("html").trigger("click");
