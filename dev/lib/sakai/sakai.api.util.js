@@ -1778,11 +1778,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "picture": sakai_util.Security.saneHTML(sakai_util.constructProfilePicture(data.results[i], "user")), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "picture": sakai_util.Security.saneHTML(sakai_util.constructProfilePicture(data.results[i], "group")), "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
                                         }
                                     }
                                 });
