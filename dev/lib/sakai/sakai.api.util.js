@@ -512,7 +512,7 @@ define(
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
                     }
-                    return "/~" + id + "/public/profile/" + picture_name;
+                    imgUrl = "/~" + sakai_util.urlSafe(id) + "/public/profile/" + picture_name;
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name;
@@ -521,13 +521,12 @@ define(
                         picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     //change string to json object and get name from picture object
-                    return "/~" + id + "/public/profile/" + picture_name;
-                } else {
-                    return imgUrl;
+                    imgUrl = "/~" + sakai_util.urlSafe(id) + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && $.type(profile.basic.elements.picture) === "string"){
+                    imgUrl = profile.basic.elements.picture;
                 }
-            } else {
-                return imgUrl;
             }
+            return imgUrl;
         },
 
         /**
@@ -1779,11 +1778,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
                                         }
                                     }
                                 });

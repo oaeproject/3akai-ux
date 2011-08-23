@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.create_new_account.css" />
 
     </head>
-    <body class="fl-centered create_account show i18nable">
+    <body class="fl-centered create_account show i18nable" aria-live="assertive">
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
             <div class="s3d-navigation-container">
@@ -74,8 +74,8 @@
                                     </div>
                                 </div>
                                 <div class="captcha_container" id="captcha_box">
-                                    <button id="save_account" class="s3d-button s3d-large-button" type="submit" tabindex="8">__MSG__CREATE_ACCOUNT__</button>
                                     <div id="widget_captcha" class="widget_inline"></div>
+                                    <button id="save_account" class="s3d-button s3d-large-button" type="submit">__MSG__CREATE_ACCOUNT__</button>
                                 </div>
                             </div>
                         </form>

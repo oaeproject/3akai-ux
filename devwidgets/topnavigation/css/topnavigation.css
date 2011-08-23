@@ -25,8 +25,10 @@
 .topnavigation_explore .hassubnav:hover, .topnavigation_user_container .hassubnav:hover {-moz-border-radius:2px 2px 0 0; border-radius:2px 2px 0 0; -webkit-border-radius:2px 2px 0 0;}
 .topnavigation_explore .topnavigation_close_override, .topnavigation_user_container .topnavigation_close_override {background: none;}
 
+.topnavigation_right {float:right;}
+
 /* SEARCH */
-.topnavigation_search {float:right;margin-top:10px;height: 22px;margin-right: 20px;}
+.topnavigation_search {float:left;margin-top:10px;height: 22px;margin-right: 20px;}
 .topnavigation_search {width:190px; background:url("/devwidgets/topnavigation/images/topnav_search_icon.png") no-repeat center right transparent;}
 .topnavigation_search #topnavigation_search_input{margin-left:7px;border:none; height:20px;box-shadow:1px 1px 1px #888 inset;-webkit-box-shadow:1px 1px 1px #888 inset;box-shadow:1px 1px 1px #888 inset;}
 .topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 6px 0 0 -30px;position: absolute;width: 241px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
@@ -82,5 +84,5 @@
 
 /* Accessibility styles for keyboard navigation */
 #topnavigation_user_options_login{margin:0;background:transparent;border:0;font-weight:bold;font-size:inherit;}
-.topnavigation_explore .s3d-dropdown-menu a:focus, #topnavigation_user_options_login:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
+.topnavigation_explore .s3d-dropdown-menu li a:focus, .topnavigation_user_container .s3d-dropdown-menu li a:focus, #topnavigation_user_options_login li a:focus, #navigation_anon_signup_link:focus{ -moz-border-radius: 2px 2px 2px 2px; background: url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2; color:#fff !important;}
 #topnavigation_search_input:focus{outline:2px solid #2683BC;}

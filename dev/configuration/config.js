@@ -314,12 +314,14 @@ define(function(){
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
@@ -336,6 +338,7 @@ define(function(){
                             },
                             "email": {
                                 "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_EMAIL_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "type": "email"
@@ -1514,6 +1517,13 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+
+        Editor: {
+            tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
+                'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',
+                'th','zh-cn','bn','da','eu','hr','ka','ml','pl','sk','tn','zh-tw','br','de','fa','hu','kl','mn','ps','sl',
+                'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
+        },
 
         /*
          * _canEdit: can change the area permissions on this page
