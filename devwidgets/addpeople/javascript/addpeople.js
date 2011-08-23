@@ -288,17 +288,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return {Object} returnValue An object containing a list of displayNames and an Array of userID's to be added to the members list
          */
         var createAutoSuggestedUser = function(userData) {
-            var pictureURL = "";
+            var pictureURL = userData.attributes.picture;
             var userid = userData.attributes.value;
-            if (userData.attributes.picture) {
-                pictureURL = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + userData.attributes.picture;
-            } else {
-                if (userData.attributes.type=== "group") {
-                    pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
-                } else {
-                    pictureURL = "/dev/images/default_User_icon_35x35.png";
-                }
-            }
             var userObj = {
                 userid: userid,
                 name: userData.attributes.name,
@@ -356,16 +347,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 userObj.originalPermission = currentTemplate.roles[i].id;
                             }
                         });
-                        if (data[role].results[user].picture) {
-                            userObj.picture = "/~" + sakai.api.Util.urlSafe(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
-                        }
-                        else {
-                            if (data[role].results[user]["sakai:group-id"]) {
-                                userObj.picture = "/dev/images/group_avatar_icon_35x35_nob.png";
-                            }
-                            else {
-                                userObj.picture = "/dev/images/default_User_icon_35x35.png";
-                            }
+                        if (data[role].results[user]["sakai:group-id"]) {
+                            userObj.picture = sakai.api.Groups.getProfilePicture(data[role].results[user]);
+                        } else {
+                            userObj.picture = sakai.api.User.getProfilePicture(data[role].results[user]);
                         }
                         selectedUsers[userObj.userid] = userObj;
                     }
