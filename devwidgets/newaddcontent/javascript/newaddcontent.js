@@ -1062,6 +1062,8 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
+            sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
+            sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
             $newaddcontentAddLinkForm.validate({
                 success: function(){
