@@ -928,497 +928,497 @@ define(function(){
 
         Directory: {
             medicineanddentistry: {
-                title: "Medicine and Dentistry",
+                title: "__MSG__MEDICINE_AND_DENTISTRY__",
                 children: {
                     preclinicalmedicine: {
-                        title: "Pre-clinical Medicine"
+                        title: "__MSG__PRECLINICAL_MEDICINE__"
                     },
                     preclinicaldentistry: {
-                        title: "Pre-clinical Dentistry"
+                        title: "__MSG__PRECLINICAL_DENTISTRY__"
                     },
                     clinicalmedicine: {
-                        title: "Clinical Medicine"
+                        title: "__MSG__CLININCAL_MEDICINE__"
                     },
                     clinicaldentistry: {
-                        title: "Clinical Dentistry"
+                        title: "__MSG__CLININCAL_DENTISTRY__"
                     },
                     othersinmedicineanddentistry: {
-                        title: "Others in Medicine and Dentistry"
+                        title: "__MSG__MEDICINE_AND_DENTISTRY_OTHERS__"
                     }
                 }
             },
             biologicalsciences: {
-                title: "Biological Sciences",
+                title: "__MSG__BIOLOGICAL_SCIENCES__",
                 children: {
                     biology: {
-                        title: "Biology"
+                        title: "__MSG__BIOLOGY__"
                     },
                     botany: {
-                        title: "Botany"
+                        title: "__MSG__BOTANY__"
                     },
                     zoology: {
-                        title: "Zoology"
+                        title: "__MSG__ZOOLOGY__"
                     },
                     genetics: {
-                        title: "Genetics"
+                        title: "__MSG__GENETICS__"
                     },
                     microbiology: {
-                        title: "Microbiology"
+                        title: "__MSG__MICROBIOLOGY__"
                     },
                     sportsscience: {
-                        title: "Sports Science"
+                        title: "__MSG__SPORTS_SCIENCE__"
                     },
                     molecularbiologybiophysicsandbiochemistry: {
-                        title: "Molecular Biology, Biophysics and Biochemistry"
+                        title: "__MSG__MOLECULAR_BIOLOGY__"
                     },
                     psychology: {
-                        title: "Psychology"
+                        title: "__MSG__PSYCHOLOGY__"
                     },
                     othersinbiologicalsciences: {
-                        title: "Others in Biological Sciences"
+                        title: "__MSG__BIOLOGICAL_SCIENCES_OTHER__"
                     }
                 }
             },
             veterinarysciencesagriculture: {
-                title: "Veterinary Sciences and Agriculture",
+                title: "__MSG__VETERINARY_SCIENCES__",
                 children: {
                     preclinicalveterinarymedicine: {
-                        title: "Pre-clinical Veterinary Medicine"
+                        title: "__MSG__PRE_CLINICAL_VETERINARY__"
                     },
                     clinicalveterinarymedicineanddentistry: {
-                        title: "Clinical Veterinary Medicine and Dentistry"
+                        title: "__MSG__CLINICAL_VETERINARY__"
                     },
                     animalscience: {
-                        title: "Animal Science"
+                        title: "__MSG__ANIMAL_SCIENCE__"
                     },
                     agriculture: {
-                        title: "Agriculture"
+                        title: "__MSG__AGRICULTURE__"
                     },
                     forestry: {
-                        title: "Forestry"
+                        title: "__MSG__FORESTRY__"
                     },
                     foodandbeveragestudies: {
-                        title: "Food and Beverage studies"
+                        title: "__MSG__FOOD_BEVERAGE__"
                     },
                     agriculturalsciences: {
-                        title: "Agricultural Sciences"
+                        title: "__MSG__AGRICULTURAL_SCIENCE__"
                     },
                     othersinveterinarysciencesandagriculture: {
-                        title: "Others in Veterinary Sciences and Agriculture"
+                        title: "__MSG__VETERINARY_SCIENCES_OTHER__"
                     }
                 }
             },
             physicalsciences: {
-                title: "Physical Sciences",
+                title: "__MSG__PHYSICAL_SCIENCE__",
                 children: {
                     chemistry: {
-                        title: "Chemistry"
+                        title: "__MSG__CHEMISTRY__"
                     },
                     materialsscience: {
-                        title: "Materials Science"
+                        title: "__MSG__MATERIALS_SCIENCE__"
                     },
                     physics: {
-                        title: "Physics"
+                        title: "__MSG__PHYSICS__"
                     },
                     forensicandarchaeologicalscience: {
-                        title: "Forensic and Archaeological Science"
+                        title: "__MSG__FORENSIC_ARCHEALOGICAL__"
                     },
                     astronomy: {
-                        title: "Astronomy"
+                        title: "__MSG__ASTRONOMY__"
                     },
                     geology: {
-                        title: "Geology"
+                        title: "__MSG__GEOLOGY__"
                     },
                     oceansciences: {
-                        title: "Ocean Sciences"
+                        title: "__MSG__OCEAN_SCIENCE__"
                     },
                     othersinphysicalsciences: {
-                        title: "Others in Physical Sciences"
+                        title: "__MSG__PHYSICAL_SCIENCE_OTHER__"
                     }
                 }
             },
             mathematicalandcomputersciences: {
-                title: "Mathematical and Computer Sciences",
+                title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES__",
                 children: {
                     mathematics: {
-                        title: "Mathematics"
+                        title: "__MSG__MATHEMATICS__"
                     },
                     operationalresearch: {
-                        title: "Operational Research"
+                        title: "__MSG__OPERATIONAL_RESEARCH__"
                     },
                     statistics: {
-                        title: "Statistics"
+                        title: "__MSG__STATISTICS__"
                     },
                     computerscience: {
-                        title: "Computer Science"
+                        title: "__MSG__COMPUTER_SCIENCE__"
                     },
                     informationsystems: {
-                        title: "Information Systems"
+                        title: "__MSG__INFORMATION_SYSTEMS__"
                     },
                     softwareengineering: {
-                        title: "Software Engineering"
+                        title: "__MSG__SOFTWARE_ENGINEERING__"
                     },
                     artificialintelligence: {
-                        title: "Artificial Intelligence"
+                        title: "__MSG__ARTIFICIAL_INTELLIGENCE__"
                     },
                     othersinmathematicalandcomputingsciences: {
-                        title: "Others in Mathematical and Computing Sciences"
+                        title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES_OTHER__"
                     }
                 }
             },
             engineering: {
-                title: "Engineering",
+                title: "__MSG__ENGINEERING__",
                 children: {
                     generalengineering: {
-                        title: "General Engineering"
+                        title: "__MSG__GENERAL_ENGINEERING__"
                     },
                     civilengineering: {
-                        title: "Civil Engineering"
+                        title: "__MSG__CIVIL_ENGINEERING__"
                     },
                     mechanicalengineering: {
-                        title: "Mechanical Engineering"
+                        title: "__MSG__MECHANICAL_ENGINEERING__"
                     },
                     aerospaceengineering: {
-                        title: "Aerospace Engineering"
+                        title: "__MSG__AEROSPACE_ENGINEERING__"
                     },
                     navalarchitecture: {
-                        title: "Naval Architecture"
+                        title: "__MSG__NAVAL_ARCHITECTURE__"
                     },
                     electronicandelectricalengineering: {
-                        title: "Electronic and Electrical Engineering"
+                        title: "__MSG__ELECTRONIC_ELECTRICAL_ENGINEERING__"
                     },
                     productionandmanufacturingengineering: {
-                        title: "Production and Manufacturing Engineering"
+                        title: "__MSG__PRODUCTION_MANUFACTURING_ENGINEERING__"
                     },
                     chemicalprocessandenergyengineering: {
-                        title: "Chemical, Process and Energy Engineering"
+                        title: "__MSG__CHEMICAL_PROCESS_ENERGY_ENGINEERING__"
                     },
                     othersinengineering: {
-                        title: "Others in Engineering"
+                        title: "__MSG__ENGINEERING_OTHER__"
                     }
                 }
             },
             technologies: {
-                title: "Technologies",
+                title: "__MSG__TECHNOLOGIES__",
                 children: {
                     mineralstechnology: {
-                        title: "Minerals Technology"
+                        title: "__MSG__MINERALS_TECHNOLOGY__"
                     },
                     metallurgy: {
-                        title: "Metallurgy"
+                        title: "__MSG__METALLURGY__"
                     },
                     ceramicsandglasses: {
-                        title: "Ceramics and Glasses"
+                        title: "__MSG__CERAMICS_GLASSES__"
                     },
                     polymersandtextiles: {
-                        title: "Polymers and Textiles"
+                        title: "__MSG__POLYMERS_TEXTILES__"
                     },
                     materialstechnologynototherwisespecified: {
-                        title: "Materials Technology not otherwise specified"
+                        title: "__MSG__MATERIALS_TECHNOLOGY_OTHER__"
                     },
                     maritimetechnology: {
-                        title: "Maritime Technology"
+                        title: "__MSG__MARITIME_TECHNOLOGY__"
                     },
                     industrialbiotechnology: {
-                        title: "Industrial Biotechnology"
+                        title: "__MSG__INDUSTRIAL_BIOTECHNOLOGY__"
                     },
                     othersintechnology: {
-                        title: "Others in Technology"
+                        title: "__MSG__TECHNOLOGIES_OTHER__"
                     }
                 }
             },
             architecturebuildingandplanning: {
-                title: "Architecture, Building and Planning",
+                title: "__MSG__ARCHITECTURE_BUILDING_PLANNING__",
                 children: {
                     architecture: {
-                        title: "Architecture"
+                        title: "__MSG__ARCHITECTURE__"
                     },
                     building: {
-                        title: "Building"
+                        title: "__MSG__BUILDING__"
                     },
                     landscapedesign: {
-                        title: "Landscape Design"
+                        title: "__MSG__LANDSCAPE_DESIGN__"
                     },
                     planning: {
-                        title: "Planning (Urban, Rural and Regional)"
+                        title: "__MSG__PLANNING__"
                     },
                     othersinarchitecturebuildingandplanning: {
-                        title: "Others in Architecture, Building and Planning"
+                        title: "__MSG__ARCHITECTURE_BUILDING_PLANNING_OTHER__"
                     }
                 }
             },
             socialstudies: {
-                title: "Social studies",
+                title: "__MSG__SOCIAL_STUDIES__",
                 children: {
                     economics: {
-                        title: "Economics"
+                        title: "__MSG__ECONOMICS__"
                     },
                     politics: {
-                        title: "Politics"
+                        title: "__MSG__POLITICS__"
                     },
                     sociology: {
-                        title: "Sociology"
+                        title: "__MSG__SOCIOLOGY__"
                     },
                     socialpolicy: {
-                        title: "Social Policy"
+                        title: "__MSG__SOCIAL_POLICY__"
                     },
                     socialwork: {
-                        title: "Social Work"
+                        title: "__MSG__SOCIAL_WORK__"
                     },
                     anthropology: {
-                        title: "Anthropology"
+                        title: "__MSG__ANTHROPOLOGY__"
                     },
                     humanandsocialgeography: {
-                        title: "Human and Social Geography"
+                        title: "__MSG__HUMAN_SOCIAL_GEOGRAPHY__"
                     },
                     othersinsocialstudies: {
-                        title: "Others in Social studies"
+                        title: "__MSG__SOCIAL_STUDIES_OTHER__"
                     }
                 }
             },
             law: {
-                title: "Law",
+                title: "__MSG__LAW__",
                 children: {
                     publiclaw: {
-                        title: "Public Law"
+                        title: "__MSG__LAW_PUBLIC__"
                     },
                     privatelaw: {
-                        title: "Private Law"
+                        title: "__MSG__LAW_PRIVATE__"
                     },
                     jurisprudence: {
-                        title: "Jurisprudence"
+                        title: "__MSG__JURISPRUDENCE__"
                     },
                     legalpractice: {
-                        title: "Legal Practice"
+                        title: "__MSG__LEGAL_PRACTICE__"
                     },
                     medicallaw: {
-                        title: "Medical Law"
+                        title: "__MSG__LAW_MEDICAL__"
                     },
                     othersinlaw: {
-                        title: "Others in law"
+                        title: "__MSG__LAW_OTHER__"
                     }
                 }
             },
             businessandadministrativestudies: {
-                title: "Business and Administrative studies",
+                title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES__",
                 children: {
                     businessstudies: {
-                        title: "Business studies"
+                        title: "__MSG__BUSINESS_STUDIES__"
                     },
                     managementstudies: {
-                        title: "Management studies"
+                        title: "__MSG__MANAGEMENTS_STUDIES__"
                     },
                     finance: {
-                        title: "Finance"
+                        title: "__MSG__FINANCE__"
                     },
                     accounting: {
-                        title: "Accounting"
+                        title: "__MSG__ACCOUNTING__"
                     },
                     marketing: {
-                        title: "Marketing"
+                        title: "__MSG__MARKETING__"
                     },
                     humanresourcemanagement: {
-                        title: "Human Resource Management"
+                        title: "__MSG__HUMAN_RESOURCE_MANAGEMENT__"
                     },
                     officeskills: {
-                        title: "Office skills"
+                        title: "__MSG__OFFICE_SKILLS__"
                     },
                     tourismtransportandtravel: {
-                        title: "Tourism, Transport and Travel"
+                        title: "__MSG__TOURISM__"
                     },
                     othersinbusandadminstudies: {
-                        title: "Others in Business and Administrative studies"
+                        title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES_OTHER__"
                     }
                 }
             },
             masscommunicationsanddocumentation: {
-                title: "Mass Communications and Documentation",
+                title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION__",
                 children: {
                     informationservices: {
-                        title: "Information Services"
+                        title: "__MSG__INFORMATION_SERVICES__"
                     },
                     publicitystudies: {
-                        title: "Publicity studies"
+                        title: "__MSG__PUBLICITY_STUDIES__"
                     },
                     mediastudies: {
-                        title: "Media studies"
+                        title: "__MSG__MEDIA_STUDIES__"
                     },
                     publishing: {
-                        title: "Publishing"
+                        title: "__MSG__PUBLISHING__"
                     },
                     journalism: {
-                        title: "Journalism"
+                        title: "__MSG__JOURNALISM__"
                     },
                     othersinmasscommanddoc: {
-                        title: "Others in Mass Communications and Documentation"
+                        title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION_OTHER__"
                     }
                 }
             },
             linguisticsclassicsandrelatedsubjects: {
-                title: "Linguistics, Classics and related subjects",
+                title: "__MSG__LINGUISTICS_CLASSICS__",
                 children: {
                     linguistics: {
-                        title: "Linguistics"
+                        title: "__MSG__LINGUISTICS__"
                     },
                     comparativeliterarystudies: {
-                        title: "Comparative Literary studies"
+                        title: "__MSG__LINGUISTICS_LITERARY__"
                     },
                     englishstudies: {
-                        title: "English studies"
+                        title: "__MSG__LINGUISTICS_ENGLISH__"
                     },
                     ancientlanguagestudies: {
-                        title: "Ancient Language studies"
+                        title: "__MSG__LINGUISTICS_ANCIENT__"
                     },
                     celticstudies: {
-                        title: "Celtic studies"
+                        title: "__MSG__LINGUISTICS_CELTIC__"
                     },
                     latinstudies: {
-                        title: "Latin studies"
+                        title: "__MSG__LINGUISTICS_LATIN__"
                     },
                     classicalgreekstudies: {
-                        title: "Classical Greek studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL_GREEK__"
                     },
                     classicalstudies: {
-                        title: "Classical studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL__"
                     },
                     othersinlinguisticsclassicsandrelsubject: {
-                        title: "Others in Linguistics, Classics and related subjects"
+                        title: "__MSG__LINGUISTICS_CLASSICS_OTHER__"
                     }
                 }
             },
             europeanlanguagesliteratureandrelatedsubjects: {
-                title: "European Languages, Literature and related subjects",
+                title: "__MSG__EUROPEAN_LANGUAGES__",
                 children: {
                     frenchstudies: {
-                        title: "French studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_FRENCH__"
                     },
                     germanstudies: {
-                        title: "German studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_GERMAN__"
                     },
                     italianstudies: {
-                        title: "Italian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_ITALIAN__"
                     },
                     spanishstudies: {
-                        title: "Spanish studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SPANISH__"
                     },
                     portuguesestudies: {
-                        title: "Portuguese studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_PORTUGUESE__"
                     },
                     scandinavianstudies: {
-                        title: "Scandinavian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SCANDINAVIAN__"
                     },
                     russianandeasteuropeanstudies: {
-                        title: "Russian and East European studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_RUSSIAN__"
                     },
                     othersineurolangliteratureandrelsubjects: {
-                        title: "Others in European Languages, Literature and related subjects"
+                        title: "__MSG__EUROPEAN_LANGUAGES_OTHER__"
                     }
                 }
             },
             easiaticlanguagesliterature: {
-                title: "Exotic Languages, Literature and related subjects",
+                title: "__MSG__EXOTIC_LANGUAGES__",
                 children: {
                     chinesestudies: {
-                        title: "Chinese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_CHINESE__"
                     },
                     japanesestudies: {
-                        title: "Japanese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_JAPANESE__"
                     },
                     southasianstudies: {
-                        title: "South Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_SOUTH_ASIAN__"
                     },
                     otherasianstudies: {
-                        title: "Other Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_ASIAN_OTHER__"
                     },
                     africanstudies: {
-                        title: "African studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AFRICAN__"
                     },
                     modernmiddleeasternstudies: {
-                        title: "Modern Middle Eastern studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_MIDDLE_EAST__"
                     },
                     americanstudies: {
-                        title: "American studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AMERICAN__"
                     },
                     australasianstudies: {
-                        title: "Australasian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AUSTRALIAN__"
                     },
                     othersineasternasiaafriamericaaustralianlang: {
-                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
+                        title: "__MSG__EXOTIC_LANGUAGES_OTHER__"
                     }
                 }
             },
             historicalandphilosophicalstudies: {
-                title: "Historical and Philosophical studies",
+                title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES__",
                 children: {
                     historybyperiod: {
-                        title: "History by period"
+                        title: "__MSG__HISTORY_PERIOD__"
                     },
                     historybyarea: {
-                        title: "History by area"
+                        title: "__MSG__HISTORY_AREA__"
                     },
                     historybytopic: {
-                        title: "History by topic"
+                        title: "__MSG__HISTORY_TOPIC__"
                     },
                     archaeology: {
-                        title: "Archaeology"
+                        title: "__MSG__ARCHEOLOGY__"
                     },
                     philosophy: {
-                        title: "Philosophy"
+                        title: "__MSG__PHILOSOPHY__"
                     },
                     theologyandreligiousstudies: {
-                        title: "Theology and Religious studies"
+                        title: "__MSG__THEOLOGY_STUDIES__"
                     },
                     othersinhistoricalandphilosophicalstudies: {
-                        title: "Others in Historical and Philosophical studies"
+                        title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES_OTHER__"
                     }
                 }
             },
             creativeartsanddesign: {
-                title: "Creative Arts and Design",
+                title: "__MSG__CREATIVE_ARTS__",
                 children: {
                     fineart: {
-                        title: "Fine Art"
+                        title: "__MSG__FINE_ART__"
                     },
                     designstudies: {
-                        title: "Design studies"
+                        title: "__MSG__DESIGN_STUDIES__"
                     },
                     music: {
-                        title: "Music"
+                        title: "__MSG__MUSIC__"
                     },
                     drama: {
-                        title: "Drama"
+                        title: "__MSG__DRAMA__"
                     },
                     dance: {
-                        title: "Dance"
+                        title: "__MSG__DANCE__"
                     },
                     cinematicsandphotography: {
-                        title: "Cinematics and Photography"
+                        title: "__MSG__CINEMATICS_PHOTOGRAPHY__"
                     },
                     crafts: {
-                        title: "Crafts"
+                        title: "__MSG__CRAFTS__"
                     },
                     imaginativewriting: {
-                        title: "Imaginative Writing"
+                        title: "__MSG__IMAGINITIVE_WRITING__"
                     },
                     othersincreativeartsanddesign: {
-                        title: "Others in Creative Arts and Design"
+                        title: "__MSG__CREATIVE_ARTS_OTHER__"
                     }
                 }
             },
             education: {
-                title: "Education",
+                title: "__MSG__EDUCATION__",
                 children: {
                     trainingteachers: {
-                        title: "Training Teachers"
+                        title: "__MSG__TRAINING_TEACHERS__"
                     },
                     researchandstudyskillsineducation: {
-                        title: "Research and Study Skills in Education"
+                        title: "__MSG__EDUCATION_RESEARCH_STUDY_SKILLS__"
                     },
                     academicstudiesineducation: {
-                        title: "Academic studies in Education"
+                        title: "__MSG__EDUCATION_ACADEMIC_STUDIES__"
                     },
                     othersineducation: {
-                        title: "Others in Education"
+                        title: "__MSG__EDUCATION_OTHER__"
                     }
                 }
             }

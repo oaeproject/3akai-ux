@@ -443,7 +443,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setInitialState = function(callback) {
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
-            $inbox_box_title.text(sakai.api.i18n.getValueForKey(widgetData.title, "inbox"));
+            $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
             if (widgetData.box !== "inbox") {
                 $inbox_title_total_wrapper.hide();

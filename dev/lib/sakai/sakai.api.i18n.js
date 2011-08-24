@@ -138,6 +138,7 @@ define(
                     sakai_util.Security.showPage();
                 }
                 translateJqueryPlugins();
+                translateDirectory(sakai_config.Directory);
                 require("sakai/sakai.api.widgets").initialLoad();
                 sakaii18nAPI.done = true;
                 $(window).trigger("done.i18n.sakai");
@@ -174,9 +175,25 @@ define(
                     "first" : sakaii18nAPI.getValueForKey("FIRST"),
                     "last" : sakaii18nAPI.getValueForKey("LAST"),
                     "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("PREVIOUS_PAGE") + '">' + sakaii18nAPI.getValueForKey("PREV") + '</span></a>',
-                    "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>'
+                    "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
+                    "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
                 }
             };
+
+            /**
+             * Translate all of the elements inside of the directory into the current's
+             * language
+             */
+            var translateDirectory = function(directory){
+                for (var dir in directory){
+                    if (directory.hasOwnProperty(dir)){
+                        directory[dir].title = sakaii18nAPI.General.process(directory[dir].title);
+                        if (directory[dir].children){
+                            translateDirectory(directory[dir].children);
+                        }
+                    }
+                }
+            }
 
             /**
              * This will give the body's HTML string, the local bundle (if present) and the default bundle to the

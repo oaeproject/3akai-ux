@@ -36,7 +36,11 @@
                 <li>
                     <div class="categories_item">
                         <a href="/category#l=${item.id}" class="s3d-regular-links categories_item_header_link">${item.title}</a>
-                        <span class="categories_item_header_meta">${item.count} content items</span>
+                        {if item.count !== 1}
+                            <span class="categories_item_header_meta">${item.count} __MSG__CONTENT_ITEMS__</span>
+                        {else}
+                            <span class="categories_item_header_meta">${item.count} __MSG__CONTENT_ITEM__</span>
+                        {/if}
                         {if item.content}
                             {if item.content["sakai:pooled-content-file-name"]}
                                 <hr class="s3d-split-line fl-push">
