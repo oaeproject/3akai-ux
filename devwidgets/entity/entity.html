@@ -138,11 +138,11 @@
         {/if}
         {if data.data.mimeType === "x-sakai/link"}
             <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Open Link<span class="entity_download_content"></span>
+                __MSG__OPEN_LINK__<span class="entity_download_content"></span>
             </a>
         {elseif data.data.mimeType !== "x-sakai/document"}
             <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Download<span class="entity_download_content"></span>
+                __MSG__DOWNLOAD__<span class="entity_download_content"></span>
             </a>
         {/if}
     </div>
