@@ -35,6 +35,7 @@ define(
         "sakai/sakai.api.l10n",
         "config/config_custom",
         "misc/trimpath.template",
+        "misc/underscore",
         "jquery-plugins/jquery.ba-bbq"
     ],
     function($, sakai_serv, sakai_l10n, sakai_conf) {
@@ -377,9 +378,11 @@ define(
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                val = $.trim(val.replace(/#/g,"").replace(/\s+/g, " "));
+                // if (val.indexOf("directory") !== 0) {
+                //     val = sakai_util.makeSafeURL($.trim(val));
+                // }
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
-                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
+                    if (val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -387,9 +390,12 @@ define(
                 }
             });
             $(currentTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"").replace(/\s+/g, " ");
+                // Need to figure out a better way to do this
+                // if (val.indexOf("directory") !== 0) {
+                //     val = sakai_util.makeSafeURL($.trim(val));
+                // }
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
+                    if (val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -421,7 +427,8 @@ define(
          * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
          * @param {String} Optional class(es) to give container div. Used to give specific mark-up to the content to avoid wrong calculations. e.g. s3d-bold 
          */
-        applyThreeDots : function(body, width, params, optClass){
+        applyThreeDots : function(body, width, params, optClass, alreadySecure){
+            body = sakai_util.Security.safeOutput(body);
             // IE7 and IE6 have trouble with width
             if(!jQuery.support.leadingWhitespace){
                 width = width - 10;
@@ -435,7 +442,10 @@ define(
             $container.ThreeDots(params);
             var dotted = $container.children("span").text();
             $container.remove();
-            return (dotted);
+            if (!alreadySecure) {
+                dotted = sakai_util.Security.safeOutput(dotted);
+            }
+            return dotted;
         },
 
         /**
@@ -1361,6 +1371,15 @@ define(
             templateData._MODIFIERS = {
                 urlSafe: function(str) {
                     return sakai_util.urlSafe(str);
+                },
+                escapeHTML: function(str) {
+                    return sakai_util.Security.escapeHTML(str);
+                },
+                saneHTML: function(str) {
+                    return sakai_util.Security.saneHTML(str);
+                },
+                safeOutput: function(str) {
+                    return sakai_util.Security.safeOutput(str);
                 }
             };
 
@@ -1400,10 +1419,46 @@ define(
              */
             escapeHTML : function(inputString){
                 if (inputString) {
-                    return $("<div/>").text(inputString).html().replace(/"/g,"&quot;");
+                    return $("<div/>").text(inputString).html().replace(/\"/g,"&quot;");
                 } else {
                     return "";
                 }
+            },
+
+            /**
+             * Unescapes HTML entities in a string
+             *
+             * @param {String} inputString  String of which the HTML characters have to be unescaped
+             *
+             * @returns {String} normal HTML string
+             */
+            unescapeHTML : function(inputString) {
+                if (inputString) {
+                    return $("<div/>").html(inputString).text();
+                } else {
+                    return "";
+                }
+            },
+
+            sanitizeObject : function(data) {
+                var newobj;
+                if ($.isPlainObject(data)) {
+                    newobj = $.extend(true, {}, data);
+                } else if (_.isArray(data)) {
+                    newobj = $.merge([], data);
+                }
+                $.each(newobj, function(key,val) {
+                    if ($.isPlainObject(val) || _.isArray(val)) {
+                        newobj[key] = sakai_util.Security.safeDataSave(newobj[key]);
+                    } else {
+                        newobj[key] = sakai_util.Security.safeOutput(val);
+                    }
+                });
+                return newobj;
+            },
+
+            safeOutput: function(data) {
+                return sakai_util.Security.saneHTML(sakai_util.Security.escapeHTML(data));
             },
 
             /**
@@ -1559,17 +1614,6 @@ define(
 
                 // Call a slightly modified version of Caja's sanitizer
                 return sakaiHtmlSanitize(inputHTML, filterUrl, filterNameIdClass);
-
-            },
-
-
-            /** Description - TO DO */
-            setPermissions : function(target, type, permissions_object) {
-
-            },
-
-            /** Description - TO DO */
-            getPermissions : function(target, type, permissions_object) {
 
             },
 
@@ -1779,11 +1823,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.safeOutput(user.getDisplayName(data.results[i])), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "type": "group"});
                                         }
                                     }
                                 });

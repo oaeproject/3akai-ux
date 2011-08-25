@@ -119,7 +119,7 @@
             {if sakai_global.profile.main.mode.value !== "view"}
                 <h2>__MSG__MY_CONTACTS__</h2>
             {else}
-                <h2>${sakai_global.profile.main.data.basic.elements.firstName.value}'s __MSG__CONTACTS__</h2>
+                <h2>${sakai_global.profile.main.data.basic.elements.firstName.value|safeOutput}'s __MSG__CONTACTS__</h2>
             {/if}
             {var count = 0}
             {for a in accepted.results}

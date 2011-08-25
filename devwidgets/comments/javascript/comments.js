@@ -151,10 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} str
          */
         var tidyInput = function(str){
-            str = str.toString(); // in the event its not already a string, make it one
-            str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            str = str.replace(/\n/g, '<br />');
-            return str;
+            return sakai.api.Security.safeOutput(str);
         };
 
         ///////////////////

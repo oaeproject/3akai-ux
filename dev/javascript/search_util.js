@@ -101,10 +101,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             for (var group in results){
                 if (results.hasOwnProperty(group) && results[group]["sakai:group-id"]) {
                     if (results[group]["sakai:group-title"]) {
-                        results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-title"]), 580, {max_rows: 1,whole_word: false}, "s3d-bold");
+                        results[group]["sakai:group-title-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-title"], 580, {max_rows: 1,whole_word: false}, "s3d-bold");
                     }
                     if (results[group]["sakai:group-description"]) {
-                        results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(sakai.api.Security.escapeHTML(results[group]["sakai:group-description"]), 580, {max_rows: 2,whole_word: false}, "");
+                        results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
                     }
 
                     var groupType = sakai.api.i18n.General.getValueForKey("OTHER");
@@ -171,7 +171,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
-                    user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
+                    user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 

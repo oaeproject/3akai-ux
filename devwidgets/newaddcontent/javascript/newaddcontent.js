@@ -455,7 +455,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
-            var document = {
+            var doc = {
                 "sakai:pooled-content-file-name": proofTitle(documentObj.title),
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
@@ -477,7 +477,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
             $.ajax({
                 url: uploadPath,
-                data: document,
+                data: doc,
                 type: "POST",
                 dataType: "json",
                 success: function(data) {
@@ -519,9 +519,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             checkUploadCompleted();
                         }
                     });
-                    document.hashpath = data["_contentItem"].poolId;
-                    document.permissions = document["sakai:permissions"];
-                    sakai.api.Content.setFilePermissions([document], function(){
+                    doc.hashpath = data["_contentItem"].poolId;
+                    doc.permissions = doc["sakai:permissions"];
+                    sakai.api.Content.setFilePermissions([doc], function(){
                         addToLibrary(data._contentItem, true);
                     });
                 },

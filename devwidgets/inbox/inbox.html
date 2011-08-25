@@ -62,7 +62,7 @@
                                     <span>${message.date}</span>
                                   </div>
                                   <div class="inbox_subject">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
                                   </div>
                                   <div class="inbox_excerpt">
                                     <p>${message.body_nolinebreaks}<p>
@@ -123,7 +123,7 @@
                                         </div>
                                         {if !reply}
                                         <div class="inbox_subject">
-                                          <a href="#" class="s3d-regular-links s3d-bold">${message.subject}</a>
+                                          <a href="#" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
                                         </div>
                                         {/if}
                                         <div class="inbox_excerpt">
@@ -165,7 +165,7 @@
                 {/if}
                 <div id="inbox_show_message_reply">
                     <img alt="person icon" src="${me.picture}"/>
-                    <span>${me.name} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO__:</span></span>
+                    <span>${me.name|safeOutput} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO__:</span></span>
                     <div class="inbox_show_message_reply_fields"></div>
                 </div>
             --></div>

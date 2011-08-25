@@ -190,7 +190,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
                     if (isMe) {
                         addCount(privdata, "messages", sakai.data.me.messages.unread);
-                        if (messageCounts && messageCounts.count.length) {
+                        if (messageCounts && messageCounts.count && messageCounts.count.length) {
                             for (var i = 0; i < messageCounts.count.length; i++) {
                                 if (messageCounts.count[i].group && messageCounts.count[i].group === "message") {
                                     addCount(privdata, "messages/inbox", messageCounts.count[i].count);

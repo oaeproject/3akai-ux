@@ -462,7 +462,7 @@ define(
                 idx++;
             }
 
-            return unescape(sakai_util.Security.saneHTML($.trim(nameToReturn)));
+            return unescape(sakai_util.Security.safeOutput($.trim(nameToReturn)));
         },
 
         /**

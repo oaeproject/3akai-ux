@@ -83,8 +83,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var renderShareMessage = function(){
         $(newcreategroupMembersMessage, $rootel).html(sakai.api.Util.TemplateRenderer(newcreategroupMembersMessageTemplate, {
             "user" : sakai.api.User.getDisplayName(sakai.data.me.profile),
-            "groupName" : $newcreategroupGroupTitle.val() || "",
-            "groupURL": window.location.protocol + "//" + window.location.host + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-") || ""
+            "groupName" : sakai.api.Security.safeOutput($newcreategroupGroupTitle.val() || ""),
+            "groupURL": window.location.protocol + "//" + window.location.host + "/~" + sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val() || "")
         }));
     };
 
@@ -151,7 +151,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (users.length > 0) {
                             sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
                                 $.each(users, function(index, item){
-                                    sakai.api.Communication.sendMessage(item.user, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle), $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name), "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
+                                    var subject = sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
+                                    var body = $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name);
+                                    sakai.api.Communication.sendMessage(item.user, sakai.data.me, subject, body, "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
                                     if(users.length - 1 === index){
                                         createGroupDocs(groupid, currentTemplate);
                                     }

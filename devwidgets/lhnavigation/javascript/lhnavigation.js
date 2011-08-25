@@ -198,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
+                    structure[level] = structure[level].replace("${user}", sakai.api.Security.safeOutput(contextData.profile.basic.elements.firstName.value));
                 }
             }
             structure._childCount = childCount;
@@ -924,7 +924,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 area = pubstructure;
             }
             $target.children("li").each(function(i, elt) {
-                var path = $(elt).data("sakai-path");
+                var path = ""+$(elt).data("sakai-path");
                 var struct0path = path;
                 if ($(elt).data("sakai-ref").indexOf("-") === -1) {
                     if (struct0path.indexOf("/") > -1) {

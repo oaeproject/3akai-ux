@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
                         sakai.api.i18n.General.getValueForKey("YOUR").toLowerCase());
             } else {
-                return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
+                return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai.api.Security.safeOutput(sakai_global.profile.main.data.basic.elements.firstName.value) + "'s");
             }
         };
 
@@ -361,7 +361,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                                     type_src: mimetypeObj.URL,
                                     ownerid: result["sakai:pool-content-created-for"],
-                                    ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.General.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]), // using id for now - need to get firstName lastName
+                                    ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.General.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
                                     tags: formatTags(result["sakai:tags"]),
                                     numPeopleUsing: getNumPeopleUsing(),
                                     numGroupsUsing: getNumGroupsUsing(),

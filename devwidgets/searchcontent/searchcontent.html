@@ -80,7 +80,11 @@
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|urlSafe}/${i['sakai:pooled-content-file-name']|urlSafe}" title="${i['sakai:pooled-content-file-name']}"{else}${i['_path']}" title="${i['_path']}"{/if}>
                                             {if i['sakai:pooled-content-file-name']}
-                                                ${i['sakai:pooled-content-file-name']}{elseif i['_path']}${i['_path']}{/if}</a>
+                                                ${i['sakai:pooled-content-file-name']}
+                                            {elseif i['_path']}
+                                                ${i['_path']}
+                                            {/if}
+                                        </a>
                                         {if i.mimeTypeDescription}
                                             <span class="searchcontent_result_mimetype">${i.mimeTypeDescription}</span>
                                         {/if}
@@ -105,7 +109,7 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t|safeOutput}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}

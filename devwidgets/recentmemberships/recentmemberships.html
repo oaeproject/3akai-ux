@@ -24,7 +24,7 @@
                 <div class="recentmemberships_item_info">
                     <p class="recentmemberships_item_title">
                         <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${entry[0].groupid}">
-                            ${entry[0]["sakai:group-title"]}
+                            ${entry[0]["sakai:group-title"]|safeOutput}
                         </a>
                     </p>
                     {if entry[0].counts && entry[0].counts.contentCount > 0}
@@ -53,8 +53,8 @@
                 </a>
                 </div>
                 <div class="recentmemberships_item_div">
-                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}" title="${member.memberName}">
-                        ${member.memberName}
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}" title="${member.memberName|safeOutput}">
+                        ${member.memberName|safeOutput}
                     </a>
                     ${member.roleName.toUpperCase()}
                 </div>
@@ -67,7 +67,7 @@
             <div class="recentmemberships_item_related_info">
                 <p class="recentmemberships_item_meta_data">__MSG__LATEST_CONTENT_TO__ <span>${group["sakai:group-title"]}</span></p>
                 <div class="fl-force-left">
-                    <a href="/content#p=${content['_path']|urlSafe}/${content.name|urlSafe}" title="${content.name}">
+                    <a href="/content#p=${content['_path']|urlSafe}/${content.name|urlSafe}" title="${content.name|safeOutput}">
                     <span>
                         {if content.thumbnail}
                             <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
@@ -81,12 +81,12 @@
                 </div>
                 <div class="recentmemberships_item_div">
                     <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|urlSafe}/${content.name|urlSafe}">
-                        ${content.name}
+                        ${content.name|safeOutput}
                     </a>
-                    <span class="recentmemberships_content_mimetype">${content.type}</span>
+                    <span class="recentmemberships_content_mimetype">${content.type|safeOutput}</span>
                     <div>__MSG__BY__
                         <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}">
-                            ${author.authorName}
+                            ${author.authorName|safeOutput}
                         </a>
                     </div>
                 </div>
