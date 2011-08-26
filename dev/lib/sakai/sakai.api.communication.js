@@ -127,7 +127,7 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|name=" + groupTitle +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid) +
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
                         "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
@@ -160,7 +160,7 @@ define(
                 var toSend = buildEmailParams();
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
+                    url: "/~" + sakai_util.safeURL(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -203,7 +203,7 @@ define(
                 }
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
+                    url: "/~" + sakai_util.safeURL(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
@@ -481,7 +481,7 @@ define(
         },
 
         getMessage : function(id, callback){
-            var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
+            var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
             $.ajax({
                 url: url,
                 cache: false,
@@ -512,7 +512,7 @@ define(
             if (!ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
                 callback(true, sakai_user.data.me.messages.countOverview);
             } else {
-                var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
                 $.ajax({
                     url: url,
                     cache: false,
@@ -541,7 +541,7 @@ define(
                     callback(true, sakai_user.data.me.messages.unread);
                 }
             } else {
-                var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
                 $.ajax({
                     url: url,
                     cache: false,

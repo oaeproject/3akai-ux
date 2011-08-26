@@ -24,7 +24,7 @@
  */
 
 /*global $, Config, sakai, History, opensocial, Widgets */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
     /**
      * This is a widget that can be placed in other pages and widgets.
      * It shows an Add to contacts dialog.
@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Do the invite and send a message
                 $.ajax({
-                    url: "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/contacts.invite.html",
+                    url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.invite.html",
                     type: "POST",
                     traditional: true,
                     data: {
@@ -210,7 +210,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", contactToAdd.displayName));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.Security.safeOutput(contactToAdd.displayName)));
             hash.w.show();
         };
 

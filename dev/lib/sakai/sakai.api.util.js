@@ -1283,7 +1283,7 @@ define(
          * @param {String} String to be encoded.
          * @returns Encoded string.
          */
-        urlSafe: function(str) {
+        safeURL: function(str) {
             // First, ensure that the incoming value is treated as a string.
             str = "" + str;
             var togo="";
@@ -1369,8 +1369,8 @@ define(
                 debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
             }
             templateData._MODIFIERS = {
-                urlSafe: function(str) {
-                    return sakai_util.urlSafe(str);
+                safeURL: function(str) {
+                    return sakai_util.safeURL(str);
                 },
                 escapeHTML: function(str) {
                     return sakai_util.Security.escapeHTML(str);

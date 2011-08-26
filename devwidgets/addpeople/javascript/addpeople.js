@@ -291,7 +291,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var pictureURL = "";
             var userid = userData.attributes.value;
             if (userData.attributes.picture) {
-                pictureURL = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + userData.attributes.picture;
+                pictureURL = "/~" + sakai.api.Util.safeURL(userid) + "/public/profile/" + userData.attributes.picture;
             } else {
                 if (userData.attributes.type=== "group") {
                     pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
@@ -302,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userObj = {
                 userid: userid,
                 name: userData.attributes.name,
-                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold"),
+                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true),
                 permission: currentTemplate.joinRole,
                 picture: pictureURL,
                 tmpsrc:"autsuggestadded"
@@ -357,7 +357,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                         if (data[role].results[user].picture) {
-                            userObj.picture = "/~" + sakai.api.Util.urlSafe(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
+                            userObj.picture = "/~" + sakai.api.Util.safeURL(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
                         }
                         else {
                             if (data[role].results[user]["sakai:group-id"]) {

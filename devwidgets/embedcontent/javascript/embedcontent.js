@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": sakai.api.Util.urlSafe((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
+                "link": sakai.api.Util.safeURL((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result

@@ -274,7 +274,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
-                        link: "/search#q=" + name
+                        link: "search#q=" + name
                     });
                 });
                 return formatted_tags;
@@ -356,7 +356,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 items.push({
                                     id: result["_path"],
                                     filename: result["sakai:pooled-content-file-name"],
-                                    link: "/content#p=" + sakai.api.Util.urlSafe(result["_path"]),
+                                    link: "/content#p=" + sakai.api.Util.safeURL(result["_path"]),
                                     last_updated: $.timeago(new Date(result["_lastModified"])),
                                     type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                                     type_src: mimetypeObj.URL,

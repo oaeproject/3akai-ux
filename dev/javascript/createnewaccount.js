@@ -257,6 +257,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.validator.addMethod("passwordmatch", function(value, element){
                 return this.optional(element) || (value === $(passwordField).val());
             }, "* The passwords do not match.");
+            
+            $.validator.addMethod("alphanumeric", function(value, element) {
+            	return this.optional(element) || /^\w+$/i.test(value);
+            }, "Enter Alphanumeric characters only");
 
             $("#create_account_form").validate({
                 onclick: false,
@@ -273,7 +277,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     username: {
                         minlength: 3,
                         nospaces: true,
-                        validusername: true
+                        validusername: true,
+                        alphanumeric: true
                     }
                 },
                 messages: {

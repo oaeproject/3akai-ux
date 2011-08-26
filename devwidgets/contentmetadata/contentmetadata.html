@@ -46,7 +46,7 @@
                 <span class="contentmetadata_second_column">
                     {for tag in tags}
                         {if tag_index > 0},{/if} 
-                        <a href="/search#q=${tag|urlSafe}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag|safeOutput}'"">${tag|safeOutput}</a>
+                        <a href="/search#q=${tag|safeURL}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ '${tag|safeOutput}'"">${tag|safeOutput}</a>
                     {/for}
                 </span>
             {else}
