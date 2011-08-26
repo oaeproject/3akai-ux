@@ -26,54 +26,6 @@
 
 require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js"], function($, sakai) {
 
-    AIM = {
-
-        frame : function(c) {
-            var n = 'f' + Math.floor(Math.random() * 99999);
-            var d = document.createElement('DIV');
-            d.innerHTML = '<iframe style="display:none" src="about:blank" id="'+n+'" name="'+n+'" onload="AIM.loaded(\''+n+'\')"></iframe>';
-            document.body.appendChild(d);
-
-            var i = document.getElementById(n);
-            if (c && typeof(c.onComplete) === 'function') {
-                i.onComplete = c.onComplete;
-            }
-            return n;
-        },
-
-        form : function(f, name) {
-            f.setAttribute('target', name);
-        },
-
-        submit : function(f, c) {
-            AIM.form(f, AIM.frame(c));
-            if (c && typeof(c.onStart) === 'function') {
-                return c.onStart();
-            } else {
-                return true;
-            }
-        },
-
-        loaded : function(id) {
-            var i = document.getElementById(id);
-            var d = null;
-            if (i.contentDocument) {
-                d = i.contentDocument;
-            } else if (i.contentWindow) {
-                d = i.contentWindow.document;
-            } else {
-                d = window.frames[id].document;
-            }
-            if (d.location.href === "about:blank") {
-                return;
-            }
-
-            if (typeof(i.onComplete) === 'function') {
-                i.onComplete(d.body.innerHTML);
-            }
-        }
-    };
-
     /**
      * @name sakai_global.changepic
      *
@@ -115,21 +67,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
         var containerTrigger = '#changepic_container_trigger'; // This is the id that will trigger this widget.
 
-        // tabs
-        var tabSelect = "#changepic_select";
-        var tabUpload = "#changepic_upload";
-        var tabSelectContent = "#changepic_selectpicture";
-        var tabUploadContent = "#changepic_uploadnew";
-        var tabActiveClass = "fl-tabs-active";
-        var tabSearchSelected = "search_tab_selected";
-
         // others
+        var selectContentArea = "#changepic_selectpicture";
         var container = "#changepic_container";
         var picForm = "#changepic_form";
         var picInput = "#profilepicture";
         var picInputError = "#changepic_nofile_error";
-        var uploadProcessing = "#changepic_processing_msg";
+        var uploadProcessing = "#changepic_uploading";
         var uploadNewButtons = "#changepic_uploadnew_buttons";
+        var uploadNewCancel = "#profile_upload_cancel";
         var pictureMeasurer = "#picture_measurer";
         var pictureMeasurerImage = "#picture_measurer_image";
         var saveNewSelection = "#save_new_selection";
@@ -138,7 +84,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var thumbnail = "#thumbnail_img";
         var thumbnailSpan = "#thumbnail";
         var thumbnailContainer = "#thumbnail_container";
-        var profilePicture = "#profilepicture";
+        var picInputErrorClass = "changepic_input_error";
         var fileName = false;
         var existingPicture = false;
 
@@ -147,14 +93,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
 
         ///////////////////
-        // TAB FUNCTIONS //
+        // UTIL FUNCTIONS //
         ///////////////////
 
-        /**
-         * Will set the upload a new picture as the viewable tab.
-         * The other tab will be hidden.
+         /**
+         * Hides and reset image select area
          */
-        var showNewTab = function(){
+        var hideSelectArea = function(){
             if (imageareaobject) {
                 imageareaobject.setOptions({
                     hide: true,
@@ -163,49 +108,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 imageareaobject.update();
             }
 
-            $(tabSelect).removeClass(tabActiveClass);
-            $(tabSelect).removeClass(tabSearchSelected);
-
-            $(tabUpload).addClass(tabSearchSelected);
-            $(tabUpload).addClass(tabActiveClass);
-
-            $(tabSelectContent).hide();
-            $(tabUploadContent).show();
+            $(selectContentArea).hide();
+            $(uploadNewCancel).show();
         };
 
-        /**
-         * Will show the tab where the user can cut out a square.
-         * The upload-a-pic tab will be hidden.
+         /**
+         * Shows image select area
          */
-        var showSelectTab = function(){
-
-            $(tabSelect).addClass(tabActiveClass);
-            $(tabSelect).addClass(tabSearchSelected);
-
-            $(tabUpload).removeClass(tabSearchSelected);
-            $(tabUpload).removeClass(tabActiveClass);
-
-            $(tabSelectContent).show();
-            $(tabUploadContent).hide();
+        var showSelectArea = function(){
+            $(uploadNewCancel).hide();
+            $(selectContentArea).show();
         };
-
-        /**
-         * Clicked on the upload tab
-         */
-        $(tabUpload).click(function(){
-            if (!$(tabUpload).hasClass(tabActiveClass)) {
-                showNewTab();
-            }
-        });
-
-        /**
-         * Clicked on the select tab
-         */
-        $(tabSelect).click(function(){
-            if (!$(tabSelect).hasClass(tabActiveClass)) {
-                doInit();
-            }
-        });
 
         /**
          * When the user has drawn a square this function will be called by imgAreaSelect.
@@ -230,12 +143,34 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             });
         };
 
+        /**
+         * Shows file input error
+         */
+        var showInputError = function(){
+            $(picInputError).show();
+            $(picInput).addClass(picInputErrorClass);
+            if ($(selectContentArea + ":visible") && imageareaobject){
+                imageareaobject.update();
+            }
+        };
+
+        /**
+         * Hides file input error
+         */
+        var hideInputError = function(){
+            $(picInputError).hide();
+            $(picInput).removeClass(picInputErrorClass);;
+            if ($(selectContentArea + ":visible") && imageareaobject){
+                imageareaobject.update();
+            }
+        };
+
          /**
          * Empty upload field by resetting the form
          */
         var resetUploadField = function(){
             $(picInput).val("");
-            $(picInputError).hide();
+            hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();
         };
@@ -252,7 +187,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $(picForm).submit(function () {
+        $("#profile_upload").unbind("click");
+        $("#profile_upload").bind("click", function(){
             // validate args
             // file extension allow for image
             var extensionArray = [".png", ".jpg", ".jpeg",".gif"];
@@ -271,27 +207,36 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             }
             // if image format is acceptable
             if(allowSubmit) {
-                $(picInputError).hide();
+                hideInputError();
                 $(uploadNewButtons).hide();
                 $(uploadProcessing).show();
                 fileName = "tmp" + new Date().getTime() + ".jpg";
-                $(profilePicture).attr("name",fileName);
-                return AIM.submit(this, {
-                    'onStart' : function() {
-                        return true;
-                    },
-                    'onComplete' : function() {
+                $(picInput).attr("name",fileName);
+                hideSelectArea();
+                $(picForm).ajaxForm({
+                    success: function(data){
                         doInit(true);
+                    },
+                    error: function(){
+                        showInputError();
+                        return false;
                     }
                 });
+                $(picForm).submit();
             } else {
                 // no input, show error
-                $(picInputError).show();
+                showInputError();
                 return false;
             }
         });
 
+        /**
+         * Initilise function
+         * @param {boolean} newpic True if a new picture has just been uploaded
+         */
         var doInit = function(newpic){
+            resetUploadField();
+            hideSelectArea();
 
             if (!id) {
                 id = sakai.data.me.user.userid;
@@ -312,7 +257,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             } else {
                 // Check whether there is a base picture at all
                 me = sakai.data.me;
-                //var json = me.profile;
                 json = me.profile;
             }
 
@@ -344,10 +288,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
             if (picture && picture._name) {
                 // The user has already uploaded a picture.
-                // Show the edit tab.
-                // Show tab in header
+                // Show the image select area
                 existingPicture = true;
-                $(tabSelect).show();
 
                 // Set the unvisible image to the full blown image. (make sure to filter the # out)
                 $(pictureMeasurer).html(sakai.api.Security.saneHTML("<img src='" + "/~" + sakai.api.Util.urlSafe(id) + "/public/profile/" + picture._name + "?sid=" + Math.random() + "' id='" + pictureMeasurerImage.replace(/#/gi, '') + "' />"));
@@ -429,25 +371,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                         },
                         onSelectChange: preview
                     });
-                    showSelectTab();
+                    showSelectArea();
                 });
 
                 // if there is upload error show the error message
                 $(pictureMeasurerImage).bind("error", function(){
-                    $(picInputError).show();
+                    showInputError();
                 });
-            }
-            else {
-                // The user hasn't uploaded a picture yet.
-                // Show the upload pic tab.
-                $(tabSelect).hide();
-                showNewTab();
             }
         };
 
         // Remove error notification when a new file is chosen
-        $("#profilepicture").bind("change", function(){
-            $("#changepic_nofile_error").hide();
+        $(picInput).bind("change", function(){
+            hideInputError();
             // display help tooltip
             var tooltipData = {
                 "tooltipSelector":"#profile_upload",
