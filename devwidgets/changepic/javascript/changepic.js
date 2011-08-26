@@ -169,7 +169,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * Empty upload field by resetting the form
          */
         var resetUploadField = function(){
-            $(picInput).val("");
+            $(picForm).reset();
             hideInputError();
             $(uploadProcessing).hide();
             $(uploadNewButtons).show();
@@ -235,7 +235,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * @param {boolean} newpic True if a new picture has just been uploaded
          */
         var doInit = function(newpic){
-            resetUploadField();
             hideSelectArea();
 
             if (!id) {
@@ -262,7 +261,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
 
             // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
             if (newpic) {
-                resetUploadField();
                 imageareaobject = null;
                 picture = {
                     "_name": fileName,
@@ -287,6 +285,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
             if (picture && picture._name) {
+                resetUploadField();
                 // The user has already uploaded a picture.
                 // Show the image select area
                 existingPicture = true;
