@@ -32,8 +32,8 @@
 #changepic_upload_input input.changepic_input_error {border: 2px solid #CC0000;}
 #changepic_nofile_error{text-align:center;color:#CC0000;font-weight:bold;margin: -5px 0 10px 75px; width: 330px; background-color: #FFECEC; border: 2px solid #CC0000;}
 #changepic_nofile_error p{padding: 5px; margin: 0;}
-#changepic_uploading{text-align: center;}
-#changepic_uploading img{padding: 5px 0 20px 0;text-align: center;}
+#changepic_uploading{text-align: center; font-weight: bold;}
+#changepic_uploading img{padding: 5px 0 20px 0;}
 #changepic_uploaded_picture, #changepic_uploaded_picture_selection{float:left;}
 #picture_measurer{left:-100000px;top:-100000px;position:absolute;}
 #thumbnail{position:relative;}
