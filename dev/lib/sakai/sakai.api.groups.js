@@ -1059,25 +1059,28 @@ define(
             var currentUserIncluded = false;
 
             $.each(users, function(index, user) {
-                reqData.push({
-                    "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
-                    "method": "POST",
-                    "parameters": {
-                        "_charset_":"utf-8",
-                        ":member@Delete": user.userid,
-                        ":viewer@Delete": user.userid
-                    }
-                },
-                {
-                    "url": "/system/userManager/group/" + groupID + ".update.json",
-                    "method": "POST",
-                    "parameters": {
-                        "_charset_":"utf-8",
-                        ":member@Delete": user.userid,
-                        ":viewer@Delete": user.userid
-                    }
-                });
-                if (user.userid === medata.user.userid){
+                var params = {
+                    "_charset_":"utf-8",
+                    ":manager@Delete": user.userid
+                };
+                if ((user.hasOwnProperty("removeManagerOnly") && user.removeManagerOnly === false) || !user.hasOwnProperty("removeManagerOnly")) {
+                    params[":member@Delete"] = user.userid;
+                    params[":viewer@Delete"] = user.userid;
+                }
+                if (user.permission) {
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                } else {
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupID + ".update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                }
+                if (user.userid === medata.user.userid) {
                     currentUserIncluded = true;
                 }
             });

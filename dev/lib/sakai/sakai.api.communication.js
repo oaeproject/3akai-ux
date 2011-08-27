@@ -276,6 +276,9 @@ define(
             } else {
                 params = {"sakai:messagebox": "trash"};
             }
+            if (!$.isArray(messages)) {
+                messages = [messages];
+            }
             $.each(messages, function(i, val){
                 if (!val.read || val.read === "false") {
                     unreads.push(val);

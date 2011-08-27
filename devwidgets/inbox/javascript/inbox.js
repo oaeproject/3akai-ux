@@ -254,9 +254,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var showMessage = function(message, _focusReply) {
             currentMessage = message;
-            if (_focusReply) {
-                focusReply();
-            }
             var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
@@ -280,6 +277,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $(detailViewClass).show();
             showReply();
+            if (_focusReply) {
+                focusReply();
+            }
         };
 
         /**
