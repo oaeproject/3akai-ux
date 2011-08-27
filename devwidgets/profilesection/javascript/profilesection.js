@@ -506,7 +506,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             }
                             if ($.isPlainObject(prop)) {
                                 // Set the correct value
-                                prop.value = sakai.api.Security.saneHTML(val);
+                                prop.value = val;
                             } else {
                                 // This is an access attribute
                                 sakai_global.profile.main.data[title.split(".")[0]].access = val;

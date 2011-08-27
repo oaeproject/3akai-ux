@@ -281,7 +281,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "picture": getUserPicture(sakai.data.me.profile, sakai.data.me.user.userid),
                     "addArea": "user"
                 };
-                document.title = document.title + " " + contextData.displayName;
+                document.title = document.title + " " + sakai.api.Util.Security.unescapeHTML(contextData.displayName);
                 renderEntity();
                 loadSpaceData();
             } else {
@@ -303,7 +303,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     "altTitle": true,
                     "picture": getUserPicture(profile, entityID)
                 };
-                document.title = document.title + " " + contextData.displayName;
+                document.title = document.title + " " + sakai.api.Util.Security.unescapeHTML(contextData.displayName);
                 if (sakai.data.me.user.anon) {
                     contextType = "user_anon";
                     renderEntity();

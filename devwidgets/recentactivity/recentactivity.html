@@ -16,7 +16,7 @@
                     <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title s3d-regular-links s3d-bold">
                         <img src="${activity.who.picture}" alt="${activity.who.name}" class="recentactivity_activity_item_image"/>
                     </a>
-                    <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${activity.who.name|safeOutput}</a>
+                    <a href="/~${username|safeURL}" title="__MSG__VIEW_USERS_PROFILE__" class="recentactivity_activity_item_title recentactivity_activity_item_text s3d-regular-links s3d-bold">${activity.who.name}</a>
                     <span class="recentactivity_activity_item_description">${activity["sakai:activityMessage"]|safeOutput}{if activity.showdetails}:{/if}</span>
                 </div>
                 {if activity.showdetails}

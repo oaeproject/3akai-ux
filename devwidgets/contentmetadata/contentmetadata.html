@@ -92,7 +92,7 @@
                 {for dir in directorylocations}
                     <li>
                         <a href="/category#l=${data.saveddirectory[dir_index].toString().replace(",", "-")}" class="s3d-action contentmetadata_locations_link" title="Search content located at ${dir}">
-                            ${dir}
+                            ${dir|safeOutput}
                         </a>
                     </li>
                 {/for}

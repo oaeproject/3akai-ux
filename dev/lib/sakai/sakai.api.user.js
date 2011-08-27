@@ -317,7 +317,7 @@ define(
                 profile.basic.elements[eltName].value !== undefined) {
                     ret = profile.basic.elements[eltName].value;
                 }
-            return unescape(sakai_util.Security.saneHTML($.trim(ret)));
+            return unescape($.trim(ret));
         },
 
         /**

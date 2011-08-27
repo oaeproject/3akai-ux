@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
-                        sakai.api.Util.notification.show("", $(addToContactsDone).text());
+                        sakai.api.Util.notification.show("", $(addToContactsDone).html());
                         // record that user made contact request
                         sakai.api.User.addUserProgress("madeContactRequest");
                         // display tooltip

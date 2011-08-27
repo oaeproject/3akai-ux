@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fill in the user name
          */
         var setUserName = function(){
-            $(topnavUserOptionsName).html(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100, null, null));
+            $(topnavUserOptionsName).html(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100, null, null, true));
         };
 
         /**

@@ -357,12 +357,12 @@ define(
                     newMsg.replyAll = [];
                     var userFrom = _.first(msg.userFrom);
                     newMsg.from = {
-                        name:  sakai_util.Security.safeOutput(userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"]),
+                        name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : sakai_util.Security.safeOutput(userFrom["sakai:group-title"]),
                         picture: sakai_util.constructProfilePicture(userFrom),
                         connectionState: userFrom["sakai:state"] ? userFrom["sakai:state"] : false,
                         userObj : {
                             uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
-                            username: sakai_util.Security.safeOutput(userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"]),
+                            username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : sakai_util.Security.safeOutput(userFrom["sakai:group-title"]),
                             type: userFrom.userid ? "user" : "group"
                         }
                     };
@@ -373,11 +373,11 @@ define(
                     newMsg.toList = [];
                     $.each(msg.userTo, function(i, user) {
                         var tmpUsr = {
-                            name : sakai_util.Security.safeOutput(user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"]),
+                            name : user.userid ? sakai_user.getDisplayName(user) : sakai_util.Security.safeOutput(user["sakai:group-title"]),
                             picture : sakai_util.constructProfilePicture(user),
                             userObj : {
                                 uuid: user.userid ? user.userid : user.groupid,
-                                username: sakai_util.Security.safeOutput(user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"]),
+                                username: user.userid ? sakai_user.getDisplayName(user) : sakai_util.Security.safeOutput(user["sakai:group-title"]),
                                 type: user.userid ? "user" : "group"
                             }
                         };

@@ -50,7 +50,7 @@
                         <div class="inbox_items_inner">
                             <div class="inbox_left_col inbox_col">
                                 <div class="inbox_placeholder"><input type="checkbox"/></div>
-                                <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}"/></a>
+                                <a href="#message=${message.id}"><img alt="person icon" src="${message.from.picture}" class="person_icon"/></a>
                             </div>
                             <div class="inbox_middle_col inbox_col">
                                 <div class="inbox_message_data">
@@ -110,7 +110,7 @@
                             <div class="inbox_items_inner">
                                 <div class="inbox_left_col inbox_col">
                                     <div class="inbox_placeholder">&nbsp;</div>
-                                    <img alt="person icon" src="${message.from.picture}"/>
+                                    <img alt="person icon" src="${message.from.picture}" class="person_icon"/>
                                 </div>
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">
@@ -164,8 +164,8 @@
                 </div>
                 {/if}
                 <div id="inbox_show_message_reply">
-                    <img alt="person icon" src="${me.picture}"/>
-                    <span>${me.name|safeOutput} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO__:</span></span>
+                    <img alt="person icon" src="${me.picture}" class="person_icon"/>
+                    <span>${me.name} (__MSG__REPLY_LOWER__) <span class="inbox_to_list">__MSG__TO__:</span></span>
                     <div class="inbox_show_message_reply_fields"></div>
                 </div>
             --></div>

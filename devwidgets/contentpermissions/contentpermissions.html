@@ -92,7 +92,7 @@
 							{if member.isAutoSuggested}
 								<a href="/~${member.userid|safeURL}" title="__MSG__VIEW__ ${member.username|safeOutput}'s __MSG__PROFILE__">${member.username|safeOutput}</a>
 							{else}
-								<a href="/~${member.userid|safeURL}" title="__MSG__VIEW__ ${api.User.getDisplayName(member)|safeOutput}'s __MSG__PROFILE__">${api.User.getDisplayName(member)|safeOutput}</a>
+								<a href="/~${member.userid|safeURL}" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(member)}'s __MSG__PROFILE__">${sakai.api.User.getDisplayName(member)}</a>
 							{/if}
 						</label>
 					</li>

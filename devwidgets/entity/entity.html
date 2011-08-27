@@ -95,7 +95,7 @@
                 <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
         </div>
-        <div id="entity_name" class="s3d-bold">${data.displayName|safeOutput}</div>
+        <div id="entity_name" class="s3d-bold">${data.displayName}</div>
         <div id="entity_owns" class="s3d-regular-links">
             <span class="entity_number">${data.profile.counts["contentCount"] || 0}</span> <a href="#l=library" title="${data.profile.counts["contentCount"] || 0} Documents">Documents</a>,
             <span class="entity_number">${data.profile.counts["membershipsCount"]}</span> <a href="#l=memberships" title="${data.profile.counts["membershipsCount"]} Memberships">Memberships</a>,
@@ -297,7 +297,7 @@
                             <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
-                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|safeURL}" target="_blank">${displayName|safeOutput}</a>
+                            <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|safeURL}" target="_blank">${displayName}</a>
                         </span>
                         </li>
                     {/if}

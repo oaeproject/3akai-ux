@@ -159,7 +159,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.group) {
                     $.merge(permissionsToDelete, newUsers);
                     $.each(permissionsToDelete, function(index, user){
-                        var groupTitle = sakai_global.group.groupData["sakai:group-title"];
+                        var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData["sakai:group-title"]);
                         var groupID = sakai_global.group.groupData["sakai:group-id"];
                         var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
                         var subject = sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", displayName).replace("${role}", user.permission).replace("${groupName}", groupTitle);
@@ -340,13 +340,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             userObj = {
                                 userid: data[role].results[user]["sakai:group-id"],
                                 name: data[role].results[user]["sakai:group-title"],
-                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold")
+                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
                             };
                         } else {
                             userObj = {
                                 userid: data[role].results[user]["rep:userId"],
                                 name: sakai.api.User.getDisplayName(data[role].results[user]),
-                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold")
+                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
                             };
                         }
 

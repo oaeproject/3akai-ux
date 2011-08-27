@@ -1823,7 +1823,7 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.safeOutput(user.getDisplayName(data.results[i])), "type": "user"});
+                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
