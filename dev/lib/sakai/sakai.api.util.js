@@ -378,9 +378,7 @@ define(
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                // if (val.indexOf("directory") !== 0) {
-                //     val = sakai_util.makeSafeURL($.trim(val));
-                // }
+                val = sakai_util.makeSafeTag($.trim(val));
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
@@ -390,10 +388,7 @@ define(
                 }
             });
             $(currentTags).each(function(i,val) {
-                // Need to figure out a better way to do this
-                // if (val.indexOf("directory") !== 0) {
-                //     val = sakai_util.makeSafeURL($.trim(val));
-                // }
+                val = sakai_util.makeSafeTag($.trim(val));
                 if (val && $.inArray(val,newTags) == -1) {
                     if (val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
@@ -408,6 +403,8 @@ define(
             $(tags).each(function(i,val) {
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
+                } else {
+                    tags[i] = sakai_util.makeSafeTag(val);
                 }
             });
             deleteTags(tagLocation, tagsToDelete, function() {
@@ -1694,7 +1691,19 @@ define(
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
             return url;
         },
-        
+
+        /**
+         * Sling doesn't like certain characters in the tags
+         * So we escape them here
+         * /:;,[]*'"|
+         */
+        makeSafeTag : function(tag) {
+            debug.log(tag);
+            tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, "");
+            debug.log(tag);
+            return tag;
+        },
+
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
         },
