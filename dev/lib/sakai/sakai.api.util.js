@@ -1698,9 +1698,7 @@ define(
          * /:;,[]*'"|
          */
         makeSafeTag : function(tag) {
-            debug.log(tag);
             tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, "");
-            debug.log(tag);
             return tag;
         },
 

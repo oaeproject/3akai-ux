@@ -289,8 +289,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
 
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
-                sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
+            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+                sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
                 renderTags(false);
                 // Create an activity
                 createActivity("UPDATED_TAGS");
