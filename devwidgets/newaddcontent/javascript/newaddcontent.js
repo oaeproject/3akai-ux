@@ -446,7 +446,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         };
 
         var proofTitle = function(input){
-            return input.replace(/=/g,"_").replace(/\//g, "_");
+            return input.replace(/=/g,"_");
         };
 
         /**
