@@ -61,36 +61,37 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             for (var i = 0, j = results.length; i < j; i++) {
                 if (results[i]['sakai:pooled-content-file-name']) {
                     // Set the item object in finaljson equal to the object in results
-                    finaljson.items[i] = results[i];
+                    var contentItem = results[i];
 
                     // Only modify the description if there is one
-                    if (finaljson.items[i]["sakai:description"]) {
-                        finaljson.items[i]["sakai:description"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:description"], 580, {
+                    if (contentItem["sakai:description"]) {
+                        contentItem["sakai:description"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 580, {
                             max_rows: 2,
                             whole_word: false
                         }, "search_result_course_site_excerpt");
                     }
-                    if (finaljson.items[i]["sakai:pooled-content-file-name"]) {
-                        finaljson.items[i]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(finaljson.items[i]["sakai:pooled-content-file-name"], 600, {
+                    if (contentItem["sakai:pooled-content-file-name"]) {
+                        contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
                             max_rows: 1,
                             whole_word: false
                         }, "s3d-bold");
                     }
                     // Modify the tags if there are any
-                    if (finaljson.items[i]["sakai:tags"]) {
-                        if (typeof(finaljson.items[i]["sakai:tags"]) === 'string') {
-                            finaljson.items[i]["sakai:tags"] = finaljson.items[i]["sakai:tags"].split(",");
+                    if (contentItem["sakai:tags"]) {
+                        if (typeof(contentItem["sakai:tags"]) === 'string') {
+                            contentItem["sakai:tags"] = contentItem["sakai:tags"].split(",");
                         }
-                        finaljson.items[i]["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(finaljson.items[i]["sakai:tags"]);
+                        contentItem["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(contentItem["sakai:tags"]);
                     }
                     // set mimetype
-                    var mimeType = sakai.api.Content.getMimeType(results[i]);
-                    finaljson.items[i].mimeType = mimeType;
-                    finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                    var mimeType = sakai.api.Content.getMimeType(contentItem);
+                    contentItem.mimeType = mimeType;
+                    contentItem.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
                     if (sakai.config.MimeTypes[mimeType]){
-                        finaljson.items[i].mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                        contentItem.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
-                    finaljson.items[i].thumbnail = sakai.api.Content.getThumbnail(results[i]);
+                    contentItem.thumbnail = sakai.api.Content.getThumbnail(results[i]);
+                    finaljson.items.push(contentItem);
                 }
             }
             finaljson.sakai = sakai;
@@ -247,9 +248,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby')
-            }
+            };
             return params;
-        }
+        };
 
         ////////////
         // Events //

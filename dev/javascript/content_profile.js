@@ -149,7 +149,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         }
                         
                         if (data.results.hasOwnProperty(3)) {
-                            contentActivity = $.parseJSON(data.results[3].body);;
+                            contentActivity = $.parseJSON(data.results[3].body);
                         }
 
                         var manager = false;
