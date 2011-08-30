@@ -199,7 +199,7 @@
                 {for g in me.groups}
                     {if g["sakai:group-title"]}
                         {if !g["sakai:excludeSearch"]}
-                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]}'s Library</option>
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                         {/if}
                     {/if}
                 {/for}
