@@ -317,7 +317,7 @@ define(
                 profile.basic.elements[eltName].value !== undefined) {
                     ret = profile.basic.elements[eltName].value;
                 }
-            return unescape($.trim(ret));
+            return $.trim(ret);
         },
 
         /**
@@ -426,7 +426,7 @@ define(
                 nameToReturn += profile.basic.elements[configFirstName].value;
             }
 
-            return unescape(sakai_util.Security.saneHTML($.trim(nameToReturn)));
+            return sakai_util.Security.saneHTML($.trim(nameToReturn));
         },
 
         /**
@@ -465,12 +465,12 @@ define(
 
             if(!done){
                 if(profile && profile["rep:userId"]){
-                    return unescape(profile["rep:userId"]);
+                    return profile["rep:userId"];
                 } else {
                     return "";
                 }
             } else {
-                return unescape(sakai_util.Security.safeOutput($.trim(nameToReturn)));
+                return sakai_util.Security.safeOutput($.trim(nameToReturn));
             }
             return false;
         },

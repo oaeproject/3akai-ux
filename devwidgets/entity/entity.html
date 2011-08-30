@@ -284,7 +284,7 @@
                         </li>
                     {elseif i["rep:userId"] && type === "people"}
                         ${userlist_people_index++|eat}
-                        {var displayName = unescape(sakai.api.User.getDisplayName(i))}
+                        {var displayName = sakai.api.User.getDisplayName(i)}
                         {if !displayName}
                             {var displayName = i.displayName}
                         {/if}
