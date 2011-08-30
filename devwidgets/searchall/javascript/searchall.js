@@ -54,7 +54,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 tagTerm: search + "_mytagterm",
                 searchBarSelectedClass: "searchall_bar_selected",
                 pagerClass: ".jq_pager",
-                matchingLabel: "#searchall_result_extended_matching"
+                matchingLabel: "#searchall_result_extended_matching",
+                list: "#searchall_view_list",
+                grid: "#searchall_view_grid"
             },
             filters: {
                 filter: search + "_filter",
@@ -160,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // display functions available to logged in users
             if (!sakai.data.me.user.anon) {
-                $(".searchall_result_user_functions").show();
+                $(".s3d-search-result-user-functions").show();
                 $(".s3d-search-result-anonuser").hide();
             }
 
@@ -260,6 +262,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "q": $(searchConfig.global.text).val(),
                     "page": 0
                 }, 0);
+            }
+        });
+
+        $(searchConfig.global.list).live("click", function(ev){
+            if ($(searchConfig.results.container).hasClass("s3d-search-results-grid")){
+                $(searchConfig.results.container).removeClass("s3d-search-results-grid")
+            }
+        });
+
+        $(searchConfig.global.grid).live("click", function(ev){
+            if (!$(searchConfig.results.container).hasClass("s3d-search-results-grid")){
+                $(searchConfig.results.container).addClass("s3d-search-results-grid")
             }
         });
 

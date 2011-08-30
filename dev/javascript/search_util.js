@@ -149,26 +149,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = item.homePath + "/public/";
                     var person = item;
-                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
-                        person.picture = person.basic.elements.picture.value;
-                    }
-                    if (person.picture) {
-                        var picture;
-                        // if picture is string
-                        if (typeof person.picture === "string") {
-                            picture = $.parseJSON(person.picture);
-                        // if picuture is json object
-                        } else {
-                            picture = person.picture;
-                        }
-                        if (picture.name) {
-                            user.picture = "/~" + sakai.api.Util.urlSafe(person["rep:userId"]) + "/public/profile/" + picture.name;
-                        } else {
-                            user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                        }
-                    } else {
-                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                    }
+                    user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
                     user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold");
@@ -182,6 +163,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
                     }
 
+user.extra = sakai.api.Util.applyThreeDots("This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description ", 580, {max_rows: 2,whole_word: false}, "");
                     user.connected = false;
                     user.accepted = false;
                     user.invited = item.invited !== undefined ? item.invited : false;

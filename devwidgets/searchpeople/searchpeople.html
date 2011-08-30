@@ -62,7 +62,7 @@
                         {if i.userid}
                             {var peopleFound = true}
                             <li class="fl-container fl-fix s3d-search-result-person s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="searchpeople_result_user_functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions" style="display:none;">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
                                             <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
@@ -98,11 +98,11 @@
                                         <a class="s3d-regular-light-links" href="/~${i.userid|urlSafe}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
                                             ${i.counts.contentCount || 0} {if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                         </a>
-                                        <span class="searchpeople_result_detail_separator">|</span>
+                                        <span class="s3d-search-result-detail-separator"><span>|</span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|urlSafe}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
                                             ${i.counts.contactsCount || 0} {if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                                         </a>
-                                        <span class="searchpeople_result_detail_separator">|</span>
+                                        <span class="s3d-search-result-detail-separator"><span>|</span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|urlSafe}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                             ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                         </a>

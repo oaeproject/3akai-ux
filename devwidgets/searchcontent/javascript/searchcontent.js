@@ -197,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 $(".searchcontent_results_container").show();
                 // display functions available to logged in users
                 if (!sakai.data.me.user.anon) {
-                    $(".searchcontent_result_user_functions").show();
+                    $(".s3d-search-result-user-functions").show();
                     $(".s3d-search-result-anonuser").hide();
                 }
             };
