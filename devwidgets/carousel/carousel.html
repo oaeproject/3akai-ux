@@ -61,10 +61,10 @@
                                         {/if}
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
-                                                ${content1.title}
+                                                ${content1.title|safeOutput}
                                             </a>
                                         </h2>
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description}</p>
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description|safeOutput}</p>
                                         ${tags(content1.tags)}
                                         ${contentButtons(content1.id, content1.createdBy)}
                                     {/if}
@@ -75,7 +75,7 @@
                                         {if content2}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
-                                                    ${content2.title}
+                                                    ${content2.title|safeOutput}
                                                 </a>
                                             </h2>
                                             ${tags(content2.tags)}
@@ -87,7 +87,7 @@
                                         {if content3}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
-                                                    ${content3.title}
+                                                    ${content3.title|safeOutput}
                                                 </a>
                                             </h2>
                                             ${tags(content3.tags)}

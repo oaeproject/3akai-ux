@@ -131,7 +131,7 @@
                             <div class="mylibrary_item_tags">
                                 <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
                                 <p class="mylibrary_item_tags_list">
-                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link|safeURL}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
+                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
                                 </p>
                             </div>
                         {/if}
