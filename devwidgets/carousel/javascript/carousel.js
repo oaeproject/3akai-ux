@@ -183,54 +183,55 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         }
                     });
                 }
-                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action"));
+                $(item).text(sakai.api.Util.applyThreeDots($(item).text(), $(item).width(), {max_rows:maxrows}, "carousel_content_tags s3d_action", true));
             });
         };
 
         var parseContent = function(data, dataArr){
             var noPreviewArr = [];
             var previewArr = [];
-
-            $.each(data.content.results, function(index, item) {
-                var obj = {};
-                var mimeType = sakai.api.Content.getMimeType(item);
-                obj.preview = sakai.api.Content.getThumbnail(item);
-                if (item["sakai:description"]) {
-                    obj.description = item["sakai:description"];
-                }
-                if (item["sakai:tags"]) {
-                    obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
-                }
-                if (item[item["_path"] + "/comments"]) {
-                    obj.comments = [];
-                    for (var prop in item[item["_path"] + "/comments"]) {
-                        if (item[item["_path"] + "/comments"][prop].hasOwnProperty("_id")) {
-                            obj.comments.push(item[item["_path"] + "/comments"][prop]);
+            if (data && data.content && data.content.results) {
+                $.each(data.content.results, function(index, item) {
+                    var obj = {};
+                    var mimeType = sakai.api.Content.getMimeType(item);
+                    obj.preview = sakai.api.Content.getThumbnail(item);
+                    if (item["sakai:description"]) {
+                        obj.description = item["sakai:description"];
+                    }
+                    if (item["sakai:tags"]) {
+                        obj.tags = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
+                    }
+                    if (item[item["_path"] + "/comments"]) {
+                        obj.comments = [];
+                        for (var prop in item[item["_path"] + "/comments"]) {
+                            if (item[item["_path"] + "/comments"][prop].hasOwnProperty("_id")) {
+                                obj.comments.push(item[item["_path"] + "/comments"][prop]);
+                            }
                         }
                     }
-                }
-                if(sakai.config.MimeTypes[mimeType]) {
-                    obj.icon = sakai.config.MimeTypes[mimeType].URL;
-                }else{
-                    obj.icon = sakai.config.MimeTypes.other.URL;
-                }
+                    if(sakai.config.MimeTypes[mimeType]) {
+                        obj.icon = sakai.config.MimeTypes[mimeType].URL;
+                    }else{
+                        obj.icon = sakai.config.MimeTypes.other.URL;
+                    }
 
-                obj.title = item["sakai:pooled-content-file-name"];
-                obj.mimeType = mimeType || "";
-                obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
-                obj.createdBy = item["sakai:pool-content-created-for"];
-                obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
-                obj.lastModifiedBy = item["_lastModifiedBy"];
-                obj.url = "/content#p=" + sakai.api.Util.urlSafe(item["_path"]) + "/" + sakai.api.Util.urlSafe(item["sakai:pooled-content-file-name"]);
-                obj.contentType = "content";
-                obj.id = item["_path"];
+                    obj.title = item["sakai:pooled-content-file-name"];
+                    obj.mimeType = mimeType || "";
+                    obj.created = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_created"]), sakai.data.me);
+                    obj.createdBy = item["sakai:pool-content-created-for"];
+                    obj.lastModified = sakai.api.l10n.transformDate(sakai.api.l10n.fromEpoch(item["_lastModified"]), sakai.data.me);
+                    obj.lastModifiedBy = item["_lastModifiedBy"];
+                    obj.url = "/content#p=" + sakai.api.Util.safeURL(item["_path"]) + "/" + sakai.api.Util.safeURL(item["sakai:pooled-content-file-name"]);
+                    obj.contentType = "content";
+                    obj.id = item["_path"];
 
-                if (obj.preview) {
-                    previewArr.push(obj);
-                } else {
-                    noPreviewArr.push(obj);
-                }
-            });
+                    if (obj.preview) {
+                        previewArr.push(obj);
+                    } else {
+                        noPreviewArr.push(obj);
+                    }
+                });
+            }
 
             // Prefer items with previews
             var suggested = {

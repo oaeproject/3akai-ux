@@ -461,10 +461,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($inbox_message_list.is(":visible")) {
                 // apply threedots to the subject and the name
                 $(".inbox_subject a, .inbox_name a, .inbox_name span", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main", true));
                 });
                 $(".inbox_excerpt p", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main", true));
                 });
             }
         };

@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         type: "POST",
                         cache: false,
                         data: {
-                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#entity_name_text").val())
+                            "sakai:pooled-content-file-name": $("#entity_name_text").val()
                         },
                         success: function(){
                             sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#entity_name_text").val());
@@ -289,8 +289,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
 
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
-                sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
+            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+                sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
                 renderTags(false);
                 // Create an activity
                 createActivity("UPDATED_TAGS");
@@ -302,16 +302,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateDescription = function(){
             var description = $("#contentmetadata_description_description").val();
-            sakai_global.content_profile.content_data.data["sakai:description"] = description;
             renderDescription(false);
-            $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                type: "POST",
-                cache: false,
-                data: {
-                    "sakai:description": description
-                },
-                success: function(){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
                     createActivity("UPDATED_DESCRIPTION");
                 }
             });
@@ -354,16 +349,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateCopyright = function(){
             var copyright = $("#contentmetadata_copyright_copyright").val();
-            sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
             renderCopyright(false);
-            $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                type: "POST",
-                cache: false,
-                data: {
-                    "sakai:copyright": $("#contentmetadata_copyright_copyright").val()
-                },
-                success: function(){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
                     createActivity("UPDATED_COPYRIGHT");
                 }
             });
@@ -481,10 +471,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Add binding
             addBinding();
         };
-
-        $(window).bind("complete.fileupload.sakai", function(){
-            $(window).trigger("load.content_profile.sakai", renderDetails);
-        });
 
         $(window).bind("renderlocations.contentmetadata.sakai", function(ev){
             renderLocations(false);

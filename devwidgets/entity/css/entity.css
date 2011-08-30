@@ -51,7 +51,7 @@
 #entity_container .entity_add_to_contacts_requested_icon {background:url("/dev/images/opposite_arrows_requested_icon.png") no-repeat scroll left center transparent;}
 
 /* Me */
-#entity_container .entity_name_me {clear:both; font-size: 14px; padding: 5px 5px 0px 20px; color: #666;}
+#entity_container .entity_name_me {clear:both; font-size: 14px; padding: 5px 5px 0px 20px; color: #666;word-wrap:break-word;}
 #entity_container .entity_my_profilepic {width:70px; height: 54px; background-color:#fff; margin-left: 20px; padding: 2px 2px 2px 1px;}
 
 /* Group */

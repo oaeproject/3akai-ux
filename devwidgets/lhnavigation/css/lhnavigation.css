@@ -23,7 +23,7 @@
 #lhnavigation_container ul{margin:6px 0 0;}
 #lhnavigation_container ul li{display:block; list-style:none;}
 #lhnavigation_container ul li .lhnavigation_item_content, #lhnavigation_container ul li ul li div.lhnavigation_subnav_item_content{padding:3px 12px 2px 28px;}
-#lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;padding:5px 0 7px;display:block;}
+#lhnavigation_container ul li .lhnavigation_toplevel {color:#707e8c; text-decoration: none;padding:5px 0 7px;display:block;word-wrap:break-word;}
 #lhnavigation_container ul li .lhnavigation_selected_submenu {margin-left:136px;margin-top:-21px;position:absolute;cursor:pointer;cursor:hand;}
 #lhnavigation_container ul li .lhnavigation_selected_subsubmenu {margin-left: 124px;}
 #lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-22px;position:absolute;width:11px;}
@@ -40,7 +40,7 @@
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow{background: url("/devwidgets/lhnavigation/images/lhnav_selected_item_arrow.png") no-repeat scroll left top transparent;height: 34px;margin-left: 145px;margin-top:-23px;position: absolute;width: 20px;}
 #lhnavigation_container ul li .lhnavigation_selected_item_arrow_sub{margin-left:133px;}
 #lhnavigation_container ul li.lhnavigation_selected_item a {color:#fff; text-decoration:none;font-weight:bold;}
-#lhnavigation_container ul li a{display:block;padding:5px 0 7px;}
+#lhnavigation_container ul li a{display:block;padding:5px 0 7px;word-wrap:break-word;}
 #lhnavigation_container ul li.lhnavigation_hassubnav{cursor:pointer;}
 
 #lhnavigation_container ul .lhnavigation_hoverable_item:hover{color:#1e5b85;cursor:pointer;}

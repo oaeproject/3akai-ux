@@ -395,8 +395,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai_global.data.listpeople[listType].total += 1;
                         if (sakai.api.User.getDisplayName(resultObject)) {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = sakai.api.User.getDisplayName(resultObject);
-                        } else if (resultObject["firstName"] && resultObject["lastName"]) {
-                            sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject["firstName"] + ' ' + resultObject["lastName"];
                         } else {
                             sakai_global.data.listpeople[listType].userList[resultObject.userid]["displayName"] = resultObject.userid;
                         }

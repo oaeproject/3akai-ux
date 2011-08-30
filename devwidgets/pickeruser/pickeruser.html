@@ -53,13 +53,13 @@
                 {for i in results}
                 <li data-userid="${i['rep:userId']}" id="${i['rep:userId']}">
                     {if i.picture}
-                        <img src="/~${i["rep:userId"]|urlSafe}/public/profile/${i.picture.name|urlSafe}" alt="__MSG__PROFILE_PICTURE_FOR__ ${i.firstName} ${i.lastName}" class="pickeruser_ppicture"/>
+                        <img src="/~${i["rep:userId"]|safeURL}/public/profile/${i.picture.name|safeURL}" alt="__MSG__PROFILE_PICTURE_FOR__ ${sakai.api.User.getDisplayName(i}" class="pickeruser_ppicture"/>
                     {else}
                         <img src="/dev/images/person_icon.jpg" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="pickeruser_ppicture"/>
                     {/if}
-                    <a class="pickeruser_name" href="/~${i['rep:userId']|urlSafe}">${sakai.api.User.getDisplayName(i)}</a>
+                    <a class="pickeruser_name" href="/~${i['rep:userId']|safeURL}">${sakai.api.User.getDisplayName(i)}</a>
                     <br />
-                    <span class="pickeruser_subnameinfo">${i.subNameInfo}</span>
+                    <span class="pickeruser_subnameinfo">${i.subNameInfo|safeOutput}</span>
                 </li>
                 {/for}
             --></div>
