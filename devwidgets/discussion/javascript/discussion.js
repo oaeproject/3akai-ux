@@ -256,7 +256,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             // Render formatted posts
             sakai.api.Util.TemplateRenderer(discussionListTopicsTemplate, {
                 "postData":arrPosts,
-                "settings":parsedSettings
+                "settings":parsedSettings,
+                "sakai": sakai
             }, $(discussionListTopicsContainer, $rootel));
         };
 
@@ -302,7 +303,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             } else {
                 // No topics yet
                 sakai.api.Util.TemplateRenderer(discussionNoInitialTopicTemplate, {
-                    "settings": parsedSettings
+                    "settings": parsedSettings,
+                    "sakai": sakai
                 }, $(discussionNoInitialTopic, $rootel));
                 $(discussionNoInitialTopic, $rootel).show();
             }
@@ -314,7 +316,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(discussionTabContentSettingsTemplate, {
-                "settings":widgetSettings
+                "settings":widgetSettings,
+                "sakai": sakai
             }, $(discussionTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $discussionMainContainer.hide();
