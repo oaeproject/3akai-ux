@@ -101,7 +101,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $("#googlemaps_form_search", rootel).submit(function() {
                     var input = $("#googlemaps_input_text_location", rootel).val();
                     if (input) {
-                        iframeContentWindow.search(input, "");
+                        iframeContentWindow.search(input, "", sakai, $);
                     }
                     return false;
                 });
@@ -189,7 +189,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $("#googlemaps_form_search", rootel).submit(function() {
                             var input = $("#googlemaps_input_text_location", rootel).val();
                             if (input) {
-                                iframeContentWindow.search(input, "");
+                                iframeContentWindow.search(input, "", sakai, $);
                             }
                             return false;
                         });
