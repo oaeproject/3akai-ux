@@ -37,7 +37,7 @@
 .s3d-search-result{color:#333;padding:10px;border-top: 1px dotted #cccccc;list-style:none}
 .s3d-search-result-first{border-top: 1px solid #e9e9e9;}
 .s3d-search-result a img{float:left;padding:0 10px 10px 0;width:50px;}
-.s3d-search-result-right{margin-left:100px;}
+.s3d-search-result-right{margin-left:90px;}
 .s3d-search-results .jq_pager{border-bottom: 1px solid #e9e9e9;}
 .s3d-search-result-anonuser{display:inline;float:left;height:15px;width:15px;}
 .s3d-search-result-content:hover, .s3d-search-result-person:hover, .s3d-search-result-group:hover {background-color:#f2f9fc;}
