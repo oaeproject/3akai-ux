@@ -1249,6 +1249,9 @@ define(function(){
                     }
                 }
             },
+            divider1: {
+                divider: true
+            },
             businessandadministrativestudies: {
                 title: "Business and Administrative studies",
                 children: {
