@@ -132,7 +132,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each(directory, function(i, toplevel){
                 if (toplevel.divider){
                     var toFillOut = 4 - (categoriesToRender.length % 4);
-                    for (var i = 0; i < toFillOut; i++){
+                    for (var i = 0; i < 1; i++){
                         categoriesToRender.push({"spacer": true});
                     }
                 } else {
