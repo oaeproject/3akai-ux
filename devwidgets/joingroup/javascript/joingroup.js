@@ -41,6 +41,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $rootel = $("#" + tuid);  // unique container for each widget instance
         var $joingroup_hover_template = $("#joingroup_hover_template", $rootel);
 
+        var groupMembers = false;
+
         ///////////////////////
         // Utility Functions //
         ///////////////////////
@@ -134,49 +136,57 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // joinability info
                     if (data.results[1].body) {
                         var groupdata = $.parseJSON(data.results[1].body);
-                        group.groupProfile =
-                            groupdata.authprofile;
-                        group.joinability =
-                            groupdata.authprofile["sakai:group-joinable"];
-                        group.title =
-                            groupdata.authprofile["sakai:group-title"];
-                        group.id =
-                            groupid;
+                        group.groupProfile = groupdata.authprofile;
+                        group.joinability = groupdata.authprofile["sakai:group-joinable"];
+                        group.title = groupdata.authprofile["sakai:group-title"];
+                        group.id = groupid;
                     }
-                    sakai.api.Groups.getMembers(groupid, false, function(success, members) {
-                        group.groupMembers = members;
-
-                        $.each(members, function(role, users) {
-                            if (users.results) {
-                                $.each(users.results, function(index, user) {
-                                    push_member_to_list(user, participants, role);
-                                });
-                            }
-                        });
-
-                        if (group.groupMembers.Manager && group.groupMembers.Manager.results){
-                            group.managerCount = group.groupMembers.Manager.results.length;
-                        }
-                        group.totalParticipants = participants.length;
-                        if (participants.length > 1) {
-                            participants = participants.sort(participantSort);
-                        }
-                        if (participants.length > 5) {
-                            participants = participants.slice(0, 5);
-                            group.seeAll = true;
-                        } else {
-                            group.seeAll = false;
-                        }
-                        group.participants = participants;
+                    if (groupMembers) {
+                        processMembers(group, groupMembers, participants);
                         if ($.isFunction(callback)){
                             callback(group);
                         }
-                    }, true);
+                    } else {
+                        sakai.api.Groups.getMembers(groupid, false, function(success, members) {
+                            groupMembers = members;
+                            processMembers(group, groupMembers, participants);
+                            if ($.isFunction(callback)){
+                                callback(group);
+                            }
+                        }, true);
+                    }
                 } else {
                     debug.error("Batch request to fetch group (id: " + id + ") data failed.");
                 }
             });
             return group;
+        };
+
+        var processMembers = function(group, members, participants) {
+            group.groupMembers = members;
+
+            $.each(members, function(role, users) {
+                if (users.results) {
+                    $.each(users.results, function(index, user) {
+                        push_member_to_list(user, participants, role);
+                    });
+                }
+            });
+
+            if (group.groupMembers.Manager && group.groupMembers.Manager.results){
+                group.managerCount = group.groupMembers.Manager.results.length;
+            }
+            group.totalParticipants = participants.length;
+            if (participants.length > 1) {
+                participants = participants.sort(participantSort);
+            }
+            if (participants.length > 5) {
+                participants = participants.slice(0, 5);
+                group.seeAll = true;
+            } else {
+                group.seeAll = false;
+            }
+            group.participants = participants;
         };
 
         var openTooltip = function (groupid, $item, leaveAllowed) {
@@ -240,6 +250,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var resetTooltip = function (groupid, $item) {
             $(window).trigger("done.tooltip.sakai");
+            groupMembers = false;
             openTooltip(groupid, $item);
         };
 
@@ -248,8 +259,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var doInit = function () {
+            groupMembers = false;
             $(window).bind("initialize.joingroup.sakai", function(evObj, groupid, target){
                 sakai.api.Groups.getMembers(groupid,"",function(membersSuccess, memberData){
+                    groupMembers = memberData;
                     sakai.api.Groups.getGroupAuthorizableData(groupid, function(membershipSuccess, membershipData){
                         // Members are always allowed to leave the group, managers should always be present and cannot leave when they are the last one in the group
                         if (!sakai.api.Groups.isCurrentUserAManager(groupid, sakai.data.me, membershipData.properties)) {
@@ -268,7 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                             openTooltip(groupid, $(target), leaveAllowed);
                         }
-                    });
+                    }, null, null, true);
                 }, "everyone");
                 return false;
             });
