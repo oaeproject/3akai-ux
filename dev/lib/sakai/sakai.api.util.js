@@ -378,7 +378,9 @@ define(
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                val = sakai_util.makeSafeTag($.trim(val));
+                if (val.indexOf("directory/") !== 0) {
+                    val = sakai_util.makeSafeTag($.trim(val));
+                }
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
@@ -388,7 +390,9 @@ define(
                 }
             });
             $(currentTags).each(function(i,val) {
-                val = sakai_util.makeSafeTag($.trim(val));
+                if (val.indexOf("directory/") !== 0) {
+                    val = sakai_util.makeSafeTag($.trim(val));
+                }
                 if (val && $.inArray(val,newTags) == -1) {
                     if (val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
