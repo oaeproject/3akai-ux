@@ -27,7 +27,7 @@
 <span style="display:none;" id="savecontent_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
 
 <div id="savecontent_template" style="display:none"><!--
-    __MSG__YOU_ARE_SAVING__ "${content["sakai:pooled-content-file-name"]}" __MSG__TO__
+    __MSG__YOU_ARE_SAVING__ "${content["sakai:pooled-content-file-name"]|safeOutput}" __MSG__TO__
     <select name="savecontent_select" id="savecontent_select">
         {if !sakai.api.Content.isUserAViewer(content, me.user.userid) && !sakai.api.Content.isUserAManager(content, me.user.userid)}
             <option value="${sakai.data.me.user.userid}">__MSG__MY_LIBRARY__</option>
@@ -37,9 +37,9 @@
         {for g in groups.entry}
             {if g["sakai:group-title"]}
                 {if !sakai.api.Content.isUserAViewer(content, g.groupid) && !sakai.api.Content.isUserAManager(content, g.groupid)}
-                    <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]}'s Library</option>
+                    <option value="${g["sakai:group-id"]}">${g["sakai:group-title"]|safeOutput}'s Library</option>
                 {else}
-                    <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]}'s Library (got it)</option>
+                    <option value="${g["sakai:group-id"]}" disabled="disabled">${g["sakai:group-title"]|safeOutput}'s Library (got it)</option>
                 {/if}>
             {/if}
         {/for}

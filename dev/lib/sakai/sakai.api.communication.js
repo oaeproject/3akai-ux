@@ -116,38 +116,38 @@ define(
                 } else if (optionalParams && optionalParams.groupId){
                     groupId = optionalParams.groupId;
                 }
-
+                var sender = sakai_user.getDisplayName(meData.profile);
                 switch(context){
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
-                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=" + sakai_i18n.General.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
-                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|name=" + groupTitle +
-                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid) +
+                        "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
                         "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
-                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|name=" + groupTitle +
                         "|body=" + body +
                         "|link=" + sakai_conf.SakaiDomain + "/~" + groupId;
                         break;
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
-                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
-                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "none")+
+                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "") +
                         "|body=" + body +
                         "|link=" + sakai_global.content_profile.content_data.url;
                         break;
                     case "contact_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
-                        toSend["sakai:templateParams"] = "sender=" + meData.profile.basic.elements.firstName.value + " " + meData.profile.basic.elements.lastName.value +
+                        toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|body=" + body +
                         "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INVITATIONS_URL;
                         break;
@@ -160,7 +160,7 @@ define(
                 var toSend = buildEmailParams();
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
+                    url: "/~" + sakai_util.safeURL(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data) {
@@ -203,7 +203,7 @@ define(
                 }
                 // Send message
                 $.ajax({
-                    url: "/~" + sakai_util.urlSafe(meData.user.userid) + "/message.create.html",
+                    url: "/~" + sakai_util.safeURL(meData.user.userid) + "/message.create.html",
                     type: "POST",
                     data: toSend,
                     success: function(data){
@@ -249,13 +249,8 @@ define(
                     callback(false, xhr);
                 }
             }
-            $.ajax({
-                url: "/system/batch",
-                method: "POST",
-                data: {
-                    "requests": $.toJSON(reqs)
-                },
-                success: function(data){
+            sakai_server.batch(reqs, function(success, data) {
+                if (success) {
                     // array of recipients
                     addRecipient(to);
                     // send now if we have only a list of users ("thread" safe?)
@@ -275,6 +270,9 @@ define(
                 params = {":operation": "delete"};
             } else {
                 params = {"sakai:messagebox": "trash"};
+            }
+            if (!$.isArray(messages)) {
+                messages = [messages];
             }
             $.each(messages, function(i, val){
                 if (!val.read || val.read === "false") {
@@ -359,12 +357,12 @@ define(
                     newMsg.replyAll = [];
                     var userFrom = _.first(msg.userFrom);
                     newMsg.from = {
-                        name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
+                        name:  userFrom.userid ? sakai_user.getDisplayName(userFrom) : sakai_util.Security.safeOutput(userFrom["sakai:group-title"]),
                         picture: sakai_util.constructProfilePicture(userFrom),
                         connectionState: userFrom["sakai:state"] ? userFrom["sakai:state"] : false,
                         userObj : {
                             uuid: userFrom.userid ? userFrom.userid : userFrom.groupid,
-                            username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : userFrom["sakai:group-title"],
+                            username: userFrom.userid ? sakai_user.getDisplayName(userFrom) : sakai_util.Security.safeOutput(userFrom["sakai:group-title"]),
                             type: userFrom.userid ? "user" : "group"
                         }
                     };
@@ -375,11 +373,11 @@ define(
                     newMsg.toList = [];
                     $.each(msg.userTo, function(i, user) {
                         var tmpUsr = {
-                            name : user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                            name : user.userid ? sakai_user.getDisplayName(user) : sakai_util.Security.safeOutput(user["sakai:group-title"]),
                             picture : sakai_util.constructProfilePicture(user),
                             userObj : {
                                 uuid: user.userid ? user.userid : user.groupid,
-                                username: user.userid ? sakai_user.getDisplayName(user) : user["sakai:group-title"],
+                                username: user.userid ? sakai_user.getDisplayName(user) : sakai_util.Security.safeOutput(user["sakai:group-title"]),
                                 type: user.userid ? "user" : "group"
                             }
                         };
@@ -392,7 +390,8 @@ define(
                     // We are adding the div to force jQuery to interpret this
                     // as html and not a selector (in case there are no tags
                     // in the messsage body).
-                    var bodyToAutolink = $('<div>'+msg["sakai:body"].replace(/\n/gi, "<br />")+'</div>');
+                    msg["sakai:body"] = sakai_util.Security.safeOutput(msg["sakai:body"]);
+                    var bodyToAutolink = $("<div>"+sakai_util.Security.safeOutput(msg["sakai:body"]).replace(/\n/gi, "<br />")+"</div>");
                     newMsg.body = bodyToAutolink.autolink().html();
                     newMsg.body_nolinebreaks = $.trim(msg["sakai:body"].replace(/\n/gi, " "));
                     newMsg.subject = msg["sakai:subject"];
@@ -482,7 +481,7 @@ define(
         },
 
         getMessage : function(id, callback){
-            var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
+            var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message/inbox/" + id + ".json";
             $.ajax({
                 url: url,
                 cache: false,
@@ -513,7 +512,7 @@ define(
             if (!ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
                 callback(true, sakai_user.data.me.messages.countOverview);
             } else {
-                var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
                 $.ajax({
                     url: url,
                     cache: false,
@@ -542,7 +541,7 @@ define(
                     callback(true, sakai_user.data.me.messages.unread);
                 }
             } else {
-                var url = "/~" + sakai_util.urlSafe(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
+                var url = "/~" + sakai_util.safeURL(sakai_user.data.me.user.userid) + "/message.count.json?filters=sakai:messagebox,sakai:read&values=" + box + ",false&groupedby=sakai:category";
                 $.ajax({
                     url: url,
                     cache: false,

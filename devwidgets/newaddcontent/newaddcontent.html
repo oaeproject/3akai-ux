@@ -154,11 +154,11 @@
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
             <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item.title}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item.title|safeOutput}"/>
             <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
-            <textarea id="newaddcontent_selecteditems_edit_data_description">${item.description}</textarea>
+            <textarea id="newaddcontent_selecteditems_edit_data_description">${item.description|safeOutput}</textarea>
             <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_tags" value="${item.tags}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_tags" value="${item.tags|safeOutput}"/>
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_data_actions">
@@ -199,7 +199,7 @@
                 {for g in me.groups}
                     {if g["sakai:group-title"]}
                         {if !g["sakai:excludeSearch"]}
-                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]}'s Library</option>
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                         {/if}
                     {/if}
                 {/for}
@@ -275,7 +275,7 @@
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
     {else}
-        This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle}</a>
+        This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle|safeOutput}</a>
     {/if}
 --></div>
 
