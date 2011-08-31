@@ -155,13 +155,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @return {Array} Array of strings representing the selected hierarchy
          */
         var getCategory = function(){
-            var category = $.bbq.getState("l").split("-");
+            var category = $.bbq.getState("l");
+            if (category) {
+                category = category.split("-");
+            }
             return category;
         };
 
         var doInit = function(){
             var category = getCategory();
-            if (!sakai.config.Directory[category[0]]){
+            if (!$.isArray(category) || !sakai.config.Directory[category[0]]){
                 sakai.api.Security.send404();
                 return false;
             }
