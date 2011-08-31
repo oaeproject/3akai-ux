@@ -257,7 +257,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if(json.data.saveddirectory[dir].hasOwnProperty(dirPiece)){
                                 dirString += sakai.api.Util.getValueForDirectoryKey(json.data.saveddirectory[dir][dirPiece]);
                                 if(dirPiece < json.data.saveddirectory[dir].length - 1){
-                                    dirString += "&nbsp;&#187;&nbsp;";
+                                    dirString += " » ";
                                 }
                             }
                         }
