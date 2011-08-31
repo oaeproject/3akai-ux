@@ -42,7 +42,7 @@
                                 <hr class="s3d-split-line fl-push">
                                 {var thumbnail = sakai.api.Content.getThumbnail(item.content)}
                                 {if thumbnail}
-                                    <img src="${thumbnail}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    <img src="${thumbnail}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]|safeOutput}"/>
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(item.content)).URL}" class="categories_item_content_preview"/>
                                 {/if}
@@ -59,7 +59,7 @@
                                     <span class="categories_content_tags">
                                         {for tag in tags}
                                             {if tag_index < 2}
-                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>
