@@ -364,11 +364,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateCopyright = function(){
             var copyright = $("#contentmetadata_copyright_copyright").val();
-            renderCopyright(false);
             var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
             sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
                 if (success) {
                     sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
+                    renderCopyright(false);
                     createActivity("UPDATED_COPYRIGHT");
                 }
             });
