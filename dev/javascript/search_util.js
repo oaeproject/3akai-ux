@@ -52,8 +52,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////
 
         if (config && config.tuid && view === "grid"
-            && $("#" + config.tuid + " .s3d-search-results ul").length){
-            $("#" + config.tuid + " .s3d-search-results ul").addClass("s3d-search-results-grid");
+            && $(".s3d-search-results-container").length){
+            $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
         var setView = function(newView) {
@@ -284,16 +284,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         // bind search view type
         $("#search_view_list").live("click", function(ev){
-            if ($(".s3d-search-results ul").hasClass("s3d-search-results-grid")){
+            if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
                 setView("list");
-                $(".s3d-search-results ul").removeClass("s3d-search-results-grid");
+                $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
             }
         });
 
         $("#search_view_grid").live("click", function(ev){
-            if (!$(".s3d-search-results ul").hasClass("s3d-search-results-grid")){
+            if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
                 setView("grid");
-                $(".s3d-search-results ul").addClass("s3d-search-results-grid");
+                $(".s3d-search-results-container").addClass("s3d-search-results-grid");
             }
         });
 
