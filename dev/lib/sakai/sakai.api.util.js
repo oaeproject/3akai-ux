@@ -379,7 +379,7 @@ define(
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
                 if (val.indexOf("directory/") !== 0) {
-                    val = sakai_util.makeSafeTag($.trim(val));
+                    val = newTags[i] = sakai_util.makeSafeTag($.trim(val));
                 }
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
                     if (val.length) {
@@ -391,7 +391,7 @@ define(
             });
             $(currentTags).each(function(i,val) {
                 if (val.indexOf("directory/") !== 0) {
-                    val = sakai_util.makeSafeTag($.trim(val));
+                    val = currentTags[i] = sakai_util.makeSafeTag($.trim(val));
                 }
                 if (val && $.inArray(val,newTags) == -1) {
                     if (val.length) {
@@ -403,18 +403,21 @@ define(
             });
             currentTags = currentTags || [];
             // determine the tags the entity has
-            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
+            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd)),
+                finalTags = [];
+
             $(tags).each(function(i,val) {
+                val = sakai_util.makeSafeTag(val);
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
-                } else {
-                    tags[i] = sakai_util.makeSafeTag(val);
+                } else if (val && $.trim(val) !== ""){
+                    finalTags.push(val);
                 }
             });
             deleteTags(tagLocation, tagsToDelete, function() {
                 setTags(tagLocation, tagsToAdd, function(success) {
                     if ($.isFunction(callback)) {
-                        callback(success, tags);
+                        callback(success, finalTags);
                     }
                 });
             });
@@ -1702,7 +1705,9 @@ define(
          * /:;,[]*'"|
          */
         makeSafeTag : function(tag) {
-            tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, "");
+            if (tag) {
+                tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, "");
+            }
             return tag;
         },
 
