@@ -141,7 +141,7 @@ define(
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
                         toSend["sakai:templateParams"] = "sender=" + sender +
                         "|system=Sakai|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
-                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"]) || "none"+
+                        "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "") +
                         "|body=" + body +
                         "|link=" + sakai_global.content_profile.content_data.url;
                         break;

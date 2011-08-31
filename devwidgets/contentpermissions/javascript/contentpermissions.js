@@ -331,7 +331,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             for(var i = 0; i < ml; i++){ //though unlikely, this will remove any duplicates within the manager permission
                 tmpManagers[managers[i].userid || managers[i].groupid] = managers[i];
             }
-            for(var j = 0; i < vl; j++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
+            for(var j = 0; j < vl; j++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
                 if(!tmpManagers[viewers[j].userid || viewers[j].groupid]){
                     tmpViewers[viewers[j].userid || viewers[j].groupid] = viewers[j];
                 }
