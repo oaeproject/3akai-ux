@@ -26,6 +26,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.data = sakai_global.data || {};
     sakai_global.data.search = sakai_global.data.search || {};
 
+    var view = "list";
+
     $(window).bind("sakai.search.util.init", function(ev, config){
 
         /////////////////////
@@ -45,12 +47,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /////////////////////
+        // Set search view //
+        /////////////////////
+
+        if (config && config.tuid && view === "grid"
+            && $("#" + config.tuid + " .s3d-search-results ul").length){
+            $("#" + config.tuid + " .s3d-search-results ul").addClass("s3d-search-results-grid");
+        }
+
+        var setView = function(newView) {
+            view = newView;
+        };
+
         ////////////////////////////////
         // Finish util initialisation //
         ////////////////////////////////
 
         var finishUtilInit = function(){
-            $(window).trigger("sakai.search.util.finish");
+            $(window).trigger("sakai.search.util.finish", [config]);
         };
 
         ///////////////////////////
@@ -161,9 +176,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (item.basic && item.basic.elements && item.basic.elements.description){
                         user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
+                        user.extraGrid = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 200, {max_rows: 2,whole_word: false}, "");
                     }
 
-user.extra = sakai.api.Util.applyThreeDots("This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description This is the users long description ", 580, {max_rows: 2,whole_word: false}, "");
                     user.connected = false;
                     user.accepted = false;
                     user.invited = item.invited !== undefined ? item.invited : false;
@@ -265,6 +280,21 @@ user.extra = sakai.api.Util.applyThreeDots("This is the users long description T
                 "page": 1,
                 "sortby": sortby
             }, 0);
+        });
+
+        // bind search view type
+        $("#search_view_list").live("click", function(ev){
+            if ($(".s3d-search-results ul").hasClass("s3d-search-results-grid")){
+                setView("list");
+                $(".s3d-search-results ul").removeClass("s3d-search-results-grid");
+            }
+        });
+
+        $("#search_view_grid").live("click", function(ev){
+            if (!$(".s3d-search-results ul").hasClass("s3d-search-results-grid")){
+                setView("grid");
+                $(".s3d-search-results ul").addClass("s3d-search-results-grid");
+            }
         });
 
         /////////////////////////

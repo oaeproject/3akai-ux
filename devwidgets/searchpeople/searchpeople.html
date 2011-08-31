@@ -19,6 +19,12 @@
                         <option value="asc">__MSG__CHANGED_LAST__</option>
                     </select>
                 </div>
+                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                    __MSG__LIST__
+                </button>
+                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                    __MSG__GRID__
+                </button>
             </div>
         </div>
         <!-- TEMPORARY SEARCH TEXT -->
@@ -62,7 +68,7 @@
                         {if i.userid}
                             {var peopleFound = true}
                             <li class="fl-container fl-fix s3d-search-result-person s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
                                             <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
@@ -109,6 +115,7 @@
                                     </div>
                                     {if i.extra}
                                         <span class="searchpeople_result_description">${i.extra}</span>
+                                        <span class="searchpeople_result_description_grid">${i.extraGrid}</span>
                                     {/if}
                                     {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                         <div class="searchpeople_result_tags">

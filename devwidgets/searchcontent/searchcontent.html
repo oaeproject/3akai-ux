@@ -19,6 +19,12 @@
                         <option value="asc">__MSG__CHANGED_LAST__</option>
                     </select>
                 </div>
+                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                    __MSG__LIST__
+                </button>
+                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                    __MSG__GRID__
+                </button>
             </div>
         </div> 
         <!-- TEMPORARY SEARCH TEXT -->
@@ -59,7 +65,7 @@
                         {if i['sakai:pooled-content-file-name']}
                             {var contentFound = true}
                             <li class="fl-container fl-fix s3d-search-result-content s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_plus searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>

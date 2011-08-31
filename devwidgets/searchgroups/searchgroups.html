@@ -23,6 +23,12 @@
                         <option value="asc">__MSG__CHANGED_LAST__</option>
                     </select>
                 </div>
+                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                    __MSG__LIST__
+                </button>
+                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                    __MSG__GRID__
+                </button>
             </div>
         </div>
         <!-- TEMPORARY SEARCH TEXT -->
@@ -59,7 +65,7 @@
                         {if i['sakai:group-id']}
                             {var groupsFound = true}
                             <li class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>

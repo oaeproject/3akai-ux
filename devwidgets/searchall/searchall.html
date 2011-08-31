@@ -17,11 +17,11 @@
                         <option value="asc">__MSG__OLDEST__</option>
                     </select>
                 </div>
-                <button type="button" id="searchall_view_list" title="List">
-                    List
+                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                    __MSG__LIST__
                 </button>
-                <button type="button" id="searchall_view_grid" title="Grid">
-                    Grid
+                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                    __MSG__GRID__
                 </button>
             </div>
         </div>
@@ -43,7 +43,7 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <ul id="searchall_results_container" class="s3d-search-results-grid">
+                    <ul id="searchall_results_container">
                     </ul>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
@@ -57,7 +57,7 @@
                         {if i['sakai:pooled-content-file-name']}
                             {var resultFound = true}
                             <li class="fl-container fl-fix s3d-search-result-content s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']}"></button>
@@ -115,7 +115,7 @@
                         {elseif i.userid}
                             {var resultFound = true}
                             <li class="fl-container fl-fix s3d-search-result-person s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
                                             <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid}" sakai-entityname="${i.name}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}></button>
@@ -162,6 +162,7 @@
                                     </div>
                                     {if i.extra}
                                         <span class="searchpeople_result_description">${i.extra}</span>
+                                        <span class="searchpeople_result_description_grid">${i.extraGrid}</span>
                                     {/if}
                                     {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                         <div class="searchpeople_result_tags">
@@ -179,7 +180,7 @@
                         {elseif i['sakai:group-id']}
                             {var resultFound = true}
                             <li class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if count == 1} s3d-search-result-first{/if}">
-                                <span class="s3d-search-result-user-functions" style="display:none;">
+                                <span class="s3d-search-result-user-functions">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button searchgroups_result_message_icon s3d-action-icon s3d-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
                                 </span>
