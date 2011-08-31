@@ -46,8 +46,8 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchpeople_results_container">
-                    </div>
+                    <ul id="searchpeople_results_container">
+                    </ul>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
                     <div class="jq_pager">
@@ -61,7 +61,7 @@
                         {var count = count + 1}
                         {if i.userid}
                             {var peopleFound = true}
-                            <div class="fl-container fl-fix searchpeople_result{if count == 1} searchpeople_result_first{/if}">
+                            <li class="fl-container fl-fix searchpeople_result{if count == 1} searchpeople_result_first{/if}">
                                 <span class="searchpeople_result_user_functions" style="display:none;">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
@@ -122,15 +122,15 @@
                                         </div>
                                     {/if}
                                 </div>
-                            </div>
+                            </li>
                         {/if}
                     {/for}
                     {if !peopleFound}
-                        <div class="s3d-no-results-container">
+                        <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-search-people less-margin"></div>
                             <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}</h1>
-                        </div>
+                        </li>
                     {/if}
                 --></div>
             </div>

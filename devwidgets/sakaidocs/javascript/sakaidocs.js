@@ -454,6 +454,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var init_tinyMCE = function(){
             if (window["tinyMCE"]) {
+                // determine language to use in tinymce
+                var language = "en";
+                if ($.inArray(sakai.data.me.user.locale.language, sakai.config.Editor.tinymceLanguagePacks) > -1){
+                    language = sakai.data.me.user.locale.language;
+                }
+
                 tinyMCE.init({
 
                     // General options
@@ -461,6 +467,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     elements: "elm1",
                     theme: "advanced",
                     skin: "sakai",
+                    language: language,
 
                     // For a built-in list of plugins with doc: http://wiki.moxiecode.com/index.php/TinyMCE:Plugins
                     //plugins: "safari,advhr,inlinepopups,preview,noneditable,nonbreaking,xhtmlxtras,template,table,insertmore,autoresize",
@@ -593,7 +600,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "height|nowrap|valign]," +
                     "tt[]," +
                     "u[]," +
-                    "ul[align|clear|height|start|type|width]" +
+                    "ul[align|clear|height|start|type|width]," +
                     "video[src|class|autoplay|controls|height|width|preload|loop]"
                 });
             }
