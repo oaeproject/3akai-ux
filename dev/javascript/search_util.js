@@ -26,6 +26,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     sakai_global.data = sakai_global.data || {};
     sakai_global.data.search = sakai_global.data.search || {};
 
+    var view = "list";
+
     $(window).bind("sakai.search.util.init", function(ev, config){
 
         /////////////////////
@@ -45,12 +47,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /////////////////////
+        // Set search view //
+        /////////////////////
+
+        if (config && config.tuid && view === "grid"
+            && $(".s3d-search-results-container").length){
+            $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+        }
+
+        var setView = function(newView) {
+            view = newView;
+        };
+
         ////////////////////////////////
         // Finish util initialisation //
         ////////////////////////////////
 
         var finishUtilInit = function(){
-            $(window).trigger("sakai.search.util.finish");
+            $(window).trigger("sakai.search.util.finish", [config]);
         };
 
         ///////////////////////////
@@ -150,26 +165,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     // Parse the user his info.
                     user.path = item.homePath + "/public/";
                     var person = item;
-                    if (person && person.basic && person.basic.elements && person.basic.elements.picture && $.parseJSON(person.basic.elements.picture.value).name){
-                        person.picture = person.basic.elements.picture.value;
-                    }
-                    if (person.picture) {
-                        var picture;
-                        // if picture is string
-                        if (typeof person.picture === "string") {
-                            picture = $.parseJSON(person.picture);
-                        // if picuture is json object
-                        } else {
-                            picture = person.picture;
-                        }
-                        if (picture.name) {
-                            user.picture = "/~" + sakai.api.Util.safeURL(person["rep:userId"]) + "/public/profile/" + picture.name;
-                        } else {
-                            user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                        }
-                    } else {
-                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-                    }
+                    user.picture = sakai.api.User.getProfilePicture(person);
                     user.counts = item.counts;
                     user.name = sakai.api.User.getDisplayName(item);
                     user.name = sakai.api.Util.applyThreeDots(user.name, 180, {max_rows: 1,whole_word: false}, "s3d-bold", true);
@@ -181,6 +177,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (item.basic && item.basic.elements && item.basic.elements.description){
                         user.extra = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 580, {max_rows: 2,whole_word: false}, "");
+                        user.extraGrid = sakai.api.Util.applyThreeDots(item.basic.elements.description.value, 200, {max_rows: 2,whole_word: false}, "");
                     }
 
                     user.connected = false;
@@ -284,6 +281,21 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": 1,
                 "sortby": sortby
             }, 0);
+        });
+
+        // bind search view type
+        $("#search_view_list").live("click", function(ev){
+            if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+                setView("list");
+                $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
+            }
+        });
+
+        $("#search_view_grid").live("click", function(ev){
+            if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
+                setView("grid");
+                $(".s3d-search-results-container").addClass("s3d-search-results-grid");
+            }
         });
 
         /////////////////////////
