@@ -99,7 +99,7 @@
 
     <div id="recentchangedcontent_item_comment_author_template"><!--
         <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName|safeOutput}">
-            ${author.authorName|safeOutput}
+            ${author.authorName}
         </a>
         {if commentCreated}
             <span class="recentchangedcontent_timeago"> (${sakai.api.Datetime.getTimeAgo(commentCreated)} __MSG__AGO__)</span>
@@ -108,7 +108,7 @@
 
     <div id="recentchangedcontent_item_related_content_author_template"><!--
         <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName|safeOutput}">
-            ${author.authorName|safeOutput}
+            ${author.authorName}
         </a>
     --></div>
 

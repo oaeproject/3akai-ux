@@ -618,6 +618,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             });
                             $.each(lastUpload, function(i, item) {
                                 if (item._path === savedItem.hashpath) {
+                                    item["sakai:pooled-content-file-name"] = proofTitle(arrayItem.title);
                                     item["sakai:description"] = arrayItem.description;
                                     item["sakai:tags"] = arrayItem.tags;
                                 }

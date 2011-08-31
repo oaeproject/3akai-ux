@@ -79,7 +79,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for(var item in response.results){
                     if(response.results.hasOwnProperty(item)){
                         response.results[item]["sakai:subject"] = sakai.api.Util.applyThreeDots(response.results[item]["sakai:subject"], $(".recentmessages_widget .s3d-widget-content").width() - 130, {max_rows: 1,whole_word: false}, "s3d-bold");
-                        response.results[item]["dotteduserFrom"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false});
+                        response.results[item]["dotteduserFrom"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false}, null, true);
                     }
                 }
                 // Only if everything went fine, show the recent messages
