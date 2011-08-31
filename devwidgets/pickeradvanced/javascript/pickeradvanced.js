@@ -441,7 +441,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
           // this value is a comma-delimited list
           // split it and get rid of any empty values in the array
           $pickeradvanced_container.jqmHide();
-          debug.log(pickerData);
           $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
         };
 

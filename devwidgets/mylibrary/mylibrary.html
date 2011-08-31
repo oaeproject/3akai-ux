@@ -11,7 +11,7 @@
         {if isMe && !isGroup}
             <div class='s3d-contentpage-title'>My Library</div>
         {else}
-            <div class='s3d-contentpage-title'>${firstName}'s Library</div>
+            <div class='s3d-contentpage-title'>${firstName|safeOutput}'s Library</div>
         {/if}
     --></div>
     <!-- Action bar -->
@@ -38,7 +38,7 @@
                     <button type="button" class="s3d-link-button s3d-action" data-groupid="" title="__MSG__ALL__">__MSG__ALL__</button>
                     {if groups && groups.entry}
                         {for group in groups.entry}
-                            <button type="button" class="s3d-link-button s3d-action" data-groupid="${group.groupid}" title="${group["sakai:group-title"]}">${group["sakai:group-title-short"]}</button>
+                            <button type="button" class="s3d-link-button s3d-action" data-groupid="${group.groupid}" title="${group["sakai:group-title"]|safeOutput}">${group["sakai:group-title-short"]|safeOutput}</button>
                         {/for}
                     {/if}
                 --></div>
@@ -94,7 +94,7 @@
                         id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}"></button>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}"></button>
-                    <a href="${item.link}/${item.filename|urlSafe}" title="__MSG__VIEW_THIS_ITEM__">
+                    <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.type}" />
                         {elseif (item.mimeType && item.mimeType.substring(0,6)=="image/")}
@@ -105,15 +105,15 @@
                     </a>
                     <div class="mylibrary_item_right s3d-regular-links">
                         <div>
-                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename|urlSafe}" title="__MSG__VIEW_THIS_ITEM__">
-                                ${item.filename}
+                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                                ${item.filename|safeOutput}
                             </a>
                             {if item.type}
-                                <span class="mylibrary_item_mimetype">${item.type}</span>
+                                <span class="mylibrary_item_mimetype">${item.type|safeOutput}</span>
                             {/if}
                         </div>
                         <div class="mylibrary_item_by">
-                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|urlSafe}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
+                            __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|safeURL}" title="${item.ownername}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
                         </div>
                         {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
                         <div class="mylibrary_item_usedin">
@@ -131,7 +131,7 @@
                             <div class="mylibrary_item_tags">
                                 <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
                                 <p class="mylibrary_item_tags_list">
-                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name}">${t.name}</a>{/for}
+                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
                                 </p>
                             </div>
                         {/if}

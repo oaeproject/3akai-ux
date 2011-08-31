@@ -61,19 +61,19 @@
                             <div class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
                                 <span class="searchgroups_result_user_functions" style="display:none;">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
-                                    <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']}" sakai-entitytype="group"></button>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"></button>
                                 </span>
                                 <span class="searchgroups_result_anonuser"></span>
-                                <a href="${i.homePath}" title="${i['sakai:group-title']}">
+                                <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
                                     {if i.picPath}
-                                        <img src="${i.picPath}" alt="${i['sakai:group-title']}">
+                                        <img src="${i.picPath}" alt="${i['sakai:group-title']|safeOutput}">
                                     {else}
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                     {/if}
                                 </a>
                                 <div class="searchgroups_result_right">
                                     <div>
-                                        <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]}">
+                                        <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
                                             ${i["sakai:group-title-short"]}
                                         </a>
                                         {if i.groupType}
@@ -102,7 +102,7 @@
                                             <p class="searchgroups_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}" title="${t|safeOutput}">${t|safeOutput}</a>
                                                 {/for}
                                             </p>
                                         </div>
