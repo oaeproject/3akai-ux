@@ -14,7 +14,7 @@
         {if isMe}
             <div class='s3d-contentpage-title'>My Memberships</div>
         {else}
-            <div class='s3d-contentpage-title'>${firstName}'s Memberships</div>
+            <div class='s3d-contentpage-title'>${firstName|safeOutput}'s Memberships</div>
         {/if}
     --></div>
     
@@ -54,16 +54,16 @@
                 <span class="mymemberships_item_user_functions" style="display:none;">
                     <div class="mymemberships_item_plus mymemberships_item_left_filler s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.id}"></div>
                     <span class="mymemberships_item_right_buttons">
-                        <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-message mymemberships_item_message_icon sakai_sendmessage_overlay" sakai-entityid="${group.id}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
                     </span>
                 </span>
                 <span class="mymemberships_item_anonuser"></span>
-                <a href="${group.url}" title="__MSG__VIEW_GROUP__">
+                <a href="${group.url|safeOutput}" title="__MSG__VIEW_GROUP__">
                     <img class="mymemberships_group_pic" src="${group.picsrc}" />
                 </a>
                 <div class="mymemberships_item_right">
                     <div>
-                        <a class="s3d-bold s3d-regular-light-links" href="/~${group.id}" title="${group.title}">
+                        <a class="s3d-bold s3d-regular-light-links" href="${group.url|safeOutput}" title="${group.title|safeOutput}">
                             ${group.titleShort}
                         </a>
                         {if group.type}
@@ -74,11 +74,11 @@
                         __MSG__CHANGED__ ${jQuery.timeago(new Date(group.lastModified))}
                         {if group.contentCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
-                            <a class="s3d-regular-light-links" href="${group.url}#l=library" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
+                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=library" title="${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${group.contentCount} {if group.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
                         {/if}
                         {if group.membersCount > 0}
                             <span class="mymemberships_item_detail_separator"> | </span>
-                            <a class="s3d-regular-light-links" href="${group.url}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
+                            <a class="s3d-regular-light-links" href="${group.url|safeOutput}#l=participants" title="${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">${group.membersCount} {if group.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}</a>
                         {/if}
                     </div>
                     {if group.desc}<div class="mymemberships_item_description">${group.desc}</div>{/if}
@@ -88,7 +88,7 @@
                             <p class="mymemberships_item_tags_list">
                                 {for t in group.tags}
                                     {if t_index > 0} <span class="mymemberships_item_tags_dot"> &bull;</span>{/if} 
-                                    <a class="s3d-regular-light-links" href="/search#q=${t}" title="${t}">${t}</a>
+                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeOutput}" title="${t|safeOutput}">${t|safeOutput}</a>
                                 {/for}
                             </p>
                         </div>

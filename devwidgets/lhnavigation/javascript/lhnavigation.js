@@ -33,7 +33,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
      */
     sakai_global.lhnavigation = function (tuid, showSettings) {
 
-
         ///////////////////
         // CONFIGURATION //
         ///////////////////
@@ -198,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
+                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
                 }
             }
             structure._childCount = childCount;
@@ -534,7 +533,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions === "world"){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.safeURL($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else if (additionalOptions === "user") {
@@ -982,11 +981,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
-            if (mainPubUrl) {
+            if (mainPubUrl && sakaiDocsInStructure[mainPubUrl]) {
                 sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
                 sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
             }
-            if (mainPrivUrl) {
+            if (mainPrivUrl && sakaiDocsInStructure[mainPrivUrl]) {
                 sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
                 sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
             }

@@ -17,7 +17,7 @@
 */
 
 (function($) {
-    var url_regexp = /(https?:\/\/[\u007F-\uFFFF-A-Za-z0-9\~\/._\?\&=\-%#\+:\;,\@\']+)/;
+    var url_regexp = /(https?:\/\/[\u007F-\uFFFF-A-Za-z0-9\~\/._\?\&=\-%#\+:\;,\@\'\(\)]+)/;
     $.fn.autolink = function() {
         return this.each(function(){
             var desc = $(this);

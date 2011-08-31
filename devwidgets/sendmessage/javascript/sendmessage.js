@@ -261,10 +261,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Putting the subject and body which have been send in the textboxes
                 if(body) {
-                    $(messageFieldBody).val(sakai.api.Security.saneHTML(body));
+                    $(messageFieldBody).val(body);
                 }
                 if(subject) {
-                    $(messageFieldSubject).val(sakai.api.Security.saneHTML(subject));
+                    $(messageFieldSubject).val(subject);
                 }
 
                 if (replyOnly) {

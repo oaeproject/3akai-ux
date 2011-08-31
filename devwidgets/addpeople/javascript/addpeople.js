@@ -159,15 +159,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (sakai_global.group) {
                     $.merge(permissionsToDelete, newUsers);
                     $.each(permissionsToDelete, function(index, user){
-                        sakai.api.Communication.sendMessage(user.userid,
-                        sakai.data.me,
-                        sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("${role}", user.permission).replace("${groupName}", sakai_global.group.groupData["sakai:group-title"]),
-                        $("#addpeople_message_template", $rootel).text().replace("${role}", user.permission).replace("${firstname}", user.name).replace("${user}", sakai.api.User.getDisplayName(sakai.data.me.profile)).replace("${groupName}", sakai_global.group.groupData["sakai:group-title"]).replace("${groupURL}", sakai.config.SakaiDomain + "/~"+sakai_global.group.groupData["sakai:group-id"]),
-                        "message",
-                        false,
-                        false,
-                        true,
-                        "group_invitation");
+                        var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData["sakai:group-title"]);
+                        var groupID = sakai_global.group.groupData["sakai:group-id"];
+                        var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
+                        var subject = sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", displayName).replace("${role}", user.permission).replace("${groupName}", groupTitle);
+                        var body = $("#addpeople_message_template", $rootel).text().replace("${role}", user.permission).replace("${firstname}", user.name).replace("${user}", groupTitle).replace("${groupURL}", sakai.config.SakaiDomain + "/~" + groupID).replace("${groupName}", groupTitle);
+                        sakai.api.Communication.sendMessage(user.userid, sakai.data.me, subject, body, "message", false, false, true, "group_invitation");
                     });
                 }
                 $addpeopleContainer.jqmHide();
@@ -212,7 +209,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         userid: $(this)[0].id.split("_")[0],
                         roleid: $(this).val(),
                         name: $(this).nextAll(".s3d-entity-displayname").text(),
-                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 100),
+                        dottedname: sakai.api.Util.applyThreeDots($(this).nextAll(".s3d-entity-displayname").text(), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold"),
                         permission: currentTemplate.joinRole,
                         picture: $(this).next().children("img").attr("src"),
                         tmpsrc:"checklistadded"
@@ -294,7 +291,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var pictureURL = "";
             var userid = userData.attributes.value;
             if (userData.attributes.picture) {
-                pictureURL = "/~" + sakai.api.Util.urlSafe(userid) + "/public/profile/" + userData.attributes.picture;
+                pictureURL = "/~" + sakai.api.Util.safeURL(userid) + "/public/profile/" + userData.attributes.picture;
             } else {
                 if (userData.attributes.type=== "group") {
                     pictureURL = "/dev/images/group_avatar_icon_35x35_nob.png";
@@ -305,7 +302,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var userObj = {
                 userid: userid,
                 name: userData.attributes.name,
-                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 100),
+                dottedname: sakai.api.Util.applyThreeDots(userData.attributes.name, 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true),
                 permission: currentTemplate.joinRole,
                 picture: pictureURL,
                 tmpsrc:"autsuggestadded"
@@ -343,13 +340,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             userObj = {
                                 userid: data[role].results[user]["sakai:group-id"],
                                 name: data[role].results[user]["sakai:group-title"],
-                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 100)
+                                dottedname: sakai.api.Util.applyThreeDots(data[role].results[user]["sakai:group-title"], 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
                             };
                         } else {
                             userObj = {
                                 userid: data[role].results[user]["rep:userId"],
                                 name: sakai.api.User.getDisplayName(data[role].results[user]),
-                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 100)
+                                dottedname: sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data[role].results[user]), 100, null, "s3d-entity-displayname s3d-regular-links s3d-bold", true)
                             };
                         }
 
@@ -360,7 +357,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
                         if (data[role].results[user].picture) {
-                            userObj.picture = "/~" + sakai.api.Util.urlSafe(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
+                            userObj.picture = "/~" + sakai.api.Util.safeURL(data[role].results[user]["rep:userId"]) + "/public/profile/" + $.parseJSON(data[role].results[user].picture).name;
                         }
                         else {
                             if (data[role].results[user]["sakai:group-id"]) {
