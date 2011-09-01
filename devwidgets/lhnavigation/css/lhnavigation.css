@@ -29,6 +29,8 @@
 #lhnavigation_container ul li .lhnavigation_private {background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;height:16px;margin-left:136px;margin-top:-22px;position:absolute;width:11px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav{background: url("/dev/images/icons_sprite.png") no-repeat scroll -863px -21px transparent;height: 10px;margin-left: -15px;margin-top:7px;position: absolute;width: 12px;}
 #lhnavigation_container ul li .lhnavigation_has_subnav_opened{background: url("/dev/images/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;}
+#lhnavigation_container ul li .lhnavigation_levelcount, #lhnavigation_container ul li .lhnavigation_sublevelcount {background: url("/dev/images/lefthandnav_count.png") repeat-x scroll left top #C9C9C9;color: #FFFFFF;float: right;height: 14px;min-width: 14px;padding: 0 3px 1px 4px;text-align: center;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;border:1px solid #c4c4c4;}
+#lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_levelcount, #lhnavigation_container ul li.lhnavigation_selected_item .lhnavigation_sublevelcount {background: url("/dev/images/lefthandnav_count_hover.png") repeat-x scroll left top #1098d4;border:1px solid #0e98d6;}
 #lhnavigation_container .lhnavigation_change_title {margin: 4px 0 5px;padding: 2px 10px 2px 0;width: 115px;}
 #lhnavigation_container .lhnavigation_change_title_restricted_width {width: 100px !important;}
 
