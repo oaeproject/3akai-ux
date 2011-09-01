@@ -31,6 +31,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.areapermissions = function (tuid, showSettings) {
 
          var contextData = false;
+         var visibility = "selected";
+         var currentArea = {};
 
          //////////////////////////
          // Rendering group data //
@@ -41,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              var roles = $.parseJSON(groupData["sakai:roles"]);
 
              // Calculate for each role what current permission is
-             var currentArea = sakai_global.group.pubdata.structure0[contextData.path];
+             currentArea = sakai_global.group.pubdata.structure0[contextData.path];
              var editRoles = $.parseJSON(currentArea._edit);
              var viewRoles = $.parseJSON(currentArea._view);
              for (var i = 0; i < roles.length; i++){
@@ -55,7 +57,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  }
              }
 
-             var visibility = "selected";
              if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group.groupData["sakai:group-visible"] === "public"){
                  visibility = "everyone";
              } else if ($.inArray("everyone", viewRoles) !== -1 && (sakai_global.group.groupData["sakai:group-visible"] === "logged-in-only" || sakai_global.group.groupData["sakai:group-visible"] === "public")){
@@ -131,6 +132,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          /////////////////////////////
          // Storing new permissions //
          /////////////////////////////
+
+        var showWarning = function(){
+            var newVisibility = $("#areapermissions_area_general_visibility");
+            var oldVisibilityIndex = newVisibility.find("option[value=\"" + visibility + "\"]").attr("index");
+            if (visibility === newVisibility.val() || newVisibility.attr("selectedIndex") > oldVisibilityIndex || newVisibility.val() === "selected"){
+                applyPermissions();
+            } else {
+                $("#areapermissions_warning_container_text").text(sakai.api.Util.TemplateRenderer("areapermissions_warning_container_text_template", {
+                    "visibility": newVisibility,
+                    "area": currentArea._title
+                }));
+                $("#areapermissions_warning_container").jqmShow();
+            }
+        };
 
          var applyPermissions = function(){
              var groupData = sakai_global.group.groupData;
@@ -261,6 +276,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }
 
              $("#areapermissions_container").jqmHide();
+             $("#areapermissions_warning_container").jqmHide();
 
              // Show gritter notification
              sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
@@ -283,6 +299,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              zIndex: 3000
          });
 
+         $("#areapermissions_warning_container").jqm({
+             modal: true,
+             overlay: 20,
+             toTop: true,
+             zIndex: 4000
+         });
+
          /////////////////////
          // Internal events //
          /////////////////////
@@ -296,12 +319,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          });
 
          $("#areapermissions_apply_permissions").live("click", function(){
+             showWarning();
+         });
+
+         $("#areapermissions_proceedandapply").live("click", function(){
              applyPermissions();
          });
 
          $(".areapermissions_role_list input").live("change", function(){
              checkGeneralDisable();
          });
+
 
          /////////////////////
          // External events //
