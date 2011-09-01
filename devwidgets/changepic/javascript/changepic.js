@@ -50,6 +50,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var picture = false;
         var ratio = 1;
         var userSelection = null; // The object returned by imgAreaSelect that contains the user his choice.
+        var originalPic = null; // current or default selection area
         var me = null;
         var imageareaobject;
         var id = null;
@@ -343,8 +344,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                         x1 : picture.selectedx1,
                         y1 : picture.selectedy1,
                         x2 : picture.selectedx2,
-                        y2 : picture.selectedy2
+                        y2 : picture.selectedy2,
+                        picture : picture._name
                     };
+                    if (!newpic){
+                        originalPic = selectionObj;
+                    }
 
                     // Set the imgAreaSelect to a function so we can access it later on
                     imageareaobject = $(fullPicture).imgAreaSelect({
@@ -396,11 +401,26 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // This is the function that will be called when a user has cut out a selection
         // and saves it.
         $(saveNewSelection).click(function(ev){
-
             if (!userSelection) {
                 userSelection = imageareaobject.getSelection();
+                savePicture();
+            } else if (userSelection.x1 !== originalPic.x1
+                || userSelection.x2 !== originalPic.x2
+                || userSelection.y1 !== originalPic.y1
+                || userSelection.y2 !== originalPic.y2
+                || userSelection.picture !== originalPic.picture){
+                savePicture();
+            } else {
+                // no need to save if picture hasn't changed, so just close the dialog
+                // Hide the layover.
+                $(container).jqmHide();
             }
+        });
 
+        /**
+         * savePicture
+         */
+        var savePicture = function(){
             // The parameters for the cropit service.
             var data = {
                 img: "/~" + sakai.api.Util.urlSafe(id) + "/public/profile/" + picture._name,
@@ -471,9 +491,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                             // Hide the layover.
                             $(container).jqmHide();
 
-                            // Hide the layover.
-                            $(container).jqmHide();
-
                             if (mode !== "group") {
                                 // record that user uploaded their profile picture
                                 sakai.api.User.addUserProgress("uploadedProfilePhoto");
@@ -492,7 +509,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 }
             });
 
-        });
+        };
 
 
         ////////////////////////////
@@ -543,6 +560,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             toTop: true,
             onHide: hideArea,
             onShow: showArea
+        });
+
+        sakai.api.Util.hideOnClickOut("#changepic_container", "#changepic_container, #changepic_container_trigger, .imgareaselect-selection, .imgareaselect-border1, .imgareaselect-border2, .imgareaselect-border3, .imgareaselect-border4", function(){
+           $("#changepic_container .jqmClose").click();
         });
 
         $(containerTrigger).live("click", function(){
