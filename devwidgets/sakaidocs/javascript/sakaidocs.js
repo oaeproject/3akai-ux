@@ -619,7 +619,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sanitizedContent = null;
             if ($("#" + currentPageShown.ref).length === 0) {
                 // Create the new element
-                var $el = $("<div>").attr("id", currentPageShown.ref);
+                var editMode = false;
+                if(!sakai.data.me.user.anon && canEdit()) {
+                    editMode = true;
+                }
+                var $el = $("<div class='editmode_" + editMode + "'>").attr("id", currentPageShown.ref);
                 // Add element to the DOM
                 $("#s3d-page-container").append($el);
                 $contentEl = $("#" + currentPageShown.ref);
