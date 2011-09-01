@@ -124,7 +124,7 @@
             {var count = 0}
             {for a in accepted.results}
                 {var count = count + 1}
-                <div id="${a.profile.userid}_container" class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
+                <div data-userid="${a.profile.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler" style="display:none;">
                         {if sakai_global.profile.main.mode.value !== "view"}
                             <input type="checkbox" name="checkbox_${a.profile.userid}" />
