@@ -257,7 +257,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if(json.data.saveddirectory[dir].hasOwnProperty(dirPiece)){
                                 dirString += sakai.api.Util.getValueForDirectoryKey(json.data.saveddirectory[dir][dirPiece]);
                                 if(dirPiece < json.data.saveddirectory[dir].length - 1){
-                                    dirString += "&nbsp;&#187;&nbsp;";
+                                    dirString += " » ";
                                 }
                             }
                         }
@@ -349,11 +349,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateCopyright = function(){
             var copyright = $("#contentmetadata_copyright_copyright").val();
-            renderCopyright(false);
             var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
-            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
                 if (success) {
                     sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
+                    renderCopyright(false);
                     createActivity("UPDATED_COPYRIGHT");
                 }
             });

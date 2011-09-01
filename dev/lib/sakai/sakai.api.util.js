@@ -407,7 +407,9 @@ define(
                 finalTags = [];
 
             $(tags).each(function(i,val) {
-                val = sakai_util.makeSafeTag(val);
+                if (val.indexOf("directory/") !== 0) {
+                    val = sakai_util.makeSafeTag(val);
+                }
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
                 } else if (val && $.trim(val) !== ""){
