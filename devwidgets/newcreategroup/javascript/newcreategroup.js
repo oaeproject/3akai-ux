@@ -369,7 +369,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
         $(".newcreategroup_template_name", $rootel).text(currentTemplate.title);
-        $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
+        $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, null, null, true));
         if (sakai.config.Permissions.Groups.defaultaccess){
             $("#newcreategroup_can_be_found_in [value=" + sakai.config.Permissions.Groups.defaultaccess + "]", $rootel).attr("selected", "selected");
         }
