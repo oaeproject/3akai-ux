@@ -213,7 +213,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 quote = quote.substring(quote.indexOf("]") + 1, quote.length);
                 // Parse the original author
                 var by = message.split("[/quote]")[0];
-                by = by.substring(by.indexOf("\"") + 1, by.indexOf("]") - 1);
+                by = by.substring(by.indexOf("'") + 1, by.indexOf("]") - 1);
                 return {"quote":quote, "by":by};
             } else {
                 return quote;
@@ -256,7 +256,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             // Render formatted posts
             sakai.api.Util.TemplateRenderer(discussionListTopicsTemplate, {
                 "postData":arrPosts,
-                "settings":parsedSettings
+                "settings":parsedSettings,
+                "sakai": sakai
             }, $(discussionListTopicsContainer, $rootel));
         };
 
@@ -302,7 +303,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             } else {
                 // No topics yet
                 sakai.api.Util.TemplateRenderer(discussionNoInitialTopicTemplate, {
-                    "settings": parsedSettings
+                    "settings": parsedSettings,
+                    "sakai": sakai
                 }, $(discussionNoInitialTopic, $rootel));
                 $(discussionNoInitialTopic, $rootel).show();
             }
@@ -314,7 +316,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
         var displaySettings = function(){
             // Render settings
             sakai.api.Util.TemplateRenderer(discussionTabContentSettingsTemplate, {
-                "settings":widgetSettings
+                "settings":widgetSettings,
+                "sakai": sakai
             }, $(discussionTabContentSettingsContainer, $rootel));
             // Hide/Show elements
             $discussionMainContainer.hide();
@@ -459,7 +462,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 'sakai:sendstate': "pending",
                 '_charset_': "utf-8"
             };
-
             $.ajax({
                 url: store + ".create.html",
                 cache: false,
@@ -508,7 +510,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 type: "POST",
                 success: function(data){
                     $parentDiv.hide();
-                    $parentDiv.parents(discussionTopicContainer).find(discussionReplyTopicBottom).show()
+                    $parentDiv.parents(discussionTopicContainer).find(discussionReplyTopicBottom).show();
 
                     data.message["profile"] = $.extend(data.message["profile"], sakai.data.me.profile);
                     data.message.profile.pictureImg = parsePicture(data.message.profile);
@@ -522,7 +524,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     var renderedTemplate = sakai.api.Util.TemplateRenderer(discussionTopicNewlyPostedReplyTemplate, {
                         "post":data,
-                        "settings": parsedSettings
+                        "settings": parsedSettings,
+                        sakai: sakai
                     });
 
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
@@ -549,7 +552,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
             if (message){
                 if(replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).length && replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).val()){
-                    message = "[quote=\"" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "\"]" + $.trim(replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).val()) + "[/quote]" + message;
+                    message = "[quote='" + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + "']" + $.trim(replyParent.children(discussionTopicReplyContainer).children(discussionTopicQuotedText).val()) + "[/quote]" + message;
                 }
 
                 replyToTopic(topicId, message, $(this).parents(discussionTopicReplyContainer));
@@ -623,7 +626,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 "sakai:body": body
             };
             if(quote){
-                data["sakai:body"] = "[quote=\"" + quoted + "\"]" + quote + "[/quote]" + body;
+                data["sakai:body"] = "[quote='" + quoted + "']" + quote + "[/quote]" + body;
             }
 
             $.ajax({

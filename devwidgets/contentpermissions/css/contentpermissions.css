@@ -14,7 +14,7 @@
 #contentpermissions_container #contentpermissions_members_actions input[type="checkbox"] {margin-right:10px;}
 #contentpermissions_container #contentpermissions_newmember_all_permissions {float: right;margin-right: 25px;margin-top:0;}
 #contentpermissions_container #contentpermissions_members_list ul {margin:0;}
-#contentpermissions_container #contentpermissions_members_list ul li {list-style:none;padding:5px 10px;height:32px;}
+#contentpermissions_container #contentpermissions_members_list ul li {list-style:none;padding:5px 10px;height:32px;clear:both;display:block;}
 #contentpermissions_container #contentpermissions_members_list ul li input[type="checkbox"] {display: block;float: left;margin-right: 15px;margin-top:11px;}
 #contentpermissions_container #contentpermissions_members_list ul li label img {float: left;margin-right:15px;cursor:pointer;}
 #contentpermissions_container #contentpermissions_members_list ul li label a {display:block;float:left;margin-top:9px;}

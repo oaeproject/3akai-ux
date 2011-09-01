@@ -173,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(".searchcontent_result_username").each(function(index, val){
                var userId = $(val).text();
                if (userId === u){
-                   $(val).text(sakai.api.User.getDisplayName(users[u]));
+                   $(val).html(sakai.api.User.getDisplayName(users[u]));
                    $(val).attr("title", sakai.api.User.getDisplayName(users[u]));
                }
             });
@@ -196,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.results.header).hide();
             $(searchConfig.results.tagHeader).hide();
             $(searchConfig.results.container).html($(searchConfig.global.resultTemp).html());
-        }
+        };
 
         var doSearch = function(){
             $(searchConfig.global.pagerClass).hide();

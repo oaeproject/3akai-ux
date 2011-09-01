@@ -182,14 +182,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
                 "value": name || result['_path'],
-                "name": result['sakai:pooled-content-file-name'],
+                "name": sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
                 "_mimeType": mimetype,
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": (name || result['_path']) + "/" + result['sakai:pooled-content-file-name'],
+                "link": sakai.api.Util.safeURL((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
@@ -212,7 +212,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var autosuggestSelectionRemoved = function(elem) {
-            removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
+            var path = elem.attr('id').split("as-selection-")[1];
+            removeItemFromSelected(path); // get path
             elem.remove();
             if (selectedItems.length === 0) {
                 toggleButtons(true);
@@ -273,14 +274,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Removes a previously selected item from the list of selected items
-         * @param {Object} fileName name of the selected item to be removed from the list
+         * @param {Object} path path of the selected item to be removed from the list
          */
-        var removeItemFromSelected = function(fileName) {
+        var removeItemFromSelected = function(path) {
             var newItems = [];
             $(selectedItems).each(function(i, val) {
-               if (val.name !== fileName) {
-                   newItems.push(val);
-               }
+                if (val.value !== path) {
+                    newItems.push(val);
+                }
             });
             selectedItems = newItems;
         };
@@ -426,7 +427,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveWidgetData = function(data) {
             sakai.api.Widgets.saveWidgetData(tuid, data, function() {
                 sakai.api.Widgets.Container.informFinish(tuid, "embedcontent");
-            });
+            }, true);
         };
 
         var newItems = [];

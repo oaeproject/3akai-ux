@@ -12,7 +12,7 @@
             {for group in result.groups} 
                 {if index < 5}
                     <li>
-                        <a href="/~${group.id}" class="s3d-regular-links">${group.name}</a>
+                        <a href="/~${group.id}" class="s3d-regular-links">${group.name|safeOutput}</a>
                     </li>
                 {/if}
                 ${index++|eat}
@@ -26,7 +26,7 @@
 {/if}
 --></div>
 <div class="s3d-widget-footer">
-    <a href="/search#l=group&q=*" class="s3d-regular-links s3d-action-seeall">__MSG__SEE_ALL__</a>
+    <a href="/search#l=group" class="s3d-regular-links s3d-action-seeall">__MSG__SEE_ALL__</a>
 </div>
 
 <!-- JAVASCRIPT -->

@@ -604,7 +604,7 @@
                 c = e;
                 d = this.dimension(e);
                 if (d === 0) {
-                    debug.log('jCarousel: No width/height set for items. This will cause an infinite loop. Aborting...');
+                    debug.info('jCarousel: No width/height set for items. This will cause an infinite loop. Aborting...');
                     break;
                 }
 

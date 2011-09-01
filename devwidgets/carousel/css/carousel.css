@@ -57,7 +57,7 @@
 #carousel_container .carousel_group_rh {width:238px !important;}
 
 /* Three column */
-#carousel_container p {font-size:12px;color:#424242;margin-bottom:5px;}
+#carousel_container p {font-size:12px;color:#424242;margin-bottom:5px;word-wrap:break-word;}
 
 #carousel_container .carousel_bottom_buttons {position:absolute;bottom:7px;width:100%;right:0;}
 #carousel_container .carousel_bottom_buttons img {width:auto;height:auto;}

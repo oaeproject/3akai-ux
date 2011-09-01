@@ -42,24 +42,24 @@
                                 <hr class="s3d-split-line fl-push">
                                 {var thumbnail = sakai.api.Content.getThumbnail(item.content)}
                                 {if thumbnail}
-                                    <img src="${thumbnail}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]}"/>
+                                    <img src="${thumbnail}" class="categories_item_content_preview" alt="${item.content["sakai:pooled-content-file-name"]|safeOutput}"/>
                                 {else}
                                     <img src="${sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(item.content)).URL}" class="categories_item_content_preview"/>
                                 {/if}
-                                <a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], 70, null, "s3d-bold")}</a>
+                                <a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], 70, null, "s3d-bold")}</a>
                                 <span style="display:none"><span class="categories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
                                 {if item.content["sakai:description"]}
                                     {var size = 125}
                                     <span class="categories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                 {/if}
                                 <span class="categories_content_category_description"><span class="categories_content_usedin_icon categories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
-                                {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]|urlSafe}/${item.content["sakai:pooled-content-file-name"]|urlSafe}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
+                                {if item.content.commentcount}<span class="categories_content_category_description"><span class="categories_content_comments_icon categories_content_icon"></span><a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" title="${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                                 {var tags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"].join(","))}
                                 {if tags.length}
                                     <span class="categories_content_tags">
                                         {for tag in tags}
                                             {if tag_index < 2}
-                                                <a href="/search#q=${tag}" class="s3d-action">${tag}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
+                                                <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tags.length-1 && tag_index < 1}, {/if}
                                             {/if}
                                         {/for}
                                     </span>
