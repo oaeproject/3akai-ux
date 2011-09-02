@@ -23,7 +23,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function($, sakai, sakaiWidgetsAPI) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     /**
      * @name sakai_global.basiclti
@@ -179,7 +179,7 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
             if (json) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
-                json.launchDataUrl = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement + ".launch.html";
+                json.launchDataUrl = sakai.api.Widgets.widgetLoader.widgets[tuid].placement + ".launch.html";
                 $("#" + json.tuidFrame, rootel).attr("src", json.launchDataUrl); 
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
@@ -247,7 +247,7 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
          */
         var saveRemoteContent = function(){
             var  saveContentAjax = function(json_data) {
-                var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement;
+                var url = sakai.api.Widgets.widgetLoader.widgets[tuid].placement;
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -479,27 +479,19 @@ require(["jquery", "sakai/sakai.api.core", "sakai/sakai.api.widgets"], function(
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function() {
-            // We make our own call below at the moment. Unlike most of the widgets
-            // we need to interact directly with the LiteBasicLTI servlet. It's 
-            // also not a recursive servlet so we can't use the default .infinity.json
-            // that is used under the covers for most of the calls.
-            var url = sakaiWidgetsAPI.widgetLoader.widgets[tuid].placement + ".json";
-            $.ajax({
-                type: "GET",
-                url: url,
-                dataType: 'json',
-                success: function(data) {
+            sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
+                if (success) {
                     if (showSettings) {
                         displaySettings(data,true);
                     }
                     else {
                         displayRemoteContent(data);
                     } 
-                },
-                error: function(xhr, status, e) {
+                }
+                else {
                     displaySettings(null, false);
                 }
-            });
+            }, false);
         };
 
         getRemoteContent();
