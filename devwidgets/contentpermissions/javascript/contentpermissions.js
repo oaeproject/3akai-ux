@@ -207,11 +207,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         var showWarning = function(){
             var newVisibility = $(contentpermissionsGlobalPermissions);
-            var oldVisibilityIndex = newVisibility.find("option[value=\"" + contentData.data["sakai:permissions"] + "\"]").attr("index");
-            if (contentData.data["sakai:permissions"] === newVisibility.val() || newVisibility.attr("selectedIndex") > oldVisibilityIndex || newVisibility.val() === "private"){
+            var newVisibilityVal = $.trim(newVisibility.val());
+            var oldVisibilityIndex = parseInt(newVisibility.find("option[value=\"" + contentData.data["sakai:permissions"] + "\"]").attr("index"));
+            if (contentData.data["sakai:permissions"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex")) > oldVisibilityIndex || newVisibilityVal === "private"){
                 doSave();
             } else {
-                $("#contentpermissions_warning_container_text").text(sakai.api.Util.TemplateRenderer("contentpermissions_warning_container_text_template", {
+                $("#contentpermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("contentpermissions_warning_container_text_template", {
                     "visibility": newVisibility
                 }));
                 $("#contentpermissions_warning_container").jqmShow();
@@ -253,8 +254,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Save the settings of a widget
          * This includes the gobal permissions settings but also the individual permission settings for users
-         * This may be called programmatically (when sharing form the autosuggest) in which case there's no event target, so 
-         * !!target converts the target/undefined value to a boolean to determine if the widget should be closed automatically in the ajax callback
          */
         var doSave = function(){
             var dataObj = {

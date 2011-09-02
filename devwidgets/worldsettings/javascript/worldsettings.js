@@ -55,11 +55,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var showWarning = function(){
             var newVisibility = $worldsettingsCanBeFoundIn;
-            var oldVisibilityIndex = newVisibility.find("option[value=\"" + sakai_global.group.groupData["sakai:group-visible"] + "\"]").attr("index");
-            if (sakai_global.group.groupData["sakai:group-visible"] === newVisibility.val() || newVisibility.attr("selectedIndex") > oldVisibilityIndex || newVisibility.val() === "members-only"){
+            var newVisibilityVal = $.trim(newVisibility.val());
+            var oldVisibilityIndex = parseInt(newVisibility.find("option[value=\"" + sakai_global.group.groupData["sakai:group-visible"] + "\"]").attr("index"));
+            if (sakai_global.group.groupData["sakai:group-visible"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex")) > oldVisibilityIndex || newVisibilityVal === "members-only"){
                 $worldsettingsForm.submit();
             } else {
-                $("#worldsettings_warning_container_text").text(sakai.api.Util.TemplateRenderer("worldsettings_warning_container_text_template", {
+                $("#worldsettings_warning_container_text").html(sakai.api.Util.TemplateRenderer("worldsettings_warning_container_text_template", {
                     "visibility": newVisibility,
                     "group": sakai_global.group.groupData['sakai:group-title']
                 }));
@@ -72,8 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         var bindEvents = function(worldId) {
-            $worldsettingsApplyButton.die("click");
-            $worldsettingsApplyButton.live("click", function() {
+            $worldsettingsApplyButton.die("click").live("click", function() {
                 showWarning();
             });
             $("#worldsettings_proceedandapply").die("click");
