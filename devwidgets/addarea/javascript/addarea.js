@@ -281,10 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var pageContents = [];
             for (var i = 0; i < numPages; i++){
                 // TODO put this in config.js
-                pageContents.push("<img href=\"/dev/images/emptydocument_editor_placeholder.jpg\" class='sakaidocs_default_content_imagecontainer'" +
-                "data-mce-src='/dev/images/emptydocument_editor_placeholder.jpg'" +
-                "style='background:url(\"/dev/images/emptydocument_editor_placeholder.jpg\") no-repeat scroll left top transparent;display:block;height:228px;margin:4px auto;width:462px'" +
-                "data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'></p>");
+                pageContents.push(sakai.api.Util.TemplateRenderer("addarea_empty_document_template", {}));
             }
             createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
