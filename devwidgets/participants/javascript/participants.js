@@ -173,7 +173,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }));
                 }
             } else {
-                debug.log("Participants could not be loaded");
+                debug.warn("Participants could not be loaded");
             }
         };
 

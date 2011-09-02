@@ -15,7 +15,7 @@
                 <img src="/devwidgets/entity/images/entity_tags_icon.png" class="carousel_tag_icon" alt="__MSG__TAGS__:">
                 {for tag in t}
                     {if tag_index < 2}
-                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag}</a>
+                        <a href="/search#q=${tag}" class="s3d-regular-links s3d-bold">${tag|safeOutput}</a>
                         {if tag_index < 1}<div class="carousel_middot_divider">&#183;</div>{/if}
                     {/if}
                 {/for}
@@ -45,10 +45,10 @@
                                         {/if}
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content0.url}">
-                                                ${content0.title}
+                                                ${content0.title|safeOutput}
                                             </a>
                                         </h2>
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content0.description}</p>
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content0.description|safeOutput}</p>
                                         ${tags(content0.tags)}
                                         ${contentButtons(content0.id, content0.createdBy)}
                                     {/if}
@@ -61,10 +61,10 @@
                                         {/if}
                                         <h2>
                                             <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content1.url}">
-                                                ${content1.title}
+                                                ${content1.title|safeOutput}
                                             </a>
                                         </h2>
-                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description}</p>
+                                        <p class="carousel_item_desc carousel_apply_threedots threedots_allow_6">${content1.description|safeOutput}</p>
                                         ${tags(content1.tags)}
                                         ${contentButtons(content1.id, content1.createdBy)}
                                     {/if}
@@ -75,7 +75,7 @@
                                         {if content2}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content2.url}">
-                                                    ${content2.title}
+                                                    ${content2.title|safeOutput}
                                                 </a>
                                             </h2>
                                             ${tags(content2.tags)}
@@ -87,7 +87,7 @@
                                         {if content3}
                                             <h2>
                                                 <a class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2" href="${content3.url}">
-                                                    ${content3.title}
+                                                    ${content3.title|safeOutput}
                                                 </a>
                                             </h2>
                                             ${tags(content3.tags)}
@@ -101,29 +101,29 @@
                                 {for user in item.suggestions}
                                     <div>
                                         {if user.picture}
-                                            <img src="/~${user.userid|urlSafe}/public/profile/${user.picture.name}" />
+                                            <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" />
                                         {else}
                                             <img src="/dev/images/default_User_icon_50x50.png" />
                                         {/if}
-                                        <h2><a href="/~${user.userid|urlSafe}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h2>
+                                        <h2><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h2>
                                         <div class="carousel_counts">
                                             <ul>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library" title="${user.counts.contentCount} __MSG__CONTENT_ITEMS__">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts" title="${user.counts.contactsCount} __MSG__CONTACTS__">${user.counts.contactsCount} __MSG__CONTACTS__</a>
                                                 </li>
                                                 <li>
-                                                    <a class="s3d-regular-light-links" href="/~${user.userid|urlSafe}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
+                                                    <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships" title="${user.counts.membershipsCount} __MSG__MEMBERSHIPS__">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</a>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="carousel_bottom_buttons">
                                             {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}"></button>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}"></button>
                                             {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user"></button>
                                         </div>
                                     </div>
                                 {/for}
@@ -140,12 +140,12 @@
                                         {/if}
                                         <h2>
                                             <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
-                                                ${group.title}
+                                                ${group.title|safeOutput}
                                             </a>
                                         </h2>
                                         {if tall}
                                             <p class="carousel_item_desc carousel_apply_threedots threedots_allow_5">
-                                                ${group.description}
+                                                ${group.description|safeOutput}
                                             </p>
                                         {/if}
                                         <div class="carousel_counts">
@@ -162,7 +162,7 @@
                                         ${tags(group.tags)}
                                         <span class="carousel_bottom_buttons">
                                             <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_joingroup_overlay" data-groupid="${group.groupid}"></button>
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title}" sakai-entitytype="group"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${group.groupid}" sakai-entityname="${group.title|safeOutput}" sakai-entitytype="group"></button>
                                         </span>
 
                                     </div>

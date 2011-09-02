@@ -73,7 +73,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         item["sakai:activity-appid"] = activityMap[item["sakai:activityMessage"]];
                         item["sakai:activityMessage"] = sakai.api.i18n.Widgets.getValueForKey("recentactivity", "", item["sakai:activityMessage"]);
                         if (item.who.picture) {
-                            item.who.picture = "/~" + sakai.api.Util.urlSafe(item.who.userid) + "/public/profile/" + $.parseJSON(item.who.picture).name;
+                            item.who.picture = "/~" + sakai.api.Util.safeURL(item.who.userid) + "/public/profile/" + $.parseJSON(item.who.picture).name;
                         }
                         else {
                             item.who.picture = "/dev/images/default_User_icon_50x50.png";
@@ -121,12 +121,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $.each($(".recentactivity_activity_item_text"), function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el, $el.siblings("a").find("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class")));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, {max_rows: 1}, $el.attr("class"), true));
             });
             $.each($(".recentactivity_activity_item_description"), function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el, $el.siblings("a").find("img"));
-                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, undefined, $el.attr("class")));
+                $el.html(sakai.api.Util.applyThreeDots($el.html(), width, undefined, $el.attr("class"), true));
             });
         };
 
