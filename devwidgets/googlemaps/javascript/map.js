@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
+var sakai = {};
+var $ = {};
+
 // Init google map object with Cambridge location as the center position
 var map = new google.maps.Map(document.getElementById("googlemaps_map_canvas"), {
     zoom: 8,
@@ -78,7 +81,10 @@ function geocodePosition(position) {
                 updateInfoWindow(html);
             }
             else {
-                alert($("#map_no_address").html());
+                $(window).trigger("show.mapsnotification.sakai", {
+                    subject: sakai.api.i18n.Widgets.getValueForKey("googlemaps", "NO_ADDRESS"),
+                    body: sakai.api.i18n.Widgets.getValueForKey("googlemaps", "CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION")
+                });
             }
         });
     }
@@ -103,7 +109,7 @@ function geocodeAddress(address) {
                 updateInfoWindow(html);
             }
             else {
-                alert($("#map_no_address").html());
+                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("googlemaps", sakai.api.User.data.me.user.locale, "NO_ADDRESS"), sakai.api.i18n.Widgets.getValueForKey("googlemaps", sakai.api.User.data.me.user.locale, "CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION"));
             }
         });
     }
@@ -127,7 +133,10 @@ var getJSON = function() {
  * @param {string} keyword the target location
  * @param {string} The region where Google will perform the search
  */
-function search(keyword, region) {
+function search(keyword, region, _sakai, _$) {
+
+    sakai = _sakai;
+    $ = _$;
 
     // If region is provided, attach it ot the search query
     // TO DO: This later will need to be moved to the Google API

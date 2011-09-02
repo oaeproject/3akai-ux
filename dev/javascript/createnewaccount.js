@@ -84,13 +84,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // Get the values from the form.
             var values = $(formContainer).serializeObject();
 
-            var nonEscaped = ["password", "username", "password_repeat", "recaptcha_response_field"];
-            for (var i in values) {
-                if (values.hasOwnProperty(i) && $.inArray(i, nonEscaped) === -1) {
-                    values[i] = escape(values[i]);
-                }
-            }
-
             // Get the values from the captcha form.
             var captchaValues = sakai_global.captcha.getProperties();
 

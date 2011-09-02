@@ -29,7 +29,7 @@
 #inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;}
 .inbox_items_container.last{border-bottom:none;}
 .inbox_items_inner{padding:10px 0px;float:left;width:100%}
-.inbox_items_inner img,#inbox_show_message_reply img{float:left;padding:0 10px 5px 0;width:30px;}
+.inbox_items_inner img.person_icon,#inbox_show_message_reply img.person_icon{float:left;padding:0 10px 5px 0;width:30px;}
 .inbox_items_inner.hover{background-color:#C4E4FB;}
 .inbox_name{width:69%;overflow:hidden;display:inline-block;}
 .inbox_name span,.inbox_name a,.inbox_name button{float:left;}

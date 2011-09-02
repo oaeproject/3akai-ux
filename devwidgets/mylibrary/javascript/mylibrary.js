@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "mylibrary","",bundleKey).replace(/\$\{firstname\}/gi,
                         sakai.api.i18n.General.getValueForKey("YOUR").toLowerCase());
             } else {
-                return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai_global.profile.main.data.basic.elements.firstName.value + "'s");
+                return sakai.api.i18n.Widgets.getValueForKey("mylibrary", "", bundleKey).replace(/\$\{firstname\}/gi, sakai.api.Security.safeOutput(sakai_global.profile.main.data.basic.elements.firstName.value) + "'s");
             }
         };
 
@@ -274,7 +274,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
-                        link: "/search#q=" + name
+                        link: "search#q=" + sakai.api.Util.safeURL(name)
                     });
                 });
                 return formatted_tags;
@@ -356,12 +356,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 items.push({
                                     id: result["_path"],
                                     filename: result["sakai:pooled-content-file-name"],
-                                    link: "/content#p=" + sakai.api.Util.urlSafe(result["_path"]),
+                                    link: "/content#p=" + sakai.api.Util.safeURL(result["_path"]),
                                     last_updated: $.timeago(new Date(result["_lastModified"])),
                                     type: sakai.api.i18n.General.getValueForKey(mimetypeObj.description),
                                     type_src: mimetypeObj.URL,
                                     ownerid: result["sakai:pool-content-created-for"],
-                                    ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.General.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]), // using id for now - need to get firstName lastName
+                                    ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.General.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
                                     tags: formatTags(result["sakai:tags"]),
                                     numPeopleUsing: getNumPeopleUsing(),
                                     numGroupsUsing: getNumGroupsUsing(),

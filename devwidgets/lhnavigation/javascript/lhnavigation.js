@@ -33,7 +33,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
      */
     sakai_global.lhnavigation = function (tuid, showSettings) {
 
-
         ///////////////////
         // CONFIGURATION //
         ///////////////////
@@ -198,7 +197,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", unescape(contextData.profile.basic.elements.firstName.value));
+                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
                 }
             }
             structure._childCount = childCount;
@@ -337,25 +336,40 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         // Page ordering //
         ///////////////////
 
-        var orderItems = function(items){
-            var orderedItems = [];
-            var noLeft = false;
-            for (var i = 0; noLeft === false; i++){
-                var toAdd = false;
-                for (var el in items){
-                    if (el.substring(0,1) !== "_" && items[el]._order == i){
-                        toAdd = items[el];
-                        toAdd._id = el;
-                        break;
+        var getLowestOrderItem = function(items, alreadyAdded) {
+            var ret = false,
+                lowest = false;
+            $.each(items, function(idx, item) {
+                idx = ""+idx;
+                // if it is a valid property to order
+                if (idx.substring(0,1) !== "_" && item.hasOwnProperty("_order")) {
+                    // and it is the lowest in the list and we haven't already ordered it
+                    if ((lowest === false || item._order < lowest) && $.inArray(idx, alreadyAdded) === -1) {
+                        lowest = item._order;
+                        ret = [idx,item];
                     }
                 }
-                if (!toAdd){
-                    noLeft = true;
-                } else {
-                    toAdd._elements = orderItems(toAdd);
-                    orderedItems.push(toAdd);
+            });
+            return ret;
+        };
+
+        var orderItems = function(items){
+            var orderedItems = [],
+                alreadyAdded = [],
+                order = 0;
+            $.each(items, function(idx, item) {
+                var toAdd = getLowestOrderItem(items, alreadyAdded);
+                var itemToAdd = toAdd[1],
+                    itemID = toAdd[0];
+                if (toAdd) {
+                    itemToAdd._order = order;
+                    order++;
+                    itemToAdd._id = itemID;
+                    itemToAdd._elements = orderItems(itemToAdd);
+                    orderedItems.push(itemToAdd);
+                    alreadyAdded.push(itemID);
                 }
-            }
+            });
             return orderedItems;
         };
 
@@ -519,7 +533,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             if ($elLI.data("sakai-manage") && !$elLI.data("sakai-reorder-only")) {
                 var additionalOptions = $elLI.data("sakai-addcontextoption");
                 if (additionalOptions === "world"){
-                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.urlSafe($elLI.data("sakai-pagesavepath").substring(3)));
+                    $("#lhnavigation_submenu_profile").attr("href", "/content#p=" + sakai.api.Util.safeURL($elLI.data("sakai-pagesavepath").substring(3)));
                     $("#lhnavigation_submenu_profile_li").show();
                     $("#lhnavigation_submenu_permissions_li").show();
                 } else if (additionalOptions === "user") {
@@ -926,7 +940,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 area = pubstructure;
             }
             $target.children("li").each(function(i, elt) {
-                var path = $(elt).data("sakai-path");
+                var path = ""+$(elt).data("sakai-path");
                 var struct0path = path;
                 if ($(elt).data("sakai-ref").indexOf("-") === -1) {
                     if (struct0path.indexOf("/") > -1) {
@@ -967,11 +981,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
-            if (mainPubUrl) {
+            if (mainPubUrl && sakaiDocsInStructure[mainPubUrl]) {
                 sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
                 sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
             }
-            if (mainPrivUrl) {
+            if (mainPrivUrl && sakaiDocsInStructure[mainPrivUrl]) {
                 sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
                 sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
             }

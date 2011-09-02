@@ -170,7 +170,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             currentpage = page;
 
             // This will invoke the sakai_global._search.doSearch function and change the url.
-            History.addBEvent(page,sakai.api.Util.urlSafe(searchquery), searchwhere, facet);
+            History.addBEvent(page,sakai.api.Util.safeURL(searchquery), searchwhere, facet);
         };
 
         /**
