@@ -630,18 +630,29 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_logout_link, #topnavigation_user_options_login_button_login, #subnavigation_login_list li a").keydown(function(e) {
-                // hide signin or user options menu when tabbing out of the last menu option
+            $("#subnavigation_logout_link").keydown(function(e) {
+                // if user is signed in and tabs out of user menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
-                    if ($(this).attr("id") === "subnavigation_logout_link"){
-                        // if user is signed in and tabs out of user menu, close the sub menu
-                        closeMenu();
-                    } else if ($(this).attr("id") === "topnavigation_user_options_login_button_login" || $(this).parent().next().length == 0) {
-                        // if user is not signed in we need to check when they tab out of the login form or the external auth menu, and close the login menu
-                        mouseOverSignIn = false;
-                        $(topnavUserLoginButton).trigger("mouseout");
-                        $("html").trigger("click");
-                    }
+                    closeMenu();
+                }
+            });
+
+            $("#topnavigation_user_options_login_button_login").keydown(function(e) {
+                // if user is not signed in we need to check when they tab out of the login form and close the login menu
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
+                }
+            });
+
+            $("#subnavigation_login_list li a").keydown(function(e) {
+                // hide signin or user options menu when tabbing out of the last menu option
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB && $(this).parent().next().length == 0) {
+                    // if user is not signed in we need to check when they tab out of the external auth menu, and close the sub menu
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
                 }
             });
 
