@@ -6,15 +6,15 @@
 <div id="embedcontent_main_container" style="display:none">
     <div class="fl-widget-content s3d-widget-content">
         <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
-        <div id="embedcontent_content" class="clearfix"><!-- --></div>
+        <div id="embedcontent_content"><!-- --></div>
         <div id="embedcontent_content_html_template"><!--
         {if showDefaultContent}
             <img src="/devwidgets/embedcontent/images/defaultcontent.png"/>
         {else}
             {if embedmethod === "original"}
-                {var embedClass="embedcontent_large_content clearfix"}
+                {var embedClass="embedcontent_large_content"}
             {else}
-                {var embedClass="embedcontent_thumbnail_content clearfix"}
+                {var embedClass="embedcontent_thumbnail_content"}
             {/if}
             {if title || description}
                 <div class="s3d-highlight_area_background embedcontent_grey_background">
