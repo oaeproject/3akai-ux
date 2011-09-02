@@ -37,6 +37,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var $rootel = $("#" + tuid);
 
+        // Data
+        var renderData = null;
+
         // Containers
         var entityContainer = "#entity_container";
         var entityUserPictureDropdown = ".entity_user_picture_dropdown";
@@ -260,12 +263,25 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
        };
 
-        var renderEntity = function(context){
+        var prepareContextForRendering = function(context) {
             if (context.context === "content") {
                 getParentGroups(sakai_global.content_profile.content_data.members.managers.concat(sakai_global.content_profile.content_data.members.viewers), true, context);
             }
             context.sakai = sakai;
+        }
+
+        var renderContentOwnCounts = function(context) {
+            // This renders inside the larger entity template, so that must 
+            // always be rendered first.
+            $('#entity_owns',$rootel).html(sakai.api.Util.TemplateRenderer("entity_content_owns_template",  context));
+        };
+
+        var renderEntity = function(context){
+            prepareContextForRendering(context); 
             $(entityContainer).html(sakai.api.Util.TemplateRenderer("entity_" + context.context + "_template", context));
+            if (context.context === "content"){
+                renderContentOwnCounts(context);
+            }
         };
 
         var toggleDropdownList = function(){
@@ -281,7 +297,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "anon": sakai.data.me.user.anon || false,
                 "data": data || {}
             };
-            renderEntity(obj);
+            renderData = obj;
+            renderEntity(renderData);
             addBinding(obj);
             $('#entity_contentsettings_dropdown').jqm({
                 modal: false,
@@ -389,6 +406,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // refresh the title if it's been saved.
         $(window).bind("sakai.entity.updateTitle", function(e, title) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
+        });
+
+        $(window).bind("sakai.entity.updateOwnCounts", function(e){
+            $(window).trigger("load.content_profile.sakai", function (){
+                renderData.data = sakai_global.content_profile.content_data;
+                prepareContextForRendering(renderData);
+                renderContentOwnCounts(renderData);            
+            }, false);
         });
 
         $(window).trigger("sakai.entity.ready");
