@@ -349,7 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
                         "label": category.title,
-                        "url": "/create#l=" + category.id
+                        "url": "/create#l=categories/" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
@@ -596,7 +596,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             
             $("#topnavigation_search_input,#navigation_anon_signup_link").bind("focus",function(evt){
-                mouseOverSignIn = false;
+                mouseOverSignIn = false; 
                 $(topnavUserLoginButton).trigger("mouseout");
                 $("html").trigger("click");
             });

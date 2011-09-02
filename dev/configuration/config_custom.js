@@ -260,6 +260,7 @@ define(["config/config"], function(config) {
                 "permission": "everyone",
                 "multiple": true,
                 "multipleLabel": "degree or position",
+                "template": "profilesection_degreesandpositions_template",
                 "order": 3,
                 "elements": {
                     "namestudiesorposition": {
@@ -304,6 +305,7 @@ define(["config/config"], function(config) {
                 "multiple": true,
                 "multipleLabel": "publication",
                 "order": 4,
+                "template": "profilesection_publications_template",
                 "elements": {
                     "mainauthor": {
                         "label": "Main author",
