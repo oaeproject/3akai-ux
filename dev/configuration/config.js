@@ -976,6 +976,13 @@ define(function(){
 
         displayDebugInfo: true,
 
+        /**
+         * Section dividers can be added to the directory structure by adding in the following
+         * element at the appropriate place:
+         *  divider1: {
+                divider: true
+            }
+         */
         Directory: {
             medicineanddentistry: {
                 title: "Medicine and Dentistry",
@@ -1248,9 +1255,6 @@ define(function(){
                         title: "Others in law"
                     }
                 }
-            },
-            divider1: {
-                divider: true
             },
             businessandadministrativestudies: {
                 title: "Business and Administrative studies",
