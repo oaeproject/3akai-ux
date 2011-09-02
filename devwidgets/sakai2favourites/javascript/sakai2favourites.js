@@ -300,15 +300,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++){
                     toSave.id.push(sakai.data.me.sakai2List.sites[i].id);
                 }
-                // TODO: Fix this. This is a temporary solution necessary for making the back-end
-                // store an empty list and have it overwrite the previous one.
-                if (toSave.id.length === 0){
-                    toSave.id[0] = "invalidSite";
-                }
                 sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/private/sakai2favouriteList",toSave, function(success,data){
                     $("#sakai2favourites_container").jqmHide();
                     $(window).trigger("sakai2-favourites-selected");
-                });
+                }, true);
             });
         };
         doInit();
