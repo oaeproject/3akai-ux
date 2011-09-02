@@ -443,9 +443,12 @@ define(
             }
 
             // Create elements to apply threedots
-            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
-            $container.ThreeDots(params);
+
+            if ($($container).height() > 0) {
+                $container.ThreeDots(params);
+            }
             var dotted = $container.children("span").text();
             $container.remove();
             if (!alreadySecure) {
