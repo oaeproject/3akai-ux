@@ -528,7 +528,7 @@ define(
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
                     }
-                    imgUrl = sakai_util.safeURL("/~" + id + "/public/profile/" + picture_name);
+                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name;
@@ -537,9 +537,9 @@ define(
                         picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     //change string to json object and get name from picture object
-                    imgUrl = sakai_util.safeURL("/~" + id + "/public/profile/" + picture_name);
+                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && $.type(profile.basic.elements.picture) === "string"){
-                    imgUrl = sakai_util.safeURL(profile.basic.elements.picture);
+                    imgUrl = profile.basic.elements.picture;
                 }
             }
             return imgUrl;
