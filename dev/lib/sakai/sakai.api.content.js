@@ -331,7 +331,6 @@ define(
                 
             }
             
-
             $.ajax({
                 url: sakai_conf.URL.BATCH,
                 traditional: true,

@@ -86,8 +86,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var updateCounts = function(pageid, value, add){
             // Adjust the count value by the specified value for the page ID
-
             var oldid = pageid;
+            if (add !== false) {
+                add = true;
+            }
             if (pageid.indexOf("/") !== -1){
                 var parts = pageid.split("/");
                 pageid = parts[0];
@@ -100,7 +102,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 count = getPage(pageid, pageStructure.items);
                 listitem = $(listitem + pageid + "']");
                 element = ".lhnavigation_levelcount";
-                count._count = (count._count || 0) + value;
+                if (add) {
+                    count._count = (count._count || 0) + value;
+                } else {
+                    count._count = value;
+                }
+                if (count._childCount <= 1) {
+                    element = ".lhnavigation_sublevelcount";
+                }
                 if (listitem.length) {
                     $(element, listitem).text(" (" + count._count + ")");
                     if (count._count <= 0){
