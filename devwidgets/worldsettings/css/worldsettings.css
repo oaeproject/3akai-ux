@@ -55,6 +55,7 @@
 #worldsettings_container #worldsettings_members_message {height: 120px;margin-top: 12px;}
 
 #worldsettings_warning_container #worldsettings_warning_container_text {font-size:16px;line-height:20px;}
+#worldsettings_warning_container {margin-top: 140px;}
 
 /* Actions */
 #worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}

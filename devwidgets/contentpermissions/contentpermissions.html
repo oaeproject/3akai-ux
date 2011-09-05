@@ -65,7 +65,7 @@
 		{if memberArr_index === "managers" || memberArr_index === "viewers"}
 			{for member in memberArr}
 				{if member.groupid}
-					<li id="member_${member.groupid|safeOutput}">
+					<li id="member_${member.groupid|safeOutput}" data-originalpermission="${memberArr_index}">
 						<select class="contentpermissions_member_permissions">
 							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
 							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
@@ -81,7 +81,7 @@
 						</label>
 					</li>
 				{else}
-					<li id="member_${member.userid|safeOutput}">
+					<li id="member_${member.userid|safeOutput}" data-originalpermission="${memberArr_index}">
 						<select class="contentpermissions_member_permissions">
 							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
 							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
