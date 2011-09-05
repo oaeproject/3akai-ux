@@ -1039,9 +1039,6 @@ define(function(){
                     }
                 }
             },
-            divider1: {
-                divider: true
-            },
             veterinarysciencesagriculture: {
                 title: "Veterinary Sciences and Agriculture",
                 children: {
