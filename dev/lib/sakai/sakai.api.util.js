@@ -1016,7 +1016,7 @@ define(
                 var result = [];
                 // loop through all the directory
                 for (item in directory) {
-                    if (directory.hasOwnProperty(item)) {
+                    if (directory.hasOwnProperty(item) && !directory[item].divider) {
                         // url for the first level nodes
                         var url = item;
                         // call buildnoderecursive to get the node structure to render.
