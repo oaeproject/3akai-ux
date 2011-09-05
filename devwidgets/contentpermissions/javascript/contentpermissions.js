@@ -208,8 +208,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var showWarning = function(){
             var newVisibility = $(contentpermissionsGlobalPermissions);
             var newVisibilityVal = $.trim(newVisibility.val());
-            var oldVisibilityIndex = parseInt(newVisibility.find("option[value=\"" + contentData.data["sakai:permissions"] + "\"]").attr("index"));
-            if (contentData.data["sakai:permissions"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex")) > oldVisibilityIndex || newVisibilityVal === "private"){
+            var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + contentData.data["sakai:permissions"] + "']").attr("index"), 10);
+            if (contentData.data["sakai:permissions"] === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex"), 10) > oldVisibilityIndex || newVisibilityVal === "private"){
                 doSave();
             } else {
                 $("#contentpermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("contentpermissions_warning_container_text_template", {

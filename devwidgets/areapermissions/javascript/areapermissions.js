@@ -136,8 +136,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var showWarning = function(){
             var newVisibility = $("#areapermissions_area_general_visibility");
             var newVisibilityVal = $.trim(newVisibility.val());
-            var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + visibility + "']").attr("index"));
-            if (visibility === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex")) > oldVisibilityIndex || newVisibilityVal === "selected"){
+            var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + visibility + "']").attr("index"), 10);
+            if (visibility === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex"), 10) > oldVisibilityIndex || newVisibilityVal === "selected"){
                 applyPermissions();
             } else {
                 $("#areapermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("areapermissions_warning_container_text_template", {
