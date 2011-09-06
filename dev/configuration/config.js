@@ -2954,7 +2954,7 @@ define(function(){
                                 "_title": "Course website",
                                 "_order": 3,
                                 "_docref": "${pid}3",
-                                "_view": ["-student", "everyone", "anonmyous"],
+                                "_view": ["-student", "everyone", "anonymous"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
                             "organizationnotes": {
