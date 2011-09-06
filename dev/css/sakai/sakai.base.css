@@ -256,6 +256,16 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .fl-col-flex3 .fl-col:last-child {margin-right:0;}
 
 /*
+ * SEARCH BOXES
+ */
+.s3d-search-container .s3d-search-inputfield {height: 22px;padding: 0 4px;color: #333;font-size: 12px;border:1px solid #ccc !important;float:left;}
+.s3d-search-container input::-webkit-input-placeholder {color:#7c7b7b;font-style:italic;font-size:11px !important;}
+.s3d-search-container input:-moz-placeholder{color:#7c7b7b;font-style:italic;font-size:11px !important;}
+.s3d-search-container .s3d-search-button {height:25px !important;width:24px;padding:3px 0 0 0 !important;margin-left:2px;background:none !important;border: none !important;box-shadow:none !important;-moz-box-shadow:none !important;-webkit-box-shadow:none !important;}
+.s3d-search-container .s3d-search-button:hover {background: url("/dev/images/searchbutton_hover_bg.png") repeat-x top left transparent !important;border:1px solid #ccc !important;}
+.s3d-search-container .s3d-search-button img {margin:0 auto;}
+
+/*
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
 .s3d-no-results-container {background-color:#e0eef5;-moz-border-radius:5px;border-radius:5px;padding:20px;margin:30px 0px 0px;list-style:none}
