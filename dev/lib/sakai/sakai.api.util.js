@@ -451,6 +451,16 @@ define(
             if (!alreadySecure) {
                 dotted = sakai_util.Security.safeOutput(dotted);
             }
+            // if params contains middledots = true then the string is threedotted in the middle
+            if(params && params.middledots && body.length > dotted.length){
+                var maxlength = dotted.length - 3;
+                if (!alreadySecure) {
+                    body = sakai_util.Security.safeOutput(body);
+                }
+                var prepend = body.slice(0, maxlength / 2);
+                var append = body.slice(body.length - (maxlength / 2), body.length);
+                return prepend + "..." + append;
+            }
             return dotted;
         },
 
