@@ -446,9 +446,18 @@ define(
             $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
 
-            if ($($container).height() > 0) {
-                $container.ThreeDots(params);
+            // There seems to be a race condition where the
+            // newly-added element returns a height of zero.  This
+            // would cause ThreeDots to truncate the input string to
+            // the first letter.  Try a couple of times for a non-zero
+            // height and then give up.
+            for (var attempt = 0; attempt < 10; attempt++) {
+                if ($container.height() > 0) {
+                    $container.ThreeDots(params);
+                    break;
+                }
             }
+
             var dotted = $container.children("span").text();
             $container.remove();
             if (!alreadySecure) {
