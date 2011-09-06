@@ -123,8 +123,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Util.notification.show($("#savecontent_my_add_library_title").html(), $("#savecontent_my_add_library_body").html());
                     } else {
                         var notificationBody = decodeURIComponent($("#savecontent_group_add_library_body").html());
-                        notificationBody = notificationBody.replace("${groupid}", entityId);
-                        notificationBody = notificationBody.replace("${grouplibrary}", $("#savecontent_select option:selected", $rootel).text());
+                        notificationBody = notificationBody.replace("${groupid}", sakai.api.Security.safeOutput(entityId));
+                        notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
                         sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
                     }
                     dataCache[currentSelected]["sakai:pooled-content-viewer"].push(entityId);

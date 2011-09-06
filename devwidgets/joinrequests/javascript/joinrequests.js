@@ -101,14 +101,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         for (var i in data.results) {
                             if (data.results.hasOwnProperty(i)) {
                                 var jr = data.results[i];
+                                var displayName = sakai.api.User.getDisplayName(jr);
                                 if (automaticallyAcceptUser(jr.userid)) {
-                                    var displayName = jr.basic.elements.firstName.value +
-                                        " " + jr.basic.elements.lastName.value;
                                     addUser(jr.userid, displayName);
                                 } else {
                                     joinrequests.push({
                                         "userid": jr.userid,
-                                        "displayName": sakai.api.User.getDisplayName(jr),
+                                        "displayName": displayName,
                                         "request_age": $.timeago(jr["_created"]),
                                         "pic_src": sakai.api.User.getProfilePicture(jr)
                                     });

@@ -221,7 +221,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     if (pictureUrl){
                         user.pictureUrl = pictureUrl;
                     }
-                    user.profile = "/~" + sakai.api.Util.urlSafe(user.uid);
+                    user.profile = "/~" + sakai.api.Util.safeURL(user.uid);
                 }
                 else {
                     // This is an anonymous user.

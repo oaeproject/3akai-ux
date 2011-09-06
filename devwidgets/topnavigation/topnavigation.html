@@ -47,7 +47,7 @@
                         <div class="topnav_content_icon_container fl-force-left">
                             <span class="topnav_content_icon ${file.css_class}"></span>
                         </div>
-                        <a href="${file.url}" title="${file.name}" class="s3d-bold">${file.dottedname}</a>
+                        <a href="${file.url}" title="${file.name|safeOutput}" class="s3d-bold">${file.dottedname}</a>
                     </li>
                     {if file_index != files.length -1}<hr class="s3d-split-line"/>{/if}
                 {/for}
@@ -76,7 +76,7 @@
                             <div class="topnav_content_icon_container fl-force-left">
                                 <span class="${group.css_class}"></span>
                             </div>
-                            <a href="${group.url}" title="${group.name}" class="s3d-bold">${group.dottedname}</a>
+                            <a href="${group.url}" title="${group.name|safeOutput}" class="s3d-bold">${group.dottedname}</a>
                         </li>
                         {if group_index != groups.length -1}<hr class="s3d-split-line"/>{/if}
                     {/for}

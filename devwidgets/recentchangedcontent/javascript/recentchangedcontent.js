@@ -83,15 +83,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_path": result["_path"]
             };
 
-            // set file name without the extension
-            // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item["_mimeType"] !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                }
-            }
             item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
             item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
             item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");

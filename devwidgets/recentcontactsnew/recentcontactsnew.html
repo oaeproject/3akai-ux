@@ -23,7 +23,7 @@
                 </div>
                 <div class="recentcontactsnew_item_info">
                     <p class="recentcontactsnew_item_title">
-                        <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${profile.userid|urlSafe}">
+                        <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${profile.userid|safeURL}">
                             ${displayName}
                         </a>
                     </p>
@@ -50,15 +50,15 @@
     <div id="recentcontactsnew_recent_connection_template"><!--
         {if connection}
             <div class="recentcontactsnew_item_related_info">
-                <p class="recentcontactsnew_item_meta_data">${firstName} __MSG__RECENT_CONNECTION__</p>
+                <p class="recentcontactsnew_item_meta_data">${firstName|safeOutput} __MSG__RECENT_CONNECTION__</p>
                 <div class="fl-force-left">
                 <a href="/~${connection.connectionId}">
                     <img class="s3d-icon-32" src="${connection.connectionPicture}" />
                 </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}" title="${connection.connectionName}">
-                        ${connection.connectionName}
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}" title="${connection.connectionName|safeOutput}">
+                        ${connection.connectionName|safeOutput}
                     </a>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${author.authorName} __MSG__RECENT_UPLOAD__</p>
                 <div class="fl-force-left">
-                    <a href="/content#p=${content['_path']|urlSafe}/${content.name|urlSafe}" title="${content.name}">
+                    <a href="/content#p=${content['_path']|safeURL}/${content.name|safeURL}" title="${content.name}">
                     <span>
                         {if content.thumbnail}
                             <img class="s3d-icon-32" src="${content.thumbnail}" alt="${content.type}" />
@@ -83,7 +83,7 @@
                     </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|urlSafe}/${content.name|urlSafe}">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|safeURL}/${content.name|safeURL}">
                         ${content.name}
                     </a>
                     <span class="recentcontactsnew_content_mimetype">${content.type}</span>

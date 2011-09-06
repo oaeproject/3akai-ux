@@ -43,10 +43,10 @@
                 <span class="profilesection_generalinfo_label">${element.label}:</span>
                 <div class="profilesection_generalinfo_content">
                     {if !isarray}
-                        ${_element.value}
+                        ${_element.value|safeOutput}
                     {else}
                         {for _subelement in _elements}
-                            ${_subelement[element_index]}
+                            ${_subelement[element_index]|safeOutput}
                         {/for}
                     {/if}
                 </div>
@@ -179,16 +179,16 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/search#q=${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}
-                        ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)}
+                        ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)|safeOutput}
                     {else}
                         {if config.type === "date" || config.type === "oldDate"}
                         ${sakai.api.l10n.transformDate(new Date(data.value))}
                         {else}
-                        ${data.value}
+                        ${data.value|safeOutput}
                         {/if}
                     {/if}
                 {else}
