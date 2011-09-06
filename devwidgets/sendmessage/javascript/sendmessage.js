@@ -379,7 +379,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "message", replyMessageID, handleSentMessage, true, "new_message");
                     } else {
                         $(buttonSendMessage).removeAttr("disabled");
-                        sakai.api.Util.notification.show("All fields are required.","All fields are required",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show($("#sendmessage_message_all_fields_required").html(),$("#sendmessage_message_all_fields_required").html(),sakai.api.Util.notification.type.ERROR);
                     }
                 });
                 ////////////////////////
