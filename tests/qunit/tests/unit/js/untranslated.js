@@ -78,9 +78,9 @@ require(
                      bundle = sakai.widgets[widgetname].i18n["default"];
                  }
              }
-             if (bundle) {
+             if (bundle && bundle.bundle) {
                  $.ajax({
-                     url: bundle,
+                     url: bundle.bundle,
                      success: function(data){
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
                          sakai.api.i18n.data.widgets[widgetname]["default"] = sakai.api.i18n.changeToJSON(data);
