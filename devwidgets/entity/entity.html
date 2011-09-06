@@ -97,9 +97,33 @@
         </div>
         <div id="entity_name" class="s3d-bold">${data.displayName}</div>
         <div id="entity_owns" class="s3d-regular-links">
-            <span class="entity_number">${data.profile.counts["contentCount"] || 0}</span> <a href="#l=library" title="${data.profile.counts["contentCount"] || 0} Documents">Documents</a>,
-            <span class="entity_number">${data.profile.counts["membershipsCount"]}</span> <a href="#l=memberships" title="${data.profile.counts["membershipsCount"]} Memberships">Memberships</a>,
-            <span class="entity_number">${data.profile.counts["contactsCount"]}</span> <a href="#l=contacts" title="${data.profile.counts["contactsCount"]} Contacts">Contacts</a>
+            <span class="entity_number">
+                {var contentCount = data.profile.counts["contentCount"] || 0}
+                ${contentCount}
+                {if contentCount === 1}
+                    __MSG__DOCUMENT_LC__
+                {else}
+                    __MSG__DOCUMENTS_LC__
+                {/if}
+                </span>,
+            <span class="entity_number">
+                {var membershipsCount = data.profile.counts["membershipsCount"] || 0}
+                ${membershipsCount}
+                {if membershipsCount === 1}
+                    __MSG__MEMBERSHIP_LC__
+                {else}
+                    __MSG__MEMBERSHIPS_LC__
+                {/if}
+                </span>,
+            <span class="entity_number">
+                {var contactsCount = data.profile.counts["contactsCount"] || 0}
+                ${contactsCount}
+                {if contactsCount === 1} 
+                    __MSG__CONTACT_LC__
+                {else}
+                    __MSG__CONTACTS_LC__
+                {/if}
+                </span>
         </div>
     {/if}
 --></div>
@@ -231,8 +255,24 @@
     {/if}
     <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]|safeOutput}</div>
     <div id="entity_owns" class="s3d-regular-links">
-        <span class="entity_number">${data.authprofile["contentCount"] || 0} Documents</span>,
-        <span class="entity_number">${data.authprofile["membersCount"]} Participants</span> 
+        <span class="entity_number">
+        {var contentCount = data.authprofile["contentCount"] || 0}
+        ${contentCount}
+        {if contentCount === 1}
+            __MSG__DOCUMENT_LC__
+        {else}
+            __MSG__DOCUMENTS_LC__
+       {/if}
+       </span>,
+       <span class="entity_number">
+        {var membersCount = data.authprofile["membersCount"] || 0}
+        ${membersCount}
+        {if membersCount === 1}
+            __MSG__PARTICIPANT__
+        {else}
+            __MSG__PARTICIPANTS__
+       {/if}
+       </span>
     </div>
     {if type && type == "group_managed"}
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
