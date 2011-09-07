@@ -562,7 +562,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             onShow: showArea
         });
 
-        sakai.api.Util.hideOnClickOut("#changepic_container", "#changepic_container, #changepic_container_trigger, .imgareaselect-selection, .imgareaselect-border1, .imgareaselect-border2, .imgareaselect-border3, .imgareaselect-border4", function(){
+        sakai.api.Util.hideOnClickOut("#changepic_container", "#changepic_container, #changepic_container_trigger, .imgareaselect-selection, .imgareaselect-border1, .imgareaselect-border2, .imgareaselect-border3, .imgareaselect-border4, .imgareaselect-outer", function(){
            $("#changepic_container .jqmClose").click();
         });
 
