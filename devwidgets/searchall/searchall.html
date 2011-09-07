@@ -67,7 +67,7 @@
                                     {if i.thumbnail}
                                         <img src="${i.thumbnail}" alt="${i.mimeTypeDescription}" />
                                     {elseif i.mimeType.substring(0,6)==="image/"}
-                                        <img src="/p/${i['_path']}" alt="${i.mimeTypeDescription}" />
+                                        <img src="/p/${i['_path']|safeURL}" alt="${i.mimeTypeDescription}" />
                                     {elseif sakai.config.MimeTypes[i.mimeType]}
                                         <img src="${sakai.config.MimeTypes[i.mimeType].URL}" alt="${i.mimeTypeDescription}" />
                                     {else}
