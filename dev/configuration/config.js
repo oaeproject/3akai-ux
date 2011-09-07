@@ -1705,7 +1705,7 @@ define(function(){
                 templates: [
                     {
                         id: "simplegroup",
-                        title: "Simple group",
+                        title: "__MSG__SIMPLE_GROUP__",
                         img: "/dev/images/worldtemplates/simplegroup.png",
                         fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
                         perfectFor: "Sharing content and sending messages",
@@ -1809,7 +1809,7 @@ define(function(){
                 templates: [
                     {
                         id: "mathcourse",
-                        title: "Mathematics course",
+                        title: "__MSG__MATHEMATICS_COURSE__",
                         img: "/dev/images/worldtemplates/mathcourse.png",
                         fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
                         perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
@@ -2924,7 +2924,7 @@ define(function(){
                     },
                     {
                         id: "basiccourse",
-                        title: "Basic course",
+                        title: "__MSG__BASIC_COURSE__",
                         img: "/dev/images/worldtemplates/basiccourse.png",
                         fullImg: "/dev/images/worldtemplates/basiccourse-full.png",
                         perfectFor: "Basic course using content sharing and messaging",
@@ -3034,7 +3034,7 @@ define(function(){
                 templates: [
                     {
                         id: "researchproject",
-                        title: "Research project",
+                        title: "__MSG__RESEARCH_PROJECT__",
                         img: "/dev/images/worldtemplates/researchgroup-full.png",
                         fullImg: "/dev/images/worldtemplates/research_tempate.png",
                         perfectFor: "Research Projects, Collaborative student projects, Class projects, Reading clubs",
@@ -3286,7 +3286,7 @@ define(function(){
                     },
                     {
                         id: "researchsupport",
-                        title: "Research support group",
+                        title: "__MSG__RESEARCH_SUPPORT_GROUP__",
                         img: "/dev/images/worldtemplates/researchsupport.png",
                         fullImg: "/dev/images/worldtemplates/researchsupport-full.png",
                         perfectFor: "Support a research project using content sharing and messaging",
