@@ -90,6 +90,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var picInputErrorClass = "changepic_input_error";
         var fileName = false;
         var existingPicture = false;
+        var showPicture = false;
 
         // An array with selectors pointing to images that need to be changed.
         var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -182,6 +183,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Since file upload form is reset every time overlay closes do this in init function
         $("#changepic_container .jqmClose").click(function(){
             resetUploadField();
+            showPicture = false;
             // hide any tooltips if they are open
             $(window).trigger("done.tooltip.sakai");
         });
@@ -287,7 +289,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             thumbnailWidth  = (prefThumbWidth > 0) ? prefThumbWidth : thumbnailWidth;
             thumbnailHeight  = (prefThumbHeight > 0) ? prefThumbHeight : thumbnailHeight;
 
-            if (picture && picture._name) {
+            if (showPicture && picture && picture._name) {
                 resetUploadField();
                 // The user has already uploaded a picture.
                 // Show the image select area
@@ -385,6 +387,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 $(pictureMeasurerImage).bind("error", function(){
                     showInputError();
                 });
+            } else {
+                showPicture = true;
             }
         };
 
@@ -407,16 +411,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             if (!userSelection) {
                 userSelection = imageareaobject.getSelection();
                 savePicture();
-            } else if (userSelection.x1 !== originalPic.x1
-                || userSelection.x2 !== originalPic.x2
-                || userSelection.y1 !== originalPic.y1
-                || userSelection.y2 !== originalPic.y2
-                || userSelection.picture !== originalPic.picture){
-                savePicture();
-            } else {
+            } else if (originalPic
+                && (userSelection.x1 === originalPic.x1
+                && userSelection.x2 === originalPic.x2
+                && userSelection.y1 === originalPic.y1
+                && userSelection.y2 === originalPic.y2
+                && userSelection.picture === originalPic.picture)){
                 // no need to save if picture hasn't changed, so just close the dialog
                 // Hide the layover.
                 $(container).jqmHide();
+            } else {
+                savePicture();
             }
         });
 
