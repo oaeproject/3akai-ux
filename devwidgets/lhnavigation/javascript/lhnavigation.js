@@ -461,6 +461,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (!selected) {
                     selected = getFirstSelectablePage(privstructure) || getFirstSelectablePage(pubstructure);
                 }
+                // update links in all menus with subnav with the selected page, so they wont trigger handleHashChange and cause weirdness
+                $("#lhnavigation_container").find("a.lhnavigation_toplevel_has_subnav").attr("href", "#l=" + selected);
                 // Select correct item
                 var menuitem = $("li[data-sakai-path='" + selected + "']");
                 if (menuitem.length) {
@@ -1087,6 +1089,98 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         $(".lhnavigation_item_content").live("click", function(ev){
             processNavigationClick($(this), ev);
+        });
+
+        // bind arrow keys for navigation
+        $(".lhnavigation_menuitem a").live("keydown", function(ev){
+            var $el = $(this);
+            if (ev.which == $.ui.keyCode.DOWN) {
+                // check top level
+                if ($el.hasClass("lhnavigation_toplevel")) {
+                    // check if sub menu open
+                    if ($el.parent().nextAll("ul:visible").length) {
+                        // step into sub menu
+                        $el.parent().nextAll("ul:visible").children("li:first").find("a").focus();
+                        return false;
+                    }
+                    // check if next top level menu item
+                    else if ($el.parents("li.lhnavigation_menuitem").nextAll("li:first").children("div").children("a").length){
+                        $el.parents("li.lhnavigation_menuitem").nextAll("li:first").children("div").children("a").focus();
+                        return false;
+                    }
+                    // check if next menu structure
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                        return false;
+                    }
+                }
+                // check sub level
+                else if ($el.parents(".lhnavigation_subnav_item").length){
+                    // check if next sub menu item
+                    if ($el.parents(".lhnavigation_subnav_item").nextAll("li:first").length){
+                        $el.parents(".lhnavigation_subnav_item").nextAll("li:first").find("a").focus();
+                        return false;
+                    }
+                    // find next top level menu item
+                    else if ($el.parents("li.lhnavigation_menuitem").nextAll("li:first").children("div").children("a").length){
+                        $el.parents("li.lhnavigation_menuitem").nextAll("li:first").children("div").children("a").focus();
+                        return false;
+                    }
+                    // find next menu structure
+                    else if ($el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").length){
+                        $el.parents(".lhnavigation_menu_list").nextAll("ul:first").children("li:first").children("div").children("a").focus();
+                        return false;
+                    }
+                }
+            } else if (ev.which == $.ui.keyCode.UP) {
+                // check top level
+                if ($el.hasClass("lhnavigation_toplevel")) {
+                    // check if previous menu has an open sub menu open
+                    if ($el.parents("li.lhnavigation_menuitem").prevAll("li:first").children("ul:visible").length) {
+                        // step into sub menu
+                        $el.parents("li.lhnavigation_menuitem").prevAll("li:first").children("ul:visible").children("li:last").find("a").focus();
+                        return false;
+                    }
+                    // check if next top level menu item
+                    else if ($el.parents("li.lhnavigation_menuitem").prevAll("li:first").children("div").children("a").length){
+                        $el.parents("li.lhnavigation_menuitem").prevAll("li:first").children("div").children("a").focus();
+                        return false;
+                    }
+                    // check if next menu structure
+                    else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").length){
+                        // check if sub menu open
+                        if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("ul:visible").children("li:last").find("a").focus()
+                            return false;
+                        } else if ($el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").length){
+                            $el.parents(".lhnavigation_menu_list").prevAll("ul:first").children("li:last").children("div").children("a").focus();
+                            return false;
+                        }
+                    }
+                }
+                // check sub level
+                else if ($el.parents(".lhnavigation_subnav_item").length){
+                    // check if previous sub menu item
+                    if ($el.parents(".lhnavigation_subnav_item").prevAll("li:first").length){
+                        $el.parents(".lhnavigation_subnav_item").prevAll("li:first").find("a").focus();
+                        return false;
+                    }
+                    // find parent top level menu item
+                    else if ($el.parents("ul.lhnavigation_subnav").prev("div").children("a").length){
+                        $el.parents("ul.lhnavigation_subnav").prev("div").children("a").focus();
+                        return false;
+                    }
+                }
+            } else if (ev.which == $.ui.keyCode.RIGHT
+                && $el.prev("div").hasClass("lhnavigation_has_subnav")
+                && !$el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+                // open sub menu
+                $el.click();
+            } else if (ev.which == $.ui.keyCode.LEFT
+                && $el.prev("div").hasClass("lhnavigation_has_subnav_opened")){
+                // close sub menu
+                $el.click();
+            }
         });
 
         ////////////////////////////

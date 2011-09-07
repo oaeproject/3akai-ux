@@ -766,6 +766,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             }
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentTitle).val(fileName);
             $(newaddcontentUploadContentFields + " " + newaddcontentUploadContentOriginalTitle)[0].id = fileName;
+            $(newaddcontentUploadContentTitle).select();
         };
 
 
@@ -823,6 +824,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 copyright: sakai.config.Permissions.Copyright,
                 sakai: sakai
             }));
+            $("#newaddcontent_container_lhchoice").find("a:first").focus();
         };
 
         /**
