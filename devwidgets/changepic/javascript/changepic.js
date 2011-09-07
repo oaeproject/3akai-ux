@@ -90,7 +90,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var picInputErrorClass = "changepic_input_error";
         var fileName = false;
         var existingPicture = false;
-        var showPicture = false;
 
         // An array with selectors pointing to images that need to be changed.
         var imagesToChange = ["#picture_holder img", "#entity_profile_picture", "#myprofile_pic", "#chat_available_me .chat_available_image img", "#profile_userinfo_picture"];
@@ -183,7 +182,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         // Since file upload form is reset every time overlay closes do this in init function
         $("#changepic_container .jqmClose").click(function(){
             resetUploadField();
-            showPicture = false;
             // hide any tooltips if they are open
             $(window).trigger("done.tooltip.sakai");
         });
@@ -247,6 +245,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 mode = "user";
             }
 
+            var showPicture = true;
             var json;
 
             if (mode === "group") {
@@ -263,7 +262,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 me = sakai.data.me;
                 json = me.profile;
             }
-
             // If the image is freshly uploaded then reset the imageareaobject to reset all values on init
             if (newpic) {
                 imageareaobject = null;
@@ -277,6 +275,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             }
             else if (json.picture) {
                 picture = $.parseJSON(json.picture);
+            } else {
+                showPicture = false;
             }
 
             $(picForm).attr("action", "/~" + sakai.api.Util.urlSafe(id) + "/public/profile");
@@ -387,8 +387,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                 $(pictureMeasurerImage).bind("error", function(){
                     showInputError();
                 });
-            } else {
-                showPicture = true;
             }
         };
 
