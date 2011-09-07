@@ -32,7 +32,7 @@
 .s3d-search-header .s3d-search-selects .s3d-search-sortby{margin-left:10px;}
 
 /* SEARCH RESULTS */
-.s3d-search-results{display:block; overflow:hidden;width:710px;}
+.s3d-search-results{display:block; overflow:hidden;width:730px;}
 .s3d-search-results .s3d-search-results-container{margin:10px 0 0;padding:0;border-bottom: 1px solid #e9e9e9;}
 .s3d-search-result{color:#333;padding:10px;border-top: 1px dotted #cccccc;list-style:none}
 .s3d-search-result-first{border-top: 1px solid #e9e9e9;}
@@ -40,9 +40,9 @@
 .s3d-search-result-right{margin-left:90px;}
 .s3d-search-results .jq_pager{clear:both;border-bottom: 1px solid #e9e9e9;}
 .s3d-search-result-detail-separator{color:#cccccc;margin: 0 5px;}
+.s3d-search-result:hover{background-color:#f2f9fc;}
 
 /* search results common elements in content people and group results */
-.s3d-search-result-content:hover, .s3d-search-result-person:hover, .s3d-search-result-group:hover{background-color:#f2f9fc;}
 .s3d-search-result-content .searchcontent_result_tags_icon, .s3d-search-result-person .searchpeople_result_tags_icon, .s3d-search-result-group .searchgroups_result_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_usedin_icon, .s3d-search-result-group .searchgroups_result_usedin_icon{background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
 .s3d-search-result-content .searchcontent_result_comments_icon, .s3d-search-result-group .searchgroups_result_comments_icon{background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;}
@@ -81,24 +81,31 @@
 .s3d-search-result-group .searchgroups_result_usedin{font-size: 11px;padding:3px 0;}
 .s3d-search-result-group .searchgroups_result_comments_icon{margin-left:8px;}
 .s3d-search-result-group .searchgroups_result_description{color:#333;font-size:.90em;padding:3px 0;}
-.s3d-search-result-group .searchgroups_result_tags{padding-top:3px;}
 .s3d-search-result-group .searchgroups_result_plus{margin:1px 8px 0 0;display:inline;float:left;height:17px;width:17px;}
 .s3d-search-result-group .searchgroups_result_plus:hover{cursor:pointer;}
 
 /* search results grid */
-.s3d-search-results-grid .s3d-search-result{width:216px;height:242px;overflow:hidden;float:left;position:relative;border:0;}
-.s3d-search-results-grid .s3d-search-result a img{float:left;padding:0;margin:0;width:100px;height:100px;position:absolute;}
+.s3d-search-results-grid{border:0 !important;}
+.s3d-search-results-grid .s3d-search-result{width:145px;height:242px;overflow:hidden;float:left;position:relative;border: 1px solid #FFFFFF;}
+.s3d-search-results-grid .s3d-search-result{margin:0 10px 10px 0;}
+.s3d-search-results-grid .s3d-search-result a img{float:left;padding:0;margin:0 0 0 20px;width:100px;height:100px;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-right{margin:150px 0 0 0;}
-.s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left;margin:120px 0 0 0;}
-.s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:25px;}
+.s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left;margin:120px 0 0 20px;}
+.s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:8px;}
+.s3d-search-results-grid .s3d-search-result-content .s3d-actions-author{margin-right:20px;}
 .s3d-search-results-grid .s3d-search-result-group .s3d-actions-message{margin-left:60px;}
-.s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler{margin: 0 70px 0 -50px;}
 .s3d-search-results-grid .s3d-search-result-group .searchgroups_result_plus{margin-top:-1px;}
+.s3d-search-results-grid .s3d-search-result-person .searchpeople_result_left_filler{margin: 0 70px 0 -50px;}
 .s3d-search-results-grid .s3d-search-result-detail-separator{display:block;}
 .s3d-search-results-grid .s3d-search-result-detail-separator span{display:none;}
 .s3d-search-results-grid .searchpeople_result_description{display:none;}
 .s3d-search-results-grid .searchpeople_result_description_grid{display:inline;}
 .s3d-search-results-grid ~ .jq_pager{border:0;}
+.s3d-search-results-grid .s3d-search-result:hover{border: 1px solid #e9e9e9;
+    border-radius:3px;
+    -moz-border-radius:3px; /* Firefox 3.6 and earlier */
+    -webkit-border-radius:3px; /* Safari */
+}
 
 /* search results anon user */
 .s3d-search-results-anon .s3d-search-result-user-functions{display:none;}

@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 9;
+        var resultsToDisplay = 12;
         var rootel = $("#" + tuid);
 
         // Search URL mapping
