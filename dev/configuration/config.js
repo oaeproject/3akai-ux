@@ -1708,7 +1708,7 @@ define(function(){
                         title: "__MSG__SIMPLE_GROUP__",
                         img: "/dev/images/worldtemplates/simplegroup.png",
                         fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
-                        perfectFor: "Sharing content and sending messages",
+                        perfectFor: "__MSG__SIMPLE_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "member",
@@ -1812,7 +1812,7 @@ define(function(){
                         title: "__MSG__MATHEMATICS_COURSE__",
                         img: "/dev/images/worldtemplates/mathcourse.png",
                         fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        perfectFor: "__MSG__MATHEMATICS_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
@@ -2927,7 +2927,7 @@ define(function(){
                         title: "__MSG__BASIC_COURSE__",
                         img: "/dev/images/worldtemplates/basiccourse.png",
                         fullImg: "/dev/images/worldtemplates/basiccourse-full.png",
-                        perfectFor: "Basic course using content sharing and messaging",
+                        perfectFor: "__MSG__BASIC_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
@@ -3037,7 +3037,7 @@ define(function(){
                         title: "__MSG__RESEARCH_PROJECT__",
                         img: "/dev/images/worldtemplates/researchgroup-full.png",
                         fullImg: "/dev/images/worldtemplates/research_tempate.png",
-                        perfectFor: "Research Projects, Collaborative student projects, Class projects, Reading clubs",
+                        perfectFor: "__MSG__RESEARCH_PROJECT_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "leadresearcher",
@@ -3289,7 +3289,7 @@ define(function(){
                         title: "__MSG__RESEARCH_SUPPORT_GROUP__",
                         img: "/dev/images/worldtemplates/researchsupport.png",
                         fullImg: "/dev/images/worldtemplates/researchsupport-full.png",
-                        perfectFor: "Support a research project using content sharing and messaging",
+                        perfectFor: "__MSG__RESEARCH_SUPPORT_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "participant",
