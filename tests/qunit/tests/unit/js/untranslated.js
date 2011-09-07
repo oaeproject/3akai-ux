@@ -101,7 +101,6 @@ require(
           * @param {String} data   HTML string to check for untranslated keys
           */
          var checkKeys = function(data, callback, widget) {
-             debug.log(widget);
              while (regex.test(data)) {
                  var key = RegExp.lastMatch;
                  key = key.substring(7, key.length - 2);

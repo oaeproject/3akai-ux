@@ -407,21 +407,21 @@ define(
                 if (widgetname) {
                     if (typeof sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
-                        if (typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object" && typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string") {
+                        if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname][locale]) && _.isString(sakaii18nAPI.data.widgets[widgetname][locale][key])) {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
                         }
                         // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
-                        else if (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object" && typeof sakaii18nAPI.data.widgets[widgetname]["default"][key] === "string") {
+                        else if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname]["default"]) && _.isString(sakaii18nAPI.data.widgets[widgetname]["default"][key])) {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
                         }
                     }
                 }
                 // First check if the key can be found in the general locale bundle
-                if (sakaii18nAPI.data.localBundle && typeof sakaii18nAPI.data.localBundle[key] === "string") {
+                if (sakaii18nAPI.data.localBundle && _.isString(sakaii18nAPI.data.localBundle[key])) {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.localBundle[key]);
                 }
                 // If the key wasn't found in the general locale bundle, search in the general default bundle
-                else if (sakaii18nAPI.data.defaultBundle && typeof sakaii18nAPI.data.defaultBundle[key] === "string") {
+                else if (sakaii18nAPI.data.defaultBundle && _.isString(sakaii18nAPI.data.defaultBundle[key])) {
                     return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.defaultBundle[key]);
                 } 
                 // If none of the about found something, log an error message
@@ -436,7 +436,7 @@ define(
          * Utility regular expression that is used to find
          * escaped unicode characters in translation string
          */
-        UnicodeExpression: new RegExp("[\\][u][A-F0-9][A-F0-9][A-F0-9][A-F0-9]"),
+        UnicodeExpression: new RegExp("[\\][u][A-F0-9]{4}", "g"),
 
         /**
          * Utility function that will take a translation string
@@ -447,9 +447,12 @@ define(
          *                  have been replaced by the actual unicode character
          */
         processUTF16ToText: function(translation){
-            while (sakaii18nAPI.UnicodeExpression.test(translation)) {
-                var replace = RegExp.lastMatch;
-                translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
+            var matches =  translation.match(sakaii18nAPI.UnicodeExpression);
+            if (matches) {
+                for (var r = 0; r < matches.length; r++) {
+                    var replace = matches[r];
+                    translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
+                }
             }
             return translation;
         },
