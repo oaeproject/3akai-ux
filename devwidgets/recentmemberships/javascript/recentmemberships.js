@@ -175,7 +175,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     memberPicture: picture,
                                     roleName: role
                                 },
-                                group: newjson.entry[0]
+                                group: newjson.entry[0],
+                                sakai: sakai
                             };
                             $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
                             break;

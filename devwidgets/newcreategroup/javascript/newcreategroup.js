@@ -151,6 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (users.length > 0) {
                             sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
                                 $.each(users, function(index, item){
+                                    //alert(item.permission);
                                     var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
                                     var body = $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name);
                                     sakai.api.Communication.sendMessage(item.user, sakai.data.me, subject, body, "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
@@ -388,7 +389,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
-                "roles": currentTemplate.roles
+                "roles": currentTemplate.roles,
+                "sakai": sakai
             }));
             var count = 0;
             for (var item in selectedUsers) {

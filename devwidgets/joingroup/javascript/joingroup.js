@@ -181,6 +181,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var openTooltip = function (groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
+                group.sakai = sakai;
                 $(window).trigger("init.tooltip.sakai", {
                     tooltipHTML: sakai.api.Util.TemplateRenderer(
                         $joingroup_hover_template, group),

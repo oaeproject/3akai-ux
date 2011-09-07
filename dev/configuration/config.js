@@ -1712,14 +1712,14 @@ define(function(){
                         roles: [
                             {
                                 id: "member",
-                                roleTitle: "Members",
-                                title: "Member",
+                                roleTitle: "__MSG__MEMBERS__",
+                                title: "__MSG__MEMBER__",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
-                                roleTitle: "Managers",
-                                title: "Manager",
+                                roleTitle: "__MSG__MANAGERS__",
+                                title: "__MSG__MANAGER__",
                                 allowManage: true
                             }
                         ],
@@ -1816,20 +1816,20 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -2931,20 +2931,20 @@ define(function(){
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -3041,32 +3041,32 @@ define(function(){
                         roles: [
                             {
                                 id: "leadresearcher",
-                                roleTitle: "Lead researchers",
-                                title: "Lead researcher",
+                                roleTitle: "__MSG__LEAD_RESEARCHERS__",
+                                title: "__MSG__LEAD_RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researcher",
-                                roleTitle: "Researchers",
-                                title: "Researcher",
+                                roleTitle: "__MSG__RESEARCHERS__",
+                                title: "__MSG__RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researchassistant",
-                                roleTitle: "Research assistants",
-                                title: "Research assistant",
+                                roleTitle: "__MSG__RESEARCH_ASSISTANTS__",
+                                title: "__MSG__RESEARCH_ASSISTANT__",
                                 allowManage: false
                             },
                             {
                                 id: "contributor",
-                                roleTitle: "Contributors",
-                                title: "Contributor",
+                                roleTitle: "__MSG__CONTRIBUTORS__",
+                                title: "__MSG__CONTRIBUTOR__",
                                 allowManage: false
                             },
                             {
                                 id: "evaluator",
-                                roleTitle: "Evaluators",
-                                title: "Evaluator",
+                                roleTitle: "__MSG__EVALUATORS__",
+                                title: "__MSG__EVALUATOR__",
                                 allowManage: false
                             }
                         ],
@@ -3293,14 +3293,14 @@ define(function(){
                         roles: [
                             {
                                 id: "participant",
-                                roleTitle: "Participants",
-                                title: "Participant",
+                                roleTitle: "__MSG__PARTICIPANTS__",
+                                title: "__MSG__PARTICIPANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
-                                roleTitle: "Lurkers",
-                                title: "Lurker",
+                                roleTitle: "__MSG__LURKERS__",
+                                title: "__MSG__LURKER__",
                                 allowManage: false
                             }
                         ],

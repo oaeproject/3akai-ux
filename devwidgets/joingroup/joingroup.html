@@ -18,7 +18,7 @@
                     alt="__MSG__PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
                     <td class="joingroup_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
                         class="joingroup_itemtitle">${p.displayname}</a></p>
-                    <p>${p.role}</p>
+                    <p>${sakai.api.i18n.General.process(p.role)}</p>
                     </td>
                 </tr>
             {/for}

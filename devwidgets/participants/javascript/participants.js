@@ -112,6 +112,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 contactsCount = data.results[i].counts.contactsCount;
                                 membershipsCount = data.results[i].counts.membershipsCount;
                             }
+                            debug.log(data.results[i]);
                             if (data.results[i]["sakai:group-id"]) {
                                 participantsArr.push({
                                     "name": data.results[i]["sakai:group-title"],
