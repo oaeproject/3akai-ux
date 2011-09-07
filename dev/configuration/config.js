@@ -505,40 +505,40 @@ define(function(){
              * Relationships used by the add contacts widget to define what relationship the contacts can have
              */
             "contacts": [{
-                "name": "Classmate",
-                "definition": "is my classmate",
+                "name": "__MSG__CLASSMATE__",
+                "definition": "__MSG__IS_MY_CLASSMATE__",
                 "selected": true
             }, {
-                "name": "Supervisor",
-                "inverse": "Supervised",
-                "definition": "is my supervisor",
+                "name": "__MSG__SUPERVISOR__",
+                "inverse": "__MSG__SUPERVISED__",
+                "definition": "__MSG__IS_MY_SUPERVISOR__",
                 "selected": false
             }, {
-                "name": "Supervised",
-                "inverse": "Supervisor",
-                "definition": "is being supervised by me",
+                "name": "__MSG__SUPERVISED__",
+                "inverse": "__MSG__SUPERVISOR__",
+                "definition": "__MSG__IS_SUPERVISED_BY_ME__",
                 "selected": false
             }, {
-                "name": "Lecturer",
-                "inverse": "Student",
-                "definition": "is my lecturer",
+                "name": "__MSG__LECTURER__",
+                "inverse": "__MSG__STUDENT__",
+                "definition": "__MSG__IS_MY_LECTURER__",
                 "selected": false
             }, {
-                "name": "Student",
-                "inverse": "Lecturer",
-                "definition": "is my student",
+                "name": "__MSG__STUDENT__",
+                "inverse": "__MSG__LECTURER__",
+                "definition": "__MSG__IS_MY_STUDENT__",
                 "selected": false
             }, {
-                "name": "Colleague",
-                "definition": "is my colleague",
+                "name": "__MSG__COLLEAGUE__",
+                "definition": "__MSG__IS_MY_COLLEAGUE__",
                 "selected": false
             }, {
-                "name": "College Mate",
-                "definition": "is my college mate",
+                "name": "__MSG__COLLEGE_MATE__",
+                "definition": "__MSG__IS_MY_COLLEGE_MATE__",
                 "selected": false
             }, {
-                "name": "Shares Interests",
-                "definition": "shares an interest with me",
+                "name": "__MSG__SHARES_INTERESTS__",
+                "definition": "__MSG__SHARES_INTEREST_WITH_ME__",
                 "selected": false
             }]
         },
