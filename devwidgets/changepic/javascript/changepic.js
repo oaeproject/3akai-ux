@@ -55,6 +55,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
         var imageareaobject;
         var id = null;
         var mode = null;
+        var fullPicHeight = 300;
+        var fullPicWidth = 325;
 
         // These values are just in case there are no css values specified.
         // If you want to change the size of a thumbnail please do this in the CSS.
@@ -308,33 +310,34 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
                     // Reset ratio
                     ratio = 1;
 
+                    // fullPicWidth (500) and fullPicHeight (300) set in config variables
                     // Width < 500 ; Height < 300 => set the original height and width
-                    if (realw < 500 && realh < 300){
+                    if (realw < fullPicWidth && realh < fullPicHeight){
                         $(fullPicture).width(realw);
                         $(fullPicture).height(realh);
 
                     // Width > 500 ; Height < 300 => Width = 500
-                    } else if (realw > 500 && (realh / (realw / 500) < 300)){
-                        ratio = realw / 500;
-                        $(fullPicture).width(500);
+                    } else if (realw > fullPicWidth && (realh / (realw / fullPicWidth) < fullPicHeight)){
+                        ratio = realw / fullPicWidth;
+                        $(fullPicture).width(fullPicWidth);
                         $(fullPicture).height(Math.floor(realh / ratio));
 
                     // Width < 500 ; Height > 300 => Height = 300
-                    } else if (realh > 300 && (realw / (realh / 300) < 500)) {
-                        ratio = realh / 300;
-                        $(fullPicture).height(300);
+                    } else if (realh > fullPicHeight && (realw / (realh / fullPicHeight) < fullPicWidth)) {
+                        ratio = realh / fullPicHeight;
+                        $(fullPicture).height(fullPicHeight);
                         $(fullPicture).width(Math.floor(realw / ratio));
 
                     // Width > 500 ; Height > 300
-                    } else if (realh > 300 && (realw / (realh / 300) > 500)) {
+                    } else if (realh > fullPicHeight && (realw / (realh / fullPicHeight) > fullPicWidth)) {
 
-                        var heightonchangedwidth = realh / (realw / 500);
-                        if (heightonchangedwidth > 300){
-                            ratio = realh / 300;
-                            $(fullPicture).height(300);
+                        var heightonchangedwidth = realh / (realw / fullPicWidth);
+                        if (heightonchangedwidth > fullPicHeight){
+                            ratio = realh / fullPicHeight;
+                            $(fullPicture).height(fullPicHeight);
                         } else {
-                            ratio = realw / 500;
-                            $(fullPicture).width(500);
+                            ratio = realw / fullPicWidth;
+                            $(fullPicture).width(fullPicWidth);
                         }
                     }
 
