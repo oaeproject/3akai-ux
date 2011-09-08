@@ -19,7 +19,7 @@
                 <div class="profilesection_generalinfo_acl fl-force-right">
                     {if mode.value === "viewmy"}
                         <span>__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</span>
-                        <a href="/profile/edit" title="${sakai_global.profile.main.acls.options[_access].label}">${sakai_global.profile.main.acls.options[_access].label}</a>
+                        <a href="/profile/edit">${sakai_global.profile.main.acls.options[_access].label}</a>
                     {else}
                         <label for="profilesection_generalinfo_access_${i_index}">__MSG__WHO_CAN_VIEW_OR_SEARCH_THIS__</label>
                         <select id="profilesection_generalinfo_access_${i_index}" name="profilesection_generalinfo_access_${i_index}" class="profilesection_generalinfo_access">
@@ -68,19 +68,19 @@
 
         ${fields}
         {if mode === "edit"}
-            <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" title="__MSG__UPDATE__">__MSG__UPDATE__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button">__MSG__UPDATE__</button>
         {/if}
     {/if}
 --></div>
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <button type="button" class="profilesection_add_section s3d-link-button s3d-bold" id="profilesection_add_link_${parentid}" title="__MSG__ADD_ANOTHER__ ${config.multipleLabel}"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${config.multipleLabel}</span></button>
+    <button type="button" class="profilesection_add_section s3d-link-button s3d-bold" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${config.multipleLabel}</span></button>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
 <div id="profilesection_remove_section_template"><!--
-    <button type="button" class="profilesection_remove_section s3d-bold s3d-link-button" id="profilesection_remove_link_${parentid}" title="__MSG__REMOVE_THIS__ ${config.multipleLabel}"><span>__MSG__REMOVE_THIS__ ${config.multipleLabel}</span></button>
+    <button type="button" class="profilesection_remove_section s3d-bold s3d-link-button" id="profilesection_remove_link_${parentid}"><span>__MSG__REMOVE_THIS__ ${config.multipleLabel}</span></button>
     <hr/>
 --></div>
 
@@ -112,7 +112,7 @@
     </div>
     <div class="profilesection_section">
         {if sakai_global.profile.main.mode.value === 'edit'}
-            <button type="button" class="profilesection_add_location_section s3d-bold s3d-link-button" title="__MSG__ADD_REMOVE_LOCATIONS__"><span class="s3d-add_another_location"></span><span>__MSG__ADD_REMOVE_LOCATIONS__</span></button>
+            <button type="button" class="profilesection_add_location_section s3d-bold s3d-link-button"><span class="s3d-add_another_location"></span><span>__MSG__ADD_REMOVE_LOCATIONS__</span></button>
         {/if}
     </div>
 --></div>
@@ -179,7 +179,7 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/search#q=${tag|safeURL}" class="s3d-action" title="${tag|safeOutput}">${tag|safeOutput}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}

@@ -68,11 +68,11 @@
                                     <p>__MSG__ENTER_OR_PASTE_WIDGET_WEB_ADDRESS__:</p>
                                     <input id="admin_widgets_install_url" type="text" name="admin_widgets_install_url"/>
                                     <p>
-                                        <button class="s3d-button" id="admin_widgets_install_url_submit" title="__MSG__INSTALL_WIDGET__"><span class="s3d-button-inner">__MSG__INSTALL_WIDGET__</span></button>
+                                        <button class="s3d-button" id="admin_widgets_install_url_submit"><span class="s3d-button-inner">__MSG__INSTALL_WIDGET__</span></button>
                                     </p>
                                 </div>
                                 <div class="admin_widgets_upload_section">
-                                    <a href="javascript:;" id="admin_widgets_upload_link" class="admin_widgets_upload_link" title="__MSG__UPLOAD_A_WIDGET__">__MSG__UPLOAD_A_WIDGET__</a>
+                                    <a href="javascript:;" id="admin_widgets_upload_link" class="admin_widgets_upload_link">__MSG__UPLOAD_A_WIDGET__</a>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                         {/if}
                         <div class="dialog_buttons">
                             {if !i.enabled}
-                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" title="__MSG__ENABLE_WIDGET__"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {/if}
                         </div>
                     </div>
@@ -126,11 +126,11 @@
                         {/if}
                         <div class="dialog_buttons">
                             {if i.enabled}
-                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" title="__MSG__DISABLE_WIDGET__><span class="s3d-button-inner"">__MSG__DISABLE_WIDGET__</span></button>
-                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;" title="__MSG__ENABLE_WIDGET__"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner"">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {else}
-                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;" title="__MSG__DISABLE_WIDGET__"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
-                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" title="__MSG__ENABLE_WIDGET__"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {/if}
                         </div>
                     </div>
@@ -158,13 +158,13 @@
                         {/if}
                             <div class="dialog_buttons">
                             {if i.enabled}
-                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" title="__MSG__DISABLE_WIDGET__"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
-                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;" title="__MSG__ENABLE_WIDGET__"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {else}
-                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;" title="__MSG__DISABLE_WIDGET__"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
-                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}" title="__MSG__ENABLE_WIDGET__"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_disable" id="admin_widgets_disable_${i.id}" style="display:none;"><span class="s3d-button-inner">__MSG__DISABLE_WIDGET__</span></button>
+                                <button class="s3d-button admin_widgets_button_enable" id="admin_widgets_enable_${i.id}"><span class="s3d-button-inner">__MSG__ENABLE_WIDGET__</span></button>
                             {/if}
-                            <button class="s3d-button admin_widgets_button_delete" id="admin_widgets_delete_${i.id}" title="__MSG__DELETE_WIDGET__"><span class="s3d-button-inner">__MSG__DELETE_WIDGET__</span></button>
+                            <button class="s3d-button admin_widgets_button_delete" id="admin_widgets_delete_${i.id}"><span class="s3d-button-inner">__MSG__DELETE_WIDGET__</span></button>
                         </div>
                     </div>
                 {forelse}
@@ -180,14 +180,14 @@
             <div class="dialog_header">
                 <div class="dialog_header_inner">
                 <h1>__MSG__DISABLE_WIDGET__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <a href="javascript:;" class="jqmClose dialog_close_image">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
             <div class="dialog_content">
                 <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DISABLE_THE_WIDGET__: <span id="admin_widgets_disable_confirm_widget_title"></span>?</h4>
                 <div class="dialog_buttons disable_page_buttons">
-                    <button type="button" class="s3d-button jqmClose" title="__MSG__NO__"><span class="s3d-button-inner">__MSG__NO__</span></button>
-                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_disable_confirm" title="__MSG__YES__"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_disable_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
                 </div>
             </div>
             <!-- DIALOG FOOTER -->
@@ -201,14 +201,14 @@
             <div class="dialog_header">
                 <div class="dialog_header_inner">
                 <h1>__MSG__ENABLE_WIDGET__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <a href="javascript:;" class="jqmClose dialog_close_image">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
             <div class="dialog_content">
                 <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_ENABLE_THE_WIDGET__: <span id="admin_widgets_enable_confirm_widget_title"></span>?</h4>
                 <div class="dialog_buttons enable_page_buttons">
-                    <button type="button" class="s3d-button jqmClose" title="__MSG__NO__"><span class="s3d-button-inner">__MSG__NO__</span></button>
-                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_enable_confirm" title="__MSG__YES__"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_enable_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
                 </div>
             </div>
             <!-- DIALOG FOOTER -->
@@ -222,15 +222,15 @@
             <div class="dialog_header">
                 <div class="dialog_header_inner">
                 <h1>__MSG__DELETE_WIDGET__</h1>
-                <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
+                <a href="javascript:;" class="jqmClose dialog_close_image">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
             <div class="dialog_content">
                 <h4>__MSG__ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_WIDGET__: <span id="admin_widgets_delete_confirm_widget_title"></span>?</h4>
                 <p class="admin_widgets_delete_widgets_text">__MSG__THIS_WILL_DELETE_THE_WIDGET__</p>
                 <div class="dialog_buttons delete_page_buttons">
-                    <button type="button" class="s3d-button jqmClose" title="__MSG__NO__"><span class="s3d-button-inner">__MSG__NO__</span></button>
-                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_delete_confirm" title="__MSG__YES__"><span class="s3d-button-inner">__MSG__YES__</span></button>
+                    <button type="button" class="s3d-button jqmClose"><span class="s3d-button-inner">__MSG__NO__</span></button>
+                    <button type="button" class="s3d-button s3d-button-primary admin_widgets_button_delete_confirm"><span class="s3d-button-inner">__MSG__YES__</span></button>
                 </div>
             </div>
             <!-- DIALOG FOOTER -->

@@ -21,8 +21,8 @@
                     </label>
                     <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text" title="__MSG__ENTER_YOUR_MESSAGE__"></textarea>
                     <div class="fl-force-right">
-                        <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_topic" title="__MSG__DONT_ADD_TOPIC__">__MSG__DONT_ADD_TOPIC__</button>
-                        <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_topic" title="__MSG__ADD_TOPIC__">__MSG__ADD_TOPIC__</button>
+                        <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_topic">__MSG__DONT_ADD_TOPIC__</button>
+                        <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_topic">__MSG__ADD_TOPIC__</button>
                         <hr class="fl-push fl-hidden"/>
                     </div>
                 </form>
@@ -41,7 +41,7 @@
 
 <div id="discussion_no_initial_topic_template"><!--
     {if settings.addtopic == true}
-        <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button" title="__MSG__ADD_NEW_TOPIC__">__MSG__ADD_NEW_TOPIC__</button>
+        <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button">__MSG__ADD_NEW_TOPIC__</button>
         <hr class="discussion_horizontal_rule"/>
         __MSG__NO_TOPICS_TO_DISPLAY_CLICK_TO_ADD__
     {else}
@@ -50,7 +50,7 @@
 --></div>
 
 <div id="discussion_topic_reply_template"><!--
-    {if typeof(postId) != "undefined"}<button class="s3d-button s3d-link-button" name="reply_${postId}" style="display:none" title="&nbsp;">&nbsp;</button>{/if}
+    {if typeof(postId) != "undefined"}<button class="s3d-button s3d-link-button" name="reply_${postId}" style="display:none">&nbsp;</button>{/if}
     {if quoted}
         <span id="discussion_topic_reply_quoted_user" style="display:none;">${quotedUser}</span>
         <label for="discussion_topic_reply_text" class="s3d-bold">
@@ -64,12 +64,12 @@
     <textarea id="discussion_topic_reply_text" class="required" rows="6" name="message_text" title="{if edit == true}__MSG__EDIT_YOUR_MESSAGE__{else}__MSG__ENTER_YOUR_MESSAGE__{/if}">{if edit == true}${body}{/if}</textarea>
     <div class="fl-force-right">
         {if edit == true}
-            <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_save_edit" title="__MSG__DONT_SAVE__">__MSG__DONT_SAVE__</button>
-            <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_save_edit" title="__MSG__SAVE__">__MSG__SAVE__</button>
+            <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_save_edit">__MSG__DONT_SAVE__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_save_edit">__MSG__SAVE__</button>
             <hr class="fl-push fl-hidden"/>
         {else}
-            <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_reply" title="__MSG__DONT_REPLY__">__MSG__DONT_REPLY__</button>
-            <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_reply" title="__MSG__REPLY__">__MSG__REPLY__</button>
+            <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_reply">__MSG__DONT_REPLY__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_reply">__MSG__REPLY__</button>
             <hr class="fl-push fl-hidden"/>
         {/if}
     </div>
@@ -105,14 +105,14 @@
 
             {if settings.anon != true && settings.canreply == true}
                 <span class="discussion_message_options">
-                    <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button" title="__MSG__QUOTE__">__MSG__QUOTE__</button>
+                    <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button">__MSG__QUOTE__</button>
                     {if post.message["sakai:from"] == settings.userid || settings.ismanager}
                         <span class="discussion_pipe_divider">|</span>
-                        <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button" title="__MSG__EDIT__">__MSG__EDIT__</button>
+                        <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button">__MSG__EDIT__</button>
                     {/if}
                     {if settings.ismanager}
                         <span class="discussion_pipe_divider">|</span>
-                        <buton class="discussion_delete s3d-button s3d-regular-links s3d-link-button" title="__MSG__DELETE__">__MSG__DELETE__</button>
+                        <buton class="discussion_delete s3d-button s3d-regular-links s3d-link-button">__MSG__DELETE__</button>
                     {/if}
                 </span>
             {/if}
@@ -128,17 +128,17 @@
 
 <div id="discussion_list_topics_template"><!--
     {if settings.addtopic == true}
-        <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button" title="__MSG__ADD_NEW_TOPIC__">__MSG__ADD_NEW_TOPIC__</button><span class="discussion_pipe_divider">|</span>
+        <button id="discussion_add_new_topic" class="s3d-button s3d-regular-links s3d-link-button">__MSG__ADD_NEW_TOPIC__</button><span class="discussion_pipe_divider">|</span>
     {/if}
-    <button id="discussion_expand_all" class="s3d-button s3d-regular-links discussion_collapse_all s3d-link-button" title="__MSG__COLLAPSE_ALL__">__MSG__COLLAPSE_ALL__</button>
+    <button id="discussion_expand_all" class="s3d-button s3d-regular-links discussion_collapse_all s3d-link-button">__MSG__COLLAPSE_ALL__</button>
     <hr class="discussion_horizontal_rule"/>
     {for topic in postData}
         <div id="discussion_post_${topic.post["sakai:id"]}" class="discussion_topic_container">
             {if settings.anon != true && settings.canreply == true}
-                <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic" id="discussion_reply_topic" title="__MSG__REPLY__">__MSG__REPLY__</button>
+                <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic" id="discussion_reply_topic">__MSG__REPLY__</button>
             {/if}
             <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]|safeOutput}</h1>
-            <button class="discussion_show_topic_replies s3d-button s3d-link-button" title="${topic.replies.length} __MSG__REPLIES__"><div class="discussion_replies_icon discussion_show_replies_icon"></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
+            <button class="discussion_show_topic_replies s3d-button s3d-link-button"><div class="discussion_replies_icon discussion_show_replies_icon"></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
 
             <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
                 <div class="s3d-highlight_area_background_tl">
@@ -157,10 +157,10 @@
                     </div>
                     {if settings.anon != true && settings.canreply == true}
                         <span class="discussion_message_options">
-                            <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button" title="__MSG__QUOTE__">__MSG__QUOTE__</button>
+                            <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button">__MSG__QUOTE__</button>
                             {if topic.post["sakai:from"] == settings.userid || settings.ismanager == true}
                                 <span class="discussion_pipe_divider">|</span>
-                                <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button" title="__MSG__EDIT__">__MSG__EDIT__</button>
+                                <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button">__MSG__EDIT__</button>
                             {/if}
                         </span>
                     {/if}
@@ -181,7 +181,7 @@
                         </div>
                         <div class="discussion_entity_container">
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
-                                <button class="discussion_hide_reply s3d-button s3d-regular-links s3d-link-button" title="__MSG__HIDE__"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></button>
+                                <button class="discussion_hide_reply s3d-button s3d-regular-links s3d-link-button"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></button>
                             {/if}
                             <img src="${reply.post.profile[0].pictureImg}" alt="${sakai.api.User.getDisplayName(reply.post.profile[0])}" class="discussion_entity_picture"/>
                             <span class="discussion_poster_name">${sakai.api.User.getDisplayName(reply.post.profile[0])}</span>
@@ -214,7 +214,7 @@
                                 <span class="discussion_deleted_message">
                                     {if settings.ismanager}
                                         <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
-                                        <button class="discussion_restore s3d-button s3d-regular-links s3d-link-button" title="__MSG__RESTORE__">__MSG__RESTORE__</button>
+                                        <button class="discussion_restore s3d-button s3d-regular-links s3d-link-button">__MSG__RESTORE__</button>
                                     {elseif reply.post["sakai:from"] == settings.userid}
                                         <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED__ __MSG__CONTACT_ADMINISTRATOR_FOR_INFORMATION__</p>
                                     {else}
@@ -224,14 +224,14 @@
                             {else}
                                 {if settings.anon != true && settings.canreply == true}
                                     <span class="discussion_message_options">
-                                        <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button" title="__MSG__QUOTE__">__MSG__QUOTE__</button>
+                                        <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button">__MSG__QUOTE__</button>
                                         {if reply.post["sakai:from"] == settings.userid || settings.ismanager}
                                             <span class="discussion_pipe_divider">|</span>
-                                            <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button" title="__MSG__EDIT__">__MSG__EDIT__</button>
+                                            <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button">__MSG__EDIT__</button>
                                         {/if}
                                         {if settings.ismanager}
                                             <span class="discussion_pipe_divider">|</span>
-                                            <button class="discussion_delete s3d-button s3d-regular-links s3d-link-button" title="__MSG__DELETE__">__MSG__DELETE__</button>
+                                            <button class="discussion_delete s3d-button s3d-regular-links s3d-link-button">__MSG__DELETE__</button>
                                         {/if}
                                     </span>
                                 {/if}
@@ -249,7 +249,7 @@
 
             <div id="discussion_topic_reply_container" style="display:none;"></div>
             {if settings.anon != true && settings.canreply == true}
-                <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic discussion_reply_topic_bottom" id="discussion_reply_topic" style="display:none;" title="__MSG__REPLY__">
+                <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic discussion_reply_topic_bottom" id="discussion_reply_topic" style="display:none;">
                     __MSG__REPLY__
                 </button>
             {/if}
@@ -259,11 +259,11 @@
 --></div>
 
 <div id="discussion_restored_post_actions_template"><!--
-    <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button" title="__MSG__QUOTE__">__MSG__QUOTE__</button>
+    <button class="discussion_quote s3d-button s3d-regular-links s3d-link-button">__MSG__QUOTE__</button>
     <span class="discussion_pipe_divider">|</span>
-    <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button" title="__MSG__EDIT__">__MSG__EDIT__</button>
+    <button class="discussion_edit s3d-button s3d-regular-links s3d-link-button">__MSG__EDIT__</button>
     <span class="discussion_pipe_divider">|</span>
-    <button class="discussion_delete s3d-button s3d-regular-links s3d-link-button" title="__MSG__DELETE__">__MSG__DELETE__</button>
+    <button class="discussion_delete s3d-button s3d-regular-links s3d-link-button">__MSG__DELETE__</button>
 --></div>
 
 <div id="discussion_deleted_post_entity_info_template" style="display:none;"><!--
@@ -272,7 +272,7 @@
 
 <div id="discussion_deleted_post_actions_template" style="display:none;"><!--
     <p class="discussion_deleted_reply_info">__MSG__THIS_REPLY_HAS_BEEN_DELETED_AND_CAN_ONLY_BE_SEEN_BY_YOU__</p>
-    <button class="discussion_restore s3d-button s3d-regular-links s3d-link-button" title="__MSG__RESTORE__">__MSG__RESTORE__</button>
+    <button class="discussion_restore s3d-button s3d-regular-links s3d-link-button">__MSG__RESTORE__</button>
 --></div>
 
 <!-- SETTINGS VIEW -->
@@ -283,8 +283,8 @@
                 <!-- -->
             </div>
             <div class="fl-force-right">
-                <button type="button" class="s3d-button s3d-link-button" id="discussion_settings_cancel" title="__MSG__DONT_SAVE__">__MSG__DONT_SAVE__</button>
-                <button type="button" class="s3d-button s3d-overlay-button" id="discussion_settings_submit" title="__MSG__SAVE_SETTINGS__">__MSG__SAVE_SETTINGS__</button>
+                <button type="button" class="s3d-button s3d-link-button" id="discussion_settings_cancel">__MSG__DONT_SAVE__</button>
+                <button type="button" class="s3d-button s3d-overlay-button" id="discussion_settings_submit">__MSG__SAVE_SETTINGS__</button>
                 <hr class="fl-push fl-hidden"/>
             </div>
         </div>

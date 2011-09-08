@@ -5,7 +5,7 @@
     <div class="s3d-contentpage-title">__MSG__PARTICIPANTS__</div>
     <div id="participants_general_actions">
         <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
-        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled" title="__MSG__MESSAGE_SELECTED__">__MSG__MESSAGE_SELECTED__</button>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
         <input type="text" id="participants_search_field"/>
         <!-- SAKIII-3700 Removing for now, slated for future release.
         <label for="participants_sort_by">__MSG__SORT_BY__</label>
@@ -46,20 +46,20 @@
             <br/>
             <span class="participants_list_participant_details participants_list_participant_details_capitalize">${participant.title|safeOutput}</span>
             <br/>
-            <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details" title="${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+            <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
             {if participant.type === "user"}
-                <a href="/~${participant.id|safeOutput}#l=contacts" class="s3d-regular-light-links participants_list_participant_details" title="${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
+                <a href="/~${participant.id|safeOutput}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                 </a>
                 <span class="participants_list_participant_divider">|</span>
-                <a href="/~${participant.id|safeOutput}#l=memberships" class="s3d-regular-light-links participants_list_participant_details" title="${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
+                <a href="/~${participant.id|safeOutput}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                 </a>
             {else}
-                <a href="/~${participant.id|safeOutput}#l=participants" class="s3d-regular-light-links participants_list_participant_details" title="${participant.membersCount} {if participant.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">
+                <a href="/~${participant.id|safeOutput}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.membersCount} {if participant.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                 </a>
             {/if}

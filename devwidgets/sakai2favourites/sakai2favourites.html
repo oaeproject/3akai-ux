@@ -20,7 +20,7 @@
                     <ul>
                         {var index = 0}
                         {for category in categories}
-                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><button type="button" class="s3d-regular-links s3d-bold s3d-link-button" title="${category.category}">${category.category}</button></span></li>
+                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><button type="button" class="s3d-regular-links s3d-bold s3d-link-button">${category.category}</button></span></li>
                             ${index++|eat}
                         {/for}
                     </ul>
@@ -50,7 +50,7 @@
                     <div class="sakai2favourites_site_list">
                         <ul>
                             {for site in sites}
-                                <li><button type="button" id=${site.id} class="s3d-regular-links s3d-bold s3d-link-button sakai2_selected_site" title="${site.title}"><span class="sakai2_selected_site_title"><div class="sakai2_selected_site_icon"></div>${site.title}</span></button></li>
+                                <li><button type="button" id=${site.id} class="s3d-regular-links s3d-bold s3d-link-button sakai2_selected_site"><span class="sakai2_selected_site_title"><div class="sakai2_selected_site_icon"></div>${site.title}</span></button></li>
                             {/for}
                         </ul>
                     </div>
@@ -58,8 +58,8 @@
             </div>
         </div>
         <div class="dialog_buttons">
-            <button type="button" class="s3d-button s3d-button jqmClose" id="sakai2favourites_add_cancel" title="__MSG__DONT_SAVE__"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
-            <button type="button" class="s3d-button s3d-button-primary" id="sakai2favourites_add_save" title="__MSG__SAVE__"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
+            <button type="button" class="s3d-button s3d-button jqmClose" id="sakai2favourites_add_cancel"><span class="s3d-button-inner">__MSG__DONT_SAVE__</span></button>
+            <button type="button" class="s3d-button s3d-button-primary" id="sakai2favourites_add_save"><span class="s3d-button-inner">__MSG__SAVE__</span></button>
         </div>
 
     </div>

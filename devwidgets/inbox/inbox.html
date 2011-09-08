@@ -17,21 +17,21 @@
               <div id="inbox_select_options" style="display:none">
                 <ul>
                   <li>
-                    <button type="button" id="inbox_select_all" class="s3d-link-button s3d-action" title="__MSG__ALL__">__MSG__ALL__</button>
+                    <button type="button" id="inbox_select_all" class="s3d-link-button s3d-action">__MSG__ALL__</button>
                   </li>
                   <li>
-                    <button type="button" id="inbox_select_unread" class="s3d-link-button  s3d-action" title="__MSG__UNREAD__">__MSG__UNREAD__</button>
+                    <button type="button" id="inbox_select_unread" class="s3d-link-button  s3d-action">__MSG__UNREAD__</button>
                   </li>
                 </ul>
               </div>
 
-              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none" title="__MSG__DELETE_SELECTED__">__MSG__DELETE_SELECTED__</button>
-              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none" title="__MSG__MARK_AS_READ__">__MSG__MARK_AS_READ__</button>
+              <button type="button" id="inbox_delete_selected" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__DELETE_SELECTED__</button>
+              <button type="button" id="inbox_mark_as_read" class="s3d-button s3d-header-button s3d-header-smaller-button inbox-message-list-view s3d-margin-top-5" disabled="disabled" style="display:none">__MSG__MARK_AS_READ__</button>
 
-              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none" title="__MSG__BACK_TO_MESSAGES__">
+              <a href="#" data-remove-params="message, reply" id="inbox_back_to_messages" class="s3d-margin-top-5 inbox-message-detail-view s3d-button s3d-header-smaller-button s3d-margin-top-5 s3d-header-button" style="display:none">
                   __MSG__BACK_ICON__ __MSG__BACK_TO_MESSAGES__
               </a>
-              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none" title="__MSG__CREATE_NEW_MESSAGE__">
+              <a href="#newmessage=true" data-remove-params="message, reply" class="s3d-no-margin-top s3d-button s3d-margin-top-3 s3d-overlay-button grey fl-force-right inbox-message-list-view inbox-message-detail-view" id="inbox_create_new_message" style="display:none">
                   __MSG__CREATE_NEW_MESSAGE__
               </a>
               <input type="text" id="inbox_search_messages" disabled="disabled" placeholder="__MSG__SEARCH_MESSAGES__" class="inbox-message-list-view s3d-margin-top-5" style="display:none"/>
@@ -55,14 +55,14 @@
                             <div class="inbox_middle_col inbox_col">
                                 <div class="inbox_message_data">
                                   <div class="inbox_name">
-                                    <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}" title="${message.from.name}">${message.from.name}</button>
+                                    <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                     <span class="inbox_to_list">__MSG__TO__: ${_.first(message.toList, 3).join(", ")}{if message.toList.length > 3} + ${message.toList.length-3} __MSG__OTHERS__{/if}</span>
                                   </div>
                                   <div class="inbox_date">
                                     <span>${message.date}</span>
                                   </div>
                                   <div class="inbox_subject">
-                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold" title="${message.subject|safeOutput}">${message.subject|safeOutput}</a>
+                                    <a href="#message=${message.id}" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
                                   </div>
                                   <div class="inbox_excerpt">
                                     <p>${message.body_nolinebreaks}<p>
@@ -83,16 +83,16 @@
                             <div class="s3d-no-results-arrow-up"></div>
                             {if widgetData.category == "invitation"}
                                 <div class="s3d-no-results-icon s3d-no-results-contacts"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INVITATIONS__ <a href="/search#l=people" title="__MSG__FIND_PEOPLE__" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INVITATIONS__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
                             {elseif widgetData.box == "outbox"}
                                 <div class="s3d-no-results-icon s3d-no-results-replied"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_OUTBOX__ <a href="#newmessage=true" title="__MSG__COMPOSE_A_MESSAGE__" class="s3d-regular-links">__MSG__COMPOSE_A_MESSAGE__</a></h1>
+                                <h1>__MSG__NO_RESULTS_DESCRIPTION_OUTBOX__ <a href="#newmessage=true" class="s3d-regular-links">__MSG__COMPOSE_A_MESSAGE__</a></h1>
                             {elseif widgetData.box == "inbox"}
                                 <div class="s3d-no-results-icon s3d-no-results-people"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a href="/search#l=people" title="__MSG__FIND_PEOPLE__" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                                <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
                             {elseif widgetData.box == "trash"}
                                 <div class="s3d-no-results-icon s3d-no-results-trash"></div>
-                                <h1>__MSG__NO_RESULTS_DESCRIPTION_TRASH__ <a href="/search#l=people" title="__MSG__FIND_PEOPLE__" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                                <h1>__MSG__NO_RESULTS_DESCRIPTION_TRASH__ <a href="/search#l=people" class="s3d-regular-links">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
                             {/if}
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                 <div class="inbox_middle_col inbox_col">
                                     <div class="inbox_message_data">
                                         <div class="inbox_name">
-                                          <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}" title="${message.from.name}">${message.from.name}</button>
+                                          <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                           {if !reply}<span class="inbox_to_list">__MSG__TO__: ${message.toList.join(", ")}</span>{/if}
                                         </div>
                                         <div class="inbox_date">
@@ -123,16 +123,16 @@
                                         </div>
                                         {if !reply}
                                         <div class="inbox_subject">
-                                          <a href="#" class="s3d-regular-links s3d-bold" title="${message.subject|safeOutput}">${message.subject|safeOutput}</a>
+                                          <a href="#" class="s3d-regular-links s3d-bold">${message.subject|safeOutput}</a>
                                         </div>
                                         {/if}
                                         <div class="inbox_excerpt">
                                           <p>${message.body}</p>
                                           {if message.invitation}
                                             {if message.invited}
-                                              <button class="inbox_invitation inbox_invitation_accept s3d-button s3d-link-button" title="__MSG__ACCEPT_INVITATION__">__MSG__ACCEPT_INVITATION__</button>
+                                              <button class="inbox_invitation inbox_invitation_accept s3d-button s3d-link-button">__MSG__ACCEPT_INVITATION__</button>
                                               <span class="inbox_invitation inbox_invitation_divider">|</span>
-                                              <button class="inbox_invitation inbox_invitation_ignore s3d-button s3d-link-button" title="__MSG__IGNORE_INVITATION__">__MSG__IGNORE_INVITATION__</button>
+                                              <button class="inbox_invitation inbox_invitation_ignore s3d-button s3d-link-button">__MSG__IGNORE_INVITATION__</button>
                                             {/if}
                                             <span class="inbox_ignored"{if !message.ignored} style="display:none"{/if}>__MSG__IGNORED__</span>
                                             <span class="inbox_accepted"{if (message.ignored || message.invited)} style="display:none;"{/if}>__MSG__ACCEPTED__</span>
