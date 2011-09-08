@@ -61,13 +61,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderTemplate = function(relatedcontentData){
             // Render the relatedcontent
             relatedcontentData.sakai = sakai;
-            for (var item in relatedcontentData.relatedContent.results) {
-                if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){
-                    relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
+            if (relatedcontentData.hasOwnProperty("relatedContent") && relatedcontentData.relatedContent.hasOwnProperty("results")) {
+                for (var item in relatedcontentData.relatedContent.results) {
+                    if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){
+                        relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name-dotted"] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]["sakai:pooled-content-file-name"], $(".relatedcontent").width() - 30, {max_rows: 1,whole_word: false}, "s3d-bold");
+                    }
                 }
+                sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
+                $(relatedcontentContainer).show();
             }
-            sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
-            $(relatedcontentContainer).show();
         };
 
 

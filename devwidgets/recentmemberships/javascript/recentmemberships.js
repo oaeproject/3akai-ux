@@ -84,15 +84,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 item.type_img_url = sakai.config.MimeTypes["other"].URL;
             }
 
-            // set file name without the extension
-            // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item["_mimeType"] !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                }
-            }
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size

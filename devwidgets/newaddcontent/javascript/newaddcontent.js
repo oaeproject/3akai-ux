@@ -448,7 +448,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         };
 
         var proofTitle = function(input){
-            return input.replace(/=/g,"_").replace(/\//g, "_");
+            return input.replace(/=/g,"_");
         };
 
         /**
@@ -457,7 +457,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
-            var document = {
+            var doc = {
                 "sakai:pooled-content-file-name": proofTitle(documentObj.title),
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
@@ -479,7 +479,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
             $.ajax({
                 url: uploadPath,
-                data: document,
+                data: doc,
                 type: "POST",
                 dataType: "json",
                 success: function(data) {
@@ -521,9 +521,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             checkUploadCompleted();
                         }
                     });
-                    document.hashpath = data["_contentItem"].poolId;
-                    document.permissions = document["sakai:permissions"];
-                    sakai.api.Content.setFilePermissions([document], function(){
+                    doc.hashpath = data["_contentItem"].poolId;
+                    doc.permissions = doc["sakai:permissions"];
+                    sakai.api.Content.setFilePermissions([doc], function(){
                         addToLibrary(data._contentItem, true);
                     });
                 },
@@ -620,6 +620,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             });
                             $.each(lastUpload, function(i, item) {
                                 if (item._path === savedItem.hashpath) {
+                                    item["sakai:pooled-content-file-name"] = proofTitle(arrayItem.title);
                                     item["sakai:description"] = arrayItem.description;
                                     item["sakai:tags"] = arrayItem.tags;
                                 }

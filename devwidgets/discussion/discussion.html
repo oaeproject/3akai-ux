@@ -56,7 +56,7 @@
         <label for="discussion_topic_reply_text" class="s3d-bold">
             __MSG__QUOTED_TEXT__
         </label>
-        <textarea id="discussion_topic_quoted_text" class="required" rows="4" name="quoted_text">${quotedMessage}</textarea>
+        <textarea id="discussion_topic_quoted_text" class="required" rows="4" name="quoted_text">${quotedMessage|safeOutput}</textarea>
     {/if}
     <label for="discussion_topic_reply_text" class="s3d-bold">
         __MSG__MESSAGE_TEXT__
@@ -81,8 +81,8 @@
             <div class="s3d-highlight_area_background_tinner"></div>
         </div>
         <div class="discussion_entity_container">
-            <img src="${post.message.profile.pictureImg}" alt="${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}" class="discussion_entity_picture"/>
-            <span class="discussion_poster_name">${post.message.profile.basic.elements.firstName.value} ${post.message.profile.basic.elements.lastName.value}</span>
+            <img src="${post.message.profile.pictureImg}" alt="${sakai.api.User.getDisplayName(post.message.profile)}" class="discussion_entity_picture"/>
+            <span class="discussion_poster_name">${sakai.api.User.getDisplayName(post.message.profile)}</span>
             <span class="discussion_posting_date">${post.message["sakai:createdOn"]}<span class="discussion_updating_date" {if !post.message["sakai:editedOn"]}style="display:none;"{/if}>(__MSG__EDITED_BY__ <span></span>)</span></span>
             <hr class="fl-push fl-hidden"/>
         </div>
@@ -94,14 +94,14 @@
                         <div class="s3d-highlight_area_background_white_content_tinner"></div>
                     </div>
                     <p><span class="discussion_reply_contents_text_quoted">${post.message["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
-                    <p class="discussion_reply_contents_text">${post.message["sakai:quoted"].quote}</p>
+                    <p class="discussion_reply_contents_text">${post.message["sakai:quoted"].quote|safeOutput}</p>
                     <div class="s3d-highlight_area_background_white_content_bl">
                         <div class="s3d-highlight_area_background_white_content_binner"></div>
                     </div>
                 </div>
             {/if}
 
-            <div><span class="discussion_post_message">${post.message["sakai:body"]}</span></div>
+            <div><span class="discussion_post_message">${post.message["sakai:body"]|safeOutput}</span></div>
 
             {if settings.anon != true && settings.canreply == true}
                 <span class="discussion_message_options">
@@ -137,7 +137,7 @@
             {if settings.anon != true && settings.canreply == true}
                 <button type="button" class="s3d-button s3d-overlay-button discussion_reply_topic" id="discussion_reply_topic">__MSG__REPLY__</button>
             {/if}
-            <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]}</h1>
+            <h1 class="discussion_topic_subject">${topic.post["sakai:subject"]|safeOutput}</h1>
             <button class="discussion_show_topic_replies s3d-button s3d-link-button"><div class="discussion_replies_icon discussion_show_replies_icon"></div><span class="discussion_topic_number_of_replies"><span class="discussion_number_of_replies">${topic.replies.length}</span> __MSG__REPLIES__</span></button>
 
             <div class="s3d-highlight_area_background" id="${topic.post["sakai:id"]}">
@@ -145,15 +145,15 @@
                     <div class="s3d-highlight_area_background_tinner"></div>
                 </div>
                 <div class="discussion_entity_container">
-                    <img src="${topic.post.profile[0].pictureImg}" alt="${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}" class="discussion_entity_picture"/>
-                    <span class="discussion_poster_name">${topic.post.profile[0].basic.elements.firstName.value} ${topic.post.profile[0].basic.elements.lastName.value}</span>
+                    <img src="${topic.post.profile[0].pictureImg}" alt="${sakai.api.User.getDisplayName(topic.post.profile[0])}" class="discussion_entity_picture"/>
+                    <span class="discussion_poster_name">${sakai.api.User.getDisplayName(topic.post.profile[0])}</span>
                     <span class="discussion_posting_date">${topic.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !topic.post["sakai:editedOn"]}style="display:none;"{/if}>{if topic.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${topic.post["sakai:editedBy"]} ${topic.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                     <hr class="fl-push fl-hidden"/>
                 </div>
 
                 <div class="discussion_reply_contents">
                     <div class="discussion_ellipsis_container">
-                        <span class="discussion_post_message discussion_ellipsis_text">${topic.post["sakai:body"]}</span>
+                        <span class="discussion_post_message discussion_ellipsis_text">${topic.post["sakai:body"]|safeOutput}</span>
                     </div>
                     {if settings.anon != true && settings.canreply == true}
                         <span class="discussion_message_options">
@@ -183,8 +183,8 @@
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <button class="discussion_hide_reply s3d-button s3d-regular-links s3d-link-button"><span>__MSG__HIDE__</span><span style="display:none;">__MSG__SHOW__</span></button>
                             {/if}
-                            <img src="${reply.post.profile[0].pictureImg}" alt="${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}" class="discussion_entity_picture"/>
-                            <span class="discussion_poster_name">${reply.post.profile[0].basic.elements.firstName.value} ${reply.post.profile[0].basic.elements.lastName.value}</span>
+                            <img src="${reply.post.profile[0].pictureImg}" alt="${sakai.api.User.getDisplayName(reply.post.profile[0])}" class="discussion_entity_picture"/>
+                            <span class="discussion_poster_name">${sakai.api.User.getDisplayName(reply.post.profile[0])}</span>
                             <span class="discussion_posting_date">${reply.post["sakai:createdOn"]}<span class="discussion_updating_date" {if !reply.post["sakai:editedOn"]}style="display:none;"{/if}>{if reply.post["sakai:editedOn"]} (__MSG__EDITED_BY__ <span>${reply.post["sakai:editedBy"]} ${reply.post["sakai:editedOn"]}</span>) {else} (__MSG__EDITED_BY__ <span></span>){/if}</span></span>
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="discussion_delete_date">(__MSG__DELETED_BY__ ${reply.post["sakai:deletedBy"]} ${reply.post["sakai:deletedOn"]})</span>
@@ -200,7 +200,7 @@
                                         </div>
                                     </div>
                                     <p><span class="discussion_reply_contents_text_quoted">${reply.post["sakai:quoted"].by}</span> __MSG__WROTE__:</p>
-                                    <p class="discussion_reply_contents_text">${reply.post["sakai:quoted"].quote}</p>
+                                    <p class="discussion_reply_contents_text">${reply.post["sakai:quoted"].quote|safeOutput}</p>
                                     <div class="s3d-highlight_area_background_white_content_bl">
                                         <div class="s3d-highlight_area_background_white_content_binner">
                                         </div>
@@ -208,7 +208,7 @@
                                 </div>
                             {/if}
 
-                            <div><span class="discussion_post_message">${reply.post["sakai:body"]}</span></div>
+                            <div><span class="discussion_post_message">${reply.post["sakai:body"]|safeOutput}</span></div>
 
                             {if reply.post["sakai:deleted"] && reply.post["sakai:deleted"] == "true"}
                                 <span class="discussion_deleted_message">

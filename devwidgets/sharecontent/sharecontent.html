@@ -54,13 +54,13 @@
                                 <li {if manager_index % 2 != 0} class="sharecontent_list_item_alternating_row"{/if}>
                                     {if manager.picture != null}
                                         {if manager.hasOwnProperty("sakai:group-id")}
-                                            <img src="/~${manager["sakai:group-id"]}/public/profile/${manager.picture.name}" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
+                                            <img src="/~${manager["sakai:group-id"]}/public/profile/${manager.picture.name}" alt="${manager["sakai:group-title"]|safeOutput}" class="sharecontent_people_picture"/>
                                         {else}
-                                            <img src="/~${manager["rep:userId"]|urlSafe}/public/profile/${manager.picture.name|urlSafe}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
+                                            <img src="/~${manager["rep:userId"]|safeURL}/public/profile/${manager.picture.name|safeURL}" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                         {/if}
                                     {else}
                                         {if manager.hasOwnProperty("sakai:group-id")}
-                                            <img src="/dev/images/group_avatar_icon_32x32.png" alt="${unescape(manager["sakai:group-title"])}" class="sharecontent_people_picture"/>
+                                            <img src="/dev/images/group_avatar_icon_32x32.png" alt="${manager["sakai:group-title"]|safeOutput}" class="sharecontent_people_picture"/>
                                         {else}
                                             <img src="/dev/images/user_avatar_icon_32x32.png" alt="${manager.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                         {/if}
@@ -109,7 +109,7 @@
                                                 {if viewer.hasOwnProperty("sakai:group-id")}
                                                     <img src="/~${viewer["sakai:group-id"]}/public/profile/${viewer.picture.name}" alt="${unescape(viewer["sakai:group-title"])}" class="sharecontent_people_picture"/>
                                                 {else}
-                                                    <img src="/~${viewer["rep:userId"]|urlSafe}/public/profile/${viewer.picture.name|urlSafe}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
+                                                    <img src="/~${viewer["rep:userId"]|safeURL}/public/profile/${viewer.picture.name|safeURL}" alt="${viewer.basic.elements.firstName.value}" class="sharecontent_people_picture"/>
                                                 {/if}
                                             {else}
                                                 {if viewer.hasOwnProperty("sakai:group-id")}
