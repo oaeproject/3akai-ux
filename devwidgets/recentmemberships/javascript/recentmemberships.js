@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var role in memberList) {
                         if (memberList[role].results.length > 0){
                             var member = memberList[role].results[0];
-                             if (member.userid){
+                             if (member.userid && member.userid !== sakai.data.me.user.userid){
                                 id = member.userid;
                                 name = sakai.api.User.getDisplayName(member);
                                 picture = sakai.api.User.getProfilePicture(member);
@@ -167,18 +167,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 name = member["sakai:group-title"];
                                 picture = sakai.api.Groups.getProfilePicture(member);
                             }
-                            newjson.entry[0].manager = member;
-                            var item = {
-                                member: {
-                                    memberId: id,
-                                    memberName: name,
-                                    memberPicture: picture,
-                                    roleName: role
-                                },
-                                group: newjson.entry[0]
-                            };
-                            $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
-                            break;
+                            if (id) {
+                                newjson.entry[0].manager = member;
+                                var item = {
+                                    member: {
+                                        memberId: id,
+                                        memberName: name,
+                                        memberPicture: picture,
+                                        roleName: role
+                                    },
+                                    group: newjson.entry[0]
+                                };
+                                $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
+                                break;
+                            }
                         }
                     }
                 }
