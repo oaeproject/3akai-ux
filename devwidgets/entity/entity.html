@@ -332,9 +332,9 @@
                         {else} <li id="${i["rep:userId"]|safeOutput}" class="entity_content_even">
                         {/if}
                         {if i.pictureUrl}
-                            <a href="/~${i["rep:userId"]|urlSafe}" target="_blank"><img src="${i.pictureUrl}" alt="${displayName}" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="${i.pictureUrl}" alt="${displayName}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i["rep:userId"]|urlSafe}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="${displayName}" class="s3d-icon-32 entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="${displayName}" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
                             <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|safeURL}" target="_blank">${displayName}</a>
