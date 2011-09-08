@@ -291,7 +291,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         "title": $linkForm.find(newaddcontentAddLinkTitle).val() || $linkForm.find(newaddcontentAddLinkURL).val(),
                         "description": $linkForm.find(newaddcontentAddLinkDescription).val(),
                         "tags":$linkForm.find(newaddcontentAddLinkTags).val(),
-                        "permissions":"public",
+                        "permissions": sakai.config.Permissions.Links.defaultaccess,
                         "copyright": sakai.config.Permissions.Copyright.defaults["links"],
                         "css_class": "icon-url-sprite",
                         "type":"link"

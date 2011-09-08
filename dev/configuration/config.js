@@ -212,6 +212,9 @@ define(function(){
                  */
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Links: {
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
             Copyright: {
                 types: {
                     "creativecommons": {
