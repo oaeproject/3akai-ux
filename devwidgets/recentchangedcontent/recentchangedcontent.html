@@ -82,7 +82,7 @@
                         </div>
                         <div class="recentchangedcontent_item_div">
                             <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">
-                                ${item.relatedContent.nameRelatedShort}
+                                ${item.relatedContent.nameRelatedShort|safeOutput}
                             </a>
                             <span class="recentchangedcontent_mimetype_desc">${item.relatedContent.mimeTypeDescription}</span>
                             <div>__MSG__BY__

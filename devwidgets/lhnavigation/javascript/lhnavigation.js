@@ -983,14 +983,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var renderNavigation = function(pubdata, privdata, cData, mainPubUrl, mainPrivUrl){
             cData.puburl = mainPubUrl;
             cData.privurl = mainPrivUrl;
-            if (mainPubUrl && sakaiDocsInStructure[mainPubUrl]) {
-                sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
-                sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
-            }
-            if (mainPrivUrl && sakaiDocsInStructure[mainPrivUrl]) {
-                sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
-                sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
-            }
             contextData = cData;
             processData(privdata, cData.privurl, function(processedPriv){
                 privstructure = processedPriv;
@@ -1005,6 +997,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     }
                 });
             });
+            if (mainPubUrl) {
+                sakaiDocsInStructure[mainPubUrl] = $.extend(true, {}, pubdata);
+                sakaiDocsInStructure[mainPubUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPubUrl].structure0);
+            }
+            if (mainPrivUrl) {
+                sakaiDocsInStructure[mainPrivUrl] = $.extend(true, {}, privdata);
+                sakaiDocsInStructure[mainPrivUrl].orderedItems = orderItems(sakaiDocsInStructure[mainPrivUrl].structure0);
+            }
         };
 
         ///////////////////////////////////////
