@@ -38,15 +38,17 @@
  */
 {
     "id":                 "WIDGET_ID",
-    "name":               "WIDGET NAME",
-    "description":        "WIDGET DESCRIPTION",
     "type":               "contrib",
     "enabled":            false,
     "hasSettings":        false,
     "url":                "/devwidgets/WIDGET_ID/WIDGET_ID.html",
     "img":                "/devwidgets/WIDGET_ID/images/WIDGET_ID.png",
     "i18n": {
-        "default":        "/devwidgets/WIDGET_ID/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/WIDGET_ID/bundles/default.properties",
+            "name":       "WIDGET_ID_NAME",
+            "description":"WIDGET_ID_DESCRIPTION"
+        }
     },
     "personalportal":     false,
     "sakaidocs":          false,

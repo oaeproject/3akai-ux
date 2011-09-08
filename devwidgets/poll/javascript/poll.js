@@ -514,7 +514,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // if the user has checked an element. We do this double check to make it
                     // more secure.
                     if($('input[name=' + pollQuestionViewOptionsClass + ']:checked').length === 0){
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_SELECT_AN_OPTION"),"",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_SELECT_AN_OPTION"),"",sakai.api.Util.notification.type.ERROR);
 
                     // If the user selected one or multiple options
                     }else{
@@ -528,10 +528,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
                 else{
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_ALREADY_VOTED"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOU_ALREADY_VOTED"),"",sakai.api.Util.notification.type.ERROR);
                 }
             }else{
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("CANT_GET_CURRENT_USER"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CANT_GET_CURRENT_USER"),"",sakai.api.Util.notification.type.ERROR);
             }
         };
 

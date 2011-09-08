@@ -1,14 +1,16 @@
 {
-    "description":        "List Participants of a Group",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         true,
     "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/participants/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/participants/bundles/default.properties",
+            "name":       "Participants",
+            "description":"List Participants of a Group"
+        }
     },
     "id":                 "participants",
-    "name":               "Participants",
     "personalportal":     false,
     "showinsakaigoodies": true,
     "type":               "sakai",

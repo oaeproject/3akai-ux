@@ -1,9 +1,11 @@
 {
-    "description":"My recent contacts",
-    "name":"My recent contacts",
     "id":"recentcontactsnew",
     "i18n": {
-        "default": "/devwidgets/recentcontactsnew/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/recentcontactsnew/bundles/default.properties",
+            "name": "My recent contacts",
+            "description":"My recent contacts"
+        }
     },
     "personalportal":true,
     "hasSettings":false,
