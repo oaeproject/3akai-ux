@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             if (templatesToRender){
                 if (templatesToRender.templates.length === 1){
-                    renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id);
+                    renderCreateWorld(templatesToRender.id, templatesToRender.templates[0].id, templatesToRender.templates.length);
                 } else {
                     renderTemplateList(templatesToRender);
                 }
@@ -79,13 +79,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var renderCreateWorld = function(category, id){
+        var renderCreateWorld = function(category, id, numTemplates){
             $("#selecttemplate_container", $rootel).hide();
             var tuid = sakai.api.Util.generateWidgetId();
             var toPassOn = {};
             toPassOn[tuid] = {
                 "category": category,
-                "id": id
+                "id": id,
+                "numTemplates": numTemplates
             };
             toPassOn[tuid + "addpeople"] = {
                 "category": category,
@@ -125,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(".selecttemplate_use_button", "#selecttemplate_preview_dialog").live("click", function(){
                 var clicked = $(this);
                 if (clicked.data("templateid")){
-                    renderCreateWorld(tuid, clicked.data("templateid"));
+                    renderCreateWorld(tuid, clicked.data("templateid"), 2);
                     $selecttemplatePreviewDialog.jqmHide();
                 }
             });
