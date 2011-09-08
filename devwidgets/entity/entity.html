@@ -11,13 +11,13 @@
                 <button class="s3d-link-button" title="__MSG__PERMISSIONS__">__MSG__PERMISSIONS__</button>
             </li>
             <hr class="s3d-split-line"/>
-            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document"}
+            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link"}
                 <li id="ew_upload">
                     <button class="s3d-link-button" title="__MSG__UPLOAD_NEW_VERSION__">__MSG__UPLOAD_NEW_VERSION__</button>
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
-            {if sakai_global.content_profile.content_data.data["_mimeType"] != "x-sakai/document"}
+            {if sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link"}
                 <li id="ew_revhistory">
                     <button class="s3d-link-button" title="__MSG__REVISION_HISTORY__">__MSG__REVISION_HISTORY__</button>
                 </li>
