@@ -38,8 +38,8 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <div id="searchall_results_container">
-                    </div>
+                    <ul id="searchall_results_container">
+                    </ul>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
                     <div class="jq_pager"><!-- --></div>
@@ -51,7 +51,7 @@
                         {var count = count + 1}
                         {if i['sakai:pooled-content-file-name']}
                             {var resultFound = true}
-                            <div class="fl-container fl-fix searchcontent_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
+                            <li class="fl-container fl-fix searchcontent_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']}"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']}"></button>
@@ -106,10 +106,10 @@
                                         </div>
                                     {/if}
                                 </div>
-                            </div>
+                            </li>
                         {elseif i.userid}
                             {var resultFound = true}
-                            <div class="fl-container fl-fix searchpeople_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
+                            <li class="fl-container fl-fix searchpeople_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
@@ -170,10 +170,10 @@
                                         </div>
                                     {/if}
                                 </div>
-                            </div>
+                            </li>
                         {elseif i['sakai:group-id']}
                             {var resultFound = true}
-                            <div class="fl-container fl-fix searchgroups_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
+                            <li class="fl-container fl-fix searchgroups_result s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="searchall_result_user_functions" style="display:none;">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember}  s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']|safeOutput}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']|safeOutput}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button searchgroups_result_message_icon s3d-action-icon s3d-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']|safeOutput}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"></button>
@@ -223,15 +223,15 @@
                                         </div>
                                     {/if}
                                 </div>
-                            </div>
+                            </li>
                         {/if}
                     {/for}
                     {if !resultFound}
-                        <div class="s3d-no-results-container">
+                        <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-magnifier less-margin"></div>
                             <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}{if !sakai.data.me.user.anon} <a href="/create#l=group" title="__MSG__ADD_GROUPS__" class="s3d-regular-links">__MSG__ADD_GROUPS__</a> <a href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
-                        </div>
+                        </li>
                     {/if}
                 --></div>
             </div>

@@ -5,7 +5,7 @@
         {
             "title":"Administration Workspace",
             "id":"!admin",
-            "url":"http://localhost/portal/site/!admin",
+            "url":"/portal/site/!admin",
             "description":"Administration Workspace",
             "forums": 3,
             "messages":5
@@ -14,7 +14,7 @@
         {
             "title":"Citations Admin",
             "id":"citationsAdmin",
-            "url":"http://localhost/portal/site/citationsAdmin",
+            "url":"/portal/site/citationsAdmin",
             "forums": 3,
             "messages":5
 
@@ -22,7 +22,7 @@
         {
             "title":"Portfolio Admin",
             "id":"PortfolioAdmin",
-            "url":"http://localhost/portal/site/PortfolioAdmin",
+            "url":"/portal/site/PortfolioAdmin",
             "description":"Site for portfolio administration",
             "forums": 3,
             "messages":5
@@ -31,7 +31,7 @@
         {
             "title":"mercury site",
             "id":"mercury",
-            "url":"http://localhost/portal/site/mercury",
+            "url":"/portal/site/mercury",
             "forums": 3,
             "messages":5
 
@@ -39,7 +39,7 @@
         {
             "title":"projecto",
             "id":"c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
-            "url":"http://localhost/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
+            "url":"/portal/site/c1cffc2c-4da1-4e1e-8ea6-49f767d47527",
             "description":"ggg",
             "forums": 3,
             "messages":5

@@ -308,10 +308,7 @@
                             value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
                         {/if}
                     {/if}
-                        id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${path.replace(/\./g,"_")} ${config.label}" title="${config.label}"
-                    {if config.example}
-                        placeholder="${config.example}"
-                    {/if}
+                        id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${path.replace(/\./g,"_")}" title="${config.label}"
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         />
                     {elseif config.type === "select"}
