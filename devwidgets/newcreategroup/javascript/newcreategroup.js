@@ -370,7 +370,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
         $(".newcreategroup_template_name", $rootel).text(currentTemplate.title);
-        if($.inArray(currentTemplate.id, ["simplegroup"]) !== -1){
+        if(widgetData.numTemplates === 1){
             $newcreategroupCancelCreateButton.hide();
         }
         $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
