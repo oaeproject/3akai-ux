@@ -75,7 +75,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
             });
-            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
             $("#lhnavigation_container").html(lhnavHTML);
         };
 
@@ -196,8 +195,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (level && level.substring(0,1) !== "_"){
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
+                } else if (level && level === "_title"){
+                    structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                    structure[level] = sakai.api.i18n.General.process(structure[level]);
+                    structure[level] = structure[level].replace("${user}", sakai.api.User.getFirstName(contextData.profile));
                 }
             }
             structure._childCount = childCount;

@@ -28,7 +28,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var category = sakai.config.worldTemplates[i];
             pubdata.structure0[category.id] = {
                 "_order": i,
-                "_title": sakai.api.i18n.General.getValueForKey(category.title),
+                "_title": sakai.api.i18n.getValueForKey(category.title),
                 "_ref": category.id
             };
             pubdata[category.id] = {

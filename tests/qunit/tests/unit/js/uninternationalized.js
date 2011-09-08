@@ -10,7 +10,7 @@ require(
     function($, sakai) {
 
     require.ready(function() {
-         module("Internationalization");
+         module("Uninternationalized English Strings");
 
          // attributes to test for
          var attrs = ["alt", "title"];
@@ -156,9 +156,9 @@ require(
                      bundle = sakai.widgets[widgetname].i18n["default"];
                  }
              }
-             if (bundle) {
+             if (bundle && bundle.bundle) {
                  $.ajax({
-                     url: bundle,
+                     url: bundle.bundle,
                      success: function(data){
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
                          sakai.api.i18n.data.widgets[widgetname]["default"] = sakai.api.i18n.changeToJSON(data);
@@ -188,7 +188,7 @@ require(
              getWidgetInfo(widget.name, function(hasBundles) {
                  for (var i=0,j=keys.length;i<j;i++) {
                      if (hasBundles) {
-                         ok(sakai.api.i18n.Widgets.getValueForKey(widget.name, null, keys[i]), "Default value exists for " + keys[i]);
+                         ok(sakai.api.i18n.getValueForKey(keys[i], widget.name), "Default value exists for " + keys[i]);
                      } else {
                          ok(sakai.api.i18n.data.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
                      }

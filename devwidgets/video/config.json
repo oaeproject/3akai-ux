@@ -3,17 +3,19 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
-    "description":"Video",
     "hasSettings":true,
     "id":"video",
     "img":"/devwidgets/video/images/video.png",
-    "name":"Video",
     "showinmedia":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/video/video.html",
     "i18n": {
-        "default": "/devwidgets/video/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/video/bundles/default.properties",
+            "name":"Video",
+            "description":"Video"
+        }
     },
     "indexFields": ["source", "title", "url"]
 }

@@ -74,7 +74,7 @@
 						<label for="select_${member.groupid}">
 							<img src="/dev/images/group_avatar_icon_35x35_nob.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
 							{if member.pseudoGroup}
-								<a href="/~${member.parent["sakai:group-id"]|safeURL}" title="__MSG__VIEW__ ${member.parent["sakai:group-title"]|safeOutput} ${member.parent["sakai:role-title"]|safeOutput}'s __MSG__PROFILE__">${member.parent["sakai:group-title"]|safeOutput} <span class="contentpermissions_pseudogroup">${member.parent["sakai:role-title"]|safeOutput}</span></a>
+								<a href="/~${member.parent["sakai:group-id"]|safeURL}" title="__MSG__VIEW__ ${member.parent["sakai:group-title"]|safeOutput} ${member.parent["sakai:role-title"]|safeOutput}'s __MSG__PROFILE__">${member.parent["sakai:group-title"]|safeOutput} <span class="contentpermissions_pseudogroup">${sakai.api.i18n.General.process(member.parent["sakai:role-title"])}</span></a>
 							{else}
 								<a href="/~${member.groupid|safeURL}" title="__MSG__VIEW__ ${member["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__">${member["sakai:group-title"]|safeOutput}</a>
 							{/if}

@@ -437,7 +437,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 lastUpload = [];
                 $newaddcontentContainer.jqmHide();
                 var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
                     me: sakai.data.me,
                     libraryid: libraryToUploadTo,
                     librarytitle: librarytitle
