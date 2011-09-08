@@ -37,7 +37,7 @@
         <ul>
             {for person in results}
                 <li {if person_index % 2 != 0} class="s3d-list-item s3d-highlight_area_background" {else} class="s3d-list-item" {/if}>
-                    <a href="/~${person["rep:userId"]|safeURL}" target="_blank" class="s3d-list-link-full-space s3d-action">
+                    <a href="/~${person["rep:userId"]|safeURL}" target="_blank" class="s3d-list-link-full-space s3d-action" title="__MSG__PROFILE_PICTURE__">
                         {if person.picture != null}
                             <img src="/~${person["rep:userId"]|safeURL}/public/profile/${person.picture.name|safeURL}" alt="${sakai.api.User.getDisplayName(person)}" class="s3d-list-entity-picture"/>
                         {else}

@@ -33,7 +33,7 @@
                                 <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${contextData.privurl}" data-sakai-reorder-only="${sublevel._reorderOnly}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}">
                                     <div class="lhnavigation_subnav_item_content">
                                         {if sublevel._count}<div class="lhnavigation_sublevelcount">${sublevel._count}</div>{/if}
-                                        <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" title="${sublevel._title|safeOutput}" class="s3d-regular-links">
+                                        <a href="#l=${level._id}/${sublevel._id}" data-reset-hash="true" class="s3d-regular-links">
                                             {if contextData.altTitle}${sublevel._altTitle|safeOutput}{else}${sublevel._title|safeOutput}{/if}
                                         </a>
                                         <div style="visibility: hidden;" class="lhnavigation_selected_item_arrow lhnavigation_selected_item_arrow_sub"></div>
@@ -75,7 +75,7 @@
                                 <li class="lhnavigation_menuitem lhnavigation_hoverable_item lhnavigation_subnav_item" data-sakai-ref="${sublevel._ref}" data-sakai-addcontextoption="{if contextData.addArea !== "world"}${contextData.addArea}{/if}" data-sakai-pagesavepath="${sublevel._poolpath}" data-sakai-savepath="${sublevel._poolpath}" data-sakai-reorder-only="${sublevel._reorderOnly}" data-sakai-manage="${level._canSubedit}" data-sakai-noneditable="${sublevel._nonEditable}" data-sakai-submanage="${level._canSubedit}" data-sakai-path="${level._id}/${sublevel._id}" {if sublevel._canView === false} style="display:none;" {/if}>
                                     <div class="lhnavigation_subnav_item_content">
                                         {if sublevel._count}<div class="lhnavigation_sublevelcount">${sublevel._count}<div>{/if}
-                                        <a href="#l=${level._id}/${sublevel._id}" title="${sublevel._title|safeOutput}" class="s3d-regular-links lhnavigation_page_title_value" data-reset-hash="true">
+                                        <a href="#l=${level._id}/${sublevel._id}" class="s3d-regular-links lhnavigation_page_title_value" data-reset-hash="true">
                                             {if contextData.altTitle}${sublevel._altTitle|safeOutput}{else}${sublevel._title|safeOutput}{/if}
                                         </a>
                                         <input class="lhnavigation_change_title lhnavigation_change_title_restricted_width" type="text" style="display:none;"/>

@@ -77,7 +77,7 @@
     {if type && type == "user_me"}
         <div id="entity_user_image">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
             <div class="entity_profile_picture_down_arrow">&#9660;</div>
             <div class="s3d-dropdown-menu-arrow"></div>
@@ -92,14 +92,14 @@
     {else}
         <div id="entity_user_image" class="entity_other_profilepic">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </div>
         </div>
         <div id="entity_name" class="s3d-bold">${data.displayName}</div>
         <div id="entity_owns" class="s3d-regular-links">
-            <span class="entity_number">${data.profile.counts["contentCount"] || 0}</span> <a href="#l=library" title="${data.profile.counts["contentCount"] || 0} Documents">Documents</a>,
-            <span class="entity_number">${data.profile.counts["membershipsCount"]}</span> <a href="#l=memberships" title="${data.profile.counts["membershipsCount"]} Memberships">Memberships</a>,
-            <span class="entity_number">${data.profile.counts["contactsCount"]}</span> <a href="#l=contacts" title="${data.profile.counts["contactsCount"]} Contacts">Contacts</a>
+            <span class="entity_number">${data.profile.counts["contentCount"] || 0}</span> <a href="#l=library" title="${data.profile.counts["contentCount"] || 0} __MSG__DOCUMENTS__">__MSG__DOCUMENTS__</a>,
+            <span class="entity_number">${data.profile.counts["membershipsCount"]}</span> <a href="#l=memberships" title="${data.profile.counts["membershipsCount"]} __MSG__MEMBERSHIPS__">__MSG__MEMBERSHIPS__</a>,
+            <span class="entity_number">${data.profile.counts["contactsCount"]}</span> <a href="#l=contacts" title="${data.profile.counts["contactsCount"]} __MSG__CONTACTS__">__MSG__CONTACTS__</a>
         </div>
     {/if}
 --></div>
@@ -119,9 +119,9 @@
 <div id="entity_directory_template" style="display:none"><!--
     <div id="entity_directory_image" class="entity_directory_image">
         {if data.icon}
-            <img src="${data.icon}"/>
+            <img src="${data.icon}" alt="${data.title}"/>
         {else}
-            <img src="/dev/images/hierarchy.png"/>
+            <img src="/dev/images/hierarchy.png"  alt="${data.title}"/>
         {/if}
     </div>
     <div id="entity_name" class="s3d-bold entity_plaintitle">${data.title|safeOutput}</div>
@@ -138,11 +138,11 @@
         {/if}
         {if data.data.mimeType === "x-sakai/link"}
             <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Open Link<span class="entity_download_content"></span>
+                __MSG__OPEN_LINK__<span class="entity_download_content"></span>
             </a>
         {elseif data.data.mimeType !== "x-sakai/document"}
             <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                Download<span class="entity_download_content"></span>
+                __MSG__DOWNLOAD__<span class="entity_download_content"></span>
             </a>
         {/if}
     </div>
@@ -150,7 +150,7 @@
         {if data.isManager}
             <div id="entity_managed_content"></div>
         {/if}
-        <img src="${data.data['iconURL']}"/>
+        <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]}"/>
     </div>
     <span id="entity_name" {if data.isManager}class="s3d-bold contentmetadata_editable"{/if}>${data.data["sakai:pooled-content-file-name"]|safeOutput}</span>
     <span id="entity_name_edit" style="display:none">
@@ -161,7 +161,7 @@
         <div class="entity_number">
             <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
             Used by
-            <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
+            <a href="#" class="entity_content_people">
                 ${peopleCount}
                 {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
             </a>
@@ -169,13 +169,13 @@
         {var groupCount = data.members.counts.groups}
         {if groupCount}
             and
-            <a href="#" title="${groupCount} {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}" class="entity_content_group">
+            <a href="#" class="entity_content_group">
                 ${groupCount}
                 {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
             </a>
         {/if}
         <span class="entity_comments">
-            <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="comments-icon" />
+            <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
             <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
         </span>
@@ -210,7 +210,7 @@
     {if type && type == "group_managed"}
         <div id="entity_group_image">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
             <div class="entity_profile_picture_down_arrow">&#9660;</div>
             <div class="s3d-dropdown-menu-arrow"></div>
@@ -225,7 +225,7 @@
     {else}
         <div id="entity_group_image" class="entity_other_profilepic">
             <div class="entity_profilepic_internal">
-                <img id="entity_profile_picture" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </div>
         </div>
     {/if}
@@ -267,15 +267,15 @@
                         {else} <li id="${i['sakai:group-id']|safeOutput}" class="entity_content_even">
                         {/if}
                         {if i.pseudoGroup}
-                            <a href="/~${i.parent['sakai:group-id']|safeOutput}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                            <a href="/~${i.parent['sakai:group-id']|safeOutput}" target="_blank" title="__MSG__DEFAULT_GROUP_PICTURE__"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                             <span class="entity_content_name">
                                 <a class="s3d-regular-links s3d-bold" href="/~${i.parent['sakai:group-id']|safeURL}" target="_blank">${i.parent['sakai:group-title']|safeOutput} <span class="entity_pseudogroup">${i.parent["sakai:role-title"]|safeOutput}</span></a>
                             </span>
                         {else}
                             {if i.pictureUrl}
-                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>
+                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank" title="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']|safeOutput}"><img src="${i.pictureUrl}" alt="__MSG__GROUP_PICTURE_FOR__ ${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>
                             {else}
-                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                                <a href="/~${i['sakai:group-id']|safeURL}" target="_blank" title="__MSG__DEFAULT_GROUP_PICTURE__"><img src="/dev/images/group_avatar_icon_35x35_nob.png" alt="__MSG__DEFAULT_GROUP_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                             {/if}
                             <span class="entity_content_name">
                                 <a class="s3d-regular-links s3d-bold" href="/~${i['sakai:group-id']|safeURL}" target="_blank">${i['sakai:group-title']|safeOutput}</a>
@@ -292,9 +292,9 @@
                         {else} <li id="${i["rep:userId"]|safeOutput}" class="entity_content_even">
                         {/if}
                         {if i.pictureUrl}
-                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank" title="__MSG__PROFILE_PICTURE_FOR__ ${displayName}"><img src="${i.pictureUrl}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}" class="entity_content_picture"/></a>
                         {else}
-                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank"><img src="/dev/images/default_User_icon_35x35.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
+                            <a href="/~${i["rep:userId"]|safeURL}" target="_blank" title="__MSG__DEFAULT_PROFILE_PICTURE__"><img src="/dev/images/default_User_icon_35x35.png" alt="__MSG__DEFAULT_PROFILE_PICTURE__" class="s3d-icon-32 entity_content_picture"/></a>
                         {/if}
                         <span class="entity_content_name">
                             <a class="s3d-regular-links s3d-bold" href="/~${i["rep:userId"]|safeURL}" target="_blank">${displayName}</a>
