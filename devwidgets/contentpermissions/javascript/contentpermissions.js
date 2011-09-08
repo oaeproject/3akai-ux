@@ -213,7 +213,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 doSave();
             } else {
                 $("#contentpermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("contentpermissions_warning_container_text_template", {
-                    "visibility": newVisibility
+                    "visibility": newVisibilityVal
                 }));
                 $("#contentpermissions_warning_container").jqmShow();
             }
@@ -297,12 +297,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         "permissions": $(contentpermissionsGlobalPermissions).val()
                     }], function(){
                         closeOverlay();
+                        sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
                         $(window).trigger("load.content_profile.sakai");
                     });
                 }, false);
             } else {
                 if(!savePermissions){
                     closeOverlay();
+                    sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
                     $(window).trigger("load.content_profile.sakai");
                 }else {
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));

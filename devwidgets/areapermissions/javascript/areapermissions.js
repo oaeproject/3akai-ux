@@ -159,7 +159,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
              // Collect everyone and anonymous value
              var updateMemberPermissions = false;
-             if($("#areapermissions_area_general_visibility").val() !== $("#areapermissions_area_general_visibility").data("original-selection")){
+             if($.trim($("#areapermissions_area_general_visibility").val()) !== $("#areapermissions_area_general_visibility").data("original-selection")){
                  updateMemberPermissions = true;
              }
              var generalVisibility = $("#areapermissions_area_general_visibility").val();

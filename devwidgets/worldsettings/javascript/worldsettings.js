@@ -61,7 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $worldsettingsForm.submit();
             } else {
                 $("#worldsettings_warning_container_text").html(sakai.api.Util.TemplateRenderer("worldsettings_warning_container_text_template", {
-                    "visibility": newVisibility,
+                    "visibility": newVisibilityVal,
                     "group": sakai_global.group.groupData['sakai:group-title']
                 }));
                 $("#worldsettings_warning_container").jqmShow();
