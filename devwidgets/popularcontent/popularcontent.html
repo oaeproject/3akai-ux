@@ -11,7 +11,7 @@
             {var index = 0}
             {for item in result.content}
                 {if index < 5}
-                    <li><a href="/content#p=${item.id|safeURL}/${item.name|safeURL}" class="s3d-regular-links" title="${item.name}">${item.name}</a></li>
+                    <li><a href="/content#p=${item.id|safeURL}/${item.name|safeURL}" class="s3d-regular-links">${item.name}</a></li>
                 {/if}
                 ${index++|eat}
             {forelse}
@@ -24,7 +24,7 @@
         {/if}
     --></div>
     <div class="s3d-widget-footer">
-        <a href="/search#l=content" class="s3d-regular-links s3d-action-seeall" title="__MSG__SEE_ALL__">__MSG__SEE_ALL__</a>
+        <a href="/search#l=content" class="s3d-regular-links s3d-action-seeall">__MSG__SEE_ALL__</a>
     </div>
 
 <!-- JAVASCRIPT -->
