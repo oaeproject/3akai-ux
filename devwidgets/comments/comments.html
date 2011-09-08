@@ -33,7 +33,7 @@
                         <input type="hidden" id="comments_path_${i['sakai:id']}" value="${i['_path']}" />
                         <ul>
                             {if i.canEdit && i.canEdit === true && i["sakai:deleted"] !== true}
-                                <li><button type="button" class="comments_edit s3d-button s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}" title="__MSG__EDIT__">__MSG__EDIT__</button></li>
+                                <li><button type="button" class="comments_edit s3d-button s3d-link-button s3d-action" id="comments_edit_${i['sakai:id']}">__MSG__EDIT__</button></li>
                             {/if}
                             {if i.canEdit && i.canEdit === true && i.canDelete && i.canDelete === true && !(i["sakai:deleted"] && i["sakai:deleted"] === true)}
                               <li> |
@@ -42,9 +42,9 @@
                             {/if}
                             {if i.canDelete && i.canDelete === true}
                                 {if i["sakai:deleted"] && i["sakai:deleted"] === true}
-                                    <button type="button" class="comments_undelete s3d-button s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}" title="__MSG__UNDELETE__">__MSG__UNDELETE__</button></li>
+                                    <button type="button" class="comments_undelete s3d-button s3d-link-button s3d-action" id="comments_undelete${i['sakai:id']}">__MSG__UNDELETE__</button></li>
                                 {else}
-                                    <button type="button" class="comments_delete s3d-button s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}" title="__MSG__DELETE__">__MSG__DELETE__</button></li>
+                                    <button type="button" class="comments_delete s3d-button s3d-link-button s3d-action" id="comments_delete${i['sakai:id']}">__MSG__DELETE__</button></li>
                                 {/if}
                             {/if}
                         </ul>
@@ -63,8 +63,8 @@
                     <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
                         <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50" title="__MSG__EDIT_YOUR_COMMENT__">${i.messageTxt}</textarea><br/>
                         <div class="fl-force-right">
-                            <button type="button" class="s3d-button s3d-link-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
-                            <button type="button" class="s3d-button s3d-overlay-button comments_editComment_save" id="comments_editComment_save${i['sakai:id']}" title="__MSG__EDIT_COMMENT__">__MSG__EDIT_COMMENT__</button>
+                            <button type="button" class="s3d-button s3d-link-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}">__MSG__CANCEL__</button>
+                            <button type="button" class="s3d-button s3d-overlay-button comments_editComment_save" id="comments_editComment_save${i['sakai:id']}">__MSG__EDIT_COMMENT__</button>
                         </div>
                     </div>
                 </div>
@@ -76,9 +76,9 @@
     --></div>
     <div class="comments_nextButtons">
         <div class="fl-force-right">
-            <button type="button" class="s3d-button s3d-overlay-button comments_comment" id="comments_comment_Bottom" style="display:none" title="__MSG__ADD_COMMENT__">__MSG__ADD_COMMENT__</button>
+            <button type="button" class="s3d-button s3d-overlay-button comments_comment" id="comments_comment_Bottom" style="display:none">__MSG__ADD_COMMENT__</button>
         </div>
-        <button type="button" class="s3d-button" id="comments_prevPage" title="__MSG__PREVIOUS_PAGE__"><span class="s3d-button-inner">__MSG__PREVIOUS_PAGE__</span></button><br />
+        <button type="button" class="s3d-button" id="comments_prevPage"><span class="s3d-button-inner">__MSG__PREVIOUS_PAGE__</span></button><br />
         <div class="jq_pager comments_jqpager" style="display:none;"><!-- In this container the pager will be shown (bottom) --></div>
     </div>
     <div id="comments_fillInComment" style="display:none;">
@@ -96,8 +96,8 @@
         <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50" title="__MSG__ENTER_YOUR_COMMENT__"></textarea><br />
 
         <div class="fl-force-right">
-            <button type="button" class="s3d-button s3d-link-button comment_postCommentTopBottom" id="comments_cancelComment" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-overlay-button comment_postCommentTopBottom" id="comments_postComment" title="__MSG__SUBMIT_COMMENT__">__MSG__SUBMIT_COMMENT__</button>
+            <button type="button" class="s3d-button s3d-link-button comment_postCommentTopBottom" id="comments_cancelComment">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-button s3d-overlay-button comment_postCommentTopBottom" id="comments_postComment">__MSG__SUBMIT_COMMENT__</button>
         </div>
         <div class="fl-push"><!-- --></div>
         </div>
@@ -127,8 +127,8 @@
             </ul>
         </div>
         <div class="fl-force-right">
-            <button type="button" class="s3d-bold s3d-link-button" id="comments_cancel" title="__MSG__DONT_SAVE__">__MSG__DONT_SAVE__</button>
-            <button type="button" class="s3d-button s3d-overlay-button" id="comments_submit" title="__MSG__SAVE__">__MSG__SAVE__</button>
+            <button type="button" class="s3d-bold s3d-link-button" id="comments_cancel">__MSG__DONT_SAVE__</button>
+            <button type="button" class="s3d-button s3d-overlay-button" id="comments_submit">__MSG__SAVE__</button>
         </div>
     </form>
 </div>

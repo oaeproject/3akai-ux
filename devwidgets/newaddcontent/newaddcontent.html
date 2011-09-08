@@ -9,11 +9,11 @@
     <ul id="newaddcontent_container_lhchoice">
         <li class="newaddcontent_container_lhchoice_item newaddcontent_container_lhchoice_selected_item" id="newaddcontent_upload_content">
             <span id="newaddcontent_upload_content_icon" class="lhchoice_icon"></span>
-            <a href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-bold">__MSG__UPLOAD_CONTENT__</a>
+            <a href="#" class="s3d-bold">__MSG__UPLOAD_CONTENT__</a>
         </li>
         <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_new_document">
             <span id="newaddcontent_add_new_document_icon" class="lhchoice_icon"></span>
-            <a href="#" title="__MSG__NEW_DOCUMENT__" class="s3d-bold">__MSG__NEW_DOCUMENT__</a>
+            <a href="#" class="s3d-bold">__MSG__NEW_DOCUMENT__</a>
         </li>
         <li class="newaddcontent_container_lhchoice_item">
             <span id="newaddcontent_add_existing_content_icon" class="lhchoice_icon"></span>
@@ -21,17 +21,17 @@
             <ul>
                 <li class="newaddcontent_container_lhchoice_subitem newaddcontent_container_lhchoice_selected_subitem" id="newaddcontent_existing_content_everything">
                     <span id="newaddcontent_everything_icon" class="lhchoice_icon"></span>
-                    <a href="#" title="__MSG__EVERYTHING__">__MSG__EVERYTHING__</a>
+                    <a href="#">__MSG__EVERYTHING__</a>
                 </li>
                 <li class="newaddcontent_container_lhchoice_subitem" id="newaddcontent_existing_content_my_library">
                     <span id="newaddcontent_my_library_icon" class="lhchoice_icon"></span>
-                    <a href="#" title="__MSG__MY_LIBRARY__">__MSG__MY_LIBRARY__</a>
+                    <a href="#">__MSG__MY_LIBRARY__</a>
                 </li>
             </ul>
         </li>
         <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_add_link">
             <span id="newaddcontent_add_link_icon" class="lhchoice_icon"></span>
-            <a href="#" title="__MSG__ADD_LINK__" class="s3d-bold">__MSG__ADD_LINK__</a>
+            <a href="#" class="s3d-bold">__MSG__ADD_LINK__</a>
         </li>
     </ul>
 
@@ -92,7 +92,7 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
-                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear" title="__MSG__CLEAR__">__MSG__CLEAR__</button>
+                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear">__MSG__CLEAR__</button>
                 <div id="newaddcontent_existingitems_list_container">
                     <div id="newaddcontent_existingitems_list_container_actions">
                         <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
@@ -124,7 +124,7 @@
             </div>
 
         </div>
-        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled" title="__MSG__ADD__">__MSG__ADD__</button>
+        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
     </div>
 
     <div id="newaddcontent_container_selecteditems">
@@ -133,8 +133,8 @@
     </div>
 
     <div id="newaddcontent_container_actions">
-        <button type="button" class="s3d-link-button jqmClose s3d-bold" title="__MSG__CANCEL__">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled" title="__MSG__DONE_ADD_COLLECTED__">__MSG__DONE_ADD_COLLECTED__</button>
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled">__MSG__DONE_ADD_COLLECTED__</button>
     </div>
 
     <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
@@ -163,7 +163,7 @@
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_data_actions">
-        <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">__MSG__SAVE__</button>
+        <button type="button" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes">__MSG__SAVE__</button>
     </div>
 --></div>
 
@@ -187,7 +187,7 @@
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_permissions_actions">
-        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes" title="__MSG__SAVE__">__MSG__SAVE__</button>
+        <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_save_changes">__MSG__SAVE__</button>
     </div>
 --></div>
 
@@ -214,9 +214,9 @@
                 {if item.type !== "existing"}
                     <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
                     <span class="newaddcontent_selecteditems_actions">
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit" title="__MSG__EDIT_DETAILS__">__MSG__EDIT_DETAILS__</button>
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
                         <span class="newaddcontent_selecteditems_split">|</span>
-                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions" title="__MSG__ADD_PERMISSIONS__">__MSG__ADD_PERMISSIONS__</button>
+                        <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_permissions">__MSG__ADD_PERMISSIONS__</button>
                     </span>
                 {else}
                     {if $.inArray(currentSelectedLibrary, item.viewers) !== -1 || $.inArray(currentSelectedLibrary, item.managers) !== -1}
@@ -276,7 +276,7 @@
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
     {else}
-        This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle|safeOutput}</a>
+        __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
     {/if}
 --></div>
 

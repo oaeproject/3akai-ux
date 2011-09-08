@@ -109,7 +109,7 @@
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
                                             <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}" title="${t|safeOutput}">${t|safeOutput}</a>{/if}{/for}
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>{/if}{/for}
                                             </p>
                                         </div>
                                     {/if}
@@ -121,7 +121,7 @@
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="#" title="__MSG__ADD_CONTENT__" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <a href="#" class="s3d-regular-links sakai_add_content_overlay">__MSG__ADD_CONTENT__</a>{/if}</h1>
                         </li>
                     {/if}
                 --></div>

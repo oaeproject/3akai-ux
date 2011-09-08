@@ -35,11 +35,11 @@
                 <!-- TAB NAVIGATION -->
                 <div class="s3d-primary-tabs">
                     <ul class="fl-tabs fl-tabs-right">
-                        <li><a id="tab_search_all" href="/search" title="__MSG__ALL__">__MSG__ALL__</a></li>
-                        <li><a href="/search#l=content" id="tab_search_content" title="__MSG__CONTENT_AND_MEDIA__">__MSG__CONTENT_AND_MEDIA__</a></li>
-                        <li><a href="/search#l=groups" id="tab_search_sites" title="__MSG__GROUPS__">__MSG__GROUPS__</a></li>
-                        <li class="fl-tabs-active search_tab_selected"><a href="/search/sakai2" id="tab_search_sakai2" title="__MSG__SAKAI2__">__MSG__SAKAI2__</a></li>
-                        <li><a href="/search#l=people" id="tab_search_people" title="__MSG__PEOPLE__">__MSG__PEOPLE__</a></li>
+                        <li><a id="tab_search_all" href="/search">__MSG__ALL__</a></li>
+                        <li><a href="/search#l=content" id="tab_search_content">__MSG__CONTENT_AND_MEDIA__</a></li>
+                        <li><a href="/search#l=groups" id="tab_search_sites">__MSG__GROUPS__</a></li>
+                        <li class="fl-tabs-active search_tab_selected"><a href="/search/sakai2" id="tab_search_sakai2">__MSG__SAKAI2__</a></li>
+                        <li><a href="/search#l=people" id="tab_search_people">__MSG__PEOPLE__</a></li>
                     </ul>
                 </div>
 
@@ -52,8 +52,8 @@
                         <!-- SEARCH BAR -->
                         <div class="fl-left fl-container fl-fix search_bar">
                             <div id="search_form">
-                                <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" title="__MSG__ENTER_A_SEARCH_TERM__" />
-                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary" title="__MSG__SEARCH__"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
+                                <input type="text" maxlength="255" id="search_text" class="input" value="__MSG__ENTER_A_SEARCH_TERM__" />
+                                <button id="search_button" class="s3d-search-button s3d-button s3d-button-primary"><span class="s3d-button-inner"><span class="s3d-button-icon-right">__MSG__SEARCH__</span></span></button>
                             </div>
                         </div>
 
@@ -87,8 +87,8 @@
                             <div id="search_results_template"><!--
                                 {for site in sites}
                                     <div class="fl-container fl-fix search_result search_result_sites">
-                                        <a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}" title="${site.title}">
-                                            <img src="/dev/images/sakai2sites.png" alt="Sites" />
+                                        <a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">
+                                            <img src="/dev/images/sakai2sites.png" alt="${site.title}" />
                                             <div class="search_result_course_site_title">${site.title}</div>
                                         </a>
                                     </div>

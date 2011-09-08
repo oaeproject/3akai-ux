@@ -18,14 +18,14 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}" title="${i.label}">${i.label} </a>
+            <a class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul>
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}" class="s3d-bold" title="${subnav.label}">${subnav.label}</a>
+                                <a href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
                             </li>
                             {else}
                                 <hr class="s3d-split-line"/>
@@ -40,7 +40,7 @@
 
 <div id="search_template" style="display:none"><!--
         {if files && files.length}
-            <a href="/search#l=content&q=${query}" class="topnavigation_search_results_section_header" title="__MSG__CONTENT__">__MSG__CONTENT__</a>
+            <a href="/search#l=content&q=${query}" class="topnavigation_search_results_section_header">__MSG__CONTENT__</a>
             <ul>
                {for file in files}
                     <li>
@@ -54,7 +54,7 @@
             </ul>
         {/if}
         {if people && people.length}
-            <a href="/search#l=people&q=${query}" class="topnavigation_search_results_section_header" title="__MSG__PEOPLE__">__MSG__PEOPLE__</a>
+            <a href="/search#l=people&q=${query}" class="topnavigation_search_results_section_header">__MSG__PEOPLE__</a>
             <ul>
                 {for person in people}
                     <li>
@@ -69,7 +69,7 @@
         {/if}
         {for c in sakai.config.worldTemplates}
             {if groups[c.id] && groups[c.id].length}
-                <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header" title="${sakai.api.i18n.General.getValueForKey(c.title)}">${sakai.api.i18n.General.getValueForKey(c.title)}</a>
+                <a href="/search#l=${c.id}&category=${c.id}&q=${query}" class="topnavigation_search_results_section_header">${sakai.api.i18n.General.getValueForKey(c.title)}</a>
                 <ul>
                     {for group in groups[c.id]}
                         <li>
@@ -87,8 +87,8 @@
 
 <div id="search_bottom_template" style="display:none;"><!--
     {if people.length || groups.length || files.length && people.length + groups.length + files.length != peopletotal + groupstotal + filestotal}
-        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all" title="__MSG__SEE_ALL__">
-            <button class="s3d-button s3d-overlay-button" title="__MSG__SEE_ALL__">__MSG__SEE_ALL__</button>
+        <a href="/search#q=${query}&filter=&facet=&page=1" id="topnavigation_search_see_all">
+            <button class="s3d-button s3d-overlay-button">__MSG__SEE_ALL__</button>
         </a>
     {/if}
     <span id="topnavigation_search_results_bottom_content">
@@ -112,7 +112,7 @@
 <div id="topnavigation_user_template"><!--
     {if anon}
         <div class="s3d-dropdown-menu" id="topnavigation_user_options_login_wrapper">
-            <button id="topnavigation_user_options_login" title="__MSG__SIGN_IN__">__MSG__SIGN_IN__</button>
+            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
                 {if auth.externalAuth}
                     <ul>
@@ -121,7 +121,7 @@
                                 <div class="topnav_content_icon_container fl-force-left">
                                     <span class="topnav_content_icon ${i.css_class}"></span>
                                 </div>
-                                <a href="${i.url}" title="${i.label}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
+                                <a href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
                             </li>
                         {/for}
                     </ul>
@@ -136,13 +136,13 @@
                         <input type="text" alt="__MSG__USERNAME__" maxlength="255" id="topnavigation_user_options_login_fields_username" name="topnav_login_username" class="login-container-textfield" />
                         <label for="topnavigation_user_options_login_fields_password">__MSG__PASSWORD__</label>
                         <input type="password" alt="__MSG__PASSWORD__" maxlength="255" id="topnavigation_user_options_login_fields_password" name="topnav_login_password" class="login-container-textfield" />
-                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;" title="__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
+                        <button type="button" id="topnavigation_user_options_login_forgotten" class="s3d-link-button" style="display:none;">__MSG__FORGOTTEN_YOUR_USERNAME_OR_PASSWORD__?</button>
                         <hr class="s3d-split-line fl-push"/>
                         {if auth.Authentication.allowInternalAccountCreation}
                             <span class="topnavigation_sign_up_link">__MSG__NO_ACCOUNT_YET__</span>
-                            <a class="s3d-regular-links topnavigation_sign_up_link" href="/register" title="__MSG__SIGN_UP__">__MSG__SIGN_UP__</a>
+                            <a class="s3d-regular-links topnavigation_sign_up_link" href="/register">__MSG__SIGN_UP__</a>
                         {/if}
-                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login" title="__MSG__SIGN_IN__">__MSG__SIGN_IN__</button>
+                        <button type="submit" class="s3d-button s3d-overlay-button" id="topnavigation_user_options_login_button_login">__MSG__SIGN_IN__</button>
                         <span id="topnavigation_user_options_login_button_signing_in" style="display:none;">__MSG__SIGNING_IN__</span>
                         <hr class="fl-push fl-hidden"/>
                     </div>
@@ -151,14 +151,14 @@
             </div>
         </div>
     {else}
-        <a href="/me#l=messages/inbox" title="__MSG__INBOX__" id="topnavigation_user_inbox_container">
+        <a href="/me#l=messages/inbox" id="topnavigation_user_inbox_container">
             <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
             <div id="topnavigation_user_inbox_icon"></div>
             <div id="topnavigation_user_inbox_messages"></div>
         </a>
         <ul id="topnavigation_user_options_list">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
-                <a href="/me#l=profile" id="topnavigation_user_options_name" class="s3d-bold" title="${displayName}">${displayName}</a>
+                <a href="/me#l=profile" id="topnavigation_user_options_name" class="s3d-bold">${displayName}</a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
                     <ul>
                         <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
