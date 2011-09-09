@@ -315,6 +315,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             });
 
+            $(window).bind("updateParticipantCount.entity.sakai", function(ev, val){
+                var num = parseInt($("#entity_participants_count").text(), 10);
+                var newNum = num + val;
+                $("#entity_participants_count").text(newNum);
+                if (newNum === 1) {
+                    $("#entity_participants_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "PARTICIPANT"));
+                } else {
+                    $("#entity_participants_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "PARTICIPANTS"));
+                }
+            });
+
             $("#entity_group_permissions").click(function(){
                 var $this = $(this);
                 if ($("#entity_groupsettings_dropdown").is(":visible")) {
