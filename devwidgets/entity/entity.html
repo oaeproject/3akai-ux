@@ -256,23 +256,27 @@
     <div id="entity_name" class="s3d-bold">${data.authprofile["sakai:group-title"]|safeOutput}</div>
     <div id="entity_owns" class="s3d-regular-links">
         <span class="entity_number">
-        {var contentCount = data.authprofile["contentCount"] || 0}
-        ${contentCount}
-        {if contentCount === 1}
-            __MSG__DOCUMENT_LC__
-        {else}
-            __MSG__DOCUMENTS_LC__
-       {/if}
-       </span>,
-       <span class="entity_number">
-        {var membersCount = data.authprofile["membersCount"] || 0}
-        ${membersCount}
-        {if membersCount === 1}
-            __MSG__PARTICIPANT__
-        {else}
-            __MSG__PARTICIPANTS__
-       {/if}
-       </span>
+            {var contentCount = data.authprofile["contentCount"] || 0}
+            ${contentCount}
+            {if contentCount === 1}
+                __MSG__DOCUMENT_LC__
+            {else}
+                __MSG__DOCUMENTS_LC__
+            {/if}
+            </span>,
+            <span class="entity_number">
+            {var membersCount = data.authprofile["membersCount"] || 0}
+            <span id="entity_participants_count">
+                ${membersCount}
+            </span>
+            <span id="entity_participants_text">
+                {if membersCount === 1}
+                    __MSG__PARTICIPANT__
+                {else}
+                    __MSG__PARTICIPANTS__
+                {/if}
+            </span>
+        </span>
     </div>
     {if type && type == "group_managed"}
         <div class="entity_user_picture_dropdown entity_user_dropdown" style="display:none;">
