@@ -646,8 +646,8 @@ define(["config/config"], function(config) {
         config.Permissions.Documents.defaultaccess = "everyone";
 
         // Set up Raven / Friends links:
-        config.Authentication.allowInternalAccountCreation = false;
-        config.Authentication.internal = false;
+        config.Authentication.allowInternalAccountCreation = true;
+        config.Authentication.internal = true;
         config.Authentication.external = [{
                     label: "Raven",
                     url: "https://ucamoae.caret.cam.ac.uk/system/ucam/auth/raven"
