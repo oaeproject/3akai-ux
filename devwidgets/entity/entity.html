@@ -51,10 +51,12 @@
             <li id="ew_group_settings">
                 <button class="s3d-link-button" id="ew_group_settings_edit_link">__MSG__SETTINGS__</button>
             </li>
-            <hr class="s3d-split-line"/>
-            <li id="ew_group_categories">
-                <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
-            </li>
+            {if sakai.config.enableCategories}
+                <hr class="s3d-split-line"/>
+                <li id="ew_group_categories">
+                    <button class="s3d-link-button" id="ew_group_categories_link">__MSG__CATEGORIES__</button>
+                </li>
+            {/if}
         <ul>
     </div>
 --></div>

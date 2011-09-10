@@ -137,7 +137,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "group_managed":
                     var json = {
                         "joinable": context.data.authprofile["sakai:group-joinable"] === "withauth",
-                        "context": context
+                        "context": context,
+                        "sakai": sakai
                     };
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", json));
 
