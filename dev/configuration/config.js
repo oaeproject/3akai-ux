@@ -195,7 +195,7 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes",
+                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
                 courses: {
                     "defaultaccess": "public",
                     "defaultjoin": "yes"
