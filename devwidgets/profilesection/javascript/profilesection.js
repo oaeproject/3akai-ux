@@ -498,17 +498,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             parentProp[0][propName] = {};
                             parentProp[0][propName].value = $selected_element.val();
                         } else if (prop) { // it exists, just change its value
-                            var val = $selected_element.val();
-                            if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
-                                // convert the date into a Date object for storage
-                                val = Globalize.parseDate(val);
-                            }
-                            if ($.isPlainObject(prop)) {
-                                // Set the correct value
-                                prop.value = val;
+                            if ($selected_element.is("input") || $selected_element.is("select") || $selected_element.is("textarea")) {
+                                var val = $selected_element.val();
+                                if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
+                                    // convert the date into a Date object for storage
+                                    val = Globalize.parseDate(val);
+                                }
+                                if ($.isPlainObject(prop)) {
+                                    // Set the correct value
+                                    prop.value = sakai.api.Security.saneHTML(val);
+                                } else {
+                                    // This is an access attribute
+                                    sakai_global.profile.main.data[title.split(".")[0]].access = val;
+                                }
                             } else {
-                                // This is an access attribute
-                                sakai_global.profile.main.data[title.split(".")[0]].access = val;
+                                // this is a non-editable element, delete it from the object so it doesn't save
+                                delete parentProp[0][propName];
                             }
                         } else if ($selected_element.hasClass("profilesection_generalinfo_access")){
                             sakai_global.profile.main.data[title.split(".")[0]].access = $selected_element.val();
