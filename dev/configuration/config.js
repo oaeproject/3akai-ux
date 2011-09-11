@@ -213,21 +213,27 @@ define(function(){
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
             Copyright: {
-                "creativecommons": {
-                    "title": "CREATIVE_COMMONS_LICENSE",
-                    "default": true
+                types: {
+                    "creativecommons": {
+                        "title": "CREATIVE_COMMONS_LICENSE"
+                    },
+                    "copyrighted": {
+                        "title": "COPYRIGHTED"
+                    },
+                    "nocopyright": {
+                        "title": "NO_COPYRIGHT"
+                    },
+                    "licensed": {
+                        "title": "LICENSED"
+                    },
+                    "waivecopyright": {
+                        "title": "WAIVE_COPYRIGHT"
+                    }
                 },
-                "copyrighted": {
-                    "title": "COPYRIGHTED"
-                },
-                "nocopyright": {
-                    "title": "NO_COPYRIGHT"
-                },
-                "licensed": {
-                    "title": "LICENSED"
-                },
-                "waivecopyright": {
-                    "title": "WAIVE_COPYRIGHT"
+                defaults: {
+                    "content": "creativecommons",
+                    "sakaidocs": "creativecommons",
+                    "links": "creativecommons"
                 }
             }
         },
