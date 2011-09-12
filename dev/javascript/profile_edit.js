@@ -532,7 +532,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         && sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
                         var formKey = profilesection + "_elements_" + i;
                         var errorKey = sakai_global.profile.main.config[profilesection].elements[i].errorMessage;
-                        messages[formKey] = sakai.api.i18n.General.getValueForKey(errorKey.substr(7, errorKey.length - 9));
+                        messages[formKey] = sakai.api.i18n.getValueForKey(errorKey.substr(7, errorKey.length - 9));
                     }
                 }
             }

@@ -15,9 +15,6 @@ require(
             "name": "ca",
             "type": "boolean"
         }, {
-            "name": "description",
-            "type": "string"
-        }, {
             "name": "hasSettings",
             "type": "boolean"
         }, {
@@ -38,9 +35,6 @@ require(
             "type": "string"
         }, {
             "name": "multipleinstance",
-            "type": "string"
-        }, {
-            "name": "name",
             "type": "string"
         }, {
             "name": "personalportal",
@@ -188,8 +182,12 @@ require(
                             if (widgetObject[property].hasOwnProperty(n)) {
                                 subproperties.push({
                                     "name":property,
-                                    "url":widgetObject[property][n]
+                                    "url":widgetObject[property][n].bundle
                                 });
+                                if (!widgetObject[property][n].bundle){
+                                    alert($.toJSON(widgetObject));
+                                }
+                                debug.log("Error ===> " + widgetObject[property][n].bundle);
                             }
                         }
                     } else {

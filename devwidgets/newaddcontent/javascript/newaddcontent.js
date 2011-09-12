@@ -437,7 +437,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 lastUpload = [];
                 $newaddcontentContainer.jqmHide();
                 var librarytitle = $(newaddcontentSaveTo + " option:selected").text();
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("LIBRARY"), sakai.api.Util.TemplateRenderer("newaddcontent_notification_finished_template", {
                     me: sakai.data.me,
                     libraryid: libraryToUploadTo,
                     librarytitle: librarytitle
@@ -455,8 +455,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
+            var title = proofTitle(documentObj.title);
             var doc = {
-                "sakai:pooled-content-file-name": proofTitle(documentObj.title),
+                "sakai:pooled-content-file-name": title,
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
@@ -464,11 +465,11 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                     "page1": {
                         "_ref": refID,
                         "_order": 0,
-                        "_title": "Page Title 1",
+                        "_title": title,
                         "main": {
                             "_ref": refID,
                             "_order": 0,
-                            "_title": "Page Title 1"
+                            "_title": title
                         }
                     }
                 }),
@@ -1065,6 +1066,8 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
+            sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
+            sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
             $newaddcontentAddLinkForm.validate({
                 success: function(){

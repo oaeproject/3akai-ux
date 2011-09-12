@@ -1,14 +1,16 @@
 {
-    "description":        "Featured Worlds Widget",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        true,
     "i18n": {
-        "default":        "/devwidgets/featuredworlds/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/featuredworlds/bundles/default.properties",
+            "name":       "Featured Worlds Widget",
+            "description":"Featured Worlds Widget"
+        }
     },
     "id":                 "featuredworlds",
-    "name":               "Featured Worlds Widget",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "sakai",

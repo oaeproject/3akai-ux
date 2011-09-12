@@ -4,14 +4,16 @@
     "userdashboard": false,
     "grouppages": false,
     "groupdashboard": false,
-    "description": "Most popular tags",
     "hasSettings": false,
     "id": "tags",
-    "name": "Most popular tags",
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/tags/tags.html",
     "i18n": {
-        "default": "/devwidgets/tags/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/tags/bundles/default.properties",
+            "name": "Most popular tags",
+            "description": "Most popular tags"
+        }
     }
 }

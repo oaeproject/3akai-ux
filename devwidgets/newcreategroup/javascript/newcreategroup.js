@@ -151,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (users.length > 0) {
                             sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
                                 $.each(users, function(index, item){
-                                    var subject = sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
+                                    var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
                                     var body = $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name);
                                     sakai.api.Communication.sendMessage(item.user, sakai.data.me, subject, body, "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
                                     if(users.length - 1 === index){
@@ -167,7 +167,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             } else {
                 if(nameTaken){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","GROUP_TAKEN"), sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","THIS_GROUP_HAS_BEEN_TAKEN"));
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_TAKEN", "newcreategroup"), sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
                 }
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
@@ -349,6 +349,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
+            $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~" + suggestedURL);
             renderShareMessage();
         });
 
@@ -368,8 +369,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-        $(".newcreategroup_template_name", $rootel).text(currentTemplate.title);
-        $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
+        $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.General.process(currentTemplate.title));
+        $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
+        $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~");
         if (sakai.config.Permissions.Groups.defaultaccess){
             $("#newcreategroup_can_be_found_in [value=" + sakai.config.Permissions.Groups.defaultaccess + "]", $rootel).attr("selected", "selected");
         }
@@ -386,7 +388,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
-                "roles": currentTemplate.roles
+                "roles": currentTemplate.roles,
+                "sakai": sakai
             }));
             var count = 0;
             for (var item in selectedUsers) {

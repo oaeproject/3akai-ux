@@ -906,7 +906,7 @@ define(
                                 if (data.results.hasOwnProperty(i)) {
                                     var members = $.parseJSON(data.results[i].body);
                                     if ($.grep(members, isMatch).length > 0){
-                                        role = roles[i].id;
+                                        role = roles[i];
                                         break;
                                     }
                                 }
