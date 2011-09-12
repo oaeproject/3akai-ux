@@ -194,7 +194,20 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public" // Anyone on the Internet
                 },
-                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
+                "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
+                "defaultjoin": "yes",
+                courses: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                },
+                research: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                },
+                group: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                }
             },
             Content: {
                 /*
