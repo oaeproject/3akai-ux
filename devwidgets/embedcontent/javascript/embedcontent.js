@@ -629,14 +629,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doInit = function() {
             getWidgetData(function(success) {
                 if (showSettings) {
-                    if (sakai_global.content_profile &&
-                        sakai_global.content_profile.content_data &&
-                        sakai_global.content_profile.content_data.data &&
-                        sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"]) {
+                    var title = false;
+                    if (sakai_global.lhnavigation &&
+                        sakai_global.lhnavigation.getCurrentPage &&
+                        sakai_global.lhnavigation.getCurrentPage().title &&
+                        sakai_global.lhnavigation.getCurrentPage().title) {
 
-                        embedConfig.name = sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"];
-                    } else if (sakai_global.lhnavigation && sakai_global.lhnavigation.getCurrentPage && sakai_global.lhnavigation.getCurrentPage().title) {
-                        embedConfig.name = sakai_global.lhnavigation.getCurrentPage().title;
+                        title = sakai_global.lhnavigation.getCurrentPage().title;
+                    }
+                    if (title) {
+                        embedConfig.name = title;
                     } else {
                         embedConfig.name = "";
                     }
