@@ -923,8 +923,10 @@ define(
                         var url = "/system/userManager/group/" + groupID + "-" + roles[i].id + ".everyone.json";
                         batchRequests.push({
                             "url": url,
-                            "items": 10000, // just as for everything for now4
-                            "method": "GET"
+                            "method": "GET",
+                            "parameters": {
+                                items: 10000
+                            }
                         });
                     }
 
