@@ -175,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             var qs = new Querystring();
             // Go to You when you're on explore page
             if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
-                window.location.pathname === "/index" || window.location.pathname === "/") {
+                window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
                 redirectURL = "/me";
             // 403/404 and not logged in
             } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
