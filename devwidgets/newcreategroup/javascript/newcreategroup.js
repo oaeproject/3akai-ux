@@ -370,6 +370,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
         $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.General.process(currentTemplate.title));
+        if(widgetData.singleTemplate === true){
+            $newcreategroupCancelCreateButton.hide();
+        }
         $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
         $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~");
         if (sakai.config.Permissions.Groups.defaultaccess){
