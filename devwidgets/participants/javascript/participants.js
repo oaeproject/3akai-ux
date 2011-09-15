@@ -35,7 +35,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
-        var NUM_PER_PAGE = 25,
+        var NUM_PER_PAGE = 10,
             currentPage = 1;
 
         // Containers
