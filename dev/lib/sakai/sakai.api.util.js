@@ -443,9 +443,21 @@ define(
             }
 
             // Create elements to apply threedots
-            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
-            $container.ThreeDots(params);
+
+            // There seems to be a race condition where the
+            // newly-added element returns a height of zero.  This
+            // would cause ThreeDots to truncate the input string to
+            // the first letter.  Try a couple of times for a non-zero
+            // height and then give up.
+            for (var attempt = 0; attempt < 10; attempt++) {
+                if ($container.height() > 0) {
+                    $container.ThreeDots(params);
+                    break;
+                }
+            }
+
             var dotted = $container.children("span").text();
             $container.remove();
             if (!alreadySecure) {
@@ -547,9 +559,11 @@ define(
                         picture_name = $.parseJSON(profile.basic.elements.picture.value).name;
                     }
                     //change string to json object and get name from picture object
-                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
-                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && $.type(profile.basic.elements.picture) === "string"){
-                    imgUrl = profile.basic.elements.picture;
+                    return "/~" + id + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && _.isString(profile.basic.elements.picture)) {
+                    return profile.basic.elements.picture;
+                } else {
+                    return imgUrl;
                 }
             }
             return imgUrl;
