@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         var removeRequest = function(user){
             $.ajax({
-                url: "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/contacts.remove.html",
+                url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.remove.html",
                 type: "POST",
                 data: {
                     "targetUserId": user
@@ -65,7 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 success: function(data){
                     $(window).trigger("lhnav.updateCount", ["contacts", -1]);
                     $("#contacts_delete_contacts_dialog").jqmHide();
-                    getContacts();
+                    $("div[data-userid='" + user + "']").remove();
                 }
             });
         };

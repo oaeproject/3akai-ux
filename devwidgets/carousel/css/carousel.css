@@ -41,7 +41,7 @@
 #carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
 .jcarousel-item-horizontal{width:796px;}
 #carousel_container .carousel_tag_icon {position: relative;top: 5px;}
-
+#carousel_container fieldset{margin:0;padding:0;}
 .carousel_middot_divider {color:#424242;display:inline;margin:0 5px;}
 
 /* Single column */
@@ -57,7 +57,7 @@
 #carousel_container .carousel_group_rh {width:238px !important;}
 
 /* Three column */
-#carousel_container p {font-size:12px;color:#424242;margin-bottom:5px;}
+#carousel_container p {font-size:12px;color:#424242;margin-bottom:5px;word-wrap:break-word;}
 
 #carousel_container .carousel_bottom_buttons {position:absolute;bottom:7px;width:100%;right:0;}
 #carousel_container .carousel_bottom_buttons img {width:auto;height:auto;}

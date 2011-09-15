@@ -320,9 +320,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var newNum = num + val;
                 $("#entity_participants_count").text(newNum);
                 if (newNum === 1) {
-                    $("#entity_participants_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "PARTICIPANT"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT", "entity"));
                 } else {
-                    $("#entity_participants_text").text(sakai.api.i18n.Widgets.getValueForKey("entity", "", "PARTICIPANTS"));
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS", "entity"));
                 }
             });
 
@@ -405,7 +405,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // An event to call from the worldsettings dialog so that we can
         // refresh the title if it's been saved.
         $(window).bind("sakai.entity.updateTitle", function(e, title) {
-            $('#entity_name').html(title);
+            $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 
         $(window).trigger("sakai.entity.ready");

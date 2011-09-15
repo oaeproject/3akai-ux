@@ -59,7 +59,7 @@
 <div id="addarea_existing_sakaidoc_template"><!--
     <ul>
         {for item in data.results}
-            <li class="addarea_existing_sakaidoc_item" data-sakai-poolid="${item["_path"]}" data-sakai-manage="${item.canManage}"><span class="icon-sakaidoc-sprite s3d-icon-16"></span>${item["sakai:pooled-content-file-name"]}</li>
+            <li class="addarea_existing_sakaidoc_item" data-sakai-poolid="${item["_path"]}" data-sakai-manage="${item.canManage}"><span class="icon-sakaidoc-sprite s3d-icon-16"></span>${item["sakai:pooled-content-file-name"]|safeOutput}</li>
             {if item_index < data.results.length - 1}
                 <hr class="s3d-split-line">
             {/if}
@@ -246,7 +246,7 @@
     <label for="addarea_widgetpage_selectwidget">__MSG__SELECT_WIDGET__:</label>
     <select id="addarea_widgetpage_selectwidget">
         {for widget in data}
-            <option value="${widget.id}">${widget.name}</option>
+            <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
         {/for}
     </select>
 

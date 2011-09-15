@@ -125,18 +125,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
              // Check the mode parameter
             if ($.inArray(mode, sakai_global.profile.main.mode.options) !== -1) {
-
-                // Perform the redirect
-                //window.location = window.location.pathname + "?mode=" + mode; // TODO fix this, jquery.bbq it, and do not force a refresh
-
-                switch (mode) {
-                    case "edit":
-                        window.location = sakai.config.URL.PROFILE_EDIT_URL + "?user=" + sakai_global.profile.main.currentuser;
-                        break;
-                    case "view":
-                        window.location = "/~" + sakai_global.profile.main.currentuser;
-                        break;
-                }
+                window.location = sakai.config.URL.PROFILE_EDIT_URL;
             }
 
         };

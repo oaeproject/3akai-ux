@@ -584,7 +584,7 @@ define(
                 var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
                 var systemString = sakai_i18n.General.getValueForKey("SAKAI");
-                var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.urlSafe(meData.user.userid);
+                var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
                 var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
                 var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                      .replace(/\$\{sender\}/g, userString)
@@ -715,7 +715,7 @@ define(
             if (userID && typeof(userID) === "string" &&
                 groupID && typeof(groupID) === "string") {
                 $.ajax({
-                    url: "/~" + groupID + "/joinrequests/" + sakai_util.urlSafe(userID),
+                    url: "/~" + groupID + "/joinrequests/" + sakai_util.safeURL(userID),
                     data: {
                         ":operation": "delete"
                     },
@@ -906,7 +906,7 @@ define(
                                 if (data.results.hasOwnProperty(i)) {
                                     var members = $.parseJSON(data.results[i].body);
                                     if ($.grep(members, isMatch).length > 0){
-                                        role = roles[i].id;
+                                        role = roles[i];
                                         break;
                                     }
                                 }
@@ -928,7 +928,7 @@ define(
         leave : function(groupId, role, meData, callback){
             var reqs = [
                 {
-                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    url: "/system/userManager/group/"+ groupId + "-" + role.id + ".leave.json",
                     method: "POST"
                 },
                 {
@@ -1059,25 +1059,28 @@ define(
             var currentUserIncluded = false;
 
             $.each(users, function(index, user) {
-                reqData.push({
-                    "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
-                    "method": "POST",
-                    "parameters": {
-                        "_charset_":"utf-8",
-                        ":member@Delete": user.userid,
-                        ":viewer@Delete": user.userid
-                    }
-                },
-                {
-                    "url": "/system/userManager/group/" + groupID + ".update.json",
-                    "method": "POST",
-                    "parameters": {
-                        "_charset_":"utf-8",
-                        ":member@Delete": user.userid,
-                        ":viewer@Delete": user.userid
-                    }
-                });
-                if (user.userid === medata.user.userid){
+                var params = {
+                    "_charset_":"utf-8",
+                    ":manager@Delete": user.userid
+                };
+                if ((user.hasOwnProperty("removeManagerOnly") && user.removeManagerOnly === false) || !user.hasOwnProperty("removeManagerOnly")) {
+                    params[":member@Delete"] = user.userid;
+                    params[":viewer@Delete"] = user.userid;
+                }
+                if (user.permission) {
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupID + "-" + user.permission + ".update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                } else {
+                    reqData.push({
+                        "url": "/system/userManager/group/" + groupID + ".update.json",
+                        "method": "POST",
+                        "parameters": params
+                    });
+                }
+                if (user.userid === medata.user.userid) {
                     currentUserIncluded = true;
                 }
             });

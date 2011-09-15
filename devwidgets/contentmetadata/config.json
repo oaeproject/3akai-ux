@@ -3,7 +3,11 @@
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/contentmetadata/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/contentmetadata/bundles/default.properties",
+            "name": "Content metadata",
+            "description": "Content metadata"
+        }
     },
     "url":"/devwidgets/contentmetadata/contentmetadata.html"
 }

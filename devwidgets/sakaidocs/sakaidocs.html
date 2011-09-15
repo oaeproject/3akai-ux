@@ -11,12 +11,12 @@
         <div id="sakaidocs-page-action-bar" class="s3d-contentpage-title" style="display:none">
             <div id="sakaidocs_buttonbar">
                 <div style="float:left">
-                    <button type="button" id="sakaidocs_editpage" class="s3d-button s3d-header-button s3d-header-smaller-button">Edit Page</button>
+                    <button type="button" id="sakaidocs_editpage" class="s3d-button s3d-header-button s3d-header-smaller-button">__MSG__EDIT_PAGE__</button>
                     <button type="button" id="sakaidocs_addpage_top" class="s3d-button s3d-header-button s3d-header-smaller-button" style="display:none">__MSG__ADD_PAGE__</button>
                     <button type="button" id="sakaidocs_addpage_area" class="s3d-button s3d-header-button s3d-header-smaller-button" style="display:none">__MSG__ADD_PAGE__</button>
                 </div>
                 <div style="float:right">
-                    <button type="button" id="sakaidocs_revisions" class="s3d-button s3d-header-button s3d-header-smaller-button">Page Revisions</button>
+                    <button type="button" id="sakaidocs_revisions" class="s3d-button s3d-header-button s3d-header-smaller-button">__MSG__PAGE_REVISIONS__</button>
                 </div>
                 <hr class="fl-push fl-hidden"/>
                 <div id="widget_versions" class="widget_inline"></div>
@@ -54,12 +54,6 @@
                                 <div id="sakaidocs_insert_dropdown_container"></div>
 
                                 <div style="clear:both"><!-- --></div>
-
-                                <!--<ul class="fl-tabs fl-tabs-right">
-                                    <li id="tab_text_editor"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__TEXT_EDITOR__</span></button></li>
-                                    <li id="tab_html"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__HTML__</span></button></li>
-                                    <li id="tab_preview"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PREVIEW__</span></button></li>
-                                </ul> -->
                             </div>
 
                             <!-- EDIT CONTENTS -->
@@ -115,11 +109,11 @@
                     <li class="sakaidocs_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
                     <li id="sakaidocs_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action" id="embedcontent">__MSG__FILES_AND_DOCUMENTS__</button></li>
                     {for i in media.items}
-                        <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${i.name}</button></li>
+                        <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${sakai.api.Widgets.getWidgetTitle(i.id)}</button></li>
                     {/for}
                     <li class="sakaidocs_insert_dropdown_header"><span>__MSG__SAKAI_GOODIES__:</span></li>
                     {for ii in goodies.items}
-                        <li><button id="${ii.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${ii.name}</button></li>
+                        <li><button id="${ii.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${sakai.api.Widgets.getWidgetTitle(ii.id)}</button></li>
                     {/for}
                     <li class="sakaidocs_insert_dropdown_header"><span>(__MSG__MORE_COMING_SOON__)</span></li>
                 </ul>

@@ -51,7 +51,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // default POST URL
         var now = new Date();
-        var defaultposturl = "/~" + sakai.api.Util.urlSafe(sakai.data.me.user.userid) + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
+        var defaultposturl = "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/public/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/";
 
 
         ///////////////////
@@ -161,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 success: function(data){
 
                     // Redirect to the profile page of the newly updated link
-                    document.location = "/content#p=" + sakai.api.Util.urlSafe(this.url);
+                    document.location = "/content#p=" + sakai.api.Util.safeURL(this.url);
 
                     // Reset the current form
                     resetForm();
@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $uploadcontent_form_content.attr("action", defaultposturl.substr(0, defaultposturl.length -1));
             $uploadcontent_form_content.ajaxForm({
                 beforeSubmit: function(a,f,o) {
-                    $('#uploadOutput').html(sakai.api.i18n.General.getValueForKey("SUBMITTING") + '...');
+                    $('#uploadOutput').html(sakai.api.i18n.getValueForKey("SUBMITTING") + '...');
                 },
                 clearForm:true,
                 success: function(data) {

@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          * Fill in the user name
          */
         var setUserName = function(){
-            $(topnavUserOptionsName).text(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100));
+            $(topnavUserOptionsName).html(sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(sakai.data.me.profile), 100, null, null, true));
         };
 
         /**
@@ -184,8 +184,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (data) {
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)) {
+                        var displayName = sakai.api.User.getDisplayName(data.results[i]);
+                        var dottedName = sakai.api.Util.applyThreeDots(displayName, 100, null, null, true);
                         var tempPerson = {
-                            "dottedname": sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(data.results[i]), 100),
+                            "dottedname": dottedName,
                             "name": sakai.api.User.getDisplayName(data.results[i]),
                             "url": data.results[i].homePath
                         };
@@ -233,7 +235,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         var tempFile = {
                             "dottedname": sakai.api.Util.applyThreeDots(data.results[i]["sakai:pooled-content-file-name"], 100),
                             "name": data.results[i]["sakai:pooled-content-file-name"],
-                            "url": "/content#p=" + sakai.api.Util.urlSafe(data.results[i]["_path"]) + "/" + sakai.api.Util.urlSafe(data.results[i]["sakai:pooled-content-file-name"]),
+                            "url": "/content#p=" + sakai.api.Util.safeURL(data.results[i]["_path"]) + "/" + sakai.api.Util.safeURL(data.results[i]["sakai:pooled-content-file-name"]),
                             "css_class": mimeType
                         };
                         files.push(tempFile);
@@ -332,7 +334,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 } else {
                     temp.url = array[index].url;
                 }
-                temp.label = sakai.api.i18n.General.getValueForKey(array[index].label);
+                temp.label = sakai.api.i18n.getValueForKey(array[index].label);
             }
             return temp;
         };
@@ -789,7 +791,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             var people = [];
             if (el.attr("sakai-entityid") && el.attr("sakai-entityname")){
                 var userIDArr = el.attr("sakai-entityid").split(",");
-                var userNameArr = el.attr("sakai-entityname").split(",");
+                var userNameArr = sakai.api.Security.safeOutput(el.attr("sakai-entityname")).split(",");
                 for(var i = 0; i < userNameArr.length; i++){
                     people.push({
                         "uuid": userIDArr[i],

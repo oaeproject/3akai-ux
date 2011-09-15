@@ -4,13 +4,15 @@
     "userdashboard": true,
     "userpages": true,
     "sakaidocs": true,
-    "description":"Embed Google Gadgets in your page or dashboard",
     "id":"ggadget",
     "i18n": {
-        "default": "/devwidgets/ggadget/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/ggadget/bundles/default.properties",
+            "name": "Google Gadget",
+            "description":"Embed Google Gadgets in your page or dashboard"
+        }
     },
     "img":"/devwidgets/ggadget/images/ggadget.png",
-    "name":"Google Gadget",
     "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",

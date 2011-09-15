@@ -254,9 +254,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var showMessage = function(message, _focusReply) {
             currentMessage = message;
-            if (_focusReply) {
-                focusReply();
-            }
             var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
@@ -280,6 +277,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             $(detailViewClass).show();
             showReply();
+            if (_focusReply) {
+                focusReply();
+            }
         };
 
         /**
@@ -290,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(listViewClass).hide();
             $(detailViewClass).hide();
             $(window).trigger("initialize.sendmessage.sakai", [null, $inbox_new_message_sendmessage, sendMessageFinished]);
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "NEW_MESSAGE"));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey("NEW_MESSAGE", "inbox"));
             $(newMessageViewClass).show();
         };
 
@@ -393,7 +393,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showReply = function() {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
-            var replyButtonText = sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "REPLY");
+            var replyButtonText = sakai.api.i18n.getValueForKey("REPLY", "inbox");
             $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
@@ -443,7 +443,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setInitialState = function(callback) {
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
             if (widgetData.box !== "inbox") {
                 $inbox_title_total_wrapper.hide();
@@ -461,10 +461,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($inbox_message_list.is(":visible")) {
                 // apply threedots to the subject and the name
                 $(".inbox_subject a, .inbox_name a, .inbox_name span", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main", true));
                 });
                 $(".inbox_excerpt p", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main", true));
                 });
             }
         };
@@ -570,7 +570,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var init = function() {
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey(widgetData.title, "inbox"));
             // we need to check invitation status before we render any messages
             // if we're in the invitation category
             if (widgetData.category === "invitation") {
