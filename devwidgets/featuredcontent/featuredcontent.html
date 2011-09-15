@@ -147,7 +147,7 @@
                         <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${small["sakai:pool-content-created-for"]}"></div>
                     </div>
                     {if small.image}
-                        <img src="/p/${small["_path"]}" class="featuredcontent_thumbnail_image" alt="${small["sakai:pooled-content-file-name"]}"/>
+                        <img src="/p/${small["_path"]}" class="featuredcontent_thumbnail_image" alt="${small["sakai:pooled-content-file-name"]|safeOutput}"/>
                     {else}
                         <img src="${sakai.api.Content.getMimeTypeData(small["_mimeType"]).URL}" class="featuredcontent_thumbnail_image" alt="${small["sakai:pooled-content-file-name"]}"/>
                     {/if}

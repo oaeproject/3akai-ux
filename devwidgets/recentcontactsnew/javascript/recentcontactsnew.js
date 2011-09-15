@@ -169,19 +169,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < data.groups.length; i++){
                     if (!data.groups[i]["sakai:excludeSearch"] && data.groups[i]["sakai:group-title"]) {
                         var connection = data.groups[i];
-                        var id, name, picture;
+                        var id, name, picture, namePossessive;
                         if (connection.userid) {
                             id = connection.userid;
                             name = sakai.api.User.getDisplayName(connection);
+                            namePossessive = sakai.api.Util.getPossessive(name);
                             picture = sakai.api.User.getProfilePicture(connection);
                         } else if (connection.groupid) {
                             id = connection.groupid;
                             name = connection["sakai:group-title"];
+                            namePossessive = sakai.api.Util.getPossessive(name);
                             picture = sakai.api.Groups.getProfilePicture(connection);
                         }
                         newjson.connection = {
                             connectionId: id,
                             connectionName: name,
+                            connectionNamePossessive: namePossessive,
                             connectionPicture: picture
                         }
                         $("#recentcontactsnew_recent_connection_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson));
@@ -196,6 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContactInfo = function(newjson){
             newjson.displayName = sakai.api.User.getDisplayName(newjson.profile);
+            newjson.displayNamePossessive = sakai.api.Util.getPossessive(newjson.displayName);
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === "s"){
