@@ -538,6 +538,8 @@ define(
                     }
                     //change string to json object and get name from picture object
                     return "/~" + id + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && _.isString(profile.basic.elements.picture)) {
+                    return profile.basic.elements.picture;
                 } else {
                     return imgUrl;
                 }
