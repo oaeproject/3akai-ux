@@ -506,6 +506,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-icon-50{width:50px; height:50px;}
 .s3d-icon-64{width:64px; height:64px;}
 .s3d-icon-128{width:128px; height:128px;}
+.icon-audio-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -958px 0 transparent;}
 .icon-doc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -112px 0 transparent;}
 .icon-pdf-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -750px 0 transparent;}
 .icon-pps-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -463px 0 transparent;}
