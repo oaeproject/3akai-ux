@@ -35,7 +35,7 @@
                         {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                         {if embedmethod === "thumbnail" && thumbnail}
                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                            <a href="/content#p=${item.link}">
+                            <a href="/content#p=${item.link|safeURL}" title="${item.name}">
                                 <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                             </a>
                         {elseif sakai.api.Content.hasPreview(item.fullresult) && embedmethod !== "thumbnail"}

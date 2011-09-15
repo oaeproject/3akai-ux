@@ -101,9 +101,9 @@
                                 {for user in item.suggestions}
                                     <div>
                                         {if user.picture}
-                                            <img src="/~${user.userid|urlSafe}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE__"/>
+                                            <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
                                         {else}
-                                            <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__PROFILE_PICTURE__"/>
+                                            <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
                                         {/if}
                                         <h2><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h2>
                                         <div class="carousel_counts">
@@ -134,9 +134,9 @@
                                     {var tall = group_index < 2}
                                     <div class="carousel_4x2_{if tall}tall{else}short{/if}">
                                         {if group.picture}
-                                            <img src="${group.picture}" alt="__MSG__PROFILE_PICTURE__"/>
+                                            <img src="${group.picture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
                                         {else}
-                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__PROFILE_PICTURE__"/>
+                                            <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${group.title|safeOutput}"/>
                                         {/if}
                                         <h2>
                                             <a href="/~${group.groupid}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">
