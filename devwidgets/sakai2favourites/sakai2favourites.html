@@ -16,7 +16,7 @@
                     <ul>
                         {var index = 0}
                         {for category in categories}
-                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><button type="button" class="s3d-regular-links s3d-bold s3d-link-button">${category.category}</button></span></li>
+                            <li {if index === 0} class="selected" {/if}><span class="sakai2_category_title {if index === 0} selected_category {/if}" id=${category.category.replace(/ /g, "_")}><button type="button" class="s3d-regular-links s3d-link-button sakai2favourites_leftpane_button">${category.category}</button></span></li>
                             ${index++|eat}
                         {/for}
                     </ul>
@@ -32,7 +32,7 @@
                         {var i = 0}
                         {for site in sites}
                             {eval} i++; {/eval}
-                            <li {if i % 2 == 0} class="s3d-highlight_area_background"{/if}><span class="sakai2_site_title"><input type="checkbox" class="sakai2_site_title" id=${site.id}>${site.title}</input></span></li>
+                            <li><span class="sakai2_site_title"><input type="checkbox" class="sakai2_site_title" id=${site.id}>${site.title}</input></span></li>
                         {/for}
                     </ul>
                 --></div>
@@ -46,7 +46,7 @@
                     <div class="sakai2favourites_site_list">
                         <ul>
                             {for site in sites}
-                                <li><button type="button" id=${site.id} class="s3d-regular-links s3d-bold s3d-link-button sakai2_selected_site"><span class="sakai2_selected_site_title"><div class="sakai2_selected_site_icon"></div>${site.title}</span></button></li>
+                                <li><span>${site.title}</span><button type="button" id=${site.id} class="s3d-regular-links s3d-bold s3d-link-button sakai2favourites_close_image sakai2_selected_site"></button></li>
                             {/for}
                         </ul>
                     </div>

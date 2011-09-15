@@ -156,8 +156,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderSiteList(category);
                 bindEvents();
             });
-            $(".sakai2_site_title").unbind("click");
-            $(".sakai2_site_title").click(function(ev){
+            $(".sakai2_site_title input").unbind("click");
+            $(".sakai2_site_title input").click(function(ev){
                 var siteId = ev.currentTarget.id;
                 if($(ev.currentTarget).attr("checked")){
                     var site = getObject(siteId);
