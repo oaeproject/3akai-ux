@@ -35,6 +35,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
+        var NUM_PER_PAGE = 10,
+            currentPage = 1;
 
         // Containers
         var $participantsListContainer = $("#participants_list_container", rootel);
@@ -49,6 +51,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var participantsListParticipantCheckbox = ".participants_list_participant_checkbox input:checkbox";
         var $participantsSendSelectedMessage = $("#participants_send_selected_message", rootel);
         var participantsListParticipantName = ".participants_list_participant_name";
+        var $participants_pager = $("#participants_pager", rootel);
+        var $participants_sort_by = $("#participants_sort_by", rootel);
 
 
         ///////////////////////
@@ -165,33 +169,46 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "participants": participantsArr,
                             "sakai": sakai
                         }));
+                        if (data.total > NUM_PER_PAGE) {
+                            $participants_pager.pager({ pagenumber: currentPage, pagecount: Math.ceil(data.total/NUM_PER_PAGE), buttonClickCallback: handlePageClick }).show();
+                        } else {
+                            $participants_pager.empty();
+                        }
                     });
                 } else {
                     $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplate, {
                         "participants": [],
                         "sakai": sakai
                     }));
+                    $participants_pager.empty();
                 }
             } else {
                 debug.warn("Participants could not be loaded");
             }
         };
 
+        var handlePageClick = function(pageNum) {
+            if (pageNum !== currentPage) {
+                currentPage = pageNum;
+                loadParticipants();
+            }
+        };
 
         ////////////////////
         // Init functions //
         ////////////////////
 
         var loadParticipants = function(){
-            sakai.api.Groups.searchMembers(widgetData.participants.groupid, $.trim($participantsSearchField.val()), renderParticipants);
+            sakai.api.Groups.searchMembers(widgetData.participants.groupid, $.trim($participantsSearchField.val()), NUM_PER_PAGE, currentPage-1, "firstName", $participants_sort_by.val(), renderParticipants);
         };
 
         var addBinding = function(){
-            $participantsSearchField.unbind("keyup", loadParticipants);
-            $participantsSelectAll.unbind("click", checkAll);
-
-            $participantsSearchField.bind("keyup", loadParticipants);
-            $participantsSelectAll.bind("click", checkAll);
+            $participantsSearchField.unbind("keyup").bind("keyup", function() {
+                currentPage = 1;
+                loadParticipants();
+            });
+            $participants_sort_by.unbind("change").bind("change", loadParticipants);
+            $participantsSelectAll.unbind("click").bind("click", checkAll);
             $(participantsListParticipantCheckbox, rootel).live("click", setSendSelectedMessageAttributes);
 
             $(".participants_accept_invitation").live("click", function(ev){
