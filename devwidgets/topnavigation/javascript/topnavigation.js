@@ -158,8 +158,37 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 "anon" : sakai.data.me.user.anon,
                 "auth": auth
             }));
+            if (externalAuth){
+                setExternalLoginRedirectURL();
+            };
         };
 
+        var setExternalLoginRedirectURL = function(){
+            var redirectURL = getRedirectURL();
+            $(".topnavigation_external_login_link").each(function(index, item){
+                $(item).attr('href', $.param.querystring($(item).attr('href'), {"url": redirectURL}));
+            });
+        };
+
+        var getRedirectURL = function(){
+            var redirectURL = window.location.pathname + window.location.search + window.location.hash;
+            var qs = new Querystring();
+            // Go to You when you're on explore page
+            if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+                window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
+                redirectURL = "/me";
+            // 403/404 and not logged in
+            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
+                var url = qs.get("url");
+                if (url){
+                    redirectURL = url;
+                }
+            // 500 not logged in
+            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
+                redirectURL = "/me";
+            }
+            return redirectURL;
+        }
 
         ////////////////////////
         /////// MESSAGES ///////
@@ -656,25 +685,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     "password": $(topnavUseroptionsLoginFieldsPassword).val()
                 }, function(success){
                     if (success) {
-                        var qs = new Querystring();
-                        // Go to You when you're on explore page
-                        if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
-                            window.location.pathname === "/index" || window.location.pathname === "/") {
-                            window.location = "/me";
-                        // 403/404 and not logged in
-                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
-                            var url = qs.get("url");
-                            if (url){
-                                window.location = url;
-                            } else {
-                                location.reload(true);
-                            }
-                        // 500 not logged in
-                        } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
-                            window.location = "/me";
+                        var redirectURL = getRedirectURL();
+                        if (redirectURL === window.location.pathname + window.location.search + window.location.hash) {
+                            window.location.reload(true);
                         } else {
-                            // Just reload the page
-                            location.reload(true);
+                            window.location = redirectURL;
                         }
                     } else {
                         $(topnavUserOptionsLoginButtonSigningIn).hide();
