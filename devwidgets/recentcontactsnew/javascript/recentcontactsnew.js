@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var sortContacts = function(a, b){
             return a.details._lastModified > b.details._lastModified ? -1 : 1;
-        }
+        };
 
         /**
          * Gets a contact and displays info
@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handlerecentcontactsnewData = function(data) {
             if(data && data.length > 0) {
                 $("#recentcontactsnew_no_results_container").hide();
-                var contactArray = []
+                var contactArray = [];
                 for (var i in data){
                     if (data.hasOwnProperty(i) && data[i].details && data[i].details["sakai:state"] === "ACCEPTED") {
                         contactArray.push(data[i]);
@@ -186,7 +186,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             connectionName: name,
                             connectionNamePossessive: namePossessive,
                             connectionPicture: picture
-                        }
+                        };
                         $("#recentcontactsnew_recent_connection_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson));
                         break;
                     }
@@ -203,9 +203,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === "s"){
-                fname = fname + "'"
+                fname = fname + "'";
             } else {
-                fname = fname + "'s"
+                fname = fname + "'s";
             }
             newjson.firstName = fname;
             $(recentcontactsnewItem, rootel).html(sakai.api.Util.TemplateRenderer(recentcontactsnewItemTemplate,newjson));
