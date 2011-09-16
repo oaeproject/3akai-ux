@@ -48,7 +48,10 @@ require(
         });
 
         $.each($elt.find("textarea"), function(i, elt) {
-            ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
+            // ignore the tinymce editor textarea
+            if ($(elt).attr("id") !== "elm1") {
+                ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
+            }
         });
 
         $.each($elt.find("div"), function(i, elt) {
@@ -57,7 +60,7 @@ require(
                 // this is a javascript template, check the elements in the template
                 var templateData = divHtml.substr(5, divHtml.length - 4);
                 var div = document.createElement('div');
-                div.innerHTML = templateData.replace(/\s*\{[^}]*\}/g, '');
+                div.innerHTML = templateData;
                 checkElements($(div), false);
             }
         });
