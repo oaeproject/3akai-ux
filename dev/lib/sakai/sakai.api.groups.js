@@ -928,7 +928,7 @@ define(
         leave : function(groupId, role, meData, callback){
             var reqs = [
                 {
-                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    url: "/system/userManager/group/"+ groupId + "-" + role.id + ".leave.json",
                     method: "POST"
                 },
                 {
