@@ -19,7 +19,7 @@
                     <label for="discussion_create_new_topic_message_text" class="s3d-bold">
                         __MSG__MESSAGE_TEXT__
                     </label>
-                    <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text"></textarea>
+                    <textarea id="discussion_create_new_topic_message_text" class="required" rows="6" name="Message Text" placeholder="__MSG__ENTER_YOUR_MESSAGE__"></textarea>
                     <div class="fl-force-right">
                         <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_add_topic">__MSG__DONT_ADD_TOPIC__</button>
                         <button type="submit" class="s3d-button s3d-overlay-button" id="discussion_add_topic">__MSG__ADD_TOPIC__</button>
@@ -56,12 +56,12 @@
         <label for="discussion_topic_reply_text" class="s3d-bold">
             __MSG__QUOTED_TEXT__
         </label>
-        <textarea id="discussion_topic_quoted_text" class="required" rows="4" name="quoted_text">${quotedMessage|safeOutput}</textarea>
+        <textarea id="discussion_topic_quoted_text" class="required" rows="4" name="quoted_text" title="__MSG__QUOTED_TEXT__">${quotedMessage|safeOutput}</textarea>
     {/if}
     <label for="discussion_topic_reply_text" class="s3d-bold">
         __MSG__MESSAGE_TEXT__
     </label>
-    <textarea id="discussion_topic_reply_text" class="required" rows="6" name="message_text">{if edit == true}${body}{/if}</textarea>
+    <textarea id="discussion_topic_reply_text" class="required" rows="6" name="message_text" placeholder="__MSG__ENTER_YOUR_MESSAGE__">{if edit == true}${body}{/if}</textarea>
     <div class="fl-force-right">
         {if edit == true}
             <button type="button" class="s3d-button s3d-link-button" id="discussion_dont_save_edit">__MSG__DONT_SAVE__</button>

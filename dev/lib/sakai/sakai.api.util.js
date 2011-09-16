@@ -463,7 +463,33 @@ define(
             if (!alreadySecure) {
                 dotted = sakai_util.Security.safeOutput(dotted);
             }
+            // if params contains middledots = true then the string is threedotted in the middle
+            if(params && params.middledots && body.length > dotted.length){
+                var maxlength = dotted.length - 3;
+                if (!alreadySecure) {
+                    body = sakai_util.Security.safeOutput(body);
+                }
+                var prepend = body.slice(0, maxlength / 2);
+                var append = body.slice(body.length - (maxlength / 2), body.length);
+                return prepend + "..." + append;
+            }
             return dotted;
+        },
+
+        /**
+         * Returns the correct possessive use by determining how the string ends
+         *
+         * @param {String} string The string to check
+         * @return {String} the possessive to use
+         */
+        getPossessive : function(string) {
+            var possessive = require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE_S");
+            var key = $.trim(require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE_KEY")).toLowerCase();
+            var check = $.trim(string.charAt(string.length - 1)).toLowerCase();
+            if (check === key){
+                possessive = require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE");
+            }
+            return possessive;
         },
 
         /**
@@ -540,7 +566,7 @@ define(
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
                     }
-                    return "/~" + id + "/public/profile/" + picture_name;
+                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name;
@@ -555,9 +581,8 @@ define(
                 } else {
                     return imgUrl;
                 }
-            } else {
-                return imgUrl;
             }
+            return imgUrl;
         },
 
         /**
@@ -1855,11 +1880,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
                                         }
                                     }
                                 });

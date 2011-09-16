@@ -18,14 +18,14 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}" title="${i.label}">${i.label} </a>
+            <a class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul>
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a href="${subnav.url}" title="${subnav.label}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
+                                <a href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
                             </li>
                             {else}
                                 <hr class="s3d-split-line"/>
@@ -121,7 +121,7 @@
                                 <div class="topnav_content_icon_container fl-force-left">
                                     <span class="topnav_content_icon ${i.css_class}"></span>
                                 </div>
-                                <a href="${i.url}" title="${i.label}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
+                                <a href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
                             </li>
                         {/for}
                     </ul>
@@ -151,14 +151,14 @@
             </div>
         </div>
     {else}
-        <a href="/me#l=messages/inbox" title="__MSG__INBOX__" id="topnavigation_user_inbox_container">
+        <a href="/me#l=messages/inbox" id="topnavigation_user_inbox_container">
             <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
             <div id="topnavigation_user_inbox_icon"></div>
             <div id="topnavigation_user_inbox_messages"></div>
         </a>
         <ul id="topnavigation_user_options_list">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
-                <a href="/me#l=profile" id="topnavigation_user_options_name" class="s3d-bold"></a>
+                <a href="/me#l=profile" id="topnavigation_user_options_name" class="s3d-bold">${displayName}</a>
                 <div class="topnavigation_user_dropdown s3d-dropdown-container" style="display:none;">
                     <ul>
                         <li><a href="#" id="subnavigation_preferences_link" class="s3d-regular-links s3d-bold">__MSG__MY_PREFERENCES__</a></li>
