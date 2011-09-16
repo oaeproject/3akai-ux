@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          */
         var hideInputError = function(){
             $(picInputError).hide();
-            $(picInput).removeClass(picInputErrorClass);;
+            $(picInput).removeClass(picInputErrorClass);
             if ($(selectContentArea + ":visible") && imageareaobject){
                 imageareaobject.update();
             }
@@ -190,8 +190,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $("#profile_upload").unbind("click");
-        $("#profile_upload").bind("click", function(){
+        $("#profile_upload").unbind("click").bind("click", function(){
             // validate args
             // file extension allow for image
             var extensionArray = [".png", ".jpg", ".jpeg",".gif"];
@@ -409,12 +408,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/lib/jquery/plugins/imgareaselec
             if (!userSelection) {
                 userSelection = imageareaobject.getSelection();
                 savePicture();
-            } else if (originalPic
-                && (userSelection.x1 === originalPic.x1
-                && userSelection.x2 === originalPic.x2
-                && userSelection.y1 === originalPic.y1
-                && userSelection.y2 === originalPic.y2
-                && userSelection.picture === originalPic.picture)){
+            } else if (originalPic &&
+                (userSelection.x1 === originalPic.x1 &&
+                userSelection.x2 === originalPic.x2 &&
+                userSelection.y1 === originalPic.y1 &&
+                userSelection.y2 === originalPic.y2 &&
+                userSelection.picture === originalPic.picture)){
                 // no need to save if picture hasn't changed, so just close the dialog
                 // Hide the layover.
                 $(container).jqmHide();
