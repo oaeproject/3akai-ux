@@ -186,10 +186,14 @@ define(
          * Load the preference settings or data for a widget
          * @param {String} id The unique id of the widget
          * @param {Function} callback Callback function that gets executed after the load is complete
+         * @param {Boolean} Determines whether or not the json tree descends down all the nodes. True by default.
          */
-        loadWidgetData : function(id, callback) {
+        loadWidgetData : function(id, callback, infinity) {
             // Get the URL from the widgetloader
             var url = sakaiWidgetsAPI.widgetLoader.widgets[id] ? sakaiWidgetsAPI.widgetLoader.widgets[id].placement : false;
+            if (infinity === false) {
+                url += ".json";
+            }
             // Send a GET request to get the data for the widget
             sakai_serv.loadJSON(url, callback);
 
