@@ -278,6 +278,9 @@
     {else}
         This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle|safeOutput}</a>
     {/if}
+    {if courseImported !== 0 }
+        <br /> <br /> ${courseImported} IMS Content Packaging file(s) has been imported
+    {/if}
 --></div>
 
 <!-- 
