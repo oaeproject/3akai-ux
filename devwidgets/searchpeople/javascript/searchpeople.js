@@ -48,8 +48,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             invitedcontacts : sakai.config.URL.CONTACTS_FIND + '?state=INVITED',
             invitedcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
             pendingcontacts : sakai.config.URL.CONTACTS_FIND + '?state=PENDING',
-            pendingcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
-            onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
+            pendingcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING'
         };
 
         // CSS IDs

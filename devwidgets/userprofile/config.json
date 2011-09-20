@@ -1,9 +1,14 @@
 {
-    "description":"User Profile",
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/userprofile/bundles/default.properties",
+            "name":"User Profile",
+            "description":"User Profile"
+        }
+    },
     "ca":false,
     "hasSettings":false,
     "id":"userprofile",
-    "name":"User Profile",
     "showinsakaigoodies":false,
     "siteportal":false,
     "type":"core",

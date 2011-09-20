@@ -1,9 +1,11 @@
 {
-    "description":"My recent content",
-    "name":"My recent content",
     "id":"recentchangedcontent",
     "i18n": {
-        "default": "/devwidgets/recentchangedcontent/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
+            "name": "My recent content",
+            "description": "My recent content"
+        }
     },
     "personalportal":true,
     "hasSettings":false,

@@ -1,9 +1,11 @@
 {
-    "description":"Add people",
-    "name":"Add people",
     "id":"addpeople",
     "i18n": {
-        "default": "/devwidgets/addpeople/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/addpeople/bundles/default.properties",
+            "name": "Add people",
+            "description":"Add people"
+        }
     },
     "type":"core",
     "enabled":true,

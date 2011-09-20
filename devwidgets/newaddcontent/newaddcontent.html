@@ -151,7 +151,7 @@
     <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
     <select id="newaddcontent_upload_content_copyright">
     {for cr in copyright}
-        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+        <option value="${cr_index}">${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
     {/for}
 --></div>
 
@@ -187,7 +187,7 @@
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
             {for cr in copyright}
-                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>

@@ -1,13 +1,15 @@
 {
-    "description":"Dashboard",
     "ca":true,
     "hasSettings":true,
     "id":"dashboard",
     "i18n": {
-        "default": "/devwidgets/dashboard/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/dashboard/bundles/default.properties",
+            "name":"Dashboard",
+            "description":"Dashboard"
+        }
     },
     "img":"/devwidgets/comments/images/comments.png",
-    "name":"Dashboard",
     "showinsakaigoodies":false,
     "siteportal":false,
     "type":"core",
