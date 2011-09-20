@@ -93,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var renderSelectedContacts = function(){
-            $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {"contacts":selectedUsers, "roles": currentTemplate.roles}));
+            $addpeopleSelectedContactsContainer.html(sakai.api.Util.TemplateRenderer(addpeopleSelectedContactsTemplate, {"contacts":selectedUsers, "roles": currentTemplate.roles, "sakai": sakai}));
             enableDisableControls(true);
         };
 
@@ -162,14 +162,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData["sakai:group-title"]);
                         var groupID = sakai_global.group.groupData["sakai:group-id"];
                         var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
-                        var subject = sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", displayName).replace("${role}", user.permission).replace("${groupName}", groupTitle);
+                        var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "addpeople").replace("${user}", displayName).replace("${role}", user.permission).replace("${groupName}", groupTitle);
                         var body = $("#addpeople_message_template", $rootel).text().replace("${role}", user.permission).replace("${firstname}", user.name).replace("${user}", groupTitle).replace("${groupURL}", sakai.config.SakaiDomain + "/~" + groupID).replace("${groupName}", groupTitle);
                         sakai.api.Communication.sendMessage(user.userid, sakai.data.me, subject, body, "message", false, false, true, "group_invitation");
                     });
                 }
                 $addpeopleContainer.jqmHide();
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople","","MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople","","SELECT_AT_LEAST_ONE_MANAGER"));
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), sakai.api.i18n.getValueForKey("SELECT_AT_LEAST_ONE_MANAGER", "addpeople"));
             }
         };
 
@@ -274,7 +274,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sakai.api.Groups.removeUsersFromGroup(sakai_global.group.groupData["sakai:group-id"], usersToDelete, sakai.data.me);
                 $addpeopleSelectAllSelectedContacts.removeAttr("checked");
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "MANAGE_PARTICIPANTS"), sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "SELECT_AT_LEAST_ONE_MANAGER"));
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("MANAGE_PARTICIPANTS", "addpeople"), sakai.api.i18n.getValueForKey("SELECT_AT_LEAST_ONE_MANAGER", "addpeople"));
             }
         };
 
@@ -403,7 +403,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var loadRoles = function(){
             currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-            $("#addpeople_selected_all_permissions", $rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles}));
+            $("#addpeople_selected_all_permissions", $rootel).html(sakai.api.Util.TemplateRenderer("addpeople_selected_permissions_template", {"roles": currentTemplate.roles,"sakai": sakai}));
         };
 
         ////////////

@@ -4,6 +4,10 @@
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/entity/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/entity/bundles/default.properties",
+            "name": "Entity widget",
+            "description": "Entity widget"
+         }
     }
 }

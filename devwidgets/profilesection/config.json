@@ -1,11 +1,13 @@
 {
-    "description":"Show a profile section",
-    "name":"Profile Section",
     "id":"profilesection",
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/profilesection/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/profilesection/bundles/default.properties",
+            "name":"Profile Section",
+            "description":"Show a profile section"
+        }
     },
     "url":"/devwidgets/profilesection/profilesection.html"
 }

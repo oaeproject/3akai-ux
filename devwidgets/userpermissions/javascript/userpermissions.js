@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 page = sakai_global.user.pubdata.structure0[currentPath];
             }
             var permission = page._view;
-            $("#userpermissions_area_title").text(sakai.api.i18n.General.process(page._title, sakai.api.User.data.me));
+            $("#userpermissions_area_title").text(sakai.api.i18n.General.process(page._title));
             $("#userpermissions_content_container").html(sakai.api.Util.TemplateRenderer("userpermissions_content_template", {
                 "permission": permission
             }));

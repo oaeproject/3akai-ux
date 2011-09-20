@@ -906,7 +906,7 @@ define(
                                 if (data.results.hasOwnProperty(i)) {
                                     var members = $.parseJSON(data.results[i].body);
                                     if ($.grep(members, isMatch).length > 0){
-                                        role = roles[i].id;
+                                        role = roles[i];
                                         break;
                                     }
                                 }
@@ -928,7 +928,7 @@ define(
         leave : function(groupId, role, meData, callback){
             var reqs = [
                 {
-                    url: "/system/userManager/group/"+ groupId + "-" + role + ".leave.json",
+                    url: "/system/userManager/group/"+ groupId + "-" + role.id + ".leave.json",
                     method: "POST"
                 },
                 {

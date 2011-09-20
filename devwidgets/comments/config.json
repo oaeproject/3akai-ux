@@ -1,5 +1,4 @@
 {
-    "description":"Comments",
     "userpages": true,
     "userdashboard": true,
     "grouppages": true,
@@ -7,10 +6,13 @@
     "hasSettings":true,
     "id":"comments",
     "i18n": {
-        "default": "/devwidgets/comments/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/comments/bundles/default.properties",
+            "name":"Comments",
+            "description":"Comments"
+        }
     },
     "img":"/devwidgets/comments/images/comments.png",
-    "name":"Comments",
     "showinsakaigoodies":true,
     "siteportal":true,
     "type":"sakai",

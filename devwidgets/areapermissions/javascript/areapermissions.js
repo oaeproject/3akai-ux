@@ -70,7 +70,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  "roles": roles,
                  "visibility": visibility,
                  "manager": contextData.isManager,
-                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"]
+                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
+                 "sakai": sakai
              }));
          };
 

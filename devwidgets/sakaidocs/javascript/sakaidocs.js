@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
                 // SAKIII-3162 the content is too large, display an error and skip autosave
                 if (!autosaveDisabled){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                 }
                 autosaveDisabled = true;
             } else {
@@ -156,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai.api.Server.saveJSON(currentPageShown.pageSavePath + ".resource", autosavePostContent, function(success, data){
                             if (!success){
                                 // the content is probably too large, display an error
-                                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("sakaidocs","","AUTOSAVED_FAILED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                             }
                         });
                         var time = sakai.api.l10n.transformTime(sakai.api.Util.Datetime.getCurrentTime(sakai.api.User.data.me));
@@ -236,7 +236,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         "uid": nuid
                     };
                     $("#dialog_content").html(sakai.api.Security.saneHTML('<img src="' + sakai.widgets[type].img + '" id="' + nuid + '" class="widget_inline" border="1"/>'));
-                    $("#dialog_title").html(sakai.widgets[type].name);
+                    $("#dialog_title").html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                     sakai.api.Widgets.widgetLoader.insertWidgets("dialog_content", true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     $("#dialog_content").show();
                     $('#insert_dialog').css({'width':widgetSettingsWidth + "px", 'margin-left':-(widgetSettingsWidth/2) + "px"}).jqmShow();
@@ -269,6 +269,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             var jsonData = {
+                "sakai": sakai,
                 "media": media,
                 "goodies": goodies
             };
@@ -353,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "uid": id
                 };
                 $dialog_content.html('<img src="' + sakai.widgets[widgetid].img + '" id="' + id + '" class="widget_inline" border="1"/>');
-                $("#dialog_title", $overlayContainer).html(sakai.widgets[widgetid].name);
+                $("#dialog_title", $overlayContainer).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widgetid].id));
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid, true, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
 
                 if (sakai.widgets[widgetid].settingsWidth) {
@@ -734,7 +735,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 },
                 error: function(xhr, textStatus, thrownError){
                     // the content is probably too large, display an error
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.General.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
