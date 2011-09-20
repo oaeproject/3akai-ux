@@ -73,7 +73,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  "roles": roles,
                  "visibility": visibility,
                  "manager": contextData.isManager,
-                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"]
+                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
+                 "sakai": sakai
              }));
          };
 
@@ -159,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
              // Collect everyone and anonymous value
              var updateMemberPermissions = false;
-             if($.trim($("#areapermissions_area_general_visibility").val()) !== $("#areapermissions_area_general_visibility").data("original-selection")){
+             if($.trim($("#areapermissions_area_general_visibility").val()) !== $("#areapermissions_area_general_visibility").attr("data-original-selection")){
                  updateMemberPermissions = true;
              }
              var generalVisibility = $("#areapermissions_area_general_visibility").val();
@@ -174,7 +175,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              for (var i = 0; i < roles.length; i++){
                  var el = $("select[data-roleid='" + roles[i].id + "']");
                  var selectedPermission = el.val();
-                 if(el.data("original-selection") !== $.trim(selectedPermission)){
+                 if(el.attr("data-original-selection") !== $.trim(selectedPermission)){
                      updateMemberPermissions = true;
                  }
                  if (selectedPermission === "edit"){
@@ -210,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                  var $generalVisEl = $("#areapermissions_area_general_visibility");
                  var generalValue = $generalVisEl.val();
-                 var originalGeneralValue = $generalVisEl.data("original-selection");
+                 var originalGeneralValue = $generalVisEl.attr("data-original-selection");
                  var generalPermission = "";
                  if (generalValue !== originalGeneralValue){
                      if (generalValue === "everyone"){

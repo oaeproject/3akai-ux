@@ -133,14 +133,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         ////////////////////////
 
         /**
-         * returns how many years, months, days or hours since the dateinput
-         * @param {Date} date
-         */
-        var getTimeAgo = function(date){
-            return sakai.api.Datetime.getTimeAgo(date);
-        };
-
-        /**
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
@@ -206,7 +198,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     }
                 }
 
-                comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
+                comment.timeAgo = $.timeago(comment.date);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
                 comment.messageTxt = comment.comment;
                 comment.message = tidyInput(comment.comment);
@@ -267,16 +259,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(contentcommentsNumComments, rootel).html(json.total);
             // Change to "comment" or "contentcomments"
             if (json.total === 1) {
-                $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.General.getValueForKey("COMMENT"));
+                $(contentcommentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT"));
             }
-
-
-            // Change the page-number on the display
-    /*        $(contentcommentsPager, rootel).pager({
-                pagenumber: clickedPage,
-                pagecount: Math.ceil(json.total / widgetSettings.perPage),
-                buttonClickCallback: pagerClickHandler
-            });*/
 
             if (json.total > widgetSettings.perPage) {
                 $(contentcommentsPager, rootel).show();
@@ -309,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentcomments","","COMMENTS_AN_ERROR_OCCURRED"), " (" + xhr.status + ")",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COMMENTS_AN_ERROR_OCCURRED", "contentcomments"), " (" + xhr.status + ")",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -360,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
                 // This should not even happen.. Somebody is tinkering with the HTML.
                 allowPost = false;
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
             var subject = "Comment";
@@ -397,17 +381,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
-                            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOU_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
                         }
                         else {
-                            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
                         }
                     },
                     data: message
                 });
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
             }
         };
 
@@ -470,13 +454,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
 
             if (contentcomments.perPage < 1) {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
                 return false;
             }
             // Check if a valid number is inserted
             else
                 if ($(contentcommentsPageTxt, rootel).val().search(/^\d*$/)) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
                     return false;
                 }
 
@@ -609,7 +593,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         finishNewSettings();
                     }
                     else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
                     }
                 });
 
@@ -639,7 +623,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
                 // This should not even happen.. Somebody is tinkering with the HTML.
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
             // Show the form.
             $(contentcommentsUserCommentContainer, rootel).show();
@@ -758,7 +742,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     getComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_DELETE"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_DELETE"),"",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -816,13 +800,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         $(contentcommentsMessage + id, rootel).show();
                     },
                     error: function(xhr, textStatus, thrownError){
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
                     },
                     data: data
                 });
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
             }
         });
 

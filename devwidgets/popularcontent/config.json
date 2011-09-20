@@ -4,14 +4,16 @@
     "userdashboard": false,
     "grouppages": false,
     "groupdashboard": false,
-    "description": "Most active content",
     "hasSettings": false,
     "id": "popularcontent",
-    "name": "Most active content",
     "type": "sakai",
     "enabled": true,
     "url":"/devwidgets/popularcontent/popularcontent.html",
     "i18n": {
-        "default": "/devwidgets/popularcontent/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/popularcontent/bundles/default.properties",
+            "name": "Most active content",
+            "description": "Most active content"
+        }
     }
 }

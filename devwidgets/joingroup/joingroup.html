@@ -15,10 +15,10 @@
         <table class="joingroup_group_participants">
             {for p in participants}
                 <tr><td class="joingroup_userimg"><a href="${p.link}" title="__MSG__VIEW_PROFILE__"><img
-                    alt="__MSG__USER_PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
+                    alt="__MSG__PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
                     <td class="joingroup_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
                         class="joingroup_itemtitle">${p.displayname}</a></p>
-                    <p>${p.role}</p>
+                    <p>${sakai.api.i18n.General.process(p.role)}</p>
                     </td>
                 </tr>
             {/for}

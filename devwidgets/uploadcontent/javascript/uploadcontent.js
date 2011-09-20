@@ -229,7 +229,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $uploadcontent_form_content.attr("action", defaultposturl.substr(0, defaultposturl.length -1));
             $uploadcontent_form_content.ajaxForm({
                 beforeSubmit: function(a,f,o) {
-                    $('#uploadOutput').html(sakai.api.i18n.General.getValueForKey("SUBMITTING") + '...');
+                    $('#uploadOutput').html(sakai.api.i18n.getValueForKey("SUBMITTING") + '...');
                 },
                 clearForm:true,
                 success: function(data) {

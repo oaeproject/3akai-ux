@@ -164,7 +164,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(window).trigger("load.content_profile.sakai");
                 }, false);
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_DELETE_USERS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CANNOT_DELETE_USERS", "contentpermissions"), sakai.api.i18n.getValueForKey("THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER", "contentpermissions"));
             }
         };
 
@@ -285,7 +285,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     };
                     permissionsBatch.push(p);
                 }
-                if(!$(item).data("originalpermission").indexOf(newPermission) == 0){
+                if(!$(item).attr("data-originalpermission").indexOf(newPermission) == 0){
                     savePermissions = true;
                 }
             });
@@ -421,7 +421,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Set the widget title to include the filename and call the render function
          */
         var setWidgetTitleAndRender = function(){
-            $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.Widgets.getValueForKey("contentpermissions", "", "PERMISSIONS"));
+            $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.getValueForKey("PERMISSIONS", "contentpermissions"));
             renderPermissions();
         };
 

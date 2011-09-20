@@ -8,7 +8,7 @@
     <div id="areapermissions_content_container" ></div>
     <div class="fl-force-right areapermissions_buttons">
         <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="areapermissions_apply_permissions" title="Apply permissions">__MSG__APPLY_PERMISSIONS__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="areapermissions_apply_permissions" title="__MSG__APPLY_PERMISSIONS__">__MSG__APPLY_PERMISSIONS__</button>
     </div>
     <div class="fl-push"></div>
 </div>
@@ -66,7 +66,7 @@
         <div id="areapermission_roles">
             {for role in roles}
                 <div class="areapermission_role_container">
-                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${role.title}</span>
+                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${sakai.api.i18n.General.process(role.title)}</span>
                     <select class="areapermissions_role_select" data-original-selection="${role.value}" data-roleid="${role.id}">
                         {if !manager}
                             <option value="edit" {if role.value === "edit"} selected="true" {/if} disabled="true">__MSG__CAN_EDIT__ (__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</option>

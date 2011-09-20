@@ -89,11 +89,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var worldTags = $.trim($(worldsettingsTags).val());
                 var foundIn = $.trim($(worldsettingsCanBeFoundIn).val());
                 var membership = $.trim($(worldsettingsMembership).val());
-                var originalWorldTitle = $.trim($(worldsettingsTitle).data("original-value"));
-                var originalWorldDescription = $.trim($(worldsettingsDescription).data("original-value"));
-                var originalWorldTags = $.trim($(worldsettingsTags).data("original-value"));
-                var originalFoundIn = $.trim($(worldsettingsCanBeFoundIn).data("original-value"));
-                var originalMembership = $.trim($(worldsettingsMembership).data("original-value"));
+                var originalWorldTitle = $.trim($(worldsettingsTitle).attr("data-original-value"));
+                var originalWorldDescription = $.trim($(worldsettingsDescription).attr("data-original-value"));
+                var originalWorldTags = $.trim($(worldsettingsTags).attr("data-original-value"));
+                var originalFoundIn = $.trim($(worldsettingsCanBeFoundIn).attr("data-original-value"));
+                var originalMembership = $.trim($(worldsettingsMembership).attr("data-original-value"));
 
                 // If nothing changed then don't do anything
                 if (originalWorldTitle !== worldTitle ||

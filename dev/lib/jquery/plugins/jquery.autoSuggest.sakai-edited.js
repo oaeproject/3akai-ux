@@ -21,38 +21,7 @@
 
 (function($){
     $.fn.autoSuggest = function(data, options) {
-        var defaults = { 
-            asHtmlID: false,
-            startText: "Enter Name Here",
-            emptyText: "No Results Found",
-            preFill: {},
-            limitText: "No More Selections Are Allowed",
-            selectedItemProp: "value", //name of object property
-            selectedValuesProp: "value", //name of object property
-            searchObjProps: "value", //comma separated list of object property names
-            queryParam: "q",
-            retrieveLimit: false, //number for 'limit' param on ajax request
-            extraParams: "",
-            matchCase: false,
-            minChars: 1,
-            keyDelay: 400,
-            resultsHighlight: true,
-            neverSubmit: false,
-            selectionLimit: false,
-            showResultList: true,
-            start: function(){},
-            selectionClick: function(elem){},
-            selectionAdded: function(elem){},
-            selectionRemoved: function(elem){ elem.remove(); },
-            formatList: false, //callback function
-            beforeRetrieve: function(string){ return string; },
-            retrieveComplete: function(data){ return data; },
-            resultClick: function(data){},
-            resultsComplete: function(){},
-            source: false, // function to take over processing the query
-            scrollresults: false //set to true if you result list is in a container with overflow and it should scroll with up/down keyboard navigation
-        };
-        var opts = $.extend(defaults, options);     
+        var opts = $.extend($.fn.autoSuggest.defaults, options);     
         
         var d_type = "object";
         var d_count = 0;
@@ -415,4 +384,37 @@
             });
         }
     }
+    
+    $.fn.autoSuggest.defaults = { 
+        asHtmlID: false,
+        startText: "Enter Name Here",
+        emptyText: "No Results Found",
+        preFill: {},
+        limitText: "No More Selections Are Allowed",
+        selectedItemProp: "value", //name of object property
+        selectedValuesProp: "value", //name of object property
+        searchObjProps: "value", //comma separated list of object property names
+        queryParam: "q",
+        retrieveLimit: false, //number for 'limit' param on ajax request
+        extraParams: "",
+        matchCase: false,
+        minChars: 1,
+        keyDelay: 400,
+        resultsHighlight: true,
+        neverSubmit: false,
+        selectionLimit: false,
+        showResultList: true,
+        start: function(){},
+        selectionClick: function(elem){},
+        selectionAdded: function(elem){},
+        selectionRemoved: function(elem){ elem.remove(); },
+        formatList: false, //callback function
+        beforeRetrieve: function(string){ return string; },
+        retrieveComplete: function(data){ return data; },
+        resultClick: function(data){},
+        resultsComplete: function(){},
+        source: false, // function to take over processing the query
+        scrollresults: false //set to true if you result list is in a container with overflow and it should scroll with up/down keyboard navigation
+    };
+    
 })(jQuery);

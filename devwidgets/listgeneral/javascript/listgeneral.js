@@ -278,10 +278,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Get mimetype icon and human readable mimetype description
                     if (sakai.config.MimeTypes[result["_mimeType"]]) {
                         result.listgeneral.avatar = sakai.config.MimeTypes[result["_mimeType"]].URL;
-                        result.listgeneral.mimeTypeDescripton = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[result["_mimeType"]].description);
+                        result.listgeneral.mimeTypeDescripton = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[result["_mimeType"]].description);
                     } else {
                         result.listgeneral.avatar = "/dev/images/mimetypes/empty.png";
-                        result.listgeneral.mimeTypeDescripton = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description);
+                        result.listgeneral.mimeTypeDescripton = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description);
                     }
 
                     // Description
