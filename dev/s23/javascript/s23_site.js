@@ -27,6 +27,7 @@ sakai_global.s23_site = function(){
 
     var qs = new Querystring(); // Get the current query string
     var completeJSON;
+    var entityReady = false;
 
     // CSS selectors
     var s23Site = "#s23_site";
@@ -286,7 +287,9 @@ sakai_global.s23_site = function(){
         if (completeJSON && completeJSON.site && completeJSON.site.title && completeJSON.site.pages) {
 
             // Set the title of the page
-            s23SiteTitle.text(sakai.api.Security.saneHTML(completeJSON.site.title));
+            entityReady = true;
+            renderEntity();
+            document.title += " " + sakai.api.Security.saneHTML(completeJSON.site.title)
 
             // Render the menu of the workspace
             s23SiteMenuContainer.html(sakai.api.Util.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
@@ -375,6 +378,19 @@ sakai_global.s23_site = function(){
             debug.error("s23site: This site needs to have an id parameter for a sakai2 site");
         }
     };
+
+    var renderEntity = function(){
+        if (entityReady) {
+            $(window).trigger("sakai.entity.init", ["s23site", "", {
+                "title": sakai.api.Security.saneHTML(completeJSON.site.title)
+            }]);
+        }
+    };
+
+    $(window).bind("sakai.entity.ready", function(){
+        renderEntity();
+    });
+
     init();
 };
 sakai.api.Widgets.Container.registerForLoad("s23_site");
