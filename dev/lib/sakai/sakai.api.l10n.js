@@ -30,7 +30,13 @@
  * @namespace
  * Language localisation
  */
-define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "/dev/lib/misc/l10n/detect_timezone.js"], function(sakai_conf) {
+define(
+    [
+        "config/config_custom",
+        "misc/l10n/globalize",
+        "misc/l10n/detect_timezone"
+    ],
+    function(sakai_conf) {
     return {
 
         /**
@@ -124,7 +130,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {String} Localized formatted date string
          */
         transformDate : function(date){
-            return Globalization.format(date, 'd');
+            return Globalize.format(date, 'd');
         },
 
         /**
@@ -136,7 +142,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {String} Localized formatted time string
          */
         transformTime : function(date){
-            return Globalization.format(date, 't');
+            return Globalize.format(date, 't');
         },
 
         /**
@@ -148,7 +154,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {String} Localized fomatted date and time string
          */
         transformDateTime : function(date){
-            return Globalization.format(date, 'F');
+            return Globalize.format(date, 'F');
         },
 
         /**
@@ -158,7 +164,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {String} localized string
          */
         transformDateTimeLong : function(date) {
-            return Globalization.format(date, "D");
+            return Globalize.format(date, "D");
         },
 
         /**
@@ -168,7 +174,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {String} localized string
          */
         transformDateTimeShort : function(date) {
-            return Globalization.format(date, "d") + " " + Globalization.format(date, "t");
+            return Globalize.format(date, "d") + " " + Globalize.format(date, "t");
         },
 
         /**
@@ -178,7 +184,7 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * @return {Number} the number formatted
          */
         transformDecimal : function(num, decimalplaces) {
-            return Globalization.format(num, "n" + decimalplaces);
+            return Globalize.format(num, "n" + decimalplaces);
         },
 
         /**
@@ -228,11 +234,11 @@ define(["/dev/configuration/config.js", "/dev/lib/misc/l10n/globalization.js", "
          * Localised string of the number given to this function (eg "10.000.000,442")
          */
         transformNumber : function(number){
-            return Globalization.format(number, "n");
+            return Globalize.format(number, "n");
         },
 
         getDateFormatString : function() {
-            var pattern = Globalization.cultures[require("sakai/sakai.api.i18n").data.culture].calendar.patterns.d;
+            var pattern = Globalize.cultures[require("sakai/sakai.api.i18n").data.culture].calendar.patterns.d;
             var split = pattern.split("/");
             var i;
             for (i=0, j=split.length; i<j; i++) {

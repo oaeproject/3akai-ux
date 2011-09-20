@@ -163,7 +163,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     $(window).trigger("load.content_profile.sakai");
                 }, false);
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_DELETE_USERS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CANNOT_DELETE_USERS", "contentpermissions"), sakai.api.i18n.getValueForKey("THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER", "contentpermissions"));
             }
         };
 
@@ -295,7 +295,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             });
                         }, false);
                     } else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CANNOT_SAVE_SETTINGS", "contentpermissions"), sakai.api.i18n.getValueForKey("THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER", "contentpermissions"));
                     }
                 }
             });
@@ -311,7 +311,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 filterlist.push(val.userid || val.groupid);
             });
             return filterlist;
-        }
+        };
         
         /**
          * Checks the data for duplicate users/groups and removes the duplicate; gives preference to the user/group with edit permissions
@@ -331,9 +331,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             for(var i = 0; i < ml; i++){ //though unlikely, this will remove any duplicates within the manager permission
                 tmpManagers[managers[i].userid || managers[i].groupid] = managers[i];
             }
-            for(var i = 0; i < vl; i++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
-                if(!tmpManagers[viewers[i].userid || viewers[i].groupid]){
-                    tmpViewers[viewers[i].userid || viewers[i].groupid] = viewers[i];
+            for(var j = 0; j < vl; j++){ //if the viewer is a manager, don't add them. Also removes duplicates within viewer permissions
+                if(!tmpManagers[viewers[j].userid || viewers[j].groupid]){
+                    tmpViewers[viewers[j].userid || viewers[j].groupid] = viewers[j];
                 }
             }
             
@@ -341,7 +341,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 var x = (a.userid || a.groupid).toLowerCase();
                 var y = (b.userid || b.groupid).toLowerCase();
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            }
+            };
             
             data.members.managers = _.toArray(tmpManagers).sort(sortById);
             data.members.viewers = _.toArray(tmpViewers).sort(sortById);
@@ -358,7 +358,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var renderPermissions = function(){
             $contentpermissionsContentContainer.html(sakai.api.Util.TemplateRenderer(contentpermissionsContentTemplate, {
                 "contentdata": removeDuplicateUsersGroups(sakai_global.content_profile.content_data),
-                "api": sakai.api
+                "sakai": sakai
             }));
             sakai.api.Util.AutoSuggest.setup($(contentpermissionsMembersAutosuggest), {"asHtmlID": tuid,"selectionAdded":addedUserGroup,"filterUsersGroups":autosuggestFilterUsersGroups()}); 
             renderMemberList();
@@ -374,7 +374,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
             $(contentpermissionsMembersList).html(sakai.api.Util.TemplateRenderer(contentpermissionsMembersListTemplate, {
                 "contentdata": sakai_global.content_profile.content_data,
-                "api": sakai.api
+                "sakai": sakai
             }));
             enableDisableButtons(true);
             if(userListLength>0){
@@ -386,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Set the widget title to include the filename and call the render function
          */
         var setWidgetTitleAndRender = function(){
-            $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.Widgets.getValueForKey("contentpermissions", "", "PERMISSIONS"));
+            $(".dialog_header_inner h1:visible").text("\"" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] + "\" " + sakai.api.i18n.getValueForKey("PERMISSIONS", "contentpermissions"));
             renderPermissions();
         };
 

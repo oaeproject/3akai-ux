@@ -64,9 +64,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */
         var carouselBinding = function(carousel){
             $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
+                $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").die("click");
                 var clickedId = parseInt($(this)[0].id.split("scroll_")[1], 10);
-                if (clickedId < parseInt($(".categories_items_scroll_selected")[0].id.split("scroll_")[1], 10) && $(this)[0].id !== "categories_view_next_raquo") {
-                    carousel.prev();
+                if (clickedId) {
+                    carousel.scroll(clickedId);
                 }
                 else {
                     carousel.next();
@@ -78,19 +79,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $(this).addClass("categories_items_scroll_selected");
                 }
                 else {
-                    if ($(".categories_items_scroll_selected").next()[0]) {
-                        var $next = $(".categories_items_scroll_selected").next();
-                        var $this = $(".categories_items_scroll_selected");
+                    var $this = $(".categories_items_scroll_selected");
+                    if ($this.next().length) {
+                        var $next = $this.next();
                         $next.addClass("categories_items_scroll_selected");
                         $next.removeClass("categories_items_scroll_deselected");
-                        $this.removeClass("categories_items_scroll_selected");
-                        $this.addClass("categories_items_scroll_deselected");
+                    } else {
+                        var $first = $(".categories_items_scroll_deselected:first");
+                        $first.addClass("categories_items_scroll_selected");
+                        $first.removeClass("categories_items_scroll_deselected");
                     }
+                    $this.removeClass("categories_items_scroll_selected");
+                    $this.addClass("categories_items_scroll_deselected");
                 }
                 return false;
             });
         };
-        
         
         ////////////////////////////
         // CAROUSEL AND RENDERING //
@@ -105,7 +109,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 easing: "swing",
                 scroll: 4,
                 wrap: "circular",
-                initCallback: carouselBinding
+                itemFirstInCallback: carouselBinding
             });
             $categoriesItemsContainer.css("display", "none");
         };
@@ -127,17 +131,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var parseDirectory = function(success, data){
             $.each(directory, function(i, toplevel){
                 toplevel.count = 0;
-                if (data[i] && data[i].content){
+                if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)){
                     toplevel.content = data[i].content;
                     toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                     toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                    var mimeType = sakai.api.Content.getMimeType(toplevel.content);
-                    if (mimeType.indexOf("image/") !== -1){
-                        toplevel.content.image = true;
-                    }
-                    if (sakai.api.Content.getThumbnail(toplevel.content)){
-                        toplevel.content.haspreview = true;
-                    }
                     toplevel.count = data[i]["sakai:tag-count"];
                 }
                 toplevel.id = i;

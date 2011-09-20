@@ -1,18 +1,21 @@
 {
-    "description":        "Left Hand Navigation Widget",
     "enabled":            true,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        true,
     "i18n": {
-        "default":        "/devwidgets/lhnavigation/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/lhnavigation/bundles/default.properties",
+            "name":       "Left Hand Navigation",
+            "description":"Left Hand Navigation Widget"
+        }
     },
     "id":                 "lhnavigation",
-    "name":               "Left Hand Navigation",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "core",
     "url":                "/devwidgets/lhnavigation/lhnavigation.html",
     "userdashboard":      false,
-    "userpages":          false
+    "userpages":          false,
+    "hashParams":         ["newPageMode", "l"]
 }

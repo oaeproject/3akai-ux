@@ -29,9 +29,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sortBy = "_created",
             sortOrder = "desc",
             currentPage = 0,
-            invitations = [],
-            rejections = [],
-            removals = [],
+            numJustDeleted = 0,
             searchTerm = null,
             selectWhat = "all",
             listViewClass = ".inbox-message-list-view",
@@ -163,13 +161,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_mark_as_read.live("click", function() {
             var unreadMessages = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container.unread");
-            pathList = [];
+            var readList = [];
             $.each(unreadMessages, function(i,elt) {
-                var path = messages.results[$(elt).attr("id")].path;
+                var message = messages.results[$(elt).attr("id")];
                 $(elt).removeClass("unread");
-                pathList.push(path);
+                readList.push(message);
             });
-            sakai.api.Communication.markMessagesAsRead(pathList);
+            sakai.api.Communication.markMessagesAsRead(readList);
         });
 
         /**
@@ -177,14 +175,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         $inbox_delete_selected.live("click", function() {
             var messagesToDelete = $inbox_message_list.find("input[type='checkbox']:checked").parents(".inbox_items_container");
-            pathList = [];
+            var messageList = [];
             $.each(messagesToDelete, function(i,elt) {
-                var path = messages.results[$(elt).attr("id")].path;
-                pathList.push(path);
+                var msg = messages.results[$(elt).attr("id")];
+                messageList.push(msg);
             });
             var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(pathList, hardDelete, function(success, data) {
-                messagesToDelete.fadeOut(getMessages);
+            sakai.api.Communication.deleteMessages(messageList, hardDelete, function(success, data) {
+                numJustDeleted = messageList.length;
+                var done = false;
+                messagesToDelete.fadeOut(function() {
+                    if (!done) {
+                        getMessages();
+                        done = true;
+                    }
+                });
             });
         });
 
@@ -219,40 +224,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.bbq.removeState("newmessage");
         };
 
-        /** Contact invitations **/
-
-        var getContacts = function(callback) {
-            // reset the arrays
-            sakai.api.User.getContacts(function() {
-                invitations = []; rejections = []; removals = [];
-                // move this to an APi function
-                $.each(sakai.api.User.data.me.mycontacts, function(i, contact) {
-                    var state = contact.details["sakai:state"];
-                    if (state === "INVITED") {
-                        invitations.push(contact.target);
-                    } else if (state === "IGNORED") {
-                        rejections.push(contact.target);
-                    } else if (state === "NONE") {
-                        removals.push(contact.target);
-                    }
-                });
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            });
-        };
-
         var handleContactInvitation = function(e) {
             $(".inbox_invitation", $rootel).hide();
             if ($(e.target).hasClass("inbox_invitation_accept")) {
                 $(".inbox_accepted", $rootel).show();
                 sakai.api.User.acceptContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
+                    currentMessage.from.connectionState = "ACCEPTED";
                 });
             } else {
                 $(".inbox_ignored", $rootel).show();
                 sakai.api.User.ignoreContactInvite(currentMessage.from.userObj.uuid, function() {
-                    getContacts();
+                    currentMessage.from.connectionState = "IGNORED";
                 });
             }
         };
@@ -261,16 +243,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var determineInviteStatus = function(message) {
             message.invitation = true;
-            if (invitations.indexOf(message.from.userObj.uuid) !== -1) {
+            if (message.from.connectionState && message.from.connectionState === "INVITED") {
                 message.invited = true;
-            } else if (rejections.indexOf(message.from.userObj.uuid) !== -1) {
+            } else if (message.from.connectionState && message.from.connectionState === "IGNORED") {
                 message.ignored = true;
             }
         };
 
         /** Messages **/
 
-        var showMessage = function() {
+        var showMessage = function(message, _focusReply) {
+            currentMessage = message;
+            var cacheAutoSuggestData = $("#sendmessage_to_autoSuggest").data();
             toggleSelectDropdown(null, false);
             $(listViewClass).hide();
             hideReply();
@@ -286,12 +270,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     picture: sakai.api.Util.constructProfilePicture(sakai.api.User.data.me)
                 }
             }, $inbox_show_message);
+            $("#sendmessage_to_autoSuggest").data(cacheAutoSuggestData);
             if (!currentMessage.read) {
-                sakai.api.Communication.markMessagesAsRead(currentMessage.path);
+                sakai.api.Communication.markMessagesAsRead(currentMessage);
                 $("#" + currentMessage.id, $rootel).removeClass("unread");
             }
             $(detailViewClass).show();
             showReply();
+            if (_focusReply) {
+                focusReply();
+            }
         };
 
         /**
@@ -302,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(listViewClass).hide();
             $(detailViewClass).hide();
             $(window).trigger("initialize.sendmessage.sakai", [null, $inbox_new_message_sendmessage, sendMessageFinished]);
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "NEW_MESSAGE"));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey("NEW_MESSAGE", "inbox"));
             $(newMessageViewClass).show();
         };
 
@@ -310,16 +298,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mid = $(e.currentTarget).parents(".inbox_items_container").attr("id");
             var msg = messages.results[mid];
             var hardDelete = widgetData.box === "trash" ? true : false;
-            sakai.api.Communication.deleteMessages(msg.path, hardDelete, function(success, data) {
+            sakai.api.Communication.deleteMessages(msg, hardDelete, function(success, data) {
                 if (!success) {
-                    debug.log("deleting failed");
+                    debug.error("deleting failed");
                     // show a gritter message indicating deleting it failed
                 } else {
                     getMessages();
                 }
             });
             if ($inbox_show_message.is(":visible")) {
-                backToMessages();
+                $.bbq.removeState("message", "reply");
             } else {
                 $("#" + mid).fadeOut(200);
             }
@@ -329,6 +317,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getMessages = function(callback) {
             var doFlip = widgetData.box === "outbox";
+            if (numJustDeleted) {
+                var currentPaging = totalMessages & MESSAGES_PER_PAGE,
+                    newPaging = (totalMessages - numJustDeleted) % MESSAGES_PER_PAGE;
+                // newPaging === 0 means we need a new page, as nothing will show on this one
+                // newPaging > currentPaging means that there are more on the new page than before, so
+                //    we should show the previous page (should rarely, if ever, happen)
+                if ((newPaging === 0 || newPaging > currentPaging) && currentPage !== 0) {
+                    currentPage--;
+                }
+                // if we can destroy the pager now, lets do it
+                if (currentPage === 0 && totalMessages - numJustDeleted <= MESSAGES_PER_PAGE) {
+                    $inbox_pager.empty();
+                }
+                numJustDeleted = 0;
+            }
             sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, MESSAGES_PER_PAGE, currentPage, sortBy, sortOrder, function(success, data){
                 var update = true;
                 if (!searchTerm) {
@@ -390,7 +393,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showReply = function() {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
-            var replyButtonText = sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "REPLY");
+            var replyButtonText = sakai.api.i18n.getValueForKey("REPLY", "inbox");
             $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
@@ -440,7 +443,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setInitialState = function(callback) {
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
             if (widgetData.box !== "inbox") {
                 $inbox_title_total_wrapper.hide();
@@ -458,10 +461,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if ($inbox_message_list.is(":visible")) {
                 // apply threedots to the subject and the name
                 $(".inbox_subject a, .inbox_name a, .inbox_name span", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 1}, "s3d-bold inbox_main", true));
                 });
                 $(".inbox_excerpt p", $rootel).each(function(i,elt) {
-                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main"));
+                    $(elt).text(sakai.api.Util.applyThreeDots($(elt).text(), $(elt).parent().width(), {max_rows: 2}, "inbox_main", true));
                 });
             }
         };
@@ -471,7 +474,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var updateMessageList = function(update) {
             if (update !== false) {
-                getContacts();
                 // make the results an array so we can know if we've hit the last
                 // one when we're iterating in the template
                 var data = $.extend(true, {}, messages);
@@ -498,6 +500,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $inbox_title_total_wrapper.hide();
             }
             if (showing) {
+                getMessages();
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
             } else {
                 clearInterval(checkInterval);
@@ -505,21 +508,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
-            if ($rootel.is(":visible")) {
+            // check if the inbox is open, or if the hashchange will open an inbox message
+            if ($rootel.is(":visible") || (currentState && currentState.l && currentState.l.substr(0, 8) === "messages")) {
                 if (!$.isEmptyObject(changed) || (first && !$.isEmptyObject(all))) {
                     if (changed.hasOwnProperty("message") || all.hasOwnProperty("message")) {
-                        getMessages(function() {
-                            updateMessageList(true);
-                            var message = messages.results[changed.message || all.message];
-                            currentMessage = message;
-                            // this handles multiple instances of the widget
-                            if (currentMessage) {
-                                showMessage();
-                                if (changed.hasOwnProperty("reply") || all.hasOwnProperty("reply")) {
-                                    focusReply();
+                        if ((messages.results && !messages.results[changed.message || all.message]) || !messages.results) {
+                            getMessages(function() {
+                                updateMessageList(true);
+                                var message = messages.results[changed.message || all.message];
+                                currentMessage = message;
+                                // this handles multiple instances of the widget
+                                if (currentMessage) {
+                                    showMessage(message, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
                                 }
+                            });
+                        } else {
+                            var messageCached = messages.results[changed.message || all.message];
+                            if (messageCached) {
+                                showMessage(messageCached, changed.hasOwnProperty("reply") || all.hasOwnProperty("reply"));
                             }
-                        });
+                        }
                     } else if (changed.hasOwnProperty("newmessage") || all.hasOwnProperty("newmessage")) {
                         showNewMessage();
                     } else if (changed.hasOwnProperty("iq") || all.hasOwnProperty("iq")) {
@@ -536,13 +544,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         searchTerm = null;
                         getMessages();
                     }
-                } else if (!first) {
-                    setInitialState();
-                    getMessages();
                 } else {
                     setInitialState();
                     getMessages();
-                    updateMessageList(true);
                 }
             }
         };
@@ -566,11 +570,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var init = function() {
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey(widgetData.title, "inbox"));
             // we need to check invitation status before we render any messages
             // if we're in the invitation category
             if (widgetData.category === "invitation") {
-                getContacts(postInit);
+                postInit();
             } else {
                 postInit();
             }

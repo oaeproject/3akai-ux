@@ -265,7 +265,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 type = "group";
                             }
                             if (pickerData.excludeList.length === 0 || $.inArray(value, pickerData.excludeList) === -1) {
-                                suggestions.push({"value": value, "name": name, "type": type});
+                                suggestions.push({"value": sakai.api.Security.safeOutput(value), "name": sakai.api.Security.safeOutput(name), "type": sakai.api.Security.safeOutput(type)});
                             }
                         });
                         add(suggestions);

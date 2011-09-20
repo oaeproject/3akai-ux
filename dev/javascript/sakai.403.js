@@ -31,7 +31,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $errorPageLinksTemplate = $("#error_page_links_template");
         var $errorPageLinksContainer = $("#error_page_links_container");
-        var $goback = $("#error_goback");
         var $searchinput = $("#errorsearch_text");
 
         var doInit = function(){
@@ -43,13 +42,13 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             $browsecatcount.text(catcount);
-            
+
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.General.getValueForKey(world.title);
+                world.label = sakai.api.i18n.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
                 	world.last = true;
                 }
@@ -96,23 +95,20 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(permissionsError).append(renderedTemplate);
                 $("#permission_error").addClass("error_page_bringdown");
             }
-            $goback.click(function(){
-                window.history.go(-1);
-            });
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
                     document.location = "/search#q=" + $.trim($searchinput.val());
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
+            document.title = document.title + " " + sakai.api.i18n.getValueForKey("ACCESS_DENIED");
         };
-        
+
         var forceLoginOverlay = function(){
             $("#topnavigation_user_options_login_fields").addClass("topnavigation_force_submenu_display");
             $("#topnavigation_user_options_login_wrapper").addClass("topnavigation_force_submenu_display_title");
         };
-        
+
         doInit();
 
     };

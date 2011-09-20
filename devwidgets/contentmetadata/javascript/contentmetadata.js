@@ -111,6 +111,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
+            if (mode === "edit") {
+                $contentmetadataDescriptionContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataDescriptionContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
@@ -153,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                         type: "POST",
                         cache: false,
                         data: {
-                            "sakai:pooled-content-file-name": sakai.api.Security.escapeHTML($("#entity_name_text").val())
+                            "sakai:pooled-content-file-name": $("#entity_name_text").val()
                         },
                         success: function(){
                             sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] = sakai.api.Security.escapeHTML($("#entity_name_text").val());
@@ -179,6 +184,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 sakai: sakai,
                 tags: sakai.api.Util.formatTagsExcludeLocation(sakai_global.content_profile.content_data.data["sakai:tags"])
             };
+            if (mode === "edit") {
+                $contentmetadataTagsContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataTagsContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
             addEditBinding(mode);
         };
@@ -193,6 +203,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
+            if (mode === "edit") {
+                $contentmetadataCopyrightContainer.addClass("contentmetadata_editing");
+            } else {
+                $contentmetadataCopyrightContainer.removeClass("contentmetadata_editing");
+            }
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
@@ -257,7 +272,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                             if(json.data.saveddirectory[dir].hasOwnProperty(dirPiece)){
                                 dirString += sakai.api.Util.getValueForDirectoryKey(json.data.saveddirectory[dir][dirPiece]);
                                 if(dirPiece < json.data.saveddirectory[dir].length - 1){
-                                    dirString += "&nbsp;&#187;&nbsp;";
+                                    dirString += " » ";
                                 }
                             }
                         }
@@ -289,8 +304,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 }
             }
 
-            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(){
-                sakai_global.content_profile.content_data.data["sakai:tags"] = tags;
+            sakai.api.Util.tagEntity("/p/" + sakai_global.content_profile.content_data.data["_path"], tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+                sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
                 renderTags(false);
                 // Create an activity
                 createActivity("UPDATED_TAGS");
@@ -302,16 +317,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateDescription = function(){
             var description = $("#contentmetadata_description_description").val();
-            sakai_global.content_profile.content_data.data["sakai:description"] = description;
             renderDescription(false);
-            $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                type: "POST",
-                cache: false,
-                data: {
-                    "sakai:description": description
-                },
-                success: function(){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:description"] = description;
                     createActivity("UPDATED_DESCRIPTION");
                 }
             });
@@ -354,16 +364,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateCopyright = function(){
             var copyright = $("#contentmetadata_copyright_copyright").val();
-            sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
-            renderCopyright(false);
-            $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                type: "POST",
-                cache: false,
-                data: {
-                    "sakai:copyright": $("#contentmetadata_copyright_copyright").val()
-                },
-                success: function(){
+            var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
+            sakai.api.Server.saveJSON(url, {"sakai:copyright": copyright}, function(success, data) {
+                if (success) {
+                    sakai_global.content_profile.content_data.data["sakai:copyright"] = copyright;
+                    renderCopyright(false);
                     createActivity("UPDATED_COPYRIGHT");
                 }
             });
@@ -481,10 +486,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             // Add binding
             addBinding();
         };
-
-        $(window).bind("complete.fileupload.sakai", function(){
-            $(window).trigger("load.content_profile.sakai", renderDetails);
-        });
 
         $(window).bind("renderlocations.contentmetadata.sakai", function(ev){
             renderLocations(false);

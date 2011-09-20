@@ -1,8 +1,7 @@
-define(function() {
-    // Insert custom configuration here
-    var config = {
-        // Custom CSS Files to load in
-        skinCSS : ["/dev/skins/default/skin.css"]
-    };
+define(["config/config"], function(config) {
+
+    // Custom CSS Files to load in
+    config.skinCSS = ["/dev/skins/default/skin.css"];
+
     return config;
 });

@@ -535,7 +535,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             resultJSON.feeds = resultJSON.feeds || [];
             resultJSON.title = $(rssTxtTitle,rootel).val();
             resultJSON.numEntries = parseInt($(rssNumEntries,rootel).val(),10);
-            if((resultJSON.numEntries + "") === "NaN"){
+            if(!_.isNumber(resultJSON.numEntries)){
                 sakai.api.Util.notification.show("", $(rssNumberOfItemsShouldBeNumber).html());
                 return false;
             }

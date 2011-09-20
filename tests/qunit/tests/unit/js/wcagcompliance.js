@@ -2,10 +2,10 @@ require(
     [
     "jquery",
     "sakai/sakai.api.core",
-    "../../../../../tests/qunit/js/qunit.js",
-    "../../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../../tests/qunit/js/dev.js",
-    "../../../../../tests/qunit/js/devwidgets.js"
+    "../../../../tests/qunit/js/qunit.js",
+    "../../../../tests/qunit/js/sakai_qunit_lib.js",
+    "../../../../tests/qunit/js/dev.js",
+    "../../../../tests/qunit/js/devwidgets.js"
     ], 
     function($, sakai) {
 

@@ -38,20 +38,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var featuredpeopleTemplate = "featuredpeople_template";
 
         var renderPeople = function(data){
-                $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
-                    "data": data,
-                    "category": pageData.category,
-                    "sakai": sakai
-                }));
-        }
+            $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
+                "data": data,
+                "category": pageData.category,
+                "sakai": sakai
+            }));
+        };
 
         var parsePeople = function(success, data){
             if (success) {
                 $.each(data.results, function(index, item){
-                    if(item.picture){
-                        item.picture = "/~" + item.userid + "/public/profile/" + $.parseJSON(item.picture).name;
-                    }else{
+                    if (item.picture) {
+                        item.picture = "/~" + sakai.api.Util.safeURL(item.userid) + "/public/profile/" + $.parseJSON(item.picture).name;
+                    } else {
                         item.picture = "/dev/images/default_User_icon_50x50.png";
+                    }
+                    item.baseHref = "/~" + sakai.api.Util.safeURL(item.userid);
+                    if (item.userid === sakai.data.me.user.userid) {
+                        item.baseHref = "/me";
                     }
                     item.name = sakai.api.User.getDisplayName(item);
                 });
@@ -62,12 +66,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var fetchPeople = function(){
             var q = "";
             if(pageData){
-                q = pageData.category.replace("-", "/");
+                q = "directory/" + pageData.category.replace("-", "/");
             }
-            sakai.api.Server.loadJSON("/var/search/users.infinity.json", parsePeople, {
+            sakai.api.Server.loadJSON("/var/search/bytag.json", parsePeople, {
                 page: 0,
                 items: 3,
-                q: q
+                tag: q,
+                type: "u"
             });
         };
 

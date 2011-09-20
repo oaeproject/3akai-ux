@@ -30,18 +30,22 @@
  * @namespace
  * Internationalisation
  */
-define(["jquery",
-        "/dev/configuration/config.js",
+define(
+    [
+        "jquery",
+        "config/config_custom",
         "sakai/sakai.api.util",
-        "sakai/sakai.api.server"],
-        function($, sakai_config, sakai_util, sakai_serv) {
+        "sakai/sakai.api.server"
+    ],
+    function($, sakai_config, sakai_util, sakai_serv) {
 
     var sakaii18nAPI = {
         data : {
             localBundle : false,
             defaultBundle : false,
             widgets : {},
-            culture : "default"
+            culture : "default",
+            meData: false
         },
 
         /**
@@ -78,6 +82,8 @@ define(["jquery",
             // HELP VARIABLES //
             ////////////////////
 
+            sakaii18nAPI.data.meData = meData;
+
             /*
              * Cache the jQuery i18nable element. This makes sure that only pages with
              * the class i18nable on the body element get i18n translations and won't do
@@ -91,32 +97,6 @@ define(["jquery",
              * translate into the language chosen by the user
              */
             var tostring = $i18nable.html();
-
-
-            ////////////////////////////
-            // LANGUAGE BUNDLE LOADER //
-            ////////////////////////////
-
-            /**
-             * Gets the site id if the user is currently on a site
-             * if the user is on any other page then false is returned
-             *
-             * Proposed addin: Check to see if there is a siteid querystring parameter.
-             * This will then i18n pages like site settings as well.
-             */
-            var getSiteId = function(){
-                var site = false;
-                var loc = ("" + document.location);
-                var siteid = loc.indexOf(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""));
-                if (siteid !== -1) {
-                    var mark = (loc.indexOf("?") === -1) ? loc.length : loc.indexOf("?");
-                    var uri = loc.substring(0, mark);
-                    site = uri.substring(siteid, loc.length).replace(sakai_config.URL.SITE_CONFIGFOLDER.replace(/__SITEID__/, ""), "");
-                    site = site.substring(0, site.indexOf("#"));
-                }
-                return site;
-            };
-
 
             ////////////////////
             // I18N FUNCTIONS //
@@ -153,15 +133,71 @@ define(["jquery",
                         return false;
                     }
                 }
-                
+
                 if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== "/~"){
                     sakai_util.Security.showPage();
                 }
+                translateJqueryPlugins();
+                translateDirectory(sakai_config.Directory);
                 require("sakai/sakai.api.widgets").initialLoad();
                 sakaii18nAPI.done = true;
                 $(window).trigger("done.i18n.sakai");
                 return true;
             };
+
+            /**
+             * Function that will internationalize the different jquery plugins
+             * we use. For example, we want to make sure that the previous and next
+             * buttons in the pager plugin are properly using the current user's
+             * locale settings
+             */
+            var translateJqueryPlugins = function(){
+                // Translate the jquery.timeago.js plugin
+                $.timeago.settings.strings = {
+                    prefixAgo: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_PREFIXAGO"),
+                    prefixFromNow: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_PREFIXFROMNOW"),
+                    suffixAgo: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SUFFIXAGO"),
+                    suffixFromNow: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SUFFIXFROMNOW"),
+                    seconds: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_SECONDS"),
+                    minute: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MINUTE"),
+                    minutes: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MINUTES"),
+                    hour: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_HOUR"),
+                    hours: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_HOURS"),
+                    day: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_DAY"),
+                    days: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_DAYS"),
+                    month: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MONTH"),
+                    months: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MONTHS"),
+                    year: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEAR"),
+                    years: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEARS")
+                }
+                // Translate the jquery.pager.js plugin
+                $.fn.pager.defaults.htmlparts = {
+                    "first" : sakaii18nAPI.getValueForKey("FIRST"),
+                    "last" : sakaii18nAPI.getValueForKey("LAST"),
+                    "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("PREVIOUS_PAGE") + '">' + sakaii18nAPI.getValueForKey("PREV") + '</span></a>',
+                    "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
+                    "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
+                }
+                // Translate the jquery.autosuggest plugin
+                $.fn.autoSuggest.defaults.startText = sakaii18nAPI.getValueForKey("ENTER_NAME_HERE");
+                $.fn.autoSuggest.defaults.emptyText = sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND");
+                $.fn.autoSuggest.defaults.limitText = sakaii18nAPI.getValueForKey("NO_MORE_SELECTIONS_ALLOWED");
+            };
+
+            /**
+             * Translate all of the elements inside of the directory into the current's
+             * language
+             */
+            var translateDirectory = function(directory){
+                for (var dir in directory){
+                    if (directory.hasOwnProperty(dir)){
+                        directory[dir].title = sakaii18nAPI.General.process(directory[dir].title);
+                        if (directory[dir].children){
+                            translateDirectory(directory[dir].children);
+                        }
+                    }
+                }
+            }
 
             /**
              * This will give the body's HTML string, the local bundle (if present) and the default bundle to the
@@ -174,105 +210,15 @@ define(["jquery",
              *  in the default language
              */
             var doI18N = function(localjson, defaultjson){
-                var newstring = sakaii18nAPI.General.process(tostring, meData);
+                var newstring = sakaii18nAPI.General.process(tostring);
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
                 // will already be loaded
                 if($i18nable.length > 0){
                     $i18nable[0].innerHTML = newstring;
                 }
-                document.title = sakaii18nAPI.General.process(document.title, meData);
+                document.title = sakaii18nAPI.General.process(document.title);
                 finishI18N();
-            };
-
-            /**
-             * This function will load the general language bundle specific to the language chosen by
-             * the user and will store it in a global variable. This language will either be the prefered
-             * user language or the prefered server language. The language will be available in the me feed
-             * and we'll use the global meData object to extract it from. If there is no prefered langauge,
-             * we'll use the default bundle to translate everything.
-             */
-            var loadLocalBundle = function(langCode){
-                // globalization
-                var i10nCode = langCode.replace("_", "-");
-                if (Globalization.cultures) { // check if jquery.glob has been defined yet, should always be but just a sanity check
-                    if (Globalization.cultures[i10nCode]) { // probably will never be true, but just in case, no need to get the script again
-                        Globalization.preferCulture(i10nCode);
-                    } else {
-                        $.getScript(sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
-                            Globalization.preferCulture(i10nCode);
-                        });
-                    }
-                }
-                sakaii18nAPI.data.culture = i10nCode;
-                // language bundles
-                $.ajax({
-                    url: sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
-                    success: function(data){
-                        data = sakaii18nAPI.changeToJSON(data);
-                        sakaii18nAPI.data.localBundle = data;
-                        doI18N(sakaii18nAPI.data.i18n.localBundle, sakaii18nAPI.data.defaultBundle);
-                    },
-                    error: function(xhr, textStatus, thrownError){
-                        // There is no language file for the language chosen by the user
-                        // We'll switch to using the default bundle only
-                        doI18N(null, sakaii18nAPI.data.defaultBundle);
-                    }
-                });
-            };
-
-            /**
-             * Load the language for a specific site
-             * @param {String} site The id of the site you want to load the language for
-             */
-            var loadSiteLanguage = function(site){
-                $.ajax({
-                    url: sakai_config.URL.SITE_CONFIGFOLDER.replace("__SITEID__", site) + ".json",
-                    cache: false,
-                    success: function(data){
-                        var siteJSON = data;
-                        if (siteJSON.language && siteJSON.language !== "default_default") {
-                            loadLocalBundle(siteJSON.language);
-                        } else if (meData.user.locale) {
-                            loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
-                        } else {
-                            // There is no locale set for the current user. We'll switch to using the default bundle only
-                            doI18N(null, sakaii18nAPI.data.defaultBundle);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError){
-                        loadLocalBundle();
-                    }
-                });
-            };
-
-            /**
-             * This will load the default language bundle and will store it in a global variable. This default bundle
-             * will be saved in a file called bundle/default.properties.
-             */
-            var loadDefaultBundle = function(){
-                $.ajax({
-                    url: sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
-                    success: function(data){
-                        data =sakaii18nAPI.changeToJSON(data);
-                        sakaii18nAPI.data.defaultBundle = data;
-                        var site = getSiteId();
-                        if (!site) {
-                            if (meData && meData.user && meData.user.locale) {
-                                loadLocalBundle(meData.user.locale.language + "_" + meData.user.locale.country);
-                            } else {
-                                // There is no locale set for the current user. We'll switch to using the default bundle only
-                                doI18N(null, sakaii18nAPI.data.defaultBundle);
-                            }
-                        } else {
-                            loadSiteLanguage(site);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError){
-                        // There is no default bundle, so we'll just show the interface without doing any translations
-                        finishI18N();
-                    }
-                });
             };
 
             /**
@@ -285,29 +231,34 @@ define(["jquery",
              * we'll use the default bundle to translate everything.
              */
             var loadLanguageBundles = function(){
+                
                 var localeSet = false;
-                var getGlobalization = false;
-                var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest, globalizationRequest; 
+                var langCode, i10nCode, loadDefaultBundleRequest, loadLocalBundleRequest;
 
                 if (meData && meData.user && meData.user.locale && meData.user.locale.country) {
                     langCode = meData.user.locale.language + "_" + meData.user.locale.country.replace("_", "-");
-                    i10nCode = langCode.replace("_", "-");
                     localeSet = true;
+                } else {
+                    langCode = sakai_config.defaultLanguage;
                 }
+                i10nCode = langCode.replace("_", "-");
 
-                if (Globalization.cultures) { // check if jquery.glob has been defined yet, should always be but just a sanity check
-                    if (Globalization.cultures[i10nCode]) { // probably will never be true, but just in case, no need to get the script again
-                        Globalization.preferCulture(i10nCode);
-                    } else {
-                        getGlobalization = true;
-                    }
+                // set the language attribute for the html tag
+                $("html").attr("lang", langCode.substr(0, 2));
+
+                if (Globalize.cultures && Globalize.cultures[i10nCode]) {
+                    Globalize.culture(i10nCode);
+                } else {
+                    $.getScript(sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode), function(success, textStatus) {
+                        Globalize.culture(i10nCode);
+                    });
                 }
 
                 loadDefaultBundleRequest = {
                     "url": sakai_config.URL.I18N_BUNDLE_ROOT + "default.properties",
                     "method": "GET"
                 };
-                
+
                 if (localeSet) {
                     loadLocalBundleRequest = {
                         "url": sakai_config.URL.I18N_BUNDLE_ROOT + langCode + ".properties",
@@ -317,20 +268,10 @@ define(["jquery",
                     loadLocalBundleRequest = false;
                 }
 
-                if (getGlobalization && localeSet) {
-                    globalizationRequest = {
-                        "url": sakai_config.URL.I10N_BUNDLE_URL.replace("__CODE__", i10nCode),
-                        "dataType": "script",
-                        "method": "GET"
-                    };
-                } else {
-                    globalizationRequest = false;
-                }
-
-                // bind response from batch request
-                $(window).bind("complete.bundleRequest.Server.api.sakai", function(e, reqData) {
-                    if (reqData.groupId === "i18n") {
-                        var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData, globalizationSuccess, globalizationData;
+                // callback function for response from batch request
+                var bundleReqFunction = function(success, reqData){
+                    if (success){
+                        var loadDefaultBundleSuccess, loadDefaultBundleData, loadLocalBundleSuccess, loadLocalBundleData;
                         // loop through and allocate response data to their request
                         var i;
                         for (i in reqData.responseId) {
@@ -343,49 +284,34 @@ define(["jquery",
                                     loadLocalBundleSuccess = reqData.responseData[i].success;
                                     loadLocalBundleData = reqData.responseData[i].body;
                                 }
-                                if (reqData.responseId[i] === "loadLocalBundle") {
-                                    globalizationSuccess = reqData.responseData[i].success;
-                                    globalizationData = reqData.responseData[i].body;
-                                }
                             }
                         }
-                        
+
                         // process the responses
                         if (loadDefaultBundleSuccess) {
                             loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
                             sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
-                            var site = getSiteId();
-                            if (!site) {
-                                if (localeSet) {
-                                    if (getGlobalization && globalizationSuccess) {
-                                        Globalization.preferCulture(i10nCode);
-                                    }
-                                    if (loadLocalBundleSuccess) {
-                                        loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
-                                        sakaii18nAPI.data.localBundle = loadLocalBundleData;
-                                        doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
-                                    } else {
-                                        doI18N(null, sakaii18nAPI.data.defaultBundle);
-                                    }
+                            if (localeSet) {
+                                if (loadLocalBundleSuccess) {
+                                    loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
+                                    sakaii18nAPI.data.localBundle = loadLocalBundleData;
+                                    doI18N(sakaii18nAPI.data.localBundle, sakaii18nAPI.data.defaultBundle);
                                 } else {
-                                    // There is no locale set for the current user. We'll switch to using the default bundle only
                                     doI18N(null, sakaii18nAPI.data.defaultBundle);
                                 }
                             } else {
-                                loadSiteLanguage(site);
+                                // There is no locale set for the current user. We'll switch to using the default bundle only
+                                doI18N(null, sakaii18nAPI.data.defaultBundle);
                             }
                         } else {
                             finishI18N();
                         }
-                        
                     }
-                });
+                };
                 // add default language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 3, "loadDefaultBundle", loadDefaultBundleRequest);
+                sakai_serv.bundleRequests("i18n", 2, "loadDefaultBundle", loadDefaultBundleRequest, bundleReqFunction);
                 // add local language bundle to batch request
-                sakai_serv.bundleRequests("i18n", 3, "loadLocalBundle", loadLocalBundleRequest);
-                // add globalization script to batch request
-                sakai_serv.bundleRequests("i18n", 3, "globalization", globalizationRequest);
+                sakai_serv.bundleRequests("i18n", 2, "loadLocalBundle", loadLocalBundleRequest);
             };
 
 
@@ -393,7 +319,6 @@ define(["jquery",
             // INITIALIZATION FUNCTION //
             /////////////////////////////
 
-            //loadDefaultBundle();
             loadLanguageBundles();
         },
 
@@ -419,11 +344,10 @@ define(["jquery",
              *  HTML string in which we want to replace messages. Messages have the following
              *  format: __MSG__KEY__
              *  in the default language
-             * @param {Object} meData the data from sakai.api.User.data.me
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
 
-            process : function(toprocess, meData) {
+            process : function(toprocess) {
 
                 if(!toprocess){
                     return "";
@@ -445,12 +369,12 @@ define(["jquery",
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_config.displayDebugInfo === true && meData.user && meData.user.locale && meData.user.locale.language === "lu" && meData.user.locale.country === "GB"){
+                    if (sakai_config.displayDebugInfo === true && sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === "lu" && sakaii18nAPI.data.meData.user.locale.country === "GB"){
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     } else {
-                        toreplace = quotes + this.getValueForKey(lastParen) + quotes;
+                        toreplace = quotes + sakaii18nAPI.getValueForKey(lastParen) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     }
@@ -458,73 +382,93 @@ define(["jquery",
                 processed += toprocess.substring(lastend);
                 return processed;
 
-            },
+            }
+        },
 
-            /**
-             * Get the internationalised value for a specific key.
-             * We expose this function so you can do internationalisation within JavaScript.
-             * @example sakai.api.i18n.General.getValueForKey("CHANGE_LAYOUT");
-             * @param {String} key The key that will be used to get the internationalised value
-             * @return {String} The translated value for the provided key
-             */
-            getValueForKey : function(key) {
-                // First check if the key can be found in the locale bundle
-                if (sakaii18nAPI.data.localBundle && sakaii18nAPI.data.localBundle[key]) {
-                    return sakaii18nAPI.data.localBundle[key];
+        /**
+         * Get the internationalised value for a specific key.
+         * We expose this function so you can do internationalisation within JavaScript.
+         * @example sakai.api.i18n.getValueForKey("CHANGE_LAYOUT", ["widgetid"]);
+         * @param {String} key The key that will be used to get the translation
+         * @param {String} optional widget name. This will cause the widget language
+         *                 bundles to be checked for a translation first
+         * @return {String} The translated value for the provided key
+         */
+        getValueForKey: function(key, widgetname) {
+            // Get the user's current locale from the me object
+            var locale = sakaii18nAPI.getUserLocale();
+            // Check for i18n debug language
+            //   Because the debug language has to be a valid Java locale, 
+            //   we are currently using lu_GB to identify the debug language
+            if (locale === "lu_GB") {
+                return key;
+            } else {
+                // First check the bundle for the widget, if provided
+                if (widgetname) {
+                    if (typeof sakaii18nAPI.data.widgets[widgetname]) {
+                        // First check if the key can be found in the widget's locale bundle
+                        if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname][locale]) && _.isString(sakaii18nAPI.data.widgets[widgetname][locale][key])) {
+                            return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
+                        }
+                        // If the key wasn't found in the widget's locale bundle, search in the widget's default bundle
+                        else if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname]["default"]) && _.isString(sakaii18nAPI.data.widgets[widgetname]["default"][key])) {
+                            return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname]["default"][key]);
+                        }
+                    }
                 }
-                // If the key wasn't found in the localbundle, search in the default bundle
-                else if (sakaii18nAPI.data.defaultBundle && sakaii18nAPI.data.defaultBundle[key]) {
-                    return sakaii18nAPI.data.defaultBundle[key];
+                // First check if the key can be found in the general locale bundle
+                if (sakaii18nAPI.data.localBundle && _.isString(sakaii18nAPI.data.localBundle[key])) {
+                    return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.localBundle[key]);
                 }
+                // If the key wasn't found in the general locale bundle, search in the general default bundle
+                else if (sakaii18nAPI.data.defaultBundle && _.isString(sakaii18nAPI.data.defaultBundle[key])) {
+                    return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.defaultBundle[key]);
+                } 
                 // If none of the about found something, log an error message
                 else {
-                    debug.warn("sakai.api.i18n.General.getValueForKey: Not in local & default file. Key: " + key);
+                    debug.warn("sakai.api.i18n.getValueForKey: Not found in any bundles. Key: " + key);
                     return false;
                 }
             }
         },
 
         /**
-         * @class i18nWidgets
-         *
-         * @description
-         * Internationalisation in widgets
-         *
-         * @namespace
-         * Internationalisation in widgets
+         * Utility regular expression that is used to find
+         * escaped unicode characters in translation string
          */
-        Widgets : {
+        UnicodeExpression: new RegExp("[\\][u][A-F0-9]{4}", "g"),
 
-            /**
-             * Get the value for a specific key in a specific widget.
-             * @example sakai.api.i18n.Widgets.getValueForKey("myprofile", "en_US", "PREVIEW_PROFILE");
-             * @param {String} widgetname The name of the widget
-             * @param {String|Object} locale The locale for the getting the value, either in string form or
-             *                               the user's locale object from sakai.api.User.data.me.user.locale
-             * @param {String} key The key which you want to be translated
-             * @return {String} The value you wanted to translate for a specific widget
-             */
-            getValueForKey : function(widgetname, locale, key) {
-                if ($.isPlainObject(locale) && locale.language && locale.country) {
-                    locale = locale.language + "_" + locale.country;
+        /**
+         * Utility function that will take a translation string
+         * and replace escaped unicode characters with the actual unicode
+         * character
+         * @param {String} translation   Translation key that we want to scan for escaped unicode
+         * @return {String} Translation key where all escaped unicode characters
+         *                  have been replaced by the actual unicode character
+         */
+        processUTF16ToText: function(translation){
+            var matches =  translation.match(sakaii18nAPI.UnicodeExpression);
+            if (matches) {
+                for (var r = 0; r < matches.length; r++) {
+                    var replace = matches[r];
+                    translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
                 }
-                // Get a message key value in priority order: local widget language file -> widget default language file -> system local bundle -> system default bundle
-                if ((typeof sakaii18nAPI.data.widgets[widgetname][locale] === "object") && (typeof sakaii18nAPI.data.widgets[widgetname][locale][key] === "string")){
-                    return sakaii18nAPI.data.widgets[widgetname][locale][key];
-
-                } else if ((typeof sakaii18nAPI.data.widgets[widgetname]["default"][key] === "string") && (typeof sakaii18nAPI.data.widgets[widgetname]["default"] === "object")) {
-                    return sakaii18nAPI.data.widgets[widgetname]["default"][key];
-
-                } else if (sakaii18nAPI.data.localBundle[key]) {
-                    return sakaii18nAPI.data.localBundle[key];
-
-                } else if (sakaii18nAPI.data.defaultBundle[key]) {
-                    return sakaii18nAPI.data.defaultBundle[key];
-
-                }
-
             }
+            return translation;
+        },
+
+        /**
+         * Function that will return the current user's locale
+         *     Example: en_GB
+         */
+        getUserLocale: function(){
+            var locale = false;
+            if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
+                locale = sakaii18nAPI.data.meData.user.locale.language + "_" + sakaii18nAPI.data.meData.user.locale.country;
+            }
+            return locale;
         }
+
     };
 
     return sakaii18nAPI;

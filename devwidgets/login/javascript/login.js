@@ -26,7 +26,7 @@
 /*global Querystring, Config, $,  set_cookie */
 
 
-require(["jquery", "sakai/sakai.api.core", "/dev/lib/misc/querystring.js"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core", "misc/querystring"], function($, sakai) {
 
     /**
      * @name sakai_global.login

@@ -65,9 +65,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var parseDataResult = function(result, isRelatedContent) {
             // initialize parsed item with default values
             var mimeType = sakai.api.Content.getMimeType(result);
-            var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+            var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
             if (sakai.config.MimeTypes[mimeType]){
-                mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
             var item = {
                 name: result["sakai:pooled-content-file-name"],
@@ -83,15 +83,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_path": result["_path"]
             };
 
-            // set file name without the extension
-            // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item["_mimeType"] !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                }
-            }
             item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 50, {max_rows: 1,whole_word: false}, "s3d-bold");
             item.nameShorter = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 150, {max_rows: 1,whole_word: false}, "s3d-bold");
             item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $(".recentchangedcontent").width() - 100, {max_rows: 1,whole_word: false}, "s3d-bold");
@@ -119,23 +110,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             item.usedin = usedin;
             var path = result["_path"];
-            if (result[path + "/comments"]) {
+            if (result["comments"]) {
                 var totalcomment = 0; // store total number of comments realted to content
                 var commentpath = ""; // store the path of the comment to display
                 var latestDate = 0; // store the latest date of the comment
-                for (var obj in result[path + "/comments"]) {
+                for (var obj in result["comments"]) {
                     // if the object is comment
-                    if (obj.indexOf(path + "/comments") > -1) {
+                    if (obj.substring(0,1) !== "-1") {
                         // add the comment count
                         totalcomment++;
                         // check if the comment is latest comment
-                        if (result[path + "/comments"][obj]["_created"] > latestDate) {
+                        if (result["comments"][obj]["_created"] > latestDate) {
                             commentpath = obj;
-                            latestDate = result[path + "/comments"][obj]["_created"];
+                            latestDate = result["comments"][obj]["_created"];
                         }
                     }
                 }
-                item.comment = result[path + "/comments"][commentpath];
+                item.comment = result["comments"][commentpath];
                 item.totalcomment = totalcomment;
 
                 if (item.comment.comment) {
@@ -156,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         sakai: sakai
                     };
                     if (item.comment){
-                        json.commentCreated = item.comment._created;
+                        json.commentCreated = new Date(item.comment._created);
                     }
 
                     $("#recentchangedcontent_item_comment_author").html(sakai.api.Util.TemplateRenderer("#recentchangedcontent_item_comment_author_template",json));
@@ -345,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "desc"
                 },
                 success: function(data){
-                    data = sakai_global.newaddcontent.getNewList(data, null, 0, 1);
+                    data = sakai.api.Content.getNewList(data, null, 0, 1);
                     handleRecentChangedContentData(true, data);
                 },
                 error: function(data){

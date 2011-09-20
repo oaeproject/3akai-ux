@@ -18,9 +18,9 @@
 
 require(
     [
-    "jquery", 
-    "sakai/sakai.api.core",
-    "../../../../tests/qunit/js/qunit.js"
+        "jquery",
+        "sakai/sakai.api.core",
+        "qunitjs/qunit"
     ],
     function($, sakai) {
 

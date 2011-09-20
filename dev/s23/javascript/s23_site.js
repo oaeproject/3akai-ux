@@ -195,8 +195,10 @@ sakai_global.s23_site = function(){
                 var firstFrameSrcUrl;
                 var otherframes = [];
                 for (var tool = 0; tool < page.tools.length; tool++){
-                    var iframe = $("#Main" + page.tools[tool].xid);
-                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                    // Some special Sakai 2 Sites start with ~ or !
+                    var siteSelector = "#Main" + page.tools[tool].xid.replace(/([~!])/g,'\\$1');
+                    var iframe = $(siteSelector); 
+                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";                     
                     if(isSameOriginPolicy(window.location.href, srcUrl)) {
                         iframe.load(loadIframe);
                     }
@@ -335,9 +337,9 @@ sakai_global.s23_site = function(){
     };
 
     var hideNotification = function(){
-        var json = {"sakai2notificaiton":false};
+        var json = {"sakai2notification":false};
         sakai.api.Util.notification.removeAll();
-        sakai.api.Server.saveJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", json, function(success, data){});
+        sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid)+"/private/sakai2notification", json, function(success, data){});
     };
 
     /////////////////////////////
@@ -349,9 +351,10 @@ sakai_global.s23_site = function(){
      */
     var init = function(){
         // show sticky notification
-        sakai.api.Server.loadJSON("/~" + sakai.data.me.user.userid+"/private/sakai2notification", function(success, data){
-            if (!success) {
-                sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, true);
+        sakai.api.Server.loadJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid)+"/private/sakai2notification", function(success, data){
+            // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
+            if (success === false || (success === true && data.sakai2notification !== false)) { 
+                sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
                 $(".s23_gritter_notification_cancel").click(hideNotification);
             }
         });

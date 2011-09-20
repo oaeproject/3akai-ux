@@ -28,16 +28,21 @@
  * @namespace
  * Widget related convenience functions
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.util",
         "sakai/sakai.api.i18n",
         "sakai/sakai.api.user",
-        "/dev/configuration/config.js",
-        "/var/widgets.json?callback=define"], 
-        function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
+        "config/config_custom",
+        "../../../var/widgets.json?callback=define"
+    ],
+    function($, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_config, sakai_widgets_config) {
 
-    var sakai = {}; sakai.widgets = sakai_widgets_config;
+    var sakai = {
+        widgets: sakai_widgets_config
+    };
     var sakaiWidgetsAPI = {
         /**
          * @class Container
@@ -261,13 +266,13 @@ define(["jquery",
                                     for (var data in widgetsInternal[widgetname][i].widgetData){
                                         var widgetSaveId = widgetsInternal[widgetname][i].uid;
                                         if (widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]){
-                                            thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][widgetSaveId];
+                                            thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][widgetSaveId]);
                                         } else {
                                             for (var pagetitle in widgetsInternal[widgetname][i].widgetData[data]) {
                                                 if (pagetitle.indexOf("-") != -1){
                                                     var altPageTitle = pagetitle.substring(pagetitle.indexOf("-") + 1);
                                                     if (altPageTitle === widgetSaveId){
-                                                        thisWidgetData = widgetsInternal[widgetname][i].widgetData[data][pagetitle];
+                                                        thisWidgetData = $.extend(true, {}, widgetsInternal[widgetname][i].widgetData[data][pagetitle]);
                                                     }
                                                 }
                                             } 
@@ -386,14 +391,14 @@ define(["jquery",
                             if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
                                 if (sakai.widgets[widgetname].i18n["default"]){
                                     var bundleItem = {
-                                        "url" : sakai.widgets[widgetname].i18n["default"],
+                                        "url" : sakai.widgets[widgetname].i18n["default"].bundle,
                                         "method" : "GET"
                                     };
                                     bundles.push(bundleItem);
                                 }
                                 if (sakai.widgets[widgetname].i18n[current_locale_string]) {
                                     var item1 = {
-                                        "url" : sakai.widgets[widgetname].i18n[current_locale_string],
+                                        "url" : sakai.widgets[widgetname].i18n[current_locale_string].bundle,
                                         "method" : "GET"
                                     };
                                     bundles.push(item1);
@@ -467,7 +472,7 @@ define(["jquery",
                                                 lastend = expression.lastIndex;
                                             }
                                             else {
-                                                toreplace = quotes + sakai_i18n.Widgets.getValueForKey(widgetName, current_locale_string, lastParen) + quotes;
+                                                toreplace = quotes + sakai_i18n.getValueForKey(lastParen, widgetName) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
                                             }
@@ -874,6 +879,50 @@ define(["jquery",
                 return true;
             } else {
                 return widgetHashes[e];
+            }
+        },
+
+        /**
+         * This function will return the name of a widget in the current user's language
+         * @param {Object} widgetid  id of the widget as specified in the widget's config file
+         */
+        getWidgetTitle: function(widgetid){
+            // Get the user's current locale from the me object
+            var locale = sakai_i18n.getUserLocale();
+            if (locale === "lu_GB") {
+                return widgetid.toUpperCase();
+            } else {
+                if (sakai.widgets[widgetid]){
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].name){
+                        return sakai.widgets[widgetid].i18n[locale].name;
+                    } else {
+                        return sakai.widgets[widgetid].i18n["default"].name;
+                    }
+                } else {
+                    debug.error("A config file was not found for the following widget: " + widgetid);
+                }
+            }
+        },
+
+        /**
+         * This function will return the description of a widget in the current user's language
+         * @param {Object} widgetid  id of the widget as specified in the widget's config file
+         */
+        getWidgetDescription: function(widgetid){
+            // Get the user's current locale from the me object
+            var locale = sakai_i18n.getUserLocale();
+            if (locale === "lu_GB") {
+                return widgetid.toUpperCase();
+            } else {
+                if (sakai.widgets[widgetid]){
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].description){
+                        return sakai.widgets[widgetid].i18n[locale].description;
+                    } else {
+                        return sakai.widgets[widgetid].i18n["default"].description;
+                    }
+                } else {
+                    debug.error("A config file was not found for the following widget: " + widgetid);
+                }
             }
         },
 

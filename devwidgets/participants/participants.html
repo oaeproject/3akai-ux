@@ -4,14 +4,15 @@
 <div class="participants_widget">
     <div class="s3d-contentpage-title">__MSG__PARTICIPANTS__</div>
     <div id="participants_general_actions">
-        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button"><span><input type="checkbox" id="participants_select_all"> __MSG__DOWN_ARROW__</span></button>
+        <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
         <input type="text" id="participants_search_field"/>
+        <!-- SAKIII-3700 Removing for now, slated for future release.
         <label for="participants_sort_by">__MSG__SORT_BY__</label>
         <select id="participants_sort_by">
             <option>__MSG__ROLE__</option>
             <option>__MSG__NAME__</option>
-        </select>
+        </select> -->
     </div>
     <div id="participants_list_container"><!----></div>
 </div>
@@ -22,47 +23,53 @@
         <li class="s3d-list-item{if participant_index == 0} participants_list_first{elseif participant_index == participants.length - 1} participants_list_last{/if}">
             <div class="participants_list_participant_actions">
                 {if participant.id != sakai.data.me.user.userid}
-                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button participants_message_icon sakai_sendmessage_overlay" sakai-entityid=${participant.id}" sakai-entityname="${participant.name}" sakai-entitytype="${participant.type}"></button>
+                    <button title="__MSG__SEND_MESSAGE__" class="s3d-link-button participants_message_icon sakai_sendmessage_overlay" sakai-entityid=${participant.id}" sakai-entityname="${participant.name|safeOutput}" sakai-entitytype="${participant.type}"></button>
                 {/if}
             </div>
             <span class="participants_list_participant_checkbox">
-                <input type="checkbox" id="${participant.id}_chk" class=""/>
+                <input type="checkbox" id="${participant.id|safeOutput}_chk" class=""/>
                 <br/>
-                {if participant.id != sakai.data.me.user.userid}
+                {if participant.type === "user" && participant.id !== sakai.data.me.user.userid}
                     {if ! participant.connected}
-                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id}" sakai-entityname="${participant.name}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
+                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
                     {elseif participant.invited}
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button participants_plus participants_accept_invitation" sakai-entityid="${participant.id}" sakai-entityname="${participant.name}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}>+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button participants_plus participants_accept_invitation" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}>+</button>
                     {elseif !participant.pending && !participant.none}
                         <img class="participants_contact_icon" src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" />
                     {/if}
                 {/if}
             </span>
-            <label for="${participant.id}_chk">
-                <img src="${participant.profilePicture}" alt="${participant.name}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
+            <label for="${participant.id|safeOutput}_chk">
+                <img src="${participant.profilePicture}" alt="${participant.name|safeOutput}'s __MSG__PROFILE_PICTURE__" class="s3d-list-entity-picture"/>
             </label>
-            <a href="/~${participant.id}" title="${participant.name}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">${participant.name}</a>
+            <a href="/~${participant.id|safeOutput}" title="{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}</a>
             <br/>
-            <span class="participants_list_participant_details">${participant.title}</span>
+            <span class="participants_list_participant_details">${sakai.api.i18n.General.process(participant.title)}</span>
             <br/>
-            <a href="/~${participant.id}#l=library" class="s3d-regular-light-links participants_list_participant_details">
+            <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details">
                 ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
             {if participant.type === "user"}
-                <a href="/~${participant.id}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
+                <a href="/~${participant.id|safeOutput}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                 </a>
                 <span class="participants_list_participant_divider">|</span>
-                <a href="/~${participant.id}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
+                <a href="/~${participant.id|safeOutput}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
                     ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                 </a>
             {else}
-                <a href="/~${participant.id}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.memberships} {if participant.memberships == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
+                <a href="/~${participant.id|safeOutput}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
+                    ${participant.membersCount} {if participant.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                 </a>
             {/if}
         </li>
+    {forelse}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-content less-margin"></div>
+            <h1>__MSG__NO_RESULTS_DESCRIPTION__</h1>
+        </div>
     {/for}
 </ul>
 --></div>

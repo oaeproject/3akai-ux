@@ -50,7 +50,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_nodata = $("#mymemberships_nodata", $rootel);
         var $mymemberships_nogroups = $("#mymemberships_nogroups", $rootel);
         var $mymemberships_actionbar = $("#mymemberships_actionbar", $rootel);
-        var $mymemberships_addgroup = $("#mymemberships_addgroup", $rootel);
         var $mymemberships_sortby = $("#mymemberships_sortby", $rootel);
         var $mymemberships_item = $(".mymemberships_item", $rootel);
 
@@ -130,10 +129,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             doInit();
         });
 
-        $mymemberships_addgroup.click(function () {
-            $(window).trigger("init.creategroup.sakai");
-        });
-
         ////////////////////////////////////////////
         // Data retrieval and rendering functions //
         ////////////////////////////////////////////
@@ -158,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var groupData = [];
                 $.each(groups.entry, function (i, group) {
                     var titleShort = sakai.api.Util.applyThreeDots(
-                        sakai.api.Security.escapeHTML(group["sakai:group-title"]),
+                        group["sakai:group-title"],
                         550,  // width of .mymemberships_info div (not yet rendered)
                         {max_rows: 1, whole_word: false},
                         "s3d-bold"
@@ -166,16 +161,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var desc = group["sakai:group-description"] &&
                         $.trim(group["sakai:group-description"]) ?
                             sakai.api.Util.applyThreeDots(
-                                sakai.api.Security.escapeHTML(group["sakai:group-description"]),
+                                group["sakai:group-description"],
                                 650,  // width of .mymemberships_info div (not yet rendered)
                                 {max_rows: 2, whole_word: false},
                                 "s3d-bold"
                             ) : false;
-                    var groupType = sakai.api.i18n.General.getValueForKey("OTHER");
+                    var groupType = sakai.api.i18n.getValueForKey("OTHER");
                     if (group["sakai:category"]){
                         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
                             if (sakai.config.worldTemplates[c].id === group["sakai:category"]){
-                                groupType = sakai.api.i18n.General.getValueForKey(sakai.config.worldTemplates[c].titleSing);
+                                groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
                             }
                         }
                     }
@@ -189,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     groupData.push({
                         id: group.groupid,
-                        url: "/~" + group.groupid,
+                        url: "/~" + sakai.api.Util.makeSafeURL(group.groupid),
                         picsrc: sakai.api.Groups.getProfilePicture(group),
                         edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                         title: group["sakai:group-title"],
@@ -255,7 +250,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             sakai.api.Util.TemplateRenderer("mymemberships_title_template", {
                 isMe: mymemberships.isOwnerViewing,
-                firstName: sakai_global.profile.main.data.basic.elements.firstName.value
+                user: sakai_global.profile.main.data.basic.elements.firstName.value
             }, $("#mymemberships_title_container", $rootel));
         };
 

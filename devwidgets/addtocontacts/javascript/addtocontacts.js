@@ -24,7 +24,7 @@
  */
 
 /*global $, Config, sakai, History, opensocial, Widgets */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(["jquery", "sakai/sakai.api.core"], function($, sakai, sakai_util) {
     /**
      * This is a widget that can be placed in other pages and widgets.
      * It shows an Add to contacts dialog.
@@ -84,7 +84,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * It renders the contacts types and the personal note
          */
         var renderTemplates = function(){
-            sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), sakai.config.Relationships, $(addToContactsInfoTypes));
+            sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ""), {
+                "relationships": sakai.config.Relationships,
+                "sakai": sakai
+            }, $(addToContactsInfoTypes));
             var json = {
                 sakai: sakai,
                 me: sakai.data.me
@@ -98,8 +101,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var fillInUserInfo = function(user){
             if (user) {
-                $(addToContactsInfoDisplayName).text(user.username);
-                user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+                $(addToContactsInfoDisplayName).text(user.displayName);
+                if (!user.pictureLink) {
+                    user.pictureLink = sakai.api.Util.constructProfilePicture(user);
+                }
                 // Check for picture
                 if (user.pictureLink) {
                     $(addToContactsInfoProfilePicture).html('<img alt="' + $("#addtocontacts_profilepicture_alt").html() + '" src="' + user.pictureLink + '" class="s3d-icon-50" />');
@@ -149,17 +154,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
 
-                var personalnote = formValues[addToContactsFormPersonalNote.replace(/#/gi, '')];
+                var personalnote = $.trim(formValues[addToContactsFormPersonalNote.replace(/#/gi, '')]);
 
                 // send message to other person
-                var userstring = sakai.api.User.getDisplayName(sakai.data.me.profile);
+                var userstring = $.trim(sakai.api.User.getDisplayName(sakai.data.me.profile));
 
-                var title = $("#addtocontacts_invitation_title_key").html().replace(/\$\{user\}/g, userstring);
-                var message = $("#addtocontacts_invitation_body_key").html().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n");
+                var title = $.trim($("#addtocontacts_invitation_title_key").text().replace(/\$\{user\}/g, userstring));
+                var message = $.trim($("#addtocontacts_invitation_body_key").text().replace(/\$\{user\}/g, userstring).replace(/\$\{comment\}/g, personalnote).replace(/\$\{br\}/g,"\n"));
 
                 // Do the invite and send a message
                 $.ajax({
-                    url: "/~" + sakai.data.me.user.userid + "/contacts.invite.html",
+                    url: "/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/contacts.invite.html",
                     type: "POST",
                     traditional: true,
                     data: {
@@ -173,7 +178,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(window).trigger("sakai.addToContacts.requested", [contactToAdd]);
                         //reset the form to set original note
                         $(addToContactsForm)[0].reset();
-                        sakai.api.Util.notification.show("", $(addToContactsDone).text());
+                        sakai.api.Util.notification.show("", $(addToContactsDone).html());
                         // record that user made contact request
                         sakai.api.User.addUserProgress("madeContactRequest");
                         // display tooltip
@@ -208,7 +213,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} hash The layover object we get from jqModal
          */
         var loadDialog = function(hash){
-            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.User.getDisplayName(contactToAdd)));
+            $("#addtocontacts_dialog_title").html($("#addtocontacts_dialog_title_template").html().replace("${user}", sakai.api.Security.safeOutput(contactToAdd.displayName)));
             hash.w.show();
         };
 

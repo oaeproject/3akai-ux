@@ -5,19 +5,15 @@
 <div id="newaddcontent_container" class="s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__ADD_CONTENT__</h1>
-    <div id="newaddcontent_container_selecteditems">
-        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__</div>
-        <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
-    </div>
 
     <ul id="newaddcontent_container_lhchoice">
         <li class="newaddcontent_container_lhchoice_item newaddcontent_container_lhchoice_selected_item" id="newaddcontent_upload_content">
             <span id="newaddcontent_upload_content_icon" class="lhchoice_icon"></span>
-            <span class="s3d-bold">__MSG__UPLOAD_CONTENT__</span>
+            <a href="#" title="__MSG__UPLOAD_CONTENT__" class="s3d-bold">__MSG__UPLOAD_CONTENT__</a>
         </li>
         <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_new_document">
             <span id="newaddcontent_add_new_document_icon" class="lhchoice_icon"></span>
-            <span class="s3d-bold">__MSG__NEW_DOCUMENT__</span>
+            <a href="#" title="__MSG__NEW_DOCUMENT__" class="s3d-bold">__MSG__NEW_DOCUMENT__</a>
         </li>
         <li class="newaddcontent_container_lhchoice_item">
             <span id="newaddcontent_add_existing_content_icon" class="lhchoice_icon"></span>
@@ -25,17 +21,17 @@
             <ul>
                 <li class="newaddcontent_container_lhchoice_subitem newaddcontent_container_lhchoice_selected_subitem" id="newaddcontent_existing_content_everything">
                     <span id="newaddcontent_everything_icon" class="lhchoice_icon"></span>
-                    <span>__MSG__EVERYTHING__</span>
+                    <a href="#" title="__MSG__EVERYTHING__">__MSG__EVERYTHING__</a>
                 </li>
                 <li class="newaddcontent_container_lhchoice_subitem" id="newaddcontent_existing_content_my_library">
                     <span id="newaddcontent_my_library_icon" class="lhchoice_icon"></span>
-                    <span>__MSG__MY_LIBRARY__</span>
+                    <a href="#" title="__MSG__MY_LIBRARY__">__MSG__MY_LIBRARY__</a>
                 </li>
             </ul>
         </li>
         <li class="newaddcontent_container_lhchoice_item" id="newaddcontent_add_link">
             <span id="newaddcontent_add_link_icon" class="lhchoice_icon"></span>
-            <span class="s3d-bold">__MSG__ADD_LINK__</span>
+            <a href="#" title="__MSG__ADD_LINK__" class="s3d-bold">__MSG__ADD_LINK__</a>
         </li>
     </ul>
 
@@ -59,11 +55,11 @@
                     <label for="newaddcontent_upload_content_tags">__MSG__TAGS__:</label>
                     <input type="text" placeholder="__MSG__SEPARATE_EACH_TAG__" id="newaddcontent_upload_content_tags"/>
 
-                    <label for="newaddcontent_upload_content_permissions">__MSG__PERMISSIONS__:</label>
+                    <label for="newaddcontent_upload_content_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
                     <select id="newaddcontent_upload_content_permissions">
                         <option value="public">__MSG__PUBLIC__</option>
                         <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                        <option value="private">__MSG__PRIVATE__</option>
+                        <option value="private">__MSG__ONLY_ME__</option>
                     </select>
 
                     <div id="newaddcontent_upload_content_copyright_container"></div>
@@ -74,7 +70,6 @@
                 <div id="newaddcontent_add_document_description_container">
                     <div id="newaddcontent_add_document_description_image"></div>
                     <div>__MSG__SAKAI_DOC_DESCRIPTION__</div>
-                    <a href="#" class="s3d-regular-links s3d-bold">__MSG__LEARN_MORE__</a>
                 </div>
 
                 <form id="newaddcontent_add_document_form" class="newaddcontent_form">
@@ -132,6 +127,11 @@
         <button type="button" id="" class="s3d-button s3d-header-button newaddcontent_container_newitem_add_to_list" disabled="disabled">__MSG__ADD__</button>
     </div>
 
+    <div id="newaddcontent_container_selecteditems">
+        <div id="newaddcontent_container_selecteditems_header" class="s3d-bold">__MSG__COLLECTED_ITEMS__</div>
+        <div id="newaddcontent_container_selecteditems_container"><!-- --></div>
+    </div>
+
     <div id="newaddcontent_container_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
         <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled">__MSG__DONE_ADD_COLLECTED__</button>
@@ -145,7 +145,7 @@
     <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
     <select id="newaddcontent_upload_content_copyright">
     {for cr in copyright}
-        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+        <option value="${cr_index}">${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
     {/for}
 --></div>
 
@@ -155,11 +155,11 @@
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
             <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item.title}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item.title|safeOutput}"/>
             <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__:</label>
-            <textarea id="newaddcontent_selecteditems_edit_data_description">${item.description}</textarea>
+            <textarea id="newaddcontent_selecteditems_edit_data_description">${item.description|safeOutput}</textarea>
             <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS__:</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_tags" value="${item.tags}"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_tags" value="${item.tags|safeOutput}"/>
         </form>
     </div>
     <div id="newaddcontent_selecteditems_edit_data_actions">
@@ -172,7 +172,7 @@
     <div id="newaddcontent_selecteditems_edit_data_fields">
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form">
-            <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__PERMISSIONS__:</label>
+            <label for="newaddcontent_selecteditems_edit_permissions_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_permissions">
                 <option value="public" {if "public" == item.permissions} selected="selected"{/if}>__MSG__PUBLIC__</option>
                 <option value="everyone" {if "everyone" == item.permissions} selected="selected"{/if}>__MSG__LOGGED_IN_USERS__</option>
@@ -181,7 +181,7 @@
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
             {for cr in copyright}
-                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>
@@ -200,7 +200,7 @@
                 {for g in me.groups}
                     {if g["sakai:group-title"]}
                         {if !g["sakai:excludeSearch"]}
-                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]}'s Library</option>
+                            <option value="${g["sakai:group-id"]}" {if g["sakai:group-id"] == currentSelectedLibrary} selected="selected"{/if}>${g["sakai:group-title"]|safeOutput}'s Library</option>
                         {/if}
                     {/if}
                 {/for}
@@ -209,7 +209,7 @@
         <ul>
         {for item in items}
             <li id="newaddcontent_selecteditems_${item_index}">
-                <div class="newaddcontent_selecteditems_remove"></div>
+                <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item.title}"></a>
                 <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
                 {if item.type !== "existing"}
                     <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item.title, 100)}</span>
@@ -242,7 +242,7 @@
                     <li {if item_index == data.results.length -1} id="newaddcontent_existingitems_list_lastitem"{/if} {if $.inArray(item["_path"], queue) >= 0} class="newaddcontent_existingitems_list_container_disabled_list_item"{/if}>
                         <input type="checkbox" class="newaddcontent_existingitems_select_checkbox" id="${item["_path"]}" {if $.inArray(item["_path"], queue) >= 0} checked="checked"{/if} {if $.inArray(item["_path"], queue) >= 0} disabled{/if} {if item["sakai:pooled-content-manager"]}data-sakai-pooled-content-manager="${item["sakai:pooled-content-manager"].join(",")}"{/if} {if item["sakai:pooled-content-viewer"]}data-sakai-pooled-content-viewer="${item["sakai:pooled-content-viewer"].join(",")}"{/if}/>
                         <label for="${item["_path"]}">
-                            <span id="{if sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]]}${sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]]} ${sakai.config.MimeTypes[item["_mimeType"] || item["sakai:custom-mimetype"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
+                            <span id="{if sakai.config.MimeTypes[item["_mimeType"]]}${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"]]} ${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else} icon-unknown-sprite{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
                             ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["_path"]}
                         </label>
                     </li>
@@ -276,7 +276,7 @@
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
     {else}
-        This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle}</a>
+        This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle|safeOutput}</a>
     {/if}
 --></div>
 

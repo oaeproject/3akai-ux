@@ -72,7 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
+                type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: "",
                 mimeType: sakai.api.Content.getMimeType(result),
@@ -84,20 +84,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set the mimetype and corresponding image
             if(item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item.mimeType].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item.mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item.mimeType].URL;
             }
 
             // set file name without the extension
             // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item.type !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                    item.filename = result["sakai:pooled-content-file-name"];
-                }
-            }
             item.fullname = item.name;
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycontent_widget .s3d-widget-content").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
@@ -119,7 +111,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var handleContentData = function(success, data) {
             if(success) {
-                data = sakai_global.newaddcontent.getNewList(data, null, 0, 5);
+                data = sakai.api.Content.getNewList(data, null, 0, 5);
                 // parse & render data
                 // build array of up to five items; reverse chronological order
                 var contentjson = {

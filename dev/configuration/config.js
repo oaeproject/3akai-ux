@@ -19,54 +19,34 @@ define(function(){
     var config = {
         URL: {
             // Static URLs
-            CONTENT_MEDIA_URL: "/dev/content_media.html",
-            COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
-            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
-            GROUP_EDIT_URL: "/group/edit",
-            I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
+            I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
-            INBOX_URL: "/inbox",
+            INBOX_URL: "/me#l=messages/inbox",
+            INVITATIONS_URL: "/me#l=messages/invitations",
             LOGOUT_URL: "/logout",
-            MY_DASHBOARD_URL: "/home",
-            PROFILE_EDIT_URL: "/profile/edit",
-            PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
-            PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
-            PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/home",
+            MY_DASHBOARD_URL: "/me#l=dashboard",
+            PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
-            SEARCH_GENERAL_URL: "/search",
-            SEARCH_CONTENT_URL: "/search#l=content",
-            SEARCH_PEOPLE_URL: "/search#l=people",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
-            TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
-            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
-            USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
 
             // Services
-            ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
-            ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
             BATCH: "/system/batch",
             CAPTCHA_SERVICE: "/system/captcha",
-            CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
-            CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
-            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
-            DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
             GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
             GROUP_CREATE_SERVICE: "/system/userManager/group.create.json",
             GROUPS_MANAGER: "/system/me/managedgroups.json",
             GROUPS_MEMBER: "/system/me/groups.json",
-            HEADER_SERVICE: "/var/proxy/header.json",
             IMAGE_SERVICE: "/var/image/cropit",
             LOGIN_SERVICE: "/system/sling/formlogin",
-            LOGOUT_SERVICE: "/system/sling/logout?resource=/dev/index.html",
+            LOGOUT_SERVICE: "/system/sling/logout?resource=/index",
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
             MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
@@ -77,68 +57,30 @@ define(function(){
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
             POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
             POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
-            PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
             PRESENCE_SERVICE: "/var/presence.json",
-            PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
+
             // Replace these in widgets with proper widgetsave functions from magic
-            SDATA_FETCH_BASIC_URL: "/sites/__PLACEMENT__/__TUID__",
-            SDATA_FETCH_PLACEMENT_URL: "/sites/__PLACEMENT__",
-            SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
-            SDATA_FETCH: "/",
-            // --
             SEARCH_ALL_ENTITIES: "/var/search/general.json",
             SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
-            SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
-            SEARCH_ALL_FILES_SERVICE_ALL: "/var/search/files/allfiles-all.json",
-            SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
-            SEARCH_CONTENT_SERVICE: "/var/search/content.json",
             SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
             SEARCH_MY_BOOKMARKS_ALL: "/var/search/files/mybookmarks-all.json",
             SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
             SEARCH_MY_FILES: "/var/search/files/myfiles.json",
             SEARCH_MY_FILES_ALL: "/var/search/files/myfiles-all.json",
-            SEARCH_MY_SITES: "/var/search/files/mysites.json",
             SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
             SEARCH_GROUP_MEMBERS_ALL: "/var/search/groupmembers-all.json",
             SEARCH_GROUPS: "/var/search/groups.infinity.json",
             SEARCH_GROUPS_ALL: "/var/search/groups-all.json",
-            SEARCH_PAGES: "/var/search/page.json",
-            SEARCH_SITES: "/var/search/sites.json",
             SEARCH_USERS_ACCEPTED: "/var/contacts/findstate.infinity.json",
             SEARCH_USERS: "/var/search/users.infinity.json",
             SEARCH_USERS_ALL: "/var/search/users-all.json",
             SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",
             SEARCH_USERS_GROUPS_ALL: "/var/search/usersgroups-all.json",
-            SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
-            SITE_CONFIGFOLDER: "/sites/__SITEID__",
-            SITE_CREATE_SERVICE: "/sites.createsite.json",
-            SITE_FILES_URL: "/sites/__SITEID__/_files",
-            SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
-            SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
-            SITE_JOIN_REQUESTS: "/var/sites/joinrequests/pending.json",
-            SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
-            SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
-            SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
-            SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
-            SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
-            SITE_ROOT: "/sites",
-            SITE_TEMPLATE: "/var/templates/site/__TEMPLATE__",
-            SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
-            SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
-            SITES_SERVICE: "/system/sling/membership.json",
-            TWITTER_GET_URL: "/var/proxy/twitter/status.json",
-            TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
-            USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
-            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__",
-
-            // PREFIXES
-            GROUP_PREFIX: "/_group",
-            USER_PREFIX: "/_user"
-
+            USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__"
         },
 
         PageTitles: {
@@ -153,44 +95,31 @@ define(function(){
                 /**  acknowledgements.html  **/
                 "/dev/acknowledgements.html": "ACKNOWLEDGEMENTS",
                 "/acknowledgements": "ACKNOWLEDGEMENTS",
+                /**  allcategories.html  **/
+                "/categories": "BROWSE_ALL_CATEGORIES",
+                "/dev/allcategories.html": "BROWSE_ALL_CATEGORIES",
+                /**  category.html  **/
                 /**  content_profile.html  **/
                 "/dev/content_profile.html": "CONTENT_PROFILE",
                 "/content": "CONTENT_PROFILE",
                 /**  create_new_account.html  **/
                 "/dev/create_new_account.html": "CREATE_A_NEW_ACCOUNT",
                 "/register": "CREATE_A_NEW_ACCOUNT",
-                /**  directory.html  **/
-                "/dev/directory.html": "DIRECTORY",
-                "/directory": "DIRECTORY",
-                /**  group_edit.html  **/
-                "/dev/group_edit.html": "MANAGE_GROUP",
-                "/group/edit": "MANAGE_GROUP",
-                /**  inbox.html  **/
-                "/dev/inbox.html": "MY_MESSAGES",
-                "/inbox": "MY_MESSAGES",
-                /**  index.html  **/
-                "/": "SIGN_IN",
-                "/dev": "SIGN_IN",
-                "/dev/": "SIGN_IN",
-                "/index.html": "SIGN_IN",
-                "/dev/index.html": "SIGN_IN",
-                "/index": "SIGN_IN",
+                /**  explore.html  **/
+                "/": "EXPLORE",
+                "/dev": "EXPLORE",
+                "/dev/": "EXPLORE",
+                "/index.html": "EXPLORE",
+                "/dev/explore.html": "EXPLORE",
+                "/index": "EXPLORE",
                 /**  logout.html  **/
                 "/dev/logout.html": "LOGGING_OUT",
                 "/logout": "LOGGING_OUT",
-                /**  my_sakai.html  **/
-                "/dev/my_sakai.html": "MY_SAKAI",
-                "/home": "MY_SAKAI",
-                /**  people.html  **/
-                "/dev/people.html": "PEOPLE",
-                "/people": "PEOPLE",
-                /**  profile_edit.html  **/
-                "/dev/profile_edit.html": "EDIT_MY_PROFILE",
-                "/profile/edit": "EDIT_MY_PROFILE",
                 /**  search.html  **/
                 "/dev/search.html": "SEARCH",
-                "/search": "SEARCH"
-                /**  show.html  **/
+                "/search": "SEARCH",
+                /**  createnew.html  **/
+                "/create": "CREATE"
             }
         },
 
@@ -201,10 +130,10 @@ define(function(){
             Links: {
                 whatToDo: [{
                     "title": "EXPLORE_THE_INSTITUTION",
-                    "url": "/dev/explore.html"
+                    "url": "/index"
                 }, {
                     "title": "BROWSE_INSTITUTION_CATEGORIES",
-                    "url": "/dev/allcategories.html"
+                    "url": "/categories"
                 }, {
                     "title": "VIEW_THE_INSTITUTION_WEBSITE",
                     "url": "http://sakaiproject.org/"
@@ -263,8 +192,7 @@ define(function(){
                 visible: {
                     "members": "members-only", // Group members only (includes managers)
                     "allusers": "logged-in-only", // All logged in users
-                    "public": "public", // Anyone on the Internet
-                    "managers": "managers-only" // Group managers only
+                    "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
@@ -319,25 +247,28 @@ define(function(){
              *
              */
             configuration: {
-            
+
                 defaultConfig: {
-                
+
                     "basic": {
                         "label": "__MSG__PROFILE_BASIC_LABEL__",
                         "required": true,
                         "display": true,
                         "access": "everybody",
                         "modifyacl": false,
+                        "permission": "anonymous",
                         "order": 0,
                         "elements": {
                             "firstName": {
                                 "label": "__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
                             },
                             "lastName": {
                                 "label": "__MSG__PROFILE_BASIC_LASTNAME_LABEL__",
+                                "errorMessage": "__MSG__PROFILE_BASIC_LASTNAME_ERROR__",
                                 "required": true,
                                 "display": true,
                                 "limitDisplayLength": 50
@@ -354,7 +285,8 @@ define(function(){
                             },
                             "email": {
                                 "label": "__MSG__PROFILE_BASIC_EMAIL_LABEL__",
-                                "required": false,
+                                "errorMessage": "__MSG__PROFILE_BASIC_EMAIL_ERROR__",
+                                "required": true,
                                 "display": true,
                                 "type": "email"
                             },
@@ -405,6 +337,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "order": 1,
                         "elements": {
                             "aboutme": {
@@ -438,6 +371,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "multiple": true,
                         "directory": true,
                         "multipleLabel": "__MSG__PROFILE_LOCATION_LABEL__",
@@ -457,6 +391,7 @@ define(function(){
                         "display": true,
                         "access": "everybody",
                         "modifyacl": true,
+                        "permission": "anonymous",
                         "multiple": true,
                         "multipleLabel": "__MSG__PROFILE_PUBLICATION_LABEL__",
                         "order": 3,
@@ -570,40 +505,40 @@ define(function(){
              * Relationships used by the add contacts widget to define what relationship the contacts can have
              */
             "contacts": [{
-                "name": "Classmate",
-                "definition": "is my classmate",
+                "name": "__MSG__CLASSMATE__",
+                "definition": "__MSG__IS_MY_CLASSMATE__",
                 "selected": true
             }, {
-                "name": "Supervisor",
-                "inverse": "Supervised",
-                "definition": "is my supervisor",
+                "name": "__MSG__SUPERVISOR__",
+                "inverse": "__MSG__SUPERVISED__",
+                "definition": "__MSG__IS_MY_SUPERVISOR__",
                 "selected": false
             }, {
-                "name": "Supervised",
-                "inverse": "Supervisor",
-                "definition": "is being supervised by me",
+                "name": "__MSG__SUPERVISED__",
+                "inverse": "__MSG__SUPERVISOR__",
+                "definition": "__MSG__IS_SUPERVISED_BY_ME__",
                 "selected": false
             }, {
-                "name": "Lecturer",
-                "inverse": "Student",
-                "definition": "is my lecturer",
+                "name": "__MSG__LECTURER__",
+                "inverse": "__MSG__STUDENT__",
+                "definition": "__MSG__IS_MY_LECTURER__",
                 "selected": false
             }, {
-                "name": "Student",
-                "inverse": "Lecturer",
-                "definition": "is my student",
+                "name": "__MSG__STUDENT__",
+                "inverse": "__MSG__LECTURER__",
+                "definition": "__MSG__IS_MY_STUDENT__",
                 "selected": false
             }, {
-                "name": "Colleague",
-                "definition": "is my colleague",
+                "name": "__MSG__COLLEAGUE__",
+                "definition": "__MSG__IS_MY_COLLEAGUE__",
                 "selected": false
             }, {
-                "name": "College Mate",
-                "definition": "is my college mate",
+                "name": "__MSG__COLLEGE_MATE__",
+                "definition": "__MSG__IS_MY_COLLEGE_MATE__",
                 "selected": false
             }, {
-                "name": "Shares Interests",
-                "definition": "shares an interest with me",
+                "name": "__MSG__SHARES_INTERESTS__",
+                "definition": "__MSG__SHARES_INTEREST_WITH_ME__",
                 "selected": false
             }]
         },
@@ -807,6 +742,11 @@ define(function(){
                 URL: "/dev/images/mimetypes/video.png",
                 description: "VIDEO_FILE"
             },
+            "video/x-ms-wmv": {
+                cssClass: "icon-video-sprite",
+                URL: "/dev/images/mimetypes/video.png",
+                description: "VIDEO_FILE"
+            },
             "folder": {
                 cssClass: "icon-kmultiple-sprite",
                 URL: "/dev/images/mimetypes/kmultiple.png",
@@ -841,7 +781,7 @@ define(function(){
             }],
             "hideLoginOn": ["/dev", "/dev/index.html", "/dev/create_new_account.html"]
         },
-        
+
         notification: {
             type: {
                 ERROR: {
@@ -856,34 +796,34 @@ define(function(){
         },
 
         Navigation: [{
-            "url": "/dev/me.html",
+            "url": "/me#l=dashboard",
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
             "subnav": [{
-                "url": "/dev/me.html",
+                "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
                 "label": "MY_HOME"
             }, {
-                "url": "/dev/me.html#l=messages/inbox",
+                "url": "/me#l=messages/inbox",
                 "id": "subnavigation_messages_link",
                 "label": "MY_MESSAGES"
             }, {
                 "id": "subnavigation_hr"
             }, {
-                "url": "/dev/me.html#l=profile/basic",
+                "url": "/me#l=profile/basic",
                 "id": "subnavigation_profile_link",
                 "label": "MY_PROFILE"
             }, {
-                "url": "/dev/me.html#l=library",
+                "url": "/me#l=library",
                 "id": "subnavigation_content_link",
                 "label": "MY_LIBRARY"
             }, {
-                "url": "/dev/me.html#l=memberships",
+                "url": "/me#l=memberships",
                 "id": "subnavigation_memberships_link",
                 "label": "MY_MEMBERSHIPS"
             }, {
-                "url": "/dev/me.html#l=contacts",
+                "url": "/me#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
             }]
@@ -904,14 +844,14 @@ define(function(){
                 "id": "subnavigation_hr"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_explore_link",
             "anonymous": false,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -924,14 +864,14 @@ define(function(){
                 "url": "/search#l=people"
             }]
         }, {
-            "url": "/dev/explore.html",
+            "url": "/index",
             "id": "navigation_anon_explore_link",
             "anonymous": true,
             "label": "EXPLORE",
             "subnav": [{
                 "id": "subnavigation_explore_categories_link",
                 "label": "BROWSE_ALL_CATEGORIES",
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             },{
                 "id": "subnavigation_hr"
             },{
@@ -957,17 +897,17 @@ define(function(){
         /*
          * List of pages that require a logged in user
          */
-        requireUser: ["/home", "/preferences", "/group/edit", "/inbox", "/profile/edit", "/dev/my_sakai.html", "/dev/account_preferences.html", "/dev/group_edit.html", "/dev/inbox.html", "/dev/profile_edit.html", "/dev/createnew.html"],
+        requireUser: ["/me", "/dev/me.html", "/dev/search_sakai2.html", "/create", "/dev/createnew.html"],
 
         /*
          * List of pages that require an anonymous user
          */
-        requireAnonymous: ["/index", "/register", "/", "/index", "/dev/index.html", "/dev/create_new_account.html", "/dev/", "/dev", "/index.html"],
+        requireAnonymous: ["/register", "/dev/create_new_account.html"],
         /*
          * List of pages that will be added to requireUser if
          * anonAllowed is false
          */
-        requireUserAnonNotAllowed: ["/dev/me.html", "/dev/search_sakai2.html"],
+        requireUserAnonNotAllowed: ["/me", "/dev/me.html", "/dev/search_sakai2.html"],
         /*
          * List of pages that will be added to requireAnonymous if
          * anonAllowed is false
@@ -979,7 +919,7 @@ define(function(){
          * are then required to call the sakai.api.Security.showPage
          * themselves
          */
-        requireProcessing: ["/dev/user.html", "/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
+        requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/dev/group_edit.html", "/dev/show.html", "/content"],
 
         showSakai2: false,
         useLiveSakai2Feeds: false,
@@ -988,497 +928,497 @@ define(function(){
 
         Directory: {
             medicineanddentistry: {
-                title: "Medicine and Dentistry",
+                title: "__MSG__MEDICINE_AND_DENTISTRY__",
                 children: {
                     preclinicalmedicine: {
-                        title: "Pre-clinical Medicine"
+                        title: "__MSG__PRECLINICAL_MEDICINE__"
                     },
                     preclinicaldentistry: {
-                        title: "Pre-clinical Dentistry"
+                        title: "__MSG__PRECLINICAL_DENTISTRY__"
                     },
                     clinicalmedicine: {
-                        title: "Clinical Medicine"
+                        title: "__MSG__CLININCAL_MEDICINE__"
                     },
                     clinicaldentistry: {
-                        title: "Clinical Dentistry"
+                        title: "__MSG__CLININCAL_DENTISTRY__"
                     },
                     othersinmedicineanddentistry: {
-                        title: "Others in Medicine and Dentistry"
+                        title: "__MSG__MEDICINE_AND_DENTISTRY_OTHERS__"
                     }
                 }
             },
             biologicalsciences: {
-                title: "Biological Sciences",
+                title: "__MSG__BIOLOGICAL_SCIENCES__",
                 children: {
                     biology: {
-                        title: "Biology"
+                        title: "__MSG__BIOLOGY__"
                     },
                     botany: {
-                        title: "Botany"
+                        title: "__MSG__BOTANY__"
                     },
                     zoology: {
-                        title: "Zoology"
+                        title: "__MSG__ZOOLOGY__"
                     },
                     genetics: {
-                        title: "Genetics"
+                        title: "__MSG__GENETICS__"
                     },
                     microbiology: {
-                        title: "Microbiology"
+                        title: "__MSG__MICROBIOLOGY__"
                     },
                     sportsscience: {
-                        title: "Sports Science"
+                        title: "__MSG__SPORTS_SCIENCE__"
                     },
                     molecularbiologybiophysicsandbiochemistry: {
-                        title: "Molecular Biology, Biophysics and Biochemistry"
+                        title: "__MSG__MOLECULAR_BIOLOGY__"
                     },
                     psychology: {
-                        title: "Psychology"
+                        title: "__MSG__PSYCHOLOGY__"
                     },
                     othersinbiologicalsciences: {
-                        title: "Others in Biological Sciences"
+                        title: "__MSG__BIOLOGICAL_SCIENCES_OTHER__"
                     }
                 }
             },
             veterinarysciencesagriculture: {
-                title: "Veterinary Sciences and Agriculture",
+                title: "__MSG__VETERINARY_SCIENCES__",
                 children: {
                     preclinicalveterinarymedicine: {
-                        title: "Pre-clinical Veterinary Medicine"
+                        title: "__MSG__PRE_CLINICAL_VETERINARY__"
                     },
                     clinicalveterinarymedicineanddentistry: {
-                        title: "Clinical Veterinary Medicine and Dentistry"
+                        title: "__MSG__CLINICAL_VETERINARY__"
                     },
                     animalscience: {
-                        title: "Animal Science"
+                        title: "__MSG__ANIMAL_SCIENCE__"
                     },
                     agriculture: {
-                        title: "Agriculture"
+                        title: "__MSG__AGRICULTURE__"
                     },
                     forestry: {
-                        title: "Forestry"
+                        title: "__MSG__FORESTRY__"
                     },
                     foodandbeveragestudies: {
-                        title: "Food and Beverage studies"
+                        title: "__MSG__FOOD_BEVERAGE__"
                     },
                     agriculturalsciences: {
-                        title: "Agricultural Sciences"
+                        title: "__MSG__AGRICULTURAL_SCIENCE__"
                     },
-                    others: {
-                        title: "Others in Veterinary Sciences and Agriculture"
+                    othersinveterinarysciencesandagriculture: {
+                        title: "__MSG__VETERINARY_SCIENCES_OTHER__"
                     }
                 }
             },
             physicalsciences: {
-                title: "Physical Sciences",
+                title: "__MSG__PHYSICAL_SCIENCE__",
                 children: {
                     chemistry: {
-                        title: "Chemistry"
+                        title: "__MSG__CHEMISTRY__"
                     },
                     materialsscience: {
-                        title: "Materials Science"
+                        title: "__MSG__MATERIALS_SCIENCE__"
                     },
                     physics: {
-                        title: "Physics"
+                        title: "__MSG__PHYSICS__"
                     },
                     forensicandarchaeologicalscience: {
-                        title: "Forensic and Archaeological Science"
+                        title: "__MSG__FORENSIC_ARCHEALOGICAL__"
                     },
                     astronomy: {
-                        title: "Astronomy"
+                        title: "__MSG__ASTRONOMY__"
                     },
                     geology: {
-                        title: "Geology"
+                        title: "__MSG__GEOLOGY__"
                     },
                     oceansciences: {
-                        title: "Ocean Sciences"
+                        title: "__MSG__OCEAN_SCIENCE__"
                     },
-                    others: {
-                        title: "Others in Physical Sciences"
+                    othersinphysicalsciences: {
+                        title: "__MSG__PHYSICAL_SCIENCE_OTHER__"
                     }
                 }
             },
             mathematicalandcomputersciences: {
-                title: "Mathematical and Computer Sciences",
+                title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES__",
                 children: {
                     mathematics: {
-                        title: "Mathematics"
+                        title: "__MSG__MATHEMATICS__"
                     },
                     operationalresearch: {
-                        title: "Operational Research"
+                        title: "__MSG__OPERATIONAL_RESEARCH__"
                     },
                     statistics: {
-                        title: "Statistics"
+                        title: "__MSG__STATISTICS__"
                     },
                     computerscience: {
-                        title: "Computer Science"
+                        title: "__MSG__COMPUTER_SCIENCE__"
                     },
                     informationsystems: {
-                        title: "Information Systems"
+                        title: "__MSG__INFORMATION_SYSTEMS__"
                     },
                     softwareengineering: {
-                        title: "Software Engineering"
+                        title: "__MSG__SOFTWARE_ENGINEERING__"
                     },
                     artificialintelligence: {
-                        title: "Artificial Intelligence"
+                        title: "__MSG__ARTIFICIAL_INTELLIGENCE__"
                     },
-                    others: {
-                        title: "Others in Mathematical and Computing Sciences"
+                    othersinmathematicalandcomputingsciences: {
+                        title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES_OTHER__"
                     }
                 }
             },
             engineering: {
-                title: "Engineering",
+                title: "__MSG__ENGINEERING__",
                 children: {
                     generalengineering: {
-                        title: "General Engineering"
+                        title: "__MSG__GENERAL_ENGINEERING__"
                     },
                     civilengineering: {
-                        title: "Civil Engineering"
+                        title: "__MSG__CIVIL_ENGINEERING__"
                     },
                     mechanicalengineering: {
-                        title: "Mechanical Engineering"
+                        title: "__MSG__MECHANICAL_ENGINEERING__"
                     },
                     aerospaceengineering: {
-                        title: "Aerospace Engineering"
+                        title: "__MSG__AEROSPACE_ENGINEERING__"
                     },
                     navalarchitecture: {
-                        title: "Naval Architecture"
+                        title: "__MSG__NAVAL_ARCHITECTURE__"
                     },
                     electronicandelectricalengineering: {
-                        title: "Electronic and Electrical Engineering"
+                        title: "__MSG__ELECTRONIC_ELECTRICAL_ENGINEERING__"
                     },
                     productionandmanufacturingengineering: {
-                        title: "Production and Manufacturing Engineering"
+                        title: "__MSG__PRODUCTION_MANUFACTURING_ENGINEERING__"
                     },
                     chemicalprocessandenergyengineering: {
-                        title: "Chemical, Process and Energy Engineering"
+                        title: "__MSG__CHEMICAL_PROCESS_ENERGY_ENGINEERING__"
                     },
-                    others: {
-                        title: "Others in Engineering"
+                    othersinengineering: {
+                        title: "__MSG__ENGINEERING_OTHER__"
                     }
                 }
             },
             technologies: {
-                title: "Technologies",
+                title: "__MSG__TECHNOLOGIES__",
                 children: {
                     mineralstechnology: {
-                        title: "Minerals Technology"
+                        title: "__MSG__MINERALS_TECHNOLOGY__"
                     },
                     metallurgy: {
-                        title: "Metallurgy"
+                        title: "__MSG__METALLURGY__"
                     },
                     ceramicsandglasses: {
-                        title: "Ceramics and Glasses"
+                        title: "__MSG__CERAMICS_GLASSES__"
                     },
                     polymersandtextiles: {
-                        title: "Polymers and Textiles"
+                        title: "__MSG__POLYMERS_TEXTILES__"
                     },
                     materialstechnologynototherwisespecified: {
-                        title: "Materials Technology not otherwise specified"
+                        title: "__MSG__MATERIALS_TECHNOLOGY_OTHER__"
                     },
                     maritimetechnology: {
-                        title: "Maritime Technology"
+                        title: "__MSG__MARITIME_TECHNOLOGY__"
                     },
                     industrialbiotechnology: {
-                        title: "Industrial Biotechnology"
+                        title: "__MSG__INDUSTRIAL_BIOTECHNOLOGY__"
                     },
-                    others: {
-                        title: "Others in Technology"
+                    othersintechnology: {
+                        title: "__MSG__TECHNOLOGIES_OTHER__"
                     }
                 }
             },
             architecturebuildingandplanning: {
-                title: "Architecture, Building and Planning",
+                title: "__MSG__ARCHITECTURE_BUILDING_PLANNING__",
                 children: {
                     architecture: {
-                        title: "Architecture"
+                        title: "__MSG__ARCHITECTURE__"
                     },
                     building: {
-                        title: "Building"
+                        title: "__MSG__BUILDING__"
                     },
                     landscapedesign: {
-                        title: "Landscape Design"
+                        title: "__MSG__LANDSCAPE_DESIGN__"
                     },
                     planning: {
-                        title: "Planning (Urban, Rural and Regional)"
+                        title: "__MSG__PLANNING__"
                     },
-                    others: {
-                        title: "Others in Architecture, Building and Planning"
+                    othersinarchitecturebuildingandplanning: {
+                        title: "__MSG__ARCHITECTURE_BUILDING_PLANNING_OTHER__"
                     }
                 }
             },
             socialstudies: {
-                title: "Social studies",
+                title: "__MSG__SOCIAL_STUDIES__",
                 children: {
                     economics: {
-                        title: "Economics"
+                        title: "__MSG__ECONOMICS__"
                     },
                     politics: {
-                        title: "Politics"
+                        title: "__MSG__POLITICS__"
                     },
                     sociology: {
-                        title: "Sociology"
+                        title: "__MSG__SOCIOLOGY__"
                     },
                     socialpolicy: {
-                        title: "Social Policy"
+                        title: "__MSG__SOCIAL_POLICY__"
                     },
                     socialwork: {
-                        title: "Social Work"
+                        title: "__MSG__SOCIAL_WORK__"
                     },
                     anthropology: {
-                        title: "Anthropology"
+                        title: "__MSG__ANTHROPOLOGY__"
                     },
                     humanandsocialgeography: {
-                        title: "Human and Social Geography"
+                        title: "__MSG__HUMAN_SOCIAL_GEOGRAPHY__"
                     },
-                    others: {
-                        title: "Others in Social studies"
+                    othersinsocialstudies: {
+                        title: "__MSG__SOCIAL_STUDIES_OTHER__"
                     }
                 }
             },
             law: {
-                title: "Law",
+                title: "__MSG__LAW__",
                 children: {
                     publiclaw: {
-                        title: "Public Law"
+                        title: "__MSG__LAW_PUBLIC__"
                     },
                     privatelaw: {
-                        title: "Private Law"
+                        title: "__MSG__LAW_PRIVATE__"
                     },
                     jurisprudence: {
-                        title: "Jurisprudence"
+                        title: "__MSG__JURISPRUDENCE__"
                     },
                     legalpractice: {
-                        title: "Legal Practice"
+                        title: "__MSG__LEGAL_PRACTICE__"
                     },
                     medicallaw: {
-                        title: "Medical Law"
+                        title: "__MSG__LAW_MEDICAL__"
                     },
                     othersinlaw: {
-                        title: "Others in law"
+                        title: "__MSG__LAW_OTHER__"
                     }
                 }
             },
             businessandadministrativestudies: {
-                title: "Business and Administrative studies",
+                title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES__",
                 children: {
                     businessstudies: {
-                        title: "Business studies"
+                        title: "__MSG__BUSINESS_STUDIES__"
                     },
                     managementstudies: {
-                        title: "Management studies"
+                        title: "__MSG__MANAGEMENTS_STUDIES__"
                     },
                     finance: {
-                        title: "Finance"
+                        title: "__MSG__FINANCE__"
                     },
                     accounting: {
-                        title: "Accounting"
+                        title: "__MSG__ACCOUNTING__"
                     },
                     marketing: {
-                        title: "Marketing"
+                        title: "__MSG__MARKETING__"
                     },
                     humanresourcemanagement: {
-                        title: "Human Resource Management"
+                        title: "__MSG__HUMAN_RESOURCE_MANAGEMENT__"
                     },
                     officeskills: {
-                        title: "Office skills"
+                        title: "__MSG__OFFICE_SKILLS__"
                     },
                     tourismtransportandtravel: {
-                        title: "Tourism, Transport and Travel"
+                        title: "__MSG__TOURISM__"
                     },
-                    others: {
-                        title: "Others in Business and Administrative studies"
+                    othersinbusandadminstudies: {
+                        title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES_OTHER__"
                     }
                 }
             },
             masscommunicationsanddocumentation: {
-                title: "Mass Communications and Documentation",
+                title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION__",
                 children: {
                     informationservices: {
-                        title: "Information Services"
+                        title: "__MSG__INFORMATION_SERVICES__"
                     },
                     publicitystudies: {
-                        title: "Publicity studies"
+                        title: "__MSG__PUBLICITY_STUDIES__"
                     },
                     mediastudies: {
-                        title: "Media studies"
+                        title: "__MSG__MEDIA_STUDIES__"
                     },
                     publishing: {
-                        title: "Publishing"
+                        title: "__MSG__PUBLISHING__"
                     },
                     journalism: {
-                        title: "Journalism"
+                        title: "__MSG__JOURNALISM__"
                     },
-                    others: {
-                        title: "Others in Mass Communications and Documentation"
+                    othersinmasscommanddoc: {
+                        title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION_OTHER__"
                     }
                 }
             },
             linguisticsclassicsandrelatedsubjects: {
-                title: "Linguistics, Classics and related subjects",
+                title: "__MSG__LINGUISTICS_CLASSICS__",
                 children: {
                     linguistics: {
-                        title: "Linguistics"
+                        title: "__MSG__LINGUISTICS__"
                     },
                     comparativeliterarystudies: {
-                        title: "Comparative Literary studies"
+                        title: "__MSG__LINGUISTICS_LITERARY__"
                     },
                     englishstudies: {
-                        title: "English studies"
+                        title: "__MSG__LINGUISTICS_ENGLISH__"
                     },
                     ancientlanguagestudies: {
-                        title: "Ancient Language studies"
+                        title: "__MSG__LINGUISTICS_ANCIENT__"
                     },
                     celticstudies: {
-                        title: "Celtic studies"
+                        title: "__MSG__LINGUISTICS_CELTIC__"
                     },
                     latinstudies: {
-                        title: "Latin studies"
+                        title: "__MSG__LINGUISTICS_LATIN__"
                     },
                     classicalgreekstudies: {
-                        title: "Classical Greek studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL_GREEK__"
                     },
                     classicalstudies: {
-                        title: "Classical studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL__"
                     },
-                    others: {
-                        title: "Others in Linguistics, Classics and related subjects"
+                    othersinlinguisticsclassicsandrelsubject: {
+                        title: "__MSG__LINGUISTICS_CLASSICS_OTHER__"
                     }
                 }
             },
             europeanlanguagesliteratureandrelatedsubjects: {
-                title: "European Languages, Literature and related subjects",
+                title: "__MSG__EUROPEAN_LANGUAGES__",
                 children: {
                     frenchstudies: {
-                        title: "French studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_FRENCH__"
                     },
                     germanstudies: {
-                        title: "German studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_GERMAN__"
                     },
                     italianstudies: {
-                        title: "Italian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_ITALIAN__"
                     },
                     spanishstudies: {
-                        title: "Spanish studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SPANISH__"
                     },
                     portuguesestudies: {
-                        title: "Portuguese studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_PORTUGUESE__"
                     },
                     scandinavianstudies: {
-                        title: "Scandinavian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SCANDINAVIAN__"
                     },
                     russianandeasteuropeanstudies: {
-                        title: "Russian and East European studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_RUSSIAN__"
                     },
-                    others: {
-                        title: "Others in European Languages, Literature and related subjects"
+                    othersineurolangliteratureandrelsubjects: {
+                        title: "__MSG__EUROPEAN_LANGUAGES_OTHER__"
                     }
                 }
             },
             easiaticlanguagesliterature: {
-                title: "Exotic Languages, Literature and related subjects",
+                title: "__MSG__EXOTIC_LANGUAGES__",
                 children: {
                     chinesestudies: {
-                        title: "Chinese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_CHINESE__"
                     },
                     japanesestudies: {
-                        title: "Japanese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_JAPANESE__"
                     },
                     southasianstudies: {
-                        title: "South Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_SOUTH_ASIAN__"
                     },
                     otherasianstudies: {
-                        title: "Other Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_ASIAN_OTHER__"
                     },
                     africanstudies: {
-                        title: "African studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AFRICAN__"
                     },
                     modernmiddleeasternstudies: {
-                        title: "Modern Middle Eastern studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_MIDDLE_EAST__"
                     },
                     americanstudies: {
-                        title: "American studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AMERICAN__"
                     },
                     australasianstudies: {
-                        title: "Australasian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AUSTRALIAN__"
                     },
-                    others: {
-                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
+                    othersineasternasiaafriamericaaustralianlang: {
+                        title: "__MSG__EXOTIC_LANGUAGES_OTHER__"
                     }
                 }
             },
             historicalandphilosophicalstudies: {
-                title: "Historical and Philosophical studies",
+                title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES__",
                 children: {
                     historybyperiod: {
-                        title: "History by period"
+                        title: "__MSG__HISTORY_PERIOD__"
                     },
                     historybyarea: {
-                        title: "History by area"
+                        title: "__MSG__HISTORY_AREA__"
                     },
                     historybytopic: {
-                        title: "History by topic"
+                        title: "__MSG__HISTORY_TOPIC__"
                     },
                     archaeology: {
-                        title: "Archaeology"
+                        title: "__MSG__ARCHEOLOGY__"
                     },
                     philosophy: {
-                        title: "Philosophy"
+                        title: "__MSG__PHILOSOPHY__"
                     },
                     theologyandreligiousstudies: {
-                        title: "Theology and Religious studies"
+                        title: "__MSG__THEOLOGY_STUDIES__"
                     },
-                    others: {
-                        title: "Others in Historical and Philosophical studies"
+                    othersinhistoricalandphilosophicalstudies: {
+                        title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES_OTHER__"
                     }
                 }
             },
             creativeartsanddesign: {
-                title: "Creative Arts and Design",
+                title: "__MSG__CREATIVE_ARTS__",
                 children: {
                     fineart: {
-                        title: "Fine Art"
+                        title: "__MSG__FINE_ART__"
                     },
                     designstudies: {
-                        title: "Design studies"
+                        title: "__MSG__DESIGN_STUDIES__"
                     },
                     music: {
-                        title: "Music"
+                        title: "__MSG__MUSIC__"
                     },
                     drama: {
-                        title: "Drama"
+                        title: "__MSG__DRAMA__"
                     },
                     dance: {
-                        title: "Dance"
+                        title: "__MSG__DANCE__"
                     },
                     cinematicsandphotography: {
-                        title: "Cinematics and Photography"
+                        title: "__MSG__CINEMATICS_PHOTOGRAPHY__"
                     },
                     crafts: {
-                        title: "Crafts"
+                        title: "__MSG__CRAFTS__"
                     },
                     imaginativewriting: {
-                        title: "Imaginative Writing"
+                        title: "__MSG__IMAGINITIVE_WRITING__"
                     },
-                    others: {
-                        title: "Others in Creative Arts and Design"
+                    othersincreativeartsanddesign: {
+                        title: "__MSG__CREATIVE_ARTS_OTHER__"
                     }
                 }
             },
             education: {
-                title: "Education",
+                title: "__MSG__EDUCATION__",
                 children: {
                     trainingteachers: {
-                        title: "Training Teachers"
+                        title: "__MSG__TRAINING_TEACHERS__"
                     },
                     researchandstudyskillsineducation: {
-                        title: "Research and Study Skills in Education"
+                        title: "__MSG__EDUCATION_RESEARCH_STUDY_SKILLS__"
                     },
                     academicstudiesineducation: {
-                        title: "Academic studies in Education"
+                        title: "__MSG__EDUCATION_ACADEMIC_STUDIES__"
                     },
                     othersineducation: {
-                        title: "Others in Education"
+                        title: "__MSG__EDUCATION_OTHER__"
                     }
                 }
             }
@@ -1525,174 +1465,203 @@ define(function(){
 
         enableChat: false,
 
+        Editor: {
+            tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
+                'sc','ta','ur','be','cs','es','he','it','lv','nn','se','te','vi','bg','cy','et','hi','ja','mk','no','si',
+                'th','zh-cn','bn','da','eu','hr','ka','ml','pl','sk','tn','zh-tw','br','de','fa','hu','kl','mn','ps','sl',
+                'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
+        },
+
+        /*
+         * _canEdit: can change the area permissions on this page
+         * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
+         * _nonEditable: cannot edit the contents of this page
+         * _canSubedit:
+         */
+
         defaultprivstructure: {
             "structure0": {
                 "dashboard": {
-                    "_ref": "id267187828",
-                    "_title": "My Dashboard",
+                    "_ref": "${refid}0",
+                    "_title": "__MSG__MY_DASHBOARD__",
                     "_order": 0,
                     "_canEdit": true,
+                    "_reorderOnly": true,
                     "_nonEditable": true,
                     "main": {
-                        "_ref": "id267187828",
+                        "_ref": "${refid}0",
                         "_order": 0,
-                        "_title": "Dashboard"
+                        "_title": "__MSG__MY_DASHBOARD__"
                     }
                 },
                 "messages": {
-                    "_title": "My Messages",
-                    "_ref": "id1165301022",
+                    "_title": "__MSG__MY_MESSAGES__",
+                    "_ref": "${refid}1",
                     "_order": 1,
                     "_canEdit": true,
+                    "_reorderOnly": true,
                     "_canSubedit": true,
                     "_nonEditable": true,
                     "inbox": {
-                        "_ref": "id1165301022",
+                        "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Inbox",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_title": "__MSG__INBOX__",
                         "_nonEditable": true
                     },
                     "invitations": {
-                        "_ref": "id9867733100",
+                        "_ref": "${refid}2",
                         "_order": 1,
-                        "_title": "Invitations",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_title": "__MSG__INVITATIONS__",
                         "_nonEditable": true
                     },
                     "sent": {
-                        "_ref": "id4253485084",
+                        "_ref": "${refid}3",
                         "_order": 2,
-                        "_title": "Sent",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_title": "__MSG__SENT__",
                         "_nonEditable": true
                     },
                     "trash": {
-                        "_ref": "id3915412565",
+                        "_ref": "${refid}4",
                         "_order": 3,
-                        "_title": "Trash",
-                        "_canEdit": true,
-                        "_canSubedit": true,
+                        "_title": "__MSG__TRASH__",
                         "_nonEditable": true
                     }
                 }
             },
-            "id267187828": {
-                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='id546341435'>Edit Layout</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='id546341435'>Add Widget</button></div><div class='s3d-contentpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'></div><br/><div id='widget_dashboard_id546341435' class='widget_inline'></div>"
+            "${refid}0": {
+                "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
+                "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
+                "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
+                "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
+                "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
+                "ntpage-title'>__MSG__MY_DASHBOARD__</div><div id='widget_carousel' class='widget_inline'"+
+                "></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
             },
-            "id1165301022": {
-                "page": "<div id='widget_inbox_id2024634737' class='widget_inline'/>"
+            "${refid}1": {
+                "page": "<div id='widget_inbox_${refid}6' class='widget_inline'/>"
             },
-            "id9867733100": {
-                "page": "<div id='widget_inbox_id3679202964' class='widget_inline'/>"
+            "${refid}2": {
+                "page": "<div id='widget_inbox_${refid}7' class='widget_inline'/>"
             },
-            "id4253485084": {
-                "page": "<div id='widget_inbox_id66582410046' class='widget_inline'/>"
+            "${refid}3": {
+                "page": "<div id='widget_inbox_${refid}8' class='widget_inline'/>"
             },
-            "id3915412565": {
-                "page": "<div id='widget_inbox_id3519294282' class='widget_inline'/>"
+            "${refid}4": {
+                "page": "<div id='widget_inbox_${refid}9' class='widget_inline'/>"
             },
-            "id2024634737": {
-                "box": "inbox",
-                "category": "message",
-                "title": "INBOX"
-            },
-            "id3679202964": {
-                "box": "inbox",
-                "category": "invitation",
-                "title": "INVITATIONS"
-            },
-            "id66582410046": {
-                "box": "outbox",
-                "category": "*",
-                "title": "SENT"
-            },
-            "id3519294282": {
-                "box": "trash",
-                "category": "*",
-                "title": "TRASH"
-            },
-            "id546341435": {
+            "${refid}5": {
                 "dashboard": {
                     "layout": "threecolumn",
                     "columns": {
                         "column1": [{
-                            "uid": "id6902437615810",
+                            "uid": "${refid}10",
                             "visible": "block",
                             "name": "recentchangedcontent"
                         }],
                         "column2": [{
-                            "uid": "id9495917029618",
+                            "uid": "${refid}11",
                             "visible": "block",
                             "name": "recentmemberships"
                         }],
                         "column3": [{
-                            "uid": "id7360391172040",
+                            "uid": "${refid}12",
                             "visible": "block",
                             "name": "recentcontactsnew"
                         }]
                     }
                 }
+            },
+            "${refid}6": {
+                "box": "inbox",
+                "category": "message",
+                "title": "__MSG__INBOX__"
+            },
+            "${refid}7": {
+                "box": "inbox",
+                "category": "invitation",
+                "title": "__MSG__INVITATIONS__"
+            },
+            "${refid}8": {
+                "box": "outbox",
+                "category": "*",
+                "title": "__MSG__SENT__"
+            },
+            "${refid}9": {
+                "box": "trash",
+                "category": "*",
+                "title": "__MSG__TRASH__"
             }
         },
 
+        /**
+         * In order to set permissions on specific private areas, the following parameter should be added:
+         *   _view: "anonymous" // Area is visible to all users by default
+         *   _view: "everyone" // Area is visible to all logged in users by default
+         *   _view: "contacts" // Area is visible to all contacts by default
+         *   _view: "private" // Area is not visible to other users by default
+         */
         defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_title": "My Profile",
-                    "_altTitle": "${user}'s Profile",
+                    "_title": "__MSG__MY_PROFILE__",
+                    "_altTitle": "__MSG__MY_PROFILE_OTHER__",
                     "_order": 0,
+                    "_view": "anonymous",
+                    "_reorderOnly": true,
                     "_nonEditable": true
                 },
                 "library": {
-                    "_ref": "id9834611274",
+                    "_ref": "${refid}0",
                     "_order": 1,
-                    "_title": "My Library",
-                    "_altTitle": "${user}'s Library",
+                    "_title": "__MSG__MY_LIBRARY__",
+                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
-                        "_ref": "id9834611274",
+                        "_ref": "${refid}0",
                         "_order": 0,
-                        "_title": "Content"
+                        "_title": "__MSG__MY_LIBRARY__"
                     }
                 },
                 "memberships": {
-                    "_title": "My Memberships",
+                    "_title": "__MSG__MY_MEMBERSHIPS__",
                     "_order": 2,
-                    "_ref": "id213623673",
-                    "_altTitle": "${user}'s Memberships",
+                    "_ref": "${refid}1",
+                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
-                        "_ref": "id213623673",
+                        "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Memberships"
+                        "_title": "__MSG__MY_MEMBERSHIPS__"
                     }
                 },
                 "contacts": {
-                    "_title": "My Contacts",
+                    "_title": "__MSG__MY_CONTACTS__",
                     "_order": 3,
-                    "_ref": "id1193715035",
-                    "_altTitle": "${user}'s Contacts",
+                    "_ref": "${refid}2",
+                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
+                    "_reorderOnly": true,
                     "_nonEditable": true,
+                    "_view": "anonymous",
                     "main": {
-                        "_ref": "id1193715035",
+                        "_ref": "${refid}2",
                         "_order": 0,
-                        "_title": "Contacts"
+                        "_title": "__MSG__MY_CONTACTS__"
                     }
                 }
             },
-            "id9834611274": {
-                "page": "<div id='widget_mylibrary' class='widget_inline'></div> <div id='widget_deletecontent' class='widget_inline'></div>"
+            "${refid}0": {
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
             },
-            "id213623673": {
+            "${refid}1": {
                 "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
                     "<div id='widget_tooltip' class='widget_inline'></div> " +
                     "<div id='widget_mymemberships' class='widget_inline'></div>"
             },
-            "id1193715035": {
+            "${refid}2": {
                 "page": "<div id='widget_contacts' class='widget_inline'></div>"
             }
         },
@@ -1736,21 +1705,21 @@ define(function(){
                 templates: [
                     {
                         id: "simplegroup",
-                        title: "Simple group",
+                        title: "__MSG__SIMPLE_GROUP__",
                         img: "/dev/images/worldtemplates/simplegroup.png",
                         fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
-                        perfectFor: "Sharing content and sending messages",
+                        perfectFor: "__MSG__SIMPLE_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "member",
-                                roleTitle: "Members",
-                                title: "Member",
+                                roleTitle: "__MSG__MEMBERS__",
+                                title: "__MSG__MEMBER__",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
-                                roleTitle: "Managers",
-                                title: "Manager",
+                                roleTitle: "__MSG__MANAGERS__",
+                                title: "__MSG__MANAGER__",
                                 allowManage: true
                             }
                         ],
@@ -1758,22 +1727,25 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -1782,22 +1754,25 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_title":"Participants",
                                         "_nonEditable": true,
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -1834,27 +1809,27 @@ define(function(){
                 templates: [
                     {
                         id: "mathcourse",
-                        title: "Mathematics course",
+                        title: "__MSG__MATHEMATICS_COURSE__",
                         img: "/dev/images/worldtemplates/mathcourse.png",
                         fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        perfectFor: "__MSG__MATHEMATICS_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -1862,136 +1837,1041 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "week1": {
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_title":"Week 1",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_title":"Week 1"
                                         }
                                     },
                                     "week2":{
-                                        "_ref":"id569856425",
+                                        "_ref":"${refid}1",
                                         "_title":"Week 2",
                                         "_order":1,
                                         "main":{
-                                            "_ref":"id569856425",
+                                            "_ref":"${refid}1",
                                             "_order":0,
                                             "_title":"Week 2"
                                         }
-                                    },
-                                    "week3":{
-                                        "_ref":"id647321988",
-                                        "_title":"Week 3",
-                                        "_order":2,
-                                        "main":{
-                                            "_ref":"id647321988",
-                                            "_order":0,
-                                            "_title":"Week 3"
-                                        }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus enim nec ipsum faucibus tincidunt ut tristique ipsum. In nec fringilla erat. Ut sagittis, justo ac gravida feugiat, sem massa cursus magna, in euismod nunc risus vitae tellus. Donec vel nunc ligula. Ut sem ipsum, molestie a hendrerit quis, semper at enim. Donec aliquam dolor ac odio vulputate pretium. Nullam congue ornare magna, in semper elit ultrices a. Morbi sed ante sem, et semper quam. Vivamus non adipiscing eros. Vestibulum risus felis, laoreet eget aliquet in, viverra ut magna. Curabitur consectetur, justo non faucibus ornare, nulla leo condimentum purus, vitae tempus justo erat a lorem. Praesent eu augue et enim viverra lobortis et pellentesque urna. Proin consectetur interdum sodales. Curabitur metus tortor, laoreet eu pulvinar nec, rhoncus a elit. Proin tristique, massa eu elementum vehicula, elit nibh gravida ante, sed mollis lacus tortor quis risus. Quisque vel accumsan elit. Aliquam viverra porttitor tellus, sit amet ornare purus imperdiet nec. Proin ornare, enim sed interdum vestibulum, lacus est elementum nibh, a scelerisque urna neque ut ligula. Etiam tristique scelerisque nunc, nec rhoncus nulla tempor vel. Vivamus sed eros erat, ac gravida nisi.</p><p>Test<br></p><p>Sed metus elit, malesuada gravida viverra sit amet, tristique pretium mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur fringilla tortor eu tortor fringilla ac egestas metus facilisis. Maecenas quis magna ligula, a vehicula dolor. Ut lobortis, magna et tincidunt mollis, mi massa dignissim ante, vel consectetur sapien nunc non velit. Phasellus feugiat tortor eget massa fermentum non scelerisque erat iaculis. Duis ut nulla quis tortor dapibus malesuada. Sed molestie sapien non mi consequat ultrices. Nam vel pretium enim. Curabitur vestibulum metus semper arcu lobortis convallis. Donec quis tellus dui, ut porttitor ipsum. Duis porta, odio sed consectetur malesuada, ipsum libero eleifend diam, ut sagittis eros tellus a velit. Etiam feugiat porta adipiscing. Sed luctus, odio sed tristique suscipit, massa ante ullamcorper nulla, a pellentesque lorem ante eget arcu. Nam venenatis, dui at ullamcorper faucibus, orci sapien convallis purus, ut vulputate justo nibh et orci.</p>"
+                                "${refid}0": {
+                                    page: '<div class="leftCol" style="float: left; margin: 0pt; width: 25%; display: bloc'+
+                                    'k;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Week 0'+
+                                    '1</strong></span> <p style="margin: 0pt;"><a target="_blank" style="color: rgb('+
+                                    '38, 131, 188); font-size: 1.85em; font-weight: normal; text-decoration: none; l'+
+                                    'ine-height: 1em;">Real and Hyperreal Numbers</a><br data-mce-bogus="1"></p> </d'+
+                                    'iv> <div class="rightCol" style="float: right; margin: 0pt; width: 75%; display'+
+                                    ': block;"> <div class="dateCol" style="float: left; width: 25%; color: rgb(51, '+
+                                    '51, 51); font-size: 0.85em; display: block;">Monday January 10</div> <div class'+
+                                    '="entryCol" style="float: left; width: 75%; display: block;"> <span style="colo'+
+                                    'r: rgb(38, 131, 188);"><a><span style="color: rgb(38, 131, 188); font-size: 0.9'+
+                                    '5em;"><strong>Anaytic Geometry</strong></span></a></span> <div class="beforeCla'+
+                                    'ssContainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-colo'+
+                                    'r: rgb(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0'+
+                                    'pt 0pt 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 25'+
+                                    '5, 255); color: rgb(153, 153, 153);">Before class</span> <div style="float: lef'+
+                                    't; color: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; paddi'+
+                                    'ng: 0pt;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <d'+
+                                    'iv style="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 5'+
+                                    '1, 51); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a target="_'+
+                                    'blank" style="color: rgb(38, 131, 188); text-decoration: none;">1.1-1.3</a><br '+
+                                    'data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt;"><a target="_blank'+
+                                    '" style="color: rgb(38, 131, 188); text-decoration: none;">1.1: 1, 5, 7, 1.2: 3'+
+                                    ', 7, 9, 1.3: 3, 5, 11</a><br data-mce-bogus="1"></p> </div> <hr style="visibili'+
+                                    'ty: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10px 0'+
+                                    'pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229,'+
+                                    ' 229); border: medium none; color: rgb(229, 229, 229);"> <div class="rightCol" '+
+                                    'style="display: block;"> <div class="dateCol" style="margin-top: 6px; float: le'+
+                                    'ft; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Tue'+
+                                    'sday January 11</div> <div class="entryCol" style="float: left; width: 75%; dis'+
+                                    'play: block;"> <div class="dueContainer" style="margin: 5px 0pt 10px; backgroun'+
+                                    'd-color: rgb(51, 51, 51); padding: 2px 0pt 1px 2px; font-size: 0.85em; clear: b'+
+                                    'oth;"> <div style="float: left; color: rgb(255, 255, 255); padding: 0pt; font-w'+
+                                    'eight: bold; height: 10px;"> <p style="margin: 3px 0pt 0pt; padding: 4px 0pt 4p'+
+                                    'x 4px; background-image: url(&quot;/dev/images/due_icon.png&quot;); background-'+
+                                    'repeat: no-repeat; background-position: 2px 0pt;"><span style="padding: 0pt 0pt'+
+                                    ' 0pt 27px;">Due</span></p> </div> <div style="float: left; margin: 0pt 0pt 0pt '+
+                                    '40px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold; height: 20px;"> '+
+                                    '<p style="width: 100%; margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px;"><a targe'+
+                                    't="_self"><span style="color: rgb(107, 199, 255); text-decoration: none;">Probl'+
+                                    'em Set 1</span></a><a target="_self"><br data-mce-bogus="1"><br data-mce-bogus='+
+                                    '"1"></a></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div>'+
+                                    ' <hr style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; heigh'+
+                                    't: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(2'+
+                                    '29, 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div cla'+
+                                    'ss="dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size:'+
+                                    ' 0.85em; display: block;">Wednesday January 12</div> <div class="entryCol" styl'+
+                                    'e="float: left; width: 75%; display: block;"> <span style="color: rgb(38, 131, '+
+                                    '188);"><a><span style="color: rgb(38, 131, 188); font-size: 0.95em;"><strong>Fu'+
+                                    'nctions</strong></span></a></span> <div class="beforeClassContainer" style="mar'+
+                                    'gin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 229); '+
+                                    'font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; padding: 2p'+
+                                    'x 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rgb(153'+
+                                    ', 153, 153);">Before class</span> <div style="float: left; color: rgb(102, 102,'+
+                                    ' 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p s'+
+                                    'tyle="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: left; '+
+                                    'margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bo'+
+                                    'ld;"> <p style="margin: 2px; padding: 0pt;"><a target="_blank" style="color: rg'+
+                                    'b(38, 131, 188); text-decoration: none;">1.4</a><br data-mce-bogus="1"></p> <p '+
+                                    'style="margin: 2px; padding: 0pt;"><a target="_blank" style="color: rgb(38, 131'+
+                                    ', 188); text-decoration: none;">1.4: 1, 5, 7</a><br data-mce-bogus="1"></p> </d'+
+                                    'iv> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr style="clea'+
+                                    'r: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; backgrou'+
+                                    'nd-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 229);">'+
+                                    ' </div> <div class="rightCol" style="display: block;"> <div class="dateCol" sty'+
+                                    'le="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display'+
+                                    ': block;">Friday January 14</div> <div class="entryCol" style="float: left; wid'+
+                                    'th: 75%; display: block;"><span style="color: rgb(38, 131, 188);"> <a><span sty'+
+                                    'le="color: rgb(38, 131, 188); font-size: 0.95em;"><strong>Approximations and In'+
+                                    'finitesimals</strong></span></a></span> <div class="beforeClassContainer" style'+
+                                    '="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229, 2'+
+                                    '29); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; paddin'+
+                                    'g: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color: rg'+
+                                    'b(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(102,'+
+                                    ' 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read</p>'+
+                                    ' <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float: l'+
+                                    'eft; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-weigh'+
+                                    't: bold;"> <p style="margin: 2px; padding: 0pt;"><a target="_blank" style="colo'+
+                                    'r: rgb(38, 131, 188); text-decoration: none;">1.5-1.6</a><br data-mce-bogus="1"'+
+                                    '></p> <p style="margin: 2px; padding: 0pt;"><a target="_blank" style="color: rg'+
+                                    'b(38, 131, 188); text-decoration: none;">1.5: 1, 9, 13, 1.6: 3, 5, 21</a><br da'+
+                                    'ta-mce-bogus="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </di'+
+                                    'v> </div> </div> <hr style="visibility: hidden; clear: both;"> </div> <hr style'+
+                                    '="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; ba'+
+                                    'ckground-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 2'+
+                                    '29);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%'+
+                                    '; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float:'+
+                                    ' left; margin: 0pt; width: 25%; display: block;"> <span style="color: rgb(153, '+
+                                    '153, 153); font-size: 0.95em;"><strong>Week 02</strong></span> <p style="margin'+
+                                    ': 0pt;"><a style="color: rgb(38, 131, 188); font-size: 1.85em; font-weight: nor'+
+                                    'mal; text-decoration: none; line-height: 1em;">Differentiation</a><br data-mce-'+
+                                    'bogus="1"></p> </div> <div class="rightCol" style="float: right; margin: 0pt; w'+
+                                    'idth: 75%; display: block;"> <div class="dateCol" style="float: left; width: 25'+
+                                    '%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;">Monday January 1'+
+                                    '7</div> <div class="entryCol" style="float: left; width: 75%; display: block;">'+
+                                    ' <span style="color: rgb(51, 51, 51); font-size: 0.95em;"><strong>Derivatives</'+
+                                    'strong></span> <div class="beforeClassContainer" style="margin: 5px 0pt 10px; p'+
+                                    'adding: 8px 8px 0pt; background-color: rgb(229, 229, 229); font-size: 0.85em;">'+
+                                    ' <span style="float: left; margin: 0pt 0pt 2px; padding: 2px 0pt 2px 8px; width'+
+                                    ': 99%; background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);">Before'+
+                                    ' class</span> <div style="float: left; color: rgb(102, 102, 102); font-weight: '+
+                                    'bold;"> <p style="margin: 2px; padding: 0pt;">Read</p> <p style="margin: 2px; p'+
+                                    'adding: 0pt;">Complete</p> </div> <div style="float: left; margin: 0pt 0pt 0pt '+
+                                    '20px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold;"> <p style="marg'+
+                                    'in: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decoration: no'+
+                                    'ne;">2.1-2.3</a><br data-mce-bogus="1"></p> <p style="margin: 2px; padding: 0pt'+
+                                    ';"><a style="color: rgb(38, 131, 188); text-decoration: none;">2.1: 1, 5, 7, 2.'+
+                                    '2: 3, 7, 9, 2.3: 3, 5, 11</a><br data-mce-bogus="1"></p> </div> <hr style="visi'+
+                                    'bility: hidden; clear: both;"> </div> </div> <hr style="clear: both; margin: 10'+
+                                    'px 0pt 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, '+
+                                    '229, 229); border: medium none; color: rgb(229, 229, 229);"> <div class="rightC'+
+                                    'ol" style="display: block;"> <div class="dateCol" style="margin-top: 6px; float'+
+                                    ': left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; display: block;"'+
+                                    '>Tuesday January 18</div> <div class="entryCol" style="float: left; width: 75%;'+
+                                    ' display: block;"> <div class="dueContainer" style="margin: 5px 0pt 10px; backg'+
+                                    'round-color: rgb(51, 51, 51); padding: 2px 0pt 1px 2px; font-size: 0.85em; clea'+
+                                    'r: both;"> <div style="float: left; color: rgb(255, 255, 255); padding: 0pt; fo'+
+                                    'nt-weight: bold; height: 10px;"> <p style="margin: 3px 0pt 0pt; padding: 4px 0p'+
+                                    't 4px 4px; background-image: url(&quot;/dev/images/due_icon.png&quot;); backgro'+
+                                    'und-repeat: no-repeat; background-position: 2px 0pt;"><span style="padding: 0pt'+
+                                    ' 0pt 0pt 27px;">Due</span></p> </div> <div style="float: left; margin: 0pt 0pt '+
+                                    '0pt 40px; padding: 0pt; color: rgb(51, 51, 51); font-weight: bold; height: 20px'+
+                                    ';"> <p style="margin: 3px 0pt 0pt; padding: 4px 0pt 4px 4px;"><a style="color: '+
+                                    'rgb(107, 199, 255); text-decoration: none;">Problem Set 2</a><br data-mce-bogus'+
+                                    '="1"></p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <h'+
+                                    'r style="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: '+
+                                    '5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb(229,'+
+                                    ' 229, 229);"> </div> <div class="rightCol" style="display: block;"> <div class='+
+                                    '"dateCol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.'+
+                                    '85em; display: block;">Wednesday January 19</div> <div class="entryCol" style="'+
+                                    'float: left; width: 75%; display: block;"> <div class="beforeClassContainer" st'+
+                                    'yle="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb(229, 229'+
+                                    ', 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 2px; pad'+
+                                    'ding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255); color:'+
+                                    ' rgb(153, 153, 153);">Before class</span> <div style="float: left; color: rgb(1'+
+                                    '02, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0pt;">Read<'+
+                                    '/p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div style="float'+
+                                    ': left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51); font-we'+
+                                    'ight: bold;"> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 13'+
+                                    '1, 188); text-decoration: none;">2.4-2.6</a><br data-mce-bogus="1"></p> <p styl'+
+                                    'e="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); text-decorat'+
+                                    'ion: none;">2.4: 1, 5, 7 2.5: 3, 7, 9, 2.6: 1, 5, 7</a><br data-mce-bogus="1"><'+
+                                    '/p> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr styl'+
+                                    'e="clear: both; margin: 10px 0pt 5px; padding: 0pt; width: 100%; height: 5px; b'+
+                                    'ackground-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, '+
+                                    '229);"> </div> <div class="rightCol" style="display: block;"> <div class="dateC'+
+                                    'ol" style="float: left; width: 25%; color: rgb(51, 51, 51); font-size: 0.85em; '+
+                                    'display: block;">Friday January 21</div> <div class="entryCol" style="float: le'+
+                                    'ft; width: 75%; display: block;"> <span style="color: rgb(51, 51, 51); font-siz'+
+                                    'e: 0.95em;"><strong>Differentiation</strong></span> <div class="beforeClassCont'+
+                                    'ainer" style="margin: 5px 0pt 10px; padding: 8px 8px 0pt; background-color: rgb'+
+                                    '(229, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt'+
+                                    ' 2px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255'+
+                                    '); color: rgb(153, 153, 153);">Before class</span> <div style="float: left; col'+
+                                    'or: rgb(102, 102, 102); font-weight: bold;"> <p style="margin: 2px; padding: 0p'+
+                                    't;">Read</p> <p style="margin: 2px; padding: 0pt;">Complete</p> </div> <div sty'+
+                                    'le="float: left; margin: 0pt 0pt 0pt 20px; padding: 0pt; color: rgb(51, 51, 51)'+
+                                    '; font-weight: bold;"> <p style="margin: 2px; padding: 0pt;"><a style="color: r'+
+                                    'gb(38, 131, 188); text-decoration: none;">2.7-2.8</a><br data-mce-bogus="1"></p'+
+                                    '> <p style="margin: 2px; padding: 0pt;"><a style="color: rgb(38, 131, 188); tex'+
+                                    't-decoration: none;">2.7: 1, 5, 7, 2.8: 3, 7, 9</a><br data-mce-bogus="1"></p> '+
+                                    '</div> <hr style="visibility: hidden; clear: both;"> </div> </div> </div> <hr s'+
+                                    'tyle="visibility: hidden; clear: both;"> </div> </div>'
                                 },
-                                "id569856425": {
-                                    page: "<p>Week 2<br></p>"
-                                },
-                                "id647321988": {
-                                    page: "<p>Week 3<br></p>"
+                                "${refid}1": {
+                                    page: '<p> </p><div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 10'+
+                                    '0%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="floa'+
+                                    't: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <p style="margin'+
+                                    ': 0pt 0pt 20px; color: rgb(102, 102, 102); font-size: 1.25em; font-weight: bold'+
+                                    '; line-height: 1em;">Elementary Calculus</p> <span style="color: rgb(153, 153, '+
+                                    '153); font-size: 0.95em;">Autumn, M, W, F, 9:00-10:50 AM. Building 300<br>James'+
+                                    ' Gleason, PhD</span><br> <p><a href="/dev/images/worldtemplates/math/calculus.p'+
+                                    'ng" target="_blank"><img style="padding: 20px 0pt 0pt;" src="/dev/images/worldt'+
+                                    'emplates/math/calculus.png" alt="Calculus" width="100%"></a><br data-mce-bogus='+
+                                    '"1"></p> </div> <div class="rightCol" style="float: right; margin: 0pt; width: '+
+                                    '60%; display: block;"> <div class="entryCol" style="float: left; width: 100%; d'+
+                                    'isplay: block; color: rgb(51, 51, 51); font-size: 1em;"> <p style="margin: 0pt;'+
+                                    '">Calculus was originally developed in the 1670s by Leibnitz and Newton based o'+
+                                    'n the intuitive notion of infinitesimals, or an infinitely small number. Weiers'+
+                                    'trass formalized the concept of limit and eliminated infinitesimals, which was '+
+                                    'more rigourous, but harder to grasp. Abraham Robinson developed non-standard ca'+
+                                    'lculus, the modern application of infinitessimals, which is both precise as wel'+
+                                    'l as intuitive, as it is closer to the intuitions that lead to the development '+
+                                    'of calculus. It is this non-standard approach that we will teach.</p> <ul style'+
+                                    '="padding: 0pt 0pt 0pt 15px;"><li><a target="_blank"><span style="color: rgb(38'+
+                                    ', 131, 188);"><strong>Isabel Ringloud </strong>Senior Instructor</span></a><br '+
+                                    'data-mce-bogus="1"></li><li><a target="_blank" style="color: rgb(38, 131, 188);'+
+                                    '"><strong>Stacey Florence</strong> TA</a><br data-mce-bogus="1"></li></ul> <a s'+
+                                    'tyle="color: rgb(38, 131, 188); text-decoration: none;"><strong style="color: r'+
+                                    'gb(38, 131, 188); text-decoration: none;">View the full syllabus outline</stron'+
+                                    'g></a> </div> <hr style="visibility: hidden; clear: both;"> </div> </div> <hr s'+
+                                    'tyle="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; height: 5px; ba'+
+                                    'ckground-color: rgb(229, 229, 229); border: medium none; color: rgb(229, 229, 2'+
+                                    '29);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%'+
+                                    '; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="float:'+
+                                    ' left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span style="color'+
+                                    ': rgb(153, 153, 153); font-size: 0.95em;"><strong>Required textbooks and materi'+
+                                    'als</strong></span> </div> <div class="rightCol" style="float: right; margin: 0'+
+                                    'pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; mar'+
+                                    'gin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"'+
+                                    '> <p style="margin: 0pt; color: rgb(38, 131, 188); text-decoration: none;"><a h'+
+                                    'ref="http://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" style="colo'+
+                                    'r: rgb(38, 131, 188); text-decoration: none;"><strong>Elementary Calculus: An I'+
+                                    'nfinitesimal Approach</strong></a> <a href="/dev/images/worldtemplates/math/boo'+
+                                    'k.png" target="_blank"><img style="float: left; padding: 0pt 10px 5px 0pt; marg'+
+                                    'in: 0pt; width: 10%;" src="/dev/images/worldtemplates/math/book.png" alt="Eleme'+
+                                    'ntary Calculus: An Infinitesimal Approach"></a><br data-mce-bogus="1"></p> <p>Y'+
+                                    'ou will need only a basic scientific calculator; graphic calculators are not re'+
+                                    'quired and will not be allowed in tests.</p> </div> <hr style="visibility: hidd'+
+                                    'en; clear: both;"> </div> </div> <hr style="clear: both; margin: 20px 0pt; padd'+
+                                    'ing: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); borde'+
+                                    'r: medium none; color: rgb(229, 229, 229);"> <div class="mainContainer" style="'+
+                                    'padding: 0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div clas'+
+                                    's="leftCol" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: bl'+
+                                    'ock;"> <span style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Poli'+
+                                    'cies and Expectations</strong></span> </div> <div class="rightCol" style="float'+
+                                    ': right; margin: 0pt; width: 60%; display: block;"> <div class="entryCol" style'+
+                                    '="float: left; margin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51)'+
+                                    '; font-size: 1em;"> <p style="margin: 0pt;">The course meets for three lectures'+
+                                    ' a week, with one sectional, led by a TA. We expect you to attend every lecture'+
+                                    ', as it will be difficult to keep up without doing so, then complete the assign'+
+                                    'ed reading and homework once you have gotten an overview of the concept. The an'+
+                                    'swers to this daily homework are in the back of your text and therefore are ung'+
+                                    'raded; you are encouraged to discuss solutions with your peers. You will also h'+
+                                    'ave the opportunity to review your daily homework during Tuesday sectionals, wh'+
+                                    'ich you are also expected to attend.</p> <p>Weekly problem sets are graded and '+
+                                    'you must turn these in by 3:15 or preferably during your Tuesday section, both '+
+                                    'as a courtesy to your TA who must grade these (They will be returned in class o'+
+                                    'n Friday) as well as to insure that you are keeping up. Consider these a take h'+
+                                    'ome quiz; collaboration on these problem sets would therefore be a violoation o'+
+                                    'f the <a target="_blank" style="color: rgb(38, 131, 188); text-decoration: none'+
+                                    ';">Honor Code</a>.</p> </div> <hr style="visibility: hidden; clear: both;"> </d'+
+                                    'iv> </div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%;'+
+                                    ' height: 5px; background-color: rgb(229, 229, 229); border: medium none; color:'+
+                                    ' rgb(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: '+
+                                    '0pt; width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCo'+
+                                    'l" style="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <s'+
+                                    'pan style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Grading</stro'+
+                                    'ng></span> </div> <div class="rightCol" style="float: right; margin: 0pt; width'+
+                                    ': 60%; display: block;"> <div class="entryCol" style="float: left; margin: 0pt;'+
+                                    ' width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em;"> <p styl'+
+                                    'e="margin: 0pt;">Grading is based on the following. Regarding weekly problem se'+
+                                    'ts, late problem sets will count as a zero, but we will throw out your lowest t'+
+                                    'wo problem set scores</p> <ul style="padding: 0pt 0pt 0pt 15px;"><li><a target='+
+                                    '"_blank" style="color: rgb(38, 131, 188);"><strong>Midterm Exam 1: 25%</strong>'+
+                                    '</a><br data-mce-bogus="1"></li><li><a target="_blank" style="color: rgb(38, 13'+
+                                    '1, 188);"><strong>Midterm Exam 2: 25%</strong></a><br data-mce-bogus="1"></li><'+
+                                    'li><a target="_blank" style="color: rgb(38, 131, 188);"><strong>Weekly Problem '+
+                                    'Sets: 10%</strong></a><br data-mce-bogus="1"></li><li><a target="_blank" style='+
+                                    '"color: rgb(38, 131, 188);"><strong>Final Exam: 40%</strong></a><br data-mce-bo'+
+                                    'gus="1"></li></ul> </div> <hr style="visibility: hidden; clear: both;"> </div> '+
+                                    '</div> <hr style="clear: both; margin: 20px 0pt; padding: 0pt; width: 100%; hei'+
+                                    'ght: 5px; background-color: rgb(229, 229, 229); border: medium none; color: rgb'+
+                                    '(229, 229, 229);"> <div class="mainContainer" style="margin: 0pt; padding: 0pt;'+
+                                    ' width: 100%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" s'+
+                                    'tyle="float: left; margin: 0pt 5% 0pt 0pt; width: 25%; display: block;"> <span '+
+                                    'style="color: rgb(153, 153, 153); font-size: 0.95em;"><strong>Additional inform'+
+                                    'ation</strong></span> </div> <div class="rightCol" style="float: right; margin:'+
+                                    ' 0pt; width: 60%; display: block;"> <div class="entryCol" style="float: left; m'+
+                                    'argin: 0pt; width: 100%; display: block; color: rgb(51, 51, 51); font-size: 1em'+
+                                    ';"> <p style="margin: 0pt;">A Note from the Office of Accessible Education: Stu'+
+                                    'dents who may need an academic accommodation based on the impact of a disabilit'+
+                                    'y must initiate the request with the Office of Accessible Education (OAE).</p> '+
+                                    '</div> <hr style="visibility: hidden; clear: both;"> </div> </div>'
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
-                                    "contact":{
-                                        "_ref":"id6573920372",
+                                    "lecture01": {
+                                        "_ref":"${refid}2",
                                         "_order":0,
-                                        "_title": "Contact",
+                                        "_title":"Lecture 01",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
-                                            "_title":"Contact"
+                                            "_title":"Lecture 01"
+                                        }
+                                    },
+                                    "lecture02":{
+                                        "_ref":"${refid}3",
+                                        "_title":"Lecture 02",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"${refid}3",
+                                            "_order":0,
+                                            "_title":"Lecture 02"
+                                        }
+                                    },
+                                    "lecture03":{
+                                        "_ref":"${refid}4",
+                                        "_title":"Lecture 03",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"${refid}4",
+                                            "_order":0,
+                                            "_title":"Lecture 03"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p><strong>Contact Us</strong></p><p>16 Mill Lane<br>1st Floor<br>CB2 1SB Cambridge</p><p><img id='widget_googlemaps_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-src='/devwidgets/googlemaps/images/googlemaps.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: '<p style="padding-left: 30px;"> </p><p style="margin: 20px 0pt; font-size: 1.75'+
+                                    'em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px '+
+                                    '0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Week 01: Real and'+
+                                    ' Hyperreal Numbers</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1.'+
+                                    '25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45e'+
+                                    'm; line-height: 1.25em; color: #666666;">Lecture 01: Analytic Geometry</p><p st'+
+                                    'yle="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mce-style="margin: '+
+                                    '5px 0pt 20px; color: #666666;">Date: Monday 10th January<br>Location: <a style='+
+                                    '"color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="color: #2683'+
+                                    'bc; text-decoration: none;">Building 600, Lecture Hall 209</a><br data-mce-bogu'+
+                                    's="1"></p><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mce-style='+
+                                    '"color: #666666; font-size: 1em;"><img id="widget_remotecontent_${refid}5" clas'+
+                                    's="widget_inline" style="display: block; padding: 10px; margin: 4px;" src="/dev'+
+                                    'widgets/remotecontent/images/remotecontent.png" data-mce-src="/devwidgets/remot'+
+                                    'econtent/images/remotecontent.png" data-mce-style="display: block; padding: 10p'+
+                                    'x; margin: 4px;" border="1">The following was covered in this lecture:</p><ol s'+
+                                    'tyle="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); '+
+                                    'font-size: 0.85em; font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt; pa'+
+                                    'dding: 0pt 0pt 0pt 20px; color: #333333; font-size: 0.85em; font-weight: bold;"'+
+                                    '><li>The development of Cartesian geometry</li><li>Euclidean geometry</li><li>C'+
+                                    'onics, cubics, Bezout&quot;s theorem, and the beginnings of a projective view t'+
+                                    'o curves</li><li>Irrational numbers and decimal expansions</li><li>Pi and its c'+
+                                    'ontinued fraction approximations</li></ol><p style="color: rgb(51, 51, 51); fon'+
+                                    't-size: 0.85em;" data-mce-style="color: #333333; font-size: 0.85em;">Please rea'+
+                                    'd and complete the following before the lecture, bring text books, along with, '+
+                                    'your workings with you and printouts of the Analytic Geometry lecture slides.</'+
+                                    'p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hidd'+
+                                    'en; clear: both;"><p style="color: rgb(102, 102, 102); font-size: 1em;" data-mc'+
+                                    'e-style="color: #666666; font-size: 1em;">Reading material</p><p style="margin:'+
+                                    ' 0pt; color: rgb(38, 131, 188); text-decoration: none;" data-mce-style="margin:'+
+                                    ' 0pt; color: #2683bc; text-decoration: none;"><a style="color: rgb(38, 131, 188'+
+                                    '); text-decoration: none;" href="http://www.math.wisc.edu/%7Ekeisler/calc.html"'+
+                                    ' target="_blank" data-mce-href="http://www.math.wisc.edu/%7Ekeisler/calc.html" '+
+                                    'data-mce-style="color: #2683bc; text-decoration: none;">Elementary Calculus: An'+
+                                    ' Infinitesimal Approach</a> <a href="/dev/images/worldtemplates/math/book.png" '+
+                                    'target="_blank" data-mce-href="/dev/images/worldtemplates/math/book.png"><img s'+
+                                    'tyle="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" alt="Ele'+
+                                    'mentary Calculus: An Infinitesimal Approach" src="/dev/images/worldtemplates/ma'+
+                                    'th/book.png" data-mce-src="/dev/images/worldtemplates/math/book.png" data-mce-s'+
+                                    'tyle="float: left; padding: 0pt 10px 5px 0pt; margin: 0pt; width: 5%;" border="'+
+                                    '0 0"></a><br data-mce-bogus="1"></p><p style="margin: 2px 0pt 0pt 5px; padding:'+
+                                    ' 0pt; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding'+
+                                    ': 0pt; color: #333333;">H. Jerome Kliesler</p><hr style="visibility: hidden; cl'+
+                                    'ear: both;" data-mce-style="visibility: hidden; clear: both;"><p><span style="f'+
+                                    'loat: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; backgro'+
+                                    'und-color: rgb(255, 255, 255); color: rgb(153, 153, 153);" data-mce-style="floa'+
+                                    't: left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background'+
+                                    '-color: #ffffff; color: #999999;">Before class</span></p><p style="margin: 20px'+
+                                    ' 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data'+
+                                    '-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight'+
+                                    ': bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51'+
+                                    ', 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #3333'+
+                                    '33;">Chapters: 1.1 - 1.3</p><p style="padding-left: 30px;"><a style="color: rgb'+
+                                    '(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="colo'+
+                                    'r: #2683bc; text-decoration: none; font-weight: bold;">1.1 - The real line</a><'+
+                                    'br data-mce-bogus="1"><a style="color: rgb(38, 131, 188); text-decoration: none'+
+                                    '; font-weight: bold;" data-mce-style="color: #2683bc; text-decoration: none; fo'+
+                                    'nt-weight: bold;">1.2 - Functions of Real Numbers</a><br data-mce-bogus="1"><a '+
+                                    'style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" dat'+
+                                    'a-mce-style="color: #2683bc; text-decoration: none; font-weight: bold;">1.3 - S'+
+                                    'traight Lines</a><br data-mce-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px;'+
+                                    ' padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="m'+
+                                    'argin: 10px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Comp'+
+                                    'lete the following problems:</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt'+
+                                    '; color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0p'+
+                                    't; color: #333333;">1.1: 1, 5, 7 <br>1.2: 3, 7, 9 <br>1.3: 3, 5, 11</p><hr styl'+
+                                    'e="visibility: hidden; clear: both;" data-mce-style="visibility: hidden; clear:'+
+                                    ' both;">'
                                 },
-                                "id439704665": {
-                                    googlemaps: {
-                                        "mapinput": "16 Mill Lane, Cambridge, UK",
-                                        "mapzoom": "14",
-                                        "mapsize": "LARGE",
-                                        "lng": "0.11648790000003828",
-                                        "sling:resourceType": "sakai/widget-data",
-                                        "maphtml": "16 Mill Ln, Cambridge CB2 1, UK",
-                                        "lat": "52.201596"
+                                "${refid}3": {
+                                    page: '<p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-hei'+
+                                    'ght: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; color: #3333'+
+                                    '33; line-height: 1.25em;">Week 01: Real and Hyperreal Numbers</p><p style="marg'+
+                                    'in: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" da'+
+                                    'ta-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #6666'+
+                                    '66;">Lecture 02: Functions</p><p style="margin: 5px 0pt 20px; color: rgb(102, 1'+
+                                    '02, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Date: Wednesd'+
+                                    'ay 12th January<br>Location: <a style="color: rgb(38, 131, 188); text-decoratio'+
+                                    'n: none;" data-mce-style="color: #2683bc; text-decoration: none;">Building 600,'+
+                                    ' Lecture Hall 209</a><br data-mce-bogus="1"></p><p style="color: rgb(102, 102, '+
+                                    '102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;"><img id'+
+                                    '="widget_remotecontent_${refid}6" class="widget_inline" style="display: block; '+
+                                    'padding: 10px; margin: 4px;" src="/devwidgets/remotecontent/images/remoteconten'+
+                                    't.png" data-mce-src="/devwidgets/remotecontent/images/remotecontent.png" data-m'+
+                                    'ce-style="display: block; padding: 10px; margin: 4px;" border="1">The following'+
+                                    ' was covered in this lecture:</p><ol style="margin: 10px 0pt 0pt; padding: 0pt '+
+                                    '0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;" da'+
+                                    'ta-mce-style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: #333333; '+
+                                    'font-size: 0.85em; font-weight: bold;"><li>Real Function of One Variable</li><l'+
+                                    'i>Drawing Graphs of Functions</li><li>Domain of a Real Function</li><li>Constan'+
+                                    't Function</li><li>Absolute Value Function</li><li>Theorem and Proof: Absolute '+
+                                    'Value Function</li><li>Applications Of Functions</li><li>Real Function of Two V'+
+                                    'ariables</li><li>Applications Of Functions With Two Or More Variables</li></ol>'+
+                                    '<p style="color: rgb(51, 51, 51); font-size: 0.85em;" data-mce-style="color: #3'+
+                                    '33333; font-size: 0.85em;">Please read and complete the following before the le'+
+                                    'cture, bring text books, along with, your workings with you and printouts of th'+
+                                    'e Analytic Geometry lecture slides.</p><hr style="visibility: hidden; clear: bo'+
+                                    'th;" data-mce-style="visibility: hidden; clear: both;"><p style="color: rgb(102'+
+                                    ', 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size: 1em;">'+
+                                    'Reading material</p><p style="margin: 0pt; color: rgb(38, 131, 188); text-decor'+
+                                    'ation: none;" data-mce-style="margin: 0pt; color: #2683bc; text-decoration: non'+
+                                    'e;"><a style="color: rgb(38, 131, 188); text-decoration: none;" href="http://ww'+
+                                    'w.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" data-mce-href="http://www'+
+                                    '.math.wisc.edu/%7Ekeisler/calc.html" data-mce-style="color: #2683bc; text-decor'+
+                                    'ation: none;">Elementary Calculus: An Infinitesimal Approach</a> <a href="/dev/'+
+                                    'images/worldtemplates/math/book.png" target="_blank" data-mce-href="/dev/images'+
+                                    '/worldtemplates/math/book.png"><img style="float: left; padding: 0pt 10px 5px 0'+
+                                    'pt; margin: 0pt; width: 5%;" alt="Elementary Calculus: An Infinitesimal Approac'+
+                                    'h" src="/dev/images/worldtemplates/math/book.png" data-mce-src="/dev/images/wor'+
+                                    'ldtemplates/math/book.png" data-mce-style="float: left; padding: 0pt 10px 5px 0'+
+                                    'pt; margin: 0pt; width: 5%;" border="0 0"></a><br data-mce-bogus="1"></p><p sty'+
+                                    'le="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" data-mce-st'+
+                                    'yle="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">H. Jerome Kliesler'+
+                                    '</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibility: hi'+
+                                    'dden; clear: both;"><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rg'+
+                                    'b(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt 0pt 5px;'+
+                                    ' padding: 0pt; color: #666666; font-weight: bold;">Before class<br></p><p style'+
+                                    '="margin: 20px 0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weigh'+
+                                    't: bold;" data-mce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #66666'+
+                                    '6; font-weight: bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt;'+
+                                    ' color: rgb(51, 51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt'+
+                                    '; color: #333333;">Chapter: 1.4</p><p style="padding-left: 30px;"><a style="col'+
+                                    'or: rgb(38, 131, 188); text-decoration: none; font-weight: bold;" data-mce-styl'+
+                                    'e="color: #2683bc; text-decoration: none; font-weight: bold;">1.4 - The real li'+
+                                    'ne</a><br data-mce-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px; padding: 0'+
+                                    'pt; color: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 10px'+
+                                    ' 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: bold;">Complete the fo'+
+                                    'llowing problems:</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt 0pt 0pt 30'+
+                                    'px; color: rgb(51, 51, 51);">1.4: 1, 5, 7</p><hr style="visibility: hidden; cle'+
+                                    'ar: both;" data-mce-style="visibility: hidden; clear: both;">'
+                                },
+                                "${refid}4": {
+                                    page: '<p style="padding-left: 30px;"> </p><p style="margin: 20px 0pt; font-size: 1.7'+
+                                    '5em; color: rgb(51, 51, 51); line-height: 1.25em;" data-mce-style="margin: 20px'+
+                                    ' 0pt; font-size: 1.75em; color: #333333; line-height: 1.25em;">Week 01: Real an'+
+                                    'd Hyperreal Numbers</p><p style="margin: 0pt; font-size: 1.45em; line-height: 1'+
+                                    '.25em; color: rgb(102, 102, 102);" data-mce-style="margin: 0pt; font-size: 1.45'+
+                                    'em; line-height: 1.25em; color: #666666;">Lecture 03: Approximations and Infini'+
+                                    'tesimals</p><p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);" data-mc'+
+                                    'e-style="margin: 5px 0pt 20px; color: #666666;">Date: Friday 14th January<br>Lo'+
+                                    'cation: <a style="color: rgb(38, 131, 188); text-decoration: none;" data-mce-st'+
+                                    'yle="color: #2683bc; text-decoration: none;">Building 600, Lecture Hall 209</a>'+
+                                    '<br data-mce-bogus="1"></p><p style="color: rgb(102, 102, 102); font-size: 1em;'+
+                                    '" data-mce-style="color: #666666; font-size: 1em;"><img id="widget_remoteconten'+
+                                    't_${refid}7" class="widget_inline" style="display: block; padding: 10px; margin'+
+                                    ': 4px;" src="/devwidgets/remotecontent/images/remotecontent.png" data-mce-src="'+
+                                    '/devwidgets/remotecontent/images/remotecontent.png" data-mce-style="display: bl'+
+                                    'ock; padding: 10px; margin: 4px;" border="1">The following was covered in this '+
+                                    'lecture:</p><ol style="margin: 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: '+
+                                    'rgb(51, 51, 51); font-size: 0.85em; font-weight: bold;" data-mce-style="margin:'+
+                                    ' 10px 0pt 0pt; padding: 0pt 0pt 0pt 20px; color: #333333; font-size: 0.85em; fo'+
+                                    'nt-weight: bold;"><li>I. The Extension Principle</li><li>II. Transfer Principle'+
+                                    '</li><li>Application of the Principles</li><li>Hyperreal Numbers</li><li>Rules '+
+                                    'For Infinitesimal, Finite and Infinite Numbers</li><li>Hyperreals</li><li>Theor'+
+                                    'em 1</li><li>Theorem 2</li><li>III. Standard Part Principle</li><li>Theorem 3</'+
+                                    'li></ol><p style="color: rgb(51, 51, 51); font-size: 0.85em;" data-mce-style="c'+
+                                    'olor: #333333; font-size: 0.85em;">Please read and complete the following befor'+
+                                    'e the lecture, bring text books, along with, your workings with you and printou'+
+                                    'ts of the Analytic Geometry lecture slides.</p><hr style="visibility: hidden; c'+
+                                    'lear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="color:'+
+                                    ' rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font-size'+
+                                    ': 1em;">Reading material</p><p style="margin: 0pt; color: rgb(38, 131, 188); te'+
+                                    'xt-decoration: none;" data-mce-style="margin: 0pt; color: #2683bc; text-decorat'+
+                                    'ion: none;"><a style="color: rgb(38, 131, 188); text-decoration: none;" href="h'+
+                                    'ttp://www.math.wisc.edu/%7Ekeisler/calc.html" target="_blank" data-mce-href="ht'+
+                                    'tp://www.math.wisc.edu/%7Ekeisler/calc.html" data-mce-style="color: #2683bc; te'+
+                                    'xt-decoration: none;">Elementary Calculus: An Infinitesimal Approach</a> <a hre'+
+                                    'f="/dev/images/worldtemplates/math/book.png" target="_blank" data-mce-href="/de'+
+                                    'v/images/worldtemplates/math/book.png"><img style="float: left; padding: 0pt 10'+
+                                    'px 5px 0pt; margin: 0pt; width: 5%;" alt="Elementary Calculus: An Infinitesimal'+
+                                    ' Approach" src="/dev/images/worldtemplates/math/book.png" data-mce-src="/dev/im'+
+                                    'ages/worldtemplates/math/book.png" data-mce-style="float: left; padding: 0pt 10'+
+                                    'px 5px 0pt; margin: 0pt; width: 5%;" border="0 0"></a><br data-mce-bogus="1"></'+
+                                    'p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);" dat'+
+                                    'a-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333;">H. Jerome '+
+                                    'Kliesler</p><hr style="visibility: hidden; clear: both;" data-mce-style="visibi'+
+                                    'lity: hidden; clear: both;"><p style="margin: 20px 0pt 0pt 5px; padding: 0pt; c'+
+                                    'olor: rgb(102, 102, 102); font-weight: bold;" data-mce-style="margin: 20px 0pt '+
+                                    '0pt 5px; padding: 0pt; color: #666666; font-weight: bold;"><span style="float: '+
+                                    'left; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-co'+
+                                    'lor: rgb(255, 255, 255); color: rgb(153, 153, 153);" data-mce-style="float: lef'+
+                                    't; margin: 0pt 0pt 10px; padding: 2px 0pt 2px 8px; width: 99%; background-color'+
+                                    ': #ffffff; color: #999999;"></span>Before class<br></p><p style="margin: 20px 0'+
+                                    'pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;" data-m'+
+                                    'ce-style="margin: 20px 0pt 0pt 5px; padding: 0pt; color: #666666; font-weight: '+
+                                    'bold;">Read</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, '+
+                                    '51, 51);" data-mce-style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: #333333'+
+                                    ';">Chapters: 1.5-1.6</p><p style="padding-left: 30px;"><a style="color: rgb(38,'+
+                                    ' 131, 188); text-decoration: none; font-weight: bold;" data-mce-style="color: #'+
+                                    '2683bc; text-decoration: none; font-weight: bold;">1.5 - Infinitesimal, Finite,'+
+                                    ' and Infinite Numbers</a><br data-mce-bogus="1"><a style="color: rgb(38, 131, 1'+
+                                    '88); text-decoration: none; font-weight: bold;" data-mce-style="color: #2683bc;'+
+                                    ' text-decoration: none; font-weight: bold;">1.6 - Standard Parts</a><br data-mc'+
+                                    'e-bogus="1"></p><p style="margin: 10px 0pt 0pt 5px; padding: 0pt; color: rgb(10'+
+                                    '2, 102, 102); font-weight: bold;" data-mce-style="margin: 10px 0pt 0pt 5px; pad'+
+                                    'ding: 0pt; color: #666666; font-weight: bold;">Complete the following problems:'+
+                                    '</p><p style="margin: 2px 0pt 0pt 5px; padding: 0pt 0pt 0pt 30px; color: rgb(51'+
+                                    ', 51, 51);">1.5: 1, 9, 13 <br>1.6: 3, 5, 21</p><hr style="visibility: hidden; c'+
+                                    'lear: both;" data-mce-style="visibility: hidden; clear: both;">'
+                                },
+                                "${refid}5": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/embed/rXOGLlKuvzU",
+                                        border_size: 0
+                                    }
+                                },
+                                "${refid}6": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/embed/dNyLGmiYQY0",
+                                        border_size: 0
+                                    }
+                                },
+                                "${refid}7": {
+                                    remotecontent: {
+                                        width_unit: "%",
+                                        height: "350",
+                                        width: "80",
+                                        border_color: "cccccc",
+                                        url: "http://www.youtube.com/v/Fe9DPXvt2ps",
+                                        border_size: 0
                                     }
                                 }
                             },
                             "${pid}2": {
                                 structure0: {
-                                    "about":{
-                                        "_ref":"id6573920372",
+                                    "problemset01":{
+                                        "_ref":"${refid}8",
                                         "_order":0,
-                                        "_title":"About",
+                                        "_title":"Problem set 01",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}8",
                                             "_order":0,
-                                            "_title":"About"
+                                            "_title":"Problem set 01"
                                         }
                                     },
-                                    "prospective":{
-                                        "_ref":"id373710599",
-                                        "_title":"Prospective Students",
+                                    "problemset02":{
+                                        "_ref":"${refid}9",
+                                        "_title":"Problem set 02",
                                         "_order":1,
                                         "main":{
-                                            "_ref":"id373710599",
+                                            "_ref":"${refid}9",
                                             "_order":0,
-                                            "_title":"Prospective Students"
+                                            "_title":"Problem set 02"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p>This is some information about the course<br></p>"
+                                "${refid}8": {
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font'+
+                                    '-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="margin: 0pt;'+
+                                    ' padding: 0pt; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px'+
+                                    ' 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Problem '+
+                                    'set 01</p> <p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color'+
+                                    ': rgb(102, 102, 102);">Due: Tuesday January 11</p> </div> <div class="rightCol"'+
+                                    ' style="margin: 0pt 20px 0pt 0pt; display: block; width: 100%; color: rgb(102, '+
+                                    '102, 102); font-size: 1em;"> <p>Problem Set 1</p> <p>For the following 2 functi'+
+                                    'ons, make a table showing the value of f(x) when X = -1, - ½, 0, ½, 1 Put a * w'+
+                                    'here f(x) is undefined.</p> <p>For each of the following functions, find fx+∆x-'+
+                                    ' f(x)</p> <p><strong>Function 1.</strong> $$fx=5x+1$$</p> <p>$$fx+∆x- f(x) = 5('+
+                                    'x+∆x)+1-5x+1$$</p> <p>$$ = 5x+5∆x+1-5x+1$$</p> <p>$$ = 5∆x $$</p> <p><strong>Fu'+
+                                    'nction 2.</strong> $$fx=5$$</p> <p>$$fx+∆x- fx = 5-5$$</p> <p>$$= 0 $$</p> </di'+
+                                    'v> <hr style="visibility: hidden; clear: both;"> </div>'
                                 },
-                                "id373710599": {
-                                    page: "<p>This is some information for prospective students<br></p>"
+                                "${refid}9": {
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font'+
+                                    '-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="margin: 0pt;'+
+                                    ' padding: 0pt; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px'+
+                                    ' 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Problem '+
+                                    'set 01</p> <p style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color'+
+                                    ': rgb(102, 102, 102);">Due: Tuesday January 11</p> </div> <div class="rightCol"'+
+                                    ' style="margin: 0pt 20px 0pt 0pt; display: block; width: 100%; color: rgb(102, '+
+                                    '102, 102); font-size: 1em;"> <p>Problem Set 2</p> <p>Two bugs are walking along'+
+                                    ' lines in 3-space. At time t bug 1 is at the point $$(x, y, z)$$ on the line $$'+
+                                    'x=4−t, y=1−t, z=2+t$$ and at the same time t bug 2 is at the point $$(x,y,z)$$ '+
+                                    'on the line $$x=t, y=1+t, z=1+2t$$</p> <p>Assume that the distance is in centim'+
+                                    'eters and that the time is in minutes.</p> <p>(a) Find the distance between the'+
+                                    ' bugs at time $$t = 0$$</p> <p>(b) Use a graphing utility to graph the distance'+
+                                    ' between the bugs as a function of time from $$t = 0 to t = 5$$ <br>Please prin'+
+                                    't out a copy of your graph.</p> <p>(c) What does the graph tell you about the d'+
+                                    'istance between the bugs?</p> <p>(d) How close do the bugs get? (Please be exac'+
+                                    't.)</p> </div> <hr style="visibility: hidden; clear: both;"> </div>'
                                 }
                             },
                             "${pid}3": {
                                 structure0: {
-                                    "organizationnotes":{
-                                        "_ref":"id6573920372",
+                                    "about":{
+                                        "_ref":"${refid}10",
                                         "_order":0,
-                                        "_title":"Organization Notes",
+                                        "_title":"About",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}10",
                                             "_order":0,
-                                            "_title":"Organization Notes"
+                                            "_title":"About"
+                                        }
+                                    },
+                                    "prospectivestudents":{
+                                        "_ref":"${refid}11",
+                                        "_title":"Prospective students",
+                                        "_order":1,
+                                        "main":{
+                                            "_ref":"${refid}11",
+                                            "_order":0,
+                                            "_title":"Prospective students"
+                                        }
+                                    },
+                                    "contactus":{
+                                        "_ref":"${refid}12",
+                                        "_title":"Contact us",
+                                        "_order":2,
+                                        "main":{
+                                            "_ref":"${refid}12",
+                                            "_order":0,
+                                            "_title":"Contact us"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<p>Editable by lecturers only, visible to TAs only<br></p>"
+                                "${refid}10": {
+                                    page: '<p> </p><div id="wrap" style="font-family: Arial,Helvetica,sans-serif; width: '+
+                                    '750px; margin: 0pt auto;"> <div id="header" style=""> <h1 style="color: rgb(102'+
+                                    ', 102, 102); font-size: 22px; margin: 20px 0pt 15px; font-weight: normal;">Abou'+
+                                    't the course</h1> <hr style="color: rgb(255, 0, 0); background-color: rgb(232, '+
+                                    '232, 232); height: 5px; border: 0pt none;"> </div> <div id="main" style="float:'+
+                                    ' left; width: 500px; background: none repeat scroll 0% 0% rgb(255, 255, 255); m'+
+                                    'argin-top: 20px;"> <img src="/dev/images/worldtemplates/math/whiteboard.png" alt="" sty'+
+                                    'le="float: left; padding: 0pt 15px 30px 0pt;"> <p style="color: rgb(99, 99, 99)'+
+                                    '; font-size: 16px; line-height: 18px; padding: 0pt 0pt 10px; margin: 0pt;"> Ele'+
+                                    'mentary Calculus is extremely diverse and our course enables you to specialise '+
+                                    'in the areas that are of particular interest to you. Whether your interest is m'+
+                                    'ore in the area of pure maths, applied maths, or operational research and stati'+
+                                    'stics, this course will give you a good grounding in the subject </p> <hr style'+
+                                    '="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); bor'+
+                                    'der: 1px dashed rgb(210, 211, 210); height: 0pt;"> <h2 style="margin: 20px 0pt '+
+                                    '10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: no'+
+                                    'rmal;">Overview</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> To in'+
+                                    'troduce students to the concepts and methods of calculus of one real variable t'+
+                                    'o rational, exponential and logarithmic functions. To introduce basic concepts '+
+                                    'of differentiation and integration and their application to problem solving. </'+
+                                    'p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> The student will demons'+
+                                    'trate proficiency in analytic and graphical techniques of both differential and'+
+                                    ' integral calculus. Students will be required to demonstrate the ability to mod'+
+                                    'el and solve real-world application problems using calculus techniques. In the '+
+                                    'first year (only), there are two options: Pure and Applied Mathematics; and Mat'+
+                                    'hematics with Mathematics with Physics. In the second year and, especially, the'+
+                                    ' third year there is a wide choice of lecture courses, but no opportunity to su'+
+                                    'bstitute courses from other Faculties. There is no coursework or continuous ass'+
+                                    'essment, except for the Computational Projects courses (see below). </p> <p sty'+
+                                    'le="color: rgb(99, 99, 99); font-size: 14px;"> You can read more about the cour'+
+                                    'se in the documentation section below and in the sections on lectures, examinat'+
+                                    'ions, and supervisions. </p> <hr style="clear: both; color: rgb(255, 0, 0); bac'+
+                                    'kground-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210); heigh'+
+                                    't: 0pt; margin: 0pt 0pt 20px;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt;'+
+                                    ' color: rgb(102, 102, 102); font-size: 17px; display: inline; font-weight: norm'+
+                                    'al;">Prerequisite</h2> <h4 style="color: rgb(48, 132, 186); padding: 0pt; font-'+
+                                    'size: 14px; margin: 0pt 0pt 0pt 100px; display: inline;">Math 1710.</h4> <hr st'+
+                                    'yle="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); '+
+                                    'border: 1px dashed rgb(210, 211, 210); height: 0pt; margin: 18px 0pt 0pt;"> <h2'+
+                                    ' style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(102, 102, 102); font-si'+
+                                    'ze: 17px; font-weight: normal;">Course objectives</h2> <p style="color: rgb(99,'+
+                                    ' 99, 99); font-size: 14px;"> To introduce students to the concepts and methods '+
+                                    'of calculus of one real variable to rational, exponential and logarithmic funct'+
+                                    'ions. To introduce basic concepts of differentiation and integration and their '+
+                                    'application to problem solving. </p> <hr style="clear: both; color: rgb(255, 0,'+
+                                    ' 0); background-color: rgb(232, 232, 232); border: 1px dashed rgb(210, 211, 210'+
+                                    '); height: 0pt;"> <h2 style="margin: 20px 0pt 10px; padding: 0pt; color: rgb(10'+
+                                    '2, 102, 102); font-size: 17px; font-weight: normal;">Lectures</h2> <p style="co'+
+                                    'lor: rgb(99, 99, 99); font-size: 14px;"> For each course, the Faculty Board agr'+
+                                    'ees a syllabus and a number of lectures. The purpose of lectures is to cover al'+
+                                    'l the material in the syllabus in a concise and consistent way. Unlike many uni'+
+                                    'versities courses (in the U.S. particularly), there is generally no `book of th'+
+                                    'e course&quot; that covers the right material at the right level. </p> <p style'+
+                                    '="color: rgb(99, 99, 99); font-size: 14px;"> Lectures are provided by the Facul'+
+                                    'ty (not the colleges) and take place in central lecture theatres for Parts IA a'+
+                                    'nd IB, and in the CMS for Part II (the third year). Each lecture lasts about 50'+
+                                    ' minutes. All lectures take place in week day and Saturday (but not Sunday) mor'+
+                                    'nings. </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> In the first y'+
+                                    'ear, there are two lectures a day (i.e. 12 a week), for 20 weeks, and students '+
+                                    'should attend all lectures. In the second and third years, the lecturing load i'+
+                                    's roughly the same, but because there is a choice of lectures the timetables of'+
+                                    ' individual students may differ. </p> <p style="color: rgb(99, 99, 99); font-si'+
+                                    'ze: 14px;"> There is no standard way of lecturing: some lecturers write exclusi'+
+                                    'vely on blackboards; some use overhead projectors or powerpoint displays; some '+
+                                    'give out printed notes. The method used by individual lecturers depends on thei'+
+                                    'r style and also on the sort of material that they are covering. </p> <hr style'+
+                                    '="clear: both; color: rgb(255, 0, 0); background-color: rgb(232, 232, 232); bor'+
+                                    'der: 1px dashed rgb(210, 211, 210); height: 0pt;"> <h2 style="margin: 20px 0pt '+
+                                    '10px; padding: 0pt; color: rgb(102, 102, 102); font-size: 17px; font-weight: no'+
+                                    'rmal;">Examinations</h2> <p style="color: rgb(99, 99, 99); font-size: 14px;"> E'+
+                                    'ach year&quot;s work is examined by means of four three-hour papers taken at th'+
+                                    'e end of May. For part IB and II, each paper of the four papers is cross-sectio'+
+                                    'nal, meaning that there are questions relating to each course on each of the pa'+
+                                    'pers. Students can decide for themselves the number of courses they wish to rev'+
+                                    'ise for examinations; some students revise a wide range of courses and others p'+
+                                    'refer to revise a small number very thoroughly. </p> <p style="color: rgb(99, 9'+
+                                    '9, 99); font-size: 14px;"> Students are classed (first class, upper second clas'+
+                                    's, lower second class, third class) in each part of the Tripos, but no attempt '+
+                                    'is made to give an overall class. For Part II, the traditional name of Wrangler'+
+                                    ' is given to anyone in the first class. This derives from the ancient form of t'+
+                                    'he examination, which was not written but took the form of a dispute or &quot;w'+
+                                    'rangle&quot;. The practice of ranking all the candidates, the top candidate bei'+
+                                    'ng the Senior Wrangler, was abandoned in 1909. </p> </div> <div id="footer" sty'+
+                                    'le="clear: both; padding: 0px; margin: 0px;"><div id="footerBox" style="backgro'+
+                                    'und: -moz-linear-gradient(center top , rgb(249, 249, 249), rgb(240, 240, 238)) '+
+                                    'repeat scroll 0% 0% transparent;"><p style="color: rgb(110, 110, 110); padding:'+
+                                    ' 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: unde'+
+                                    'rline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div style='+
+                                    '"float: left; width: 190px; height: 250px; padding: 0pt 0px 0pt 20px;"> <img sr'+
+                                    'c="/dev/images/worldtemplates/math/building_fisheye.png" alt=""> </div> <div style="padding: '+
+                                    '0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); font-size: 1.4em; font-'+
+                                    'weight: normal;">Apply to Join Elementary Calculus</h1> <p style="color: rgb(11'+
+                                    '0, 110, 110); font-size: 14px;"> You&quot;ll apply to Admissions Office Main Si'+
+                                    'te, A portal leading to sites for undergraduate, transfer, and graduate admissi'+
+                                    'ons, and professional (non-degree) programs. The Centre sends your information '+
+                                    'to the University of Waterloo. The Faculty of Mathematics will send you an emai'+
+                                    'l acknowledging receipt of your application, usually within 3 weeks of receivin'+
+                                    'g your application. </p> <p style="color: rgb(110, 110, 110); font-size: 14px;"'+
+                                    '> AFTER YOU HAVE APPLIED </p> <div style="padding-left: 0px;"> <ul style="color'+
+                                    ': rgb(110, 110, 110); font-size: 14px; margin: 5px 5px 20px 0pt; padding: 0pt 0'+
+                                    'pt 0pt 220px;"><li> You&quot;ll be asked to complete an Admission Information F'+
+                                    'orm (AIF). Please note that a completed AIF is now required for admission. </li'+
+                                    '><li style="padding: 10px 0pt 0pt;"> Arrange to have your grades and, in some c'+
+                                    'ases, course descriptions sent to us. </li><li style="padding: 10px 0pt;"> Afte'+
+                                    'r you&quot;ve applied, stay informed about important dates and deadlines and wh'+
+                                    'at comes next in the admissions process at the next step website. </li></ul> </'+
+                                    'div> </div> </div> <h2 style="margin: 30px 0pt 10px; color: rgb(102, 102, 102);'+
+                                    ' font-size: 17px; font-weight: bold;">Alumni</h2> <div style="margin: 0pt 0pt 2'+
+                                    '0px;"> <div style="width: 177px; float: left; margin-right: 8px; display: block'+
+                                    ';"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px '+
+                                    '15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-he'+
+                                    'ight: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but af'+
+                                    'ter a weeks intensive tutoring I&quot;d fully grasped the basics and was able t'+
+                                    'o progress onto the more advanced Problem Sets" </p> </div> <div style="float: '+
+                                    'left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; pa'+
+                                    'dding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="colo'+
+                                    'r: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20px'+
+                                    ' 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> <div style="width: '+
+                                    '177px; float: left; margin-right: 8px; display: block;"> <div style="background'+
+                                    '-color: rgb(213, 238, 241); -moz-border-radius: 15px 15px 15px 15px;"> <p style'+
+                                    '="color: rgb(110, 110, 110); font-size: 14px; line-height: 1.2em; padding: 20px'+
+                                    ';"> "Calculus had always been an issue with me but after a weeks intensive tuto'+
+                                    'ring I&quot;d fully grasped the basics and was able to progress onto the more a'+
+                                    'dvanced Problem Sets" </p> </div> <div style="float: left;"> <h4 style="color: '+
+                                    'rgb(48, 132, 186); font-weight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; f'+
+                                    'ont-size: 14px;">Peter Anderson,</h4> <h4 style="color: rgb(110, 110, 110); fon'+
+                                    't-weight: normal; margin: 0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Ca'+
+                                    'clulus student</h4> </div> </div> <div style="width: 177px; float: left; margin'+
+                                    '-right: 8px; display: block;"> <div style="background-color: rgb(213, 238, 241)'+
+                                    '; -moz-border-radius: 15px 15px 15px 15px;"> <p style="color: rgb(110, 110, 110'+
+                                    '); font-size: 14px; line-height: 1.2em; padding: 20px;"> "Calculus had always b'+
+                                    'een an issue with me but after a weeks intensive tutoring I&quot;d fully graspe'+
+                                    'd the basics and was able to progress onto the more advanced Problem Sets" </p>'+
+                                    ' </div> <div style="float: left;"> <h4 style="color: rgb(48, 132, 186); font-we'+
+                                    'ight: bold; margin: 0pt; padding: 5px 20px 0pt 0pt; font-size: 14px;">Peter And'+
+                                    'erson,</h4> <h4 style="color: rgb(110, 110, 110); font-weight: normal; margin: '+
+                                    '0pt; padding: 0pt 20px 20px 0pt; font-size: 14px;">Caclulus student</h4> </div>'+
+                                    ' </div> <div style="width: 177px; float: left; margin-right: 0px; display: bloc'+
+                                    'k;"> <div style="background-color: rgb(213, 238, 241); -moz-border-radius: 15px'+
+                                    ' 15px 15px 15px;"> <p style="color: rgb(110, 110, 110); font-size: 14px; line-h'+
+                                    'eight: 1.2em; padding: 20px;"> "Calculus had always been an issue with me but a'+
+                                    'fter a weeks intensive tutoring I&quot;d fully grasped the basics and was able '+
+                                    'to progress onto the more advanced Problem Sets" </p> </div> <div style="float:'+
+                                    ' left;"> <h4 style="color: rgb(48, 132, 186); font-weight: bold; margin: 0pt; p'+
+                                    'adding: 5px 20px 0pt 0pt; font-size: 14px;">Peter Anderson,</h4> <h4 style="col'+
+                                    'or: rgb(110, 110, 110); font-weight: normal; margin: 0pt; padding: 0pt 20px 20p'+
+                                    'x 0pt; font-size: 14px;">Caclulus student</h4> </div> </div> </div> </div> </di'+
+                                    'v>'
+                                },
+                                "${refid}11": {
+                                    page: '<div style="font-family: Arial,Helvetica,sans-serif;"> <div id="header"> <h1 s'+
+                                    'tyle="color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 15px; font-w'+
+                                    'eight: normal;">Prospective students</h1> <hr style="color: rgb(255, 0, 0); bac'+
+                                    'kground-color: rgb(232, 232, 232); border: 0pt none; height: 5px;"> <h2 style="'+
+                                    'color: rgb(102, 102, 102); font-size: 22px; margin: 20px 0pt 10px; padding: 0pt'+
+                                    '; font-weight: normal;">Campus life</h2> <div id="widgetHolder" style="margin: '+
+                                    '0pt; padding: 0pt; min-height: 20px; display: block; border-left: 5px solid rgb'+
+                                    '(235, 235, 235);"> </div> </div> <div id="main" style="width: 50%; float: left;'+
+                                    ' background: none repeat scroll 0% 0% rgb(255, 255, 255); margin-top: 20px;"> <'+
+                                    'p style="color: rgb(66, 66, 66); font-size: 18px; line-height: 20px; padding: 0'+
+                                    'pt 0pt 15px; margin: 0pt;"> With thousands of lectures, conferences, and cultur'+
+                                    'al events being created by and open to the community each year. Intellectual st'+
+                                    'imulation is inescapable. </p> <p style="color: rgb(99, 99, 99); font-size: 14p'+
+                                    'x;"> Recent lectures include Modern Optics and Spectroscopy; The Perilous Earth'+
+                                    ': Understanding Natural Hazards; What&quot;s the Matter with Antimatter?; Infor'+
+                                    'mation and Decision Systems colloquium; and an architecture lecture on Transgre'+
+                                    'ssions. </p> <h2 style="color: rgb(102, 102, 102); font-size: 22px; margin: 20p'+
+                                    'x 0pt 15px; font-weight: normal;">Activities</h2> <p style="color: rgb(99, 99, '+
+                                    '99); font-size: 14px;"> There is much more to an education than study and resea'+
+                                    'rch in classrooms and laboratories. Numerous activities and services are availa'+
+                                    'ble that complement academic pursuits and provide opportunities for students to'+
+                                    ' grow and develop new interests. This section describes just a few of the activ'+
+                                    'ities that define campus life. </p> <p style="color: rgb(99, 99, 99); font-size'+
+                                    ': 14px;"> There are more than 400 co-curricular student organizations at MIT (m'+
+                                    'any open to both faculty and students), including the Outing Club, the Solar El'+
+                                    'ectric Vehicle Team, the Debate Team, the FM local broadcasting station (WMBR),'+
+                                    ' the MIT Society for Women Engineers, the Student Art Association, Model UN, Ci'+
+                                    'rcle K, the Black Students&quot; Union, the Latino Cultural Center, the Asian A'+
+                                    'merican Association, and the South Asian American Students Association. </p> <p'+
+                                    ' style="color: rgb(99, 99, 99); font-size: 14px;"> Many students are actively e'+
+                                    'ngaged in service work either through the Public Service Center or on their own'+
+                                    '. Groups such as the Intrafraternity Council and Alpha Phi Omega, the national '+
+                                    'service fraternity, Share a Vital Earth, and Educational Studies Program sponso'+
+                                    'r active social service programs. For example, the Educational Studies Program '+
+                                    'provides opportunities for MIT students to work with area high school students.'+
+                                    ' </p> <p style="color: rgb(99, 99, 99); font-size: 14px;"> MIT also has a numbe'+
+                                    'r of groups oriented toward different backgrounds and lifestyles. Over 30 inter'+
+                                    'national student groups sponsor a rich array of programs, including discussion '+
+                                    'groups and social events. The International Students&quot; Association sponsors'+
+                                    ' a newsletter, assemblies, and other events. MIT has an active organization of '+
+                                    'Gays, Lesbians, Bisexuals and Friends at MIT (GAMIT), which organizes weekly aw'+
+                                    'areness programs and discussion groups, and sponsors social events throughout t'+
+                                    'he year. The Technology Community Women (TCW) is composed of spouses of MIT stu'+
+                                    'dents, undergraduate as well as graduate, and sponsors monthly programs as a so'+
+                                    'cial and service organization. Other interest groups focus on bridge, chess, ha'+
+                                    'm radio, and strategic games. </p> <p style="color: rgb(99, 99, 99); font-size:'+
+                                    ' 14px; margin-top: 40px;"> For more information, contact the Association of Stu'+
+                                    'dent Activities, Room W20-401, see the ASA website at http://web.mit.edu/asa/ww'+
+                                    'w/, or contact the Student Activities Office, Room W20-549, 617-253-6777. </p> '+
+                                    '</div> <div id="sidebar" style="float: left; margin-left: 10px; width: 20%; mar'+
+                                    'gin-top: 20px; background: none repeat scroll 0% 0% rgb(210, 235, 239); -moz-bo'+
+                                    'rder-radius: 6px 6px 6px 6px;"> <div style="padding: 0pt 0pt 20px;"> <div style'+
+                                    '="padding: 0pt 15px;"> <h2 style="color: rgb(102, 102, 102); font-size: 22px; m'+
+                                    'argin: 20px 0pt 10px; font-weight: normal;">Student Profile</h2> <h4 style="col'+
+                                    'or: rgb(48, 132, 186); padding: 0pt; margin: 0pt; font-size: 14px;">Mike Learne'+
+                                    'r</h4> <h5 style="color: rgb(110, 110, 110); margin: 0pt; padding: 0pt; font-we'+
+                                    'ight: normal; font-size: 14px; line-height: 1.2em;">2nd year Calculus Student</'+
+                                    'h5> <p style="font-style: italic; color: rgb(102, 102, 102); font-size: 13px; l'+
+                                    'ine-height: 17px;"> "I chose to study maths at university because, whilst I enj'+
+                                    'oyed each of my A-level subjects, it was the only one that I could see myself s'+
+                                    'tudying for three or four years. One of the major benefits of Oxford&quot;s mat'+
+                                    'hs course is that you don&quot;t have to decide how long you want to stay for u'+
+                                    'ntil your third year. This enables you to make an informed decision, as I found'+
+                                    ' maths at university different to anything I&quot;d done before. </p> <p style='+
+                                    '"font-style: italic; color: rgb(102, 102, 102); font-size: 13px; line-height: 1'+
+                                    '7px;"> "The thing I&quot;ve enjoyed most about my experience of Oxford is meeti'+
+                                    'ng a wide variety of new people. University gives you an opportunity to sociali'+
+                                    'se and work with people from a huge spectrum of backgrounds. I&quot;m not too s'+
+                                    'ure what I&quot;d like the future to hold, but I&quot;m sure that the training '+
+                                    'I&quot;ve had here will stand me in good stead." </p> <img src="/dev/images/worldtemplates/'+
+                                    'math/mike.jpg" alt=""> </div> </div> </div> <div id="footer" style="cle'+
+                                    'ar: both; padding: 20px 0pt 0pt; margin: 0pt;"> <div id="footerBox" style="back'+
+                                    'ground: -moz-linear-gradient(center top , rgb(249, 249, 249), rgb(240, 240, 238'+
+                                    ')) repeat scroll 0% 0% transparent;"> <p style="color: rgb(110, 110, 110); padd'+
+                                    'ing: 30px 0pt 0pt 20px;">Apply to one or more of <span style="text-decoration: '+
+                                    'underline;">11 entry programs</span> in the Faculty of Mathematics.</p> <div st'+
+                                    'yle="float: left; height: 250px; margin: 0pt 0px 0pt 20px;"> <img style="margin'+
+                                    ': 0pt 20px 0pt 0pt;" src="/dev/images/worldtemplates/math/building_fisheye.png" alt=""> </div'+
+                                    '> <div style="padding: 0pt 30px 40px 0pt;"> <h1 style="color: rgb(56, 56, 62); '+
+                                    'font-size: 1.4em; font-weight: normal;">Apply to Join Elementary Calculus</h1> '+
+                                    '<p style="color: rgb(110, 110, 110); font-size: 14px;"> You&quot;ll apply to Ad'+
+                                    'missions Office Main Site, A portal leading to sites for undergraduate, transfe'+
+                                    'r, and graduate admissions, and professional (non-degree) programs. The Centre '+
+                                    'sends your information to the University of Waterloo. The Faculty of Mathematic'+
+                                    's will send you an email acknowledging receipt of your application, usually wit'+
+                                    'hin 3 weeks of receiving your application. </p> <p style="color: rgb(110, 110, '+
+                                    '110); font-size: 14px;"> AFTER YOU HAVE APPLIED </p> <div style="padding-left: '+
+                                    '0px;"> <ul style="color: rgb(110, 110, 110); font-size: 14px; margin: 5px 5px 2'+
+                                    '0px 0pt; padding: 0pt 0pt 0pt 20px;"><li> You&quot;ll be asked to complete an A'+
+                                    'dmission Information Form (AIF). Please note that a completed AIF is now requir'+
+                                    'ed for admission. </li><li style="padding: 10px 0pt;"> Arrange to have your gra'+
+                                    'des and, in some cases, course descriptions sent to us. </li><li style="padding'+
+                                    ': 10px 0pt;"> After you&quot;ve applied, stay informed about important dates an'+
+                                    'd deadlines and what comes next in the admissions process at the next step webs'+
+                                    'ite. </li></ul> </div> </div> </div> </div> </div>'
+                                },
+                                "${refid}12": {
+                                    page: '<p> </p><p style="margin: 20px 0pt; font-size: 1.75em; color: rgb(51, 51, 51);'+
+                                    ' line-height: 1.25em;" data-mce-style="margin: 20px 0pt; font-size: 1.75em; col'+
+                                    'or: #333333; line-height: 1.25em;">Department of mathematics</p><p style="margi'+
+                                    'n: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 102);" dat'+
+                                    'a-mce-style="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: #66666'+
+                                    '6;">EC enquiries number: 617.253.4381</p><p style="margin: 5px 0pt 20px; color:'+
+                                    ' rgb(102, 102, 102);" data-mce-style="margin: 5px 0pt 20px; color: #666666;">Po'+
+                                    'stal address: Building 2, Room 236, 77 Massachusetts Avenue, Cambridge, MA 0213'+
+                                    '9-4307 Date: Day ##th Month<br>Location: <a style="color: rgb(38, 131, 188); te'+
+                                    'xt-decoration: none;" data-mce-style="color: #2683bc; text-decoration: none;">B'+
+                                    'uilding, Lecture Hall</a><br data-mce-bogus="1"></p><hr style="visibility: hidd'+
+                                    'en; clear: both;" data-mce-style="visibility: hidden; clear: both;"><p style="c'+
+                                    'olor: rgb(102, 102, 102); font-size: 1em;" data-mce-style="color: #666666; font'+
+                                    '-size: 1em;"><img id="widget_googlemaps_${refid}13" class="widget_inline" style'+
+                                    '="display: block; padding: 10px; margin: 4px;" src="/devwidgets/googlemaps/imag'+
+                                    'es/googlemaps.png" data-mce-src="/devwidgets/googlemaps/images/googlemaps.png" '+
+                                    'data-mce-style="display: block; padding: 10px; margin: 4px;" border="1"><br></p'+
+                                    '><p><br style="color: rgb(38, 131, 188); text-decoration: none; font-weight: bo'+
+                                    'ld;" target="_blank" data-mce-style="color: #2683bc; text-decoration: none; fon'+
+                                    't-weight: bold;"></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p>'+
+                                    '<br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><b'+
+                                    'r></p><p><br></p><p><br></p>'
+                                },
+                                "${refid}13": {
+                                    googlemaps: {
+                                        "mapinput": "Building 2, Room 236, 77 Massachusetts Avenue, Cambridge, MA",
+                                        "mapzoom": 14,
+                                        "mapsize": "LARGE",
+                                        "sakai:indexed-fields": "mapinput,maphtml",
+                                        "lng": -71.09096829999999,
+                                        "sling:resourceType": "sakai/widget-data",
+                                        "maphtml": "77 Massachusetts Ave #236, Cambridge, MA 02139, USA",
+                                        "lat": 42.35804050000001
+                                    }
                                 }
                             },
                             "${pid}4": {
                                 structure0: {
-                                    "studentwiki":{
-                                        "_ref":"id849031890418",
+                                    "organizationnotes":{
+                                        "_ref":"${refid}14",
                                         "_order":0,
-                                        "_title":"Student Wiki",
+                                        "_title":"Organization Notes",
                                         "main":{
-                                            "_ref":"id849031890418",
+                                            "_ref":"${refid}14",
                                             "_order":0,
                                             "_title":"Organization Notes"
                                         }
                                     }
                                 },
-                                "id849031890418": {
-                                    page: "<p>Student wiki editable by all members of this course<br></p>"
+                                "${refid}14": {
+                                    page: '<div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 100%; font'+
+                                    '-family: Arial,Helvetica,sans-serif; color: rgb(51, 51, 51); font-size: 1em;"> '+
+                                    '<div class="leftCol" style="float: left; margin: 0pt; padding: 0pt; display: bl'+
+                                    'ock; width: 30%; font-size: 0.85em; line-height: 1.25em;"> <p style="margin: 10'+
+                                    'px 0pt 0pt; font-size: 1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Or'+
+                                    'ganizational Notes</p> <p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102'+
+                                    ');">Date: 15th January 2012</p> </div> <div class="rightCol" style="float: left'+
+                                    '; margin: 0pt 20px 0pt 0pt; display: block; width: 60%;"> <hr style="visibility'+
+                                    ': hidden; clear: both;"> <div class="entryCol" style="padding: 0pt; margin: 10p'+
+                                    'x 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 102);">Course lectures'+
+                                    '</p> <p style="margin: 10px 0pt 5px;">Ensure that we keep all lecture content g'+
+                                    'oing through at least 3 weeks ahead of our current week.</p> <p style="margin: '+
+                                    '0pt 0pt 5px;">Videos for each lecture need to go into the Lecture page 24hours '+
+                                    'after each (so I have time to ensure they are ok).</p> </div> <hr style="visibi'+
+                                    'lity: hidden; clear: both;"> <hr style="clear: both; margin: 10px 0pt 5px; padd'+
+                                    'ing: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 229); borde'+
+                                    'r: 2px solid rgb(229, 229, 229);"> <div class="entryCol" style="padding: 0pt; m'+
+                                    'argin: 10px 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 102);">Cours'+
+                                    'e problem sets</p> <p style="margin: 10px 0pt 5px;">Ensure that we have problem'+
+                                    ' sets ready for each week at least 3 weeks ahead of our current week.</p> <p st'+
+                                    'yle="margin: 0pt 0pt 5px;">Please keep track of the due dates and run them past'+
+                                    ' me before adding them to the lecture pages and the outline.</p> </div> <hr sty'+
+                                    'le="visibility: hidden; clear: both;"> <hr style="clear: both; margin: 10px 0pt'+
+                                    ' 5px; padding: 0pt; width: 100%; height: 5px; background-color: rgb(229, 229, 2'+
+                                    '29); border: 2px solid rgb(229, 229, 229);"> <div class="entryCol" style="paddi'+
+                                    'ng: 0pt; margin: 10px 0pt 0pt;"> <p style="margin: 0pt; color: rgb(102, 102, 10'+
+                                    '2);">Course midterms</p> <p style="margin: 10px 0pt 5px;"><a style="color: rgb('+
+                                    '38, 131, 188); font-weight: bold; text-decoration: none;">I&quot;ve started the'+
+                                    ' first midterm</a>, please have a look and comment if you see any discrepancies'+
+                                    '</p> <p style="margin: 0pt 0pt 5px;">Please keep track of the due dates and run'+
+                                    ' them past me before adding them to the <a style="color: rgb(38, 131, 188); fon'+
+                                    't-weight: bold; text-decoration: none;">lecture pages</a> and <a style="color: '+
+                                    'rgb(38, 131, 188); font-weight: bold; text-decoration: none;">the outline</a>.<'+
+                                    '/p> </div> <hr style="visibility: hidden; clear: both;"> </div> <hr style="visi'+
+                                    'bility: hidden; clear: both;"> </div>'
+                                }
+                            },
+                            "${pid}5": {
+                                structure0: {
+                                    "lecturetemplate":{
+                                        "_ref": "${refid}15",
+                                        "_order":0,
+                                        "_title":"Lecture Template",
+                                        "main":{
+                                            "_ref":"${refid}15",
+                                            "_order":0,
+                                            "_title":"Lecture Template"
+                                        }
+                                    }
+                                },
+                                "${refid}15": {
+                                    "page": '<p> </p><div class="mainContainer" style="margin: 0pt; padding: 0pt; width: 10'+
+                                    '0%; font-family: Arial,Helvetica,sans-serif;"> <div class="leftCol" style="floa'+
+                                    't: left; margin: 0pt; padding: 0pt 20px 0pt 0pt; display: block; width: 30%; fo'+
+                                    'nt-size: 0.85em; line-height: 1.25em;"> <p style="margin: 20px 0pt; font-size: '+
+                                    '1.75em; color: rgb(51, 51, 51); line-height: 1.25em;">Week ##: Title</p> <p sty'+
+                                    'le="margin: 0pt; font-size: 1.45em; line-height: 1.25em; color: rgb(102, 102, 1'+
+                                    '02);">Lecture 0#</p> <p style="margin: 5px 0pt 20px; color: rgb(102, 102, 102);'+
+                                    '">Date: Day ##th Month<br>Location: <a style="color: rgb(38, 131, 188); text-de'+
+                                    'coration: none;">Building, Lecture Hall</a></p> </div> <div class="rightCol" st'+
+                                    'yle="float: left; margin: 0pt; display: block; width: 60%;"> <div class="rightC'+
+                                    'ol" style="margin: 20px 0pt 0pt; padding: 10px 20px; color: rgb(102, 102, 102);'+
+                                    ' font-size: 1em; background: -moz-linear-gradient(center top , rgb(244, 243, 24'+
+                                    '2), rgb(230, 230, 227)) repeat scroll 0% 0% transparent;"> <p>Post-lecture mate'+
+                                    'rials/video will be displayed here 48 hrs after each lecture</p> </div> <hr sty'+
+                                    'le="visibility: hidden; clear: both;"> <div class="entryCol" style="padding: 0p'+
+                                    't; margin: 10px 0pt 0pt;"> <p style="color: rgb(102, 102, 102); font-size: 1em;'+
+                                    '">The following is to be covered in this lecture:</p> <ol style="margin: 10px 0'+
+                                    'pt 0pt; padding: 0pt 0pt 0pt 20px; color: rgb(51, 51, 51); font-size: 0.85em; f'+
+                                    'ont-weight: bold;"><li>Topic one</li><li>Topic two...</li></ol> <p style="color'+
+                                    ': rgb(51, 51, 51); font-size: 0.85em;">Lecture notes</p> </div> <hr style="visi'+
+                                    'bility: hidden; clear: both;"> <div class="entryCol" style="padding: 10px 0pt 0'+
+                                    'pt; margin: 10px 0pt 0pt; border-top: 3px solid rgb(229, 229, 229);"> <p style='+
+                                    '"color: rgb(102, 102, 102); font-size: 1em;">Reading material</p> <p style="mar'+
+                                    'gin: 0pt; padding: 0pt;"><a target="_blank" style="color: rgb(38, 131, 188); te'+
+                                    'xt-decoration: none; font-weight: bold;">Text book/reference material</a></p> <'+
+                                    'p style="margin: 0pt; padding: 0pt; color: rgb(51, 51, 51);">Author/creator</p>'+
+                                    ' <hr style="visibility: hidden; clear: both;"> <div class="beforeClassContainer'+
+                                    '" style="margin: 5px 0pt 10px; padding: 10px 10px 0pt; background-color: rgb(22'+
+                                    '9, 229, 229); font-size: 0.85em;"> <span style="float: left; margin: 0pt 0pt 10'+
+                                    'px; padding: 2px 0pt 2px 8px; width: 99%; background-color: rgb(255, 255, 255);'+
+                                    ' color: rgb(153, 153, 153);">Before class</span> <p style="margin: 20px 0pt 0pt'+
+                                    ' 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;">Read</p> <p '+
+                                    'style="margin: 2px 0pt 0pt 5px; padding: 0pt; color: rgb(51, 51, 51);">Chapters'+
+                                    ': ##</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt; list-style: none outs'+
+                                    'ide none;"><a style="color: rgb(38, 131, 188); text-decoration: none; font-weig'+
+                                    'ht: bold;">Chapter one</a></p> <p style="margin: 2px 0pt 0pt 5px; padding: 0pt;'+
+                                    ' list-style: none outside none;"><a style="color: rgb(38, 131, 188); text-decor'+
+                                    'ation: none; font-weight: bold;">Chapter two...</a></p> <p style="margin: 10px '+
+                                    '0pt 0pt 5px; padding: 0pt; color: rgb(102, 102, 102); font-weight: bold;">Compl'+
+                                    'ete the following excerises:</p> <p style="margin: 2px 0pt 0pt 5px; padding: 0p'+
+                                    't; color: rgb(51, 51, 51);">Excersise one</p> <p style="margin: 2px 0pt 0pt 5px'+
+                                    '; padding: 0pt; color: rgb(51, 51, 51);">Excersise two...</p> <hr style="visibi'+
+                                    'lity: hidden; clear: both;"> </div> </div> </div> </div>'
                                 }
                             }
                         },
@@ -2003,61 +2883,68 @@ define(function(){
                                 "_view": ["everyone", "-student", "-ta"],
                                 "_edit": ["-lecturer"]
                             },
-                            "contactus": {
-                                "_title": "Contact us",
+                            "lectures": {
+                                "_title": "Lectures",
                                 "_order": 1,
                                 "_docref": "${pid}1",
                                 "_view": ["-student"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
-                            "coursewebsite": {
-                                "_title": "Course website",
+                            "problemsets": {
+                                "_title": "Problem sets",
                                 "_order": 2,
                                 "_docref": "${pid}2",
-                                "_view": ["everyone", "anonymous"],
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "coursewebsite": {
+                                "_title": "Course website",
+                                "_order": 3,
+                                "_docref": "${pid}3",
+                                "_view": ["-student", "everyone", "anonymous"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
                             "organizationnotes": {
                                 "_title": "Organization Notes",
-                                "_order": 3,
-                                "_docref": "${pid}3",
+                                "_order": 4,
+                                "_docref": "${pid}4",
                                 "_view": ["-ta"],
                                 "_edit": ["-lecturer"]
                             },
-                            "studentwiki": {
-                                "_title": "Student Wiki",
-                                "_order": 4,
-                                "_docref": "${pid}4",
-                                "_view": [],
-                                "_edit": ["-lecturer", "-ta", "-student"]
+                            "lecturetemplate": {
+                                "_title": "Lecture Template",
+                                "_order": 5,
+                                "_docref": "${pid}5",
+                                "_view": ["-ta"],
+                                "_edit": ["-lecturer"]
                             }
                         },
                         joinRole: "student",
                         creatorRole: "lecturer"
                     },
                     {
-                        id: "medicalscience",
-                        title: "Medical science course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
+                        id: "basiccourse",
+                        title: "__MSG__BASIC_COURSE__",
+                        img: "/dev/images/worldtemplates/basiccourse.png",
+                        fullImg: "/dev/images/worldtemplates/basiccourse-full.png",
+                        perfectFor: "__MSG__BASIC_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -2065,22 +2952,25 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2089,22 +2979,25 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2117,307 +3010,16 @@ define(function(){
                                 "_order": 0,
                                 "_docref": "${pid}0",
                                 "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
+                                "_view": ["everyone", "anonymous", "-student"],
+                                "_edit": ["-ta", "-lecturer"]
                             },
                             "participants": {
                                 "_title": "Participants",
                                 "_order": 1,
                                 "_docref": "${pid}1",
                                 "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "physicscourse",
-                        title: "Physics course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "engineeringcourse",
-                        title: "Engineering course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            }
-                        },
-                        joinRole: "student",
-                        creatorRole: "lecturer"
-                    },
-                    {
-                        id: "humanitiescourse",
-                        title: "Humanities course",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Science courses, Chemistry, Mathematics, Equations, Theoretical Science, Experiment based learning courses",
-                        roles: [
-                            {
-                                id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
-                                allowManage: false
-                            },
-                            {
-                                id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
-                                allowManage: true
-                            },
-                            {
-                                id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
-                                allowManage: true
-                            }
-                        ],
-                        docs: {
-                            "${pid}0": {
-                                structure0: {
-                                    "library":{
-                                        "_ref":"id9867543247",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title": "Library",
-                                        "main":{
-                                            "_ref":"id9867543247",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Library"
-                                        }
-                                    }
-                                },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id1367865652332": {
-                                    mylibrary: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            },
-                            "${pid}1": {
-                                structure0: {
-                                    "participants":{
-                                        "_ref":"id6573920372",
-                                        "_order":0,
-                                        "_nonEditable": true,
-                                        "_title":"Participants",
-                                        "main":{
-                                            "_ref":"id6573920372",
-                                            "_order":0,
-                                            "_nonEditable": true,
-                                            "_title":"Participants"
-                                        }
-                                    }
-                                },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
-                                },
-                                "id439704665": {
-                                    participants: {
-                                        "groupid": "${groupid}"
-                                    }
-                                }
-                            }
-                        },
-                        structure: {
-                            "library": {
-                                "_title": "Library",
-                                "_order": 0,
-                                "_docref": "${pid}0",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
-                            },
-                            "participants": {
-                                "_title": "Participants",
-                                "_order": 1,
-                                "_docref": "${pid}1",
-                                "_nonEditable": true,
-                                "_view": ["everyone", "anonymous", "-lurker"],
-                                "_edit": ["-participant"]
+                                "_view": ["everyone", "anonymous", "-student"],
+                                "_edit": ["-ta", "-lecturer"]
                             }
                         },
                         joinRole: "student",
@@ -2432,39 +3034,39 @@ define(function(){
                 templates: [
                     {
                         id: "researchproject",
-                        title: "Research project",
+                        title: "__MSG__RESEARCH_PROJECT__",
                         img: "/dev/images/worldtemplates/researchgroup-full.png",
                         fullImg: "/dev/images/worldtemplates/research_tempate.png",
-                        perfectFor: "Research Projects, Collaborative student projects, Class projects, Reading clubs",
+                        perfectFor: "__MSG__RESEARCH_PROJECT_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "leadresearcher",
-                                roleTitle: "Lead researchers",
-                                title: "Lead researcher",
+                                roleTitle: "__MSG__LEAD_RESEARCHERS__",
+                                title: "__MSG__LEAD_RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researcher",
-                                roleTitle: "Researchers",
-                                title: "Researcher",
+                                roleTitle: "__MSG__RESEARCHERS__",
+                                title: "__MSG__RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researchassistant",
-                                roleTitle: "Research assistants",
-                                title: "Research assistant",
+                                roleTitle: "__MSG__RESEARCH_ASSISTANTS__",
+                                title: "__MSG__RESEARCH_ASSISTANT__",
                                 allowManage: false
                             },
                             {
                                 id: "contributor",
-                                roleTitle: "Contributors",
-                                title: "Contributor",
+                                roleTitle: "__MSG__CONTRIBUTORS__",
+                                title: "__MSG__CONTRIBUTOR__",
                                 allowManage: false
                             },
                             {
                                 id: "evaluator",
-                                roleTitle: "Evaluators",
-                                title: "Evaluator",
+                                roleTitle: "__MSG__EVALUATORS__",
+                                title: "__MSG__EVALUATOR__",
                                 allowManage: false
                             }
                         ],
@@ -2472,39 +3074,67 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "introduction":{
-                                        "_ref": "id7109843181",
+                                        "_ref": "${refid}0",
                                         "_order": 0,
                                         "_title": "Introduction",
                                         "main":{
-                                            "_ref":"id7109843181",
+                                            "_ref":"${refid}0",
                                             "_order": 0,
                                             "_title": "Introduction"
                                         }
                                     }
                                 },
-                                "id7109843181": {
-                                    page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0; width: 30%; display: block;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>Research Introduction</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><div style='float: right; margin: 0; padding: 20px 0 0 0; width:60%; display: block;'><p style='margin: 0 0 10px 0;'>Introduction text...</p><ul style='margin: 0 0 20px -15px; padding: 0 0 0 15px; list-style: none;'><p style=''><strong>Investigators:</strong></p><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li><li><a href='#' target='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li></ul></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Benefit</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>The benefit of this research...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; width: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Scope</strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'>We intend to study...</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /></div>"
+                                "${refid}0": {
+                                    page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, "+
+                                    "sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='floa"+
+                                    "t: left; margin: 0; padding: 20px 0 0 0; width: 30%; display: block;'><p style="+
+                                    "'margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>Researc"+
+                                    "h Introduction</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; "+
+                                    "color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informati"+
+                                    "ve detail</p></div><div style='float: right; margin: 0; padding: 20px 0 0 0; wi"+
+                                    "dth:60%; display: block;'><p style='margin: 0 0 10px 0;'>Introduction text...</"+
+                                    "p><ul style='margin: 0 0 20px -15px; padding: 0 0 0 15px; list-style: none;'><p"+
+                                    " style=''><strong>Investigators:</strong></p><li><a href='#' target='_blank' st"+
+                                    "yle='color: #2683bc;'><strong>Name</strong></a> - Title</li><li><a href='#' tar"+
+                                    "get='_blank' style='color: #2683bc;'><strong>Name</strong></a> - Title</li></ul"+
+                                    "></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; "+
+                                    "height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div st"+
+                                    "yle='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; w"+
+                                    "idth: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Benefit<"+
+                                    "/strong></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; dis"+
+                                    "play: block;'><p style='margin: 0;'>The benefit of this research...</p></div></"+
+                                    "div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; hei"+
+                                    "ght: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style"+
+                                    "='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; widt"+
+                                    "h: 30%; display: block;'><p style='margin: 0; color: #666;'><strong>Scope</stro"+
+                                    "ng></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display:"+
+                                    " block;'><p style='margin: 0;'>We intend to study...</p></div></div><hr style='"+
+                                    "clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; backg"+
+                                    "round-color: #e5e5e5; border:none; color: #e5e5e5;' /></div>"
                                 }
                             },
                             "${pid}1": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}1",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}1",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}1": {
+                                    page: "<img id='widget_mylibrary_${refid}2' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}2": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2513,22 +3143,25 @@ define(function(){
                             "${pid}2": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}3",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}3",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}3": {
+                                    page: "<img id='widget_participants_${refid}4' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}4": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }
@@ -2537,18 +3170,82 @@ define(function(){
                             "${pid}3": {
                                 structure0: {
                                     "references": {
-                                        "_ref":"id3468294321",
+                                        "_ref":"${refid}5",
                                         "_order":0,
                                         "_title":"References",
                                         "main": {
-                                            "_ref":"id3468294321",
+                                            "_ref":"${refid}5",
                                             "_order":0,
-                                            "_title":"References" 
+                                            "_title":"References"
                                         }
                                     }
                                 },
-                                "id3468294321": {
-                                    page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, sans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float: left; margin: 0; padding: 20px 0 0 0;'><p style='margin: 0 0 10px 0; font-size: 1.75em; line-height: 1em; color: #333;'>References</p><p style='margin: 0 0 20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='margin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publication or reference title or name</strong></a></p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div></div></div>"
+                                "${refid}5": {
+                                    page: "<div style='margin: 0; padding: 0; width: 100%; font-family:Arial, Helvetica, s"+
+                                    "ans-serif; line-height: 1.25em; color: #333; font-size: 1em;'><div style='float"+
+                                    ": left; margin: 0; padding: 20px 0 0 0;'><p style='margin: 0 0 10px 0; font-siz"+
+                                    "e: 1.75em; line-height: 1em; color: #333;'>References</p><p style='margin: 0 0 "+
+                                    "20px 0; padding: 0; font-size: 1.25em; color: #666;'>Sub-title</p><p style='mar"+
+                                    "gin: 0 0 20px 0; padding: 0;'>Informative detail</p></div><hr style='clear: bot"+
+                                    "h; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; background-colo"+
+                                    "r: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; "+
+                                    "width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px 0; width: 3"+
+                                    "0%; display: block;'><p style='margin: 0; padding: 0; color: #666; font-size: 1"+
+                                    "em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en.wikipedia."+
+                                    "org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Wa"+
+                                    "rner</a></p></div><div style='float: right; margin: 0 0 20px 0; width: 60%; dis"+
+                                    "play: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Resea"+
+                                    "rch' target='_blank' style='color: #2683bc;'><strong>Example publication or ref"+
+                                    "erence title or name</strong></a></p><p style='margin: 0; color: #666;'>Researc"+
+                                    "h holding the torch of knowledge (1896). Library of Congress Thomas Jefferson B"+
+                                    "uilding, Washington, D.C.</p></div></div><hr style='clear: both; margin: 20px 0"+
+                                    " 20px 0; padding: 0; width: 100%; height: 5px; background-color: #e5e5e5; borde"+
+                                    "r:none; color: #e5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><di"+
+                                    "v style='float: left; margin: 0; padding: 0 0 20px 0; width: 30%; display: bloc"+
+                                    "k;'><p style='margin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><"+
+                                    "p style='margin: 0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Lev"+
+                                    "i_Warner' target='_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div"+
+                                    "><div style='float: right; margin: 0 0 20px 0; width: 60%; display: block;'><p "+
+                                    "style='margin: 0;'><a href='http://en.wikipedia.org/wiki/Research' target='_bla"+
+                                    "nk' style='color: #2683bc;'><strong>Example publication or reference title or n"+
+                                    "ame</strong></a></p><p style='margin: 0; color: #666;'>Research holding the tor"+
+                                    "ch of knowledge (1896). Library of Congress Thomas Jefferson Building, Washingt"+
+                                    "on, D.C.</p></div></div><hr style='clear: both; margin: 20px 0 20px 0; padding:"+
+                                    " 0; width: 100%; height: 5px; background-color: #e5e5e5; border:none; color: #e"+
+                                    "5e5e5;' /><div style='margin: 0; padding: 0; width: 100%;'><div style='float: l"+
+                                    "eft; margin: 0; padding: 0 0 20px 0; width: 30%; display: block;'><p style='mar"+
+                                    "gin: 0; padding: 0; color: #666; font-size: 1em;'>Author:</p><p style='margin: "+
+                                    "0; padding: 0;'><a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target="+
+                                    "'_blank' style='color: #2683bc;'>Olin Levi Warner</a></p></div><div style='floa"+
+                                    "t: right; margin: 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;"+
+                                    "'><a href='http://en.wikipedia.org/wiki/Research' target='_blank' style='color:"+
+                                    " #2683bc;'><strong>Example publication or reference title or name</strong></a><"+
+                                    "/p><p style='margin: 0; color: #666;'>Research holding the torch of knowledge ("+
+                                    "1896). Library of Congress Thomas Jefferson Building, Washington, D.C.</p></div"+
+                                    "></div><hr style='clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; "+
+                                    "height: 5px; background-color: #e5e5e5; border:none; color: #e5e5e5;' /><div st"+
+                                    "yle='margin: 0; padding: 0; width: 100%;'><div style='float: left; margin: 0; p"+
+                                    "adding: 0 0 20px 0; width: 30%; display: block;'><p style='margin: 0; padding: "+
+                                    "0; color: #666; font-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><"+
+                                    "a href='http://en.wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='c"+
+                                    "olor: #2683bc;'>Olin Levi Warner</a></p></div><div style='float: right; margin:"+
+                                    " 0 0 20px 0; width: 60%; display: block;'><p style='margin: 0;'><a href='http:/"+
+                                    "/en.wikipedia.org/wiki/Research' target='_blank' style='color: #2683bc;'><stron"+
+                                    "g>Example publication or reference title or name</strong></a></p><p style='marg"+
+                                    "in: 0; color: #666;'>Research holding the torch of knowledge (1896). Library of"+
+                                    " Congress Thomas Jefferson Building, Washington, D.C.</p></div></div><hr style="+
+                                    "'clear: both; margin: 20px 0 20px 0; padding: 0; width: 100%; height: 5px; back"+
+                                    "ground-color: #e5e5e5; border:none; color: #e5e5e5;' /><div style='margin: 0; p"+
+                                    "adding: 0; width: 100%;'><div style='float: left; margin: 0; padding: 0 0 20px "+
+                                    "0; width: 30%; display: block;'><p style='margin: 0; padding: 0; color: #666; f"+
+                                    "ont-size: 1em;'>Author:</p><p style='margin: 0; padding: 0;'><a href='http://en"+
+                                    ".wikipedia.org/wiki/Olin_Levi_Warner' target='_blank' style='color: #2683bc;'>O"+
+                                    "lin Levi Warner</a></p></div><div style='float: right; margin: 0 0 20px 0; widt"+
+                                    "h: 60%; display: block;'><p style='margin: 0;'><a href='http://en.wikipedia.org"+
+                                    "/wiki/Research' target='_blank' style='color: #2683bc;'><strong>Example publica"+
+                                    "tion or reference title or name</strong></a></p><p style='margin: 0; color: #66"+
+                                    "6;'>Research holding the torch of knowledge (1896). Library of Congress Thomas "+
+                                    "Jefferson Building, Washington, D.C.</p></div></div></div>"
                                 }
                             }
                         },
@@ -2588,22 +3285,22 @@ define(function(){
                         creatorRole: "leadresearcher"
                     },
                     {
-                        id: "bidwriting",
-                        title: "Bid writing",
-                        img: "/dev/images/worldtemplates/mathcourse.png",
-                        fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Writing a collaborative research bid",
+                        id: "researchsupport",
+                        title: "__MSG__RESEARCH_SUPPORT_GROUP__",
+                        img: "/dev/images/worldtemplates/researchsupport.png",
+                        fullImg: "/dev/images/worldtemplates/researchsupport-full.png",
+                        perfectFor: "__MSG__RESEARCH_SUPPORT_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "participant",
-                                roleTitle: "Participants",
-                                title: "Participant",
+                                roleTitle: "__MSG__PARTICIPANTS__",
+                                title: "__MSG__PARTICIPANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
-                                roleTitle: "Lurkers",
-                                title: "Lurker",
+                                roleTitle: "__MSG__LURKERS__",
+                                title: "__MSG__LURKER__",
                                 allowManage: false
                             }
                         ],
@@ -2611,22 +3308,25 @@ define(function(){
                             "${pid}0": {
                                 structure0: {
                                     "library":{
-                                        "_ref":"id9867543247",
+                                        "_ref":"${refid}0",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title": "Library",
                                         "main":{
-                                            "_ref":"id9867543247",
+                                            "_ref":"${refid}0",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Library"
                                         }
                                     }
                                 },
-                                "id9867543247": {
-                                    page: "<img id='widget_mylibrary_id1367865652332' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}0": {
+                                    page: "<img id='widget_mylibrary_${refid}1' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id1367865652332": {
+                                "${refid}1": {
                                     mylibrary: {
                                         "groupid": "${groupid}"
                                     }
@@ -2635,22 +3335,25 @@ define(function(){
                             "${pid}1": {
                                 structure0: {
                                     "participants":{
-                                        "_ref":"id6573920372",
+                                        "_ref":"${refid}2",
                                         "_order":0,
                                         "_nonEditable": true,
                                         "_title":"Participants",
                                         "main":{
-                                            "_ref":"id6573920372",
+                                            "_ref":"${refid}2",
                                             "_order":0,
                                             "_nonEditable": true,
                                             "_title":"Participants"
                                         }
                                     }
                                 },
-                                "id6573920372": {
-                                    page: "<img id='widget_participants_id439704665' class='widget_inline' style='display: block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/participants.png' data-mce-src='/devwidgets/participants/images/participants.png' data-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                "${refid}2": {
+                                    page: "<img id='widget_participants_${refid}3' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
                                 },
-                                "id439704665": {
+                                "${refid}3": {
                                     participants: {
                                         "groupid": "${groupid}"
                                     }

@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
+                type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 size: "",
@@ -75,21 +75,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "_path": result["_path"]
             };
             // set the mimetype and corresponding image
-            if(item._mimeType) {
+            if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
+            } else {
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
+                item.type_img_url = sakai.config.MimeTypes["other"].URL;
             }
 
-            // set file name without the extension
-            // be aware that links don't have an extension
-            var lastDotIndex = result["sakai:pooled-content-file-name"].lastIndexOf(".");
-            if(lastDotIndex !== -1) {
-                if (item["_mimeType"] !== "x-sakai/link") {
-                    // extension found
-                    item.name = result["sakai:pooled-content-file-name"].slice(0, lastDotIndex);
-                }
-            }
             item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
@@ -164,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var role in memberList) {
                         if (memberList[role].results.length > 0){
                             var member = memberList[role].results[0];
-                             if (member.userid){
+                             if (member.userid && member.userid !== sakai.data.me.user.userid){
                                 id = member.userid;
                                 name = sakai.api.User.getDisplayName(member);
                                 picture = sakai.api.User.getProfilePicture(member);
@@ -173,18 +167,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 name = member["sakai:group-title"];
                                 picture = sakai.api.Groups.getProfilePicture(member);
                             }
-                            newjson.entry[0].manager = member;
-                            var item = {
-                                member: {
-                                    memberId: id,
-                                    memberName: name,
-                                    memberPicture: picture,
-                                    roleName: role
-                                },
-                                group: newjson.entry[0]
-                            };
-                            $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
-                            break;
+                            if (id) {
+                                newjson.entry[0].manager = member;
+                                var item = {
+                                    member: {
+                                        memberId: id,
+                                        memberName: name,
+                                        memberPicture: picture,
+                                        roleName: role
+                                    },
+                                    group: newjson.entry[0],
+                                    sakai: sakai
+                                };
+                                $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
+                                break;
+                            }
                         }
                     }
                 }

@@ -28,15 +28,18 @@
  * @namespace
  * General utility functions
  */
-define(["jquery",
+define(
+    [
+        "jquery",
         "sakai/sakai.api.server",
         "sakai/sakai.api.l10n",
-        "/dev/configuration/config.js",
-        "/dev/configuration/config_custom.js",
-        "/dev/lib/misc/trimpath.template.js",
-        "/dev/lib/jquery/plugins/jquery.ba-bbq.js"],
-        function($, sakai_serv, sakai_l10n, sakai_conf, sakai_conf_custom) {
-    
+        "config/config_custom",
+        "misc/trimpath.template",
+        "misc/underscore",
+        "jquery-plugins/jquery.ba-bbq"
+    ],
+    function($, sakai_serv, sakai_l10n, sakai_conf) {
+
     var sakai_util = {
 
         startup : function(meData) {
@@ -201,19 +204,11 @@ define(["jquery",
                         tags.push($.trim(splitTags[index]));
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
             }
-        },
-
-        /**
-         * Util sort function used to order tags in an array
-         * in alphabetical order
-         */
-        orderTagsAlphabetically: function(a, b){
-            return a > b;
         },
 
         /**
@@ -236,7 +231,7 @@ define(["jquery",
                         tags.push(value);
                     }
                 });
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -266,7 +261,7 @@ define(["jquery",
                         }
                     }
                 }
-                tags.sort(sakai_util.orderTagsAlphabetically);
+                tags.sort(sakai_util.Sorting.naturalSort);
                 return tags;
             } else {
                 return [];
@@ -383,9 +378,11 @@ define(["jquery",
             var tagsToDelete = [];
             // determine which tags to add and which to delete
             $(newTags).each(function(i,val) {
-                val = $.trim(val.replace(/#/g,"").replace(/\s+/g, " "));
+                if (val.indexOf("directory/") !== 0) {
+                    val = newTags[i] = sakai_util.makeSafeTag($.trim(val));
+                }
                 if (val && (!currentTags || $.inArray(val,currentTags) === -1)) {
-                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
+                    if (val.length) {
                         if ($.inArray(val, tagsToAdd) < 0) {
                             tagsToAdd.push(val);
                         }
@@ -393,9 +390,11 @@ define(["jquery",
                 }
             });
             $(currentTags).each(function(i,val) {
-                val = $.trim(val).replace(/#/g,"").replace(/\s+/g, " ");
+                if (val.indexOf("directory/") !== 0) {
+                    val = currentTags[i] = sakai_util.makeSafeTag($.trim(val));
+                }
                 if (val && $.inArray(val,newTags) == -1) {
-                    if (sakai_util.Security.escapeHTML(val) === val && val.length) {
+                    if (val.length) {
                         if ($.inArray(val, tagsToDelete) < 0) {
                             tagsToDelete.push(val);
                         }
@@ -404,16 +403,23 @@ define(["jquery",
             });
             currentTags = currentTags || [];
             // determine the tags the entity has
-            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd));
+            var tags = $.unique($.merge($.merge([], currentTags), tagsToAdd)),
+                finalTags = [];
+
             $(tags).each(function(i,val) {
+                if (val.indexOf("directory/") !== 0) {
+                    val = sakai_util.makeSafeTag(val);
+                }
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
+                } else if (val && $.trim(val) !== ""){
+                    finalTags.push(val);
                 }
             });
             deleteTags(tagLocation, tagsToDelete, function() {
                 setTags(tagLocation, tagsToAdd, function(success) {
                     if ($.isFunction(callback)) {
-                        callback(success, tags);
+                        callback(success, finalTags);
                     }
                 });
             });
@@ -427,7 +433,8 @@ define(["jquery",
          * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
          * @param {String} Optional class(es) to give container div. Used to give specific mark-up to the content to avoid wrong calculations. e.g. s3d-bold 
          */
-        applyThreeDots : function(body, width, params, optClass){
+        applyThreeDots : function(body, width, params, optClass, alreadySecure){
+            body = sakai_util.Security.safeOutput(body);
             // IE7 and IE6 have trouble with width
             if(!jQuery.support.leadingWhitespace){
                 width = width - 10;
@@ -436,12 +443,77 @@ define(["jquery",
             }
 
             // Create elements to apply threedots
-            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; display:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
+            $container = $("<div class=\"" + optClass + "\" style=\"width:" + width + "px; ; word-wrap:break-word; visibility:hidden;\"><span style=\"word-wrap:break-word;\" class=\"ellipsis_text\">" + body + "</span></div>");
             $("body").append($container);
-            $container.ThreeDots(params);
+
+            // There seems to be a race condition where the
+            // newly-added element returns a height of zero.  This
+            // would cause ThreeDots to truncate the input string to
+            // the first letter.  Try a couple of times for a non-zero
+            // height and then give up.
+            for (var attempt = 0; attempt < 10; attempt++) {
+                if ($container.height() > 0) {
+                    $container.ThreeDots(params);
+                    break;
+                }
+            }
+
             var dotted = $container.children("span").text();
             $container.remove();
-            return (dotted);
+            if (!alreadySecure) {
+                dotted = sakai_util.Security.safeOutput(dotted);
+            }
+            // if params contains middledots = true then the string is threedotted in the middle
+            if(params && params.middledots && body.length > dotted.length){
+                var maxlength = dotted.length - 3;
+                if (!alreadySecure) {
+                    body = sakai_util.Security.safeOutput(body);
+                }
+                var prepend = body.slice(0, maxlength / 2);
+                var append = body.slice(body.length - (maxlength / 2), body.length);
+                return prepend + "..." + append;
+            }
+            return dotted;
+        },
+
+        /**
+         * Search for and replace parameters in a template (replaces both keys and properties)
+         * primarily used for making unique IDs for the group/course templates in config.js
+         *
+         * @param {Object} variables The variables to replace in the template with, ie. "groupid"
+         * @param {Object} replaceIn The object to modify
+         * @return {Object} the template structure with replaced variables
+         */
+        replaceTemplateParameters : function(variables, replaceIn) {
+            var loopAndReplace = function(structure, variable, replace) {
+                var toReplace = "${" + variable + "}";
+                var regex = new RegExp("\\$\\{" + variable + "\\}", 'g');
+                for (var i in structure) {
+                    if (structure.hasOwnProperty(i)) {
+                        if (_.isString(structure[i]) && structure[i].indexOf(toReplace) !== -1) {
+                            structure[i] = structure[i].replace(regex, replace);
+                        } else if ($.isPlainObject(structure[i])) {
+                            structure[i] = loopAndReplace(structure[i], variable, replace);
+                        } else if (_.isArray(structure[i])) {
+                            $.each(structure[i], function(j, elt) {
+                                structure[i][j] = loopAndReplace(elt, variable, replace);
+                            });
+                        }
+                        if (i.indexOf(toReplace) !== -1) {
+                            var newKey = i.replace(regex, replace);
+                            structure[newKey] = structure[i];
+                            delete structure[i];
+                        }
+                    }
+                }
+                return structure;
+            };
+
+            $.each(variables, function(variable,value) {
+                replaceIn = loopAndReplace(replaceIn, variable, value);
+            });
+
+            return replaceIn;
         },
 
         /**
@@ -478,7 +550,7 @@ define(["jquery",
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
                     }
-                    return "/~" + id + "/public/profile/" + picture_name;
+                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name;
@@ -488,12 +560,13 @@ define(["jquery",
                     }
                     //change string to json object and get name from picture object
                     return "/~" + id + "/public/profile/" + picture_name;
+                } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && _.isString(profile.basic.elements.picture)) {
+                    return profile.basic.elements.picture;
                 } else {
                     return imgUrl;
                 }
-            } else {
-                return imgUrl;
             }
+            return imgUrl;
         },
 
         /**
@@ -887,8 +960,8 @@ define(["jquery",
                     dre = /(^[0-9\-\.\/]{5,}$)|[0-9]+:[0-9]+|( [0-9]{4})/i,
                     ore = /^0/,
                     // convert all to strings and trim()
-                    x = a.toString().replace(sre, '') || '',
-                    y = b.toString().replace(sre, '') || '',
+                    x = a.toString().toLowerCase().replace(sre, '') || '',
+                    y = b.toString().toLowerCase().replace(sre, '') || '',
                     // chunk/tokenize
                     xN = x.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
                     yN = y.replace(re, String.fromCharCode(0) + "$1" + String.fromCharCode(0)).replace(/\0$/,'').replace(/^\0/,'').split(String.fromCharCode(0)),
@@ -896,23 +969,30 @@ define(["jquery",
                     xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && (new Date(x)).getTime()),
                     yD = parseInt(y.match(hre), 10) || xD && (new Date(y)).getTime() || null;
                 // natural sorting of hex or dates - prevent '1.2.3' valid date
-                if (yD)
-                    if ( xD < yD ) return -1;
-                    else if ( xD > yD ) return 1;
+                if (yD) {
+                    if ( xD < yD ) {return -1;}
+                    else if ( xD > yD ) {return 1;}
+                }
                 // natural sorting through split numeric strings and default strings
                 for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
                     // find floats not starting with '0', string or 0 if not defined (Clint Priest)
                     oFxNcL = !(xN[cLoc] || '').match(ore) && parseFloat(xN[cLoc]) || xN[cLoc] || 0;
                     oFyNcL = !(yN[cLoc] || '').match(ore) && parseFloat(yN[cLoc]) || yN[cLoc] || 0;
                     // handle numeric vs string comparison - number < string - (Kyle Adams)
-                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) return (isNaN(oFxNcL)) ? 1 : -1;
+                    if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
+                        return (isNaN(oFxNcL)) ? 1 : -1;
+                    }
                     // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
                     else if (typeof oFxNcL !== typeof oFyNcL) {
                         oFxNcL += '';
                         oFyNcL += '';
                     }
-                    if (oFxNcL < oFyNcL) return -1;
-                    if (oFxNcL > oFyNcL) return 1;
+                    if (oFxNcL < oFyNcL) {return -1;}
+                    if (oFxNcL > oFyNcL) {return 1;}
+                }
+                if (x === y) {
+                    if (a < b) {return -1;}
+                    if (a > b) {return 1;}
                 }
                 return 0;
            }
@@ -923,7 +1003,6 @@ define(["jquery",
          * Loads in any skins defined in sakai.config.skinCSS
          */
         loadSkinsFromConfig : function() {
-            $.extend(true, sakai_conf, sakai_conf_custom);
             if (sakai_conf.skinCSS && sakai_conf.skinCSS.length) {
                 $(sakai_conf.skinCSS).each(function(i,val) {
                     sakai_util.include.css(val);
@@ -935,7 +1014,7 @@ define(["jquery",
         getPageContext : function() {
             if (sakai_global.content_profile) {
                 return "content";
-            } else if (sakai_global.group || sakai_global.group2 || sakai_global.groupedit) {
+            } else if (sakai_global.group || sakai_global.groupedit) {
                 return "group";
             } else if (sakai_global.directory) {
                 return "directory";
@@ -1155,46 +1234,6 @@ define(["jquery",
                 date.setDate(date.getUTCDate());
                 date.setHours(date.getUTCHours());
                 return date;
-            },
-            getTimeAgo : function(date){
-                if (date !== null) {
-                    var currentDate = new Date();
-                    // convert current date to GMT time
-                    currentDate = sakai_l10n.fromEpoch(currentDate.getTime(), require("sakai/sakai.api.user").data.me);
-                    var iTimeAgo = (currentDate - date) / (1000);
-                    if (iTimeAgo < 60) {
-                        if (Math.floor(iTimeAgo) === 1) {
-                            return Math.floor(iTimeAgo) +" " + require("sakai/sakai.api.i18n").General.getValueForKey("SECOND");
-                        }
-                        return Math.floor(iTimeAgo) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("SECONDS");
-                    } else if (iTimeAgo < 3600) {
-                        if (Math.floor(iTimeAgo / 60) === 1) {
-                            return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTE");
-                        }
-                        return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTES");
-                    } else if (iTimeAgo < (3600 * 60)) {
-                        if (Math.floor(iTimeAgo / (3600)) === 1) {
-                            return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOUR");
-                        }
-                        return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOURS");
-                    } else if (iTimeAgo < (3600 * 60 * 30)) {
-                        if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAY");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAYS");
-                    } else if (iTimeAgo < (3600 * 60 * 30 * 12)) {
-                        if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTH");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTHS");
-                    } else {
-                        if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEAR");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEARS");
-                    }
-                }
-                return null;
             }
         },
         /*
@@ -1217,6 +1256,35 @@ define(["jquery",
          *  We do this because otherwise a template wouldn't validate in an HTML validator and
          *  also so that our template isn't visible in our page.
          */
+
+        /**
+         * A version of encodeURIComponent that does not encode i18n characters
+         * when using utf8.  The javascript global encodeURIComponent works on
+         * the ascii character set, meaning it encodes all the reserved characters
+         * for URI components, and then all characters above Char Code 127. This
+         * version uses the regular encodeURIComponent function for ascii
+         * characters, and passes through all higher char codes.
+         *
+         * At the time of writing I couldn't find a version with these symantics
+         * (which may or may not be legal according to various RFC's), but this
+         * implementation can be swapped out with one if it presents itself.
+         *
+         * @param {String} String to be encoded.
+         * @returns Encoded string.
+         */
+        safeURL: function(str) {
+            // First, ensure that the incoming value is treated as a string.
+            str = "" + str;
+            var togo="";
+            for (var i = 0; i < str.length; i++) {
+                if (str.charCodeAt(i) < 127) {
+                    togo += encodeURIComponent(str[i]);
+                } else {
+                    togo += str[i];
+                }
+            }
+            return togo;
+        },
 
         /**
          * A cache that will keep a copy of every template we have parsed so far. Like this,
@@ -1273,23 +1341,46 @@ define(["jquery",
                     try {
                         this.templateCache[templateName] = TrimPath.parseTemplate(template, templateName);
                     } catch (e) {
-                        debug.log("TemplateRenderer: parsing failed: " + e);
+                        debug.error("TemplateRenderer: parsing failed: " + e);
                     }
                     
 
                 }
                 else {
-                    debug.log("TemplateRenderer: The template '" + templateName + "' could not be found");
+                    debug.error("TemplateRenderer: The template '" + templateName + "' could not be found");
                 }
             }
+
+            /* A grep of the code base indicates no one is using _MODIFIERS at
+             * the moment.
+             */
+            if (templateData._MODIFIERS) {
+                debug.error("Someone has passed data to sakai.api.util.TemplateRenderer with _MODIFIERS");
+            }
+            templateData._MODIFIERS = {
+                safeURL: function(str) {
+                    return sakai_util.safeURL(str);
+                },
+                escapeHTML: function(str) {
+                    return sakai_util.Security.escapeHTML(str);
+                },
+                saneHTML: function(str) {
+                    return sakai_util.Security.saneHTML(str);
+                },
+                safeOutput: function(str) {
+                    return sakai_util.Security.safeOutput(str);
+                }
+            };
 
             // Run the template and feed it the given JSON object
             var render = "";
             try {
                 render = this.templateCache[templateName].process(templateData, {"throwExceptions": true});
             } catch (err) {
-                debug.log("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
+                debug.error("TemplateRenderer: rendering of Template \"" + templateName + "\" failed: " + err);
             }
+
+            delete templateData._MODIFIERS;
 
             // Run the rendered html through the sanitizer
             if (sanitize) {
@@ -1317,10 +1408,46 @@ define(["jquery",
              */
             escapeHTML : function(inputString){
                 if (inputString) {
-                    return $("<div/>").text(inputString).html().replace(/"/g,"&quot;");
+                    return $("<div/>").text(inputString).html().replace(/\"/g,"&quot;");
                 } else {
                     return "";
                 }
+            },
+
+            /**
+             * Unescapes HTML entities in a string
+             *
+             * @param {String} inputString  String of which the HTML characters have to be unescaped
+             *
+             * @returns {String} normal HTML string
+             */
+            unescapeHTML : function(inputString) {
+                if (inputString) {
+                    return $("<div/>").html(inputString).text();
+                } else {
+                    return "";
+                }
+            },
+
+            sanitizeObject : function(data) {
+                var newobj;
+                if ($.isPlainObject(data)) {
+                    newobj = $.extend(true, {}, data);
+                } else if (_.isArray(data)) {
+                    newobj = $.merge([], data);
+                }
+                $.each(newobj, function(key,val) {
+                    if ($.isPlainObject(val) || _.isArray(val)) {
+                        newobj[key] = sakai_util.Security.safeDataSave(newobj[key]);
+                    } else {
+                        newobj[key] = sakai_util.Security.safeOutput(val);
+                    }
+                });
+                return newobj;
+            },
+
+            safeOutput: function(data) {
+                return sakai_util.Security.saneHTML(sakai_util.Security.escapeHTML(data));
             },
 
             /**
@@ -1374,7 +1501,7 @@ define(["jquery",
                             }
                         }
                     } catch (err){
-                        debug.log("Error occured when decoding URI Component");
+                        debug.error("Error occured when decoding URI Component");
                     }
 
                     return url;
@@ -1398,6 +1525,7 @@ define(["jquery",
                 html4.ATTRIBS["button::sakai-entityid"] = 0;
                 html4.ATTRIBS["button::sakai-entityname"] = 0;
                 html4.ATTRIBS["button::sakai-entitytype"] = 0;
+                html4.ATTRIBS["button::sakai-entitypicture"] = 0;
                 html4.ATTRIBS["button::entitypicture"] = 0;
                 html4.ATTRIBS["div::sakai-worldid"] = 0;
                 html4.ATTRIBS["a::data-reset-hash"] = 0;
@@ -1425,7 +1553,7 @@ define(["jquery",
                                         case html4.atype.STYLE:
                                             var accept = ["color", "display", "background-color", "font-weight", "font-family",
                                                           "padding", "padding-left", "padding-right", "text-align", "font-style",
-                                                          "text-decoration", "border", "visibility"];
+                                                          "text-decoration", "border", "visibility", "font-size"];
                                             var sanitizedValue = "";
                                             if (value){
                                                 var vals = value.split(";");
@@ -1478,17 +1606,6 @@ define(["jquery",
 
             },
 
-
-            /** Description - TO DO */
-            setPermissions : function(target, type, permissions_object) {
-
-            },
-
-            /** Description - TO DO */
-            getPermissions : function(target, type, permissions_object) {
-
-            },
-
             /**
              * Function that can be called by pages that can't find the content they are supposed to
              * show.
@@ -1529,9 +1646,9 @@ define(["jquery",
                 sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
-                var pageTitle = require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.prefix);
+                var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -1566,11 +1683,112 @@ define(["jquery",
             url = url.replace(new RegExp("[" + replacement + "]+", "gi"), replacement);
             return url;
         },
-        
+
+        /**
+         * Sling doesn't like certain characters in the tags
+         * So we escape them here
+         * /:;,[]*'"|
+         */
+        makeSafeTag : function(tag) {
+            if (tag) {
+                tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, "");
+            }
+            return tag;
+        },
+
         generateWidgetId: function(){
             return "id" + Math.round(Math.random() * 10000000);
         },
-        
+
+        /**
+         * Make a unique URL, given a primary and secondary desired url
+         * and a structure passed in to ensure uniqueness of the key.
+         * The first argument will be used as the primary URL, and used if possible.
+         * The second argument will be used if passed, but if none of these work,
+         * or if the second argument isn't passed and the first argument doesn't work,
+         * the first argument will be appended with '0', '1', etc until a unique
+         * key for the structure is found. That string will be returned.
+         *
+         * @param {String} desiredURL The URL (or object key) you'd like to use first
+         * @param {String} secondaryURL The URL (or orject key) that you'd like to use as
+         *                  a backup in case the desiredURL isn't available. Pass null here
+         *                  if you want to use the number-append feature
+         * @param {Object} structure The structure to test against its top-level keys for
+         *                  uniqueneness of the URL/key
+         */
+        makeUniqueURL : function(desiredURL, secondaryURL, structure) {
+            desiredURL = sakai_util.makeSafeURL(desiredURL);
+            if (!structure[desiredURL]) {
+                return desiredURL;
+            } else if (secondaryURL && !structure[secondaryURL]) {
+                return secondaryURL;
+            } else {
+                var ret = "",
+                    count = 0;
+                while (ret === "") {
+                    if (!structure[desiredURL + count]) {
+                        ret = desiredURL + count;
+                    }
+                    count++;
+                }
+                return ret;
+            }
+        },
+
+        /**
+         * Sets up events to hide a dialog when the user clicks outside it
+         *
+         * @param elementToHide {String} a jquery selector, jquery object, dom element, or array thereof containing the element to be hidden, clicking this element or its children won't cause it to hide
+         * @param ignoreElements any elements that match a jquery.is(ignoreElements) will not hide the target element when clicked
+         * @param callback {function} a function to be called instead of the default jquery.hide()
+         */
+        hideOnClickOut : function(elementToHide, ignoreElements, callback) {
+            $(document).click(function(e){
+                var $clicked = $(e.target);
+                if (! $.isArray(elementToHide)){
+                    elementToHide = [elementToHide];
+                }
+                $.each(elementToHide, function(index, el){
+                    if (el instanceof jQuery){
+                        $el = el;
+                    } else {
+                        $el = $(el);
+                    }
+                    if ($el.is(":visible") && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
+                        if ($.isFunction(callback)){
+                            callback();
+                        } else {
+                            $el.hide();
+                        }
+                    }
+                });
+            });
+        },
+
+        /**
+         * Extracts the entity ID from the URL
+         * also handles encoded URLs
+         * Example:
+         *   input: "/~user1"
+         *   return: "user1"
+         * Encoded Exmaple:
+         *   input: "/%7E%D8%B4%D8%B3"
+         *   return: "شس"
+         *
+         * @param {String} pathname The window.location.pathname
+         * @return {String} The entity ID
+         */
+        extractEntity : function(pathname) {
+            var entity = null;
+            if (pathname.substring(1,4) === "%7E") {
+                pathname = pathname.replace("%7E", "~");
+            }
+            if (pathname.substring(0,2) === "/~") {
+                entity = decodeURIComponent(pathname.substring(2));
+            }
+            return entity;
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
@@ -1606,11 +1824,11 @@ define(["jquery",
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": sakai_util.Security.saneHTML(user.getDisplayName(data.results[i])), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": data.results[i]["sakai:group-title"], "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
                                         }
                                     }
                                 });
@@ -1618,7 +1836,7 @@ define(["jquery",
                             }
                         }, searchoptions);
                     }
-                }
+                };
                 var opts = $.extend(defaults, options);
                 var namespace = opts.namespace || "api_util_autosuggest";
                 element = (element instanceof jQuery) ? element:$(element);

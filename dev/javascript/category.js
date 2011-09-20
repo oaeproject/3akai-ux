@@ -22,6 +22,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
     sakai_global.category = function() {
 
+        var originalTitle = document.title;
         var pubdata = {};
         var privdata = {};
 
@@ -38,13 +39,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Array} bbqData Array of IDs fetched with bbq to help identify correct children
          */
         var createBreadcrumb = function(dirData, bbqData){
+            if (!dirData){
+                sakai.api.Security.send404();
+                return false;
+            }
             // Create top level breadcrumb
             var breadcrumb = [];
             breadcrumb.push({
-                "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
+                "title": sakai.api.i18n.getValueForKey("ALL_CATEGORIES"),
                 "id": bbqData[0],
                 "link": true,
-                "url": "/dev/allcategories.html"
+                "url": "/categories"
             });
             breadcrumb.push({
                 "title": dirData.title,
@@ -64,9 +69,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (children.children) {
                     children = children.children[bbqData[index]];
                 }
-            })
+            });
 
             $exploreNavigation.html(sakai.api.Util.TemplateRenderer(exploreNavigationTemplate,{"breadcrumb": breadcrumb}));
+            document.title = originalTitle + " " + dirData.title;
         };
 
         /**
@@ -97,17 +103,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var fwRnd = sakai.api.Util.generateWidgetId();
             privdata[rnd] = {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-            }
+            };
             privdata[fcRnd] = {
-                navData: navData,
                 category: navData.id
             };
             privdata[fpRnd] = {
-                navData: navData,
                 category: navData.id
             };
             privdata[fwRnd] = {
-                navData: navData,
                 category: navData.id
             };
 
@@ -131,18 +134,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 var fwRnd = sakai.api.Util.generateWidgetId();
                 pubdata[rnd] = {
                     page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
-                }
+                };
                 pubdata[fcRnd] = {
-                    navData: navData,
                     category: navData.id + "-" + index
                 };
                 pubdata[fpRnd] = {
-                    navData: navData,
                     category: navData.id + "-" + index
                 };
                 pubdata[fwRnd] = {
-                    navData: navData,
-                    category: navData.id
+                    category: navData.id + "-" + index
                 };
 
                 count++;
@@ -155,12 +155,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @return {Array} Array of strings representing the selected hierarchy
          */
         var getCategory = function(){
-            var category = $.bbq.getState("l").split("-");
+            var category = $.bbq.getState("l");
+            if (category) {
+                category = category.split("-");
+            }
             return category;
         };
 
         var doInit = function(){
             var category = getCategory();
+            if (!$.isArray(category) || !sakai.config.Directory[category[0]]){
+                sakai.api.Security.send404();
+                return false;
+            }
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);

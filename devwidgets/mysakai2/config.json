@@ -1,10 +1,12 @@
 {
-    "description":"My Sakai 2 favourites",
     "i18n": {
-        "default": "/devwidgets/mysakai2/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/mysakai2/bundles/default.properties",
+            "name":"My Sakai 2 favourites",
+            "description":"My Sakai 2 favourites"
+        }
     },
     "id":"mysakai2",
-    "name":"My Sakai 2 favourites",
     "personalportal":false,
     "type":"sakai",
     "enabled":true,

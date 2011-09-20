@@ -57,7 +57,7 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                 resources: {
                     pdf: url,
                     page: {
-                        image: url + ".page{page}-{size}.jpg"
+                        image: url + "/page{page}.{size}.jpg"
                     }
                 }
             };
@@ -105,6 +105,15 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             $("#documentviewer_html_iframe").attr("frameborder", "0");
         };
 
+        var renderPlainTextPreview = function(data){
+            $.ajax({
+                url: getPath(data),
+                success: function(txt){
+                    sakai.api.Util.TemplateRenderer("documentviewer_plaintext_template", {plaintext: txt}, $documentviewerPreview);
+                }
+            });
+        };
+
         var renderExternalHTMLPreview = function(url){
             sakai.api.Util.TemplateRenderer("documentviewer_externalhtml_template", templateObject, $documentviewerPreview);
             $("#documentviewer_externalhtml_iframe").attr("src", url);
@@ -145,10 +154,10 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
             var callback = "sakai_global.documentviewer.googlemaps." + tuid;
             sakai_global.documentviewer.googlemaps[tuid].url=url;
             if (window["google"]) {
-                debug.log("Already have google maps api calling the callback ourselves");
+                debug.info("Already have google maps api calling the callback ourselves");
                 sakai_global.documentviewer.googlemaps[tuid]();
             } else {
-                debug.log("Getting google maps api");
+                debug.info("Getting google maps api");
                 require(["http://maps.google.com/maps/api/js?sensor=false&callback="+callback]);
             }
         };
@@ -261,8 +270,8 @@ require(["jquery", "sakai/sakai.api.core", "/devwidgets/documentviewer/lib/docum
                     pUrl = widgetData["sakai:pooled-content-url"];
                     renderExternalHTMLPreview(pUrl);
                 }
-            } else if (mimeType === "image/vnd.adobe.photoshop") {
-                renderStoredPreview(data);
+            } else if (mimeType.substring(0, 5) === "text/") {
+                renderPlainTextPreview(data);
             } else  if (mimeType.substring(0, 6) === "image/") {
                 renderImagePreview(getPath(data), data["_bodyLastModified"]);
             } else if (data["sakai:pagecount"]){

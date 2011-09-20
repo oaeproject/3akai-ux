@@ -139,22 +139,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * returns how many years, months, days or hours since the dateinput
-         * @param {Date} date
-         */
-        var getTimeAgo = function(date){
-            return sakai.api.Datetime.getTimeAgo(date);
-        };
-
-        /**
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
         var tidyInput = function(str){
-            str = str.toString(); // in the event its not already a string, make it one
-            str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            str = str.replace(/\n/g, '<br />');
-            return str;
+            return sakai.api.Security.safeOutput(str);
         };
 
         ///////////////////
@@ -181,7 +170,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } catch (ex) {
                     comment.date = tempDate;
                 }
-                comment.timeAgo = "about " + getTimeAgo(comment.date) + " "+sakai.api.i18n.General.getValueForKey("AGO");
+                comment.timeAgo = $.timeago(comment.date);
                 // Use the sakai API function to parse the date and convert to the users local time
                 comment.date = parseDate(tempDate, sakai.data.me);
                 comment.formatDate = sakai.api.l10n.transformDateTimeShort(comment.date);
@@ -204,7 +193,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (pictureUrl){
                         user.pictureUrl = pictureUrl;
                     }
-                    user.profile = "/~" + user.uid;
+                    user.profile = "/~" + sakai.api.Util.safeURL(user.uid);
                 }
                 else {
                     // This is an anonymous user.
@@ -243,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(commentsNumComments, rootel).html(json.total);
             // Change to "comment" or "comments"
             if (json.total === 1) {
-                $(commentsCommentComments, rootel).text(sakai.api.i18n.Widgets.getValueForKey("comments", sakai.api.User.data.me.locale, "COMMENT"));
+                $(commentsCommentComments, rootel).text(sakai.api.i18n.getValueForKey("COMMENT", "comments"));
             }
 
 
@@ -284,7 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("COMMENTS_AN_ERROR_OCCURRED") + " (" + xhr.status + ")","",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("COMMENTS_AN_ERROR_OCCURRED") + " (" + xhr.status + ")","",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
@@ -335,7 +324,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
                 // This should not even happen.. Somebody is tinkering with the HTML.
                 allowPost = false;
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
 
             var subject = 'Comment';
@@ -385,17 +374,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     },
                     error: function(xhr, textStatus, thrownError){
                         if (xhr.status === 401) {
-                            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOU_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
                         }
                         else {
-                            sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
+                            sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
                         }
                     },
                     data: message
                 });
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_ALL_FIELDS"),"",sakai.api.Util.notification.type.ERROR);
             }
         };
 
@@ -459,20 +448,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
 
             if (comments.perPage < 1) {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_POSITIVE_NUM"),"",sakai.api.Util.notification.type.ERROR);
                 return false;
             }
             // Check if a valid number is inserted
             else
                 if ($(commentsPageTxt, rootel).val().search(/^\d*$/)) {
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_FILL_VALID_NUM"),"",sakai.api.Util.notification.type.ERROR);
                     return false;
                 }
 
 
             comments.direction = $("input[name=" + commentsDirectionRbt + "]:checked", rootel).val();
 
-            // These properties are noy yet used in the comments-widget, but are saved in JCR
+            // These properties are not yet used in the comments-widget, but are saved in JCR
             comments['sakai:allowanonymous'] = false;
             if ($("#comments_RequireLogInID", rootel).is(":checked")) {
                 comments['sakai:allowanonymous'] = false;
@@ -505,6 +494,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var getWidgetSettings = function(){
 
             sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                if (!sakai.api.User.isAnonymous(sakai.data.me)) {
+                    $(commentsCommentBtn, rootel).show();
+                }
+
                 if (success) {
                     if (!data.message) {
                         sakai.api.Widgets.saveWidgetData(tuid, {"message":{"sling:resourceType":"sakai/messagestore"}}, null);
@@ -513,10 +506,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Clean up some values so that true is really true and not "true" or 1 ...
                     var keysToClean = ['sakai:forcename', 'sakai:forcemail', 'notification', 'sakai:allowanonymous'];
                     cleanBooleanSettings(keysToClean);
-
-                    if (!sakai.api.User.isAnonymous(sakai.data.me)) {
-                        $(commentsCommentBtn, rootel).show();
-                    }
 
                     if (showSettings) {
                         showSettingScreen(true, data);
@@ -527,11 +516,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (showSettings) {
                         showSettingScreen(false, data);
                     } else {
+                        saveSettings();
                         pagerClickHandler(1);
                     }
                 }
             });
 
+        };
+
+        var saveSettings = function(){
+            // If the settings-input is valid an object will be returned else false will be returned
+            var settings = getCommentsSettings();
+            if (settings) {
+                settings["_charset_"] = "utf-8";
+
+                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
+                    if (success) {
+                        finishNewSettings();
+                    }
+                    else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
+                    }
+                });
+
+            }
+            return false;
         };
 
         ////////////////////
@@ -559,22 +568,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /** Bind the settings submit button*/
         $(commentsSubmit, rootel).bind("click", function(e, ui){
-            // If the settings-input is valid an object will be returned else false will be returned
-            var settings = getCommentsSettings();
-            if (settings) {
-                settings["_charset_"] = "utf-8";
-
-                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
-                    if (success) {
-                        finishNewSettings();
-                    }
-                    else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_SAVE"),"",sakai.api.Util.notification.type.ERROR);
-                    }
-                });
-
-            }
-            return false;
+            saveSettings();
         });
 
         /** Bind the insert comment button*/
@@ -599,7 +593,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
             if (!isLoggedIn && widgetSettings['sakai:allowanonymous'] === false) {
                 // This should not even happen.. Somebody is tinkering with the HTML.
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("ANON_NOT_ALLOWED"),"",sakai.api.Util.notification.type.ERROR);
             }
             // Show the form.
             $(commentsFillInComment, rootel).show();
@@ -652,7 +646,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     showComments();
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_UNDELETE"),"",sakai.api.Util.notification.type.ERROR);
                 },
                 data: data
             });
@@ -710,13 +704,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $(commentsMessage + id, rootel).show();
                     },
                     error: function(xhr, textStatus, thrownError){
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_TO_EDIT"),"",sakai.api.Util.notification.type.ERROR);
                     },
                     data: data
                 });
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("PLEASE_ENTER_MESSAGE"),"",sakai.api.Util.notification.type.ERROR);
             }
             return false;
         });

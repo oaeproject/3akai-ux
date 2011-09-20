@@ -19,7 +19,7 @@
             {for item in items}
                 <div class="recentchangedcontent_related_details">
                     <div class="recentchangedcontent_item_img fl-force-left">
-                        <a href="/content#p=${item.link}/${item.filename}" title="${item.name}">
+                        <a href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                             {if item.thumbnail}
                                 <img class="s3d-icon-50" src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                             {elseif (item.mimeType.substring(0,6)=="image/")}
@@ -33,7 +33,7 @@
                     </div>
                     <div class="recentchangedcontent_item_info">
                         <p class="recentchangedcontent_item_title">
-                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link}/${item.filename}" title="${item.name}">
+                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.link|safeURL}/${item.filename|safeURL}" title="${item.name|safeOutput}">
                                 ${item.nameShort}
                             </a>
                             <span class="recentchangedcontent_mimetype_desc">${item.mimeTypeDescription}</span>
@@ -66,7 +66,7 @@
                     <div class="recentchangedcontent_item_related_info">
                         <p class="recentchangedcontent_item_meta_data">__MSG__RELATED_CONTENT_TO__ <span class="s3d-bold">${item.nameShort}</span></p>
                         <div class="fl-force-left">
-                        <a href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
+                        <a href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">
                             <span>
                                 {if item.relatedContent.thumbnail}
                                     <img class="s3d-icon-32" src="${item.relatedContent.thumbnail}" alt="${item.relatedContent.mimeTypeDescription}" />
@@ -81,8 +81,8 @@
                         </a>
                         </div>
                         <div class="recentchangedcontent_item_div">
-                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']}/${item.relatedContent.filename}" title="${item.relatedContent.name}">
-                                ${item.relatedContent.nameRelatedShort}
+                            <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">
+                                ${item.relatedContent.nameRelatedShort|safeOutput}
                             </a>
                             <span class="recentchangedcontent_mimetype_desc">${item.relatedContent.mimeTypeDescription}</span>
                             <div>__MSG__BY__
@@ -98,22 +98,22 @@
     </div>
 
     <div id="recentchangedcontent_item_comment_author_template"><!--
-        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName}">
+        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName|safeOutput}">
             ${author.authorName}
         </a>
         {if commentCreated}
-            <span class="recentchangedcontent_timeago"> (${sakai.api.Datetime.getTimeAgo(commentCreated)} __MSG__AGO__)</span>
+            <span class="recentchangedcontent_timeago"> (${jQuery.timeago(commentCreated)})</span>
         {/if}
     --></div>
 
     <div id="recentchangedcontent_item_related_content_author_template"><!--
-        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName}">
+        <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/~${author.authorId}" title="${author.authorName|safeOutput}">
             ${author.authorName}
         </a>
     --></div>
 
     <div class="s3d-widget-footer">
-        <a class="recentchangedcontent_item_link s3d-widget-links" href="/dev/me.html#l=library" title="__MSG__SEE_ALL_MY_CONTENT__">__MSG__SEE_ALL_MY_CONTENT__</a>
+        <a class="recentchangedcontent_item_link s3d-widget-links" href="/me#l=library" title="__MSG__SEE_ALL_MY_CONTENT__">__MSG__SEE_ALL_MY_CONTENT__</a>
     </div>
 
 </div>

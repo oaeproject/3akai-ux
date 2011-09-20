@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
     </head>
-    <body class="fl-centered me i18nable">
+    <body class="fl-centered me i18nable" aria-live="assertive">
         <!-- HEADER -->
         <div class="fl-container-flex header s3d-header">
             <div class="s3d-navigation-container">
@@ -40,6 +40,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- User Permissions overlay -->
+        <div id="widget_userpermissions" class="widget_inline"></div>
 
         <div id="widget_assignlocation" class="widget_inline"></div>
 

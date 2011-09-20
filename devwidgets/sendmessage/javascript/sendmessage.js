@@ -87,7 +87,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sendmessage_body = "#sendmessage_body",
                 send_message_cancel = "#send_message_cancel",
                 $sendmessage_container = $("#sendmessage_container");
-            var $autosuggest; //placeholder, set in return from API call
 
             ///////////////////////
             // UTILITY FUNCTIONS //
@@ -147,7 +146,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $(messageFieldSubject + ", " + messageFieldBody).val('');
 
                 // remove autoSuggest if it exists
-                sakai.api.Util.AutoSuggest.destroy($autosuggest);
+                sakai.api.Util.AutoSuggest.destroy($("#sendmessage_to_autoSuggest"));
 
                 // Remove error status styling classes
                 $(messageFieldSubject).removeClass(invalidClass);
@@ -212,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         });
                     }
                 }
-                $autosuggest = sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
+                sakai.api.Util.AutoSuggest.setup($("#sendmessage_to_autoSuggest"), {
                     "asHtmlID": "sendmessage_to_autoSuggest",
                     startText: "Enter contact or group names",
                     keyDelay: "200",
@@ -262,10 +261,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 // Putting the subject and body which have been send in the textboxes
                 if(body) {
-                    $(messageFieldBody).val(sakai.api.Security.saneHTML(body));
+                    $(messageFieldBody).val(body);
                 }
                 if(subject) {
-                    $(messageFieldSubject).val(sakai.api.Security.saneHTML(subject));
+                    $(messageFieldSubject).val(subject);
                 }
 
                 if (replyOnly) {
@@ -275,6 +274,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 if (replyID) {
                     replyMessageID = replyID;
+                } else {
+                    replyMessageID = null;
                 }
 
                 if (buttonText) {
@@ -342,7 +343,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(success) {
                     showMessageSent(success);
                 } else {
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOUR_MESSAGE_FAILED_DELIVERED"),"",sakai.api.Util.notification.type.ERROR);
                 }
                 $(buttonSendMessage).removeAttr("disabled");
             };
@@ -378,7 +379,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "message", replyMessageID, handleSentMessage, true, "new_message");
                     } else {
                         $(buttonSendMessage).removeAttr("disabled");
-                        sakai.api.Util.notification.show("All fields are required.","All fields are required",sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show($("#sendmessage_message_all_fields_required").html(),$("#sendmessage_message_all_fields_required").html(),sakai.api.Util.notification.type.ERROR);
                     }
                 });
                 ////////////////////////

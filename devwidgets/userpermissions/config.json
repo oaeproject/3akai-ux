@@ -1,0 +1,20 @@
+{
+    "enabled":            true,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        false,
+    "i18n": {
+        "default": {
+            "bundle":     "/devwidgets/userpermissions/bundles/default.properties",
+            "name":       "User Permissions",
+            "description":"User Permissions"
+        }
+    },
+    "id":                 "userpermissions",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "core",
+    "url":                "/devwidgets/userpermissions/userpermissions.html",
+    "userdashboard":      false,
+    "userpages":          false
+}

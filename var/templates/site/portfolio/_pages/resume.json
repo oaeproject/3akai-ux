@@ -1,7 +1,0 @@
-{
-	"sling:resourceType": "sakai/page",
-	"pageTitle": "Resume",
-	"pageType": "webpage", 
-	"pagePosition": 500000,
-	"jcr:mixinTypes": "sakai:propertiesmix"
-}

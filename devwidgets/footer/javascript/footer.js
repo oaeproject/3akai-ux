@@ -72,15 +72,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             return decodeURIComponent(url.substring(url.lastIndexOf(slash) + 1));
         };
 
-        /**
-         * Check whether this is the index page or not
-         * @return {Boolean} True when it is the index page
-         */
-        var checkIndexPage = function(){
-            return ($('body').hasClass('index'));
-        };
-
-
         ////////////////////
         // Main functions //
         ////////////////////
@@ -163,12 +154,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                 }).addClass("footer_clickable");
 
-            }
-
-            // index.html mods
-            if (checkIndexPage() || doc_name === "") {
-                $back_to_top_link.hide();
-                $footer_root.addClass("footer_index");
             }
             
             if (!sakai.data.me.user.anon){

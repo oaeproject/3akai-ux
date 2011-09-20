@@ -42,21 +42,21 @@
             <li id="${i["_path"]}">
                 <div class="personinfo_content_list_left">
                 {if thumbnail && sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                 {elseif mimeType.substring(0,6)==="image/" && sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
                 {elseif sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                 {else}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
                     <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                 {/if}
                 </div>
                 <div class="personinfo_content_list_right">
-                    <a href="/content#p=${i['_path']}/${i["sakai:pooled-content-file-name"]}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
+                    <a href="/content#p=${i['_path']|safeURL}/${i["sakai:pooled-content-file-name"]|safeURL}" class="personinfo_content_name s3d-regular-links s3d-bold" title="${i["sakai:pooled-content-file-name"]}">${i["sakai:pooled-content-file-name"]}</a>
                     {if mimeTypeDescription}
                         <span class="personinfo_content_mimetype">${mimeTypeDescription.toUpperCase()}</span>
                     {/if}

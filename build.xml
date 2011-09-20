@@ -215,12 +215,15 @@
     <!-- Target: Optimize with requirejs -->
     <target name="optimize" depends="init">
         <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
-        <property name="requireJs.path" value="tools/requirejs-optimizer/build" />
+        <path id="reqjs.path">
+            <pathelement location="tools/requirejs-optimizer/build"/>
+        </path>
+        <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
         <exec executable="cmd" osfamily="windows">
             <arg value="/c" />
-            <arg value="${requireJs.path}/buildj.bat" />
+            <arg value="${requireJs.path}\buildj.bat" />
             <arg value="${requireJs.conf}" />
         </exec>
 
@@ -259,7 +262,7 @@
     </target>
 
     <!-- Target: Development Builds -->
-    <target name="dev_light" depends="copy_prod, create_target_folders">
+    <target name="dev_light" depends="copy_prod, copy_test, create_target_folders">
         <echo message="Sakai 3 UX Development Build: Build complete." />
     </target>
 

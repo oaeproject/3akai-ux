@@ -43,10 +43,10 @@
                 <span class="profilesection_generalinfo_label">${element.label}:</span>
                 <div class="profilesection_generalinfo_content">
                     {if !isarray}
-                        ${_element.value}
+                        ${_element.value|safeOutput}
                     {else}
                         {for _subelement in _elements}
-                            ${_subelement[element_index]}
+                            ${_subelement[element_index]|safeOutput}
                         {/for}
                     {/if}
                 </div>
@@ -75,12 +75,12 @@
 
 <!-- MULTIPLE INSTANCE ADD ANOTHER TEMPLATE -->
 <div id="profilesection_add_section_template"><!--
-    <button type="button" class="profilesection_add_section s3d-link-button s3d-bold" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>Add another ${config.multipleLabel}</span></button>
+    <button type="button" class="profilesection_add_section s3d-link-button s3d-bold" id="profilesection_add_link_${parentid}"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${config.multipleLabel}</span></button>
 --></div>
 
 <!-- MULTIPLE INSTANCE REMOVE SECTION TEMPLATE -->
 <div id="profilesection_remove_section_template"><!--
-    <button type="button" class="profilesection_remove_section s3d-bold s3d-link-button" id="profilesection_remove_link_${parentid}"><span>Remove this ${config.multipleLabel}</span></button>
+    <button type="button" class="profilesection_remove_section s3d-bold s3d-link-button" id="profilesection_remove_link_${parentid}"><span>__MSG__REMOVE_THIS__ ${config.multipleLabel}</span></button>
     <hr/>
 --></div>
 
@@ -102,7 +102,7 @@
         <ul class="{if sakai_global.profile.main.mode.value !== 'edit'}profilesection_generalinfo_locations_rendered{/if}  profilesection_generalinfo_content" id="profilesection_generalinfo_locations">
         {for i in data.elements}
             <li>
-                <a href="/dev/category.html#l=${i.locationtitle.value.replace("directory/", "").replace("/", "-")}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${i.locationtitle.title}">
+                <a href="/category#l=${i.locationtitle.value.replace("directory/", "").replace("/", "-")}" class="s3d-action" title="__MSG__SEARCH_CONTENT_TAGGED_WITH__ ${i.locationtitle.title}">
                     ${i.locationtitle.title}
                 </a>
             </li>
@@ -147,7 +147,7 @@
                             value="{if data.value}${data.value.replace(/\"/g, "&quot;")}{/if}"
                         {/if}
                     {/if}
-                        id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${path.replace(/\./g,"_")} ${config.label}" title="${config.label}"
+                        id="profilesection_generalinfo_${path.replace(/\./g,"_")}" name="${path.replace(/\./g,"_")}" title="${config.label}"
                     {if !config.type || $.inArray(config.type, stringtypes) >= 0}
                         />
                     {elseif config.type === "select"}
@@ -179,16 +179,16 @@
                 {if config.tagField}
                     {var tagsArray = data.value.split(",")}
                     {for tag in tagsArray}
-                        <a href="/search#q=${escape(tag)}" class="s3d-action">${tag}</a>{if tag_index < tagsArray.length-1},{/if}
+                        <a href="/search#q=${tag|safeURL}" class="s3d-action">${tag|safeOutput}</a>{if tag_index < tagsArray.length-1},{/if}
                     {/for}
                 {elseif config.type !== "select"}
                     {if config.limitDisplayLength}
-                        ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)}
+                        ${sakai.api.Util.shortenString(data.value, config.limitDisplayLength)|safeOutput}
                     {else}
                         {if config.type === "date" || config.type === "oldDate"}
                         ${sakai.api.l10n.transformDate(new Date(data.value))}
                         {else}
-                        ${data.value}
+                        ${data.value|safeOutput}
                         {/if}
                     {/if}
                 {else}

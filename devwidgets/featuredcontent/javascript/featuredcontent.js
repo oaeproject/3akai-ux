@@ -121,8 +121,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     if(!candidate && data.results.length){
                         data.results[0].mode = "large";
                         data.results[0].thumbnail = sakai.api.Content.getThumbnail(data.results[0]);
-                        debug.log(data.results[0].thumbnail);
-                        debug.log(data.results[0]);
                         if (data.results[0]["_mimeType"] && data.results[0]["_mimeType"].split("/")[0] == "image") {
                             data.results[0].image = true;
                         }
@@ -202,13 +200,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var url = "/var/search/public/random-content.json";
             if(sakai_global.category){
                 items = 7;
-                q = pageData.category.replace("-", "/");
-                url = "/var/search/pool/all.json"
+                q = "directory/" + pageData.category.replace("-", "/");
+                url = "/var/search/bytag.json";
             }
             sakai.api.Server.loadJSON(url, parseFeaturedContent, {
                 page: 0,
                 items: items,
-                q: q
+                tag: q,
+                type: "c"
             });
         };
 

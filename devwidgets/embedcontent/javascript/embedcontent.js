@@ -130,12 +130,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
-                var placement = "ecDocViewer" + tuid + value["_path"] + index;
-                wData.items[index].placement = placement;
-                docData[placement] = {
-                    data : value.fullresult,
-                    url : window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
-                };
+                if (value.fullresult) {
+                    var placement = "ecDocViewer" + tuid + value["_path"] + index;
+                    wData.items[index].placement = placement;
+                    docData[placement] = {
+                        data: value.fullresult,
+                        url: window.location.protocol + '//' + window.location.host + "/p/" + value.fullresult['jrc:name']
+                    };
+                }
             });
             // boolean are return as string from ajax call so change back to boolean value
             wData.download = wData.download === "true" || wData.download === true;
@@ -180,14 +182,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mimetype = sakai.api.Content.getMimeType(result);
             var dataObj = {
                 "value": name || result['_path'],
-                "name": result['sakai:pooled-content-file-name'],
+                "name": sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "type": "file",
                 "filetype": mimetype.split("/")[0],
                 "_mimeType": mimetype,
                 "description": result["sakai:description"] || "",
                 "path": "/p/" + (name || result['_path']),
                 "fileSize": sakai.api.Util.convertToHumanReadableFileSize(result["_length"]),
-                "link": (name || result['_path']) + "/" + result['sakai:pooled-content-file-name'],
+                "link": sakai.api.Util.safeURL((name || result['_path'])) + "/" + sakai.api.Security.safeOutput(result['sakai:pooled-content-file-name']),
                 "_path": result['_path'],
                 "_mimeType/page1-small": result["_mimeType/page1-small"],
                 "fullresult" : result
@@ -210,7 +212,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var autosuggestSelectionRemoved = function(elem) {
-            removeItemFromSelected(elem.html().split("</a>")[1]); // get filename
+            var path = elem.attr('id').split("as-selection-")[1];
+            removeItemFromSelected(path); // get path
             elem.remove();
             if (selectedItems.length === 0) {
                 toggleButtons(true);
@@ -271,14 +274,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Removes a previously selected item from the list of selected items
-         * @param {Object} fileName name of the selected item to be removed from the list
+         * @param {Object} path path of the selected item to be removed from the list
          */
-        var removeItemFromSelected = function(fileName) {
+        var removeItemFromSelected = function(path) {
             var newItems = [];
             $(selectedItems).each(function(i, val) {
-               if (val.name !== fileName) {
-                   newItems.push(val);
-               }
+                if (val.value !== path) {
+                    newItems.push(val);
+                }
             });
             selectedItems = newItems;
         };
@@ -387,10 +390,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             sakai.api.Server.batch(data, null, false, null, false);
         };
 
-        var registerVideo = function(videoBatchData){
-            sakai.api.Server.batch(videoBatchData, null, false, null, false);
-        };
-
         /**
          * Embed the selected content on the page,
          * Call the function that associates the content with this group
@@ -416,39 +415,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 "download": formVals.download ? true : false,
                 "name": formVals.name ? true : false
             };
-            var videoBatchData = [];
-            for (var i in selectedItems){
-                if(selectedItems.hasOwnProperty(i)){
-                    if(selectedItems[i].filetype === "video"){
-                        // Set random ID to the video
-                        selectedItems[i].uId = Math.ceil(Math.random() * 999999999);
-
-                        var itemUrl;
-                        if (sakai_global.currentgroup.data.authprofile) {
-                            itemUrl = "/~" + sakai_global.currentgroup.data.authprofile["sakai:group-title"] + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
-                        } else {
-                            itemUrl = "/~" + sakai.data.me.user.userid + "/pages/_widgets/id" + selectedItems[i].uId + "/video";
-                        }
-
-                        // Create batch request data for the video
-                        var item = {
-                            "url": itemUrl,
-                            "method": "POST",
-                            "parameters": {
-                                "uid": sakai.data.me.user.userid,
-                                "source": " ",
-                                "URL": sakai.config.SakaiDomain + selectedItems[i].link,
-                                "selectedvalue": "video_noSource",
-                                "isYoutube": false,
-                                "isSakaiVideoPlayer": false
-                            }
-                        };
-                        videoBatchData.push(item);
-                    }
-                }
-            }
-
-            registerVideo(videoBatchData);
 
             if (sakai_global.currentgroup) {
                 // Associate embedded items with the group
@@ -461,7 +427,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var saveWidgetData = function(data) {
             sakai.api.Widgets.saveWidgetData(tuid, data, function() {
                 sakai.api.Widgets.Container.informFinish(tuid, "embedcontent");
-            });
+            }, true);
         };
 
         var newItems = [];

@@ -19,7 +19,7 @@
 
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
-    sakai_global.profile = function(){
+    sakai_global.profileedit = function(){
 
 
         /////////////////////////////
@@ -125,9 +125,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             // Check whether there is a user parameter in the querystring,
             // if so, check whether the userid is not the same as the user parameter
-            if (querystring.contains("id") && querystring.get("id") !== sakai.data.me.user.userid) {
+            if (sakai_global.profile.main.data.userid && sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
                 sakai_global.profile.main.isme = false;
-                sakai_global.profile.main.currentuser = querystring.get("id");
+                sakai_global.profile.main.currentuser = sakai_global.profile.main.data.userid;
             }
             else {
                 sakai_global.profile.main.isme = true;
@@ -272,7 +272,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             }
             else {
-                sakai.api.Server.loadJSON(authprofileURL, function(success, data) {
+                sakai.api.Server.loadJSON(authprofileURL + ".profile.json", function(success, data) {
                     if (success && data) {
                         // Set the correct userprofile data
                         userprofile = $.extend(true, {}, data);
@@ -449,9 +449,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             filterTagsProperties(sakai_global.profile.main.data);
 
             // Save the profile properties
-            var obj = {};
-            obj[sectionName] = sakai_global.profile.main.data[sectionName];
-            sakai.api.Server.saveJSON(authprofileURL, obj, function(success, data){
+            var obj = sakai_global.profile.main.data[sectionName];
+            var saveURL = authprofileURL + "/" + sectionName + ".profile.json";
+            sakai.api.Server.saveJSON(saveURL, obj, function(success, data){
 
                 // Check whether is was successful
                 if (success) {
@@ -503,7 +503,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 }
 
-            }, false);
+            }, true);
         });
 
 
@@ -523,11 +523,25 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /**
          * Add binding to the profile form
          */
-        var addBindingForm = function(e, sectionid){
+        var addBindingForm = function(e, sectionid, profilesection){
+            // Get the error messages for form elements
+            var messages = {};
+            if (sakai_global.profile && sakai_global.profile.main && sakai_global.profile.main.config && sakai_global.profile.main.config[profilesection]){
+                for (var i in sakai_global.profile.main.config[profilesection].elements){
+                    if (sakai_global.profile.main.config[profilesection].elements.hasOwnProperty(i)
+                        && sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
+                        var formKey = profilesection + "_elements_" + i;
+                        var errorKey = sakai_global.profile.main.config[profilesection].elements[i].errorMessage;
+                        messages[formKey] = sakai.api.i18n.getValueForKey(errorKey.substr(7, errorKey.length - 9));
+                    }
+                }
+            }
+
             // Reinitialize the jQuery form selector
             var $profile_form = $("#profile_form_" + sectionid);
             // Initialize the validate plug-in
             $profile_form.validate({
+                messages: messages,
                 submitHandler: function(form) {
                     $(".profile-section-save-button").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
@@ -655,7 +669,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             querystring = new Querystring();
 
             // Get and set the profile mode
-            var profilemode = querystring.contains("id") ? "view" : "edit";
+            var profilemode = sakai_global.profile.main.data.userid === sakai.data.me.user.userid ? "edit" : "view";
             if (profilemode) {
                 setProfileMode(profilemode);
             }
@@ -703,5 +717,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
     };
 
-    sakai.api.Widgets.Container.registerForLoad("profile");
+    sakai.api.Widgets.Container.registerForLoad("profileedit");
 });
