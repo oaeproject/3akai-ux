@@ -16,7 +16,7 @@
         <div id="contentcomments_fillInComment">
             <div class="contentcomments_fillInCommentTopContainer">
                 <br />
-                <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="20"></textarea>
+                <textarea id="contentcomments_txtMessage" class="contentcomments_inputFields" cols="20" placeholder="__MSG__ENTER_A_COMMENT__"></textarea>
                 <div class="dialog_buttons contentcomments_dialog_buttons right">
                     <button id="contentcomments_postComment" class="s3d-button s3d-overlay-button comment_postCommentTopBottom">__MSG__COMMENT__</button>
                 </div>
@@ -82,7 +82,7 @@
                         <p>${i.message}</p>
                     </div>
                     <div id="contentcomments_message_editContainer_${i['sakai:id']}" style="display:none;">
-                        <textarea class="contentcomments_txtMessage" id="contentcomments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br />
+                        <textarea class="contentcomments_txtMessage" id="contentcomments_editComment_txt_${i['sakai:id']}" rows="7" cols="50" title="__MSG__EDIT_COMMENT__">${i.messageTxt}</textarea><br />
                         <div class="dialog_buttons right">
                             <button type="button" class="s3d-button s3d-button-primary contentcomments_editComment_save" id="contentcomments_editComment_save${i['sakai:id']}"><span class="s3d-button-inner">__MSG__EDIT_COMMENT__</span></button>
                             <button type="button" class="s3d-button contentcomments_editComment_cancel" id="contentcomments_editComment_cancel${i['sakai:id']}"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
