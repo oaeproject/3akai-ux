@@ -442,12 +442,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var animateData = function(){
             $collapsibleContainers.animate({
                 'margin-bottom': 'toggle',
+                height: 'toggle',
                 opacity: 'toggle',
                 'padding-top': 'toggle',
-                'padding-bottom': 'toggle',
-                height: 'toggle'
+                'padding-bottom': 'toggle'
             }, 400);
             $("#contentmetadata_show_more > div").toggle();
+            $contentmetadataTagsContainer.toggleClass("last");
         };
 
         /**
