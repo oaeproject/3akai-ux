@@ -467,22 +467,6 @@ define(
         },
 
         /**
-         * Returns the correct possessive use by determining how the string ends
-         *
-         * @param {String} string The string to check
-         * @return {String} the possessive to use
-         */
-        getPossessive : function(string) {
-            var possessive = require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE_S");
-            var key = $.trim(require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE_KEY")).toLowerCase();
-            var check = $.trim(string.charAt(string.length - 1)).toLowerCase();
-            if (check === key){
-                possessive = require("sakai/sakai.api.i18n").General.getValueForKey("POSSESSIVE");
-            }
-            return possessive;
-        },
-
-        /**
          * Search for and replace parameters in a template (replaces both keys and properties)
          * primarily used for making unique IDs for the group/course templates in config.js
          *

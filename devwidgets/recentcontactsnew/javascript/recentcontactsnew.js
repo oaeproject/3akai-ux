@@ -173,18 +173,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (connection.userid) {
                             id = connection.userid;
                             name = sakai.api.User.getDisplayName(connection);
-                            namePossessive = sakai.api.Util.getPossessive(name);
+                            linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.User.getProfilePicture(connection);
                         } else if (connection.groupid) {
                             id = connection.groupid;
-                            name = connection["sakai:group-title"];
-                            namePossessive = sakai.api.Util.getPossessive(name);
+                            name = sakai.api.Security.safeOutput(connection["sakai:group-title"]);
+                            linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.Groups.getProfilePicture(connection);
                         }
                         newjson.connection = {
                             connectionId: id,
                             connectionName: name,
-                            connectionNamePossessive: namePossessive,
+                            connectionNameLinkTitle: linkTitle,
                             connectionPicture: picture
                         };
                         $("#recentcontactsnew_recent_connection_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson));
@@ -199,7 +199,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContactInfo = function(newjson){
             newjson.displayName = sakai.api.User.getDisplayName(newjson.profile);
-            newjson.displayNamePossessive = sakai.api.Util.getPossessive(newjson.displayName);
+            newjson.displayNameLinkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", newjson.displayName);
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === "s"){

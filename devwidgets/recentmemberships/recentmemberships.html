@@ -17,7 +17,7 @@
             <div class="recentmemberships_item"></div>
             <div id="recentmemberships_item_template"><!--
                 <div class="recentmemberships_item_img fl-force-left">
-                    <a href="/~${entry[0].groupid}" title="__MSG__VIEW__ ${entry[0]["sakai:group-title"]|safeOutput}${entry[0].displayNamePossessive} __MSG__PROFILE__">
+                    <a href="/~${entry[0].groupid}" title="${entry[0].displayLinkTitle}">
                         <img class="s3d-icon-50" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__PROFILE_PICTURE_FOR__ ${entry[0]["sakai:group-title"]|safeOutput}"/>
                     </a>
                 </div>
@@ -48,7 +48,7 @@
             <div class="recentmemberships_item_related_info">
                 <p class="recentmemberships_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span>${group["sakai:group-title"]}</span></p>
                 <div class="fl-force-left">
-                <a href="/~${member.memberId}" title="__MSG__VIEW__ ${member.memberName}${member.memberNamePossessive} __MSG__PROFILE__">
+                <a href="/~${member.memberId}" title="${member.memberLinkTitle}">
                     <img class="s3d-icon-32" src="${member.memberPicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${member.memberName}" />
                 </a>
                 </div>

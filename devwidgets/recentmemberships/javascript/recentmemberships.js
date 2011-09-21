@@ -161,12 +161,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                              if (member.userid){
                                 id = member.userid;
                                 name = sakai.api.User.getDisplayName(member);
-                                namePossessive = sakai.api.Util.getPossessive(name);
+                                linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                                 picture = sakai.api.User.getProfilePicture(member);
                             } else if (member.groupid){
                                 id = member.groupid;
-                                name = member["sakai:group-title"];
-                                namePossessive = sakai.api.Util.getPossessive(name);
+                                name = sakai.api.Security.safeOutput(member["sakai:group-title"]);
+                                linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                                 picture = sakai.api.Groups.getProfilePicture(member);
                             }
                             newjson.entry[0].manager = member;
@@ -174,7 +174,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 member: {
                                     memberId: id,
                                     memberName: name,
-                                    memberNamePossessive: namePossessive,
+                                    memberLinkTitle: linkTitle,
                                     memberPicture: picture,
                                     roleName: role
                                 },
@@ -192,7 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fetches the related content
          */
         var getGroupInfo = function(newjson){
-            newjson.entry[0].displayNamePossessive = sakai.api.Util.getPossessive(newjson.entry[0]["sakai:group-title"]);
+            newjson.entry[0].displayLinkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
             $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,newjson));
 
             // get related content for group
