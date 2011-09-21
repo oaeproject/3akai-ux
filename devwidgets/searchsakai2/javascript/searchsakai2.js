@@ -129,6 +129,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     callback(data);
                 },
                 error: function(){
+                    $("#sakai2search_error_container", rootel).show();
                 }
             });
         };

@@ -320,6 +320,7 @@ sakai_global.s23_site = function(){
             },
             error: function(xhr, textStatus, thrownError) {
                 debug.error("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
+                sakai.api.Util.Security.send404();
             }
         });
     };

@@ -101,6 +101,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                         sakai.data.me.sakai2List = resultJson;
                         doRender(sakai.data.me.sakai2List);
+                    }, 
+                    error: function(){
+                        $("#mysakai2_error_container", rootel).show();
                     }
                 });
             });
