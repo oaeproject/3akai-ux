@@ -46,7 +46,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var mysakai2List = "#mysakai2_list";
         var mysakai2ListTemplate = "#mysakai2_list_template";
-        var mysakai2ErrorNosites = "#mysakai2_error_nosites";
+        var mysakai2ErrorNosites = "#mysakai2_no_results_container";
 
 
         /**
@@ -56,8 +56,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var doRender = function(resultJson , useDisplayProperties){
             // If the user is not registered for any sites, show the no sites error.
             if (resultJson.sites.length === 0) {
-                $(mysakai2List, rootel).html(sakai.api.Security.saneHTML($(mysakai2ErrorNosites).html())).addClass("sites_error");
+                $(mysakai2List, rootel).hide();
+                $(mysakai2ErrorNosites, rootel).show();
             } else {
+                $(mysakai2List, rootel).show();
+                $(mysakai2ErrorNosites, rootel).hide();
                 $(mysakai2List, rootel).html(sakai.api.Util.TemplateRenderer(mysakai2ListTemplate.replace(/#/, ''), resultJson));
             }
         };
@@ -98,6 +101,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
                         sakai.data.me.sakai2List = resultJson;
                         doRender(sakai.data.me.sakai2List);
+                    }, 
+                    error: function(){
+                        $("#mysakai2_error_container", rootel).show();
                     }
                 });
             });
@@ -113,7 +119,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             doInit();
         });
 
-        $("#mysakai2_add_files_link").click(function(ev){
+        $(".mysakai2_add_files_link", rootel).click(function(ev){
             // Load the sakai 2 favourites widget.
             $(window).trigger("init.sakai2favourites.sakai");
         });
