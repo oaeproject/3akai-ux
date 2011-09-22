@@ -38,7 +38,6 @@
 #mylibrary_actionbar .s3d-search-container {display:inline-block;float:right;margin-right:284px;}
 #mylibrary_actionbar .s3d-search-container #mylibrary_livefilter{width:200px;}
 #mylibrary_actionbar {margin-top: 10px; margin-bottom: 10px;}
-.mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 
