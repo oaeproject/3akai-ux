@@ -689,6 +689,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             body = body + btoa(documentObj.fileReader.getAsDataURL()) + "\r\n";
             body = body + "--AAAAA--\r\n";
             xhReq.send(body);
+            checkUploadCompleted();
             return false;
 
             /*$.ajax({
