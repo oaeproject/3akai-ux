@@ -49,6 +49,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var relatedcontent = "#relatedcontent";
         var relatedcontentContainer = relatedcontent + "_container";
         var relatedcontentDefaultTemplate = relatedcontent + "_default_template";
+        var relatedcontentContent = ".relatedcontent_content";
+        var relatedcontentFooter = "#relatedcontent_footer";
+        var relatedcontentFooterTemplate = "relatedcontent_footer_template";
 
 
         //////////////////////
@@ -69,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
                 $(relatedcontentContainer).show();
+                $(relatedcontentFooter).html(sakai.api.Util.TemplateRenderer(relatedcontentFooterTemplate, {"query": searchquery}));
             }
         };
 
@@ -111,6 +115,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var managersList = "";
             var viewersList = "";
             var ajaxSuccess = function(data) {
+                $.each(data.results, function(index, item){
+                    data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
+                });
                 var json = {
                     "content": contentData,
                     "relatedContent": data
@@ -181,6 +188,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             addBinding();
             getRelatedContent(contentData);
         });
+
+        $(relatedcontentContent).live("click", function(){
+            $.bbq.pushState($(this).attr("data-href"));
+        })
 
         // Indicate that the widget has finished loading
         $(window).trigger("ready.relatedcontent.sakai", {});

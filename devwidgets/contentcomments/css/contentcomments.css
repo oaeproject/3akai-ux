@@ -26,11 +26,10 @@
 #contentcomments_settings .dialog_buttons.right button{float:right;}
 
 /* Main container */
-#contentcomments_mainContainer.s3d-widget-container,#contentcomments_settings.fl-widget-content{margin-right:20px;}
 .contentcomments_commentMessage p.contentcomments_infoDeleted{font-size:.9em;text-align:right;}
 .contentcomments_nextButtons{width:100%;}
 #contentcomments_numCommentsDisplayed,#contentcomments_numComments{color:#666;}
-#contentcomments_userCommentContainer {padding:0 12px;border-bottom:1px solid #DFDFDF;}
+#contentcomments_userCommentContainer {padding:0 12px;}
 .contentcomments_posterDataName,.contentcomments_posterData a{font-size:1em;text-decoration:none;font-weight:bold;margin:0;}
 .contentcomments_posterData{float:left;padding-left:4px;height:25px;}
 .contentcomments_posterData a:hover{text-decoration:underline;}
@@ -57,7 +56,9 @@
 .contentcomments_delete,.contentcomments_undelete{float:right;}
 .contentcomments_comment{padding:0 12px 15px 7px;border-bottom:1px solid #DFDFDF;}
 .contentcomments_comment.first{border-bottom:none;}
-#contentcomments_mainContainer textarea,#contentcomments_settings textarea{margin:2px 0;width:90%;border:#DFDFDF solid 1px;resize:none;height:75px;float:right;padding:5px;}
+.contentcomments_comment.last{border-top:1px solid #DFDFDF;}
+.contentcomments_comment.last .contentcomments_avatar {margin-top: 15px;}
+#contentcomments_mainContainer textarea,#contentcomments_settings textarea{margin:2px 0;width:88%;border:#DFDFDF solid 1px;resize:none;height:75px;float:right;padding:5px;}
 #contentcomments_mainContainer textarea::-webkit-input-placeholder {font-style:italic;}
 #contentcomments_mainContainer textarea:-moz-placeholder {font-style: italic;}
 #contentcomments_settings textarea{height:140px;}
