@@ -583,13 +583,13 @@ define(
             var sendJoinRequestMessage = function(managerArray) {
                 var userString = sakai_user.getDisplayName(meData.profile);
                 var groupString = groupProfile["sakai:group-title"];
-                var systemString = sakai_i18n.General.getValueForKey("SAKAI");
+                var systemString = sakai_i18n.getValueForKey("SAKAI");
                 var profileLink = sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid);
                 var acceptLink = sakai_conf.SakaiDomain + "/~" + groupProfile["sakai:group-id"];
-                var subject = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
+                var subject = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_TITLE")
                      .replace(/\$\{sender\}/g, userString)
                      .replace(/\$\{group\}/g, groupString);
-                var body = sakai_i18n.General.getValueForKey("GROUP_JOIN_REQUEST_BODY")
+                var body = sakai_i18n.getValueForKey("GROUP_JOIN_REQUEST_BODY")
                      .replace(/\$\{sender\}/g, userString)
                      .replace(/\$\{group\}/g, groupString)
                      .replace(/\$\{system\}/g, systemString)
