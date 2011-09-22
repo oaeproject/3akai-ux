@@ -147,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
                 } else {
                     $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
-                        "currentversion": $(this).attr("data-versionId") == versions.length - 1
+                        "currentversion": $(this).attr("data-versionId") === versions.length - 1
                     }));
                 }
                 $("#" + currentPageShown.ref).remove();
