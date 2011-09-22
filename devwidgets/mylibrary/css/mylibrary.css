@@ -39,7 +39,6 @@
 #mylibrary_livefilter{float:right; width:200px; margin-right: 170px; height: 20px;}
 #mylibrary_actionbar {margin-top: 10px; margin-bottom: 10px;}
 .mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
-.mylibrary_meta {color:#aaa;font-style:italic;}
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 
