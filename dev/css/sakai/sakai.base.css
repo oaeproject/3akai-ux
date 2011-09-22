@@ -255,6 +255,8 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .fl-col-flex3 .fl-col{margin-left:5px;margin-right:0;padding-left:0;padding-right:0;width:230px;margin-right:8px;}
 .fl-col-flex3 .fl-col:last-child {margin-right:0;}
 
+.s3d-inset-shadow-container {background-color:#ededed;border:1px solid #ededed;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:inset 0 5px 5px -5px #888888;-moz-box-shadow:inset 0 5px 5px -5px #888888;-webkit-box-shadow:inset 0 5px 5px -5px #888888;}
+
 /*
  * SEARCH BOXES
  */

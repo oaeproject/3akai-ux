@@ -13,6 +13,25 @@
     <div class="fl-push"></div>
 </div>
 
+<div id="areapermissions_warning_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__WARNING__</h1>
+    <p id="areapermissions_warning_container_text"></p>
+    <div class="fl-force-right areapermissions_buttons">
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__GO_BACK__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="areapermissions_proceedandapply">__MSG__PROCEED_AND_APPLY__</button>
+    </div>
+    <div class="fl-push"></div>
+</div>
+
+<div id="areapermissions_warning_container_text_template" style="display:none;"><!--
+    {if visibility === "loggedin"}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_AREA_OPEN_TO_INSTITUTION__
+    {else}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_AREA_OPEN_TO_PUBLIC__
+    {/if}
+--></div>
+
 <div id="areapermissions_content_template" style="display:none"><!--
     <div class="areapermissions_visible_to">
         <span>__MSG__CAN_BE_SEEN_BY__:</span>
