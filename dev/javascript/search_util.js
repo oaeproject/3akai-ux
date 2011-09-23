@@ -56,9 +56,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             $(".s3d-search-results-container").addClass("s3d-search-results-grid");
         }
 
-        var setView = function(newView) {
-            view = newView;
-        };
 
         ////////////////////////////////
         // Finish util initialisation //
@@ -286,14 +283,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // bind search view type
         $("#search_view_list").live("click", function(ev){
             if ($(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
-                setView("list");
+                view = "list";
                 $(".s3d-search-results-container").removeClass("s3d-search-results-grid");
             }
         });
 
         $("#search_view_grid").live("click", function(ev){
             if (!$(".s3d-search-results-container").hasClass("s3d-search-results-grid")){
-                setView("grid");
+                view = "grid";
                 $(".s3d-search-results-container").addClass("s3d-search-results-grid");
             }
         });
