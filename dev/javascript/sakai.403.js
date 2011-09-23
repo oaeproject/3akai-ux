@@ -27,6 +27,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $signinbuttonwrapper = $('#error_sign_in_button');
         var $signinbutton = $("button",$signinbuttonwrapper);
         var $browsecatcount = $("#error_browse_category_number");
+        var $browsecats = $(".browse_cats");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $errorPageLinksTemplate = $("#error_page_links_template");
@@ -35,13 +36,17 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(){
             var renderedTemplate = false;
-            var catcount = 0;
-            for (var i in sakai.config.Directory) {
-                if (sakai.config.Directory.hasOwnProperty(i)) {
-                    catcount+=1;
+            if (sakai.config.enableCategories) {
+                var catcount = 0;
+                for (var i in sakai.config.Directory) {
+                    if (sakai.config.Directory.hasOwnProperty(i)) {
+                        catcount+=1;
+                    }
                 }
+                $browsecatcount.text(catcount);
+            } else {
+                $browsecats.hide();
             }
-            $browsecatcount.text(catcount);
 
             // Create the world links in the second column after People, Content...
             var worlds = [];

@@ -1490,6 +1490,7 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+        enableCategories: true,
 
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',

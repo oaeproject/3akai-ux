@@ -10,7 +10,7 @@
 
 <div id="featuredcontent_content_template"><!--
     {if !sakai_global.category}
-        <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
+        <div class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__ALL_CATEGORIES__{else}__MSG__SUGGESTED__{/if}</div>
     {/if}
     {if data && data.length}
         {if !sakai_global.category}
@@ -106,7 +106,7 @@
         {if !sakai_global.category}
         </div>
             <div id="featuredcontent_show_more_container">
-                <a class="s3d-button s3d-large-button" href="/categories" title="__MSG__SHOW_MORE__">
+                <a class="s3d-button s3d-large-button" href="{if sakai.config.enableCategories}/categories{else}/search{/if}" title="__MSG__SHOW_MORE__">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
                 <a/>
             </div>
