@@ -12,7 +12,7 @@
 
 <div id="categories_items_template"><!--
     <div id="categories_items_scroll">
-        <a href="/categories" title="__MSG__VIEW_ALL__" class="categories_view_all_link">
+        <a href="/categories" class="categories_view_all_link">
             <button class="s3d-button s3d-overlay-button s3d-header-smaller-button" id="categories_view_all">__MSG__VIEW_ALL__</button>
         </a>
         <div id="categories_view_next_raquo"></div>
@@ -53,7 +53,7 @@
                                     {else}
                                         <img src="${sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(item.content)).URL}" class="categories_item_content_preview"/>
                                     {/if}
-                                    <a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links s3d-bold">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], 70, null, "s3d-bold")}</a>
+                                    <a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-regular-links s3d-bold" title="${item.content["sakai:pooled-content-file-name"]|safeOutput}">${sakai.api.Util.applyThreeDots(item.content["sakai:pooled-content-file-name"], 70, null, "s3d-bold")}</a>
                                     <span style="display:none"><span class="categories_item_descriptive_text">__MSG__BY__</span> <a href="/~${item.content["sakai:pool-content-created-for"]}" class="s3d-regular-links s3d-bold">${item.content["sakai:pool-content-created-for"]}</a></span>
                                     {if item.content["sakai:description"]}
                                         {var size = 125}

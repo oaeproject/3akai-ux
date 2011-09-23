@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"><!----></div>
                     <div class="s3d-no-results-icon s3d-no-results-memberships-small"><!----></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=group" title="__MSG__CREATE_ONE__" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/create#l=group" class="s3d-regular-links">__MSG__CREATE_ONE__</a></h1>
                 </div>
             </div>
        </div>
@@ -17,8 +17,8 @@
             <div class="recentmemberships_item"></div>
             <div id="recentmemberships_item_template"><!--
                 <div class="recentmemberships_item_img fl-force-left">
-                    <a href="#">
-                        <img class="s3d-icon-50" src="/dev/images/group_avatar_icon_64x64_nob.png"/>
+                    <a href="/~${entry[0].groupid}" title="${entry[0].displayLinkTitle}">
+                        <img class="s3d-icon-50" src="/dev/images/group_avatar_icon_64x64_nob.png" alt="__MSG__PROFILE_PICTURE_FOR__ ${entry[0]["sakai:group-title"]|safeOutput}"/>
                     </a>
                 </div>
                 <div class="recentmemberships_item_info">
@@ -48,12 +48,12 @@
             <div class="recentmemberships_item_related_info">
                 <p class="recentmemberships_item_meta_data">__MSG__RECENTLY_CONNECTED_TO__ <span>${group["sakai:group-title"]}</span></p>
                 <div class="fl-force-left">
-                <a href="/~${member.memberId}">
-                    <img class="s3d-icon-32" src="${member.memberPicture}" />
+                <a href="/~${member.memberId}" title="${member.memberLinkTitle}">
+                    <img class="s3d-icon-32" src="${member.memberPicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${member.memberName}" />
                 </a>
                 </div>
                 <div class="recentmemberships_item_div">
-                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}" title="${member.memberName}">
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/~${member.memberId}">
                         ${member.memberName}
                     </a>
                     ${member.roleName.toUpperCase()}
@@ -80,7 +80,7 @@
                     </a>
                 </div>
                 <div class="recentmemberships_item_div">
-                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']}/${content.name}" title="${content.name}">
+                    <a class="recentmemberships_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|safeURL}/${content.name|safeURL}">
                         ${content.name}
                     </a>
                     <span class="recentmemberships_content_mimetype">${content.type|safeOutput}</span>

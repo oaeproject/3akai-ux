@@ -142,6 +142,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                         toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
                         toplevel.count = data[i]["sakai:tag-count"];
+                        var mimeType = sakai.api.Content.getMimeType(data[i].content);
+                        toplevel.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                        if (sakai.config.MimeTypes[mimeType]){
+                            toplevel.mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description);
+                        }
                     }
                     toplevel.id = i;
                     categoriesToRender.push(toplevel);
