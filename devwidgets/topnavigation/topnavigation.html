@@ -115,13 +115,13 @@
             <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container{if auth.externalAuth} topnavigation_external_login{/if}" style="display:none;">
                 {if auth.externalAuth}
-                    <ul>
+                    <ul id="subnavigation_login_list">
                         {for i in auth.Authentication.external}
                             <li>
                                 <div class="topnav_content_icon_container fl-force-left">
                                     <span class="topnav_content_icon ${i.css_class}"></span>
                                 </div>
-                                <a href="${i.url}" title="${i.label}" class="s3d-bold">${i.label}</a>
+                                <a href="${i.url}" title="${i.label}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
                             </li>
                         {/for}
                     </ul>

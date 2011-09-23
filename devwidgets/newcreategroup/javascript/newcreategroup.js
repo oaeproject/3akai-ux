@@ -62,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupGroupMembership = $("#newcreategroup_membership", $rootel);
     var $newcreategroupAddPeople = $(".newcreategroup_add_people", $rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
+    var $newcreategroupCreating = $("#newcreategroup_creating");
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form", $rootel);
@@ -122,6 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Create a simple group and execute the tagging and membership functions
      */
     var doCreateSimpleGroup = function(){
+        $newcreategroupCreating.jqmShow();
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
@@ -167,6 +169,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             } else {
                 if(nameTaken){
+                    $newcreategroupCreating.jqmHide();
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_TAKEN", "newcreategroup"), sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
                 }
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
@@ -185,6 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
                     addStructureToGroup(groupid, currentTemplate, function(){
                         removeCreatorFromManagersOfMainGroup(groupid, currentTemplate, function() {
+                            $newcreategroupCreating.jqmHide();
                             window.location = "/~" + groupid;
                         });
                     });
@@ -362,6 +366,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupAddPeople.live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid]);
         });
+        $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.General.process(currentTemplate.title)}));
+        $newcreategroupCreating.jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
     };
 
     /**
@@ -370,6 +380,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
         $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.General.process(currentTemplate.title));
+        if(widgetData.singleTemplate === true){
+            $newcreategroupCancelCreateButton.hide();
+        }
         $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
         $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~");
         if (sakai.config.Permissions.Groups.defaultaccess){
