@@ -632,7 +632,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var title = false;
                     if (sakai_global.lhnavigation &&
                         sakai_global.lhnavigation.getCurrentPage &&
-                        sakai_global.lhnavigation.getCurrentPage().title &&
                         sakai_global.lhnavigation.getCurrentPage().title) {
 
                         title = sakai_global.lhnavigation.getCurrentPage().title;
