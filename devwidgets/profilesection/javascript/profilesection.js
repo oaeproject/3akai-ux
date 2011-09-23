@@ -498,7 +498,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/profile_edit.js"], f
                             parentProp[0][propName] = {};
                             parentProp[0][propName].value = $selected_element.val();
                         } else if (prop) { // it exists, just change its value
-                            if ($selected_element.is("input") || $selected_element.is("select") || $selected_element.is("textarea")) {
+                            if ($selected_element.is("select, input, textarea")) {
                                 var val = $selected_element.val();
                                 if ($(element).hasClass("date") || $(element).hasClass("oldDate")) { // localize dates
                                     // convert the date into a Date object for storage
