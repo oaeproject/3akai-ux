@@ -457,8 +457,9 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          */
         var createDocument = function(documentObj){
             var refID = sakai.api.Util.generateWidgetId();
+            var title = proofTitle(documentObj.title);
             var doc = {
-                "sakai:pooled-content-file-name": proofTitle(documentObj.title),
+                "sakai:pooled-content-file-name": title,
                 "sakai:description": documentObj.description,
                 "sakai:permissions": documentObj.permissions,
                 "sakai:copyright": documentObj.copyright,
@@ -466,11 +467,11 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                     "page1": {
                         "_ref": refID,
                         "_order": 0,
-                        "_title": "Page Title 1",
+                        "_title": title,
                         "main": {
                             "_ref": refID,
                             "_order": 0,
-                            "_title": "Page Title 1"
+                            "_title": title
                         }
                     }
                 }),
