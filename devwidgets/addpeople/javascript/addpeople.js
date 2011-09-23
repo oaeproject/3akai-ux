@@ -143,6 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.each(currentTemplate.roles, function(i, role){
                         if (user.permission == role.title || user.permission == role.id) {
                             user.permission = role.id;
+                            user.permissionTitle = role.title;
                             if (role.allowManage) {
                                 managerSelected = true;
                             }
@@ -162,8 +163,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData["sakai:group-title"]);
                         var groupID = sakai_global.group.groupData["sakai:group-id"];
                         var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
-                        var subject = sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", displayName).replace("${role}", user.permission).replace("${groupName}", groupTitle);
-                        var body = $("#addpeople_message_template", $rootel).text().replace("${role}", user.permission).replace("${firstname}", user.name).replace("${user}", groupTitle).replace("${groupURL}", sakai.config.SakaiDomain + "/~" + groupID).replace("${groupName}", groupTitle);
+                        var subject = sakai.api.i18n.Widgets.getValueForKey("addpeople", "", "USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", displayName).replace("${role}", user.permissionTitle).replace("${groupName}", groupTitle);
+                        var body = $("#addpeople_message_template", $rootel).text().replace("${role}", user.permissionTitle).replace("${firstname}", user.name).replace("${user}", groupTitle).replace("${groupURL}", sakai.config.SakaiDomain + "/~" + groupID).replace("${groupName}", groupTitle);
                         sakai.api.Communication.sendMessage(user.userid, sakai.data.me, subject, body, "message", false, false, true, "group_invitation");
                     });
                 }
@@ -230,9 +231,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var changeSelectedPermission = function(){
             var selectedPermission = $(this).val();
+            var selectedPermissionTitle = $(this).find("option:selected").text();
             $.each($addpeopleSelectedContactsContainer.find("input:checked"), function(index, item){
                 $(item).nextAll("select").val(selectedPermission);
                 selectedUsers[$(item)[0].id.split("_")[0]].permission = selectedPermission;
+                selectedUsers[$(item)[0].id.split("_")[0]].permissionTitle = selectedPermissionTitle;
             });
         };
 
@@ -242,6 +245,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var changePermission = function(){
             var userid = $(this)[0].id.split("_")[0];
             selectedUsers[userid].permission = $(this).val();
+            selectedUsers[userid].permissionTitle = $(this).find("option:selected").text();
         };
 
         /**
@@ -354,6 +358,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             if (currentTemplate.roles[i].title === role) {
                                 userObj.permission = currentTemplate.roles[i].id;
                                 userObj.originalPermission = currentTemplate.roles[i].id;
+                                userObj.permissionTitle = role;
                             }
                         });
                         if (data[role].results[user].picture) {
