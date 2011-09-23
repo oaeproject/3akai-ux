@@ -380,7 +380,7 @@
         _verifyWrapper: function(){
 
             if ($('#gritter-notice-wrapper').length == 0) {
-                $('body').append(this._tpl_wrap);
+                $('#gritter-container').append(this._tpl_wrap);
             }
 
         }
