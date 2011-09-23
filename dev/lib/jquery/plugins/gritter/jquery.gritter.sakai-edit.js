@@ -381,12 +381,9 @@
 
             if ($('#gritter-notice-wrapper').length == 0) {
                 if ($('#gritter-container').length === 0){
-                    debug.log("Here");
                     $('body').append("<div id='gritter-container' aria-live='assertive'></div>");
-                    debug.log($('#gritter-container'));
                 }
                 $('#gritter-container').append(this._tpl_wrap);
-                debug.log($('#gritter-container'));
             }
 
         }
