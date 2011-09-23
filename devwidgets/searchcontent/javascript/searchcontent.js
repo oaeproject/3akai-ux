@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 10;
+        var resultsToDisplay = 12;
 
         // Search URL mapping
         var searchURLmap = {
@@ -47,7 +47,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             mycontacts: sakai.config.URL.SEARCH_MY_CONTACTS,
             myfiles: sakai.config.URL.SEARCH_MY_FILES,
             myfilesall: sakai.config.URL.SEARCH_MY_FILES_ALL,
-            mysites: sakai.config.URL.SEARCH_MY_SITES,
             pooledcontentmanager: sakai.config.URL.POOLED_CONTENT_MANAGER,
             pooledcontentmanagerall: sakai.config.URL.POOLED_CONTENT_MANAGER_ALL,
             pooledcontentviewer: sakai.config.URL.POOLED_CONTENT_VIEWER,
@@ -98,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
-                resultsContainerAnonClass: 'searchcontent_results_anon',
+                resultsContainerAnonClass: 's3d-search-results-anon',
                 header: search + '_results_header',
                 tagHeader: search + '_results_tag_header',
                 template: 'searchcontent_results_template'
@@ -194,12 +193,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 finaljson.sakai = sakai;
                 // Render the results.
                 $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-                $(".searchcontent_results_container").show();
-                // display functions available to logged in users
-                if (!sakai.data.me.user.anon) {
-                    $(".searchcontent_result_user_functions").show();
-                    $(".searchcontent_result_anonuser").hide();
-                }
             };
 
             // Get displaynames for the users that created content
@@ -333,16 +326,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev){
-            sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
-                "98384013291": {
-                    "facetedConfig": searchConfig.facetedConfig
-                }
-            }]);
-            doSearch();
+        $(window).bind("sakai.search.util.finish", function(ev, data){
+            if (data && data.tuid === tuid) {
+                sakai.api.Widgets.widgetLoader.insertWidgets("searchcontent_widget", false, false, [{
+                    "98384013291": {
+                        "facetedConfig": searchConfig.facetedConfig
+                    }
+                }]);
+                doSearch();
+            }
         });
 
-        $(window).trigger("sakai.search.util.init");
+        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
 
     };
 

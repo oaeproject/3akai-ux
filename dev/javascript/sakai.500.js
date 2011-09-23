@@ -50,7 +50,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var obj = {};
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.General.getValueForKey(world.title);
+                world.label = sakai.api.i18n.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
                     world.last = true;
                 }
@@ -89,7 +89,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(permissionsError).append(renderedTemplate);
                 $("#permission_error").addClass("error_page_bringdown");
             }
-            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("AN_ERROR_HAS_OCCURRED");
+            document.title = document.title + " " + sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED");
 
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {

@@ -48,7 +48,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             var obj = {};
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.General.getValueForKey(world.title);
+                world.label = sakai.api.i18n.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
                 	world.last = true;
                 }
@@ -101,7 +101,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
+            document.title = document.title + " " + sakai.api.i18n.getValueForKey("ACCESS_DENIED");
         };
 
         var forceLoginOverlay = function(){

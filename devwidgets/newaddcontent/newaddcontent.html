@@ -145,7 +145,7 @@
     <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
     <select id="newaddcontent_upload_content_copyright">
     {for cr in copyright}
-        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+        <option value="${cr_index}">${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
     {/for}
 --></div>
 
@@ -181,7 +181,7 @@
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
             {for cr in copyright}
-                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>
@@ -191,7 +191,7 @@
     </div>
 --></div>
 
-<div id="newaddcontent_selecteditems_template"><!--
+<div id="newaddcontent_selecteditems_template" style="display:none;"><!--
     {if items.length}
         <div id="newaddcontent_saveto_container">
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
@@ -234,7 +234,7 @@
     {/if}
 --></div>
 
-<div id="newaddcontent_existingitems_template"><!--
+<div id="newaddcontent_existingitems_template" style="display:none;"><!--
     <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
         <ul>
             {if data.results.length}
@@ -272,13 +272,21 @@
     </form>
 --></div>
 
-<div id="newaddcontent_notification_finished_template" style="display:none"><!--
+<div id="newaddcontent_notification_finished_template" style="display:none;"><!--
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
     {else}
         This content has been added to <a href='/~${libraryid}#l=library'>${librarytitle|safeOutput}</a>
     {/if}
 --></div>
+
+<div id="newaddcontent_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <h1 class="s3d-dialog-header">__MSG__UPLOADING_YOUR_CONTENT__</h1>
+    <p>__MSG__PROCESSING__</p>
+    <div class="s3d-inset-shadow-container">
+        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+    </div>
+</div>
 
 <!-- 
 {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["_path"], queue) >= 0} disabled{/if}

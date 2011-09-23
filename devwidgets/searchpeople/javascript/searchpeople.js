@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 10;
+        var resultsToDisplay = 12;
         var rootel = $("#" + tuid);
 
         // Search URL mapping
@@ -48,8 +48,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             invitedcontacts : sakai.config.URL.CONTACTS_FIND + '?state=INVITED',
             invitedcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=INVITED',
             pendingcontacts : sakai.config.URL.CONTACTS_FIND + '?state=PENDING',
-            pendingcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING',
-            onlinecontacts : sakai.config.URL.PRESENCE_CONTACTS_SERVICE
+            pendingcontactsall : sakai.config.URL.SEARCH_USERS_ACCEPTED + '?state=PENDING'
         };
 
         // CSS IDs
@@ -95,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
-                resultsContainerAnonClass: 'searchpeople_results_anon',
+                resultsContainerAnonClass: 's3d-search-results-anon',
                 header: search + '_results_header',
                 tagHeader: search + '_results_tag_header',
                 template: 'searchpeople_results_template'
@@ -180,13 +179,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(".searchpeople_results_container").show();
-
-            // display functions available to logged in users
-            if (!sakai.data.me.user.anon) {
-                $(".searchpeople_result_user_functions").show();
-                $(".searchpeople_result_anonuser").hide();
-            }
         };
 
         /**
@@ -315,16 +307,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev){
-            sakai.api.Widgets.widgetLoader.insertWidgets("searchpeople_widget", false, false, [{
-                "449529953": {
-                    "facetedConfig": searchConfig.facetedConfig
-                }
-            }]);
-            doSearch();
+        $(window).bind("sakai.search.util.finish", function(ev, data){
+            if (data && data.tuid === tuid) {
+                sakai.api.Widgets.widgetLoader.insertWidgets("searchpeople_widget", false, false, [{
+                    "449529953": {
+                        "facetedConfig": searchConfig.facetedConfig
+                    }
+                }]);
+                doSearch();
+            }
         });
 
-        $(window).trigger("sakai.search.util.init");
+        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
 
     };
 

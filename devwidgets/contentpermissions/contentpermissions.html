@@ -65,7 +65,7 @@
 		{if memberArr_index === "managers" || memberArr_index === "viewers"}
 			{for member in memberArr}
 				{if member.groupid}
-					<li id="member_${member.groupid|safeOutput}">
+					<li id="member_${member.groupid|safeOutput}" data-originalpermission="${memberArr_index}">
 						<select class="contentpermissions_member_permissions">
 							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
 							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
@@ -74,14 +74,14 @@
 						<label for="select_${member.groupid}">
 							<img src="/dev/images/group_avatar_icon_35x35_nob.png" class="s3d-icon-32" alt="__MSG__USER_PICTURE__"/>
 							{if member.pseudoGroup}
-								<a href="/~${member.parent["sakai:group-id"]|safeURL}" title="__MSG__VIEW__ ${member.parent["sakai:group-title"]|safeOutput} ${member.parent["sakai:role-title"]|safeOutput}'s __MSG__PROFILE__">${member.parent["sakai:group-title"]|safeOutput} <span class="contentpermissions_pseudogroup">${member.parent["sakai:role-title"]|safeOutput}</span></a>
+								<a href="/~${member.parent["sakai:group-id"]|safeURL}" title="__MSG__VIEW__ ${member.parent["sakai:group-title"]|safeOutput} ${member.parent["sakai:role-title"]|safeOutput}'s __MSG__PROFILE__">${member.parent["sakai:group-title"]|safeOutput} <span class="contentpermissions_pseudogroup">${sakai.api.i18n.General.process(member.parent["sakai:role-title"])}</span></a>
 							{else}
 								<a href="/~${member.groupid|safeURL}" title="__MSG__VIEW__ ${member["sakai:group-title"]|safeOutput}'s __MSG__PROFILE__">${member["sakai:group-title"]|safeOutput}</a>
 							{/if}
 						</label>
 					</li>
 				{else}
-					<li id="member_${member.userid|safeOutput}">
+					<li id="member_${member.userid|safeOutput}" data-originalpermission="${memberArr_index}">
 						<select class="contentpermissions_member_permissions">
 							<option value="manager" {if memberArr_index === "managers"} selected="selected"{/if}>__MSG__CAN_EDIT__</option>
 							<option value="viewer" {if memberArr_index === "viewers"} selected="selected"{/if}>__MSG__CAN_VIEW__</option>
@@ -102,6 +102,28 @@
 	{/for}
 </ul>
 --></div>
+
+<div id="contentpermissions_warning_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__WARNING__</h1>
+    <p id="contentpermissions_warning_container_text"></p>
+    <div class="fl-force-right contentpermissions_buttons">
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__GO_BACK__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="contentpermissions_proceedandapply">__MSG__PROCEED_AND_APPLY__</button>
+    </div>
+    <div class="fl-push"></div>
+</div>
+
+<div id="contentpermissions_warning_container_text_template" style="display:none;"><!--
+    {if visibility === "everyone"}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_CONTENT_OPEN_TO_INSTITUTION__
+    {else}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_CONTENT_OPEN_TO_PUBLIC__
+    {/if}
+--></div>
+
+<div id="contentpermissions_permissionschanged" style="display:none;">__MSG__CONTENT_PERMISSIONS_SUCCESSFULLY_CHANGED__</div>
+<div id="contentpermissions_permissions" style="display:none;">__MSG__CONTENT_PERMISSIONS__</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentpermissions/javascript/contentpermissions.js"/>

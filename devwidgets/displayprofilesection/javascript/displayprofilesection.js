@@ -136,7 +136,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(sakai.config.Profile.configuration.defaultConfig[s].display){
                     var obj = {
                         "id" : s,
-                        "label" : sakai.api.i18n.General.getValueForKey(sakai.config.Profile.configuration.defaultConfig[s].label.split("__MSG__")[1].split("__")[0])
+                        "label" : sakai.api.i18n.getValueForKey(sakai.config.Profile.configuration.defaultConfig[s].label.split("__MSG__")[1].split("__")[0])
                     };
                     objArr.configuration.push(obj);
                 }
