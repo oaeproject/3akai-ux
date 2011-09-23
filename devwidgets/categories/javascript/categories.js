@@ -130,17 +130,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          */   
         var parseDirectory = function(success, data){
             $.each(directory, function(i, toplevel){
-                toplevel.count = 0;
-                if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)){
-                    toplevel.content = data[i].content;
-                    toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
-                    toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                    toplevel.count = data[i]["sakai:tag-count"];
+                if (toplevel.divider){
+                    var toFillOut = 4 - (categoriesToRender.length % 4);
+                    if (toFillOut !== 4) {
+                        categoriesToRender.push({"spacer": true});
+                    }
+                } else {
+                    toplevel.count = 0;
+                    if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)){
+                        toplevel.content = data[i].content;
+                        toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
+                        toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
+                        toplevel.count = data[i]["sakai:tag-count"];
+                    }
+                    toplevel.id = i;
+                    categoriesToRender.push(toplevel);
                 }
-                toplevel.id = i;
-                categoriesToRender.push(toplevel);
-                
             });
+            var toFillOutExtra = 4 - (categoriesToRender.length % 4);
+            for (var i = 0; i < toFillOutExtra; i++){
+                categoriesToRender.push({"spacer": true});
+            }
             renderCategories();
         };
         
