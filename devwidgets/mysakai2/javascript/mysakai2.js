@@ -84,11 +84,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         var resultJson = {};
                         resultJson.sites = [];
                         if(savedsuccess){
-                            for (var ii = 0; ii < fulllist.sites.length; ii++){
-                                for (var i = 0; i < saveddata.id.length; i++){
-                                    if (fulllist.sites[ii].id === saveddata.id[i]){
-                                        resultJson.sites.push(fulllist.sites[ii]);
-                                        break;
+                            if (fulllist.sites) {
+                                for (var ii = 0; ii < fulllist.sites.length; ii++) {
+                                    for (var i = 0; i < saveddata.id.length; i++) {
+                                        if (fulllist.sites[ii].id === saveddata.id[i]) {
+                                            resultJson.sites.push(fulllist.sites[ii]);
+                                            break;
+                                        }
                                     }
                                 }
                             }

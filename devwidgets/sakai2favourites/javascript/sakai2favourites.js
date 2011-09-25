@@ -72,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method render Category List.
          */
         var loadSakai2SiteList = function(){
+            siteListsjson.categories = siteListsjson.categories || [];
             $(sakai2CategoryList).html(sakai.api.Util.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
         };
 
