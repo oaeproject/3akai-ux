@@ -890,6 +890,32 @@ define(function(){
             "label": "SIGN_UP"
         }],
 
+        Footer: {
+            leftLinks: [{
+                "title": "__MSG__COPYRIGHT__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__HELP__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__ACKNOWLEDGEMENTS__",
+                "href": "/acknowledgements"
+            }, {
+                "title": "__MSG__SUGGEST_AN_IMPROVEMENT__",
+                "href": "http://sakaioae.idea.informer.com/",
+                "newWindow": true
+            }],
+            rightLinks: [{
+                "title": "__MSG__BROWSE__",
+                "href": "/categories"
+            }, {
+                "title": "__MSG__EXPLORE__",
+                "href": "/"
+            }]
+        },
+
         /*
          * Are anonymous users allowed to browse/search
          */
@@ -1464,6 +1490,7 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+        enableCategories: true,
 
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',

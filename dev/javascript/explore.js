@@ -19,6 +19,12 @@
 require(["jquery","sakai/sakai.api.core"], function($, sakai) {
     
     sakai_global.explore = function() {
+        var doInit = function() {
+            if (sakai.config.enableCategories) {
+                sakai.api.Util.TemplateRenderer($("#explore_categories_template"), {}, $("#explore_categories"));
+            }
+        };
+        doInit();
     };
 
     sakai.api.Widgets.Container.registerForLoad("explore");
