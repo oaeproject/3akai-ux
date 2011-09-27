@@ -680,16 +680,13 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
 
             var xhReq = new XMLHttpRequest();
             xhReq.open("POST", "/system/pool/createfile", false);
-            xhReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
 
-            var body = "--AAAAA\r\n"
-            body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + documentObj.title + "\" \r\n";
-            body = body + "Content-Type: " + documentObj.fileReader.type + " \r\n";
-            body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
-            body = body + btoa(documentObj.fileReader.getAsDataURL()) + "\r\n";
-            body = body + "--AAAAA--\r\n";
-            xhReq.send(body);
-            checkUploadCompleted();
+            var formData = new FormData();
+            formData.append("enctype", "multipart/form-data");
+            formData.append("filename", documentObj.title);
+            formData.append("file", documentObj.fileReader);
+            xhReq.send(formData);
+            checkUploadCompleted(); 
             return false;
 
             /*$.ajax({
