@@ -689,32 +689,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             xhReq.send(formData);
             checkUploadCompleted(); 
             return false;
-
-            /*$.ajax({
-                url: uploadPath,
-                data: documentObj.fileReader.getAsBinary(),
-                type: "POST",
-                success: function(data){
-                    var document = {
-                        "sakai:pooled-content-file-name": documentObj.title,
-                        "sakai:description": documentObj.description,
-                        "sakai:permissions": documentObj.permissions,
-                        "sakai:copyright": documentObj.copyright
-                    };
-                    $.ajax({
-                         url: "/p/" + data._contentItem.poolId,
-                         type: "POST",
-                         dataType: "json",
-                         data: $.toJSON(document),
-                         success: function(data){
-                            debug.log(data);
-                         }
-                     });
-                    debug.log(data);
-                }, error: function(err){
-                    debug.log(err);
-                }
-            });*/
         }
 
         /**
