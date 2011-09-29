@@ -1093,6 +1093,12 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         };
 
         var fileDropped = function(file){
+            var css_class = "";
+            if(file.type && sakai.config.MimeTypes[file.type]){
+                css_class = sakai.config.MimeTypes[file.type].cssClass;
+            } else {
+                css_class = sakai.config.MimeTypes["other"].cssClass;
+            }
             var contentObj = {
                 "originaltitle": file.name,
                 "title": file.name,
@@ -1100,7 +1106,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 "tags": "",
                 "permissions": "public",
                 "copyright": "creativecommons",
-                "css_class": sakai.config.MimeTypes[file.type].cssClass,
+                "css_class": css_class,
                 "type": "dropped",
                 "fileReader": file
             };
