@@ -383,6 +383,7 @@ ul.as-selections li.as-original input {border: 0;}
  * VALIDATION
  */input.error,textarea.error{border-color:#9f3333;background-color:#ffdede;}
 label.error{color:#9f3333;font-weight:bold;}
+span.error{color:#9f3333;font-weight:bold;}
 
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix{overflow:auto;}

@@ -22,7 +22,7 @@
 
 /* Validation errors */
 /* Errors */
-#profilesection_generalinfo label.error{display:block;margin-left:126px;padding:3px;}
+#profilesection_generalinfo span.error{display:block;margin-left:126px;padding:3px;}
 
 /* DIRECTORY */
 #profilesection_locations_dialog{width:750px;margin-left:-370px;}

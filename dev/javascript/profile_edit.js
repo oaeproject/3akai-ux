@@ -543,7 +543,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Initialize the validate plug-in
             $profile_form.validate({
                 messages: messages,
+                errorElement: "span",
                 submitHandler: function(form) {
+                    // reset form field aria-invalid status
+                    $profile_form.find("input, select, textarea").attr("aria-invalid", "false");
+
                     $(".profile-section-save-button").attr("disabled", "disabled");
                     // Trigger the profile save method, this is event is bound in every sakai section
                     $(window).trigger("save.profile.sakai");
@@ -552,7 +556,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 onclick:false,
                 onkeyup:false,
                 onfocusout:false,
+                errorPlacement: function(error, element) {
+                    // add an id to the error field
+                    var errorId = $(element).attr("id") + "-error";
+                    $(error).attr("id", errorId);
+                    error.appendTo( element.parent() );
+                },
                 invalidHandler: function(form, validator){
+                    // reset form field aria-invalid status
+                    $profile_form.find("input, select, textarea").attr("aria-invalid", "false");
+
+                    // set aria alert
+                    for (var e in validator.errorList){
+                        $(validator.errorList[e].element).attr("aria-invalid", "true");
+                        var errorId = $(validator.errorList[e].element).attr("id") + "-error";
+                        $(validator.errorList[e].element).parent().find("span.error").attr("id", errorId);
+                        $(validator.errorList[e].element).attr("aria-describedby", errorId);
+                    }
+
                     // Remove all the current notifications
                     sakai.api.Util.notification.removeAll();
 
