@@ -291,14 +291,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 },
                 submitHandler: function(form, validator){
+                    // reset form field aria-invalid status
+                    $("#create_account_form .signup_form_column_fields").find("input, select, textarea").attr("aria-invalid", "false");
+
                     $(".create_account_input_error").hide();
                     doCreateUser();
                     return false;
                 },
+                invalidHandler: function(form, validator){
+                    // reset form field aria-invalid status
+                    $("#create_account_form .signup_form_column_fields").find("input, select, textarea").attr("aria-invalid", "false");
+
+                    // set aria alert
+                    for (var e in validator.errorList){
+                        $(validator.errorList[e].element).attr("aria-invalid", "true");
+                        var errorId = $(validator.errorList[e].element).attr("id") + "-error";
+                        $(validator.errorList[e].element).parent().find("span.error").attr("id", errorId);
+                        $(validator.errorList[e].element).attr("aria-describedby", errorId);
+                    }
+                },
                 errorPlacement: function(error, element){
+                    var errorId = $(element).attr("id") + "-error";
                     $("label."+element[0].id).addClass("signup_form_error_label");
                     $(element).prev().text(error.text());
                     $(element).prev().show();
+                    $(element).prev().attr("id", errorId);
                     if(element[0].id == "username"){
                         $(element).removeClass("username_available_icon");
                     }
