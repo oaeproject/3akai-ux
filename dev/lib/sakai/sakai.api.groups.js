@@ -158,6 +158,7 @@ define(
                 } else {
                     data["sakai:excludeSearch"] = true;
                     data["sakai:pseudoGroup"] = true;
+                    data["sakai:pseudoGroup@TypeHint"] = "Boolean";
                     data["sakai:pseudogroupparent"] = group.parentgroup;
                 }
                 $.ajax({
