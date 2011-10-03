@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* General */
 .allcategories_widget .allcategories_item {background:url("/devwidgets/allcategories/images/allcategories_item_bg.png") repeat-x top left transparent;width:291px;height:156px; overflow: hidden; float:left;margin:0 12px 12px 0;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;padding:4px;}
 .allcategories_widget .allcategories_item:hover {background:#d7eff7;}
