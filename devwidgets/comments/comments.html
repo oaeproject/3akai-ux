@@ -61,7 +61,7 @@
                         <p>${i.message}</p>
                     </div>
                     <div id="comments_message_editContainer_${i['sakai:id']}" style="display:none;">
-                        <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50">${i.messageTxt}</textarea><br/>
+                        <textarea id="comments_editComment_txt_${i['sakai:id']}" rows="7" cols="50" title="__MSG__EDIT_YOUR_COMMENT__">${i.messageTxt}</textarea><br/>
                         <div class="fl-force-right">
                             <button type="button" class="s3d-button s3d-link-button comments_editComment_cancel" id="comments_editComment_cancel${i['sakai:id']}">__MSG__CANCEL__</button>
                             <button type="button" class="s3d-button s3d-overlay-button comments_editComment_save" id="comments_editComment_save${i['sakai:id']}">__MSG__EDIT_COMMENT__</button>
@@ -93,7 +93,7 @@
             <input type="text" class="comments_inputFields" id="comments_txtMailPoster"><br />
         </div>
         <label for="comments_txtMessage">__MSG__YOUR_COMMENT__:</label>
-        <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50"></textarea><br />
+        <textarea id="comments_txtMessage" class="comments_inputFields" rows="7" cols="50" placeholder="__MSG__ENTER_YOUR_COMMENT__"></textarea><br />
 
         <div class="fl-force-right">
             <button type="button" class="s3d-button s3d-link-button comment_postCommentTopBottom" id="comments_cancelComment">__MSG__CANCEL__</button>

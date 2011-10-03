@@ -22,6 +22,7 @@
 /* Actions */
 #participants_general_actions > * {margin-right:10px;}
 #participants_general_actions > label {margin-right:0;}
+.participants_widget #participants_sort {float:right;}
 
 /* Participants list */
 .participants_widget #participants_list_container label {cursor:pointer;}

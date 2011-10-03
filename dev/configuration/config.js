@@ -614,6 +614,8 @@ define(function(){
             "rtf":"text/rtf",
             "htm":"text/html",
             "html":"text/html",
+            "wav": "audio/x-wav",
+            "mp3": "audio/mpeg",
             "other":"other"
         },
         MimeTypes: {
@@ -686,6 +688,16 @@ define(function(){
                 cssClass: "icon-spreadsheet-sprite",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "SPREADSHEET_DOCUMENT"
+            },
+            "audio/x-wav": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
+            },
+            "audio/mpeg": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
             },
             "text/plain": {
                 cssClass: "icon-txt-sprite",
@@ -952,6 +964,13 @@ define(function(){
 
         displayDebugInfo: true,
 
+        /**
+         * Section dividers can be added to the directory structure by adding in the following
+         * element at the appropriate place:
+         *  divider1: {
+         *      divider: true
+         *  }
+         */
         Directory: {
             medicineanddentistry: {
                 title: "__MSG__MEDICINE_AND_DENTISTRY__",

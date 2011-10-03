@@ -63,24 +63,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
             }
         };
-
-        if (sakai.config.showSakai2 === true && !sakai.data.me.user.anon) {
-            // Shift worlds down the side menu by 1 to put in Sakai 2 Search            
-            worldsOrderIncrement++;
-            pubdata.structure0["sakai2sites"] = {
-                "_title": "Sakai 2",
-                "_ref": "id1234567890",
-                "_order": 3,
-                "main": {
-                    "_ref": "id1234567890",
-                    "_order": 0,
-                    "_title": "Sakai 2"
-                }
-            };
-            pubdata["id1234567890"] = {
-                "page": "<div id='widget_searchsakai2' class='widget_inline'></div>"
-            };
-        }
         
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             var category = sakai.config.worldTemplates[c];

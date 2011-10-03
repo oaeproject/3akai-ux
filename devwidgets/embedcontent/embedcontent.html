@@ -35,7 +35,7 @@
                         {var thumbnail = sakai.api.Content.getThumbnail(item.fullresult)}
                         {if embedmethod === "thumbnail" && thumbnail}
                             {var mimeTypeDescription = sakai.config.MimeTypes[mimeType].description}
-                            <a href="/content#p=${item.link}">
+                            <a href="/content#p=${item.link|safeURL}" title="${item.name}">
                                 <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                             </a>
                         {elseif sakai.api.Content.hasPreview(item.fullresult) && embedmethod !== "thumbnail"}
@@ -45,7 +45,7 @@
                                 <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${sakai.config.MimeTypes[mimeType].description}"/>
                             </a>
                         {else}
-                            <a href="/content#p=${item.path}">
+                            <a href="/content#p=${item.link}">
                                 <img src="${sakai.config.MimeTypes['other'].URL}" alt="${sakai.config.MimeTypes['other'].description}"/>
                             </a>
                         {/if}
@@ -190,7 +190,7 @@
                                         <label for="embedcontent_title">__MSG__TITLE__</label>
                                         <input type="text" id="embedcontent_title" name="title"/>
                                         <label for="embedcontent_description">__MSG__DESCRIPTION__</label>
-                                        <textarea id="embedcontent_description" name="description"></textarea>
+                                        <textarea id="embedcontent_description" name="description" title="__MSG__ENTER_A_DESCRIPTION__"></textarea>
                                     </div>
                                 </div>
                             </div>
