@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 #changepic_container{width:750px!important;margin-left:-375px!important;}
 #changepic_container .fl-tabs{border-bottom:1px solid #ddd;padding-bottom:0;}
 #changepic_container .fl-tabs li button{background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE;border-style:solid;border-width:1px;padding:6px 20px;}
