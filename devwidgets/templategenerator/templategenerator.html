@@ -1,0 +1,27 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/templategenerator/css/templategenerator.css" />
+
+<div id="templategenerator_container" class="templategenerator_dialog s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__TEMPLATEGENERATOR_EXPORT_AS_TEMPLATE_HEADER__</h1>
+    <!-- FORM -->
+      <form id="templategenerator_form">
+		<p>__MSG__TEMPLATEGENERATOR_EXPORT_INFO__</p>
+		
+		<label for="templategenerator_title">__MSG__TITLE__:</label>	
+		<input type="text" id="templategenerator_title" class="required"/><br/>
+		
+		<label for="templategenerator_used_for">__MSG__TEMPLATEGENERATOR_USED_FOR__:</label>	
+        <textarea id="templategenerator_used_for"></textarea>
+    
+        <!-- BUTTONS -->
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+            <button type="button" class="s3d-button s3d-overlay-button" id="templategenerator_export_button">__MSG__EXPORT_AS_TEMPLATE__</button>
+        </div>
+        <hr class="fl-push fl-hidden"/>
+      </form>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/templategenerator/javascript/templategenerator.js"></script>

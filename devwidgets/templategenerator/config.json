@@ -1,0 +1,18 @@
+{
+    "description":        "Export sites to templates",
+    "enabled":            false,
+    "groupdashboard":     false,
+    "grouppages":         false,
+    "hasSettings":        true,
+    "i18n": {
+        "default":        "/devwidgets/templategenerator/bundles/default.properties"
+    },
+    "id":                 "templategenerator",
+    "name":               "Templategenerator Widget",
+    "personalportal":     false,
+    "showinsakaigoodies": false,
+    "type":               "sakai",
+    "url":                "/devwidgets/templategenerator/templategenerator.html",
+    "userdashboard":      false,
+    "userpages":          false
+}
