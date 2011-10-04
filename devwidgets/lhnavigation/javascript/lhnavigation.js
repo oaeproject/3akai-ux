@@ -491,6 +491,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var pageContent = content && content.page ? content.page : "";
             var lastModified = content && content._lastModified ? content._lastModified : null;
             var autosave = content && content.autosave ? content.autosave : null;
+            var pageTitle = $.trim($(".lhnavigation_selected_item .lhnavigation_page_title_value").text());
             var saveRef = ref;
             if (saveRef.indexOf("-") !== -1){
                 saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
@@ -507,7 +508,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "addArea": contextData.addArea,
                 "nonEditable": nonEditable,
                 "_lastModified": lastModified,
-                "autosave": autosave
+                "autosave": autosave,
+                "title": pageTitle
             };
             if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
@@ -755,6 +757,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             pageTitle.text(inputArea.val());
             pageTitle.show();
 
+            currentPageShown.title = $.trim(pageTitle.text());
             // Change main structure
             var mainPath = changingPageTitle.path;
             if (changingPageTitle.path.indexOf("/") !== -1){
@@ -1029,6 +1032,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
             }
+        };
+
+        sakai_global.lhnavigation.getCurrentPage = function() {
+            return currentPageShown;
         };
 
         ////////////////////////////

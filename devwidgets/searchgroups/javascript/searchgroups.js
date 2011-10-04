@@ -45,7 +45,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 10;
+        var resultsToDisplay = 12;
 
         // Search URL mapping
         var searchURLmap = {
@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
-                resultsContainerAnonClass: 'searchgroups_results_anon',
+                resultsContainerAnonClass: 's3d-search-results-anon',
                 header: search + '_results_header',
                 tagHeader: search + '_results_tag_header',
                 template: 'searchgroups_results_template'
@@ -187,13 +187,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             finaljson.category = selectedCategory.toLowerCase();
             finaljson.categoryid = selectedCategoryId;
             $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(".searchgroups_results_container", rootel).show();
-
-            // display functions available to logged in users
-            if (!sakai.data.me.user.anon) {
-                $(".searchgroups_result_user_functions", rootel).show();
-                $(".searchgroups_result_anonuser", rootel).hide();
-            }
         };
 
         /**
@@ -318,18 +311,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev){
-            var widgetId = sakai.api.Util.generateWidgetId();
-            $("#searchgroups_results_faceted", rootel).html(sakai.api.Util.TemplateRenderer("searchgroups_results_faceted", {"widgetId": widgetId}));
-            var config = {};
-            config[widgetId] = {
-                "facetedConfig": searchConfig.facetedConfig
-            };
-            sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [config]);
-            doSearch();
+        $(window).bind("sakai.search.util.finish", function(ev, data){
+            if (data && data.tuid === tuid) {
+                var widgetId = sakai.api.Util.generateWidgetId();
+                $("#searchgroups_results_faceted", rootel).html(sakai.api.Util.TemplateRenderer("searchgroups_results_faceted", {
+                    "widgetId": widgetId
+                }));
+                var config = {};
+                config[widgetId] = {
+                    "facetedConfig": searchConfig.facetedConfig
+                };
+                sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false, false, [config]);
+                doSearch();
+            }
         });
 
-        $(window).trigger("sakai.search.util.init");
+        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
 
     };
 

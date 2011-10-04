@@ -153,6 +153,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     })
                     contacts.totalItems = data.total;
                     contacts.accepted = data;
+                    for (var i in contacts.accepted.results) {
+                        contacts.accepted.results[i].linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.accepted.results[i].profile)); 
+                    }
                     determineRenderContacts();
                 }
             });
@@ -174,6 +177,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 async: true,
                 success: function(data){
                     contacts.pending = data;
+                    for (var i in contacts.pending.results) {
+                        contacts.pending.results[i].linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.pending.results[i].profile)); 
+                    }
                     determineRenderContacts();
                 }
             });
@@ -186,6 +192,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 async: true,
                 success: function(data){
                     contacts.invited = data;
+                    for (var i in contacts.invited.results) {
+                        contacts.invited.results[i].linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.User.getDisplayName(contacts.invited.results[i].profile)); 
+                    }
                     determineRenderContacts();
                 }
             });

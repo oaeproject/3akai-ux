@@ -27,17 +27,21 @@
             {if data[tab.id].total}
                 {for item in data[tab.id].results}
                     <div class="featuredworlds_content">
-                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image"/>
+                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" class="featuredworlds_image" alt="${item["sakai:group-title"]|safeOutput}"/>
                         <a href="/~${item["sakai:group-id"]}" class="s3d-bold s3d-regular-links">${item["sakai:group-title"]|safeOutput}</a>
-                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">{if item.counts.contentCount} ${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if} {else} 0 __MSG__CONTENT_ITEMS__ {/if}</a>
-                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}</a>
+                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=library" class="s3d-regular-links fl-push featuredworlds_grouppage_link">
+                            {if item.counts.contentCount} ${item.counts.contentCount} {if item.counts.contentCount != 1} __MSG__CONTENT_ITEMS__{else} __MSG__CONTENT_ITEM__{/if} {else} 0 __MSG__CONTENT_ITEMS__ {/if}
+                        </a>
+                        <a href="/dev/group.html?id=${item["sakai:group-id"]}#l=memberships" class="s3d-regular-links fl-push featuredworlds_grouppage_link">
+                            ${item.counts.membersCount} {if item.counts.membersCount != 1} __MSG__PARTICIPANTS__{else} __MSG__PARTICIPANT__{/if}
+                        </a>
                     </div>
                 {/for}
             {else}
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-world"></div>
-                    <h1>__MSG__WHEN_CATEGORY_ITEMS_FOR__ '${tab.title}' __MSG__ARE_CREATED__{if !sakai.data.me.user.anon} <a href="/create#l=${tab.id}" title="__MSG__ADD__ ${tab.title}" class="s3d-regular-links">__MSG__ADD__ ${tab.title}</a>{/if}</h1>
+                    <h1>__MSG__WHEN_CATEGORY_ITEMS_FOR__ '${tab.title}' __MSG__ARE_CREATED__{if !sakai.data.me.user.anon} <a href="/create#l=${tab.id}" class="s3d-regular-links">__MSG__ADD__ ${tab.title}</a>{/if}</h1>
                 </div>
             {/if}
         </div>

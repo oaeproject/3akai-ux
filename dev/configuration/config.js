@@ -614,6 +614,8 @@ define(function(){
             "rtf":"text/rtf",
             "htm":"text/html",
             "html":"text/html",
+            "wav": "audio/x-wav",
+            "mp3": "audio/mpeg",
             "other":"other"
         },
         MimeTypes: {
@@ -686,6 +688,16 @@ define(function(){
                 cssClass: "icon-spreadsheet-sprite",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "SPREADSHEET_DOCUMENT"
+            },
+            "audio/x-wav": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
+            },
+            "audio/mpeg": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
             },
             "text/plain": {
                 cssClass: "icon-txt-sprite",
@@ -890,6 +902,32 @@ define(function(){
             "label": "SIGN_UP"
         }],
 
+        Footer: {
+            leftLinks: [{
+                "title": "__MSG__COPYRIGHT__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__HELP__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__ACKNOWLEDGEMENTS__",
+                "href": "/acknowledgements"
+            }, {
+                "title": "__MSG__SUGGEST_AN_IMPROVEMENT__",
+                "href": "http://sakaioae.idea.informer.com/",
+                "newWindow": true
+            }],
+            rightLinks: [{
+                "title": "__MSG__BROWSE__",
+                "href": "/categories"
+            }, {
+                "title": "__MSG__EXPLORE__",
+                "href": "/"
+            }]
+        },
+
         /*
          * Are anonymous users allowed to browse/search
          */
@@ -926,6 +964,13 @@ define(function(){
 
         displayDebugInfo: true,
 
+        /**
+         * Section dividers can be added to the directory structure by adding in the following
+         * element at the appropriate place:
+         *  divider1: {
+         *      divider: true
+         *  }
+         */
         Directory: {
             medicineanddentistry: {
                 title: "__MSG__MEDICINE_AND_DENTISTRY__",
@@ -1464,6 +1509,7 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+        enableCategories: true,
 
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',

@@ -83,7 +83,8 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 .s3d-widget-container .s3d-contentpage-title {border-bottom:none;background:url("/dev/images/widget_header_bg.png") repeat-x scroll left top #dddddc;height:34px;line-height:34px;padding:0 12px;color:#666;font-weight:bold;font-size:13px;}
 .s3d-widget-container .hiddenwidget .s3d-contentpage-title {margin-bottom:0;}
 .s3d-widget-footer {min-height:14px;background-color:#DDDDDC;-moz-border-radius:0 0 5px 5px;-webkit-border-radius:0 0 5px 5px;border-radius:0 0 5px 5px;margin-top:7px;padding:7px 12px;box-shadow:0 1px 0 0 #bbb;}
-.s3d-widget-footer a {float:right;}
+.s3d-widget-footer a, .s3d-widget-footer span {float:right;}
+.s3d-widget-footer-divider {font-size: 11px; color: #999999; padding-left: 5px;}
 
 /* Change layout */
 #change_layout_dialog {width: 840px !important; margin-left: -420px !important;}
@@ -292,6 +293,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-no-results-container .s3d-no-results-search-world {background:url("/dev/images/world_search_icon_55x55.png") no-repeat scroll left top transparent;}
 .s3d-no-results-container .s3d-no-results-search-people {background:url("/dev/images/people_search_icon_55x55.png") no-repeat scroll left top transparent;}
 .s3d-no-results-container .s3d-no-results-search-content {background:url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;}
+.s3d-no-results-container .s3d-no-results-sakai2sites {background:url("/dev/images/sakai2_icon_43x40.png") no-repeat top left transparent;width:46px;height:45px;}
 
 
 
@@ -518,6 +520,7 @@ ul li.s3d-list-item:hover{background-color:#f1f9fd;}
 .s3d-icon-50{width:50px; height:50px;}
 .s3d-icon-64{width:64px; height:64px;}
 .s3d-icon-128{width:128px; height:128px;}
+.icon-audio-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -958px 0 transparent;}
 .icon-doc-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -112px 0 transparent;}
 .icon-pdf-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -750px 0 transparent;}
 .icon-pps-sprite{background:url(/dev/images/icons_sprite.png) no-repeat scroll -463px 0 transparent;}
