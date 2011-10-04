@@ -46,6 +46,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $templategeneratorDialog = $('.templategenerator_dialog', $rootel);
         var $templategeneratorForm = $("#templategenerator_form", $rootel);
         var $templategeneratorExportButton = $("#templategenerator_export_button");
+        var $templategeneratorTitle = $('#templategenerator_title');
+
+		// Template Data Storage
+		var templategeneratorData = {};
 
         ////////////////////
         // Event Handlers //
@@ -63,8 +67,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *	Retrieve
          */
         var getTemplateInfo = function(){
-        	
+        	// get the template id
+        	templategeneratorData.templateName = sakai_global.group.groupData.name;
+        	templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
+ 			
+ 			// show the current title in the input field
+ 			$templategeneratorTitle.val(templategeneratorData.templateName);
+ 				
+ 			// retrieve the docstructure     	
+        	sakai.api.Server.loadJSON(templategeneratorData.docstructureUrl, function(success, data){
+            	if(success) {
+ 					// parse the docstructure
+                	templategeneratorData.docstructure = $.parseJSON(data.structure0);
+ 					
+ 					// retrieve the url for each page in the docstructure and create a batchRequest
+ 					templategeneratorData.pageUrls = [];
+ 					$.each(templategeneratorData.docstructure, function(docstructureIndex, docstructureElement){
+						objArr.push({
+							"url": "p/" + docstructureElement._pid + ".infinity.json",
+			                "method": "GET",
+			                "parameters": {}
+			            });
+	 				});
+	 				
+	 				// run the batch so we can grab the data for each page
+	 				sakai.api.Server.batch(templategeneratorData.pageUrls, function(success, data){
+		                if (success) {
+		                	console.log(data);
+		 				}else {
+		            		    
+		 				}
+		            });
+ 				}
+			});
         };
+        
 
         /////////////////////////////
         // Initialization function //
