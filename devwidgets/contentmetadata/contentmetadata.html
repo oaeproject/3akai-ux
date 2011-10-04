@@ -31,7 +31,7 @@
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
     {if data.mode === "edit"}
-        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data.data["sakai:description"]}</textarea>
+        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input" title="__MSG__EDIT_DESCRIPTION__">${data.data["sakai:description"]}</textarea>
     {else}
         <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data.data["sakai:description"]) != ""}${data.data["sakai:description"]|safeOutput}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
@@ -39,7 +39,7 @@
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
         {if data.mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input" title="__MSG__EDIT_TAGS__">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if tags && tags.length > 0}
@@ -59,7 +59,7 @@
 
 <div id="contentmetadata_url_template" style="display:none;"><!--
     {if data.mode === "edit"}
-        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
+        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input" title="__MSG__EDIT_URL__">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
         <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">${data.data["sakai:pooled-content-url"]}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
@@ -127,7 +127,7 @@
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>
-                <a href="${creator.homePath}" class="s3d-regular-links">
+                <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
                     ${sakai.api.User.getDisplayName(creator)}
                 </a>
             </span>

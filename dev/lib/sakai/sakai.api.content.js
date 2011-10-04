@@ -619,11 +619,19 @@ define(
 
         isJwPlayerSupportedVideo : function(mimeType) {
             supported = false;
-            if (mimeType && mimeType.substring(0, 6) === "video/" ){
+            if (mimeType && mimeType.substring(0, 6) === "video/"){
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === "x-flv" || mimeSuffix === "mp4" || mimeSuffix === "3gpp" || mimeSuffix === "quicktime") {
                     supported = true;
                 }
+            }
+            return supported;
+        },
+
+        isJwPlayerSupportedAudio : function(mimeType) {
+            supported = false;
+            if (mimeType && mimeType.substring(0, 6) === "audio/"){
+                supported = true;
             }
             return supported;
         },
@@ -653,7 +661,8 @@ define(
                     mimeType.substring(0,6) === "image/" ||
                     mimeType.substring(0,5) === "text/" ||
                     mimeType === "application/x-shockwave-flash" ||
-                    sakai_content.isJwPlayerSupportedVideo(mimeType)) {
+                    sakai_content.isJwPlayerSupportedVideo(mimeType)  ||
+                    sakai_content.isJwPlayerSupportedAudio(mimeType)) {
                 result = true;
             }
             return result;

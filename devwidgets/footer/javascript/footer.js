@@ -52,6 +52,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $footer_phone = $("#footer_phone");
         var $footer_contactinfo = $("#footer_contactinfo");
         var $footer_contactinfo_template = $("#footer_contactinfo_template");
+        var $footer_links_left = $("#footer_links");
+        var $footer_links_left_template = $("#footer_links_template");
+        var $footer_links_right = $("#footer_links_right");
+        var $footer_links_right_template = $("#footer_links_right_template");
         var $footer_langloc_buttons = $('p.footer_langloc>button');
 
 
@@ -163,7 +167,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // Set the end year of the copyright notice
             var d = new Date();
             $footer_date_end.text(d.getFullYear());
-            
+
+            var leftLinksHTML = sakai.api.Util.TemplateRenderer($footer_links_left_template, {links:sakai.config.Footer.leftLinks});
+            leftLinksHTML = sakai.api.i18n.General.process(leftLinksHTML, "footer");
+            $footer_links_left.html(leftLinksHTML);
+
+            var rightLinksHTML = sakai.api.Util.TemplateRenderer($footer_links_right_template, {links:sakai.config.Footer.rightLinks});
+            rightLinksHTML = sakai.api.i18n.General.process(rightLinksHTML, "footer");
+            $footer_links_right.html(rightLinksHTML);
+
             $footer_langloc_buttons.click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.accountpreferences.sakai");

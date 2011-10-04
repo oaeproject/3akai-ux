@@ -332,6 +332,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
             $.ajax({
                 url: url,
+                data: {
+                    items : 1000000
+                },
                 cache: false,
                 success: function(data){
                     showPosts(data, true);

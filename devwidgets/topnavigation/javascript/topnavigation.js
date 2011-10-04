@@ -156,7 +156,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             };
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
                 "anon" : sakai.data.me.user.anon,
-                "auth": auth
+                "auth": auth,
+                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
@@ -552,6 +553,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         }
                     }
                     return false;
+                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
+                    // if a letter was pressed, search for the first menu item that starts with the letter
+                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
+                    $(this).find("ul:first").children().each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (keyPressed === firstChar){
+                            $(item).find("a").focus();
+                            return false;
+                        }
+                    });
                 }
             });
 
@@ -561,15 +572,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     return false;
                 } else if (e.which == $.ui.keyCode.RIGHT && $(this).getSelection().start === $(this).val().length) {
                     if ($("#topnavigation_user_inbox_container").length) {
-                            // focus on inbox link
-                            $("#topnavigation_user_inbox_container").focus();
+                        // focus on inbox link
+                        $("#topnavigation_user_inbox_container").focus();
                     } else if ($("#topnavigation_user_options_login").length) {
-                            // focus on login menu
-                            $("#topnavigation_user_options_login").focus();
-                            $(topnavUseroptionsLoginFieldsUsername).focus();
+                        // focus on login menu
+                        $("#topnavigation_user_options_login").focus();
+                        $(topnavUseroptionsLoginFieldsUsername).focus();
                     } else if ($("#topnavigation_user_options_name").length) {
-                            // focus on user options menu
-                            $("#topnavigation_user_options_name").focus();
+                        // focus on user options menu
+                        $("#topnavigation_user_options_name").focus();
                     }
                     return false;
                 }
@@ -596,9 +607,39 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         $(this).parent().nextAll("li:first").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.UP && $(this).parent().prevAll("li:first").length > 0) {
-                    $(this).parent().prevAll("li:first").children("a").focus();
+                } else if (e.which == $.ui.keyCode.UP) {
+                    if ($(this).parent().prevAll("li:first").length > 0) {
+                        $(this).parent().prevAll("li:first").children("a").focus();
+                    } else {
+                        $(this).parent().parents("li:first").find("a:first").focus();
+                    }
                     return false;
+                } else if (e.which == $.ui.keyCode.ESCAPE) {
+                    $(this).parent().parents("li:first").find("a:first").focus();
+                } else {
+                    // if a letter was pressed, search for the next menu item that starts with the letter
+                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
+                    var $activeItem = $(this).parents("li:first");
+                    var $menuItems = $(this).parents("ul:first").children();
+                    var activeIndex = $menuItems.index($activeItem);
+                    var itemFound = false;
+                    $menuItems.each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (keyPressed === firstChar && index > activeIndex){
+                            $(item).find("a").focus();
+                            itemFound = true;
+                            return false;
+                        }
+                    });
+                    if (!itemFound) {
+                        $menuItems.each(function(index, item){
+                            var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                            if (keyPressed === firstChar) {
+                                $(item).find("a").focus();
+                                return false;
+                            }
+                        });
+                    }
                 }
             });
 
@@ -661,16 +702,36 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_logout_link, #topnavigation_user_options_login_button_login").keydown(function(e) {
+            $("#subnavigation_logout_link").keydown(function(e) {
+                // if user is signed in and tabs out of user menu, close the sub menu
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    closeMenu();
+                }
+            });
+
+            $("#topnavigation_user_options_login_button_login").keydown(function(e) {
+                // if user is not signed in we need to check when they tab out of the login form and close the login menu
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
+                }
+            });
+
+            $("#subnavigation_login_list li a").keydown(function(e) {
+                // hide signin or user options menu when tabbing out of the last menu option
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB && $(this).parents("li").next().length == 0) {
+                    // if user is not signed in we need to check when they tab out of the external auth menu, and close the sub menu
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
+                }
+            });
+
+            $("#topnavigation_user_options_name").keydown(function(e) {
                 // hide signin or user options menu when tabbing out of the last menu option
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
-                    if ($(this).attr("id") === "topnavigation_user_options_login_button_login") {
-                        mouseOverSignIn = false;
-                        $(topnavUserLoginButton).trigger("mouseout");
-                        $("html").trigger("click");
-                    } else {
-                        closeMenu();
-                    }
+                    closeMenu();
                 }
             });
 
