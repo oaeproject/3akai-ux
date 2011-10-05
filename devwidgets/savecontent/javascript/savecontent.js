@@ -127,6 +127,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         notificationBody = notificationBody.replace("${grouplibrary}", sakai.api.Security.safeOutput($("#savecontent_select option:selected", $rootel).text()));
                         sakai.api.Util.notification.show($("#savecontent_group_add_library_title").html(), notificationBody);
                     }
+                    if(!dataCache[currentSelected]["sakai:pooled-content-viewer"]){
+                        dataCache[currentSelected]["sakai:pooled-content-viewer"] = [];
+                    }
                     dataCache[currentSelected]["sakai:pooled-content-viewer"].push(entityId);
                     if (sakai_global.content_profile) {
                         sakai_global.content_profile.content_data.members.viewers.push({
