@@ -1319,6 +1319,7 @@ define(
                 templateElement = $("#" + templateName);
             }
             else {
+                debug.log(templateElement);
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
