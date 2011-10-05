@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/areapermissions/bundles/default.properties",
-            "name":       "Area Permissions",
-            "description":"Area Permissions"
+            "name":       "Area permissions",
+            "description":"Area permissions"
         }
     },
     "id":                 "areapermissions",

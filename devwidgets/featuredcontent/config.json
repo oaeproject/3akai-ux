@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/featuredcontent/bundles/default.properties",
-            "name":       "Featured Content Widget",
-            "description":"Featured Content Widget"
+            "name":       "Featured content widget",
+            "description":"Featured content widget"
         }
     },
     "id":                 "featuredcontent",

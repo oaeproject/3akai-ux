@@ -2,8 +2,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/fileupload/bundles/default.properties",
-            "name": "Upload Files",
-            "description": "Upload Files"
+            "name": "Upload files",
+            "description": "Upload files"
         },
         "en_US": {
             "bundle": "/devwidgets/fileupload/bundles/en_US.properties"

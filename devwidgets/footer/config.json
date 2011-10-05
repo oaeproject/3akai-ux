@@ -2,7 +2,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/footer/bundles/default.properties",
-            "name": "Dynamic Footer",
+            "name": "Dynamic footer",
             "description": "Dynamic Footer with Debug Info"
         },
         "en_US": {

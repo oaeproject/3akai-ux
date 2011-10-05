@@ -4,7 +4,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/pickeruser/bundles/default.properties",
-            "name": "People Picker",
+            "name": "People picker",
             "description":"General people picker widget"
         }
     },    

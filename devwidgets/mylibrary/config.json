@@ -6,7 +6,7 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
-            "name":       "My Library",
+            "name":       "My library",
             "description":"View and manage a user's library items"
         }
     },

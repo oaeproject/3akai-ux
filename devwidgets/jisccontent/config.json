@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/jisccontent/bundles/default.properties",
-            "name":       "JISC Content",
-            "description":"JISC Content"
+            "name":       "JISC content",
+            "description":"JISC content"
         }    
     },
     "id":                 "jisccontent",
