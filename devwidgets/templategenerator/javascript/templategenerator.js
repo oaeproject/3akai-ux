@@ -47,9 +47,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $templategeneratorForm = $("#templategenerator_form", $rootel);
         var $templategeneratorExportButton = $("#templategenerator_export_button");
         var $templategeneratorTitle = $('#templategenerator_title');
+        var $templategeneratorUsedFor = $('#templategenerator_used_for');
 
 		// Template Data Storage
 		var templategeneratorData = {};
+		
+		// Main template structure
+		var templategeneratorDataTemplate = {
+			id: "",
+			title: "",
+			img: "",
+			fullImg: "",
+			perfectFor: "",
+			roles: [],
+			docs: [],
+			structure: [],
+			joinRole: "",
+			creatorRole: ""
+		};
 
         ////////////////////
         // Event Handlers //
@@ -57,47 +72,105 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var bindEvents = function() {
 			$templategeneratorExportButton.die("click");
 			$templategeneratorExportButton.live("click", function() {
-				$templategeneratorForm.validate({submitHandler: function(form) {
+				if(templategeneratorData.templatesLoaded){
+					// create a new 'empty' template for export
+					templategeneratorData.exportData = $.extend({}, templategeneratorDataTemplate)
 					
-				}});
+					// 1. Create the heading of the template file
+					templategeneratorData.exportData.title = $templategeneratorTitle.val();
+					templategeneratorData.exportData.perfectFor = $templategeneratorUsedFor.val();
+					templategeneratorData.exportData.id = templategeneratorData.exportData.title.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
+					
+					// 2. Roles
+					templategeneratorData.exportData.roles = templategeneratorData.roles.roleData;
+					templategeneratorData.exportData.joinRole = templategeneratorData.roles.joinRole;
+				
+					// 3. Pages
+					
+					
+					// output
+					console.log(JSON.stringify(templategeneratorData.exportData, null, "\t"));
+					
+					// i should implement the validation at some point
+					/*$templategeneratorForm.validate({
+						submitHandler: function(form) {
+							
+							$worldsettingsForm.submit();
+						}
+					});*/
+				}
 			});
         };
         
         /**
-         *	Retrieve
+         *	Retrieve all the data from the server
          */
-        var getTemplateInfo = function(){
-        	// get the template id
+        var getTemplateData = function(){
         	templategeneratorData.templateName = sakai_global.group.groupData.name;
         	templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
+ 			templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
  			
  			// show the current title in the input field
  			$templategeneratorTitle.val(templategeneratorData.templateName);
- 				
- 			// retrieve the docstructure     	
-        	sakai.api.Server.loadJSON(templategeneratorData.docstructureUrl, function(success, data){
+ 			
+ 			// create a list of batchRequests
+ 			var batchRequests = [];
+ 				batchRequests.push({
+							"url": templategeneratorData.docstructureUrl,
+			                "method": "GET",
+			                "parameters": {}
+			            });
+				batchRequests.push({
+							"url": templategeneratorData.rolesUrl,
+			                "method": "GET",
+			                "parameters": {}
+			            });
+ 			
+ 			// process the batchRequests to collect both the docstructure and the roles
+        	sakai.api.Server.batch(batchRequests, function(success, data){
             	if(success) {
- 					// parse the docstructure
-                	templategeneratorData.docstructure = $.parseJSON(data.structure0);
  					
- 					// retrieve the url for each page in the docstructure and create a batchRequest
+ 					// 1. Docstructure
+                	templategeneratorData.docstructure = $.parseJSON(data.results[0].body);
+									
+ 					// retrieve the url for each page in the docstructure
  					templategeneratorData.pageUrls = [];
- 					$.each(templategeneratorData.docstructure, function(docstructureIndex, docstructureElement){
-						objArr.push({
+ 					$.each($.parseJSON(templategeneratorData.docstructure.structure0), function(docstructureIndex, docstructureElement){
+						templategeneratorData.pageUrls.push({
 							"url": "p/" + docstructureElement._pid + ".infinity.json",
 			                "method": "GET",
 			                "parameters": {}
 			            });
 	 				});
 	 				
-	 				// run the batch so we can grab the data for each page
+	 				// grab the data for each page
 	 				sakai.api.Server.batch(templategeneratorData.pageUrls, function(success, data){
 		                if (success) {
-		                	console.log(data);
+							templategeneratorData.pageContent = [];
+							
+							// create a dataObject for each page
+							$.each(data.results, function(pageIndex, pageElement){
+								var page = {};
+									page.pageData = $.parseJSON(pageElement.body);
+									page.structure = $.parseJSON(page.pageData.structure0);
+									
+								templategeneratorData.pageContent.push(page);
+							});
 		 				}else {
-		            		    
+		 					templategeneratorData.templatesLoaded = false;
 		 				}
 		            });
+		 
+		 			// 2. Roles
+		 			var roleData = $.parseJSON(data.results[1].body);
+		 			templategeneratorData.roles = {};
+					templategeneratorData.roles.roleData = $.parseJSON(roleData.properties["sakai:roles"]);
+					templategeneratorData.roles.joinRole = roleData.properties["sakai:joinRole"];
+									
+					// extra check to make sure that the pageData is loaded
+					templategeneratorData.templatesLoaded = true;
+ 				}else{
+ 					templategeneratorData.templatesLoaded = false;
  				}
 			});
         };
@@ -110,9 +183,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function(worldId) {
-            bindEvents(worldId);
-            getTemplateInfo();
+        var doInit = function() {
+			bindEvents();
+            getTemplateData();
+            
+            // jqModal
             $templategeneratorDialog.jqm({
                 modal: true,
                 overlay: 20,
