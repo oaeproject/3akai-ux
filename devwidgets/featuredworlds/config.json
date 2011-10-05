@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/featuredworlds/bundles/default.properties",
-            "name":       "Featured Worlds Widget",
-            "description":"Featured Worlds Widget"
+            "name":       "Featured worlds widget",
+            "description":"Featured worlds widget"
         }
     },
     "id":                 "featuredworlds",

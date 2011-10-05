@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/uploadnewversion/bundles/default.properties",
-            "name":       "Upload New Version Widget",
-            "description":"Upload New Version Widget"
+            "name":       "Upload new version widget",
+            "description":"Upload new version widget"
         }
     },
     "id":                 "uploadnewversion",

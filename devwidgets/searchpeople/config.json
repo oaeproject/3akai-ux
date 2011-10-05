@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/searchpeople/bundles/default.properties",
-            "name":       "Search People",
-            "description":"Search People"
+            "name":       "Search people",
+            "description":"Search people"
         }
     },
     "id":                 "searchpeople",

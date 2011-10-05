@@ -4,7 +4,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/newsharecontent/bundles/default.properties",
-            "name": "Share Content",
+            "name": "Share content",
             "description":"Share content widget"
         }
     },

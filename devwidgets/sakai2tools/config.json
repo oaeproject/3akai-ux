@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/sakai2tools/bundles/default.properties",
-            "name":"Sakai 2 Tools",
-            "description":"Sakai 2 Tools"
+            "name":"Sakai 2 tools",
+            "description":"Sakai 2 tools"
         }
     },
     "img":"/devwidgets/sakai2tools/images/sakai2tools.png",

@@ -3,8 +3,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentpicker/bundles/default.properties",
-            "name":"Content Picker",
-            "description":"Pick Content"
+            "name":"Content picker",
+            "description":"Pick content"
         }
     },
     "type":"core",

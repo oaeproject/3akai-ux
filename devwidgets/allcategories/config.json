@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/allcategories/bundles/default.properties",
-            "name":       "All Categories Widget",
-            "description":"All Categories Widget"
+            "name":       "All categories widget",
+            "description":"All categories widget"
         }
     },
     "id":                 "allcategories",
