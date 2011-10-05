@@ -15,7 +15,12 @@ require(
 
     var checkElements = function($elt, callback){
         $.each($elt.find("a"), function(i, elt) {
-            ok($(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->") || $(elt).find("img").attr("alt"), "A tag has text or children that have text: " + $("<div/>").html(elt).html());
+            if ($(elt).attr("title") && ($(elt).text() || $(elt).find("*").text())){
+                if ($.trim($(elt).attr("title")) === $.trim($(elt).text()) || $.trim($(elt).attr("title")) === $.trim($(elt).find("*").text())){
+                    ok(false, "A tag has duplicate text and title attribute: " + $("<div/>").html(elt).html());        
+                }
+            }
         });
 
         $.each($elt.find("img"), function(i, elt) {
@@ -38,6 +43,27 @@ require(
             ok($(elt).attr("title"), "ABBR tag has TITLE attribute: " + $("<div/>").html(elt).html());
         });
 
+        $.each($elt.find("button"), function(i, elt) {
+            ok($(elt).attr("title") || $(elt).text() || $(elt).find("*").text() || ($(elt).html() === "<!-- -->"), "BUTTON tag has text or children that have text: " + $("<div/>").html(elt).html());
+        });
+
+        $.each($elt.find("textarea"), function(i, elt) {
+            // ignore the tinymce editor textarea
+            if ($(elt).attr("id") !== "elm1") {
+                ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
+            }
+        });
+
+        $.each($elt.find("div"), function(i, elt) {
+            var divHtml = $(elt).html();
+            if (divHtml.substr(0, 5) === "<!--\n" && divHtml.substr(divHtml.length - 4, divHtml.length) === "\n-->") {
+                // this is a javascript template, check the elements in the template
+                var templateData = divHtml.substr(5, divHtml.length - 4);
+                var div = document.createElement('div');
+                div.innerHTML = templateData;
+                checkElements($(div), false);
+            }
+        });
 
         if ($.isFunction(callback)) {
             callback();
