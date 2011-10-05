@@ -2,8 +2,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/userprofile/bundles/default.properties",
-            "name":"User Profile",
-            "description":"User Profile"
+            "name":"User profile",
+            "description":"User profile"
         }
     },
     "ca":false,

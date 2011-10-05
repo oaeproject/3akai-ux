@@ -2,8 +2,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/mymemberships/bundles/default.properties",
-            "name": "My Memberships",
-            "description": "My Memberships"
+            "name": "My memberships",
+            "description": "My memberships"
         }
     },
     "id": "mymemberships",
