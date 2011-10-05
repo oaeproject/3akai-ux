@@ -174,16 +174,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             var qs = new Querystring();
+            // Check whether we require a redirect
+            if (qs.get("url")) {
+                redirectURL = qs.get("url");;
             // Go to You when you're on explore page
-            if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+            } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
                 redirectURL = "/me";
-            // 403/404 and not logged in
-            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
-                var url = qs.get("url");
-                if (url){
-                    redirectURL = url;
-                }
             // 500 not logged in
             } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                 redirectURL = "/me";
