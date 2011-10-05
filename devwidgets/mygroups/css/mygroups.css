@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 .sites_error{font-size:.95em;padding:10px 20px!important;}
 #creategroupcontainer,creategroupcontainer>div{width:100%;}
 .my_groups_widget .mygroups_list_item{padding:0 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
