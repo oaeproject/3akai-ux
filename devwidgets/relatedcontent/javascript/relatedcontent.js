@@ -51,7 +51,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var relatedcontentDefaultTemplate = relatedcontent + "_default_template";
         var relatedcontentContent = ".relatedcontent_content";
         var relatedcontentFooter = "#relatedcontent_footer";
-        var relatedcontentFooterTemplate = "relatedcontent_footer_template";
+        var relatedcontentShowMore = "#relatedcontent_show_more";
+        
+        var contentData = {};
+        var page = 0;
+        var numberofitems = 5;
 
 
         //////////////////////
@@ -72,7 +76,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 sakai.api.Util.TemplateRenderer(relatedcontentDefaultTemplate, relatedcontentData, $(relatedcontentContainer));
                 $(relatedcontentContainer).show();
-                $(relatedcontentFooter).html(sakai.api.Util.TemplateRenderer(relatedcontentFooterTemplate, {"query": searchquery}));
             }
         };
 
@@ -110,22 +113,35 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(contentData){
-
+        var getRelatedContent = function(checkMoreRelated){
             var managersList = "";
             var viewersList = "";
             var ajaxSuccess = function(data) {
+                var moreResults = false;
                 $.each(data.results, function(index, item){
+                    if(checkMoreRelated){
+                        moreResults = true;
+                    }
                     data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
                 });
                 var json = {
                     "content": contentData,
                     "relatedContent": data
                 };
-                renderTemplate(json);
+                if(!checkMoreRelated){
+                    renderTemplate(json);
+                } else {
+                    if (!moreResults){
+                        $(relatedcontentShowMore).hide();
+                    } else {
+                        $(relatedcontentShowMore).show();
+                    }
+                }
             };
             var ajaxError = function() {
-                renderTemplate({});
+                if(!checkMoreRelated){
+                    renderTemplate({});
+                }
             };
 
             for (var i = 0; i < contentData.members.managers.length; i++) {
@@ -146,8 +162,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // get related content for contentData
             // return some search results for now
+            var paging = page;
+            if(checkMoreRelated){
+                paging++;
+            }
             var params = {
-                "items" : "11"
+                "items": numberofitems,
+                "page": paging
             };
             var url = sakai.config.URL.SEARCH_ALL_FILES.replace(".json", ".infinity.json");
             if (searchquery === '*' || searchquery === '**') {
@@ -164,6 +185,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             
         };
 
+        var showMore = function(){
+            page++;
+            getRelatedContent();
+            getRelatedContent(true);
+        };
 
         //////////////
         // Bindings //
@@ -174,7 +200,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var addBinding = function(){
             // bind the more link
-
+            $(relatedcontentShowMore).die("click", showMore);
+            $(relatedcontentShowMore).live("click", showMore);
         };
 
         ////////////////////
@@ -184,9 +211,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render function
          */
-       $(window).bind("render.relatedcontent.sakai", function(e, contentData){
-            addBinding();
-            getRelatedContent(contentData);
+       $(window).bind("render.relatedcontent.sakai", function(e, data){
+           page = 0;
+           addBinding();
+           contentData = data;
+           getRelatedContent();
+           getRelatedContent(true);
         });
 
         $(relatedcontentContent).live("click", function(){

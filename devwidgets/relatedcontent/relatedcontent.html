@@ -50,11 +50,6 @@
                                         <img alt="comments-icon" src="/devwidgets/entity/images/entity_comment_icon.png">
                                         <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeOutput}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']}"{/if}" id="entity_comments_link">${i.commentcount} {if i.commentcount == 1} comment{else} comments{/if}</a>
                                     </span>
-                                {else}
-                                    <span class="relatedcontent_comments">
-                                        <img alt="comments-icon" src="/devwidgets/entity/images/entity_comment_icon.png">
-                                        <span>No comments</span>
-                                    </span>
                                 {/if}
                             </div>
                             <hr class="fl-push fl-hidden"/>
@@ -71,11 +66,9 @@
         </div>
     --></div>
 
-    <div id="relatedcontent_footer" class="s3d-widget-footer"></div>
-
-    <div id="relatedcontent_footer_template"><!--
-        <a href="/search#q=${query}" class="s3d-button  s3d-header-button fl-centered">Show More</button>
-    --></div>
+    <div id="relatedcontent_footer" class="s3d-widget-footer">
+        <button type="button" class="s3d-button s3d-header-button fl-centered" id="relatedcontent_show_more" style="display:none;">__MSG__SHOW_MORE__</button>
+    </div>
 
 </div>
 

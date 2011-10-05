@@ -27,7 +27,7 @@
 
 /* Main container */
 .contentcomments_commentMessage p.contentcomments_infoDeleted{font-size:.9em;text-align:right;}
-.contentcomments_nextButtons{width:100%;}
+.contentcomments_nextButtons{width:100%;display:none;}
 #contentcomments_numCommentsDisplayed,#contentcomments_numComments{color:#666;}
 #contentcomments_userCommentContainer {padding:0 12px;}
 .contentcomments_posterDataName,.contentcomments_posterData a{font-size:1em;text-decoration:none;font-weight:bold;margin:0;}
@@ -38,6 +38,7 @@
 .contentcomments_commentMessage ul span{text-align:center;}
 .contentcomments_message{margin-top:-5px;}
 #contentcomments_prevPage{float:right;margin-right:10px;display:none;}
+#contentcomments_postComment {text-transform: capitalize;}
 .contentcomments_commentLinks{overflow:auto;width:20%;float:right;}
 .contentcomments_commentMessage ul li{display:inline;color:#BBB;}
 .contentcomments_arrowUp{height:10px;background:#fff url(../images/contentcomments_arrowup.jpg) no-repeat bottom left;}
@@ -67,3 +68,4 @@
 .contentcomments_dialog_buttons {float:none;}
 
 #contentcomments_mainContainer .s3d-contentpage-title {text-transform:capitalize;}
+.fl-container-450 #contentcomments_txtMessage {width:83%;}
