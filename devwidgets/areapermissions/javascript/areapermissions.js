@@ -35,6 +35,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
         var visibility = "selected";
         var currentArea = {};
+        var visibilityindex = {
+            "everyone": 1,
+            "loggedin": 2,
+            "selected": 3
+        };
 
         //////////////////////////
         // Rendering group data //
@@ -76,7 +81,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "manager": contextData.isManager,
                     "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
                     "sakai": sakai,
-                    "title": currentArea._title,
+                    "area": currentArea._title,
                     "meRole": data.id
                 }));
              })
@@ -103,6 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          };
 
          var applyPermissions = function(){
+             $("#areapermissions_proceedandapply").attr("disabled", "disabled");
              var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
 
@@ -220,7 +226,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             "permissions": generalPermission
                         }]);
                     }
+                    $("#areapermissions_warning_container").jqmHide();
                     $("#areapermissions_container").jqmHide();
+                    sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
                 });
             }
         };
@@ -244,6 +252,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      loadGroupData();
                  }
              });
+         };
+
+         var showWarning = function(){
+             var newVisibilityVal = $.trim($("#areapermissions_see_container input[type=radio]:checked").val());
+             if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === "selected"){
+                 applyPermissions();
+             } else {
+                 $("#areapermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("areapermissions_warning_container_text_template", {
+                     "visibility": newVisibilityVal,
+                     "area": currentArea._title
+                 }));
+                 $("#areapermissions_proceedandapply").removeAttr("disabled");
+                 $("#areapermissions_warning_container").jqmShow();
+             }
          };
 
 
@@ -276,7 +298,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  }
              });
 
-             $("#areapermissions_apply_permissions").bind("click", applyPermissions);
+             $("#areapermissions_apply_permissions").bind("click", showWarning);
+             $("#areapermissions_proceedandapply").live("click", applyPermissions);
          };
 
          var initializeOverlay = function(){
@@ -285,6 +308,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  overlay: 20,
                  toTop: true,
                  zIndex: 3000
+             });
+
+             $("#areapermissions_warning_container").jqm({
+                 modal: true,
+                 overlay: 20,
+                 toTop: true,
+                 zIndex: 4000
              });
 
              $("#areapermissions_container").jqmShow();
