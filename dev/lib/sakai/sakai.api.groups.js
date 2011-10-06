@@ -335,6 +335,87 @@ define(
         },
 
         /**
+         * Delete a group
+         * @param {String} id the id of the group that's being deleted
+         * @param {Function} callback the callback function for when the group delete is complete.
+        */
+        deleteGroup : function(groupID, meData, callback) {
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
+                if (success && data) {
+                    var groupArray = groupID;
+                    //var groupArray = [groupID];
+                    var pseudoGroupReqs = [];
+                    groupAuthData = data;
+
+                    // delete any pseudo groups
+                    if (groupAuthData.properties["sakai:roles"]){
+                        if (groupAuthData.properties["sakai:roles"]){
+                            var roles = $.parseJSON(groupAuthData.properties["sakai:roles"]);
+                            var managementGroup = false;
+
+                            if (roles && roles.length > 0){
+                                for (var r = 0; r < roles.length; r++) {
+                                    // check if we need this group access to delete the other groups
+                                    var pseudoGroupID = groupID + "-" + roles[r].id;
+
+                                    if (roles[r] && roles[r].allowManage && !managementGroup && !groupAuthData.properties["sakai:pseudoGroup"]) {
+                                        for (var i = 0; i < meData.groups.length; i++) {
+                                            if (meData.groups[i]["sakai:group-id"] === pseudoGroupID) {
+                                                managementGroup = pseudoGroupID;
+                                            }
+                                        }
+                                    }
+                                    if (!managementGroup || (managementGroup && managementGroup !== pseudoGroupID)) {
+                                        //sakaiGroupsAPI.deleteGroup(pseudoGroupID);
+                                        groupArray = groupArray + "," + pseudoGroupID;
+                                        //groupArray.push(pseudoGroupID);
+                                        pseudoGroupReqs.push({
+                                            url: "/~" + pseudoGroupID,
+                                            method: "POST",
+                                            parameters: {":operation" : "delete"}
+                                        });
+                                    }
+                                }
+                            }
+                            if (managementGroup){
+                                //sakaiGroupsAPI.deleteGroup(managementGroup);
+                                groupArray = groupArray + "," + managementGroup;
+                                //groupArray.push(managementGroup);
+                                pseudoGroupReqs.push({
+                                    url: "/~" + managementGroup,
+                                    method: "POST",
+                                    parameters: {":operation" : "delete"}
+                                });
+                            }
+                        }
+                    }
+
+                    // delete the group
+                    var batchRequests = [];
+                    batchRequests.push({
+                        url: "/~" + groupID,
+                        method: "POST",
+                        parameters: {":operation" : "delete"}
+                    });
+                    batchRequests.push({
+                        url: "/system/userManager/group/" + groupID + ".delete.html",
+                        method: "POST",
+                        parameters: {":applyTo" : groupArray}
+                    });
+                    batchRequests = pseudoGroupReqs.concat(batchRequests);
+                    
+                    sakai_serv.batch(batchRequests, function (success, data) {
+                        if ($.isFunction(callback)) {
+                            callback(success);
+                        }
+                    });
+                } else if ($.isFunction(callback)) {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
          * Update group basic information
          *
          * @param {String} id The id of the group to update
