@@ -1,6 +1,6 @@
 {
     "sakai:content-type": "text/plain",
     "sling:resourceType": "sakai/template",
-    "sakai:template": "${body} Follow this link to view the invitation: ${link}",
+    "sakai:template": "${body} \n\nFollow this link to view the invitation: ${link}",
     "jcr:primaryType": "sling:Folder"
 }
