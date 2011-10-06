@@ -66,7 +66,7 @@ define(
                 "firstName": firstName,
                 "lastName": lastName,
                 "email": email,
-                ":name": username,
+                ":name": username.toLowerCase(),
                 ":sakai:profile-import": $.toJSON(profileData)
             };
             for (var i in extraOptions) {
@@ -228,7 +228,7 @@ define(
              */
             var data = {
                 "sakaiauth:login": 1,
-                "sakaiauth:un": credentials.username,
+                "sakaiauth:un": credentials.username.toLowerCase(),
                 "sakaiauth:pw": credentials.password,
                 "_charset_": "utf-8"
             };
