@@ -968,7 +968,9 @@ define(function(){
          * Section dividers can be added to the directory structure by adding in the following
          * element at the appropriate place:
          *  divider1: {
-         *      divider: true
+         *      "divider": true,
+         *      "title": "Divider title" [optional],
+         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
