@@ -21,11 +21,11 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-#areapermissions_container {width:500px !important;font-size:12px;margin-left:-250px !important;color:#666;}
+#areapermissions_container {width:400px !important;font-size:12px;margin-left:-200px !important;color:#666;}
 #areapermissions_container .s3d-inset-shadow-container {padding:10px;}
 #areapermissions_container .s3d-inset-shadow-container label {display:inline-block;padding:1px 0 0 6px;}
 #areapermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
-#areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:36%}
+#areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:45%}
 #areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {height:30px;margin-left:13px;padding-top:15px;}
 #areapermissions_container .areapermissions_buttons{margin-top:15px;}
 #areapermissions_container .s3d-outer-shadow-container {color:#333;}
@@ -33,3 +33,7 @@
 #areapermissions_container .areapermissions_you {font-weight:normal;}
 #areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {text-transform: capitalize;}
 #areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
+#areapermissions_container .areapermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;}
+
+#areapermissions_warning_container {top:150px;}
+#areapermissions_warning_container #areapermissions_warning_container_text {font-size:16px;line-height:20px;}

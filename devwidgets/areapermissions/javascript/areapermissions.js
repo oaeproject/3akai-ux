@@ -108,6 +108,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          };
 
          var applyPermissions = function(){
+             $("#areapermissions_apply_permissions").attr("disabled", "disabled");
              $("#areapermissions_proceedandapply").attr("disabled", "disabled");
              var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
@@ -132,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else if (rolePermission === "view"){
                     newView.push("-" + roles[i].id);
                 }
-            }
+            };
 
             // Refetch docstructure information
             $.ajax({
@@ -264,6 +265,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      "area": currentArea._title
                  }));
                  $("#areapermissions_proceedandapply").removeAttr("disabled");
+                 $("#areapermissions_apply_permissions").removeAttr("disabled");
                  $("#areapermissions_warning_container").jqmShow();
              }
          };
@@ -317,6 +319,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  zIndex: 4000
              });
 
+             $("#areapermissions_apply_permissions").removeAttr("disabled");
              $("#areapermissions_container").jqmShow();
          };
 
