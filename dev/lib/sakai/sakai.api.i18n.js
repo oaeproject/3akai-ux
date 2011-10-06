@@ -453,7 +453,7 @@ define(
                     translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
                 }
             }
-            return translation;
+            return $.trim(translation);
         },
 
         /**
