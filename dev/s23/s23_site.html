@@ -53,8 +53,8 @@
         <div id="s23_site_menu_container_template"><!--
             {if site.pages.length > 0}
                 <ul>
-                {for tool in site.pages}
-                    <li class="s23_site_menu_item"><a href="#tool=${tool.id}" class="${tool.iconclass}" id="s23_site_menu_item_${tool.id}">${tool.name}</a></li>
+                {for page in site.pages}
+                    <li class="s23_site_menu_item"><a href="#page=${page.id}" class="${page.iconclass}" id="s23_site_menu_item_${page.id}">${page.name}</a></li>
                 {/for}
                 </ul>
             {else}
