@@ -307,7 +307,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 saveContentAjax(json);
             }
             else {
-                sakai.api.Util.notification.show("", sakai.api.i18n.General.getValueForKey("PLEASE_SPECIFY_A_URL"),
+                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("PLEASE_SPECIFY_A_URL"),
                                                  sakai.api.Util.notification.type.ERROR);
             }
         };

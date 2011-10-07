@@ -451,6 +451,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             // Save the profile properties
             var obj = sakai_global.profile.main.data[sectionName];
             var saveURL = authprofileURL + "/" + sectionName + ".profile.json";
+            var replaceTree = sakai.config.Profile.configuration.defaultConfig[sectionName].multiple || false;
             sakai.api.Server.saveJSON(saveURL, obj, function(success, data){
 
                 // Check whether is was successful
@@ -503,7 +504,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                 }
 
-            }, true);
+            }, replaceTree);
         });
 
 
@@ -532,7 +533,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         && sakai_global.profile.main.config[profilesection].elements[i].errorMessage) {
                         var formKey = profilesection + "_elements_" + i;
                         var errorKey = sakai_global.profile.main.config[profilesection].elements[i].errorMessage;
-                        messages[formKey] = sakai.api.i18n.General.getValueForKey(errorKey.substr(7, errorKey.length - 9));
+                        messages[formKey] = sakai.api.i18n.getValueForKey(errorKey.substr(7, errorKey.length - 9));
                     }
                 }
             }

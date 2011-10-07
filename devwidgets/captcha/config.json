@@ -1,8 +1,10 @@
 {
-    "description":"Display a captcha widget",
-    "name":"Captcha Widget",
     "i18n": {
-        "default": "/devwidgets/captcha/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/captcha/bundles/default.properties",
+            "name": "Captcha widget",
+            "description": "Display a captcha widget"
+        }
     },
     "id":"captcha",
     "type":"core",

@@ -1,10 +1,15 @@
 {
     "grouppages":true,
-    "description":"Site Recent Activity",
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/siterecentactivity/bundles/default.properties",
+            "name":"Recent activity",
+            "description":"Site recent activity"
+        }
+    },
     "hasSettings": false,
     "id":"siterecentactivity",
     "img":"/devwidgets/siterecentactivity/images/icon.png",
-    "name":"Recent Activity",
     "showinsidebar":true,
     "type":"core",
     "enabled":true,

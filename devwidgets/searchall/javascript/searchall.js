@@ -36,7 +36,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Config variables //
         //////////////////////
 
-        var resultsToDisplay = 10;
+        var resultsToDisplay = 12;
         var rootel = $("#" + tuid);
 
         // CSS IDs
@@ -82,7 +82,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             results: {
                 container: search + '_results_container',
                 resultsContainer: search + '_results',
-                resultsContainerAnonClass: 'searchall_results_anon',
+                resultsContainerAnonClass: 's3d-search-results-anon',
                 header: search + '_results_header',
                 tagHeader: search + '_results_tag_header',
                 template: 'searchall_results_template'
@@ -156,13 +156,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             // Render the results.
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(".searchall_results_container").show();
-
-            // display functions available to logged in users
-            if (!sakai.data.me.user.anon) {
-                $(".searchall_result_user_functions").show();
-                $(".searchall_result_anonuser").hide();
-            }
 
             // Update dom with user display names
             if (fetchUsers) {
@@ -294,11 +287,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev){
-            doSearch();
+        $(window).bind("sakai.search.util.finish", function(ev, data){
+            if (data && data.tuid === tuid){
+                doSearch();
+            }
         });
 
-        $(window).trigger("sakai.search.util.init");
+        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
 
     };
 

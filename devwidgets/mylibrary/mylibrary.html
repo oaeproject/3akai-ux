@@ -9,9 +9,9 @@
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
         {if isMe && !isGroup}
-            <div class='s3d-contentpage-title'>My Library</div>
+            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY__</div>
         {else}
-            <div class='s3d-contentpage-title'>${firstName|safeOutput}'s Library</div>
+            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY_OTHER__</div>
         {/if}
     --></div>
     <!-- Action bar -->
@@ -23,7 +23,7 @@
                 <option value="lastModified_asc">__MSG__OLDEST__</option> 
             </select>
         </div>
-        <input id="mylibrary_livefilter" class="mylibrary_meta" style="display:none;" type="text" />
+        <input id="mylibrary_livefilter" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
             <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>

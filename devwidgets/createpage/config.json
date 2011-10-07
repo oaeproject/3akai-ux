@@ -1,9 +1,11 @@
 {
-    "description": "Create Page Widget",
-    "name": "Create Page",
     "id": "createpage",
     "i18n": {
-        "default": "/devwidgets/createpage/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/createpage/bundles/default.properties",
+            "name": "Create page",
+            "description": "Create page widget"
+        }
     },
     "type":"core",
     "enabled":true,

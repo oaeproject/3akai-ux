@@ -120,7 +120,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 participantsArr.push({
                                     "name": data.results[i]["sakai:group-title"],
                                     "id": data.results[i]["sakai:group-id"],
-                                    "title": data.results[i].role,
+                                    "title": data.results[i].role.title,
                                     "type": "group",
                                     "connected": false,
                                     "content": contentCount,
@@ -152,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 participantsArr.push({
                                     "name": sakai.api.User.getDisplayName(data.results[i]),
                                     "id": data.results[i]["rep:userId"],
-                                    "title": data.results[i].role,
+                                    "title": data.results[i].role.title,
                                     "type": "user",
                                     "content": contentCount,
                                     "contacts": contactsCount,

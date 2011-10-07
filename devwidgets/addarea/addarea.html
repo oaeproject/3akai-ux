@@ -246,7 +246,7 @@
     <label for="addarea_widgetpage_selectwidget">__MSG__SELECT_WIDGET__:</label>
     <select id="addarea_widgetpage_selectwidget">
         {for widget in data}
-            <option value="${widget.id}">${widget.name}</option>
+            <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
         {/for}
     </select>
 

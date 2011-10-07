@@ -40,3 +40,5 @@
 #contentpermissions_container #contentpermissions_save_actions #contentpermissions_cancel_button {margin-right: 12px;margin-top: 4px;}
 #contentpermissions_container .contentpermissions_content_section .as-selections {margin:8px 0;}
 #contentpermissions_container .contentpermissions_pseudogroup {font-size:10px; color: #666;}
+#contentpermissions_warning_container #contentpermissions_warning_container_text {font-size:16px;line-height:20px;}
+#contentpermissions_warning_container {margin-top: 150px;}

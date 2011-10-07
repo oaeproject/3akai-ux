@@ -1,12 +1,14 @@
 {
-    "description":"Related Content",
-    "name":"Related Content",
     "id":"relatedcontent",
     "hasSettings":false,
     "type":"core",
     "enabled":true,
     "i18n": {
-        "default": "/devwidgets/relatedcontent/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/relatedcontent/bundles/default.properties",
+            "name":"Related content",
+            "description":"Related content"
+        }
     },
     "url":"/devwidgets/relatedcontent/relatedcontent.html"
 }

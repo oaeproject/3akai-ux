@@ -1,14 +1,16 @@
 {
-    "description":        "Institutional Skinning Widget",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        true,
     "i18n": {
-        "default":        "/devwidgets/institutionalskinning/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/institutionalskinning/bundles/default.properties",
+            "name":       "Institutional skinning",
+            "description":"Institutional skinning widget"
+        }
     },
     "id":                 "institutionalskinning",
-    "name":               "Institutional Skinning",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "sakai",

@@ -48,7 +48,7 @@ require(
         "order!/dev/lib/jquery/plugins/jqmodal.sakai-edited.js",
         "order!/dev/lib/jquery/plugins/jquery.cookie.js",
         "order!/dev/lib/jquery/plugins/jquery.ba-bbq.js",
-        "order!/dev/lib/jquery/plugins/jquery.pager.js",
+        "order!/dev/lib/jquery/plugins/jquery.pager.sakai-edited.js",
         "order!/dev/lib/jquery/plugins/jquery.threedots.js",
         "order!/dev/lib/jquery/plugins/jquery.form.js",
         "order!/dev/lib/jquery/plugins/jquery.MultiFile.js",

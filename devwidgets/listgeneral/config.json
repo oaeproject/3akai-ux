@@ -1,11 +1,13 @@
 {
-    "description":"General space, site and content lister widget",
     "hasSettings": false,
     "id": "listgeneral",
     "i18n": {
-        "default": "/devwidgets/listgeneral/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/listgeneral/bundles/default.properties",
+            "name": "General lister",
+            "description":"General space, site and content lister widget"
+        }
     },
-    "name": "General Lister",
     "type":"core",
     "enabled":true,
     "url": "/devwidgets/listgeneral/listgeneral.html"

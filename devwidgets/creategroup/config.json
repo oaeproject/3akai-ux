@@ -1,10 +1,14 @@
 {
-    "description":"Create Group",
-    "name":"Create Group",
     "id":"creategroup",
     "i18n": {
-        "default": "/devwidgets/creategroup/bundles/default.properties",
-        "en_US": "/devwidgets/creategroup/bundles/en_US.properties"
+        "default": {
+            "bundle": "/devwidgets/creategroup/bundles/default.properties",
+            "name":"Create group",
+            "description":"Create group"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/creategroup/bundles/en_US.properties"
+        }
     },
     "type":"core",
     "enabled":true,

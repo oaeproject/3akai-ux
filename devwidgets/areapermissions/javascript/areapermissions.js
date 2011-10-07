@@ -31,6 +31,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     sakai_global.areapermissions = function (tuid, showSettings) {
 
          var contextData = false;
+         var visibility = "selected";
+         var currentArea = {};
 
          //////////////////////////
          // Rendering group data //
@@ -41,7 +43,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              var roles = $.parseJSON(groupData["sakai:roles"]);
 
              // Calculate for each role what current permission is
-             var currentArea = sakai_global.group.pubdata.structure0[contextData.path];
+             currentArea = sakai_global.group.pubdata.structure0[contextData.path];
              var editRoles = $.parseJSON(currentArea._edit);
              var viewRoles = $.parseJSON(currentArea._view);
              for (var i = 0; i < roles.length; i++){
@@ -55,11 +57,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  }
              }
 
-             var visibility = "selected";
              if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group.groupData["sakai:group-visible"] === "public"){
                  visibility = "everyone";
              } else if ($.inArray("everyone", viewRoles) !== -1 && (sakai_global.group.groupData["sakai:group-visible"] === "logged-in-only" || sakai_global.group.groupData["sakai:group-visible"] === "public")){
                  visibility = "loggedin";
+             } else {
+                 visibility = "selected";
              }
 
              // Fill in area title
@@ -70,7 +73,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                  "roles": roles,
                  "visibility": visibility,
                  "manager": contextData.isManager,
-                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"]
+                 "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
+                 "sakai": sakai
              }));
          };
 
@@ -132,6 +136,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          // Storing new permissions //
          /////////////////////////////
 
+        var showWarning = function(){
+            var newVisibility = $("#areapermissions_area_general_visibility");
+            var newVisibilityVal = $.trim(newVisibility.val());
+            var oldVisibilityIndex = parseInt(newVisibility.find("option[value='" + visibility + "']").attr("index"), 10);
+            if (visibility === newVisibilityVal || parseInt(newVisibility.attr("selectedIndex"), 10) > oldVisibilityIndex || newVisibilityVal === "selected"){
+                applyPermissions();
+            } else {
+                $("#areapermissions_warning_container_text").html(sakai.api.Util.TemplateRenderer("areapermissions_warning_container_text_template", {
+                    "visibility": newVisibilityVal,
+                    "area": currentArea._title
+                }));
+                $("#areapermissions_warning_container").jqmShow();
+            }
+        };
+
          var applyPermissions = function(){
              var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData["sakai:roles"]);
@@ -140,6 +159,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              var newEdit = [];
 
              // Collect everyone and anonymous value
+             var updateMemberPermissions = false;
+             if($.trim($("#areapermissions_area_general_visibility").val()) !== $("#areapermissions_area_general_visibility").attr("data-original-selection")){
+                 updateMemberPermissions = true;
+             }
              var generalVisibility = $("#areapermissions_area_general_visibility").val();
              if (generalVisibility === "everyone"){
                  newView.push("everyone"); 
@@ -152,6 +175,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              for (var i = 0; i < roles.length; i++){
                  var el = $("select[data-roleid='" + roles[i].id + "']");
                  var selectedPermission = el.val();
+                 if(el.attr("data-original-selection") !== $.trim(selectedPermission)){
+                     updateMemberPermissions = true;
+                 }
                  if (selectedPermission === "edit"){
                      newEdit.push("-" + roles[i].id);
                  } else if (selectedPermission === "view"){
@@ -160,19 +186,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }
 
              // Refetch docstructure information
-             $.ajax({
-                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
-                 success: function(data){
-                     // Store view and edit roles
-                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
-                     pubdata.structure0[contextData.path]._view = $.toJSON(newView);
-                     pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
-                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
-                     sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
-                        "structure0": $.toJSON(pubdata.structure0)
-                    });
-                 }
-             });
+            if (updateMemberPermissions){
+                 $.ajax({
+                     url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
+                     success: function(data){
+                         // Store view and edit roles
+                         var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
+                         pubdata.structure0[contextData.path]._view = $.toJSON(newView);
+                         pubdata.structure0[contextData.path]._edit = $.toJSON(newEdit);
+                         sakai_global.group.pubdata.structure0 = pubdata.structure0;
+                         sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
+                            "structure0": $.toJSON(pubdata.structure0)
+                        });
+                     }
+                 });
+             }
 
              // If I manage the document, add/remove appropriate roles from document
              if (contextData.isManager){
@@ -183,7 +211,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                  var $generalVisEl = $("#areapermissions_area_general_visibility");
                  var generalValue = $generalVisEl.val();
-                 var originalGeneralValue = $generalVisEl.data("original-selection");
+                 var originalGeneralValue = $generalVisEl.attr("data-original-selection");
                  var generalPermission = "";
                  if (generalValue !== originalGeneralValue){
                      if (generalValue === "everyone"){
@@ -193,60 +221,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      } else if (generalValue === "selected"){
                          generalPermission = "private";
                      }
+                     permissionsBatch.push({
+                         "url": contextData.pageSavePath + ".json",
+                         "method": "POST",
+                         "parameters": {
+                             "sakai:permissions": generalPermission
+                         }
+                     });
                  }
-                 permissionsBatch.push({
-                     "url": contextData.pageSavePath + ".json",
-                     "method": "POST",
-                     "parameters": {
-                         "sakai:permissions": generalPermission
-                     }
-                 });
 
                  // Per role visibility
-                 for (var i = 0; i < roles.length; i++) {
-                     var role = sakai_global.group.groupId + "-" + roles[i].id;
-                     var el = $("select[data-roleid='" + roles[i].id + "']");
-                     var selectedPermission = el.val();
-                     var parameters = {
-                         ":viewer@Delete": role,
-                         ":manager@Delete": role
-                     };
-                     var aclParameters = {
-                        "principalId": role,
-                        "privilege@jcr:write": "denied",
-                        "privilege@jcr:read": "denied"
-                     };
-                     if (selectedPermission === "edit"){
-                         parameters = {
+                 if (updateMemberPermissions){
+                     for (var i = 0; i < roles.length; i++) {
+                         var role = sakai_global.group.groupId + "-" + roles[i].id;
+                         var el = $("select[data-roleid='" + roles[i].id + "']");
+                         var selectedPermission = el.val();
+                         var parameters = {
                              ":viewer@Delete": role,
-                             ":manager": role
-                         }
-                         aclParameters = {
-                             "principalId": role,
-                             "privilege@jcr:write": "granted",
-                             "privilege@jcr:read": "granted"
-                         }
-                     } else if (selectedPermission === "view"){
-                         parameters = {
-                             ":viewer": role,
                              ":manager@Delete": role
-                         }
-                         aclParameters = {
-                             "principalId": role,
-                             "privilege@jcr:write": "denied",
-                             "privilege@jcr:read": "granted"
-                         }
-                     };
-                     permissionsBatch.push({
-                         "url": contextData.pageSavePath + ".members.json",
-                         "method": "POST",
-                         "parameters": parameters
-                     });
-                     permissionsBatch.push({
-                            "url": contextData.pageSavePath + ".modifyAce.html",
-                            "method": "POST",
-                            "parameters": aclParameters
-                     });
+                         };
+                         var aclParameters = {
+                            "principalId": role,
+                            "privilege@jcr:write": "denied",
+                            "privilege@jcr:read": "denied"
+                         };
+                         if (selectedPermission === "edit"){
+                             parameters = {
+                                 ":viewer@Delete": role,
+                                 ":manager": role
+                             }
+                             aclParameters = {
+                                 "principalId": role,
+                                 "privilege@jcr:write": "granted",
+                                 "privilege@jcr:read": "granted"
+                             }
+                         } else if (selectedPermission === "view"){
+                             parameters = {
+                                 ":viewer": role,
+                                 ":manager@Delete": role
+                             }
+                             aclParameters = {
+                                 "principalId": role,
+                                 "privilege@jcr:write": "denied",
+                                 "privilege@jcr:read": "granted"
+                             }
+                         };
+                         permissionsBatch.push({
+                             "url": contextData.pageSavePath + ".members.json",
+                             "method": "POST",
+                             "parameters": parameters
+                         });
+                         permissionsBatch.push({
+                                "url": contextData.pageSavePath + ".modifyAce.html",
+                                "method": "POST",
+                                "parameters": aclParameters
+                         });
+                     }
                  }
 
                  // Send requests
@@ -261,6 +291,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              }
 
              $("#areapermissions_container").jqmHide();
+             $("#areapermissions_warning_container").jqmHide();
 
              // Show gritter notification
              sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
@@ -283,6 +314,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              zIndex: 3000
          });
 
+         $("#areapermissions_warning_container").jqm({
+             modal: true,
+             overlay: 20,
+             toTop: true,
+             zIndex: 4000
+         });
+
          /////////////////////
          // Internal events //
          /////////////////////
@@ -296,12 +334,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          });
 
          $("#areapermissions_apply_permissions").live("click", function(){
+             showWarning();
+         });
+
+         $("#areapermissions_proceedandapply").live("click", function(){
              applyPermissions();
          });
 
          $(".areapermissions_role_list input").live("change", function(){
              checkGeneralDisable();
          });
+
 
          /////////////////////
          // External events //

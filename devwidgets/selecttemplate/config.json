@@ -1,10 +1,14 @@
 {
-    "description":"Select Template",
-    "name":"Select Template",
     "id":"selecttemplate",
     "i18n": {
-        "default": "/devwidgets/selecttemplate/bundles/default.properties",
-        "en_US": "/devwidgets/selecttemplate/bundles/en_US.properties"
+        "default": {
+            "bundle": "/devwidgets/selecttemplate/bundles/default.properties",
+            "name":"Select template",
+            "description":"Select template"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/selecttemplate/bundles/en_US.properties"
+        }
     },
     "type":"core",
     "enabled":true,

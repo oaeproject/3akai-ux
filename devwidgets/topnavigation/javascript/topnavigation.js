@@ -174,16 +174,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             var qs = new Querystring();
+            // Check whether we require a redirect
+            if (qs.get("url")) {
+                redirectURL = qs.get("url");;
             // Go to You when you're on explore page
-            if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+            } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
                 redirectURL = "/me";
-            // 403/404 and not logged in
-            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
-                var url = qs.get("url");
-                if (url){
-                    redirectURL = url;
-                }
             // 500 not logged in
             } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                 redirectURL = "/me";
@@ -364,7 +361,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 } else {
                     temp.url = array[index].url;
                 }
-                temp.label = sakai.api.i18n.General.getValueForKey(array[index].label);
+                temp.label = sakai.api.i18n.getValueForKey(array[index].label);
             }
             return temp;
         };
@@ -702,16 +699,29 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#subnavigation_logout_link, #topnavigation_user_options_login_button_login").keydown(function(e) {
-                // hide signin or user options menu when tabbing out of the last menu option
+            $("#subnavigation_logout_link").keydown(function(e) {
+                // if user is signed in and tabs out of user menu, close the sub menu
                 if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
-                    if ($(this).attr("id") === "topnavigation_user_options_login_button_login") {
-                        mouseOverSignIn = false;
-                        $(topnavUserLoginButton).trigger("mouseout");
-                        $("html").trigger("click");
-                    } else {
-                        closeMenu();
-                    }
+                    closeMenu();
+                }
+            });
+
+            $("#topnavigation_user_options_login_button_login").keydown(function(e) {
+                // if user is not signed in we need to check when they tab out of the login form and close the login menu
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
+                }
+            });
+
+            $("#subnavigation_login_list li a").keydown(function(e) {
+                // hide signin or user options menu when tabbing out of the last menu option
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB && $(this).parents("li").next().length == 0) {
+                    // if user is not signed in we need to check when they tab out of the external auth menu, and close the sub menu
+                    mouseOverSignIn = false;
+                    $(topnavUserLoginButton).trigger("mouseout");
+                    $("html").trigger("click");
                 }
             });
 

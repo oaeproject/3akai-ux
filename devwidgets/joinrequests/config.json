@@ -1,9 +1,11 @@
 {
-    "description":"Manage join requests for a specific group.",
-    "name":"Join Requests",
     "id":"joinrequests",
     "i18n": {
-        "default": "/devwidgets/joinrequests/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/joinrequests/bundles/default.properties",
+            "name":"Join requests",
+            "description":"Manage join requests for a specific group"
+        }
     },
     "personalportal":false,
     "hasSettings":false,

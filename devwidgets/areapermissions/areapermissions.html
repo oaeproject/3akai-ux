@@ -13,6 +13,25 @@
     <div class="fl-push"></div>
 </div>
 
+<div id="areapermissions_warning_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__WARNING__</h1>
+    <p id="areapermissions_warning_container_text"></p>
+    <div class="fl-force-right areapermissions_buttons">
+        <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__GO_BACK__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="areapermissions_proceedandapply">__MSG__PROCEED_AND_APPLY__</button>
+    </div>
+    <div class="fl-push"></div>
+</div>
+
+<div id="areapermissions_warning_container_text_template" style="display:none;"><!--
+    {if visibility === "loggedin"}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_AREA_OPEN_TO_INSTITUTION__
+    {else}
+        __MSG__YOU_ARE_ABOUT_TO_MAKE_THIS_AREA_OPEN_TO_PUBLIC__
+    {/if}
+--></div>
+
 <div id="areapermissions_content_template" style="display:none"><!--
     <div class="areapermissions_visible_to">
         <span>__MSG__CAN_BE_SEEN_BY__:</span>
@@ -47,7 +66,7 @@
         <div id="areapermission_roles">
             {for role in roles}
                 <div class="areapermission_role_container">
-                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${role.title}</span>
+                    <input type="checkbox" data-roleid="${role.id}"/><span class="s3d-bold">${sakai.api.i18n.General.process(role.title)}</span>
                     <select class="areapermissions_role_select" data-original-selection="${role.value}" data-roleid="${role.id}">
                         {if !manager}
                             <option value="edit" {if role.value === "edit"} selected="true" {/if} disabled="true">__MSG__CAN_EDIT__ (__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</option>

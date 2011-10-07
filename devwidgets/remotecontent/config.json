@@ -4,14 +4,18 @@
     "grouppages": true,
     "groupdashboard": true,
     "sakaidocs": true,
-    "description":"Remote Content",
     "i18n": {
-        "default": "/devwidgets/remotecontent/bundles/default.properties",
-        "en_US": "/devwidgets/remotecontent/bundles/en_US.properties"
+        "default": {
+            "bundle": "/devwidgets/remotecontent/bundles/default.properties",
+            "name":"Remote content",
+            "description":"Remote content"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/remotecontent/bundles/en_US.properties"
+        }
     },
     "id":"remotecontent",
     "img":"/devwidgets/remotecontent/images/remotecontent.png",
-    "name":"Remote Content",
     "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",

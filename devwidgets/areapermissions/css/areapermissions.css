@@ -32,3 +32,5 @@
 #areapermissions_container input {margin-right: 5px;}
 #areapermissions_container .areapermissions_role_list select {float:right; margin-right: 5px;}
 #areapermissions_container .areapermission_roles_controls {padding: 5px 20px 5px 10px; border-bottom: 1px solid #e6e6e6;}
+#areapermissions_warning_container #areapermissions_warning_container_text {font-size:16px;line-height:20px;}
+#areapermissions_warning_container {margin-top: 120px;}
