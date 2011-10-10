@@ -2,8 +2,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/joingroup/bundles/default.properties",
-            "name": "Join Group Overlay",
-            "description": "Join Group Overlay"
+            "name": "Join group overlay",
+            "description": "Join group overlay"
         }
     },
     "id": "joingroup",

@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 #selecttemplate_container img {float:left; margin-right: 20px; width: 289px;}
 #selecttemplate_container .selecttemplate_template_small {float:left; width:229px; margin:20px 22px 10px 0;}
 #selecttemplate_container .selecttemplate_template_large {float:left; width: 471px; margin:20px 30px 10px 0;}

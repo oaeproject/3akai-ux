@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/helloworld/bundles/default.properties",
-            "name":       "Hello World",
-            "description":"Sakai OAE Widget SDK Demonstration Widget"
+            "name":       "Hello world",
+            "description":"Sakai OAE widget SDK demonstration widget"
         }
     },
     "id":                 "helloworld",

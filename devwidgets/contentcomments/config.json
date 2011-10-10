@@ -8,8 +8,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentcomments/bundles/default.properties",
-            "name":"Content Comments",
-            "description":"Content Comments"
+            "name":"Content comments",
+            "description":"Content comments"
         }
     },
     "img":"/devwidgets/contentcomments/images/comments.png",

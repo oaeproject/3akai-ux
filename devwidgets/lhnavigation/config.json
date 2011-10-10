@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/lhnavigation/bundles/default.properties",
-            "name":       "Left Hand Navigation",
-            "description":"Left Hand Navigation Widget"
+            "name":       "Left hand navigation",
+            "description":"Left hand navigation widget"
         }
     },
     "id":                 "lhnavigation",
