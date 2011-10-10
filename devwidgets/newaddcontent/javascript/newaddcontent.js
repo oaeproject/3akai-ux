@@ -490,7 +490,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                     lastUpload.push(itemToPush);
                     var content = {};
                     content[refID] = {
-                        "page": sakaidocConfig.defaultContent
+                        "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
                         url: "/p/" + data._contentItem.poolId + ".resource",
