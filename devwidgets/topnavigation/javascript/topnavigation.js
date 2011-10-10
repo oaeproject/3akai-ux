@@ -566,7 +566,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            $("#topnavigation_search_input").keydown(function(e) {
+            // left and right arrow key binding on the search input box conflicts with JAWS screen reader - SAKIII-4067
+            /*$("#topnavigation_search_input").keydown(function(e) {
                 if (e.which == $.ui.keyCode.LEFT && $(this).getSelection().start === 0) {
                     $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
                     return false;
@@ -584,7 +585,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     }
                     return false;
                 }
-            });
+            });*/
 
             $("#topnavigation_user_inbox_container").keydown(function(e) {
                 if (e.which == $.ui.keyCode.LEFT) {
@@ -600,7 +601,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            // bind up/down keys in sub menu
+            // bind up/down/escape keys in sub menu
             $(hasSubnav + " div a").keydown(function(e) {
                 if (e.which == $.ui.keyCode.DOWN) {
                     if ($(this).parent().nextAll("li:first").length > 0){
