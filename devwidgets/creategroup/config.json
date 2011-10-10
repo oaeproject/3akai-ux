@@ -3,8 +3,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/creategroup/bundles/default.properties",
-            "name":"Create Group",
-            "description":"Create Group"
+            "name":"Create group",
+            "description":"Create group"
         },
         "en_US": {
             "bundle": "/devwidgets/creategroup/bundles/en_US.properties"

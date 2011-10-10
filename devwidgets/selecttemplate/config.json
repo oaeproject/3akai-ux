@@ -3,8 +3,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/selecttemplate/bundles/default.properties",
-            "name":"Select Template",
-            "description":"Select Template"
+            "name":"Select template",
+            "description":"Select template"
         },
         "en_US": {
             "bundle": "/devwidgets/selecttemplate/bundles/en_US.properties"

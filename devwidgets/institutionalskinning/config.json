@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/institutionalskinning/bundles/default.properties",
-            "name":       "Institutional Skinning",
-            "description":"Institutional Skinning Widget"
+            "name":       "Institutional skinning",
+            "description":"Institutional skinning widget"
         }
     },
     "id":                 "institutionalskinning",

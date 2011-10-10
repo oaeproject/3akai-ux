@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/welcome/bundles/default.properties",
-            "name":       "Welcome Widget",
-            "description":"Welcome Widget"
+            "name":       "Welcome widget",
+            "description":"Welcome widget"
         }
     },
     "id":                 "welcome",

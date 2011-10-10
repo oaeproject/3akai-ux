@@ -8,8 +8,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/worldsettings/bundles/default.properties",
-            "name":       "World Settings",
-            "description":"Edit World Settings"
+            "name":       "World settings",
+            "description":"Edit world settings"
         }
     },
     "id":                 "worldsettings",

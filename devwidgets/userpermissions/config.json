@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/userpermissions/bundles/default.properties",
-            "name":       "User Permissions",
-            "description":"User Permissions"
+            "name":       "User permissions",
+            "description":"User permissions"
         }
     },
     "id":                 "userpermissions",
