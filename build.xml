@@ -43,6 +43,7 @@
         <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
+        <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
 
         <!-- SETUP - Set Ant-contrib dependency -->
         <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -251,8 +252,14 @@
         <delete file="${MATH_DIR}/config/local/imageFonts.js"/>
     </target>
 
+    <!-- Target: Hash files-->
+    <target name="hash_files" depends="optimize">
+      <java jar="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
+        fork="true">
+        </java>
+    </target>
     <!-- Target: Release Builds-->
-    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize">
+    <target name="release" depends="init, create_target_folders, copy_optimized, permissions, formatting, unpackMathFonts, optimize, hash_files">
         <echo message="Sakai 3 UX Build: Build complete." />
     </target>
 
