@@ -162,9 +162,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         $.trim(group["sakai:group-description"]) ?
                             sakai.api.Util.applyThreeDots(
                                 group["sakai:group-description"],
-                                650,  // width of .mymemberships_info div (not yet rendered)
-                                {max_rows: 2, whole_word: false},
-                                "s3d-bold"
+                                600,  // width of .mymemberships_info div (not yet rendered)
+                                {max_rows: 3, whole_word: false},
+                                "s3d-bold mymemberships_item_description"
                             ) : false;
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
                     if (group["sakai:category"]){
