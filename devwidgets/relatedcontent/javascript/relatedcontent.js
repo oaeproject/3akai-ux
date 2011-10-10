@@ -133,8 +133,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     if (!moreResults){
                         $(relatedcontentShowMore).hide();
+                        $("#relatedcontent_footer").addClass("relatedcontent_footer_norelated");
                     } else {
                         $(relatedcontentShowMore).show();
+                        $("#relatedcontent_footer").removeClass("relatedcontent_footer_norelated");
                     }
                 }
             };
