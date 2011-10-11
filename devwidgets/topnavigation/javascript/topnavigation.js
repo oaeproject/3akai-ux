@@ -388,7 +388,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     var categoryx = sakai.config.worldTemplates[x];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
-                        "label": categoryx.menuLabel || categoryx.title,
+                        "label": categoryx.title,
                         "url": "/search#l=" + categoryx.id
                     });
                 }
