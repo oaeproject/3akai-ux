@@ -85,7 +85,7 @@
 
 /* search results grid */
 .s3d-search-results-grid{border:0 !important;}
-.s3d-search-results-grid .s3d-search-result{width:145px;height:232px;overflow:hidden;float:left;position:relative;border: 1px solid #FFFFFF;}
+.s3d-search-results-grid .s3d-search-result{width:145px;min-height:232px;overflow:hidden;float:left;position:relative;border: 1px solid #FFFFFF;}
 .s3d-search-results-grid .s3d-search-result{margin:0 10px 10px 0;}
 .s3d-search-results-grid .s3d-search-result a img{float:left;padding:0;margin:0 0 0 20px;width:100px;height:100px;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-right{margin:140px 0 0 0;}
