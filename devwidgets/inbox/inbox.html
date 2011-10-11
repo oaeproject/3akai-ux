@@ -42,7 +42,7 @@
 
             <!-- Inbox Item Template -->
             <div id="inbox_message_list_item_template"><!--
-                {if search}
+                {if search && data.results.length > 0}
                     <p id="inbox_search_term">__MSG__SEARCH_RESULTS_FOR__ <span>${search}</span></p>
                 {/if}
                 {for message in data.results}
