@@ -377,26 +377,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (sakai.config.Navigation[i].id === "navigation_create_and_add_link"){
                 for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                     var category = sakai.config.worldTemplates[c];
-                    var label = category.title;
-                    if (category.menuLabel){
-                        label = category.menuLabel;
-                    }
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
-                        "label": label,
+                        "label": category.menuLabel || category.title,
                         "url": "/create#l=" + category.id
                     });
                 }
             } else if (sakai.config.Navigation[i].id === "navigation_explore_link" || sakai.config.Navigation[i].id === "navigation_anon_explore_link"){
                 for (var x = 0; x < sakai.config.worldTemplates.length; x++){
                     var categoryx = sakai.config.worldTemplates[x];
-                    var label = categoryx.title;
-                    if (categoryx.menuLabel){
-                        label = categoryx.menuLabel;
-                    }
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_explore_" + categoryx.id + "_link",
-                        "label": label,
+                        "label": categoryx.menuLabel || categoryx.title,
                         "url": "/search#l=" + categoryx.id
                     });
                 }
