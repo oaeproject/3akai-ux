@@ -151,6 +151,7 @@ define(
                     data["sakai:category"] = group.category;
                     data["sakai:templateid"] = group.template.id;
                     data["sakai:joinRole"] = group.template.joinRole;
+                    data["sakai:creatorRole"] = group.template.creatorRole;
                     data["sakai:roles"] = $.toJSON(group.template.roles);
                 } else {
                     data["sakai:excludeSearch"] = true;

@@ -4,6 +4,7 @@
 <div id="areapermissions_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
     <div class="s3d-dialog-close jqmClose"></div>
     <div id="areapermissions_content_container"></div>
+    <hr class="fl-push fl-hidden"/>
     <div class="fl-force-right areapermissions_buttons">
         <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
         <button type="button" class="s3d-button s3d-overlay-button" id="areapermissions_apply_permissions">__MSG__APPLY_PERMISSIONS__</button>
@@ -11,44 +12,57 @@
 </div>
 
 <div id="areapermissions_content_template" style="display:none;"><!--
-    <h1 class="s3d-dialog-header">__MSG__SELECT_PERMISSIONS_FOR_TITLE__</h1>
-    <h2>__MSG__SEE__</h2>
-    <div class="s3d-inset-shadow-container" id="areapermissions_see_container">
-        <p>__MSG__WHO_CAN_SEE_THIS__</p>
-        <div class="{if visibility === "everyone"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
-            <input type="radio" name="areapermissions_see" id="areapermissions_see_public" {if visibility === "everyone"} checked="checked" {/if} value="everyone" {if groupPermissions !== "public"} disabled="true"{/if}><label for="areapermissions_see_public" class="s3d-bold">__MSG__ANYONE_PUBLIC__ {if groupPermissions !== "public"} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__GROUP_MUST_BE_PUBLIC__)</span>{/if}</label>
-        </div>
+    <h1 class="s3d-dialog-header">__MSG__PERMISSIONS_FOR_TITLE__</h1>
+    <div class="areapermissions_permissions_container first">
+        <h2>__MSG__SEE__</h2>
+        <div class="s3d-inset-shadow-container" id="areapermissions_see_container">
+            <p>__MSG__WHO_CAN_SEE_THIS__</p>
+            <div class="{if visibility === "everyone"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
+                <input type="radio" name="areapermissions_see" id="areapermissions_see_public" {if visibility === "everyone"} checked="checked" {/if} value="everyone" {if groupPermissions !== "public" || !manager} disabled="true"{/if}>
+                <label for="areapermissions_see_public" class="s3d-bold"><span class="label_icon globe"></span>__MSG__ANYONE_PUBLIC__ {if groupPermissions !== "public"} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__GROUP_MUST_BE_PUBLIC__)</span> {elseif !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</label>
+            </div>
 
-        <div class="{if visibility === "loggedin"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
-            <input type="radio" name="areapermissions_see" id="areapermissions_see_loggedin" {if visibility === "loggedin"} checked="checked" {/if} value="loggedin" {if groupPermissions !== "logged-in-only" && groupPermissions !== "public"} disabled="true"{/if}><label for="areapermissions_see_loggedin" class="s3d-bold">__MSG__ANYONE_LOGGED_IN__ {if groupPermissions !== "logged-in-only" && groupPermissions !== "public"} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__GROUP_MUST_BE_OPEN__)</span{/if}</label>
-        </div>
+            <div class="{if visibility === "loggedin"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
+                <input type="radio" name="areapermissions_see" id="areapermissions_see_loggedin" {if visibility === "loggedin"} checked="checked" {/if} value="loggedin" {if groupPermissions !== "logged-in-only" && groupPermissions !== "public" || !manager} disabled="true"{/if}>
+                <label for="areapermissions_see_loggedin" class="s3d-bold"><span class="label_icon small_institution"></span>__MSG__ANYONE_LOGGED_IN__ {if groupPermissions !== "logged-in-only" && groupPermissions !== "public"} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__GROUP_MUST_BE_OPEN__)</span> {elseif !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</label>
+            </div>
 
-        <div class="{if visibility === "selected"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
-            <input type="radio" name="areapermissions_see" id="areapermissions_see_private" {if visibility === "selected"} checked="checked" {/if} value="selected">
-            <label for="areapermissions_see_private" class="s3d-bold">__MSG__SPECIFIC_ROLES_ONLY__</label>
-            <div id="areapermissions_see_private_specific" {if visibility !== "selected"} style="display:none;"{/if}>
-                <hr class="s3d-split-line"/>
-                {for role in roles}
-                    <div class="s3d-bold">
-                        <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked" {if role.value === "view" || role.value === "hidden"} style="display:none;"{/if}>
-                        <input type="checkbox" id="areapermissions_see_${role.id}" {if role.value === "view" || role.value === "edit" || role.allowManage || visibility === "everyone" || visibility === "loggedin"} checked="checked"{/if}{if role.value === "edit"} style="display:none;"{/if}>
-                        <label class="areapermissions_role_label" for="areapermissions_see_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
-                    </div>
-                    <hr class="s3d-split-line small_line"/>
-                {/for}
+            <div class="{if visibility === "selected"} s3d-outer-shadow-container{else} areapermissions_unselected_rbt{/if} areapermissions_selectable">
+                <input type="radio" name="areapermissions_see" id="areapermissions_see_private" {if visibility === "selected"} checked="checked" {/if} value="selected">
+                <label for="areapermissions_see_private" class="s3d-bold"><span class="label_icon lock"></span>__MSG__SPECIFIC_ROLES_ONLY__</label>
+                <div id="areapermissions_see_private_specific" {if visibility !== "selected"} style="display:none;"{/if}>
+                    <hr class="s3d-split-line"/>
+                    {for role in roles}
+                        <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
+                            <div class="s3d-bold">
+                                <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_see_${role.id}_checked" {if role.value === "view" || role.value === "hidden"} style="display:none;"{/if}>
+                                <input type="checkbox" id="areapermissions_see_${role.id}" {if role.value === "view" || role.value === "edit" || visibility === "everyone" || visibility === "loggedin"} checked="checked"{/if}{if role.value === "edit"} style="display:none;"{/if}>
+                                <label class="areapermissions_role_label" for="areapermissions_see_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
+                            </div>
+                            <hr class="s3d-split-line small_line"/>
+                        </div>
+                    {/for}
+                </div>
+                <hr class="fl-push fl-hidden"/>
             </div>
         </div>
     </div>
-    <h2>__MSG__EDIT__</h2>
-    <div class="s3d-inset-shadow-container">
-        <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__</p>
-        <div class="s3d-outer-shadow-container">
-            {for role in roles}
-                    <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" {if role.value === "view" || !role.allowManage} style="display:none;"{/if}>
-                    <input type="checkbox" class="areapermissions_role_edit_check" id="areapermissions_edit_${role.id}" {if role.value === "edit"} checked="checked" {if role.allowManage}style="display:none;"{/if}{/if}>
-                <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
-                <hr class="s3d-split-line small_line"/>
-            {/for}
+
+    <div class="areapermissions_permissions_container">
+        <h2>__MSG__EDIT__ </h2>
+        <div class="s3d-inset-shadow-container">
+            <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__</p>
+            <div class="s3d-outer-shadow-container">
+                {for role in roles}
+                    <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
+                        <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" {if role.value === "view" || !role.creatorRole} style="display:none;"{/if}>
+                        <input type="checkbox" class="areapermissions_role_edit_check" id="areapermissions_edit_${role.id}" {if role.value === "edit"} checked="checked" {if role.creatorRole}style="display:none;"{/if}{/if} {if !manager}disabled="true"{/if}>
+                        <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if} {if !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</label>
+                        <hr class="s3d-split-line small_line"/>
+                    </div>
+                {/for}
+                <hr class="fl-push fl-hidden"/>
+            </div>
         </div>
     </div>
 --></div>

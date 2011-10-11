@@ -63,7 +63,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                      role.value = "hidden";
                  }
                  role.roleTitle = sakai.api.i18n.getValueForKey(role.roleTitle.substring(7).slice(0, -2));
+                 role.creatorRole = sakai_global.group.groupData["sakai:creatorRole"] === role.id;
              }
+
+             var sortedroles = [];
+             // Creators
+             $.each(roles, function(i, role){
+                 if(role.creatorRole){
+                     sortedroles.push(role);
+                 }
+             });
+             // Managers
+             $.each(roles, function(i, role){
+                 if(role.allowManage && !role.creatorRole){
+                     sortedroles.push(role);
+                 }
+             });
+             // Viewers
+             $.each(roles, function(i, role){
+                 if(!role.allowManage){
+                     sortedroles.push(role);
+                 }
+             });
 
              if ($.inArray("anonymous", viewRoles) !== -1 && sakai_global.group.groupData["sakai:group-visible"] === "public"){
                  visibility = "everyone";
@@ -76,7 +97,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              sakai.api.Groups.getRole(sakai.data.me.user.userid, groupData["sakai:group-id"], function(success, data){
                 // Render the list
                 $("#areapermissions_content_container").html(sakai.api.Util.TemplateRenderer("areapermissions_content_template", {
-                    "roles": roles,
+                    "roles": sortedroles,
                     "visibility": visibility,
                     "manager": contextData.isManager,
                     "groupPermissions": sakai_global.group.groupData["sakai:group-visible"],
@@ -151,7 +172,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // If I manage the document, add/remove appropriate roles from document
-            if (contextData.isManager){
+            //if (contextData.isManager){
 
                 // General visibility
                 // Options are public, everyone or private
@@ -231,7 +252,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#areapermissions_container").jqmHide();
                     sakai.api.Util.notification.show($("#areapermissions_notification_title").text(), $("#areapermissions_notification_body").text());
                 });
-            }
+            //}
         };
 
         var determineContentManager = function(){
