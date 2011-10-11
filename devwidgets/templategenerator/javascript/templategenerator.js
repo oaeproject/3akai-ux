@@ -134,27 +134,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				templategeneratorData.exportData.joinRole = templategeneratorData.roles.joinRole;
 				templategeneratorData.exportData.creatorRole = templategeneratorData.roles.creatorRole;
 			
-				console.log(templategeneratorData);
-			
 				// 3. Docs (the actual pages)
 				var pageId, refId;
 					pageId = refId = 0;
 				
 				// this is the main loop to create the structure for the pages
-				$.each(templategeneratorData.docstructure.structure, function(docstructureIndex, docstructureElement){
-						
+				$.each(templategeneratorData.pageStructures, function(docstructureIndex, docstructureElement){
+					
 					// creates a unique page id
 					var pid = '${pid}' + pageId;
 					docstructureElement._pid = pid;
-					
+									
 					// creates the general page structure
 					var page = {};
 						page[pid] = {};
-						page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages.structures[pageId]);					
-				
+						page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);						
+						delete page[pid].structure0._pid;
+						
 					// create the individual pages and add all the content
 					$.each(page[pid].structure0, function(pageIndex, pageElement){
-						
+					
 						// store the old reference so we use its id to trace the data
 						var oldRef = pageElement._ref;
 					
@@ -209,7 +208,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 						});
 						
 						// insert the generated structure into the page
-						$templategeneratorExport.append(myPageContent);
+						$templategeneratorExport.empty().append(myPageContent);
 						var generatedHTML = $templategeneratorExport.html();
 							generatedHTML = $.trim(generatedHTML);
 							generatedHTML = generatedHTML.replace(/"/g, '\'');
@@ -225,9 +224,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				});
 				
 				// 4. Structure
+				var pageIndex = 0;
 				var structure = $.extend(true, {},  templategeneratorData.docstructure.structure);
 				$.each(structure, function(structureIndex, structureElement){
-					structureElement['_docref'] = structureElement._pid;
+					structureElement['_docref'] = '${pid}' + pageIndex;
+					pageIndex++;
 					delete structureElement._pid;
 				});
 				templategeneratorData.exportData.structure = structure;
@@ -319,7 +320,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * for export
          */
         var getTemplateData = function(){
-     
+     		
         	templategeneratorData.templateName = sakai_global.group.groupData.name;
         	templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
  			templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
@@ -366,6 +367,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 	 				});
 	 				// grab the data for each page
 	 				templategeneratorData.pages.structures = [];
+	 				templategeneratorData.pageStructures = [];
 	 				sakai.api.Server.batch(templategeneratorData.pageUrls, function(success, data){
 		                if (success) {
 							// create a dataObject for each page
@@ -373,9 +375,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 								var page = {};
 									page.pageData = $.parseJSON(pageElement.body);
 									page.structure = $.parseJSON(page.pageData.structure0);
-								
+									
 								templategeneratorData.pages.push(page);
-								templategeneratorData.pages.structures.push(page.structure);
+								templategeneratorData.pageStructures.push(page.structure);
 						
 								// extra check to make sure that the pageData is loaded
 								templategeneratorData.templatesLoaded = true;
