@@ -279,6 +279,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-no-results-container .s3d-no-results-replied {background:url("/dev/images/replied_icon_55x55.png") no-repeat top left transparent;}
 .s3d-no-results-container .s3d-no-results-trash {background:url("/dev/images/trash_icon_55x55.png") no-repeat top left transparent;}
 .s3d-no-results-container .s3d-no-results-upload {background:url("/dev/images/upload_icon_42x46.png") no-repeat top left transparent;width:46px;height:42px;}
+.s3d-no-results-container .s3d-no-results-search-messages {background:url("/dev/images/no-messages-found-icon.png") no-repeat top left transparent;width:46px;height:42px;}
 .s3d-no-results-container .s3d-no-results-search-world {background:url("/dev/images/world_search_icon_55x55.png") no-repeat scroll left top transparent;}
 .s3d-no-results-container .s3d-no-results-search-people {background:url("/dev/images/people_search_icon_55x55.png") no-repeat scroll left top transparent;}
 .s3d-no-results-container .s3d-no-results-search-content {background:url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;}
