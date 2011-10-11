@@ -69,13 +69,13 @@
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
-                {for copyrightLabel in sakai.config.Permissions.Copyright}
+                {for copyrightLabel in sakai.config.Permissions.Copyright.types}
                     <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}</option>
                 {/for}
             </select>
         {else}
             <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
-            {for copyrightLabel in sakai.config.Permissions.Copyright}
+            {for copyrightLabel in sakai.config.Permissions.Copyright.types}
                 {if data.data["sakai:copyright"] === copyrightLabel_index}
                     <label class="content_profile_basic_info_form_anon_label">
                         ${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}
