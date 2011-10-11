@@ -33,8 +33,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             lastAutosave = "",
             autosaveDialogShown = false,
             autosaveDisabled = false,
-            autosaveCheckContentLength = false,
-            autosaveMaxContentLength = 65536;
+            // SAKIII-3734 autosaveMaxContentLength set to false to remove 64KB autosave restriction
+            autosaveMaxContentLength = false;
 
         var $rootel = $("#"+tuid);
 
@@ -107,7 +107,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var checkContentLength = function(content){
-            if (unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
+            if (autosaveMaxContentLength && unescape(encodeURIComponent(content)).length > autosaveMaxContentLength){
                 // SAKIII-3162 the content is too large, display an error and skip autosave
                 if (!autosaveDisabled){
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("AUTOSAVED_FAILED", "sakaidocs"),sakai.api.i18n.getValueForKey("CONTENT_TOO_LARGE"),sakai.api.Util.notification.type.ERROR);
