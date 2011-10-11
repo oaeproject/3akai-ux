@@ -826,6 +826,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             });
             $("#newaddcontent_upload_content_copyright_container").html(sakai.api.Util.TemplateRenderer("newaddcontent_copyright_template", {
                 copyright: sakai.config.Permissions.Copyright,
+                copyright_default: sakai.config.Permissions.Copyright.defaults["content"],
                 sakai: sakai
             }));
             $("#newaddcontent_container_lhchoice").find("a:first").focus();

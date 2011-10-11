@@ -317,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "sakai:pooled-content-file-name": definition._title,
                     "sakai:description": "",
                     "sakai:permissions": permission,
-                    "sakai:copyright": "creativecommons",
+                    "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
                     "structure0": $.toJSON(toCreate.structure0),
                     "mimeType": "x-sakai/document"
                 }
