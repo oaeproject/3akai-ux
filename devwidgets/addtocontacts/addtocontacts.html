@@ -31,7 +31,7 @@
                 </tr>
             </table>
             <label id="addtocontacts_form_personalnote_label" for="addtocontacts_form_personalnote">__MSG__ADD_A_PERSONAL_NOTE_TO_THE_INVITATION__:</label>
-            <textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote"></textarea>
+            <textarea cols="75" rows="3" id="addtocontacts_form_personalnote" name="addtocontacts_form_personalnote" placeholder="__MSG__ENTER_A_PERSONAL_NOTE_FOR_THE_INVITATION__"></textarea>
         </form>
 
         <div id="addtocontacts_response"></div>
@@ -55,7 +55,7 @@
 
 <!-- PERSONAL NOTE TEMPLATE -->
 <div id="addtocontacts_form_personalnote_template" style="display:none;"><!--
-&nbsp;__MSG__I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON_SAKAI__.
+&nbsp;__MSG__I_WOULD_LIKE_TO_INVITE_YOU_TO_BECOME_A_MEMBER_OF_MY_NETWORKS_ON__ __MSG__SAKAI__.
 
 - ${sakai.api.User.getProfileBasicElementValue(me.profile, "firstName")|safeOutput}
 --></div>

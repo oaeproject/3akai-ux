@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/documentviewer/bundles/default.properties",
-            "name":"Document Viewer",
-            "description":"Document Viewer"
+            "name":"Document viewer",
+            "description":"Document viewer"
         }
     },
     "url":"/devwidgets/documentviewer/documentviewer.html"

@@ -31,7 +31,7 @@
                 {for locationpiece in location.split("/")}
                     ${sakai.api.Util.getValueForDirectoryKey(locationpiece)} {if locationpiece_index < location.split("/").length - 1} <span class='assignlocation_select_seperator'>&raquo;</span>{/if}
                 {/for}
-                <button type="button" class="assignlocation_close_image s3d-link-button"></button>
+                <button type="button" class="assignlocation_close_image s3d-link-button" title="__MSG__REMOVE__"></button>
             </li>
         {/for}
     </ul>

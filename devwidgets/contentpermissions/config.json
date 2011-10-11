@@ -4,7 +4,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/contentpermissions/bundles/default.properties",
-            "name": "Content Permissions",
+            "name": "Content permissions",
             "description":"Content permissions widget"
         }
     },

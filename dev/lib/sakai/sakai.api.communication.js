@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 
 /**
  * @class Communication
@@ -121,26 +118,26 @@ define(
                     case "new_message":
                         toSend["sakai:templatePath"] = "/var/templates/email/new_message";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=" + sakai_i18n.General.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|subject=" + subject + "|body=" + body + "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INBOX_URL;
                         break;
                     case "join_request":
                         toSend["sakai:templatePath"] = "/var/templates/email/join_request";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=Sakai|name=" + groupTitle +
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + groupTitle +
                         "|profilelink=" + sakai_conf.SakaiDomain + "/~" + sakai_util.safeURL(meData.user.userid) +
                         "|acceptlink=" + sakai_conf.SakaiDomain + "/~" +  groupId;
                         break;
                     case "group_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/group_invitation";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=Sakai|name=" + groupTitle +
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + groupTitle +
                         "|body=" + body +
                         "|link=" + sakai_conf.SakaiDomain + "/~" + groupId;
                         break;
                     case "shared_content":
                         toSend["sakai:templatePath"] = "/var/templates/email/shared_content";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=Sakai|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|name=" + sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"] +
                         "|description=" + (sakai_global.content_profile.content_data.data["sakai:description"] || "") +
                         "|body=" + body +
                         "|link=" + sakai_global.content_profile.content_data.url;
@@ -148,7 +145,7 @@ define(
                     case "contact_invitation":
                         toSend["sakai:templatePath"] = "/var/templates/email/contact_invitation";
                         toSend["sakai:templateParams"] = "sender=" + sender +
-                        "|system=Sakai|body=" + body +
+                        "|system=" + sakai_i18n.getValueForKey("SAKAI") + "|body=" + body +
                         "|link=" + sakai_conf.SakaiDomain + sakai_conf.URL.INVITATIONS_URL;
                         break;
                 }

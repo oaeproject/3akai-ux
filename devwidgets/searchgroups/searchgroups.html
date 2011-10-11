@@ -1,28 +1,34 @@
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="/devwidgets/searchgroups/css/searchgroups.css" />
+<link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.search.css" />
 <div class="searchgroups_widget" id="searchgroups_widget">
     <div class="searchgroups_content_main">
         <!-- SEARCH BAR -->
-        <div class="fl-left fl-container fl-fix searchgroups_bar">
+        <div class="fl-left fl-container fl-fix s3d-search-bar">
             <span id="form">
                 <input type="text" maxlength="255" id="searchgroups_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
             </span>
         </div>
-        <div class="fl-left fl-container searchgroups_result_title" id="results_header">
+        <div class="fl-left fl-container s3d-search-header" id="results_header">
             <span id="searchgroups_type_title"></span> (<strong id="searchgroups_numberFound">0</strong>)
-            <div class="searchgroups_selects">
+            <div class="s3d-search-selects">
                 <!-- FACETED WIDGET -->
                 <div id="searchgroups_results_faceted" class=""><!--
                     <div id="widget_faceted_${widgetId}" class="widget_inline"></div>
                 --></div>
                 <!-- FACETED WIDGET
                 <div id="widget_faceted_9493020598" class="searchgroups_facted widget_inline"></div>  -->
-                <div class="search_sortby">
+                <div class="s3d-search-sortby">
                     __MSG__SORT_BY__: <select id="search_select_sortby">
                         <option value="desc">__MSG__CHANGED_RECENTLY__</option>
                         <option value="asc">__MSG__CHANGED_LAST__</option>
                     </select>
                 </div>
+                <button type="button" id="search_view_list" title="__MSG__LIST_VIEW__">
+                    __MSG__LIST__
+                </button>
+                <button type="button" id="search_view_grid" title="__MSG__GRID_VIEW__">
+                    __MSG__GRID__
+                </button>
             </div>
         </div>
         <!-- TEMPORARY SEARCH TEXT -->
@@ -31,11 +37,11 @@
                 <b>__MSG__SEARCHING__ ...</b>
             </div>
         </div>
-        <div id="searchgroups_results" class="fl-container searchgroups_results">
+        <div id="searchgroups_results" class="fl-container searchgroups_results s3d-search-results">
             <!-- SEARCH RESULTS -->
             <div id="results_page1" class="results_container results_container_sub">
                 <!-- CONTENT -->
-                <div class="fl-container fl-fix results_part">
+                <div class="fl-container results_part">
                     <div id="result_results_tagged_under" style="display:none;">
                         <span style="font-weight:normal">__MSG__RESULTS_TAGGED_UNDER__</span>
                     </div>
@@ -43,7 +49,7 @@
                         <span style="font-weight:normal">__MSG__RESULTS_LOCATED_IN__</span>
                     </div>
                     <!-- CONTAINER FOR THE RESULTS -->
-                    <ul id="searchgroups_results_container">
+                    <ul id="searchgroups_results_container" class="s3d-search-results-container">
                     </ul>
                     <!-- EXCEED SEARCH RESULT --><span id="result_exceed" style="display:none;">__MSG__MORE_THAN_100__</span>
                     <!-- CONTAINER FOR THE PAGER -->
@@ -58,12 +64,12 @@
                         {var count = count + 1}
                         {if i['sakai:group-id']}
                             {var groupsFound = true}
-                            <li class="fl-container fl-fix searchgroups_result{if count == 1} searchgroups_result_first{/if}">
-                                <span class="searchgroups_result_user_functions" style="display:none;">
+                            <li class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if count == 1} s3d-search-result-first{/if}">
+                                <span class="s3d-search-result-user-functions">
                                     <div class="searchgroups_result_plus s3d-action-icon{if !i.userMember} s3d-actions-addtolibrary{/if} searchgroups_result_left_filler sakai_joingroup_overlay" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" id="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}></div>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-message searchgroups_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"></button>
                                 </span>
-                                <span class="searchgroups_result_anonuser"></span>
+                                <span class="s3d-search-result-anonuser"></span>
                                 <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
                                     {if i.picPath}
                                         <img src="${i.picPath}" alt="${i['sakai:group-title']|safeOutput}">
@@ -71,7 +77,7 @@
                                         <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
                                     {/if}
                                 </a>
-                                <div class="searchgroups_result_right">
+                                <div class="searchgroups_result_right s3d-search-result-right">
                                     <div>
                                         <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
                                             ${i["sakai:group-title-short"]}
@@ -84,12 +90,12 @@
                                         __MSG__CHANGED__ ${jQuery.timeago(new Date(i.lastModified))}
                                         {var contentItemCount = i.counts.contentCount}
                                         {if contentItemCount > 0}
-                                            <span class="searchgroups_result_detail_separator"> | </span>
+                                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                             <a class="s3d-regular-light-links" href="${i.homePath}#l=library" title="${contentItemCount} {if contentItemCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">${contentItemCount} {if contentItemCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
                                         {/if}
                                         {var participantCount = i.counts.membersCount}
                                         {if participantCount > 0}
-                                            <span class="searchgroups_result_detail_separator"> | </span>
+                                            <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                             <a id="searchgroups_result_participant_link_${i['sakai:group-id']}" class="s3d-regular-light-links" href="${i.homePath}#l=participants" title="${participantCount} {if participantCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}">
                                                 <span id="searchgroups_result_participant_count_${i['sakai:group-id']}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']}">{if participantCount == 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
                                             </a>
@@ -102,7 +108,7 @@
                                             <p class="searchgroups_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchgroups_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}" title="${t|safeOutput}">${t|safeOutput}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
                                                 {/for}
                                             </p>
                                         </div>
@@ -115,7 +121,7 @@
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-search-world less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" title="__MSG__ADD__ ${category}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__. {if !sakai.data.me.user.anon} <a href="/create#l=${categoryid}" class="s3d-regular-links">__MSG__ADD__ ${category}</a>{/if}</h1>
                         </li>
                     {/if}
                 --></div>

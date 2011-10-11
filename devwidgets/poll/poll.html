@@ -47,7 +47,7 @@
             <button type="button" class="s3d-button s3d-button-primary" id="poll_create_placeholder"><span class="s3d-button-inner">__MSG__CREATE_A_NEW_PLACEHOLDER__</span></button>
             <br class="poll_cls" />
             <label for="poll_question">__MSG__QUESTION__:</label>
-            <textarea id="poll_question">${poll.question}</textarea><br />
+            <textarea id="poll_question" title="__MSG__POLL_QUESTION__">${poll.question}</textarea><br />
             <label>__MSG__OPTIONS__:</label>
             <div id="poll_options">
 
@@ -111,7 +111,7 @@
     <div id="poll_options_template"><!--
         {for option in poll.options}
             <div id="poll_question${option_index}">
-                <input type="text" id="poll_question_input${option_index}" value="${option}" /><button type="button" class="poll_close s3d-link-button s3d-bold">x</button>
+                <input type="text" id="poll_question_input${option_index}" value="${option}" /><button type="button" class="poll_close s3d-link-button s3d-bold" title="__MSG__CLOSE__">__MSG__CLOSE_X__</button>
             </div>
         {/for}
     --></div>

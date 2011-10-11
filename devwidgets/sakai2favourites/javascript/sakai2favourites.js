@@ -72,6 +72,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method render Category List.
          */
         var loadSakai2SiteList = function(){
+            siteListsjson.categories = siteListsjson.categories || [];
             $(sakai2CategoryList).html(sakai.api.Util.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
         };
 
@@ -156,8 +157,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 renderSiteList(category);
                 bindEvents();
             });
-            $(".sakai2_site_title").unbind("click");
-            $(".sakai2_site_title").click(function(ev){
+            $(".sakai2_site_title input").unbind("click");
+            $(".sakai2_site_title input").click(function(ev){
                 var siteId = ev.currentTarget.id;
                 if($(ev.currentTarget).attr("checked")){
                     var site = getObject(siteId);
@@ -300,15 +301,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++){
                     toSave.id.push(sakai.data.me.sakai2List.sites[i].id);
                 }
-                // TODO: Fix this. This is a temporary solution necessary for making the back-end
-                // store an empty list and have it overwrite the previous one.
-                if (toSave.id.length === 0){
-                    toSave.id[0] = "invalidSite";
-                }
                 sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/private/sakai2favouriteList",toSave, function(success,data){
                     $("#sakai2favourites_container").jqmHide();
                     $(window).trigger("sakai2-favourites-selected");
-                });
+                }, true);
             });
         };
         doInit();

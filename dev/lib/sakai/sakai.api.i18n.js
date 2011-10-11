@@ -1,5 +1,4 @@
-/**
- *
+/*
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,9 +14,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
  */
-
 /**
  * @class i18n
  *
@@ -169,7 +166,7 @@ define(
                     months: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_MONTHS"),
                     year: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEAR"),
                     years: sakaii18nAPI.getValueForKey("JQUERY_TIMEAGO_YEARS")
-                }
+                };
                 // Translate the jquery.pager.js plugin
                 $.fn.pager.defaults.htmlparts = {
                     "first" : sakaii18nAPI.getValueForKey("FIRST"),
@@ -177,7 +174,7 @@ define(
                     "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("PREVIOUS_PAGE") + '">' + sakaii18nAPI.getValueForKey("PREV") + '</span></a>',
                     "next" : '<span><a href="javascript:;" class="t" title="' + sakaii18nAPI.getValueForKey("NEXT_PAGE") + '">' + sakaii18nAPI.getValueForKey("NEXT") + '</a><div class=\"sakai_pager_next\"></div></span>',
                     "current": '<li class="page-number"><a href="javascript:;" title="' + sakaii18nAPI.getValueForKey("PAGE") + ' ${page}">${page}</a></li>'
-                }
+                };
                 // Translate the jquery.autosuggest plugin
                 $.fn.autoSuggest.defaults.startText = sakaii18nAPI.getValueForKey("ENTER_NAME_HERE");
                 $.fn.autoSuggest.defaults.emptyText = sakaii18nAPI.getValueForKey("NO_RESULTS_FOUND");
@@ -197,7 +194,7 @@ define(
                         }
                     }
                 }
-            }
+            };
 
             /**
              * This will give the body's HTML string, the local bundle (if present) and the default bundle to the
@@ -344,10 +341,12 @@ define(
              *  HTML string in which we want to replace messages. Messages have the following
              *  format: __MSG__KEY__
              *  in the default language
+             * @param {String} widget optional widget name. This will cause the widget language
+             *                 bundles to be checked for a translation first
              * @return {String} A processed string where all the messages are replaced with values from the language bundles
              */
 
-            process : function(toprocess) {
+            process : function(toprocess, widget) {
 
                 if(!toprocess){
                     return "";
@@ -374,7 +373,7 @@ define(
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     } else {
-                        toreplace = quotes + sakaii18nAPI.getValueForKey(lastParen) + quotes;
+                        toreplace = quotes + sakaii18nAPI.getValueForKey(lastParen, widget) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
                     }
@@ -454,7 +453,7 @@ define(
                     translation = translation.replace("\\" + replace, String.fromCharCode(parseInt(replace.substring(1), 16)));
                 }
             }
-            return translation;
+            return $.trim(translation);
         },
 
         /**

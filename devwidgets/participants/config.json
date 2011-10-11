@@ -7,7 +7,7 @@
         "default": {
             "bundle":     "/devwidgets/participants/bundles/default.properties",
             "name":       "Participants",
-            "description":"List Participants of a Group"
+            "description":"List participants of a group"
         }
     },
     "id":                 "participants",

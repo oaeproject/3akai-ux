@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/featuredpeople/bundles/default.properties",
-            "name":       "Featured People Widget",
-            "description":"Featured People Widget"
+            "name":       "Featured people widget",
+            "description":"Featured people widget"
         }
     },
     "id":                 "featuredpeople",

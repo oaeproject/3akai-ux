@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 .mylibrary_main{margin:0 10px 10px 15px;overflow:hidden; }
 
 .mylibrary_title {font-size:1.1em;}
@@ -39,7 +38,6 @@
 #mylibrary_livefilter{float:right; width:200px; margin-right: 170px; height: 20px;}
 #mylibrary_actionbar {margin-top: 10px; margin-bottom: 10px;}
 .mylibrary_livefilter_working{background:url("/dev/images/ajax-loader-gray.gif") no-repeat scroll right transparent;}
-.mylibrary_meta {color:#aaa;font-style:italic;}
 .mylibrary_center {text-align:center;}
 #mylibrary_sortby{border:1px solid #ccc;}
 

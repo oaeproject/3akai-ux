@@ -8,7 +8,7 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-contacts-small"><!----></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people" title="__MSG__ADD_CONTACTS__">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_AND_ADD_PEOPLE__</a></h1>
                 </div>
             </div>
         </div>
@@ -17,8 +17,8 @@
             <div class="recentcontactsnew_item"></div>
             <div id="recentcontactsnew_item_template"><!--
                 <div class="recentcontactsnew_item_img fl-force-left">
-                    <a href="#">
-                        <img class="s3d-icon-50" src="${profilePicture}"/>
+                    <a href="/~${profile.userid|safeURL}" title="${displayNameLinkTitle}">
+                        <img class="s3d-icon-50" src="${profilePicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${displayName}"/>
                     </a>
                 </div>
                 <div class="recentcontactsnew_item_info">
@@ -52,12 +52,12 @@
             <div class="recentcontactsnew_item_related_info">
                 <p class="recentcontactsnew_item_meta_data">${firstName|safeOutput} __MSG__RECENT_CONNECTION__</p>
                 <div class="fl-force-left">
-                <a href="/~${connection.connectionId}">
-                    <img class="s3d-icon-32" src="${connection.connectionPicture}" />
+                <a href="/~${connection.connectionId}" title="${connection.connectionNameLinkTitle}">
+                    <img class="s3d-icon-32" src="${connection.connectionPicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${connection.connectionName}" />
                 </a>
                 </div>
                 <div class="recentcontactsnew_item_div">
-                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}" title="${connection.connectionName|safeOutput}">
+                    <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}">
                         ${connection.connectionName|safeOutput}
                     </a>
                 </div>

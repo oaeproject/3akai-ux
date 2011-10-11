@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/versions/bundles/default.properties",
-            "name":       "Version Widget",
-            "description":"Version Widget"
+            "name":       "Version widget",
+            "description":"Version widget"
         }
     },
     "id":                 "versions",

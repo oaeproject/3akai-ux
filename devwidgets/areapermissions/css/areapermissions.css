@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*
  * The below CSS sections may not be necesary for your widget, but best practice
  * is to organize your CSS into sections like these (or add new sections)
@@ -33,3 +32,5 @@
 #areapermissions_container input {margin-right: 5px;}
 #areapermissions_container .areapermissions_role_list select {float:right; margin-right: 5px;}
 #areapermissions_container .areapermission_roles_controls {padding: 5px 20px 5px 10px; border-bottom: 1px solid #e6e6e6;}
+#areapermissions_warning_container #areapermissions_warning_container_text {font-size:16px;line-height:20px;}
+#areapermissions_warning_container {margin-top: 120px;}
