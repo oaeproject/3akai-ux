@@ -24,5 +24,4 @@
 .joingroup_userimg {width:32px;vertical-align:top;}
 .joingroup_userinfo {vertical-align:top;padding-left:10px;}
 .joingroup_userinfo p {margin:0 0 3px 0;}
-.joingroup_people_footer {background-color:#E6EAEE;height:26px;}
-.joingroup_see_all {float:right;margin:6px 6px 0 0;}
+.joingroup_people_footer {background-color:#E6EAEE; height: 20px; padding: 5px 5px 0 0;}
