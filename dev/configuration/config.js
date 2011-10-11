@@ -1749,6 +1749,7 @@ define(function(){
             {
                 id: "group",
                 title: "GROUPS",
+                menuLabel : "GROUPS",
                 titleSing: "GROUP",
                 templates: [
                     {
@@ -1853,6 +1854,7 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                menuLabel : "COURSES",
                 titleSing: "COURSE",
                 templates: [
                     {
@@ -3078,6 +3080,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                menuLabel : "RESEARCH",
                 titleSing: "RESEARCH",
                 templates: [
                     {
