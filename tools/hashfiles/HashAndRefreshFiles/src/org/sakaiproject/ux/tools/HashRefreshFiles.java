@@ -277,6 +277,8 @@ public class HashRefreshFiles {
   
   public static void main (String[] args) throws Exception{
     HashRefreshFiles hrf = new HashRefreshFiles();
+    if (args != null && args.length > 0)
+      hrf.configName = args[0];
     hrf.processData();
   }
   
