@@ -4,6 +4,10 @@
 <div id="templategenerator_container" class="templategenerator_dialog s3d-dialog s3d-dialog-container">
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__TEMPLATEGENERATOR_EXPORT_AS_TEMPLATE_HEADER__</h1>
+    
+    <div id="templategenerator_form_successful">__MSG__TEMPLATEGENERATOR_EXPORT_SUCCES__</div>
+	<div id="templategenerator_form_error">__MSG__TEMPLATEGENERATOR_EXPORT_ERROR__</div>
+
     <!-- FORM -->
       <form id="templategenerator_form">
 		<p>__MSG__TEMPLATEGENERATOR_EXPORT_INFO__</p>
@@ -17,10 +21,14 @@
         <!-- BUTTONS -->
         <div class="dialog_buttons fl-force-right">
             <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-overlay-button" id="templategenerator_export_button">__MSG__EXPORT_AS_TEMPLATE__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button" id="templategenerator_export_button">__MSG__EXPORT_AS_TEMPLATE__</button>
         </div>
         <hr class="fl-push fl-hidden"/>
       </form>
+	
+	  <div id="templategenerator_export">
+	  	
+	  </div>      
 </div>
 
 <!-- JAVASCRIPT -->

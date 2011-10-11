@@ -37,6 +37,9 @@
 
 /* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
 
+/* Message */
+#templategenerator_form_successful, #templategenerator_form_error{ display: none; }
+
 /* Error */
 #templategenerator_container label.error {color:#9F3333 !important;}
 
@@ -46,3 +49,4 @@
 #templategenerator_container label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px; font-weight: bold;}
 #templategenerator_container input, #templategenerator_container textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
 #templategenerator_container textarea {height:60px;resize:none;}
+#templategenerator_export{ display: none; }
