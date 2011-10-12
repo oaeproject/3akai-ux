@@ -690,7 +690,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             formData.append("file", documentObj.fileReader);
             xhReq.send(formData);
             if (xhReq.status == 201){
-                console.log(xhReq.responseText);
                 var extractedData = [];
                 var data = $.parseJSON(xhReq.responseText);
                 lastUpload.push(data[documentObj.title].item);
@@ -700,7 +699,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 extractedData.push(obj);
                 setDataOnContent(extractedData);
             }
-            //checkUploadCompleted(); 
             return false;
         }
 
