@@ -292,8 +292,8 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         "title": $linkForm.find(newaddcontentAddLinkTitle).val() || $linkForm.find(newaddcontentAddLinkURL).val(),
                         "description": $linkForm.find(newaddcontentAddLinkDescription).val(),
                         "tags":$linkForm.find(newaddcontentAddLinkTags).val(),
-                        "permissions":"public",
-                        "copyright":"creativecommons",
+                        "permissions": sakai.config.Permissions.Links.defaultaccess,
+                        "copyright": sakai.config.Permissions.Copyright.defaults["links"],
                         "css_class": "icon-url-sprite",
                         "type":"link"
                     };
@@ -328,7 +328,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                         "permissions": $documentForm.find(newaddcontentAddDocumentPermissions).val(),
                         "description": $documentForm.find(newaddcontentAddDocumentDescription).val(),
                         "tags": $documentForm.find(newaddcontentAddDocumentTags).val(),
-                        "copyright": "creativecommons",
+                        "copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
                         "css_class": "icon-sakaidoc-sprite",
                         "type": "document"
                     };
@@ -843,6 +843,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             });
             $("#newaddcontent_upload_content_copyright_container").html(sakai.api.Util.TemplateRenderer("newaddcontent_copyright_template", {
                 copyright: sakai.config.Permissions.Copyright,
+                copyright_default: sakai.config.Permissions.Copyright.defaults["content"],
                 sakai: sakai
             }));
             $("#newaddcontent_container_lhchoice").find("a:first").focus();
