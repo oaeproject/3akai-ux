@@ -20,17 +20,31 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-#areapermissions_container {width: 400px !important; font-size: 12px; margin-left: -200px !important;}
-#areapermissions_container .areapermissions_visible_to {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 70px; border: 1px solid #b9b9b9; -moz-border-radius: 5px; border-radius: 5px;}
-#areapermissions_container span {margin-right: 10px;}
-#areapermissions_container select {border: 1px solid #cccccc; max-width: 150px;}
-#areapermissions_container .areapermissions_role_select {width: 100px;}
-#areapermissions_container .areapermissions_role_list_header {background-color: #e9e9e7; margin-top: 10px; padding: 10px 0px 10px 25px; border: 1px solid #b9b9b9; -moz-border-top-right-radius: 5px; border-top-right-radius: 5px; -moz-border-top-left-radius: 5px; border-top-left-radius: 5px;}
-#areapermissions_container .areapermissions_role_list {height: 200px; border: 1px solid #cccccc; border-top: none; margin-bottom: 10px;}
-#areapermissions_container #areapermissions_apply_permissions {margin-left: 20px;}
-#areapermissions_container .areapermission_role_container {border-top: 1px solid #e6e6e6; padding: 10px 20px 10px 10px; color: #2683bc; font-size: 12px;}
-#areapermissions_container input {margin-right: 5px;}
-#areapermissions_container .areapermissions_role_list select {float:right; margin-right: 5px;}
-#areapermissions_container .areapermission_roles_controls {padding: 5px 20px 5px 10px; border-bottom: 1px solid #e6e6e6;}
+#areapermissions_container {width:800px !important;font-size:12px;margin-left:-420px !important;color:#666;}
+#areapermissions_container .areapermissions_permissions_container {width:390px;float:left;}
+#areapermissions_container #areapermissions_content_container .areapermissions_permissions_container.first {margin-right:20px;}
+#areapermissions_container .s3d-inset-shadow-container {padding:10px;}
+#areapermissions_container #areapermissions_selectable > input {float:left;margin-right:10px;margin-top:2px;}
+#areapermissions_container .s3d-inset-shadow-container label {padding:1px 0 0 6px;}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon {width:15px;height:15px;display:inline-block;margin:0 8px 0 2px;float:left;}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon_black.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon_black.png") no-repeat top left transparent;}
+#areapermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
+#areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:95%}
+#areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {height:30px;margin-left:13px;padding-top:15px;}
+#areapermissions_container .areapermissions_buttons{margin-top:15px;}
+#areapermissions_container .s3d-outer-shadow-container {color:#333;}
+#areapermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
+#areapermissions_container .areapermissions_you {font-weight:normal;}
+#areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {text-transform: capitalize;}
+#areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
+#areapermissions_container .areapermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;}
+#areapermissions_container .areapermissions_edit_role_container {width:169px;}
+#areapermissions_container .areapermissions_edit_role_container.multiple {float:left;}
+
+#areapermissions_warning_container {top:150px;}
 #areapermissions_warning_container #areapermissions_warning_container_text {font-size:16px;line-height:20px;}
-#areapermissions_warning_container {margin-top: 120px;}
