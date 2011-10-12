@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(versions, $rootel).each(function(index, val){
                var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
                if (userId === u){
-                    val["username"] = sakai.api.User.getDisplayName(users[u]);
+                    val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
                }
             });
         };
