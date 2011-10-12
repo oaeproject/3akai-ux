@@ -35,6 +35,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $errorPageLinksTemplate = $("#error_page_links_template");
         var $errorPageLinksContainer = $("#error_page_links_container");
         var $searchinput = $("#errorsearch_text");
+        var $searchButton = $("#error_content .s3d-search-button");
+
+        var doSearch = function(){
+            document.location = "/search#q=" + $.trim($searchinput.val());
+        };
 
         var doInit = function(){
             var renderedTemplate = false;
@@ -101,9 +106,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
             $searchinput.live("keydown", function(ev){
                 if (ev.keyCode === 13) {
-                    document.location = "/search#q=" + $.trim($searchinput.val());
+                    doSearch();
                 }
             });
+            $searchButton.click(doSearch);
         };
 
         var forceLoginOverlay = function(){
