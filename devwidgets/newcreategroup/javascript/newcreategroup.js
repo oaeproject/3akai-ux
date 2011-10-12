@@ -351,14 +351,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $newcreategroupGroupTitle.bind("keyup", function(){
-            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
+            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
             $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~" + suggestedURL);
             renderShareMessage();
         });
 
         $newcreategroupSuggestedURL.bind("blur", function(){
-            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
+            var suggestedURL = sakai.api.Util.makeSafeURL($(this).val().toLowerCase(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
             renderShareMessage();
         });

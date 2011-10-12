@@ -145,7 +145,7 @@ define(
                     ":name": group.groupid,
                     "sakai:group-title" : group.grouptitle,
                     "sakai:group-description" : group.groupdescription,
-                    "sakai:group-id": group.groupid
+                    "sakai:group-id": group.groupid.toLowerCase()
                 };
                 if (!group.isSubgroup){
                     data["sakai:category"] = group.category;
@@ -156,7 +156,7 @@ define(
                     data["sakai:excludeSearch"] = true;
                     data["sakai:pseudoGroup"] = true;
                     data["sakai:pseudoGroup@TypeHint"] = "Boolean";
-                    data["sakai:pseudogroupparent"] = group.parentgroup;
+                    data["sakai:pseudogroupparent"] = group.parentgroup.toLowerCase();
                 }
                 $.ajax({
                     url: sakai_conf.URL.GROUP_CREATE_SERVICE,
