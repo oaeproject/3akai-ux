@@ -195,19 +195,7 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
-                courses: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                research: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                group: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                }
+                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
             },
             Content: {
                 /*
@@ -1773,6 +1761,8 @@ define(function(){
                 title: "GROUPS",
                 menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1878,6 +1868,8 @@ define(function(){
                 title : "COURSES",
                 menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "mathcourse",
