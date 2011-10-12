@@ -165,7 +165,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             // If we reach this point, we have a username in a valid format. We then go and check
             // on the server whether this eid is already taken or not. We expect a 200 if it already
             // exists and a 401 if it doesn't exist yet.
-            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username);
+            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, values.username.toLowerCase());
             if (errObj.length === 0) {
                 $.ajax({
                     // Replace the preliminary parameter in the service URL by the real username entered
@@ -214,7 +214,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
 
             $("#username").bind("keyup blur", function(){
-                var username = $.trim($(usernameField).val());
+                var username = $.trim($(usernameField).val()).toLowerCase();
                 if (usernameEntered != username) {
                     usernameEntered = username;
                     if (username && username.length > 2) {
