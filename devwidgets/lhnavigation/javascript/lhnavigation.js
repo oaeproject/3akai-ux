@@ -608,7 +608,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = pubstructure.orderedItems.length;
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
@@ -656,7 +656,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
             var basePath = currentPageShown.path.split("/")[0];
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": fullRef,
                 "_title": "Untitled Page",

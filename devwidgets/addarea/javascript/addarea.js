@@ -281,8 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var nonEditable = false;
             var pageContents = [];
             for (var i = 0; i < numPages; i++){
-                // TODO put this in config.js
-                pageContents.push("Default Content");
+                pageContents.push("");
             }
             createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){
