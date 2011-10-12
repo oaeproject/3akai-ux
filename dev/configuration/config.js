@@ -1542,6 +1542,8 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        defaultSakaiDocContent: "",
+
         /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
