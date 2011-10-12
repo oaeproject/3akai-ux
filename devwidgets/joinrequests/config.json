@@ -3,7 +3,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/joinrequests/bundles/default.properties",
-            "name":"Join Requests",
+            "name":"Join requests",
             "description":"Manage join requests for a specific group"
         }
     },

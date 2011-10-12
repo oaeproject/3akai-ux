@@ -156,7 +156,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             };
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
                 "anon" : sakai.data.me.user.anon,
-                "auth": auth
+                "auth": auth,
+                "displayName": sakai.api.User.getDisplayName(sakai.data.me.profile)
             }));
             if (externalAuth){
                 setExternalLoginRedirectURL();
@@ -173,16 +174,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
         var getRedirectURL = function(){
             var redirectURL = window.location.pathname + window.location.search + window.location.hash;
             var qs = new Querystring();
+            // Check whether we require a redirect
+            if (qs.get("url")) {
+                redirectURL = qs.get("url");;
             // Go to You when you're on explore page
-            if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
+            } else if (window.location.pathname === "/dev/explore.html" || window.location.pathname === "/register" ||
                 window.location.pathname === "/index" || window.location.pathname === "/" || window.location.pathname === "/dev") {
                 redirectURL = "/me";
-            // 403/404 and not logged in
-            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && !sakai_global.nopermissions.error500){
-                var url = qs.get("url");
-                if (url){
-                    redirectURL = url;
-                }
             // 500 not logged in
             } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500){
                 redirectURL = "/me";
@@ -381,7 +379,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     var category = sakai.config.worldTemplates[c];
                     sakai.config.Navigation[i].subnav.push({
                         "id": "subnavigation_" + category.id + "_link",
-                        "label": category.title,
+                        "label": category.menuLabel || category.title,
                         "url": "/create#l=" + category.id
                     });
                 }
@@ -552,6 +550,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         }
                     }
                     return false;
+                } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
+                    // if a letter was pressed, search for the first menu item that starts with the letter
+                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
+                    $(this).find("ul:first").children().each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (keyPressed === firstChar){
+                            $(item).find("a").focus();
+                            return false;
+                        }
+                    });
                 }
             });
 
@@ -561,15 +569,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     return false;
                 } else if (e.which == $.ui.keyCode.RIGHT && $(this).getSelection().start === $(this).val().length) {
                     if ($("#topnavigation_user_inbox_container").length) {
-                            // focus on inbox link
-                            $("#topnavigation_user_inbox_container").focus();
+                        // focus on inbox link
+                        $("#topnavigation_user_inbox_container").focus();
                     } else if ($("#topnavigation_user_options_login").length) {
-                            // focus on login menu
-                            $("#topnavigation_user_options_login").focus();
-                            $(topnavUseroptionsLoginFieldsUsername).focus();
+                        // focus on login menu
+                        $("#topnavigation_user_options_login").focus();
+                        $(topnavUseroptionsLoginFieldsUsername).focus();
                     } else if ($("#topnavigation_user_options_name").length) {
-                            // focus on user options menu
-                            $("#topnavigation_user_options_name").focus();
+                        // focus on user options menu
+                        $("#topnavigation_user_options_name").focus();
                     }
                     return false;
                 }
@@ -596,9 +604,39 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                         $(this).parent().nextAll("li:first").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
-                } else if (e.which == $.ui.keyCode.UP && $(this).parent().prevAll("li:first").length > 0) {
-                    $(this).parent().prevAll("li:first").children("a").focus();
+                } else if (e.which == $.ui.keyCode.UP) {
+                    if ($(this).parent().prevAll("li:first").length > 0) {
+                        $(this).parent().prevAll("li:first").children("a").focus();
+                    } else {
+                        $(this).parent().parents("li:first").find("a:first").focus();
+                    }
                     return false;
+                } else if (e.which == $.ui.keyCode.ESCAPE) {
+                    $(this).parent().parents("li:first").find("a:first").focus();
+                } else {
+                    // if a letter was pressed, search for the next menu item that starts with the letter
+                    var keyPressed = String.fromCharCode(e.which).toLowerCase();
+                    var $activeItem = $(this).parents("li:first");
+                    var $menuItems = $(this).parents("ul:first").children();
+                    var activeIndex = $menuItems.index($activeItem);
+                    var itemFound = false;
+                    $menuItems.each(function(index, item){
+                        var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                        if (keyPressed === firstChar && index > activeIndex){
+                            $(item).find("a").focus();
+                            itemFound = true;
+                            return false;
+                        }
+                    });
+                    if (!itemFound) {
+                        $menuItems.each(function(index, item){
+                            var firstChar = $.trim($(item).text()).toLowerCase().substr(0, 1);
+                            if (keyPressed === firstChar) {
+                                $(item).find("a").focus();
+                                return false;
+                            }
+                        });
+                    }
                 }
             });
 
@@ -684,6 +722,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                     mouseOverSignIn = false;
                     $(topnavUserLoginButton).trigger("mouseout");
                     $("html").trigger("click");
+                }
+            });
+
+            $("#topnavigation_user_options_name").keydown(function(e) {
+                // hide signin or user options menu when tabbing out of the last menu option
+                if (!e.shiftKey && e.which == $.ui.keyCode.TAB) {
+                    closeMenu();
                 }
             });
 

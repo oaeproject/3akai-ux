@@ -160,6 +160,86 @@
        </plugins>
       </build>
     </profile>
+	<profile>
+      <id>license</id>
+	  <build>
+	    <plugins>
+	      <plugin>
+	        <groupId>com.mycila.maven-license-plugin</groupId>
+	        <artifactId>maven-license-plugin</artifactId>
+	        <version>1.9.0</version>
+	        <configuration>
+	          <basedir>${basedir}</basedir>
+	          <encoding>UTF-8</encoding>
+	          <header>resources/header.txt</header>
+	          <quiet>false</quiet>
+	          <failIfMissing>true</failIfMissing>
+	          <aggregate>false</aggregate>
+	          <includes>
+	            <include>**/sakai/**/*.css</include>
+	            <include>**/sakai/**/*.js</include>
+                <include>dev/admin/**/*.css</include>
+                <include>dev/admin/**/*.js</include>
+                <!-- <include>dev/css/sakai/**/*.css</include> -->
+	            <include>dev/configuration/**/*.js</include>
+                <include>dev/javascript/**/*.js</include>
+                <!-- <include>dev/lib/sakai/**/*.js</include> -->
+                <include>dev/s23/**/*.css</include>
+                <include>dev/s23/**/*.js</include>
+                <include>dev/skins/**/*.css</include>
+				<include>devwidgets/**/css/**/*.css</include>
+                <include>devwidgets/**/javascript/**/*.js</include>
+              </includes>
+	          <excludes>
+	            <exclude>apps/**</exclude>            
+	            <exclude>bin/**</exclude>
+	            <exclude>PSD/**</exclude>
+	            <exclude>etc/**</exclude>
+	            <exclude>resources/**</exclude>
+	            <exclude>root/**</exclude>
+	            <!-- <exclude>tests/**</exclude> -->
+	            <exclude>tools/**</exclude>
+	            <exclude>var/**</exclude>
+	            <exclude>**/m2-target/**</exclude>
+	            <exclude>**/target/**</exclude>
+	            <exclude>**/COMMITTERS.txt</exclude>
+	            <exclude>**/LICENSE</exclude>
+	            <exclude>**/NOTICE</exclude>
+	            <exclude>**/*.bat</exclude>
+	            <exclude>**/*.doc</exclude>
+	            <exclude>**/*.json</exclude>
+	            <exclude>**/*.log</exclude>
+	            <exclude>**/*.md</exclude>
+	            <exclude>**/*.patch</exclude>
+                <exclude>**/*.properties</exclude>
+	            <exclude>**/*.rdf</exclude>
+	            <exclude>**/*.sh</exclude>
+	            <exclude>**/*.txt</exclude>
+	            <exclude>**/*.textile</exclude>
+	            <exclude>**/*.xml</exclude>
+	          </excludes>
+              <properties>
+	            <holder>Sakai Foundation</holder>
+	            <holder.acronym>SF</holder.acronym>
+	            <apache.license.version>2.0</apache.license.version>
+	          </properties>
+	          <strictCheck>true</strictCheck>
+	          <useDefaultExcludes>true</useDefaultExcludes>
+	          <useDefaultMapping>true</useDefaultMapping>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <id>check-headers</id>
+                <phase>verify</phase>
+	            <goals>
+	              <goal>check</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+	    </plugins>
+      </build>
+    </profile>
   </profiles>
   <build>
     <resources>
@@ -248,7 +328,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
 </project>

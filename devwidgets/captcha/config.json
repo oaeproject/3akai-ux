@@ -2,7 +2,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/captcha/bundles/default.properties",
-            "name": "Captcha Widget",
+            "name": "Captcha widget",
             "description": "Display a captcha widget"
         }
     },

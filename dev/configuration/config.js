@@ -614,6 +614,8 @@ define(function(){
             "rtf":"text/rtf",
             "htm":"text/html",
             "html":"text/html",
+            "wav": "audio/x-wav",
+            "mp3": "audio/mpeg",
             "other":"other"
         },
         MimeTypes: {
@@ -686,6 +688,16 @@ define(function(){
                 cssClass: "icon-spreadsheet-sprite",
                 URL: "/dev/images/mimetypes/spreadsheet.png",
                 description: "SPREADSHEET_DOCUMENT"
+            },
+            "audio/x-wav": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
+            },
+            "audio/mpeg": {
+                cssClass: "icon-audio-sprite",
+                URL: "/dev/images/mimetypes/sound.png",
+                description: "SOUND_FILE"
             },
             "text/plain": {
                 cssClass: "icon-txt-sprite",
@@ -952,6 +964,15 @@ define(function(){
 
         displayDebugInfo: true,
 
+        /**
+         * Section dividers can be added to the directory structure by adding in the following
+         * element at the appropriate place:
+         *  divider1: {
+         *      "divider": true,
+         *      "title": "Divider title" [optional],
+         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
+         *  }
+         */
         Directory: {
             medicineanddentistry: {
                 title: "__MSG__MEDICINE_AND_DENTISTRY__",
@@ -1728,6 +1749,7 @@ define(function(){
             {
                 id: "group",
                 title: "GROUPS",
+                menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
                 templates: [
                     {
@@ -1832,6 +1854,7 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
                 templates: [
                     {
@@ -3057,6 +3080,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                menuLabel : "CREATE_RESEARCH",
                 titleSing: "RESEARCH",
                 templates: [
                     {

@@ -3,8 +3,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/createpage/bundles/default.properties",
-            "name": "Create Page",
-            "description": "Create Page Widget"
+            "name": "Create page",
+            "description": "Create page widget"
         }
     },
     "type":"core",

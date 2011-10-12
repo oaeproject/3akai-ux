@@ -27,6 +27,7 @@ sakai_global.s23_site = function(){
 
     var qs = new Querystring(); // Get the current query string
     var completeJSON;
+    var entityReady = false;
 
     // CSS selectors
     var s23Site = "#s23_site";
@@ -103,123 +104,133 @@ sakai_global.s23_site = function(){
         $("#"+this.target).attr("src", this.href);
     };
 
+    $(window).bind("hashchange", function(ev){
+        loadPageTools();
+    });
+
     /**
      * Load the tools for a certain page
      * @param {Object} pageid The id of the page you want the tools loaded for
      */
-    var loadPageTools = function(pageid){
+    var loadPageTools = function(){
 
-        // Remove the active class from the previous selected item
-        $(s23SiteMenuItems).removeClass(s23SiteMenuActive);
+        var pageid = $.bbq.getState("page");
+        if (pageid) {
 
-        // Set the active class to the item you just clicked on
-        $('#'+s23SiteMenuItemTag+pageid).addClass(s23SiteMenuActive);
-
-        // Get the page info for a certain page and store it in a variable
-        var page = getPageInfo(pageid);
-
-        // Check if the page actually exists
-        if(page){
-
-            // Hide the content & tools from the other pages
-            $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
-
-            // Get the complete id for a page container
-            var completexid = s23SitePageContainerTag + page.xid;
-
-            // Check if the page was already loaded before
-            if($("#"+completexid).length > 0){
-
-                // Show the page container
-                $("#"+completexid).show();
-            }else{
-                // Sometimes Sakai2 tools have a layouthint property (but not
-                // always). If it does, we look at the second number to figure
-                // out the column for display. Otherwise we just throw it in
-                // the first column.
-                var renderData = {
-                    xid: page.xid,
-                    columnTools: [[]],
-                    sakai: sakai
-                };
-                for (var i = 0; i < page.tools.length; i++) {
-                    if (page.tools[i].layouthint) {
-                        var colstr = page.tools[i].layouthint.split(",")[1];
-                        if (colstr === "0") {
+            // Remove the active class from the previous selected item
+            $(s23SiteMenuItems).removeClass(s23SiteMenuActive);
+            
+            // Set the active class to the item you just clicked on
+            $('#' + s23SiteMenuItemTag + pageid).addClass(s23SiteMenuActive);
+            
+            // Get the page info for a certain page and store it in a variable
+            var page = getPageInfo(pageid);
+            
+            // Check if the page actually exists
+            if (page) {
+            
+                // Hide the content & tools from the other pages
+                $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
+                
+                // Get the complete id for a page container
+                var completexid = s23SitePageContainerTag + page.xid;
+                
+                // Check if the page was already loaded before
+                if ($("#" + completexid).length > 0) {
+                
+                    // Show the page container
+                    $("#" + completexid).show();
+                }
+                else {
+                    // Sometimes Sakai2 tools have a layouthint property (but not
+                    // always). If it does, we look at the second number to figure
+                    // out the column for display. Otherwise we just throw it in
+                    // the first column.
+                    var renderData = {
+                        xid: page.xid,
+                        columnTools: [[]],
+                        sakai: sakai
+                    };
+                    for (var i = 0; i < page.tools.length; i++) {
+                        if (page.tools[i].layouthint) {
+                            var colstr = page.tools[i].layouthint.split(",")[1];
+                            if (colstr === "0") {
+                                renderData.columnTools[0].push(page.tools[i]);
+                            }
+                            else 
+                                if (colstr === "1") {
+                                    if (renderData.columnTools.length < 2) {
+                                        renderData.columnTools.push([]);
+                                    }
+                                    renderData.columnTools[1].push(page.tools[i]);
+                                }
+                        }
+                        else {
                             renderData.columnTools[0].push(page.tools[i]);
                         }
-                        else if (colstr === "1") {
-                            if (renderData.columnTools.length < 2) {
-                                renderData.columnTools.push([]);
-                            }
-                            renderData.columnTools[1].push(page.tools[i]);
+                    }
+                    
+                    // Render the tools of the site and add them to the page container
+                    s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
+                    var loadIframe = function(){
+                        $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                    };
+                    
+                    // Some notes about the bit of code below. What we have here, 
+                    // is the process by which we'll fill in all the Sakai2 tools
+                    // on a page. Realistically there are only 1 of these for most
+                    // pages, but on some pages there are several, and they are
+                    // laid out in a sort of dashboard fashion.
+                    //
+                    // In other CAS and Single Sign On scenerios, typically the outer
+                    // shell of Sakai gets requested first and completes the process.
+                    // In our situation this doesn't occur since we render the outside
+                    // and use a different proxy connection to fetch the Sakai2 json.
+                    // This presents us which a situation where if we have 2 or more
+                    // portlets on a page, they are all logging in simultaneously to
+                    // Sakai. Now, they all log in Ok, but the problems is that Sakai
+                    // 2 uses a session variable to cache the original Url for the 
+                    // portlet that it should get redirected to. What was happening was
+                    // that every portlet was logging in at the same time and overriding
+                    // this session variable, so only 1 portlet got redirected to a
+                    // proper location, and the rest went to the default url (usually /portal).
+                    //
+                    // So what we do, if there is more than portlet, is collect up all
+                    // the information about the frames on the page. We then put event handlers
+                    // on the first one that will load the rest of the iframes once it's done
+                    // loading. This seems less than appetizing, but in practice I doubt
+                    // users will notice much of a lag since in practice the 1:1 position
+                    // portlet is typically not something very DB or memory intensive.
+                    var firstFrame;
+                    var firstFrameSrcUrl;
+                    var otherframes = [];
+                    for (var tool = 0; tool < page.tools.length; tool++) {
+                        // Some special Sakai 2 Sites start with ~ or !
+                        var siteSelector = "#Main" + page.tools[tool].xid.replace(/([~!])/g, '\\$1');
+                        var iframe = $(siteSelector);
+                        var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                        if (isSameOriginPolicy(window.location.href, srcUrl)) {
+                            iframe.load(loadIframe);
                         }
+                        if (tool === 0) {
+                            firstFrame = iframe;
+                            firstFrameSrcUrl = srcUrl;
+                        }
+                        else {
+                            otherframes.push([iframe, srcUrl]);
+                        }
+                        // The 'reset' tool <a> link, is overridden with the below event to reload the 
+                        // sites iframe with the fresh tool state URL generated in the template. 
+                        $("#reset-Main" + page.tools[tool].xid).click(handleResetClick);
                     }
-                    else {
-                        renderData.columnTools[0].push(page.tools[i]);
-                    }
+                    firstFrame.load(function(){
+                        for (var j = 0; j < otherframes.length; j++) {
+                            var nextset = otherframes[j];
+                            nextset[0].attr("src", nextset[1]);
+                        }
+                    });
+                    firstFrame.attr("src", firstFrameSrcUrl);
                 }
-
-                // Render the tools of the site and add them to the page container
-                s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
-                var loadIframe = function() {
-                    $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
-                };
-
-                // Some notes about the bit of code below. What we have here, 
-                // is the process by which we'll fill in all the Sakai2 tools
-                // on a page. Realistically there are only 1 of these for most
-                // pages, but on some pages there are several, and they are
-                // laid out in a sort of dashboard fashion.
-                //
-                // In other CAS and Single Sign On scenerios, typically the outer
-                // shell of Sakai gets requested first and completes the process.
-                // In our situation this doesn't occur since we render the outside
-                // and use a different proxy connection to fetch the Sakai2 json.
-                // This presents us which a situation where if we have 2 or more
-                // portlets on a page, they are all logging in simultaneously to
-                // Sakai. Now, they all log in Ok, but the problems is that Sakai
-                // 2 uses a session variable to cache the original Url for the 
-                // portlet that it should get redirected to. What was happening was
-                // that every portlet was logging in at the same time and overriding
-                // this session variable, so only 1 portlet got redirected to a
-                // proper location, and the rest went to the default url (usually /portal).
-                //
-                // So what we do, if there is more than portlet, is collect up all
-                // the information about the frames on the page. We then put event handlers
-                // on the first one that will load the rest of the iframes once it's done
-                // loading. This seems less than appetizing, but in practice I doubt
-                // users will notice much of a lag since in practice the 1:1 position
-                // portlet is typically not something very DB or memory intensive.
-                var firstFrame;
-                var firstFrameSrcUrl;
-                var otherframes = [];
-                for (var tool = 0; tool < page.tools.length; tool++){
-                    // Some special Sakai 2 Sites start with ~ or !
-                    var siteSelector = "#Main" + page.tools[tool].xid.replace(/([~!])/g,'\\$1');
-                    var iframe = $(siteSelector); 
-                    var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";                     
-                    if(isSameOriginPolicy(window.location.href, srcUrl)) {
-                        iframe.load(loadIframe);
-                    }
-                    if (tool === 0) {
-                        firstFrame = iframe;
-                        firstFrameSrcUrl = srcUrl;
-                    }
-                    else { 
-                        otherframes.push([iframe,srcUrl]);
-                    }
-                    // The 'reset' tool <a> link, is overridden with the below event to reload the 
-                    // sites iframe with the fresh tool state URL generated in the template. 
-                    $("#reset-Main" + page.tools[tool].xid).click(handleResetClick);
-                } 
-                firstFrame.load(function() { 
-                    for (var j = 0; j < otherframes.length; j++) {
-                        var nextset = otherframes[j];
-                        nextset[0].attr("src",nextset[1]);
-                    }
-                });
-                firstFrame.attr("src", firstFrameSrcUrl);
             }
         }
     };
@@ -255,28 +266,6 @@ sakai_global.s23_site = function(){
     };
 
     /**
-     * Add binding to several items
-     */
-    var addBinding = function(){
-
-        /*
-         * Bind a click handler to every site menu item
-         */
-        $(s23SiteMenuItems).click(function(ev){
-
-            // Prevent going to the actual page
-            ev.preventDefault();
-
-            // Get the id of the page you clicked on
-            var id = this.id.replace(s23SiteMenuItemTag, "");
-
-            // Load the tools for a specific page
-            loadPageTools(id);
-        });
-
-    };
-
-    /**
      * Parse the site info that is in a JSON format
      * to show it on the page
      */
@@ -286,7 +275,9 @@ sakai_global.s23_site = function(){
         if (completeJSON && completeJSON.site && completeJSON.site.title && completeJSON.site.pages) {
 
             // Set the title of the page
-            s23SiteTitle.text(sakai.api.Security.saneHTML(completeJSON.site.title));
+            entityReady = true;
+            renderEntity();
+            document.title += " " + sakai.api.Security.saneHTML(completeJSON.site.title)
 
             // Render the menu of the workspace
             s23SiteMenuContainer.html(sakai.api.Util.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
@@ -294,14 +285,11 @@ sakai_global.s23_site = function(){
             // Create xid's
             createxids();
 
-            // Add binding to the tools links
-            addBinding();
-
-            if (qs.contains("pageid")) {
+            if ($.bbq.getState("page")) {
                 // If the pageid was passed in through the URL. This will sometimes be
                 // the result of a Sakai 2 portal being rewritten from:
                 // portal/site/{siteid}/page/{pageid}
-                loadPageTools(qs.get("pageid"));
+                loadPageTools($.bbq.getState("page"));
             }
             else {
                 // Pretend like you clicked on the first page
@@ -332,6 +320,7 @@ sakai_global.s23_site = function(){
             },
             error: function(xhr, textStatus, thrownError) {
                 debug.error("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
+                sakai.api.Util.Security.send404();
             }
         });
     };
@@ -375,6 +364,19 @@ sakai_global.s23_site = function(){
             debug.error("s23site: This site needs to have an id parameter for a sakai2 site");
         }
     };
+
+    var renderEntity = function(){
+        if (entityReady) {
+            $(window).trigger("sakai.entity.init", ["s23site", "", {
+                "title": sakai.api.Security.saneHTML(completeJSON.site.title)
+            }]);
+        }
+    };
+
+    $(window).bind("sakai.entity.ready", function(){
+        renderEntity();
+    });
+
     init();
 };
 sakai.api.Widgets.Container.registerForLoad("s23_site");

@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/relatedcontent/bundles/default.properties",
-            "name":"Related Content",
-            "description":"Related Content"
+            "name":"Related content",
+            "description":"Related content"
         }
     },
     "url":"/devwidgets/relatedcontent/relatedcontent.html"

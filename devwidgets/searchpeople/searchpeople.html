@@ -101,14 +101,14 @@
                                 <div class="searchpeople_result_right s3d-search-result-right">
                                     <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                                     <div class="searchpeople_result_counts">
-                                        <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library" title="${i.counts.contentCount}{if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}">
+                                        <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
                                             ${i.counts.contentCount || 0} {if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                         </a>
-                                        <span class="s3d-search-result-detail-separator">|</span>
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts" title="${i.counts.contactsCount}{if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}">
                                             ${i.counts.contactsCount || 0} {if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                                         </a>
-                                        <span class="s3d-search-result-detail-separator">|</span>
+                                        <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships" title="${i.counts.membershipsCount}{if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}">
                                             ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                         </a>
@@ -123,7 +123,7 @@
                                             <p class="searchpeople_result_tags_list">
                                                 {for t in i["sakai:tags"]}
                                                     {if t_index > 0} <span class="searchpeople_result_tags_dot"> &bull;</span>{/if} 
-                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}" title="${t|safeOutput}">${t|safeOutput}</a>
+                                                    <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>
                                                 {/for}
                                             </p>
                                         </div>
@@ -136,7 +136,7 @@
                         <li class="s3d-no-results-container">
                             <div class="s3d-no-results-arrow-up"></div>
                             <div class="s3d-no-results-icon s3d-no-results-search-people less-margin"></div>
-                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" title="__MSG__SIGN_UP__" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}</h1>
+                            <h1>__MSG__NO_RESULTS_DESCRIPTION__ {if sakai.data.me.user.anon} <a href="/register" class="s3d-regular-links">__MSG__SIGN_UP__</a>{/if}</h1>
                         </li>
                     {/if}
                 --></div>

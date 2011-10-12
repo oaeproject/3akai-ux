@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/searchcontent/bundles/default.properties",
-            "name":       "Search Content",
-            "description":"Search Content"
+            "name":       "Search content",
+            "description":"Search content"
         }
     },
     "id":                 "searchcontent",

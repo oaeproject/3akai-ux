@@ -5,7 +5,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/profilesection/bundles/default.properties",
-            "name":"Profile Section",
+            "name":"Profile section",
             "description":"Show a profile section"
         }
     },

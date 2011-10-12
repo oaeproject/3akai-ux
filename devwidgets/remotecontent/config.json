@@ -7,8 +7,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/remotecontent/bundles/default.properties",
-            "name":"Remote Content",
-            "description":"Remote Content"
+            "name":"Remote content",
+            "description":"Remote content"
         },
         "en_US": {
             "bundle": "/devwidgets/remotecontent/bundles/en_US.properties"

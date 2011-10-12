@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/recentactivity/bundles/default.properties",
-            "name":       "Recent Activity Widget",
-            "description":"Recent Activity Widget"
+            "name":       "Recent activity widget",
+            "description":"Recent activity widget"
         }
     },
     "id":                 "recentactivity",

@@ -69,7 +69,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $("#selecttemplate_container", $rootel).show();
             templates.sakai = sakai;
             $("#selecttemplate_templatelist_container", $rootel).html(sakai.api.Util.TemplateRenderer("selecttemplate_templatelist_template", templates));
-            $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.getValueForKey(templates.title));
+            $("#selecttemplate_type_name", $rootel).text(sakai.api.i18n.getValueForKey(templates.menuLabel || templates.title));
             $("#selecttemplate_createworld_container", $rootel).hide();
 
             $(".selecttemplate_preview_button", $rootel).live("click", function(){

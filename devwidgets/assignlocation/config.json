@@ -4,7 +4,7 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/assignlocation/bundles/default.properties",
-            "name": "Assign Location",
+            "name": "Assign location",
             "description": "Assign a directory location to an entity"
         }
     },

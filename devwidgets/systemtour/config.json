@@ -8,8 +8,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/systemtour/bundles/default.properties",
-            "name":"System Tour",
-            "description":"Tracks System Tour Progress"
+            "name":"System tour",
+            "description":"Tracks system tour progress"
         }
     },
     "showinsakaigoodies":false,

@@ -1,47 +1,56 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/mysakai2/css/mysakai2.css" />
-<div id="mysakai2_error_nosites" style="display:none;">
-    <span class="mysakai2_left_padding">__MSG__YOU_CURRENTLY_DONT_HAVE_ANY_SAKAI2_SITES_SELECTED__</span>
-</div>
 <!-- CONTENT -->
 <div class="mysakai2_widget">
-    <div class="fl-widget-content s3d-widget-content" id="mysakai2_list">
+    <div class="fl-widget-content s3d-widget-content" id="mysakai2_list" style="display:none;">
     </div>
+    <div id="mysakai2_no_results_container" style="display:none;">
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon s3d-no-results-sakai2sites"></div>
+                <h1>
+                    __MSG__YOU_CURRENTLY_DONT_HAVE_ANY_SAKAI2_SITES_SELECTED__
+                    <a class="s3d-regular-links mysakai2_add_files_link" href="#" title="__MSG__SETTINGS__">__MSG__SETTINGS__</a>
+                </h1>
+            </div>
+        </div>
+    <div>
+    <div id="mysakai2_error_container" style="display:none;">
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+                <div class="s3d-no-results-icon s3d-no-results-sakai2sites"></div>
+                <h1>
+                    __MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__
+                </h1>
+            </div>
+        </div>
+    <div>
     <div id="mysakai2_list_template"><!--
-        <ul>
+        <ul class="mysakai2_items_list">
             {for site in sites}
-                <li>
-                    <span class="mysakai2_site_title"><a class="s3d-regular-links s3d-bold" href="/dev/s23/s23_site.html?id=${site.id}">${site.title}</a></span>
-                    {if site.messages}
-                        <span id="mysakai2_messages">${site.messages} message{if site.messages > 1}s{/if}</span>
-                    {/if}
-                    {if site.forums}
-                        <span id="mysakai2_forums">${site.forums} post{if site.forums > 1}s{/if}</span>
-                    {/if}
+                <li class="mysakai2_item">
+                    <span class="mysakai2_site_title">
+                        <a class="s3d-regular-links s3d-bold" href="/s2site?id=${site.id}">${site.title}</a>
+                        {if site.messages || site.forums}
+                            <br/>
+                        {/if}
+                        {if site.messages}
+                            <span id="mysakai2_messages">${site.messages} message{if site.messages > 1}s{/if}</span>
+                        {/if}
+                        {if site.forums}
+                            <span id="mysakai2_forums">${site.forums} post{if site.forums > 1}s{/if}</span>
+                        {/if}
+                    </span>
                 </li>
             {/for}
         </ul>
     --></div>
-    <div class="fl-widget-options fl-fix" id="mysakai2_top">
-        <div class="fl-widget-options-footer-top">
-            <div class="fl-widget-options-top-right"></div>
-        </div>
-        <div class="widget-options-inner">
-            <ul>
-                <li>
-                    <a href="/search/sakai2" id="mysakai2_show_all_sites">__MSG__VIEW_ALL_MY_SITES__</a>
-                </li>
-                <li><span class="pipe_divider">|</span></li>
-                <li>
-                    <button type="button" id="mysakai2_add_files_link" class="s3d-link-button s3d-action">__MSG__SETTINGS__</button>
-                </li>
-            </ul>
-        </div>
-        <div class="s3d-widget-options-footer-left">
-            <div class="s3d-widget-options-footer-right">
-            </div>
-        </div>
+    <div class="s3d-widget-footer">
+        <a class="s3d-widget-links mysakai2_add_files_link">__MSG__SETTINGS__</a>
+        <span class="s3d-widget-footer-divider">|</span>
+        <a class="s3d-widget-links" href="/me#l=sakai2sites" id="mysakai2_show_all_sites">__MSG__VIEW_ALL_MY_SITES__</a>
     </div>
+
 </div>
 <!-- CONTAINER FOR THE SAKAI 2 FAVOURITES WIDGET -->
 <div id="mysakai2_sakai2favourites_container" style="display:none;">

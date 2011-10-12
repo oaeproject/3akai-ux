@@ -4,8 +4,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/pickeradvanced/bundles/default.properties",
-            "name": "Advanced Search Picker",
-            "description":"Advanced Search Picker Widget"
+            "name": "Advanced search picker",
+            "description":"Advanced search picker widget"
         }
     },
     "type":"core",
