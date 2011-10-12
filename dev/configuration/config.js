@@ -194,20 +194,7 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public" // Anyone on the Internet
                 },
-                "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
-                courses: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                research: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                group: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                }
+                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
             },
             Content: {
                 /*
@@ -225,31 +212,22 @@ define(function(){
                  */
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
-            Links: {
-                "defaultaccess": "public" // public, everyone or private (see above for role description)
-            },
             Copyright: {
-                types: {
-                    "creativecommons": {
-                        "title": "CREATIVE_COMMONS_LICENSE"
-                    },
-                    "copyrighted": {
-                        "title": "COPYRIGHTED"
-                    },
-                    "nocopyright": {
-                        "title": "NO_COPYRIGHT"
-                    },
-                    "licensed": {
-                        "title": "LICENSED"
-                    },
-                    "waivecopyright": {
-                        "title": "WAIVE_COPYRIGHT"
-                    }
+                "creativecommons": {
+                    "title": "CREATIVE_COMMONS_LICENSE",
+                    "default": true
                 },
-                defaults: {
-                    "content": "creativecommons",
-                    "sakaidocs": "creativecommons",
-                    "links": "creativecommons"
+                "copyrighted": {
+                    "title": "COPYRIGHTED"
+                },
+                "nocopyright": {
+                    "title": "NO_COPYRIGHT"
+                },
+                "licensed": {
+                    "title": "LICENSED"
+                },
+                "waivecopyright": {
+                    "title": "WAIVE_COPYRIGHT"
                 }
             }
         },
