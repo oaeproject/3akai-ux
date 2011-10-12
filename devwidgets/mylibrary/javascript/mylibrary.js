@@ -197,20 +197,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
-        $mylibrary_sortby.change(function (ev) {
+        $mylibrary_sortby.change(function(ev){
+            var q = $.trim($("#mylibrary_livefilter").val())
             var sortSelection = $(this).val();
             var sortBy = "_lastModified",
                 sortOrder = "desc";
             if (sortSelection === "lastModified_asc") {
                 sortOrder = "asc";
             }
-            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder, "lp": 1});
+            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder, "lp": 1, "lq": q});
         });
 
-        $mylibrary_livefilter.keyup(function (ev) {
-            var q = $.trim(this.value);
+        $("#mylibrary_livefilter").keyup(function(ev){
+            var q = $.trim($("#mylibrary_livefilter").val());
+            if (q !== currentQuery && ev.keyCode === 13) {
+                $.bbq.pushState({"lq": q, "lp": 1});
+            }
+            return false;
+        });
+
+        $("#mylibrary_search_button").click(function(ev) {
+            var q = $.trim($("#mylibrary_livefilter").val());
             if (q && q !== currentQuery && ev.keyCode !== 16) {
-                $mylibrary_livefilter.addClass("mylibrary_livefilter_working");
                 $.bbq.pushState({"lq": q, "lp": 1});
             } else if (!q) {
                 $.bbq.removeState("lq", "lp");
@@ -368,7 +376,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (userIds.length) {
                     sakai.api.User.getMultipleUsers(userIds, function(users){
                         if (data && data.results && _.isEqual(mylibrary.oldResults, data.results)) {
-                            $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
                             callback(true, currentItems);
                             return;
                         } else if (!success || (data && data.total === 0)) {
@@ -482,7 +489,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_items.html(sakai.api.Util.TemplateRenderer("mylibrary_items_template", json));
                 $mylibrary_items.show();
                 showPager(mylibrary.currentPagenum);
-                $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
             } else if (query) {
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_admin_actions.show();
@@ -492,7 +498,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $mylibrary_items.hide();
                 $("#mylibrary_title_bar").show();
                 $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {who:"nosearchresults", query:query}));
-                $mylibrary_livefilter.removeClass("mylibrary_livefilter_working");
                 $mylibrary_empty.show();
             } else {
                 $mylibrary_admin_actions.hide();

@@ -100,6 +100,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
         var newaddcontentUploadContentFields = "#newaddcontent_upload_content_fields";
         var newaddcontentSaveTo = "#newaddcontent_saveto";
         var $newaddcontentUploading = $("#newaddcontent_uploading");
+        var newaddcontentAddExistingSearchButton = "#newaddcontent_add_existing_template .s3d-search-button";
 
         // Classes
         var newaddcontentContainerLHChoiceSelectedItem = "newaddcontent_container_lhchoice_selected_item";
@@ -949,8 +950,10 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
          * Prepare and call the function to render existing content in a list
          */
         var prepareContentSearch = function(pagenum){
-            var query = $.trim($newaddcontentExistingItemsSearch.val());
-            renderExistingContent(query, pagenum);
+            if (pagenum.keyCode === 13 || pagenum == parseInt(pagenum, 10) || pagenum.currentTarget.id === "newaddcontent_existing_search"){
+                var query = $.trim($newaddcontentExistingItemsSearch.val());
+                renderExistingContent(query, pagenum);
+            }
         };
 
 
@@ -1064,6 +1067,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             $(newaddcontentSelectedItemsActionsPermissions).live("click", changePermissions);
             $(newaddcontentSelectedItemsActionsEdit).live("click", editData);
             $newaddcontentExistingItemsSearch.keyup(prepareContentSearch);
+            $(newaddcontentAddExistingSearchButton).click(prepareContentSearch);
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);

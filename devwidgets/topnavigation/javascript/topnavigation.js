@@ -687,6 +687,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
+            $(".topnavigation_search .s3d-search-button").bind("click", handleEnterKeyInSearch);
+
             $("#topnavigation_search_input").keydown(function(evt){
                 var val = $.trim($(this).val());
                 // 40 is down, 38 is up, 13 is enter

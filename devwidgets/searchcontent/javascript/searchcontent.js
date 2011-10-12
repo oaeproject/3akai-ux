@@ -69,7 +69,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 tagTerm: search + "_mytagterm",
                 searchBarSelectedClass: "searchcontent_bar_selected",
                 pagerClass: ".jq_pager",
-                matchingLabel: "#searchcontent_result_extended_matching"
+                matchingLabel: "#searchcontent_result_extended_matching",
+                searchButton: "#form .s3d-search-button"
             },
             filters: {
                 filter: search + "_filter",
@@ -303,6 +304,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     "page": 0
                 }, 0);
             }
+        });
+
+        $(searchConfig.global.searchButton).live("click", function(ev){
+            $.bbq.pushState({
+                "q": $(searchConfig.global.text).val(),
+                "page": 0
+            }, 0);
         });
 
         $(searchConfig.global.button).live("click", function(ev){
