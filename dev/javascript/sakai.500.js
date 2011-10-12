@@ -86,6 +86,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
                 // Set the link for the sign in button
                 $(".login-container a").attr("href", gatewayURL + "?url=" + escape(redurl));
+                if (sakai.config.Authentication.allowInternalAccountCreation){
+                    $("#error_sign_up").show();
+                }
             } else {
                 // Remove the sakai.index stylesheet as it would mess up the design
                 $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();

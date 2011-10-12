@@ -7,8 +7,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/newaddcontent/bundles/default.properties",
-            "name":"Add Resource",
-            "description":"Add Resource to a Site"
+            "name":"Add resource",
+            "description":"Add resource to a site"
         }
     },
     "url":"/devwidgets/newaddcontent/newaddcontent.html"

@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/searchall/bundles/default.properties",
-            "name":       "Search All",
-            "description":"Search All"
+            "name":       "Search all",
+            "description":"Search all"
         }
     },
     "id":                 "searchallold",

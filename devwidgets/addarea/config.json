@@ -6,8 +6,8 @@
     "i18n": {
         "default": {
             "bundle":     "/devwidgets/addarea/bundles/default.properties",
-            "name":       "Add Area Widget",
-            "description":"Add Area Widget"
+            "name":       "Add area widget",
+            "description":"Add area widget"
         }
     },
     "id":                 "addarea",

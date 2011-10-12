@@ -11,8 +11,8 @@
     "i18n": {
         "default": {
             "bundle": "/devwidgets/displayprofilesection/bundles/default.properties",
-            "name":"Profile Section",
-            "description":"Profile Section"
+            "name":"Profile section",
+            "description":"Profile section"
         }
     },
     "enabled": true,

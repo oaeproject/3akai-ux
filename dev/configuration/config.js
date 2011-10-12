@@ -194,7 +194,20 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public" // Anyone on the Internet
                 },
-                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
+                "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
+                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
+                courses: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                },
+                research: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                },
+                group: {
+                    "defaultaccess": "public",
+                    "defaultjoin": "yes"
+                }
             },
             Content: {
                 /*
@@ -212,22 +225,31 @@ define(function(){
                  */
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Links: {
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
             Copyright: {
-                "creativecommons": {
-                    "title": "CREATIVE_COMMONS_LICENSE",
-                    "default": true
+                types: {
+                    "creativecommons": {
+                        "title": "CREATIVE_COMMONS_LICENSE"
+                    },
+                    "copyrighted": {
+                        "title": "COPYRIGHTED"
+                    },
+                    "nocopyright": {
+                        "title": "NO_COPYRIGHT"
+                    },
+                    "licensed": {
+                        "title": "LICENSED"
+                    },
+                    "waivecopyright": {
+                        "title": "WAIVE_COPYRIGHT"
+                    }
                 },
-                "copyrighted": {
-                    "title": "COPYRIGHTED"
-                },
-                "nocopyright": {
-                    "title": "NO_COPYRIGHT"
-                },
-                "licensed": {
-                    "title": "LICENSED"
-                },
-                "waivecopyright": {
-                    "title": "WAIVE_COPYRIGHT"
+                defaults: {
+                    "content": "creativecommons",
+                    "sakaidocs": "creativecommons",
+                    "links": "creativecommons"
                 }
             }
         },
@@ -968,7 +990,9 @@ define(function(){
          * Section dividers can be added to the directory structure by adding in the following
          * element at the appropriate place:
          *  divider1: {
-         *      divider: true
+         *      "divider": true,
+         *      "title": "Divider title" [optional],
+         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
@@ -1747,6 +1771,7 @@ define(function(){
             {
                 id: "group",
                 title: "GROUPS",
+                menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
                 templates: [
                     {
@@ -1851,6 +1876,7 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
                 templates: [
                     {
@@ -3076,6 +3102,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                menuLabel : "CREATE_RESEARCH",
                 titleSing: "RESEARCH",
                 templates: [
                     {
