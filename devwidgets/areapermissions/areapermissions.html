@@ -51,13 +51,13 @@
     <div class="areapermissions_permissions_container">
         <h2>__MSG__EDIT__ </h2>
         <div class="s3d-inset-shadow-container">
-            <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__</p>
+            <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__ {if !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</p>
             <div class="s3d-outer-shadow-container">
                 {for role in roles}
                     <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
                         <img src="/dev/images/accept.png" class="areapermissions_accepted areapermissions_edit_${role.id}_checked" {if role.value === "view" || !role.creatorRole} style="display:none;"{/if}>
                         <input type="checkbox" class="areapermissions_role_edit_check" id="areapermissions_edit_${role.id}" {if role.value === "edit"} checked="checked" {if role.creatorRole}style="display:none;"{/if}{/if} {if !manager}disabled="true"{/if}>
-                        <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if} {if !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</label>
+                        <label class="areapermissions_role_label s3d-bold" for="areapermissions_edit_${role.id}" class="s3d-bold">${role.roleTitle} {if meRole === role.id} <span class="areapermissions_you">(__MSG__YOU__)</span>{/if}</label>
                         <hr class="s3d-split-line small_line"/>
                     </div>
                 {/for}
@@ -65,6 +65,7 @@
             </div>
         </div>
     </div>
+    <span style="display:none" id="areapermissions_notification_body">__MSG__AREA_PERMISSIONS_SUCCESSFULLY_CHANGED__</span>
 --></div>
 
 <div id="areapermissions_warning_container" class="s3d-dialog s3d-dialog-container" style="display:none;">
@@ -87,7 +88,6 @@
 --></div>
 
 <span style="display:none" id="areapermissions_notification_title">__MSG__AREA_PERMISSIONS__</span>
-<span style="display:none" id="areapermissions_notification_body">__MSG__AREA_PERMISSIONS_SUCCESSFULLY_CHANGED__</span>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/areapermissions/javascript/areapermissions.js"></script>

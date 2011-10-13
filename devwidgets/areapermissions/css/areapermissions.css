@@ -21,6 +21,7 @@
  */
 
 #areapermissions_container {width:800px !important;font-size:12px;margin-left:-420px !important;color:#666;}
+#areapermissions_container h1.s3d-dialog-header {margin-bottom:0;}
 #areapermissions_container .areapermissions_permissions_container {width:390px;float:left;}
 #areapermissions_container #areapermissions_content_container .areapermissions_permissions_container.first {margin-right:20px;}
 #areapermissions_container .s3d-inset-shadow-container {padding:10px;}
