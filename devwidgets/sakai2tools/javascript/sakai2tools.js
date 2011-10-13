@@ -47,6 +47,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var rootel = $("#" + tuid);
         var json = false;
         var isAdvancedSettingsVisible = false;
+        var toolList = false;
 
         // Default values
         var defaultWidth = 100;
@@ -199,7 +200,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var renderRemoteContentSettings = function(){
             if (json) {
+                // temporarily add the toolList to the json for rendering, but
+                // remove it afterwards because we don't want to store it in the node
+                json.toolList = toolList;
                 $(basicltiSettings, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsTemplate, json));
+                delete json.toolList;
                 // Necessary until we parameterize the tool list on the server and client side.            
                 if (isSakai2Tool && json.lti_virtual_tool_id) {
                     $('#basiclti_settings_lti_virtual_tool_id',rootel).val(json.lti_virtual_tool_id);
@@ -483,6 +488,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function() {
+            // The list of available Sakai 2 Tools is configurable at runtime on nakamura
+            sakai.api.Server.loadJSON('/var/basiclti/cletools.json' , function(success,data) {
+                toolList = []; 
+                for (var i = 0; i < data.toolList.length; i++) {
+                    // Our i18n keys for the tools are formatted as: sakai.announcements -> CLE_SAKAI_ANNOUNCEMENTS
+                    var key = "CLE_" + data.toolList[i].replace(/\./g,"_").toUpperCase();
+                    var toolname = sakai.api.i18n.getValueForKey(key, "sakai2tools");
+                    toolList.push({toolid: data.toolList[i], toolname: toolname});
+                }
+                toolList.sort(function(a,b) {
+                    return (a.toolname < b.toolname) ? -1 : (a.toolname > b.toolname) ? 1 : 0;
+                });
+            });
             sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
                 if (success) {
                     if (showSettings) {
