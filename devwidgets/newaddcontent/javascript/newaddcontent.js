@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
