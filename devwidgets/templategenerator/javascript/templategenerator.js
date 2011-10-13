@@ -49,14 +49,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $templategeneratorTitle = $('#templategenerator_title');
         var $templategeneratorUsedFor = $('#templategenerator_used_for');
         var $templategeneratorExport = $('#templategenerator_export');
-        
-        var $templategeneratorSuccesful = $("#templategenerator_form_successful");
-		var $templategeneratorError = $("#templategenerator_form_error");
 
-		// Defines the width of the exported content (in characters)
-		var exportWidth = 80;
-		
-		// Template Data Storage
+		// Main data storage, used to store the generated or collected data within the widget
 		var templategeneratorData = {
 			roles: {},
 			docstructure: {},
@@ -79,24 +73,29 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 			creatorRole: ""
 		};
 		
-		// The userID of the person that should add the generated templates to the config files
+		// The user that should receive the generated config file (in most cases the  userid of the admin user)
 		var templategeneratorTargetUser = "admin";
-		var templategeneratorMessageSubject = "";
-		
 
         ////////////////////
         // Event Handlers //
         ////////////////////
         
         /**
-         * Fired when sending a message
+         * Event handler fired when a message has been send to the user
          */
         var handleSentMessage = function(success){
             if(success){
-				sakai.api.Util.notification.show("", $templategeneratorSuccesful.text() , sakai.api.Util.notification.type.INFORMATION);
+			
+				// Show a notification when the message has been send to the user
+				sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_EXPORT_SUCCES"), sakai.api.Util.notification.type.INFORMATION);
+				
+				// Flag the generating as false to indicate that the process has been completed
 				templategeneratorData.generatingTemplate = false;
-            } else {
-				sakai.api.Util.notification.show("", $templategeneratorError.text() , sakai.api.Util.notification.type.INFORMATION);
+           
+			}else{
+            	
+            	// Show annotification when something when an error has occurred while sending the message
+				sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_EXPORT_ERROR"), sakai.api.Util.notification.type.INFORMATION);
             }
         };
         
@@ -104,25 +103,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Bind the event handlers
          */
         var bindEvents = function() {
-        	// bind validation to the form
+        	
+        	// Bind form validation
 			$templategeneratorForm.validate({
+				
+				// Submit handler, fired when the input form has been validated	
 				submitHandler: function(form, validator){
+					
+					// Generate the template
 					generateTemplateFromData();
 				}
+	
 			});
         };
         
         /**
-         * Generates the actual string for the configuration file
+         * Generates the template
          */
         var generateTemplateFromData = function(){
         	
-        	// The actual template creation
+        	// Only start generating when all data has been loaded and the previous process has been completed
 			if(templategeneratorData.templatesLoaded && !templategeneratorData.generatingTemplate){
 			
-				// create a new 'empty' template for export
-				//templategeneratorData.generatingTemplate = true;
+				// Indicate that the gerating process has been started
+				templategeneratorData.generatingTemplate = true;
+				
+				// Create a new empty template structure for export
 				templategeneratorData.exportData = $.extend({}, templategeneratorDataTemplate);
+				
+				/**
+				 * The actual process starts here
+				 */ 
 				
 				// 1. Heading
 				templategeneratorData.exportData.title = $templategeneratorTitle.val();
@@ -134,143 +145,167 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				templategeneratorData.exportData.joinRole = templategeneratorData.roles.joinRole;
 				templategeneratorData.exportData.creatorRole = templategeneratorData.roles.creatorRole;
 			
-				// 3. Docs (the actual pages)
+				// 3. Docs
 				var pageId, refId;
 					pageId = refId = 0;
 				
-				// this is the main loop to create the structure for the pages
+				// Create the root structure for the docs by going through each pageStructure
 				$.each(templategeneratorData.pageStructures, function(docstructureIndex, docstructureElement){
 					
-					// creates a unique page id
+					// Create a unique page id
 					var pid = '${pid}' + pageId;
-					docstructureElement._pid = pid;
-									
-					// creates the general page structure
+				
+					// Create the general page structure
 					var page = {};
 						page[pid] = {};
-						page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);						
+						page[pid].structure0 = $.extend(true, {}, templategeneratorData.pages[pageId].structure);		
+						
+						// Delete the _pid key, because we dont want this in the docStructure
 						delete page[pid].structure0._pid;
 						
-					// create the individual pages and add all the content
+					// Create the individual pages and add all the content
 					$.each(page[pid].structure0, function(pageIndex, pageElement){
 					
-						// store the old reference so we use its id to trace the data
+						// Store the old reference so we use its id to trace the excisting data
 						var oldRef = pageElement._ref;
 					
-						// create the actual page structure
+						// Create the structure for the reference
 						var newRef = '${refid}' + refId;
 						pageElement._ref = newRef;
 						pageElement.main._ref = newRef;
 						
-						// create a new unique reference for each page
+						// Create a new unique reference for each page
 						page[pid][newRef] = {};
 						
-						// find widgets within the page data
+						// Extract the HTML data for each page so we can look for widgets
 						var myPageContent = $(templategeneratorData.pages[pageId].pageData[oldRef].page);
 						$templategeneratorExport.append(myPageContent);
 						
+						// Look for the widgets within the HTML data
 						var widgetElements = $templategeneratorExport.find(".widget_inline");
 						$(widgetElements).each(function(widgetIndex, widgetElement){
+							
+							// We need a new reference id
 							refId++;
 							
-							// create a unique reference for each widget
+							// Create a unique reference for each widget
 							var widgetRef = '${refid}' + refId;
 							
-							// store the old widget and add the new reference
+							// Store the old widget and add the new reference id
 							var oldWidgetReference = $(widgetElement).attr('id');
 							
-							// create a reference for the widget
+							// Create the basic structure for the widget
 							page[pid][widgetRef] = {};
 							
-							// get the content
+							// Get the widget name and content id
 							oldWidgetReference = oldWidgetReference.split('_');		
 							
-							// replace the reference in the page content				
+							// Replace the widget's reference 			
 							$(widgetElements[widgetIndex]).attr('id', 'widget_' + oldWidgetReference[1] + '_' + widgetRef);
 							
-							// create a new object matching the widgets name
+							// Create our new widget object
 							page[pid][widgetRef][oldWidgetReference[1]] = {};
 							
-							// store the data (just for simplicity)
+							// Store the old and new widgetdata (just to make things more clear)
 							var oldWidgetData = templategeneratorData.pages[pageId].pageData[oldWidgetReference[(oldWidgetReference.length)-1]][oldWidgetReference[1]];
 							var newWidgetData = page[pid][widgetRef][oldWidgetReference[1]];
 							
-							// check for valid properties and add them to our widget
+							// Check all properties within the widget and copy the right ones
 							$.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement){
+								
 								var firstCharacter = widgetPropertyKey.charAt(0);
+								
 								if(firstCharacter === '_'){
-									// system properties
+									// System properties
 								}else{
-									// the actual data keys
+									// The actual data keys
 									newWidgetData[widgetPropertyKey] = widgetPropertyElement;
 								}
+								
 							});
 						});
 						
-						// insert the generated structure into the page
+						// Extract our updated HTML structure
 						$templategeneratorExport.empty().append(myPageContent);
 						var generatedHTML = $templategeneratorExport.html();
 							generatedHTML = $.trim(generatedHTML);
 							generatedHTML = generatedHTML.replace(/"/g, '\'');
-							
-						$templategeneratorExport.empty();
+							$templategeneratorExport.empty();
 						
+						// Insert the updated HTML structure into the page
 						page[pid][newRef].page = generatedHTML;
 						refId++;
 					});
 
+					// Increase the pageID for the iteration
 					pageId++;
+					
+					// Add our generated page to the docStructure
 					$.extend(templategeneratorData.exportData.docs, page);
 				});
 				
-				// 4. Structure
+				// 4. Generate the structure
 				var pageIndex = 0;
 				var structure = $.extend(true, {},  templategeneratorData.docstructure.structure);
 				$.each(structure, function(structureIndex, structureElement){
+					
+					// Update the pageId in the _docref
 					structureElement['_docref'] = '${pid}' + pageIndex;
 					pageIndex++;
+					
+					// Remove unwanted keys
 					delete structureElement._pid;
+					delete structureElement._poolpath;
+					delete structureElement._elements;
+					delete structureElement._id;
 				});
+				
+				// Add our updated structure
 				templategeneratorData.exportData.structure = structure;
 		
-				// Stringify (this creates the actual string and manipulates the escaping)
+				// Stringify the created javascript object (this creates the actual string and manipulates the escaping)
 				templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
 				templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
 				
+				// Create a file from the our generated string
 				createTemplateFile();
 			}
         }
         
         /**
-         * Creates a template file on the fileSystem
+         * Uploads the created template as a file on the fileSystem and sends a notification to the user
          */
         var createTemplateFile = function(){
         	
-        	// upload our template file to the server
+        	// Upload our template file to the server
 			var body = "--AAAAA\r\n"
 			body = body + "Content-Disposition: form-data; name=\"*\"; filename=\"" + templategeneratorData.exportData.id + ".txt\" \r\n";
 			body = body + "Content-Type: text/plain \r\n";
 			body = body + "Content-Transfer-Encoding: binary\r\n\r\n";
 			body = body + templategeneratorData.output + "\r\n";
 			body = body + "--AAAAA--\r\n";
-
+		
 			$.ajax({
 				url: "/system/pool/createfile",
 				data: body,
 				type: "POST",
 				beforeSend : function(xmlReq){
+					
+					// Set the headers
 					xmlReq.setRequestHeader("Content-type", "multipart/form-data; boundary=AAAAA");
 				},
 				success: function(data){
+					
+					// After uploading the file, permissions must be set
 					var fileData =  JSON.parse(data);
 						fileData = fileData[templategeneratorData.exportData.id + '.txt'];
  						
- 					// set the permissions of the file to private
+ 					// Set the permissions of the file to private
 					sakai.api.Content.setFilePermissions([{"hashpath": fileData.poolId,"permissions": "private"}], function(){
 						
-						// remove the file from the user's library and move it to the admin user
+						// Remove the file from the user's library and move it to the admin user
 						$.ajax({
-							url: "/p/" + fileData["_path"] + ".members.json",
+							url: "/p/" + fileData.poolId + ".members.json",
                 			type: "POST",
                 			data: {
                     			":manager": templategeneratorTargetUser
@@ -283,16 +318,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				        	            ":manager@Delete": sakai.data.me.user.userid
 				                	},
 	                				success: function () {
+	                					
+	                					// Get the link to our generated file
 	                					var filePath = 'http://' + window.location.host + '/p/' + fileData.poolId + '/' + fileData.item['sakai:pooled-content-file-name'];
 	                					
 										// Sends a link with the template file to the admin user
 										sakai.api.Communication.sendMessage(templategeneratorTargetUser, sakai.data.me,
 											"User " + sakai.data.me.user.userid + " created a new template", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_ADMIN_MESSAGE") + "\n\n" + filePath ,
 											"message", false, handleSentMessage, true, "new_message");
-										
+									
 										// Sends a message to the user that created the template
-										sakai.api.Communication.sendMessage(templategeneratorTargetUser, sakai.data.me,
-											"Your new template", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_USER_MESSAGE") + "\n\n" + filePath ,
+										sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me,
+											"Your new template", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_USER_MESSAGE"),
 											"message", false, null, true, "new_message");
 									},
 									error: function() {
@@ -306,7 +343,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 	    				});
 					});
      			},
-     			error : function(err){
+     			error : function(error){
 		
      			}
 			});
@@ -316,19 +353,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
         
         /**
-         * Retrieve all the data from the server and manipulate it in a way that it can be converted easily
-         * for export
+         * Retrieve all the data from the server and prepare for the templateGenerating process
          */
         var getTemplateData = function(){
      		
+     		// Get the id our our current site/group/...
         	templategeneratorData.templateName = sakai_global.group.groupData.name;
+        	
+        	// Create the url to the dosctructure
         	templategeneratorData.docstructureUrl = "~" + templategeneratorData.templateName + "/docstructure.infinity.json";
+ 			
+ 			// Create the url to the roles
  			templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
  			
  			// show the current title in the input field
  			$templategeneratorTitle.val(templategeneratorData.templateName);
  			
- 			// create a list of batchRequests
+ 			// Create our requests
  			var batchRequests = [];
  				batchRequests.push({
 							"url": templategeneratorData.docstructureUrl,
@@ -341,36 +382,42 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 			                "parameters": {}
 			            });
  			
- 			// process the batchRequests to collect both the docstructure and the roles
+ 			// Process the requests to collect both the docstructure and roles
         	sakai.api.Server.batch(batchRequests, function(success, data){
             	if(success) {
  	
- 					// 1. Docstructure
+ 					// Parse the docstructure data
  					templategeneratorData.docstructure.docstructureData = $.parseJSON(data.results[0].body);
  					templategeneratorData.docstructure.structure = $.parseJSON(templategeneratorData.docstructure.docstructureData.structure0);
 
- 					// retrieve the url for each page in the docstructure and convert the elements within the structure to json
+ 					// Get the urls for each page in the docstructure and convert the elements within the structure to json
  					templategeneratorData.pageUrls = [];
  					$.each(templategeneratorData.docstructure.structure, function(docstructureIndex, docstructureElement){
  						docstructureElement._view = $.parseJSON(docstructureElement._view);
  						docstructureElement._edit = $.parseJSON(docstructureElement._edit);
  						
+ 						// Create a Request for each page so we can process this as a batch 
 						templategeneratorData.pageUrls.push({
 							"url": "p/" + docstructureElement._pid + ".infinity.json",
 			                "method": "GET",
 			                "parameters": {}
 			            });
 			 
-			 			// get the creatorRole, this will need a more consistent approach
+			 			// Get the creatorRole
 			 			var creatorRole = docstructureElement._edit[0];
 			 			templategeneratorData.roles.creatorRole = creatorRole.replace('-','');
 	 				});
-	 				// grab the data for each page
+	 				
+	 				// Grab the data for each page
 	 				templategeneratorData.pages.structures = [];
 	 				templategeneratorData.pageStructures = [];
+	 				
+	 				// Process the batchRequest for all the pages
 	 				sakai.api.Server.batch(templategeneratorData.pageUrls, function(success, data){
-		                if (success) {
-							// create a dataObject for each page
+		               
+		 				if (success) {
+							
+							// Create a dataObject for each page
 							$.each(data.results, function(pageIndex, pageElement){
 								var page = {};
 									page.pageData = $.parseJSON(pageElement.body);
@@ -379,12 +426,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 								templategeneratorData.pages.push(page);
 								templategeneratorData.pageStructures.push(page.structure);
 						
-								// extra check to make sure that the pageData is loaded
+								// Extra check to make sure that the pageData is loaded
 								templategeneratorData.templatesLoaded = true;
 							});
+							
 		 				}else {
 		 					templategeneratorData.templatesLoaded = false;
 		 				}
+		 				
 		            });
 		 
 		 			// 2. Roles
@@ -403,13 +452,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         /**
-         * Initialization function DOCUMENTATION
+         * Initialization function
          */
         var doInit = function() {
+        	
+        	// Bind the events
 			bindEvents();
+			
+			// Get the template data
             getTemplateData();
             
-            // jqModal
+            // Show widget's modal
             $templategeneratorDialog.jqm({
                 modal: true,
                 overlay: 20,
@@ -418,12 +471,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $templategeneratorDialog.jqmShow();
         };
 
-        // run the initialization function when the widget object loads
+        // Run the initialization function when the widget object loads
         $(window).bind("init.templategenerator.sakai", function(e) {
             doInit();
         });
     };
 
-    // inform Sakai OAE that this widget has loaded and is ready to run
+    // Inform Sakai OAE that this widget has loaded and is ready to run
     sakai.api.Widgets.widgetLoader.informOnLoad("templategenerator");
 });
