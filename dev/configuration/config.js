@@ -194,7 +194,8 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public" // Anyone on the Internet
                 },
-                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
+                "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
+                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
             },
             Content: {
                 /*
@@ -212,22 +213,31 @@ define(function(){
                  */
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Links: {
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
             Copyright: {
-                "creativecommons": {
-                    "title": "CREATIVE_COMMONS_LICENSE",
-                    "default": true
+                types: {
+                    "creativecommons": {
+                        "title": "CREATIVE_COMMONS_LICENSE"
+                    },
+                    "copyrighted": {
+                        "title": "COPYRIGHTED"
+                    },
+                    "nocopyright": {
+                        "title": "NO_COPYRIGHT"
+                    },
+                    "licensed": {
+                        "title": "LICENSED"
+                    },
+                    "waivecopyright": {
+                        "title": "WAIVE_COPYRIGHT"
+                    }
                 },
-                "copyrighted": {
-                    "title": "COPYRIGHTED"
-                },
-                "nocopyright": {
-                    "title": "NO_COPYRIGHT"
-                },
-                "licensed": {
-                    "title": "LICENSED"
-                },
-                "waivecopyright": {
-                    "title": "WAIVE_COPYRIGHT"
+                defaults: {
+                    "content": "creativecommons",
+                    "sakaidocs": "creativecommons",
+                    "links": "creativecommons"
                 }
             }
         },
@@ -1520,6 +1530,8 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        defaultSakaiDocContent: "",
+
         /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
@@ -1749,7 +1761,10 @@ define(function(){
             {
                 id: "group",
                 title: "GROUPS",
+                menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1853,7 +1868,10 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "mathcourse",
@@ -3078,6 +3096,7 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                menuLabel : "CREATE_RESEARCH",
                 titleSing: "RESEARCH",
                 templates: [
                     {

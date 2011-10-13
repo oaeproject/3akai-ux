@@ -317,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "sakai:pooled-content-file-name": definition._title,
                     "sakai:description": "",
                     "sakai:permissions": permission,
-                    "sakai:copyright": "creativecommons",
+                    "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
                     "structure0": $.toJSON(toCreate.structure0),
                     "mimeType": "x-sakai/document"
                 }
@@ -385,9 +385,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         }
         $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
         $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~");
-        if (sakai.config.Permissions.Groups.defaultaccess){
-            $("#newcreategroup_can_be_found_in [value=" + sakai.config.Permissions.Groups.defaultaccess + "]", $rootel).attr("selected", "selected");
+
+        var category = false;
+        for (var i = 0; i < sakai.config.worldTemplates.length; i++){
+            if (sakai.config.worldTemplates[i].id === widgetData.category){
+                category = sakai.config.worldTemplates[i];
+                break;
+            }
         }
+
+        var defaultaccess =  category.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
+        var defaultjoin = category.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
+
+        $("#newcreategroup_can_be_found_in option[value='" + defaultaccess + "']", $rootel).attr("selected", "selected");
+        $("#newcreategroup_membership option[value='" + defaultjoin + "']", $rootel).attr("selected", "selected");
+
         $newcreategroupContainer.show();
         addBinding();
     };

@@ -114,7 +114,7 @@ sakai_global.s23_site = function(){
      */
     var loadPageTools = function(){
 
-        var pageid = $.bbq.getState("tool");
+        var pageid = $.bbq.getState("page");
         if (pageid) {
 
             // Remove the active class from the previous selected item
@@ -285,11 +285,11 @@ sakai_global.s23_site = function(){
             // Create xid's
             createxids();
 
-            if ($.bbq.getState("tool")) {
+            if ($.bbq.getState("page")) {
                 // If the pageid was passed in through the URL. This will sometimes be
                 // the result of a Sakai 2 portal being rewritten from:
                 // portal/site/{siteid}/page/{pageid}
-                loadPageTools($.bbq.getState("tool"));
+                loadPageTools($.bbq.getState("page"));
             }
             else {
                 // Pretend like you clicked on the first page

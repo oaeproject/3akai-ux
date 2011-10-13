@@ -321,12 +321,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateDescription = function(){
             var description = $("#contentmetadata_description_description").val();
-            renderDescription(false);
             var url = "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".json";
             sakai.api.Server.saveJSON(url, {"sakai:description": description}, function(success, data) {
                 if (success) {
                     sakai_global.content_profile.content_data.data["sakai:description"] = description;
                     createActivity("UPDATED_DESCRIPTION");
+                    renderDescription(false);
                 }
             });
         };
@@ -446,12 +446,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var animateData = function(){
             $collapsibleContainers.animate({
                 'margin-bottom': 'toggle',
+                height: 'toggle',
                 opacity: 'toggle',
                 'padding-top': 'toggle',
-                'padding-bottom': 'toggle',
-                height: 'toggle'
+                'padding-bottom': 'toggle'
             }, 400);
             $("#contentmetadata_show_more > div").toggle();
+            $contentmetadataTagsContainer.toggleClass("last");
         };
 
         /**

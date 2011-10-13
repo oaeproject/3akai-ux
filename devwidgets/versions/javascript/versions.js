@@ -87,7 +87,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(versions, $rootel).each(function(index, val){
                var userId = val["sakai:pool-content-created-for"] || val["_lastModifiedBy"];
                if (userId === u){
-                    val["username"] = sakai.api.User.getDisplayName(users[u]);
+                    val["username"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(users[u]), 80, null, "s3d-regular-links versions_updater");
                }
             });
         };
@@ -143,7 +143,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (!$("#" + currentPageShown.ref + "_previewversion").length) {
                     $("#" + currentPageShown.ref).before("<div id=\"" + currentPageShown.ref + "_previewversion\"></div>");
                 }
-                $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                if(sakai.api.Util.determineEmptyContent(versions[$(this).attr("data-versionId")].page)) {
+                    $("#" + currentPageShown.ref + "_previewversion").html("<div>" + versions[$(this).attr("data-versionId")].page + "</div>");
+                } else {
+                    $("#" + currentPageShown.ref + "_previewversion").html(sakai.api.Util.TemplateRenderer("versions_empty_document_template", {
+                        "currentversion": $(this).attr("data-versionId") === versions.length - 1
+                    }));
+                }
                 $("#" + currentPageShown.ref).remove();
                 $("#" + currentPageShown.ref + "_previewversion").show();
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref + "_previewversion", false, currentPageShown.pageSavePath + "/");
