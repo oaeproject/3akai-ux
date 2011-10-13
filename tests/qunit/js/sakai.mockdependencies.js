@@ -108,7 +108,7 @@ require(
         "jquery-plugins/jquery.form",
         "jquery-plugins/jquery.MultiFile",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
-        "jquery-plugins/gritter/jquery.gritter",
+        "jquery-plugins/gritter/jquery.gritter.sakai-edit",
         "mockjax",
         "qunitjs/mockcore",
         "qunitjs/mockme",
