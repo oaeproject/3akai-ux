@@ -229,6 +229,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
+            $("#newaddcontent_container input, #newaddcontent_container textarea").val("");
             $(".MultiFile-remove").click();
         };
 
