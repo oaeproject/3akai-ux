@@ -425,6 +425,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 $.each(itemsToUpload, function(index, item){
                     if (item.type == "content" || item.type == "dropped") {
                         itemsUploaded++;
+                        return false;
                     }
                 });
             } else {
@@ -643,7 +644,6 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                             sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","));
                         }
                     });
-
                     checkUploadCompleted(true);
                 }
                 else {
@@ -698,6 +698,8 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                 obj.hashpath = data[documentObj.title].item["_path"];
                 extractedData.push(obj);
                 setDataOnContent(extractedData);
+            } else {
+                checkUploadCompleted();
             }
             return false;
         }
