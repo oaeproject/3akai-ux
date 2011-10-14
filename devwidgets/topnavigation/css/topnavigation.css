@@ -28,10 +28,10 @@
 
 /* SEARCH */
 .topnavigation_search {float:left;margin-top:8px;height: 24px;margin-right: 20px;}
-.topnavigation_search {width:230px;}
-.topnavigation_search input {width:170px;}
+.topnavigation_search {width:280px;}
+.topnavigation_search input {width:220px;}
 .topnavigation_search .s3d-search-button:hover {border:none !important;}
-.topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 6px 0 0 -30px;position: absolute;width: 241px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
+.topnavigation_search #topnavigation_search_results {border: 1px solid #999999;margin: 0;position: absolute;width:229px;z-index: 10000;box-shadow:0 8px 15px -2px #555555;-webkit-box-shadow:0 8px 15px -2px #555555;box-shadow:0 8px 15px -2px #555555;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container{background: url("/devwidgets/topnavigation/images/topnav_search_bg.png") repeat-x scroll left bottom #F3F3F3;padding:12px 3px 5px;}
 .topnavigation_search #topnavigation_search_results_bottom_container {background-color:#F3F3F3;height:32px;padding:4px 3px 0 12px;-moz-border-radius:0 0 5px 5px; border-radius:0 0 5px 5px; -webkit-border-radius:0 0 5px 5px;}
 .topnavigation_search #topnavigation_search_results_container .topnavigation_search_results_section_header{color:#636363;padding:0 12px;}

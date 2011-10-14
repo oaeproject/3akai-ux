@@ -134,7 +134,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newaddcontentAddLinkForm = $("#newaddcontent_add_link_form");
         var newaddcontentExistingContentForm = "#newaddcontent_existing_content_form";
         var newaddcontentAddDocumentForm = "#newaddcontent_add_document_form";
-        var newaddcontentExistingClear = "#newaddcontent_existingitems_search_clear";
         var newaddcontentExistingCheckAll = "#newaddcontent_existingitems_list_container_actions_checkall";
 
         var multifileQueueAddAllowed = true;
@@ -926,16 +925,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////
 
         /**
-         * Clear the input of the search field and list all items
-         */
-        var clearSearchQuery = function(){
-            if ($(".newaddcontent_existingitems_search").val()) {
-                $(".newaddcontent_existingitems_search").val("");
-                prepareContentSearch();
-            }
-        };
-
-        /**
          * Check/uncheck all of the displayed results
          */
         var checkUncheckAll = function(){
@@ -1072,7 +1061,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $(newaddcontentUploadContentTitle).live("keyup", checkFieldValidToAdd);
             $(newaddcontentAddDocumentForm + " " + newaddcontentAddDocumentTitle).keyup(checkFieldValidToAdd);
             $(newaddcontentExistingContentForm + " input").live("click",checkFieldValidToAdd);
-            $(newaddcontentExistingClear).live("click", clearSearchQuery);
             $(newaddcontentExistingCheckAll).live("change", checkUncheckAll);
             $(newaddcontentSaveTo).live("change", greyOutExistingInLibrary);
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);

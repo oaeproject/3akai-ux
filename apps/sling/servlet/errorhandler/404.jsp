@@ -112,9 +112,9 @@ response.setStatus(404);
                         --></div>
                         <h3>__MSG__WHAT_TO_DO_NOW_HERE_ARE_SOME_SUGGESTIONS__</h3>
                         <div class="s3d-search-container">
-                            <input type="text" tabindex_none="40" id="errorsearch_text" title="__MSG__SEARCH__" class="s3d-search-inputfield" placeholder="__MSG__SEARCH__" maxlength="255"/>
+                            <input type="text" tabindex_none="40" id="errorsearch_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield" placeholder="__MSG__SEARCH_FOR__" maxlength="255"/>
                             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
-                                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH__"/>
+                                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR__"/>
                             </button>
                         </div>
 

@@ -115,8 +115,12 @@
             </select>
             <label class="fl-force-right" for="addarea_sakaidoc_existingdocs_sort">__MSG__SORT_BY__</label>
             <label class="fl-force-left" for="addarea_sakaidoc_searchfield">__MSG__SEARCH_EVERYWHERE__</label>
-            <input type="text" id="addarea_sakaidoc_searchfield"/>
-            <button id="addarea_sakaidoc_search_clear" class="s3d-link-button">__MSG__CLEAR__</button>
+            <div class="s3d-search-container">
+                <input type="text" tabindex_none="40" id="addarea_sakaidoc_searchfield" title="__MSG__SEARCH_FOR_EXISTING_DOCUMENTS__" class="s3d-search-inputfield" placeholder="__MSG__SEARCH_FOR_EXISTING_DOCUMENTS__" maxlength="255"/>
+                <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" id="addarea_sakaidoc_searchbutton">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR_EXISTING_DOCUMENTS__"/>
+                </button>
+            </div>
         </div>
         <div id="addarea_sakaidoc_existingdocscontainer"></div>
     </div>
