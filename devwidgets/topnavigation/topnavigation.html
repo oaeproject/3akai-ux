@@ -21,14 +21,14 @@
 <div id="navigation_template" style="display:none"><!--
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}" title="${i.label}">${i.label} </a>
+            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul role="menu">
                         {for subnav in i.subnav}
                             {if subnav !== "hr"}
                             <li>
-                                <a tabindex="-1" role="menuitem" href="${subnav.url}" title="${subnav.label}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
+                                <a tabindex="-1" role="menuitem" href="${subnav.url}" id="${subnav.id}" class="s3d-bold">${subnav.label}</a>
                             </li>
                             {else}
                                 <hr class="s3d-split-line"/>
@@ -124,7 +124,7 @@
                                 <div class="topnav_content_icon_container fl-force-left">
                                     <span class="topnav_content_icon ${i.css_class}"></span>
                                 </div>
-                                <a tabindex="-1" role="menuitem" href="${i.url}" title="${i.label}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
+                                <a tabindex="-1" role="menuitem" href="${i.url}" class="s3d-bold topnavigation_external_login_link">${i.label}</a>
                             </li>
                         {/for}
                     </ul>

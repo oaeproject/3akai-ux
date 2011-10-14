@@ -31,3 +31,5 @@
 .context_more .more_option {padding: 1px 0 1px 9px;}
 .MathJax_Display {margin: 0px !important;}
 #fl-tab-content-editor{overflow:hidden;}
+.sakaidocs_default_editable_content_imagecontainer {background:url("/dev/images/emptydocument_editor_placeholder.jpg") no-repeat scroll left top transparent;display:block;height:228px;margin:4px auto;width:462px;}
+.sakaidocs_default_viewable_content_imagecontainer {background:url("/dev/images/emptydocument_viewer_placeholder.jpg") no-repeat scroll left top transparent !important;width:156px !important;height:154px !important;margin:4px auto; position: relative; top: 70px; margin-bottom: 90px;}

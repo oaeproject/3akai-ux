@@ -57,6 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Elements
         var uploadnewversionUploadContentForm = "#uploadnewversion_upload_content_form";
         var uploadnewversionDoUpload = ".uploadnewversion_doupload";
+        var $uploadnewversionUploading = $("#uploadnewversion_uploading");
 
 
         ////////////
@@ -64,6 +65,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////
 
         var doUploadVersion = function(){
+            $uploadnewversionUploading.jqmShow();
             $(uploadnewversionUploadContentForm).attr("action", "/system/pool/createfile." + sakai_global.content_profile.content_data.data["_path"]);
             $(uploadnewversionUploadContentForm).ajaxForm({
                 success: function(data){
@@ -80,6 +82,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                url: sakai_global.content_profile.content_data["content_path"] + ".save.json",
                                type: "POST",
                                success: function(data){
+                                   $uploadnewversionUploading.jqmHide();
                                    $uploadnewversionContainer.jqmHide();
                                    sakai_global.content_profile.content_data.data = data;
                                    $(window).trigger("updated.version.content.sakai");
@@ -90,11 +93,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                    });
                                },
                                error: function(err){
+                                   $uploadnewversionUploading.jqmHide();
                                    debug.error(err);
                                }
                            });
                        },
                        error: function(err){
+                           $uploadnewversionUploading.jqmHide();
                            debug.error(err);
                        }
                     });
@@ -118,7 +123,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 overlay: 20,
                 toTop: true
             });
-
             // position dialog box at users scroll position
             var htmlScrollPos = $("html").scrollTop();
             var docScrollPos = $(document).scrollTop();
@@ -132,6 +136,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             }
             $uploadnewversionContainer.jqmShow();
+
+            $uploadnewversionUploading.jqm({
+                modal: true,
+                overlay: 20,
+                toTop: true
+            });
+            $uploadnewversionUploading.css("z-index", "4002");
         };
 
         var initializeMultiFile = function(){
