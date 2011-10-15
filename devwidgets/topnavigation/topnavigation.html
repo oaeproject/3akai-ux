@@ -11,14 +11,29 @@
             </div>
         </div>
         <div class="topnavigation_user_container"></div>
-        <div class="topnavigation_usersection_splitter">|</div>
     </div>
 </div>
 
 <div id="navigation_template" style="display:none"><!--
+    {macro appendInfo(type)}
+        {if type === "messages"}
+            <div id="topnavigation_user_messages_container" class="topnavigation_counts_container">
+                <div class="topnavigation_usersection_splitter">|</div>
+                <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"></div>
+                <div id="topnavigation_user_inbox_messages" class="topnavigation_menuitem_counts"></div>
+            </div>
+        {elseif type === "collections"}
+            <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
+                <div class="topnavigation_usersection_splitter">|</div>
+                <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"></div>
+                <div id="topnavigation_user_collections" class="topnavigation_menuitem_counts">23</div>
+            </div>
+        {/if}
+    {/macro}
+
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} </a>
+            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} {if i.append}${appendInfo(i.append)}{/if}</a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul role="menu">
@@ -151,11 +166,6 @@
             </div>
         </div>
     {else}
-        <a href="/me#l=messages/inbox" id="topnavigation_user_inbox_container">
-            <span class="s3d-aural-text">__MSG__MY_INBOX__</span>
-            <div id="topnavigation_user_inbox_icon"></div>
-            <div id="topnavigation_user_inbox_messages"></div>
-        </a>
         <ul id="topnavigation_user_options_list" role="menu">
             <li class="s3d-bold s3d-dropdown-menu hassubnav">
                 <a role="menuitem" href="/me#" id="topnavigation_user_options_name" class="s3d-bold"></a>

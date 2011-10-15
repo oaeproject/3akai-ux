@@ -822,6 +822,7 @@ define(function(){
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
+            "append": "messages",
             "subnav": [{
                 "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
@@ -832,10 +833,6 @@ define(function(){
                 "label": "MY_MESSAGES"
             }, {
                 "id": "subnavigation_hr"
-            }, {
-                "url": "/me#l=profile/basic",
-                "id": "subnavigation_profile_link",
-                "label": "MY_PROFILE"
             }, {
                 "url": "/me#l=library",
                 "id": "subnavigation_content_link",
@@ -848,20 +845,27 @@ define(function(){
                 "url": "/me#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
+            }, {
+                "id": "subnavigation_hr"
+            }, {
+                "url": "/me#l=profile/basic",
+                "id": "subnavigation_profile_link",
+                "label": "MY_PROFILE"
             }]
         }, {
             "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
-            "label": "CREATE_AND_ADD",
+            "label": "CREATE_AND_COLLECT",
+            "append": "collections",
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
                 "url": "#"
             }, {
-                "id": "subnavigation_add_contacts_link",
-                "label": "ADD_CONTACTS",
-                "url": "/search#l=people"
+                "id": "subnavigation_add_collection_link",
+                "label": "ADD_COLLECTION",
+                "url": "#"
             }, {
                 "id": "subnavigation_hr"
             }]

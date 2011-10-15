@@ -196,7 +196,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          * Show the number of unread messages
          */
         var setCountUnreadMessages = function(){
-            $(topnavUserInboxMessages).text("(" + sakai.api.User.data.me.messages.unread + ")");
+            $(topnavUserInboxMessages).text(sakai.api.User.data.me.messages.unread);
         };
 
         var renderResults = function(){
@@ -352,16 +352,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
          */
         var getNavItem = function(index, array){
             var temp = {};
-            temp.id = array[index].id;
+            var item = array[index];
+            temp.id = item.id;
             if (temp.id && temp.id == "subnavigation_hr") {
                 temp = "hr";
             } else {
-                if (sakai.data.me.user.anon && array[index].anonUrl) {
-                    temp.url = array[index].anonUrl;
+                if (sakai.data.me.user.anon && item.anonUrl) {
+                    temp.url = item.anonUrl;
                 } else {
-                    temp.url = array[index].url;
+                    temp.url = item.url;
+                    if(item.append){
+                        temp.append = item.append;
+                    }
                 }
-                temp.label = sakai.api.i18n.getValueForKey(array[index].label);
+                temp.label = sakai.api.i18n.getValueForKey(item.label);
             }
             return temp;
         };
