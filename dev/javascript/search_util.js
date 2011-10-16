@@ -169,6 +169,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
+                    // use large default user icon on search page
+                    if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
+                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
                         user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
