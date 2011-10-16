@@ -130,6 +130,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
+         * Set up the delete overlay depending on the permissions I have on the content
+         * about to be deleted from the overlay
+         * There are 3 scenarios:
+         * 1. I am a manager of some items and a viewer of others
+         * 2. I am a manager of all items
+         * 3. I am a viewer of all items
+         * @param {Object} contentIManage    Array that contains all files about to be
+         *                                   removed from the library that I manage
+         * @param {Object} contentIView      Array that contains all files about to be
+         *                                   removed from the library that I'm a viewer of
+         */
+        var setupOverlay = function(contentIManage, contentIView){
+            if (contentIManage.length > 0 && contentIView.lenght > 0){
+                // Set up overlay for mixed permissions
+            } else if (contentIManage.length > 0){
+                // Set up overlay for full management permissions
+            } else if (contentIView.lenght > 0){
+                // Set up overlay for full viewer permissions
+            }
+        };
+
+        /**
          * Run over the list of content items to delete and determine whether there
          * any that I manage and can thus remove from the system
          * @param {Object} contentList    Response from batch request that retrieved
@@ -138,22 +160,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var findContentIManage = function(contentList){
             var contentIManage = [], 
                 contentIView = [];
-            $.each(contentList, function (i, contentItem) {
+            $.each(contentList.results, function (i, contentItem) {
                 var content = $.parseJSON(contentItem.body);
-                var manage = false;
-                if (content["sakai:pooled-content-manager"]){
-                    for (var m = 0; m < content["sakai:pooled-content-manager"].length; m++){
-                        if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
-                            canDelete = true;
-                        }
-                    }
-                }
+                var manage = sakai.api.Content.isUserAManager(content, sakai.data.me);
                 if (manage){
                     contentIManage.push(content);
                 } else {
                     contentIView.push(content);
                 }
             });
+            setupOverlay(contentIManage, contentIView);
         };
 
         /**
@@ -201,7 +217,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
 
-            // STEP2: Is there an item I own/the group owns
             // STEP3: If not, just remove from the library
             // STEP3A: Single item
             // STEP3B: Mutliple items

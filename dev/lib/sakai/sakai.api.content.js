@@ -20,9 +20,10 @@ define(
         "jquery",
         "config/config_custom",
         "sakai/sakai.api.server",
+        "sakai/sakai.api.groups",
         "misc/parseuri"
     ],
-    function($, sakai_conf, sakai_serv) {
+    function($, sakai_conf, sakai_serv, sakai_groups) {
 
     var sakai_content = {
         /**
@@ -352,57 +353,44 @@ define(
         },
 
         /**
-         * Returns true if the user is a direct (not through group membership) viewer for the 
-         * given content item, false otherwise.
-         *
-         * @param content  content profile data as defined in loadContentProfile()
-         *   of /dev/javascript/content_profile.js
-         * @param userid   the id of the user to search for
+         * Check whether a user can manage a piece of content, either by being a direct or
+         * indirect (through group membership) manager
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} meObj        me object of the user you are checking manager permissions for
+         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
-        isUserADirectViewer: function (content, userid) {
-            if (content && userid && content.hasOwnProperty("members") &&
-                content.members.hasOwnProperty("viewers")) {
-                for (var i in content.members.viewers) {
-                    if (content.members.viewers.hasOwnProperty(i)) {
-                        if (userid === content.members.viewers[i].userid || userid === content.members.viewers[i].groupid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            if (content && userid && content.hasOwnProperty("sakai:pooled-content-viewer")) {
-                for (var ii = 0; ii < content["sakai:pooled-content-viewer"].length; ii++) {
-                    if (userid === content["sakai:pooled-content-viewer"][ii]) {
+        isUserAManager: function(content, meObj, directOnly) {
+            if (content["sakai:pooled-content-manager"]) {
+                for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
+                    var authorizable = content["sakai:pooled-content-manager"][i];
+                    // Direct association
+                    if (authorizable === meObj.user.userid) {
+                        return true;
+                    // Indirect association
+                    } else if (!directOnly && sakai_groups.isCurrentUserAMember(authorizable, meObj)) {
                         return true;
                     }
                 }
             }
             return false;
         },
-
 
         /**
-         * Returns true if the user is a direct (not through group membership) manager for the 
-         * given content item, false otherwise.
-         *
-         * @param content  content profile data as defined in loadContentProfile()
-         *   of /dev/javascript/content_profile.js
-         * @param userid  the id of the user to search for
+         * Check whether a user is a viewer of a piece of content, either by being a direct or
+         * indirect (through group membership) viewer
+         * @param {Object} content      content profile data as defined in loadContentProfile()
+         * @param {Object} meObj        me object of the user you are checking manager permissions for
+         * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
-        isUserADirectManager: function (content, userid) {
-            if (content && userid && content.hasOwnProperty("members") &&
-                content.members.hasOwnProperty("managers")) {
-                for (var i in content.members.managers) {
-                    if (content.members.managers.hasOwnProperty(i)) {
-                        if (userid === content.members.managers[i].userid || userid === content.members.managers[i].groupid) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            if (content && userid && content.hasOwnProperty("sakai:pooled-content-manager")) {
-                for (var ii = 0; ii < content["sakai:pooled-content-manager"].length; ii++) {
-                    if (userid === content["sakai:pooled-content-manager"][ii]) {
+        isUserAViewer: function(content, meObj, directOnly) {
+            if (content["sakai:pooled-content-viewer"]) {
+                for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
+                    var authorizable = content["sakai:pooled-content-viewer"][i];
+                    // Direct association
+                    if (authorizable === meObj.user.userid) {
+                        return true;
+                    // Indirect association
+                    } else if (!directOnly && sakai_groups.isCurrentUserAMember(authorizable, meObj)) {
                         return true;
                     }
                 }
@@ -410,11 +398,19 @@ define(
             return false;
         },
 
+        /**
+         * Check whether a given content item lives in a specific content library (either a
+         * personal library or a group library
+         * @param {Object} content    content profile data as defined in loadContentProfile()
+         * @param {Object} userid     authorizable id for which we're checking presence in the library
+         */
         isContentInLibrary: function(content, userid){
-            if (sakai_content.isUserAViewer(content, userid) || sakai_content.isUserAManager(content, userid)) {
-                return true;
-            }
-            return false;
+            var fakeMeObj = {
+                "user": {
+                    "userid": userid
+                }
+            };
+            return sakai_content.isUserAViewer(content, fakeMeObj, true) || sakai_content.isUserAManager(content, fakeMeObj, true);
         },
 
         addToLibrary: function(contentId, userId, callBack){
