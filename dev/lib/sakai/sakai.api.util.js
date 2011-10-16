@@ -572,7 +572,7 @@ define(
          * @return{Boolean} True indicates that content is present, False indicates that there is no content
          */
         determineEmptyContent: function(content){
-            var textPresent = $.trim($(content).text());
+            var textPresent = $.trim($("<div>").html(content).text());
             var elementArr = ["div", "img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
             var containsElement = false;
             $.each(elementArr, function(i, el){
