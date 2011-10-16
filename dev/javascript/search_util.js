@@ -247,6 +247,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.getQueryParams = function(){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
+                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby')
