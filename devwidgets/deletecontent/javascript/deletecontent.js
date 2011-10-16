@@ -129,6 +129,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
+        /**
+         * Run over the list of content items to delete and determine whether there
+         * any that I manage and can thus remove from the system
+         * @param {Object} contentList    Response from batch request that retrieved
+         *                                metadata for all content that need to be deleted
+         */
+        var findContentIManage = function(contentList){
+            var contentIManage = [], 
+                contentIView = [];
+            $.each(contentList, function (i, contentItem) {
+                var content = $.parseJSON(contentItem.body);
+                var manage = false;
+                if (content["sakai:pooled-content-manager"]){
+                    for (var m = 0; m < content["sakai:pooled-content-manager"].length; m++){
+                        if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
+                            canDelete = true;
+                        }
+                    }
+                }
+                if (manage){
+                    contentIManage.push(content);
+                } else {
+                    contentIView.push(content);
+                }
+            });
+        };
+
+        /**
+         * Retrieve the metadata of all selected files
+         * @param {Object} paths    Array that contains the paths to all
+         *                          content that needs to be deleted
+         */
+        var getContentInfo = function(paths){
+            var batchRequest = [];
+            $.each(paths, function (i, url) {
+                batchRequest.push({
+                    url: url + ".json",
+                    method: "GET"
+                });
+            });
+            sakai.api.Server.batch(batchRequest, function (success, data) {
+                if (success) {
+                    findContentIManage(data);
+                }
+            });
+        };
 
         ////////////////////
         // Initialisation //
@@ -154,14 +200,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var load = function(data, callback){
             deletedata = $.extend(true, {}, data);
             addBinding(callback);
-            if (deletedata.path && typeof(deletedata.path) === "object" && deletedata.path.length > 1) {
-                $deletecontent_form_heading.html(sakai.api.i18n.getValueForKey("ARE_YOU_SURE_YOU_WANT_TO_DELETE_THESE_ITEMS", "deletecontent") + "?");
-                $deletecontent_form_note.html(sakai.api.i18n.getValueForKey("DELETING_THESE_ITEMS_IS_PERMANENT", "deletecontent"));
-            } else {
-                $deletecontent_form_heading.html(sakai.api.i18n.getValueForKey("ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_CONTENT", "deletecontent") + "?");
-                $deletecontent_form_note.html(sakai.api.i18n.getValueForKey("DELETING_THIS_CONTENT_IS_PERMANENT", "deletecontent"));
+
+            // STEP2: Is there an item I own/the group owns
+            // STEP3: If not, just remove from the library
+            // STEP3A: Single item
+            // STEP3B: Mutliple items
+            // STEP4: If so, remove from system or remove fron library
+            // STEP4A: Used by others
+            // STEP4B: Not used by others
+            
+            var paths = deletedata.path;
+            if (deletedata.path && typeof(deletedata.path) !== "object") {
+                paths = [];
+                paths.push(deletedata.path);
             }
+            getContentInfo(paths);
+            $("#deletecontent_form", $rootel).html("");
             $deletecontent_dialog.jqmShow();
+            
         };
         $(window).bind("init.deletecontent.sakai", function (e, data, callback) {
             load(data, callback);

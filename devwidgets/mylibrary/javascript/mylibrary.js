@@ -314,28 +314,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             };
 
             /**
-             * Returns the number of people using the given item
-             *
-             * @param {Object} item  the item object returned from the server
-             * @return {Number} the number of users using this item
-             */
-            var getNumPeopleUsing = function (item) {
-                // Need KERN feed changes
-                return 0;
-            };
-
-            /**
-             * Returns the number of groups using the given item
-             *
-             * @param {Object} item  the item object returned from the server
-             * @return {Number} the number of groups using this item
-             */
-            var getNumGroupsUsing = function (item) {
-                // Need KERN feed changes
-                return 0;
-            };
-
-            /**
              * Returns the number of comments for the given item
              *
              * @param {Object} item  the item object returned from the server
@@ -355,6 +333,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     });
                 }
                 return count;
+            };
+
+            var canDeleteContent = function(item){
+                var canDelete = false;
+                if (!mylibrary.isOwnerViewing){
+                    return false;
+                }
+                if (item["sakai:pooled-content-viewer"]){
+                    for (var v = 0; v < item["sakai:pooled-content-viewer"].length; v++){
+                        if (item["sakai:pooled-content-viewer"][v] === mylibrary.contextId){
+                            canDelete = true;
+                        }
+                    }
+                }
+                if (item["sakai:pooled-content-manager"]){
+                    for (var m = 0; m < item["sakai:pooled-content-manager"].length; m++){
+                        if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
+                            canDelete = true;
+                        }
+                    }
+                }
+                return canDelete;
             };
 
             /**
@@ -395,8 +395,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                     ownerid: result["sakai:pool-content-created-for"],
                                     ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
                                     tags: formatTags(result["sakai:tags"]),
-                                    numPeopleUsing: getNumPeopleUsing(),
-                                    numGroupsUsing: getNumGroupsUsing(),
                                     numPlaces: sakai.api.Content.getPlaceCount(result),
                                     numComments: sakai.api.Content.getCommentCount(result),
                                     mimeType: result["_mimeType"],
@@ -405,7 +403,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                         max_rows: 1,
                                         whole_word: false
                                     }, "searchcontent_result_course_site_excerpt"),
-                                    fullResult: result
+                                    fullResult: result,
+                                    canDelete: canDeleteContent(result)
                                 });
                                 mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
                             });
@@ -458,20 +457,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (success && items.length) {
                 var json = {
                     items: items,
-                    user_is_owner: function (item) {
-                        if (!item) {
-                            return false;
-                        }
-                        return sakai.data.me.user.userid === item.ownerid && mylibrary.isOwnerViewing;
-                    },
-                    user_is_manager: function (item) {
-                        if (!item) {
-                            return false;
-                        }
-                        return sakai.data.me.user.userid === item.ownerid;
-                    }
-                };
-                json.sakai = sakai;
+                    sakai: sakai
+                };;
                 if (mylibrary.isOwnerViewing) {
                     $mylibrary_admin_actions.show();
                 }

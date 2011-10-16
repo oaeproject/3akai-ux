@@ -307,7 +307,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-actions-author {background:url("/dev/images/author_icon_default.png") no-repeat scroll left top transparent;width:32px !important;}
 .s3d-actions-author:hover {background:url("/dev/images/author_icon_hover.png") no-repeat scroll left top transparent;}
 
-.s3d-actions-share {background:url("/dev/images/share_icon_default.png") no-repeat scroll left top transparent;}
+.s3d-actions-share {background:url("/dev/images/share_icon_default.png") no-repeat scroll left top transparent; width: 23px !important;}
 .s3d-actions-share:hover {background:url("/dev/images/share_icon_hover.png") no-repeat scroll left top transparent;}
 
 .s3d-actions-message {background:url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;}

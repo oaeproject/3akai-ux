@@ -67,8 +67,8 @@
                             <li class="fl-container fl-fix s3d-search-result-content s3d-search-result{if count == 1} s3d-search-result-first{/if}">
                                 <span class="s3d-search-result-user-functions">
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary searchcontent_result_left_filler savecontent_trigger" data-entityid="${i['_path']|safeURL}" title="__MSG__SAVE_CONTENT__"></button>
-                                    <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']|safeURL}" title="__MSG__SHARE_CONTENT__"></button>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-author searchcontent_result_author_icon personinfo_trigger_click" data-userid="${i['sakai:pool-content-created-for']|safeOutput}" title="__MSG__VIEW_OWNER_INFO__"></button>
+                                    <button class="s3d-link-button s3d-action-icon s3d-actions-share searchcontent_result_share_icon share_trigger_click" data-entityid="${i['_path']|safeURL}" title="__MSG__SHARE_CONTENT__"></button>
                                 </span>
                                 <span class="s3d-search-result-anonuser"></span>
                                 <a href="/content#p={if i['sakai:pooled-content-file-name']}${i['_path']|safeURL}/${i['sakai:pooled-content-file-name']|safeURL}" title="${i['sakai:pooled-content-file-name']|safeOutput}"{else}${i['_path']|safeURL}" title="${i['_path']|safeURL}"{/if}>
@@ -99,6 +99,14 @@
                                         __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeOutput}" title="${i['displayName']}">${i['displayName']}</a> <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
                                     {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
+                                        <div class="searchcontent_result_tags">
+                                            <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
+                                            <p class="searchcontent_result_tags_list">
+                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>{/if}{/for}
+                                            </p>
+                                        </div>
+                                    {/if}
                                     <div class="searchcontent_result_usedin">
                                         {var placeCount = sakai.api.Content.getPlaceCount(i)}
                                         {if placeCount > 0}
@@ -111,14 +119,6 @@
                                             ${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
                                         {/if}
                                     </div>
-                                    {if i["sakai:tags"] && i["sakai:tags"].length > 0}
-                                        <div class="searchcontent_result_tags">
-                                            <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
-                                            <p class="searchcontent_result_tags_list">
-                                                {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>{/if}{/for}
-                                            </p>
-                                        </div>
-                                    {/if}
                                 </div>
                             </li>
                         {/if}

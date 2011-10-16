@@ -26,7 +26,7 @@
         <input id="mylibrary_livefilter" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
-            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>
+            <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE_SELECTED__</button>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
@@ -90,10 +90,14 @@
             {if item.filename}
                 {var count = count + 1}
                 <div class="fl-container fl-fix mylibrary_item{if count == 1} mylibrary_item_first{/if}">
-                    <div class="mylibrary_item_left_filler">{if user_is_owner(item)}<input class="mylibrary_check"
-                        id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
+                    <div class="mylibrary_item_left_filler">
+                        {if item.canDelete}
+                            <input class="mylibrary_check" id="mylibrary_check_${item.id}" type="checkbox" />
+                            <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__"></button>
+                        {/if}
+                    </div>
+                    <button title="__MSG__SAVE_CONTENT__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger"></button>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
-                    <button class="s3d-link-button s3d-action-icon s3d-actions-author mylibrary_item_author_icon personinfo_trigger_click" data-userid="${item.ownerid}" title="__MSG__VIEW_OWNER_INFO__"></button>
                     <a href="${item.link}/${item.filename|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.type}" />
@@ -116,6 +120,14 @@
                             __MSG__BY__ <a class="s3d-regular-light-links{if sakai.data.me.user.userid !== item.ownerid} mylibrary_item_username{/if}" href="/~${item.ownerid|safeURL}">${item.ownername}</a> <span class="searchcontent_result_detail_separator">|</span> __MSG__CHANGED__ ${item.last_updated}
                         </div>
                         {if item.description && item.description !== "undefined"}<div class="mylibrary_item_description">${item.description}</div>{/if}
+                        {if item.tags && item.tags.length > 0}
+                            <div class="mylibrary_item_tags">
+                                <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
+                                <p class="mylibrary_item_tags_list">
+                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
+                                </p>
+                            </div>
+                        {/if}
                         <div class="mylibrary_item_usedin">
                             {var placeCount = sakai.api.Content.getPlaceCount(item)}
                             {if item.numPlaces > 0}
@@ -127,19 +139,6 @@
                                 ${item.numComments} {if item.numComments == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
                             {/if}
                         </div>
-                        {if item.tags && item.tags.length > 0}
-                            <div class="mylibrary_item_tags">
-                                <span class="mylibrary_item_icon mylibrary_item_tags_icon"></span>
-                                <p class="mylibrary_item_tags_list">
-                                    {for t in item.tags}{if t_index > 0} <span class="mylibrary_item_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="${t.link}" title="__MSG__VIEW_ALL_ITEMS_TAGGED_WITH__ ${t.name|safeOutput}">${t.name|safeOutput}</a>{/for}
-                                </p>
-                            </div>
-                        {/if}
-                        {if user_is_owner(item)}
-                            <button type="button" class="s3d-button s3d-button-link-2-state" style="display:none;">
-                                <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__EDIT__</span>
-                           </button>
-                        {/if}
                     </div>
                 </div>
             {/if}
