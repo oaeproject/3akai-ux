@@ -104,7 +104,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             privdata[rnd] = {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
             };
-            debug.log(navData);
             privdata[fcRnd] = {
                 category: navData.id,
                 title: navData.title
