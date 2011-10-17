@@ -141,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var manageRoleSelections = false;
             if (manageRoles.length > 1) {
                 for (var m in manageRoles) {
-                    if (roles.hasOwnProperty(i)){
+                    if (manageRoles.hasOwnProperty(m)){
                         if (!manageRoleSelections){
                             manageRoleSelections = manageRoles[m];
                         } else if ((parseInt(m, 10) + 1) === manageRoles.length){
