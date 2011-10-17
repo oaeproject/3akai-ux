@@ -566,27 +566,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 }
             });
 
-            // left and right arrow key binding on the search input box conflicts with JAWS screen reader - SAKIII-4067
-            /*$("#topnavigation_search_input").keydown(function(e) {
-                if (e.which == $.ui.keyCode.LEFT && $(this).getSelection().start === 0) {
-                    $(this).parent().parent().prevAll("ul").children("li:last").children("a").focus();
-                    return false;
-                } else if (e.which == $.ui.keyCode.RIGHT && $(this).getSelection().start === $(this).val().length) {
-                    if ($("#topnavigation_user_inbox_container").length) {
-                        // focus on inbox link
-                        $("#topnavigation_user_inbox_container").focus();
-                    } else if ($("#topnavigation_user_options_login").length) {
-                        // focus on login menu
-                        $("#topnavigation_user_options_login").focus();
-                        $(topnavUseroptionsLoginFieldsUsername).focus();
-                    } else if ($("#topnavigation_user_options_name").length) {
-                        // focus on user options menu
-                        $("#topnavigation_user_options_name").focus();
-                    }
-                    return false;
-                }
-            });*/
-
             $("#topnavigation_user_inbox_container").keydown(function(e) {
                 if (e.which == $.ui.keyCode.LEFT) {
                     if ($("#topnavigation_search_input").length) {
