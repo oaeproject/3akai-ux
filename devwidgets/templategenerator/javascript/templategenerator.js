@@ -219,15 +219,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             var newWidgetData = page[pid][widgetRef][oldWidgetReference[1]];
 
                             // Check all properties within the widget and copy the right ones
-                            $.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement){
+                            if (oldWidgetData){
+                                $.each(oldWidgetData, function(widgetPropertyKey, widgetPropertyElement){
 
-                                var firstCharacter = widgetPropertyKey.charAt(0);
+                                    var firstCharacter = widgetPropertyKey.charAt(0);
 
-                                if (firstCharacter !== '_') {
-                                    // The actual data keys
-                                    newWidgetData[widgetPropertyKey] = widgetPropertyElement;
-                                }
-                            });
+                                    if (firstCharacter !== '_') {
+                                        // The actual data keys
+                                        newWidgetData[widgetPropertyKey] = widgetPropertyElement;
+                                    }
+                                });
+                            }
                         });
 
                         // Extract our updated HTML structure
