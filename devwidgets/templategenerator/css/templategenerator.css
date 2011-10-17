@@ -27,20 +27,20 @@
 
 /* widget icon (for widgets that may appear on a dashboard) 
    icons are usually around 18 x 18 pixels */
-.templategenerator.s3d-widget .s3d-widget-titlebar .widget_title {background: url('/devwidgets/templategenerator/images/templategenerator_icon.png') 17px 18px no-repeat;}
-
+.templategenerator.s3d-widget .s3d-widget-titlebar .widget_title {background:url('/devwidgets/templategenerator/images/templategenerator_icon.png') 17px 18px no-repeat;}
 
 /* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
 
 /* Message */
-.templategenerator_widget.s3d-widget-content #templategenerator_form_successful, .templategenerator_widget.s3d-widget-content #templategenerator_form_error{ display: none; }
+.templategenerator_widget.s3d-widget-content #templategenerator_form_successful,
+.templategenerator_widget.s3d-widget-content #templategenerator_form_error,
+.templategenerator_widget.s3d-widget-content #templategenerator_export {display:none;}
 
 /* Error */
 .templategenerator_widget.s3d-widget-content label.error {color:#9F3333 !important;}
-.templategenerator_widget.s3d-widget-content h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
+.templategenerator_widget.s3d-widget-content h1 {font-size:18px;font-weight:normal;color:#7c7c7c;}
 .templategenerator_widget.s3d-widget-content h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
-.templategenerator_widget.s3d-widget-content {width: 480px !important; margin-left: -280px !important;}
-.templategenerator_widget.s3d-widget-content label {display:block; color:#424242;font-size:12px;margin: 12px 0 2px;}
-.templategenerator_widget.s3d-widget-content input, .templategenerator_widget.s3d-widget-content textarea {border: 1px solid #A9A9A9;height: 20px;margin-top: 3px;width:100%;}
+.templategenerator_widget.s3d-widget-content {width:480px !important;margin-left:-280px !important;}
+.templategenerator_widget.s3d-widget-content label {display:block;color:#424242;font-size:12px;margin:12px 0 2px;}
+.templategenerator_widget.s3d-widget-content input, .templategenerator_widget.s3d-widget-content textarea {border:1px solid #A9A9A9;height:20px;margin-top:3px;width:100%;}
 .templategenerator_widget.s3d-widget-content textarea {height:60px;resize:none;}
-.templategenerator_widget.s3d-widget-content #templategenerator_export{ display: none; }
