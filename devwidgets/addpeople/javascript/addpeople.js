@@ -124,11 +124,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $addpeopleSelectAllSelectedContacts.removeAttr("checked");
         };
 
+        /**
+         * Generates an error message that lists the available management roles
+         * that the group needs at least one user to be in
+         * @return {String} errorMsg A string containing the error message
+         */
         var generateExistingGroupError = function(){
             var roles = $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
             var manageRoles = [];
             for (var i in roles){
-                if (roles[i].allowManage === true){
+                if (roles.hasOwnProperty(i) && roles[i].allowManage === true){
                     var key = roles[i].title.substr(7, roles[i].title.length - 9);
                     manageRoles.push(sakai.api.i18n.getValueForKey(key));
                 }
@@ -136,12 +141,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var manageRoleSelections = false;
             if (manageRoles.length > 1) {
                 for (var m in manageRoles) {
-                    if (!manageRoleSelections){
-                manageRoleSelections = manageRoles[m];
-                    } else if ((parseInt(m, 10) + 1) === manageRoles.length){
-                        manageRoleSelections = manageRoleSelections + " " + sakai.api.i18n.getValueForKey("OR") + " " + manageRoles[m];
-                    } else {
-                        manageRoleSelections = manageRoleSelections + ", " + manageRoles[m];
+                    if (roles.hasOwnProperty(i)){
+                        if (!manageRoleSelections){
+                            manageRoleSelections = manageRoles[m];
+                        } else if ((parseInt(m, 10) + 1) === manageRoles.length){
+                            manageRoleSelections = manageRoleSelections + " " + sakai.api.i18n.getValueForKey("OR") + " " + manageRoles[m];
+                        } else {
+                            manageRoleSelections = manageRoleSelections + ", " + manageRoles[m];
+                        }
                     }
                 }
             } else {
