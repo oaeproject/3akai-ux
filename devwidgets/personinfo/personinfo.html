@@ -28,9 +28,9 @@
         <span id="personinfo_user_info">
             <span id="personinfo_user_name" class="s3d-bold s3d-regular-links"><a href="${user.homePath}">${user.displayName}</a></span>
             <span id="personinfo_user_owns" class="s3d-regular-links">
-                <p class="personinfo_user_info">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</p>
-                <p class="personinfo_user_info">${user.counts.contactsCount} __MSG__CONTACTS__</p>
-                <p class="personinfo_user_info">${user.counts.membershipsCount} __MSG__MEMBERSHIPS__</p>
+                <p class="personinfo_user_info">${user.counts.contentCount || 0} {if user.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</p>
+                <p class="personinfo_user_info">${user.counts.contactsCount || 0} {if user.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}</p>
+                <p class="personinfo_user_info">${user.counts.membershipsCount || 0} {if user.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}</p>
             </span>
         </span>
     </div>
