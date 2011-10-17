@@ -14,23 +14,32 @@
             <div class="newsharecontent_inner">
                 <div id="newsharecontent_container">
                     <div>
-                    <label for="newsharecontent_sharelist">__MSG__WHO_DO_YOU_WANT_TO_SHARE_WITH__</label>
-                    <div id="newsharecontent_sharelist_container"><input type="text" id="newsharecontent_sharelist" /></div>
+                        <span class="newsharecontent_user_function" style="display:none;">
+                            <label for="newsharecontent_sharelist">__MSG__WHO_DO_YOU_WANT_TO_SHARE_WITH__</label>
+                            <div id="newsharecontent_sharelist_container"><input type="text" id="newsharecontent_sharelist" /></div>
 
-                    <label>__MSG__SERVICE__:</label>
-                    <div id="newsharecontent_message_service">
-                        <!-- AddThis Button BEGIN -->
-                        <div id="toolbox">
+                            <label>__MSG__SERVICE__:</label>
+                        </span>
+
+                        <span class="newsharecontent_anon_function">
+                            <label>__MSG__SERVICE_ANON__:</label>
+                        </span>
+
+                        <div id="newsharecontent_message_service">
+                            <!-- AddThis Button BEGIN -->
+                            <div id="toolbox">
+                            </div>
+                            <!-- AddThis Button END -->
                         </div>
-                        <!-- AddThis Button END -->
+
+                        <span class="newsharecontent_user_function" style="display:none;">
+                            <span id="newsharecontent_message_arrow" class="arrow_right"></span><label for="newsharecontent_message" class="toggletext">__MSG__MESSAGE__:</label>
+                        </span>
                     </div>
 
-                    <span id="newsharecontent_message_arrow" class="arrow_right"></span><label for="newsharecontent_message" class="toggletext">__MSG__MESSAGE__:</label>
-                    </div>
-                    <div id="newsharecontent_message_container">
+                    <div id="newsharecontent_message_container" class="newsharecontent_user_function" style="display:none;">
                         <textarea id="newsharecontent_message" placeholder="__MSG__ENTER_MESSAGE__"></textarea>
                     </div>
-
                 </div>
             </div>
             <button type="button" id="sharecontent_send_button" class="s3d-button s3d-overlay-button fl-force-right">__MSG__SHARE__</button>
