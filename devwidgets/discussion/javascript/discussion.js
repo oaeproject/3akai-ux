@@ -233,16 +233,16 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post.profile[0]);
                 arrPosts[i].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["_created"]));
                 if(arrPosts[i].post["sakai:editedOn"]){
-                    arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post["sakai:editedOn"]));
+                    arrPosts[i].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(sakai.api.l10n.parseDateString(arrPosts[i].post["sakai:editedOn"]));
                 }
                 for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
                     arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post.profile[0]);
                     arrPosts[i].replies[ii].post["sakai:createdOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["_created"]));
                     if(arrPosts[i].replies[ii].post["sakai:deletedOn"]){
-                        arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
+                        arrPosts[i].replies[ii].post["sakai:deletedOn"] = sakai.api.l10n.transformDateTimeShort(sakai.api.l10n.parseDateString(arrPosts[i].replies[ii].post["sakai:deletedOn"]));
                     }
                     if(arrPosts[i].replies[ii].post["sakai:editedOn"]){
-                        arrPosts[i].replies[ii].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post["sakai:editedOn"]));
+                        arrPosts[i].replies[ii].post["sakai:editedOn"] = sakai.api.l10n.transformDateTimeShort(sakai.api.l10n.parseDateString(arrPosts[i].replies[ii].post["sakai:editedOn"]));
                     }
                     arrPosts[i].replies[ii].post["sakai:quoted"] = parseQuote(arrPosts[i].replies[ii].post["sakai:body"]);
                     if(arrPosts[i].replies[ii].post["sakai:body"].split(["[/quote]"])[1]){
