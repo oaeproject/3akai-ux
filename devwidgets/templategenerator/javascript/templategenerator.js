@@ -97,6 +97,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             	// Show annotification when something when an error has occurred while sending the message
 				sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_EXPORT_ERROR"), sakai.api.Util.notification.type.INFORMATION);
             }
+            
+            // Hide the widget
+			$templategeneratorDialog.jqmHide();
         };
         
         /**
@@ -104,11 +107,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var bindEvents = function() {
         	
+        	// Make sure the exportButton is enabled
+			$templategeneratorExportButton.removeAttr("disabled");
+        	
         	// Bind form validation
 			$templategeneratorForm.validate({
 				
 				// Submit handler, fired when the input form has been validated	
 				submitHandler: function(form, validator){
+					
+					// Disable submit button
+	                $templategeneratorExportButton.attr("disabled","disabled");
 					
 					// Generate the template
 					generateTemplateFromData();
@@ -199,9 +208,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 							
 							// Get the widget name and content id
 							oldWidgetReference = oldWidgetReference.split('_');		
-							
+						
 							// Replace the widget's reference 			
-							$(widgetElements[widgetIndex]).attr('id', 'widget_' + oldWidgetReference[1] + '_' + widgetRef);
+							$(widgetElement).attr('id', 'widget_' + oldWidgetReference[1] + '_' + widgetRef);
 							
 							// Create our new widget object
 							page[pid][widgetRef][oldWidgetReference[1]] = {};
@@ -215,25 +224,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 								
 								var firstCharacter = widgetPropertyKey.charAt(0);
 								
-								if(firstCharacter === '_'){
-									// System properties
-								}else{
+								if(firstCharacter !== '_'){
 									// The actual data keys
 									newWidgetData[widgetPropertyKey] = widgetPropertyElement;
 								}
-								
 							});
 						});
 						
 						// Extract our updated HTML structure
-						$templategeneratorExport.empty().append(myPageContent);
-						var generatedHTML = $templategeneratorExport.html();
-							generatedHTML = $.trim(generatedHTML);
-							generatedHTML = generatedHTML.replace(/"/g, '\'');
-							$templategeneratorExport.empty();
+						var generatedHTML = $templategeneratorExport.empty().append(myPageContent).html().trim().replace(/"/g, '\'');
 						
 						// Insert the updated HTML structure into the page
 						page[pid][newRef].page = generatedHTML;
+						$templategeneratorExport.empty();
 						refId++;
 					});
 
@@ -267,7 +270,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 				templategeneratorData.output = JSON.stringify(templategeneratorData.exportData, null, "\t");
 				templategeneratorData.output = templategeneratorData.output.replace(/\\/g, '');
 				
-				// Create a file from the our generated string
+				// Create a file from the generated string
 				createTemplateFile();
 			}
         }
@@ -321,35 +324,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 	                					
 	                					// Get the link to our generated file
 	                					var filePath = 'http://' + window.location.host + '/p/' + fileData.poolId + '/' + fileData.item['sakai:pooled-content-file-name'];
-	                					
+	                						                					
 										// Sends a link with the template file to the admin user
 										sakai.api.Communication.sendMessage(templategeneratorTargetUser, sakai.data.me,
-											"User " + sakai.data.me.user.userid + " created a new template", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_ADMIN_MESSAGE") + "\n\n" + filePath ,
+											sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT"), sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_ADMIN_MESSAGE") + "\n\n" + filePath ,
 											"message", false, handleSentMessage, true, "new_message");
 									
 										// Sends a message to the user that created the template
 										sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me,
-											"Your new template", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_USER_MESSAGE"),
+											sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT"), sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_USER_MESSAGE"),
 											"message", false, null, true, "new_message");
 									},
 									error: function() {
-										
+										// Show specific error notification
+										sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_DELETE_FILE_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+									
+										// Hide the widget
+										$templategeneratorDialog.jqmHide();
 									}
 								});
 							},
 							error: function(){
-								
+								// Show specific error notification
+								sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_PERMISSION_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+							
+								// Hide the widget
+								$templategeneratorDialog.jqmHide();
 							}
 	    				});
 					});
      			},
      			error : function(error){
-		
+					// Show specific error notification
+					sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator","","TEMPLATEGENERATOR_FILE_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+     			
+     				// Hide the widget
+					$templategeneratorDialog.jqmHide();
      			}
 			});
-			
-        	// Hide the widget
-			$templategeneratorDialog.jqmHide();
         }
         
         /**
@@ -366,20 +378,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
  			// Create the url to the roles
  			templategeneratorData.rolesUrl = "/system/userManager/group/" + templategeneratorData.templateName + ".infinity.json";
  			
- 			// show the current title in the input field
+ 			// Show the current title in the input field
  			$templategeneratorTitle.val(templategeneratorData.templateName);
+ 			
+ 			// A local variable to store the creatorRole
+ 			var creatorRole; 
  			
  			// Create our requests
  			var batchRequests = [];
  				batchRequests.push({
 							"url": templategeneratorData.docstructureUrl,
-			                "method": "GET",
-			                "parameters": {}
-			            });
+			                "method": "GET"
+			             });
 				batchRequests.push({
 							"url": templategeneratorData.rolesUrl,
-			                "method": "GET",
-			                "parameters": {}
+			                "method": "GET"
 			            });
  			
  			// Process the requests to collect both the docstructure and roles
@@ -399,13 +412,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
  						// Create a Request for each page so we can process this as a batch 
 						templategeneratorData.pageUrls.push({
 							"url": "p/" + docstructureElement._pid + ".infinity.json",
-			                "method": "GET",
-			                "parameters": {}
+			                "method": "GET"
 			            });
 			 
-			 			// Get the creatorRole
-			 			var creatorRole = docstructureElement._edit[0];
-			 			templategeneratorData.roles.creatorRole = creatorRole.replace('-','');
+			 			// This will be improved once the new areapermission work is online!
+			 			creatorRole = docstructureElement._edit[0].replace('-','');
 	 				});
 	 				
 	 				// Grab the data for each page
@@ -440,6 +451,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 		 			var roleData = $.parseJSON(data.results[1].body);
 					templategeneratorData.roles.roleData = $.parseJSON(roleData.properties["sakai:roles"]);
 					templategeneratorData.roles.joinRole = roleData.properties["sakai:joinRole"];
+					templategeneratorData.roles.creatorRole = creatorRole;
 					
  				}else{
  					templategeneratorData.templatesLoaded = false;
