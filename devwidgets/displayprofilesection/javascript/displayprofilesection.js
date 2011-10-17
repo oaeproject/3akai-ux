@@ -126,7 +126,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         }
 
                         $(displayprofilesectionNoProfileInfoInsertedViewModeText, rootel).text(
-                            sakai.api.i18n.getValueForKey("THIS_PERSON_HASNT_ADDED_SECTION_YET", "displayprofilesection").replace("${section}", sakai.api.i18n.getValueForKey(messageKey, "displayprofilesection")) + "."
+                            sakai.api.i18n.getValueForKey("THIS_PERSON_HASNT_ADDED_SECTION_YET", "displayprofilesection").replace("${section}", sakai.api.i18n.getValueForKey(messageKey, "displayprofilesection"))
                         );
 
                         $(displayprofilesectionUserMessageButton, rootel).attr("sakai-entityid", sakai_global.profile.main.data["rep:userId"]);
