@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 .versions_widget {clear:both;font-size:11px;}
 .versions_widget #versions_container {background:url("/devwidgets/versions/images/versions_bg.png") repeat-x scroll left top transparent;box-shadow:0 0 3px #999999 inset;height:75px;overflow:hidden;margin:10px 0 15px;}
 .versions_widget #versions_container .versions_controls {height:75px;width:31px;cursor:pointer;}

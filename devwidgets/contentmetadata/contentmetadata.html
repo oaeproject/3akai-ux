@@ -1,13 +1,12 @@
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/devwidgets/contentmetadata/css/contentmetadata.css" />
 
-
-<div id="contentmetadata_container">
-    <div class="contentmetadata_title">__MSG__DETAILS__</div>
+<div class="s3d-widget-container" id="contentmetadata_container">
+    <div class="s3d-contentpage-title metadata">__MSG__DETAILS__</div>
     <div id="contentmetadata_description_container" class="contentmetadata_editable_for_maintainers">
         <!-- -->
     </div>
-    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers">
+    <div id="contentmetadata_tags_container" class="contentmetadata_editable_for_maintainers last">
         <!-- -->
     </div>
     <div id="contentmetadata_url_container" class="contentmetadata_editable_for_maintainers" style="display:none;">
@@ -19,19 +18,20 @@
     <div id="contentmetadata_locations_container" class="collapsible_container contentmetadata_editable_for_maintainers" style="display:none;">
         <!-- -->
     </div>
-    <div id="contentmetadata_details_container" class="collapsible_container" style="display:none;">
+    <div id="contentmetadata_details_container" class="collapsible_container last" style="display:none;">
         <!-- -->
     </div>
-    <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
-        <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow" class="s3d-dropdownlisttwo-arrow-down"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
-        <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow" class="s3d-dropdownlisttwo-arrow-up"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
-    </button>
-    <hr class="fl-hidden fl-push">
+    <div class="s3d-widget-footer">
+        <button type="button" id="contentmetadata_show_more" class="s3d-button s3d-link-button s3d-action">
+            <div id="contentmetadata_see_more"><span id="contentmetadata_show_more_arrow"><!-- --></span><span>__MSG__SEE_MORE__</span></div>
+            <div id="contentmetadata_see_less" style="display:none;"><span id="contentmetadata_show_less_arrow"><!-- --></span><span>__MSG__SEE_LESS__</span></div>
+        </button>
+    </div>
 </div>
 
 <div id="contentmetadata_description_template" style="display:none;"><!--
     {if data.mode === "edit"}
-        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input">${data.data["sakai:description"]}</textarea>
+        <textarea id="contentmetadata_description_description" class="contentmetadata_edit_input" title="__MSG__EDIT_DESCRIPTION__">${data.data["sakai:description"]}</textarea>
     {else}
         <span id="contentmetadata_description_display" class="contentmetadata_click">{if $.trim(data.data["sakai:description"]) != ""}${data.data["sakai:description"]|safeOutput}{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_DESCRIPTION__</span>{else}__MSG__NO_DESCRIPTION__{/if}{/if}</span>
     {/if}
@@ -39,7 +39,7 @@
 
 <div id="contentmetadata_tags_template" style="display:none;"><!--
         {if data.mode === "edit"}
-            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
+            <textarea id="contentmetadata_tags_tags" class="contentmetadata_edit_input" title="__MSG__EDIT_TAGS__">{if tags && tags.length > 0}{for tag in tags}{if tag_index > 0},&nbsp;{/if}${tag}{/for}{/if}</textarea>
         {else}
             <span class="contentmetadata_first_column">__MSG__TAGS__:</span>
             {if tags && tags.length > 0}
@@ -59,7 +59,7 @@
 
 <div id="contentmetadata_url_template" style="display:none;"><!--
     {if data.mode === "edit"}
-        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input">${data.data["sakai:pooled-content-url"]}</textarea>
+        <textarea id="contentmetadata_url_url" class="contentmetadata_edit_input" title="__MSG__EDIT_URL__">${data.data["sakai:pooled-content-url"]}</textarea>
     {else}
         <span class="contentmetadata_first_column">__MSG__URL__:</span>
         <span id="contentmetadata_url_display" {if data.isManager}class="contentmetadata_click"{/if}>{if $.trim(data.data["sakai:pooled-content-url"]) != ""}<a class="s3d-action" target="_blank" href="${data.data["sakai:pooled-content-url"]}">${data.data["sakai:pooled-content-url"]}</a>{else}{if data.isManager}<span class="contentmetadata_manager_edit">__MSG__CLICK_TO_EDIT_URL__</span>{else}__MSG__NO_URL__{/if}{/if}</span>
@@ -69,16 +69,16 @@
 <div id="contentmetadata_copyright_template" style="display:none;"><!--
         {if data.mode === "edit"}
             <select id="contentmetadata_copyright_copyright" class="contentmetadata_edit_input">
-                {for copyrightLabel in sakai.config.Permissions.Copyright}
-                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}</option>
+                {for copyrightLabel in sakai.config.Permissions.Copyright.types}
+                    <option {if data.data["sakai:copyright"] === copyrightLabel_index} selected="selected"{/if} value="${copyrightLabel_index}">${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}</option>
                 {/for}
             </select>
         {else}
             <span class="contentmetadata_first_column">__MSG__COPYRIGHT__: </span>
-            {for copyrightLabel in sakai.config.Permissions.Copyright}
+            {for copyrightLabel in sakai.config.Permissions.Copyright.types}
                 {if data.data["sakai:copyright"] === copyrightLabel_index}
                     <label class="content_profile_basic_info_form_anon_label">
-                        ${sakai.api.i18n.Widgets.getValueForKey("contentmetadata", "", copyrightLabel.title)}
+                        ${sakai.api.i18n.getValueForKey(copyrightLabel.title, "contentmetadata")}
                     </label>
                 {/if}
             {/for}
@@ -127,7 +127,7 @@
         <div class="contentmetadata_content_row">
             <span class="contentmetadata_first_column">__MSG__CREATED_BY__: </span>
             <span>
-                <a href="${creator.homePath}" class="s3d-regular-links">
+                <a href="${creator.homePath}" class="s3d-regular-links" title="__MSG__VIEW__ ${sakai.api.User.getDisplayName(creator)}'s __MSG__PROFILE__">
                     ${sakai.api.User.getDisplayName(creator)}
                 </a>
             </span>

@@ -1,11 +1,13 @@
 {
-    "description": "Browsing people in this node of the directory",
     "hasSettings": true,
     "i18n": {
-        "default": "/devwidgets/listpeopleinnode/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/listpeopleinnode/bundles/default.properties",
+            "name": "listpeopleinnode",
+            "description": "Browsing people in this node of the directory"
+        }
     },
     "id": "listpeopleinnode",
-    "name": "listpeopleinnode",
     "type":"core",
     "enabled":true,
     "url": "/devwidgets/listpeopleinnode/listpeopleinnode.html"

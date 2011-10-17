@@ -4,19 +4,25 @@
     "grouppages": true,
     "sakaidocs": true,
     "groupdashboard": true,
-    "description":"RSS Feed Reader",
     "hasSettings":true,
     "id":"rss",
     "img":"/devwidgets/rss/images/rss.png",
-    "name":"RSS Feed Reader",
     "showinsakaigoodies":true,
     "type":"sakai",
     "enabled":true,
     "url":"/devwidgets/rss/rss.html",
     "i18n": {
-        "default": "/devwidgets/rss/bundles/default.properties",
-        "en_US": "/devwidgets/rss/bundles/en_US.properties",
-        "nl_NL": "/devwidgets/rss/bundles/nl_NL.properties"
+        "default": {
+            "bundle": "/devwidgets/rss/bundles/default.properties",
+            "name": "RSS feed reader",
+            "description":"RSS feed reader"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/rss/bundles/en_US.properties"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/rss/bundles/nl_NL.properties"
+        }
     },
     "indexFields": ["title"],
     "defaultConfiguration": {

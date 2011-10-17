@@ -1,18 +1,20 @@
 {
-    "description":        "Categories Widget",
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled":             false,
+    "groupdashboard":      false,
+    "grouppages":          false,
+    "hasSettings":         true,
     "i18n": {
-        "default":        "/devwidgets/categories/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/categories/bundles/default.properties",
+            "name":       "Categories widget",
+            "description":"Categories widget"
+        }
     },
-    "id":                 "categories",
-    "name":               "Categories Widget",
-    "personalportal":     false,
-    "showinsakaigoodies": false,
-    "type":               "sakai",
-    "url":                "/devwidgets/categories/categories.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id":                  "categories",
+    "personalportal":      false,
+    "showinsakaigoodies":  false,
+    "type":                "sakai",
+    "url":                 "/devwidgets/categories/categories.html",
+    "userdashboard":       false,
+    "userpages":           false
 }

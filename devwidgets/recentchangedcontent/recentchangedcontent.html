@@ -8,11 +8,11 @@
                 <div class="s3d-no-results-container">
                     <div class="s3d-no-results-arrow-up"></div>
                     <div class="s3d-no-results-icon s3d-no-results-content-small"></div>
-                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a id="mylibrary_addcontent" class="s3d-regular-links sakai_add_content_overlay" href="#" title="__MSG__ADD_CONTENT__">__MSG__ADD_CONTENT__</a></h1>
+                    <h1>__MSG__NO_RESULTS_DESCRIPTION__ <a id="mylibrary_addcontent" class="s3d-regular-links sakai_add_content_overlay" href="#">__MSG__ADD_CONTENT__</a></h1>
                 </div>
             </div>
         </div>
-       <!-- MAIN recentchangedcontent -->
+        <!-- MAIN recentchangedcontent -->
         <div class="recentchangedcontent_main">
             <div class="recentchangedcontent_item"><!----></div>
             <div id="recentchangedcontent_item_template"><!--
@@ -82,7 +82,7 @@
                         </div>
                         <div class="recentchangedcontent_item_div">
                             <a class="recentchangedcontent_item_link s3d-widget-links s3d-bold" href="/content#p=${item.relatedContent['_path']|safeURL}/${item.relatedContent.filename|safeURL}" title="${item.relatedContent.name|safeOutput}">
-                                ${item.relatedContent.nameRelatedShort}
+                                ${item.relatedContent.nameRelatedShort|safeOutput}
                             </a>
                             <span class="recentchangedcontent_mimetype_desc">${item.relatedContent.mimeTypeDescription}</span>
                             <div>__MSG__BY__
@@ -102,7 +102,7 @@
             ${author.authorName}
         </a>
         {if commentCreated}
-            <span class="recentchangedcontent_timeago"> (${sakai.api.Datetime.getTimeAgo(commentCreated)} __MSG__AGO__)</span>
+            <span class="recentchangedcontent_timeago"> (${jQuery.timeago(commentCreated)})</span>
         {/if}
     --></div>
 
@@ -113,7 +113,7 @@
     --></div>
 
     <div class="s3d-widget-footer">
-        <a class="recentchangedcontent_item_link s3d-widget-links" href="/me#l=library" title="__MSG__SEE_ALL_MY_CONTENT__">__MSG__SEE_ALL_MY_CONTENT__</a>
+        <a class="recentchangedcontent_item_link s3d-widget-links" href="/me#l=library">__MSG__SEE_ALL_MY_CONTENT__</a>
     </div>
 
 </div>

@@ -51,14 +51,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
         // Mapping
         var descriptionMap = {
-            "pages": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PAGE_AUTHORING_AND_WIDGETS"),
-            "sakaidoc": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "FIND_EXISTING_CONTENT_AND"),
-            "dashboardoverview": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "AN_OVERVIEW_OF_CURRENT_ACTIVITY"),
-            "participantlist": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "PARTICIPATING_PEOPLE_AND_GROUPS"),
-            "timetable": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "KEEP_TRACK_OF_EVENTS_IN_A_TIMETABLE"),
-            "contentlibrary": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "DISPLAY_A_LIBRARY_OF_CONTENT_ITEMS"),
-            "widgetpage": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "DISPLAY_WIDGETS_ON_A_PAGE"),
-            "sakaitwotool": sakai.api.i18n.Widgets.getValueForKey("addarea", "", "UTILISE_A_PREVIOUS_SAKAI_TOOL")
+            "pages": sakai.api.i18n.getValueForKey("PAGE_AUTHORING_AND_WIDGETS","addarea"),
+            "sakaidoc": sakai.api.i18n.getValueForKey("FIND_EXISTING_CONTENT_AND","addarea"),
+            "dashboardoverview": sakai.api.i18n.getValueForKey("AN_OVERVIEW_OF_CURRENT_ACTIVITY","addarea"),
+            "participantlist": sakai.api.i18n.getValueForKey("PARTICIPATING_PEOPLE_AND_GROUPS","addarea"),
+            "timetable": sakai.api.i18n.getValueForKey("KEEP_TRACK_OF_EVENTS_IN_A_TIMETABLE","addarea"),
+            "contentlibrary": sakai.api.i18n.getValueForKey("DISPLAY_A_LIBRARY_OF_CONTENT_ITEMS","addarea"),
+            "widgetpage": sakai.api.i18n.getValueForKey("DISPLAY_WIDGETS_ON_A_PAGE","addarea"),
+            "sakaitwotool": sakai.api.i18n.getValueForKey("UTILISE_A_PREVIOUS_SAKAI_TOOL","addarea")
         };
 
         var switchSelection = function($el){
@@ -92,7 +92,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $addareaContentsContainerForm.html(sakai.api.Util.TemplateRenderer("addarea_" + context + "_form_template", {
                     context: context,
                     data: data,
-                    group: sakai_global.group.groupData
+                    group: sakai_global.group.groupData,
+                    sakai: sakai
                 }));
                 $(addareaSelectTemplate).hide();
 
@@ -280,8 +281,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             var nonEditable = false;
             var pageContents = [];
             for (var i = 0; i < numPages; i++){
-                // TODO put this in config.js
-                pageContents.push("Default Content");
+                pageContents.push("");
             }
             createSakaiDoc(docTitle, docPermission, pageContents, false, {}, nonEditable, function(poolId, urlName){
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1){

@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* General */
 #carousel_container {padding:5px 12px;}
 #carousel_container h1{color: #424242;font-size: 13px; margin-bottom:10px;}
@@ -41,7 +40,7 @@
 #carousel_container .carousel_no_preview_icon {float:left;width: 60px;}
 .jcarousel-item-horizontal{width:796px;}
 #carousel_container .carousel_tag_icon {position: relative;top: 5px;}
-
+#carousel_container fieldset{margin:0;padding:0;}
 .carousel_middot_divider {color:#424242;display:inline;margin:0 5px;}
 
 /* Single column */

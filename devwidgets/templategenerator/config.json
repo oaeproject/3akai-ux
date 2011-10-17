@@ -1,18 +1,15 @@
 {
     "description":        "Export sites to templates",
-    "enabled":            false,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        true,
+    "enabled":            true,
     "i18n": {
-        "default":        "/devwidgets/templategenerator/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/templategenerator/bundles/default.properties",
+            "name": "Template generator",
+            "description": "Export sites to templates"
+        }
     },
     "id":                 "templategenerator",
     "name":               "Templategenerator Widget",
-    "personalportal":     false,
-    "showinsakaigoodies": false,
-    "type":               "sakai",
-    "url":                "/devwidgets/templategenerator/templategenerator.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "type":               "core",
+    "url":                "/devwidgets/templategenerator/templategenerator.html"
 }

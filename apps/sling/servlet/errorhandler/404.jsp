@@ -39,7 +39,7 @@ response.setStatus(404);
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
                         <p class="error_signin_button"><button>__MSG__SIGN_IN__</button></p>
-                        <p>__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
+                        <p id="error_sign_up">__MSG__NO_ACCOUNT__ <a class="s3d-regular-links s3d-bold" href="/register">__MSG__SIGN_UP__</a></p>
                     </div>
                     <div class="error_content_second_column_box">
                         <div class="s3d-contentpage-title">__MSG__ARE_YOU_LOOKING_FOR__</div>
@@ -89,7 +89,7 @@ response.setStatus(404);
                     </div>
                 </div>
                 <div id="error_content_first_column">
-                    <img src="/dev/images/404_sinking.png" alt="404 sinking" />
+                    <img src="/dev/images/404_sinking.png" alt="__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__" />
                     <div id="error_content_first_column_content">
                         <h1>__MSG__THE_PAGE_YOU_REQUESTED_WAS_NOT_FOUND__</h1>
                         <h3 class="first">__MSG__POSSIBLE_REASONS_FOR_THE_PAGE_NOT_BEING_FOUND__</h3>
@@ -119,7 +119,7 @@ response.setStatus(404);
                         <div id="error_page_links_template" style="display:none"><!--
                             <ul>
                                 {for w in links.whatToDo}
-                                    <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.General.getValueForKey(w.title)}</a></li>
+                                    <li><a class="s3d-regular-links s3d-bold" href="\${w.url}">\${sakai.api.i18n.getValueForKey(w.title)}</a></li>
                                 {/for}
                                 <li><a href="{if document.referrer === ""}/{else}\${document.referrer}{/if}" class="s3d-regular-links s3d-bold">__MSG__GO_BACK_BY_USING_YOUR_BROWSER_BACK_BUTTON__</a></li>
                             </ul>
@@ -128,7 +128,7 @@ response.setStatus(404);
                                 <h3>__MSG__GET_IN_TOUCH__</h3>
                                 <ul>
                                     {for g in links.getInTouch}
-                                        <li><a class="s3d-regular-links s3d-bold" href="\${g.url}">\${sakai.api.i18n.General.getValueForKey(g.title)}</a></li>
+                                        <li><a class="s3d-regular-links s3d-bold" href="\${g.url}">\${sakai.api.i18n.getValueForKey(g.title)}</a></li>
                                     {/for}
                                 </ul>
                             {/if}

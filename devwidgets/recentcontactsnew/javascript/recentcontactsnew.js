@@ -67,7 +67,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 commentCount: sakai.api.Content.getCommentCount(result),
                 placeCount: sakai.api.Content.getPlaceCount(result),
                 path: "/p/" + result["_path"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
+                type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 size: "",
@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set the mimetype and corresponding image
             if(item._mimeType) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             }
 
@@ -106,7 +106,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var sortContacts = function(a, b){
             return a.details._lastModified > b.details._lastModified ? -1 : 1;
-        }
+        };
 
         /**
          * Gets a contact and displays info
@@ -115,7 +115,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var handlerecentcontactsnewData = function(data) {
             if(data && data.length > 0) {
                 $("#recentcontactsnew_no_results_container").hide();
-                var contactArray = []
+                var contactArray = [];
                 for (var i in data){
                     if (data.hasOwnProperty(i) && data[i].details && data[i].details["sakai:state"] === "ACCEPTED") {
                         contactArray.push(data[i]);
@@ -169,21 +169,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < data.groups.length; i++){
                     if (!data.groups[i]["sakai:excludeSearch"] && data.groups[i]["sakai:group-title"]) {
                         var connection = data.groups[i];
-                        var id, name, picture;
+                        var id, name, picture, namePossessive;
                         if (connection.userid) {
                             id = connection.userid;
                             name = sakai.api.User.getDisplayName(connection);
+                            linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.User.getProfilePicture(connection);
                         } else if (connection.groupid) {
                             id = connection.groupid;
-                            name = connection["sakai:group-title"];
+                            name = sakai.api.Security.safeOutput(connection["sakai:group-title"]);
+                            linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                             picture = sakai.api.Groups.getProfilePicture(connection);
                         }
                         newjson.connection = {
                             connectionId: id,
                             connectionName: name,
+                            connectionNameLinkTitle: linkTitle,
                             connectionPicture: picture
-                        }
+                        };
                         $("#recentcontactsnew_recent_connection_container").html(sakai.api.Util.TemplateRenderer("#recentcontactsnew_recent_connection_template", newjson));
                         break;
                     }
@@ -196,12 +199,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getContactInfo = function(newjson){
             newjson.displayName = sakai.api.User.getDisplayName(newjson.profile);
+            newjson.displayNameLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", newjson.displayName);
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === "s"){
-                fname = fname + "'"
+                fname = fname + "'";
             } else {
-                fname = fname + "'s"
+                fname = fname + "'s";
             }
             newjson.firstName = fname;
             $(recentcontactsnewItem, rootel).html(sakai.api.Util.TemplateRenderer(recentcontactsnewItemTemplate,newjson));

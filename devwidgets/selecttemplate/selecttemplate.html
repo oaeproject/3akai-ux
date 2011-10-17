@@ -3,7 +3,7 @@
 
 <!-- CONTAINER -->
 <div id="selecttemplate_container" style="display:none">
-    <h1>__MSG__CREATE__ <span id="selecttemplate_type_name"></span></h1>
+    <h1 id="selecttemplate_type_name"></h1>
     <div id="selecttemplate_templatelist_container"></div>
     <div id="selecttemplate_templatelist_template" style="display:none"><!--
         {for template in templates}
@@ -14,10 +14,10 @@
                     {if templatesize == "large"}
                         <img src=${template.img} />
                     {/if}
-                    <h2>${template.title}</h2>
+                    <h2>${sakai.api.i18n.General.process(template.title)}</h2>
                     <div class="selecttemplate_perfectfor">
                         <h4>__MSG__PERFECT_FOR__:</h4>
-                        <p>${template.perfectFor}</p>
+                        <p>${sakai.api.i18n.General.process(template.perfectFor)}</p>
                     </div>
                     <button type="button" class="s3d-button s3d-header-button selecttemplate_preview_button" data-templateid="${template.id}">__MSG__PREVIEW_TEMPLATE__</button>
                     <button type="button" class="s3d-button s3d-overlay-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
@@ -47,10 +47,10 @@
     <div id="selecttemplate_preview_dialog_template" style="display:none"><!--
         <img src="${template.fullImg}" />
         <div id="selecttemplate_preview_dialog_desc">
-            <h2>${template.title}</h2>
+            <h2>${sakai.api.i18n.General.process(template.title)}</h2>
             <h4>__MSG__PERFECT_FOR__:</h4>
-            <p>${template.perfectFor}</p>
-            <button type="button" class="s3d-button s3d-overlay-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
+            <p>${sakai.api.i18n.General.process(template.perfectFor)}</p>
+            <button type="button" class="s3d-button s3d-overlay-action-button selecttemplate_use_button" data-templateid="${template.id}">__MSG__USE_TEMPLATE__</button>
         </div>
         <div class="fl-push"></div>
     --></div>

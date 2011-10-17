@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* General */
 #newcreategroup_container #newcreategroup_group_data_container, #newcreategroup_container #newcreategroup_group_members_container {width:47%;float:left;color:#424242;}
 #newcreategroup_container .newcreategroup_small_text {font-size:11px;display:block;margin:6px 0;}
@@ -48,3 +47,7 @@
 /* Actions */
 #newcreategroup_container #newcreategroup_group_actions {float: right;margin-top: 20px;}
 #newcreategroup_container #newcreategroup_group_actions .s3d-link-button {margin-right: 20px;}
+
+#newcreategroup_creating h1, #newcreategroup_creating p {text-align:center;}
+#newcreategroup_creating .s3d-inset-shadow-container {height:50px;padding-top:30px;}
+#newcreategroup_creating .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}

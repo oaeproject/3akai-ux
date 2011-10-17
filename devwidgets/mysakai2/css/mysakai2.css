@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,12 +15,15 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 .sites_error{font-size:.95em;padding:10px 20px!important;}
 .mysakai2 .fl-widget-titlebar .widget_title_icon{background:url(/devwidgets/mysakai2/images/mysakai2_headericon.png) left top no-repeat; width:18px; height:18px;}
-.mysakai2_widget .fl-widget-content ul li{list-style-type:none;padding:5px 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;background:url(/devwidgets/mysakai2/images/s2icon.png) no-repeat scroll 15px 7px transparent;}
+.mysakai2_widget .fl-widget-content ul li{list-style-type:none;padding:5px 0px 0px 40px;margin:0;border-bottom:1px solid #CCC;background:url(/devwidgets/mysakai2/images/s2icon.png) no-repeat scroll 15px 7px transparent;}
+.mysakai2_items_list{margin:-15px 0 0;}
+#mysakai2_list{border-left:0px; border-right:0px;}
 .mysakai2_widget .fl-widget-content ul li a{vertical-align:top;padding-bottom:20px;}
 .mysakai2_site_title{padding-bottom:7px;display:block;}
 .mysakai2_show_files{background:url(/devwidgets/mysakai2/images/addicon.png) no-repeat left center transparent;padding-left:15px;}
-#mysakai2_messages{background:url(/devwidgets/mysakai2/images/messages.png) no-repeat left top transparent;padding-left:20px;color:#999;font-weight:bold;padding-right:10px;}
-#mysakai2_forums{background:url(/devwidgets/mysakai2/images/forums.png) no-repeat left top transparent;padding-left:20px;color:#999;font-weight:bold;}
+#mysakai2_messages{background:url(/devwidgets/mysakai2/images/messages.png) no-repeat left top transparent;padding-left:20px;color:#999;font-size:11px;padding-right:10px;}
+#mysakai2_forums{background:url(/devwidgets/mysakai2/images/forums.png) no-repeat left top transparent;padding-left:20px;color:#999;font-size:11px;}
+.s3d-widget-footer a { margin-left: 6px; }
+#mysakai2_no_results_container, #mysakai2_error_container {padding: 0 10px 10px;}

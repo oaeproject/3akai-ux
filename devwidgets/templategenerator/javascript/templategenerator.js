@@ -86,7 +86,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             if (success) {
 
                 // Show a notification when the message has been send to the user
-                sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_EXPORT_SUCCES"), sakai.api.Util.notification.type.INFORMATION);
+                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_EXPORT_SUCCES", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
 
                 // Flag the generating as false to indicate that the process has been completed
                 templategeneratorData.generatingTemplate = false;
@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             else {
 
                 // Show annotification when something when an error has occurred while sending the message
-                sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_EXPORT_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_EXPORT_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
             }
 
             // Hide the widget
@@ -328,14 +328,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                         var filePath = 'http://' + window.location.host + '/p/' + fileData.poolId + '/' + fileData.item['sakai:pooled-content-file-name'];
 
                                         // Sends a link with the template file to the admin user
-                                        sakai.api.Communication.sendMessage(templategeneratorTargetUser, sakai.data.me, sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT"), sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_ADMIN_MESSAGE") + "\n\n" + filePath, "message", false, handleSentMessage, true, "new_message");
+                                        sakai.api.Communication.sendMessage(templategeneratorTargetUser, sakai.data.me, sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE_SUBJECT", "templategenerator"), sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_ADMIN_MESSAGE", "templategenerator") + "\n\n" + filePath, "message", false, handleSentMessage, true, "new_message");
 
                                         // Sends a message to the user that created the template
-                                        sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT"), sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_USER_MESSAGE"), "message", false, null, true, "new_message");
+                                        sakai.api.Communication.sendMessage(sakai.data.me.user.userid, sakai.data.me, sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE_SUBJECT", "templategenerator"), sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_USER_MESSAGE", "templategenerator"), "message", false, null, true, "new_message");
                                     },
                                     error: function(){
                                         // Show specific error notification
-                                        sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_DELETE_FILE_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+                                        sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_DELETE_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
 
                                         // Hide the widget
                                         $templategeneratorDialog.jqmHide();
@@ -344,7 +344,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             },
                             error: function(){
                                 // Show specific error notification
-                                sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_PERMISSION_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+                                sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_PERMISSION_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
 
                                 // Hide the widget
                                 $templategeneratorDialog.jqmHide();
@@ -354,7 +354,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 },
                 error: function(error){
                     // Show specific error notification
-                    sakai.api.Util.notification.show("", sakai.api.i18n.Widgets.getValueForKey("templategenerator", "", "TEMPLATEGENERATOR_FILE_ERROR"), sakai.api.Util.notification.type.INFORMATION);
+                    sakai.api.Util.notification.show("", sakai.api.i18n.getValueForKey("TEMPLATEGENERATOR_FILE_ERROR", "templategenerator"), sakai.api.Util.notification.type.INFORMATION);
 
                     // Hide the widget
                     $templategeneratorDialog.jqmHide();

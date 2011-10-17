@@ -59,8 +59,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "/dev/s23/javascript/s23_site.js",
         "/dev/admin/javascript/admin_widgets.js",
         "/dev/configuration/config.js",
-        "/dev/configuration/config_custom.js",
-        "/dev/configuration/sakaidoc.js"
+        "/dev/configuration/config_custom.js"
     ];
 
     sakai_global.qunit.devHtmlFiles = [
@@ -78,7 +77,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "/dev/layout2.html",
         "/dev/logout.html",
         "/dev/search.html",
-        "/dev/search_sakai2.html",
         "/dev/user.html",
         "/dev/s23/s23_site.html",
         "/dev/admin/widgets.html"

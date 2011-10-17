@@ -1,6 +1,11 @@
 {
-    "description":"Login",
-    "name":"Login",
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/login/bundles/default.properties",
+            "name": "Login",
+            "description":"Login"
+        }
+    },
     "id":"login",
     "hasSettings":true,
     "type":"core",

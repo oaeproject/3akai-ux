@@ -23,10 +23,10 @@
 <div id="personinfo_template" style="display:none"><!--
     <div id="personinfo_user">
         <span id="personinfo_user_picture">
-            <img src="${user.displayPicture}"/>
+            <img src="${user.displayPicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName}"/>
         </span>
         <span id="personinfo_user_info">
-            <span id="personinfo_user_name" class="s3d-bold s3d-regular-links"><a href="${user.homePath}" title="${user.displayName}">${user.displayName}</a></span>
+            <span id="personinfo_user_name" class="s3d-bold s3d-regular-links"><a href="${user.homePath}">${user.displayName}</a></span>
             <span id="personinfo_user_owns" class="s3d-regular-links">
                 <p class="personinfo_user_info">${user.counts.contentCount} __MSG__CONTENT_ITEMS__</p>
                 <p class="personinfo_user_info">${user.counts.contactsCount} __MSG__CONTACTS__</p>
@@ -42,16 +42,16 @@
             <li id="${i["_path"]}">
                 <div class="personinfo_content_list_left">
                 {if thumbnail && sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${thumbnail}" alt="${mimeTypeDescription}" />
                 {elseif mimeType.substring(0,6)==="image/" && sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="/p/${i['_path']}" alt="${mimeTypeDescription}" />
                 {elseif sakai.config.MimeTypes[mimeType]}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description)}
                     <img src="${sakai.config.MimeTypes[mimeType].URL}" alt="${mimeTypeDescription}" />
                 {else}
-                    {var mimeTypeDescription = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description)}
+                    {var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description)}
                     <img src="${sakai.config.MimeTypes["other"].URL}" alt="${mimeTypeDescription}" />
                 {/if}
                 </div>

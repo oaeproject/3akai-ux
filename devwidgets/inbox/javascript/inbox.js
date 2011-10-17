@@ -290,7 +290,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(listViewClass).hide();
             $(detailViewClass).hide();
             $(window).trigger("initialize.sendmessage.sakai", [null, $inbox_new_message_sendmessage, sendMessageFinished]);
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "NEW_MESSAGE"));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey("NEW_MESSAGE", "inbox"));
             $(newMessageViewClass).show();
         };
 
@@ -382,10 +382,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         /**
-         * Clear out the value in the textarea
+         * Action that need to be taken when the reply has been sent
+         *  1. Clear the value of the reply box
+         *  2. Bring the user back to the inbox
          */
-        var clearReply = function() {
+        var handleReplyFinished = function() {
             $("#comp-body").val('');
+            $inbox_back_to_messages.click();
         };
 
         /**
@@ -393,8 +396,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var showReply = function() {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
-            var replyButtonText = sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, "REPLY");
-            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, clearReply, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
+            var replyButtonText = sakai.api.i18n.getValueForKey("REPLY", "inbox");
+            $(window).trigger("initialize.sendmessage.sakai", [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, "Re: " + currentMessage.subject, null, true, currentMessage.id, replyButtonText]);
             $inbox_show_message_reply_fields.show();
         };
 
@@ -443,7 +446,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var setInitialState = function(callback) {
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
             if (widgetData.box !== "inbox") {
                 $inbox_title_total_wrapper.hide();
@@ -570,7 +573,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var init = function() {
-            $inbox_box_title.text(sakai.api.i18n.Widgets.getValueForKey("inbox", sakai.api.User.data.me.user.locale, widgetData.title));
+            $inbox_box_title.text(sakai.api.i18n.getValueForKey(widgetData.title, "inbox"));
             // we need to check invitation status before we render any messages
             // if we're in the invitation category
             if (widgetData.category === "invitation") {

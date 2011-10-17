@@ -1,11 +1,13 @@
 {
-    "description":"Poll widget",
     "id":"poll",
     "img":"/devwidgets/poll/images/poll.png",
-    "name":"Poll",
     "showinsakaigoodies":true,
     "i18n": {
-        "default": "/devwidgets/poll/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/poll/bundles/default.properties",
+            "name":"Poll",
+            "description":"Poll widget"
+        }
     },
     "userpages": false,
     "userdashboard": false,

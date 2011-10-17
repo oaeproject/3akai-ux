@@ -1,11 +1,13 @@
 {
-    "description":"Advanced Search Picker Widget",
     "hasSettings": false,
     "id": "pickeradvanced",
     "i18n": {
-        "default": "/devwidgets/pickeradvanced/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/pickeradvanced/bundles/default.properties",
+            "name": "Advanced search picker",
+            "description":"Advanced search picker widget"
+        }
     },
-    "name": "Advanced Search Picker",
     "type":"core",
     "enabled":true,
     "url": "/devwidgets/pickeradvanced/pickeradvanced.html"

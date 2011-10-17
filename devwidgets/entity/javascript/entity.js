@@ -137,7 +137,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 case "group_managed":
                     var json = {
                         "joinable": context.data.authprofile["sakai:group-joinable"] === "withauth",
-                        "context": context
+                        "context": context,
+                        "sakai": sakai
                     };
                     $('#entity_groupsettings_dropdown').html(sakai.api.Util.TemplateRenderer("entity_groupsettings_dropdown", json));
 
@@ -176,13 +177,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $(window).bind("ready.joinrequestbuttons.sakai", function() {
                         sakai.api.Groups.getMembers(context.data.authprofile["sakai:group-id"], false, function(success, members) {
                             var managerCount = false;
+                            var leaveAllowed = false;
                             if (members.Manager && members.Manager.results){
                                 managerCount = members.Manager.results.length;
+                                if (managerCount > 1 || !sakai.api.Groups.isCurrentUserAManager(context.data.authprofile["sakai:group-id"], sakai.data.me)) {
+                                    // user is allowed to leave group
+                                    leaveAllowed = true;
+                                }
                             }
                             $(window).trigger("init.joinrequestbuttons.sakai", [
                                 {
                                     "groupProfile": context.data.authprofile,
-                                    "groupMembers": members
+                                    "groupMembers": members,
+                                    "leaveAllowed": leaveAllowed
                                 },
                                 context.data.authprofile["sakai:group-id"],
                                 context.data.authprofile["sakai:group-joinable"],
@@ -253,8 +260,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#entity_comments_link").live("click", function(){
                         $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
                         $("#contentcomments_txtMessage").focus();
-                       return false;
-
                     });
                     break;
             }
@@ -306,6 +311,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         'top': $this.offset().top + $this.height() + 5,
                         'left': $this.offset().left + $this.width() / 2 - 138
                     }).jqmShow();
+                }
+            });
+
+            $(window).bind("updateParticipantCount.entity.sakai", function(ev, val){
+                var num = parseInt($("#entity_participants_count").text(), 10);
+                var newNum = num + val;
+                $("#entity_participants_count").text(newNum);
+                if (newNum === 1) {
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANT", "entity"));
+                } else {
+                    $("#entity_participants_text").text(sakai.api.i18n.getValueForKey("PARTICIPANTS", "entity"));
                 }
             });
 

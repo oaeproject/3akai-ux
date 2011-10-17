@@ -62,6 +62,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var $newcreategroupGroupMembership = $("#newcreategroup_membership", $rootel);
     var $newcreategroupAddPeople = $(".newcreategroup_add_people", $rootel);
     var newcreategroupMembersMessage = "#newcreategroup_members_message";
+    var $newcreategroupCreating = $("#newcreategroup_creating");
 
     // Forms
     var $newcreategroupGroupForm = $("#newcreategroup_group_form", $rootel);
@@ -122,6 +123,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * Create a simple group and execute the tagging and membership functions
      */
     var doCreateSimpleGroup = function(){
+        $newcreategroupCreating.jqmShow();
         var grouptitle = $newcreategroupGroupTitle.val() || "";
         var groupdescription = $newcreategroupGroupDescription.val() || "";
         var groupid = sakai.api.Util.makeSafeURL($newcreategroupSuggestedURL.val(), "-");
@@ -151,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                         if (users.length > 0) {
                             sakai.api.Groups.addUsersToGroup(groupid, users, sakai.data.me, false, function(){
                                 $.each(users, function(index, item){
-                                    var subject = sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
+                                    var subject = sakai.api.i18n.getValueForKey("USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME", "newcreategroup").replace("${user}", sakai.api.Security.unescapeHTML(sakai.api.User.getDisplayName(sakai.data.me.profile))).replace("<\"Role\">", item.permission).replace("${groupName}", grouptitle);
                                     var body = $(newcreategroupMembersMessage, $rootel).text().replace("<\"Role\">", item.permission).replace("<\"First Name\">", item.name);
                                     sakai.api.Communication.sendMessage(item.user, sakai.data.me, subject, body, "message", false, false, true, "group_invitation",{"groupTitle":grouptitle,"groupId":groupid});
                                     if(users.length - 1 === index){
@@ -167,7 +169,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             } else {
                 if(nameTaken){
-                    sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","GROUP_TAKEN"), sakai.api.i18n.Widgets.getValueForKey("newcreategroup","","THIS_GROUP_HAS_BEEN_TAKEN"));
+                    $newcreategroupCreating.jqmHide();
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_TAKEN", "newcreategroup"), sakai.api.i18n.getValueForKey("THIS_GROUP_HAS_BEEN_TAKEN", "newcreategroup"));
                 }
                 $newcreategroupContainer.find("select, input, textarea, button").removeAttr("disabled");
             }
@@ -185,6 +188,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
                     addStructureToGroup(groupid, currentTemplate, function(){
                         removeCreatorFromManagersOfMainGroup(groupid, currentTemplate, function() {
+                            $newcreategroupCreating.jqmHide();
                             window.location = "/~" + groupid;
                         });
                     });
@@ -313,7 +317,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     "sakai:pooled-content-file-name": definition._title,
                     "sakai:description": "",
                     "sakai:permissions": permission,
-                    "sakai:copyright": "creativecommons",
+                    "sakai:copyright": sakai.config.Permissions.Copyright.defaults["sakaidocs"],
                     "structure0": $.toJSON(toCreate.structure0),
                     "mimeType": "x-sakai/document"
                 }
@@ -349,6 +353,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupGroupTitle.bind("keyup", function(){
             var suggestedURL = sakai.api.Util.makeSafeURL($(this).val(), "-");
             $newcreategroupSuggestedURL.val(suggestedURL);
+            $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~" + suggestedURL);
             renderShareMessage();
         });
 
@@ -361,6 +366,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $newcreategroupAddPeople.live("click", function(){
             $(window).trigger("init.addpeople.sakai", [tuid]);
         });
+        $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.General.process(currentTemplate.title)}));
+        $newcreategroupCreating.jqm({
+            modal: true,
+            overlay: 20,
+            toTop: true
+        });
     };
 
     /**
@@ -368,11 +379,27 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     var doInit = function(){
         currentTemplate = sakai.api.Groups.getTemplate(widgetData.category, widgetData.id);
-        $(".newcreategroup_template_name", $rootel).text(currentTemplate.title);
-        $newcreategroupSuggestedURLBase.text(window.location.protocol + "//" + window.location.host + "/~");
-        if (sakai.config.Permissions.Groups.defaultaccess){
-            $("#newcreategroup_can_be_found_in [value=" + sakai.config.Permissions.Groups.defaultaccess + "]", $rootel).attr("selected", "selected");
+        $(".newcreategroup_template_name", $rootel).text(sakai.api.i18n.General.process(currentTemplate.title));
+        if(widgetData.singleTemplate === true){
+            $newcreategroupCancelCreateButton.hide();
         }
+        $newcreategroupSuggestedURLBase.text(sakai.api.Util.applyThreeDots(window.location.protocol + "//" + window.location.host + "/~", 105, {"middledots": true}, null, true));
+        $newcreategroupSuggestedURLBase.attr("title", window.location.protocol + "//" + window.location.host + "/~");
+
+        var category = false;
+        for (var i = 0; i < sakai.config.worldTemplates.length; i++){
+            if (sakai.config.worldTemplates[i].id === widgetData.category){
+                category = sakai.config.worldTemplates[i];
+                break;
+            }
+        }
+
+        var defaultaccess =  category.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
+        var defaultjoin = category.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
+
+        $("#newcreategroup_can_be_found_in option[value='" + defaultaccess + "']", $rootel).attr("selected", "selected");
+        $("#newcreategroup_membership option[value='" + defaultjoin + "']", $rootel).attr("selected", "selected");
+
         $newcreategroupContainer.show();
         addBinding();
     };
@@ -386,7 +413,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             selectedUsers = $.extend(true, {}, users);
             $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
                 "users": selectedUsers,
-                "roles": currentTemplate.roles
+                "roles": currentTemplate.roles,
+                "sakai": sakai
             }));
             var count = 0;
             for (var item in selectedUsers) {

@@ -38,6 +38,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         /////////////////////////////
 
         var resultsToDisplay = 10;
+        var rootel = $("#" + tuid);
 
         var search = "#searchsakai2";
 
@@ -100,9 +101,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         var updateFacets = function(jsondata) {
             searchConfig.facetedConfig.facets = {};
             var facets = searchConfig.facetedConfig.facets;
-            for (var i = 0; i < jsondata.categories.length; i++) {
-                var cat = jsondata.categories[i];
-                facets[i] = { category: cat.category, "searchurl": "", "searchurlall": ""};
+            if (jsondata.categories) {
+                for (var i = 0; i < jsondata.categories.length; i++) {
+                    var cat = jsondata.categories[i];
+                    facets[i] = {
+                        category: cat.category,
+                        "searchurl": "",
+                        "searchurlall": ""
+                    };
+                }
             }
         }
 
@@ -122,6 +129,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     callback(data);
                 },
                 error: function(){
+                    $("#sakai2search_error_container", rootel).show();
                 }
             });
         };
@@ -132,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         var pager_click_handler = function(pageclickednumber){
             $.bbq.pushState({
-                "q": $(searchConfig.global.text).val(),
+                "q": $(searchConfig.global.text, rootel).val(),
                 "page": pageclickednumber
             }, 0);
         };
@@ -145,73 +153,86 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             var qparams = sakai_global.data.search.getQueryParams();
             finaljson = {};
             finaljson.sakai = sakai;
-            
-            var categoryName = searchConfig.facetedConfig.facets[0].category;
-            if (qparams.facet !== undefined) {
-                categoryName = searchConfig.facetedConfig.facets[qparams.facet].category;
-            }
 
-            var categorydata = {}
-            for (var i = 0; i < jsondata.categories.length; i++) {
-                if (categoryName === jsondata.categories[i].category) {
-                    categorydata = jsondata.categories[i];
+            if (searchConfig.facetedConfig.facets[0]) {
+                $(".searchsakai2_selects", rootel).show();
+                var categoryName = searchConfig.facetedConfig.facets[0].category;
+                if (qparams.facet !== undefined) {
+                    categoryName = searchConfig.facetedConfig.facets[qparams.facet].category;
                 }
-            }    
 
-            filterSearch(qparams.q,categorydata,finaljson);
-   
-            var resultstotal = finaljson.sites.length;
-            $(searchConfig.global.numberFound).text("" + resultstotal);
-            
-            if (resultstotal > resultsToDisplay && qparams.page) {
-                var end = qparams.page * resultsToDisplay;
-                finaljson.sites = finaljson.sites.slice(end-resultsToDisplay,end);
+                var categorydata = {}
+                for (var i = 0; i < jsondata.categories.length; i++) {
+                    if (categoryName === jsondata.categories[i].category) {
+                        categorydata = jsondata.categories[i];
+                    }
+                }    
+    
+                filterSearch(qparams.q,categorydata,finaljson);
+                finaljson.query = qparams.q;
+                finaljson.sites.sort(siteTitleSort);
+                for (var s = 0; s < finaljson.sites.length; s++){
+                    var url = finaljson.sites[s].url;
+                    finaljson.sites[s].url = url.split("/")[url.split("/").length - 1];
+                }
+    
+                var resultstotal = finaljson.sites.length;
+                $(searchConfig.global.numberFound, rootel).text("" + resultstotal);
+                
+                if (resultstotal > resultsToDisplay && qparams.page) {
+                    var end = qparams.page * resultsToDisplay;
+                    finaljson.sites = finaljson.sites.slice(end-resultsToDisplay,end);
+                }
+            } else {
+                finaljson.sites = [];
+                finaljson.query = "*";
+                $(".searchsakai2_selects", rootel).hide();
             }
 
-            $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
-            $(searchConfig.results.container).show();
+            $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+            $(searchConfig.results.container, rootel).show();
 
 
             // Putting Pager Reset down here, otherwise I seem to be having
             // timing issues with different things (facet, pager, etc) getting
             // rendered.
-            $(searchConfig.global.pagerClass).pager({
+            $(searchConfig.global.pagerClass, rootel).pager({
                 pagenumber: qparams.page,
                 pagecount: Math.ceil(Math.abs(resultstotal) / resultsToDisplay),
                 buttonClickCallback: pager_click_handler
             });
             if (resultstotal > resultsToDisplay) {
-                $(searchConfig.global.pagerClass).show();
+                $(searchConfig.global.pagerClass, rootel).show();
+            } else {
+                $(searchConfig.global.pagerClass, rootel).hide();
             }
+        };
+
+        var siteTitleSort = function(a, b){
+            return a.title > b.title;
         };
 
         var doSearch = function(){
             getCategories(function(data) {renderResults(data);});
         };
 
-        /////////////////////////////
-        // Settings View functions //
-        /////////////////////////////
-
-
-
         ////////////////////
         // Event Handlers //
         ////////////////////
 
 
-        $(searchConfig.global.text).live("keydown", function(ev){ 
+        $(searchConfig.global.text, rootel).live("keydown", function(ev){ 
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
-                    "q": $(searchConfig.global.text).val(),
+                    "q": $(searchConfig.global.text, rootel).val(),
                     "page": 0
                 }, 0);
             }
         });
 
-        $(searchConfig.global.button).live("click", function(ev){
+        $(searchConfig.global.button, rootel).live("click", function(ev){
             $.bbq.pushState({
-                "q": $(searchConfig.global.text).val(),
+                "q": $(searchConfig.global.text, rootel).val(),
                 "page": 0
             }, 0);
         });

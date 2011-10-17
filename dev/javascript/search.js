@@ -25,31 +25,31 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "all": {
                     "_ref": "id9574379429432",
                     "_order": 0,
-                    "_title": "All types",
+                    "_title": sakai.api.i18n.getValueForKey("ALL_TYPES"),
                     "main": {
                         "_ref": "id9574379429432",
                         "_order": 0,
-                        "_title": "All"
+                        "_title": sakai.api.i18n.getValueForKey("ALL_TYPES")
                     }
                 },
                 "content": {
                     "_ref": "id6573920372",
                     "_order": 1,
-                    "_title": "Content",
+                    "_title": sakai.api.i18n.getValueForKey("CONTENT"),
                     "main": {
                         "_ref": "id6573920372",
                         "_order": 0,
-                        "_title": "Content"
+                        "_title": sakai.api.i18n.getValueForKey("CONTENT")
                     }
                 },
                 "people": {
-                    "_title": "People",
+                    "_title": sakai.api.i18n.getValueForKey("PEOPLE"),
                     "_ref": "id49294509202",
                     "_order": 2,
                     "main": {
                         "_ref": "id49294509202",
                         "_order": 0,
-                        "_title": "People"
+                        "_title": sakai.api.i18n.getValueForKey("PEOPLE")
                      }
                 }
             },
@@ -63,29 +63,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 "page": "<div id='widget_searchpeople' class='widget_inline'></div>"
             }
         };
-
-        if (sakai.config.showSakai2 === true && !sakai.data.me.user.anon) {
-            // Shift worlds down the side menu by 1 to put in Sakai 2 Search            
-            worldsOrderIncrement++;
-            pubdata.structure0["sakai2sites"] = {
-                "_title": "Sakai 2",
-                "_ref": "id1234567890",
-                "_order": 3,
-                "main": {
-                    "_ref": "id1234567890",
-                    "_order": 0,
-                    "_title": "Sakai 2"
-                }
-            };
-            pubdata["id1234567890"] = {
-                "page": "<div id='widget_searchsakai2' class='widget_inline'></div>"
-            };
-        }
         
         for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
             var category = sakai.config.worldTemplates[c];
             var refId = sakai.api.Util.generateWidgetId();
-            var title = sakai.api.i18n.General.getValueForKey(category.title);
+            var title = sakai.api.i18n.getValueForKey(category.title);
             pubdata.structure0[category.id] = {
                 "_title": title,
                 "_ref": refId,

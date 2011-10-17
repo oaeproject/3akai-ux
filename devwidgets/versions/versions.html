@@ -29,9 +29,17 @@
                 {/for}
             </ul>
         {else}
-            <div id="versions_noversions">No revisions</div>
+            <div id="versions_noversions">__MSG__NO_REVISIONS__</div>
         {/if}
     </div>
+--></div>
+
+<div id="versions_empty_document_template" style="display:none;"><!--
+{if currentversion}
+    <div class="sakaidocs_default_editable_content_imagecontainer"></div>
+{else}
+    <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
+{/if}
 --></div>
 
 <!-- JAVASCRIPT -->

@@ -27,6 +27,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var $signinbuttonwrapper = $('#error_sign_in_button');
         var $signinbutton = $("button",$signinbuttonwrapper);
         var $browsecatcount = $("#error_browse_category_number");
+        var $browsecats = $(".browse_cats");
         var $secondcoltemplate = $("#error_second_column_links_template");
         var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
         var $errorPageLinksTemplate = $("#error_page_links_template");
@@ -35,20 +36,24 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
         var doInit = function(){
             var renderedTemplate = false;
-            var catcount = 0;
-            for (var i in sakai.config.Directory) {
-                if (sakai.config.Directory.hasOwnProperty(i)) {
-                    catcount+=1;
+            if (sakai.config.enableCategories) {
+                var catcount = 0;
+                for (var i in sakai.config.Directory) {
+                    if (sakai.config.Directory.hasOwnProperty(i)) {
+                        catcount+=1;
+                    }
                 }
+                $browsecatcount.text(catcount);
+            } else {
+                $browsecats.hide();
             }
-            $browsecatcount.text(catcount);
 
             // Create the world links in the second column after People, Content...
             var worlds = [];
             var obj = {};
             for (var c = 0; c < sakai.config.worldTemplates.length; c++){
                 var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.General.getValueForKey(world.title);
+                world.label = sakai.api.i18n.getValueForKey(world.title);
                 if(c===sakai.config.worldTemplates.length-1){
                 	world.last = true;
                 }
@@ -87,6 +92,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 $(".login-container button").bind("click", function(){
                     document.location = (gatewayURL + "?url=" + escape(redurl));
                 });
+                if (sakai.config.Authentication.allowInternalAccountCreation){
+                    $("#error_sign_up").show();
+                }
             } else {
                 // Remove the sakai.index stylesheet as it would mess up the design
                 $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();
@@ -101,7 +109,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 }
             });
             sakai.api.Security.showPage();
-            document.title = document.title + " " + sakai.api.i18n.General.getValueForKey("ACCESS_DENIED");
+            document.title = document.title + " " + sakai.api.i18n.getValueForKey("ACCESS_DENIED");
         };
 
         var forceLoginOverlay = function(){

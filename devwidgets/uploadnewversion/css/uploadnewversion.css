@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 #uploadnewversion_container.s3d-dialog-container {width:485px;}
 #uploadnewversion_container #uploadnewversion_form_container {width:452px;height:80px;background:url("/devwidgets/uploadnewversion/images/uploadnewversion_form_bg.png") repeat-x top left transparent;border:1px solid #e2e2e2;margin-top:10px;-moz-border-radius:5px;border-radius:5px;padding:20px 15px 0;}
 #uploadnewversion_container #uploadnewversion_form_container input {margin-top:10px;}
@@ -25,3 +24,8 @@
 /* Override multifile CSS */
 #uploadnewversion_container #multifile_upload {top:auto !important;}
 #uploadnewversion_container #multifile_upload_F1 {display:none;}
+
+#uploadnewversion_uploading {margin-top:25px;width:485px;}
+#uploadnewversion_uploading h1, #uploadnewversion_uploading p {text-align:center;}
+#uploadnewversion_uploading .s3d-inset-shadow-container {height:50px;padding-top:30px;}
+#uploadnewversion_uploading .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}

@@ -1,14 +1,16 @@
 {
-    "description":        "Area Permissions",
     "enabled":            true,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/areapermissions/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/areapermissions/bundles/default.properties",
+            "name":       "Area permissions",
+            "description":"Area permissions"
+        }
     },
     "id":                 "areapermissions",
-    "name":               "Area Permissions",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "core",

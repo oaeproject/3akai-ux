@@ -20,7 +20,7 @@
                 __MSG__UPLOADED_BY__ <a class="s3d-action" title="${userName}'s __MSG__PROFILE__" href="/~${sakai_global.content_profile.content_data.data["sakai:pool-content-created-for"]}">${userName}</a> <br/>
                 ${sakai.api.Util.convertToHumanReadableFileSize(sakai_global.content_profile.content_data.data["length"] || sakai_global.content_profile.content_data.data["_length"])}<br/>
                 {if sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link"}
-                    ${sakai.api.i18n.General.getValueForKey(sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data)).description)}
+                    ${sakai.api.i18n.getValueForKey(sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data)).description)}
                 {/if}
             </div>
         </div>

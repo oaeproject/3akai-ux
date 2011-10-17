@@ -1,14 +1,16 @@
 {
-    "description":        "Featured People Widget",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        true,
     "i18n": {
-        "default":        "/devwidgets/featuredpeople/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/featuredpeople/bundles/default.properties",
+            "name":       "Featured people widget",
+            "description":"Featured people widget"
+        }
     },
     "id":                 "featuredpeople",
-    "name":               "Featured People Widget",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "sakai",

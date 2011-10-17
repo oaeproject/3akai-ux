@@ -332,6 +332,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
             $.ajax({
                 url: url,
+                data: {
+                    items : 1000000
+                },
                 cache: false,
                 success: function(data){
                     showPosts(data, true);
@@ -535,10 +538,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
                         $parentDiv.hide();
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("YOU_CANT_REPLY"), "", sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("YOU_CANT_REPLY"), "", sakai.api.Util.notification.type.ERROR);
                     }
                     else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_ADD_REPLY"), "", sakai.api.Util.notification.type.ERROR);
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_ADD_REPLY"), "", sakai.api.Util.notification.type.ERROR);
                     }
                 },
                 data: object
@@ -612,7 +615,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     }
                 },
                 error: function(xhr, textStatus, thrownError){
-                    sakai.api.Util.notification.show(sakai.api.i18n.General.getValueForKey("FAILED_DELETE_POST"),"",sakai.api.Util.notification.type.ERROR);
+                    sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("FAILED_DELETE_POST"),"",sakai.api.Util.notification.type.ERROR);
                 }
             });
         };

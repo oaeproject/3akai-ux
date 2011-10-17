@@ -3,15 +3,21 @@
     "userdashboard": true,
     "grouppages": true,
     "groupdashboard": true,
-    "description":"Discussion widget",
     "id":"discussion",
     "img":"/devwidgets/discussion/images/discussion.png",
     "i18n": {
-        "default": "/devwidgets/discussion/bundles/default.properties",
-        "en_US": "/devwidgets/discussion/bundles/en_US.properties",
-        "zh_CN": "/devwidgets/discussion/bundles/zh_CN.properties"
+        "default": {
+            "bundle": "/devwidgets/discussion/bundles/default.properties",
+            "name": "Discussion",
+            "description":"Discussion widget"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/discussion/bundles/en_US.properties"
+        },
+        "zh_CN": {
+            "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
+        }
     },
-    "name":"Discussion",
     "showinsakaigoodies":true,
     "hasSettings": true,
     "type":"sakai",

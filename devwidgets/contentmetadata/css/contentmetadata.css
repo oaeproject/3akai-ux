@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,16 +15,21 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container,#contentmetadata_url_container{padding:7px 0;background-color:#FFF;border-bottom:1px dotted #aaa;margin-right: 10px;}
-.fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;clear:both;min-height:15px}
-.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;}
-#contentmetadata_container .contentmetadata_title{border-bottom:5px solid #E1E1E1;color:#333333;font-size:1.25em;padding:8px 0; margin-bottom: 5px;}
+#contentmetadata_description_container,#contentmetadata_tags_container,#contentmetadata_details_container,#contentmetadata_locations_container,#contentmetadata_copyright_container,#contentmetadata_url_container{padding:7px 0;background-color:#FFF;border-bottom:1px dotted #aaa;margin-right:10px;}
+#contentmetadata_container > div.last {border-bottom:none;}
+.fl-container-650 #contentmetadata_description_container,.fl-container-650 #contentmetadata_tags_container,.fl-container-650 #contentmetadata_details_container,.fl-container-650 #contentmetadata_locations_container,.fl-container-650 #contentmetadata_copyright_container,.fl-container-650 #contentmetadata_url_container{width:600px;clear:both;min-height:15px;margin:0 15px;color:#666;}
+.fl-container-450 #contentmetadata_description_container,.fl-container-450 #contentmetadata_tags_container,.fl-container-450 #contentmetadata_details_container,.fl-container-450 #contentmetadata_locations_container,.fl-container-450 #contentmetadata_copyright_container,.fl-container-450 #contentmetadata_url_container{width:420px;clear:both;min-height:15px;margin:0 15px;color:#666;}
+#contentmetadata_container .s3d-contentpage-title.metadata {margin-bottom:5px;}
+#contentmetadata_container .s3d-widget-footer {padding-bottom:0px;}
+#contentmetadata_container .s3d-link-button {color:#666;}
+#contentmetadata_container .s3d-link-button:hover {color:#2683BC;}
 #contentmetadata_show_more{padding: 10px 0px 7px; display:inline;clear:both;}
 #contentmetadata_show_more span{float:right;display:inline;}/** Fix for IE and older FF browsers **/
-#contentmetadata_show_more.s3d-link-button {*width:250px;}
-.contentmetadata_first_column{display:block;float:left;width:100px;font-weight:normal;margin-bottom:3px;}
+#contentmetadata_show_more span + span{padding-top:2px;}
+#contentmetadata_show_more.s3d-link-button {*width:250px;height:14px;padding:0;margin-top:2px;}
+.contentmetadata_first_column{display:block;float:left;width:100px;font-weight:normal;margin-bottom:3px;padding:2px 0;}
 .contentmetadata_content_row{clear:both;}
-.contentmetadata_second_column{display:block;overflow:hidden;}
+.contentmetadata_second_column{display:block;overflow:hidden;padding:2px 0;}
 
 /* EDITABLE FIELDS */
 .contentmetadata_editable{padding:5px;}
@@ -38,7 +43,7 @@
 textarea.contentmetadata_edit_input{min-height: 75px; resize:vertical; background-color: #fcecb2;}
 #contentmetadata_container ul{margin:0;overflow:hidden;}
 #contentmetadata_container ul li{list-style:none outside none;}
-#contentmetadata_container{word-wrap:break-word;border-bottom:5px solid #E1E1E1;clear:both;margin-bottom:20px;margin-right:20px;}
+#contentmetadata_container{word-wrap:break-word;clear:both;margin-bottom:20px;}
 .contentmetadata_manager_edit{font-style:italic;font-weight:normal;}
 
 /* DIRECTORY */
@@ -52,3 +57,9 @@ textarea.contentmetadata_edit_input{min-height: 75px; resize:vertical; backgroun
 .contentmetadata_locations_link{margin-bottom:3px;}
 .contentmetadata_remove_location{float:right;margin-right:10px;height:16px;}
 .contentmetadata_remove_new_location{float:right;margin-right:10px;margin-top:9px;}
+
+.s3d-link-button #contentmetadata_show_more_arrow, .s3d-link-button #contentmetadata_show_less_arrow {width:20px;height:20px;float:right;margin-left:7px;}
+.s3d-link-button #contentmetadata_show_more_arrow {background:url("/dev/images/arrow_down_square.png") no-repeat top left transparent;}
+.s3d-link-button:hover #contentmetadata_show_more_arrow {background:url("/dev/images/arrow_down_square_hover.png") no-repeat top left transparent;}
+.s3d-link-button #contentmetadata_show_less_arrow {background:url("/dev/images/arrow_up_square.png") no-repeat top left transparent;}
+.s3d-link-button:hover #contentmetadata_show_less_arrow {background:url("/dev/images/arrow_up_square_hover.png") no-repeat top left transparent;}

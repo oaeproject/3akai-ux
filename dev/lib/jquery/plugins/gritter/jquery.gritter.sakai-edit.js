@@ -380,7 +380,10 @@
         _verifyWrapper: function(){
 
             if ($('#gritter-notice-wrapper').length == 0) {
-                $('body').append(this._tpl_wrap);
+                if ($('#gritter-container').length === 0){
+                    $('body').append("<div id='gritter-container' aria-live='assertive'></div>");
+                }
+                $('#gritter-container').append(this._tpl_wrap);
             }
 
         }

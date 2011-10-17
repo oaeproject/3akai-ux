@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,7 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /*
  * The below CSS sections may not be necesary for your widget, but best practice
  * is to organize your CSS into sections like these (or add new sections)
@@ -53,6 +52,9 @@
 #worldsettings_container .worldsettings_section {background:url("/devwidgets/newcreategroup/images/newcreategroup_section_bg.png") repeat-x scroll left top transparent;height: 22px;padding: 12px;margin-top:12px;-moz-border-radius:5px;border-radius:5px;-webkit-border-radius:5px;}
 #worldsettings_container hr {border:none;border-top:1px solid #E7E7E7;background:none;}
 #worldsettings_container #worldsettings_members_message {height: 120px;margin-top: 12px;}
+
+#worldsettings_warning_container #worldsettings_warning_container_text {font-size:16px;line-height:20px;}
+#worldsettings_warning_container {margin-top: 140px;}
 
 /* Actions */
 #worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}

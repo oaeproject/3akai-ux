@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Sakai Foundation (SF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -15,12 +15,11 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 /* Header */
 .s3d-site-heading #s23_site_title
 { margin: 8px 10px 0 0}
-.s3d-site-heading #s23_site_title_info
-{ color: #868a8d; font-size: 0.9em; font-weight: normal; margin-top:20px }
+#s23_site_title_info
+{ color: #868a8d; font-weight: normal;  font-size: 11px; text-transform: uppercase;}
 
 /* Menu */
 .s23_site #s23_site_menu_container
@@ -106,7 +105,7 @@
 
 /* Iframe container */
 .s23_site #s23_site_iframe_container
-{ margin: 1.6em 0 0 12.3em }
+{ margin: 1.6em 0 0 12.3em; padding-right: 20px; }
 .s23_site #s23_site_iframe_container .s23_site_iframe
 { width: 100% }
 .s23_site #s23_site_iframe_container .s23_site_iframe_title
