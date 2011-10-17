@@ -364,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         });
 
         $newcreategroupAddPeople.live("click", function(){
-            $(window).trigger("init.addpeople.sakai", [tuid]);
+            $(window).trigger("init.addpeople.sakai", [tuid, false]);
         });
         $newcreategroupCreating.html(sakai.api.Util.TemplateRenderer("newcreategroup_creating_template", {type: sakai.api.i18n.General.process(currentTemplate.title)}));
         $newcreategroupCreating.jqm({
