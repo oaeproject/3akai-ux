@@ -494,11 +494,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 for (var i = 0; i < data.toolList.length; i++) {
                     // Our i18n keys for the tools are formatted as: sakai.announcements -> CLE_SAKAI_ANNOUNCEMENTS
                     var key = "CLE_" + data.toolList[i].replace(/\./g,"_").toUpperCase();
-                    var toolname = sakai.api.i18n.getValueForKey(key, "sakai2tools");
+                    if (sakai.config.sakai2ToolNames && sakai.config.sakai2ToolNames[data.toolList[i]]) {
+                        var toolname = sakai.config.sakai2ToolNames[data.toolList[i]];
+                    }
+                    else {
+                        var toolname = sakai.api.i18n.getValueForKey(key, "sakai2tools");
+                        if (toolname === false) {
+                            toolname = data.toolList[i];
+                        }
+                    }
                     toolList.push({toolid: data.toolList[i], toolname: toolname});
                 }
                 toolList.sort(function(a,b) {
-                    return (a.toolname < b.toolname) ? -1 : (a.toolname > b.toolname) ? 1 : 0;
+                    return sakai.api.Util.Sorting.naturalSort(a.toolname, b.toolname);
                 });
             });
             sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
