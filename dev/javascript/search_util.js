@@ -139,6 +139,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
                         results[group].userMember = true;
                     }
+                    // use large default group icon on search page
+                    if (results[group].picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
+                        results[group].picPath = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
+                    }
 
                     finaljson.items.push(results[group]);
                 }
