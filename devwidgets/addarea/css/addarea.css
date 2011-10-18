@@ -50,12 +50,15 @@
 #addarea_container #addarea_content_container input {height:20px;width:240px;}
 #addarea_container #addarea_content_container textarea {width:340px;resize:none;padding:5px;}
 #addarea_container #addarea_content_container select {height:20px;padding:0;}
+#addarea_container #addarea_content_container .addarea_list_categories {float:right;}
+#addarea_container #addarea_content_container .addarea_preview_container {float:left;width:100px;}
+#addarea_container #addarea_content_container .addarea_data_container {float:left;margin-left:15px;overflow:visible;}
+#addarea_container #addarea_content_container h3 {margin:0 0 15px;}
 
 /* new content */
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_tagsandcategories {margin-bottom:0;}
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages {float:left;margin-right:10px;line-height:12px;margin-top:5px;}
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages_doc {display:block;float:left;font-size:11px;overflow:auto;width:120px;}
-#addarea_container #addarea_content_container #addarea_new_container #addarea_new_list_categories {float:right;}
 
 /** 
  * Buttons

@@ -35,38 +35,113 @@
     </ul>
     <div id="addarea_content_container">
         <div id="addarea_new_container" data-doc-type="new">
-            <label for="addarea_new_name">Please enter a name:</label>
-            <input type="text" name="addarea_new_name" id="addarea_new_name"></input>
-            <label for="addarea_new_permissions">Who can see it:</label>
-            <select id="addarea_new_permissions" name="addarea_new_permissions">
-                <option value="public">__MSG__PUBLIC__</option>
-                <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                <option value="private">__MSG__ONLY_ME__</option>
-            </select>
-            <label for="addarea_new_numberofpages">Number of pages:</label>
-            <select id="addarea_new_numberofpages" name="addarea_new_numberofpages">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-            <span id="addarea_new_numberofpages_doc">You can add more and name them later</span>
-            <hr class="fl-push fl-hidden"/>
-            <button type="button" class="s3d-link-button s3d-bold" id="addarea_new_list_categories">List categories</button>
-            <label for="addarea_new_tagsandcategories">Tags and categories:</label>
-            <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories"></textarea>
+            <h3>__MSG__NEW_SAKAI_DOCUMENT__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_new_document_example.png" alt="__MSG__NEW_SAKAI_DOCUMENT__"/>
+                <span>__MSG__A_NEW_SAKAI_DOCUMENT__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_new_name" id="addarea_new_name"></input>
+                <label for="addarea_new_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_new_permissions" name="addarea_new_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+                <label for="addarea_new_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
+                <select id="addarea_new_numberofpages" name="addarea_new_numberofpages">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <span id="addarea_new_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
+                <hr class="fl-push fl-hidden"/>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_new_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories"></textarea>
+            </div>
         </div>
         <div id="addarea_existing_currentlyviewing_container" style="display:none;">Existing Content I'm currently viewing'</div>
         <div id="addarea_existing_mylibrary_container" style="display:none;">Existing Content in My Library</div>
         <div id="addarea_existing_everywhere_container" style="display:none;">Existing Content Everywhere</div>
-        <div id="addarea_contentlist_container" style="display:none;">Content List</div>
-        <div id="addarea_participants_container" style="display:none;">Participants</div>
-        <div id="addarea_widgets_container" style="display:none;">Widgets</div>
+        <div id="addarea_contentlist_container" data-doc-type="contentlibrary" style="display:none;">
+            <h3>__MSG__CONTENT_LIST_OR_LIBARY__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__CONTENT_LIST_OR_LIBARY__"/>
+                <span>__MSG__A_LIST_OF_ALL_CONTENT_USED_HERE__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name"/>
+                <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories"></textarea>
+            </div>
+        </div>
+        <div id="addarea_participants_container" data-doc-type="participants" style="display:none;">
+            <h3>__MSG__PARTICIPANTS_OR_MEMBERS_LIST__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_content_library_example.png" alt="__MSG__PARTICIPANTS_OR_MEMBERS_LIST__"/>
+                <span>__MSG__A_LIST_OF_ALL_PARTICIPANTS_OR_MEMBERS_IN_THE_GROUP__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" id="addarea_participants_name" name="addarea_participants_name"/>
+                <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_participants_permissions" name="addarea_participants_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories"></textarea>
+            </div>
+        </div>
+        <div id="addarea_widgets_container" data-doc-type="widgets" style="display:none;">
+            <h3>__MSG__WIDGET_PAGE__</h3>
+            <div class="addarea_preview_container">
+                <img src="/devwidgets/addarea/images/addarea_widget_example.png" alt="__MSG__WIDGET_PAGE__"/>
+                <span>__MSG__CREATE_A_PAGE_USING_WIDGETS__</span>
+            </div>
+            <div class="addarea_data_container">
+                <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_widgets_name" id="addarea_widgets_name"></input>
+                <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+                <label for="addarea_widgets_widget">__MSG__NUMBER_OF_PAGES__:</label>
+                <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
+                <span id="addarea_widgets_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
+                <hr class="fl-push fl-hidden"/>
+                <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
+                <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
+                <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_widgets_tagsandcategories" name="addarea_widgets_tagsandcategories"></textarea>
+            </div>
+        </div>
     </div>
     <div id="addarea_actions">
         <button class="s3d-link-button jqmClose s3d-bold" type="button">__MSG__CANCEL__</button>
         <button class="s3d-button s3d-overlay-action-button" id="addarea_create_doc_button" type="button">__MSG__DONE_ADD__</button>
     </div>
 </div>
+
+<div id="addarea_widgets_widget_container"><!--
+    {for widget in data}
+        <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
+    {/for}
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/addarea/javascript/addarea.js"></script>
