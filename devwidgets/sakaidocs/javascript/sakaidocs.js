@@ -608,6 +608,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $contentEl = $("#" + currentPageShown.ref);
                 // Add sanitized content
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
+                sanitizedContent = sakai.api.i18n.General.process(sanitizedContent);
                 if(sakai.api.Util.determineEmptyContent(currentPageShown.content)) {
                     $contentEl.html(sanitizedContent);
                 } else {

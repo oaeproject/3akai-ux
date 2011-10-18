@@ -47,7 +47,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_new_message_sendmessage = $("#inbox_new_message_sendmessage", $rootel),
             $inbox_message_list_item_template = $("#inbox_message_list_item_template", $rootel),
             $inbox_box_title = $("#inbox_box_title", $rootel),
-            $inbox_title_total = $("#inbox_title_total", $rootel),
             $inbox_delete_button = $(".inbox_delete_button", $rootel),
             $inbox_show_message_reply_fields = $(".inbox_show_message_reply_fields", $rootel),
             $inbox_pager = $("#inbox_pager", $rootel),
@@ -59,7 +58,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $inbox_select_all = $("#inbox_select_all", $rootel),
             $inbox_delete_selected = $("#inbox_delete_selected", $rootel),
             $inbox_mark_as_read = $("#inbox_mark_as_read", $rootel),
-            $inbox_title_total_wrapper = $(".inbox_title_total_wrapper", $rootel),
             $inbox_item = $(".inbox_item", $rootel),
             $inbox_search_messages = $("#inbox_search_messages", $rootel),
             $inbox_search_term = $("#inbox_search_term", $rootel);
@@ -346,12 +344,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (data && _.isNumber(data.total) && data.total !== 0) {
                     $inbox_search_messages.removeAttr("disabled");
                     totalMessages = data.total;
-                    // only show unread counts for the inbox
-                    if (widgetData.box === "inbox") {
-                        sakai.api.Communication.getUnreadMessageCount(widgetData.box, function(success, unreadMsgs) {
-                            $inbox_title_total.text(unreadMsgs);
-                        }, widgetData.category);
-                    }
                     // only show pager if needed
                     if (totalMessages > MESSAGES_PER_PAGE) {
                         // pagenumber is 1-indexed, currentPage is 0-indexed
@@ -361,7 +353,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (!searchTerm) {
                         $inbox_search_messages.attr("disabled", "disabled");
                     }
-                    $inbox_title_total.text("0");
                 }
                 if ($.isFunction(callback)) {
                     callback(update);
@@ -454,9 +445,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $(newMessageViewClass).hide();
             $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));
             $(listViewClass).show();
-            if (widgetData.box !== "inbox") {
-                $inbox_title_total_wrapper.hide();
-            }
             if ($.isFunction(callback)) {
                 callback();
             }
@@ -505,9 +493,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Cleans up or sets the polling interval for new messages
          */
         var handleShown = function(e, showing) {
-            if (widgetData.box !== "inbox") {
-                $inbox_title_total_wrapper.hide();
-            }
             if (showing) {
                 getMessages();
                 checkInterval = setInterval(getMessages, POLLING_INTERVAL);
