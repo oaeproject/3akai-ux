@@ -450,7 +450,7 @@ label.error{color:#9f3333;font-weight:bold;}
 
 /* Widget bar item counts */
 .s3d-counts-outer{padding:3px 2px;border-radius:5px;border:none;background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;border:1px solid #D6D9DB;}
-.s3d-counts-outer a{padding-right:6px;}
+.s3d-counts-outer a{padding-right:6px;color:#707070;}
 .s3d-counts-inner{color:#fff;padding:0px 2px;border-radius:5px;border:none;background:#D4D4D4;box-shadow:0 0 4px -2px #A2A2A2 inset;border:1px solid #CACACA;}
 
 /*
