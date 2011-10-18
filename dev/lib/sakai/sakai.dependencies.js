@@ -130,7 +130,8 @@ require(
         "jquery-plugins/jquery.hoverIntent.sakai-edit",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
         "jquery-plugins/gritter/jquery.gritter.sakai-edit",
-        "jquery-plugins/jquery.jcarousel.sakai-edit"
+        "jquery-plugins/jquery.jcarousel.sakai-edit",
+        "jquery-plugins/jquery.infinitescroll-sakai"
     ],
     function($, sakai) {
         require.ready(function() {

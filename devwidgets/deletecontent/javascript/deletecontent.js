@@ -40,42 +40,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.deletecontent = function(tuid, showSettings){
 
+        //////////////////////
+        // Global variables //
+        //////////////////////
 
-        /////////////////////////////
-        // Configuration variables //
-        /////////////////////////////
+        var $rootel = $("#" + tuid);
 
-        var deletedata = {};
-
+        var contentIManage = false;
+        var contentIView = false;
+        var context = false;
+        var callback = false;
 
         ///////////////////
         // CSS Selectors //
         ///////////////////
 
-        var $rootel = $("#" + tuid);
-
-        var $deletecontent_action_delete = $("#deletecontent_action_delete", $rootel);
         var $deletecontent_dialog = $("#deletecontent_dialog", $rootel);
-        var $deletecontent_error_couldnotdelete = $("#deletecontent_error_couldnotdelete", $rootel);
-        var $deletecontent_form = $("#deletecontent_form", $rootel);
-        var $deletecontent_form_heading = $("h4:eq(0)", $deletecontent_form);
-        var $deletecontent_form_note = $("span:eq(0)", $deletecontent_form);
 
-        // Messages
-        var $deletecontent_not_successfully_deleted = $("#deletecontent_not_successfully_deleted", $rootel);
-        var $deletecontent_successfully_deleted = $("#deletecontent_successfully_deleted", $rootel);
-        var $deletecontent_deleted = $("#deletecontent_deleted", $rootel);
-        var $deletecontent_not_deleted = $("#deletecontent_not_deleted", $rootel);
-
-
-        /////////////
-        // Binding //
-        /////////////
+        ////////////////////////////////////////
+        // Removing content from library only //
+        ////////////////////////////////////////
 
         /**
          * Add binding to the various element in the delete content widget
          */
-        var addBinding = function(callback){
+       /* var addBinding = function(callback){
 
             // Reinitialise the jQuery selector
             $deletecontent_action_delete = $($deletecontent_action_delete.selector);
@@ -127,7 +116,71 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $deletecontent_dialog.jqmHide();
                 return false;
             });
+            
+                if (manager) {
+                    userToDelete = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":manager@Delete": userid
+                        }
+                    };
+                    numberOfManagersToDelete++;
+                }else{
+                    userToDelete = {
+                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
+                        "method": "POST",
+                        "parameters": {
+                            ":viewer@Delete": userid
+                        }
+                    };
+                }
+            
+        }; */
+
+        /**
+         * Remove the selected items from the current library only and keep them onto the
+         * system.
+         */
+        var removeFromLibrary = function(){
+            var batchRequests = [];
+            // Remove for content I'm viewer of
+            for (var v = 0; v < contentIView.length; v++){
+                batchRequests.push({
+                    "url": "/p/" + contentIView[v]["_path"] + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": context
+                    }
+                });
+            }
+            // Remove for content I'm a manager of
+            for (var m = 0; m < contentIManage.length; m++){
+                batchRequests.push({
+                    "url": "/p/" + contentIManage[m]["_path"] + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":manager@Delete": context
+                    }
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function (success, data) {
+                if (success) {
+                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_library").html());
+                } else {
+                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
+                }
+                $(window).trigger("done.deletecontent.sakai");
+                if (callback && typeof(callback) === "function") {
+                    callback(success);
+                }
+                $deletecontent_dialog.jqmHide();
+            });
         };
+
+        ///////////////////
+        // Overlay setup //
+        ///////////////////
 
         /**
          * Set up the delete overlay depending on the permissions I have on the content
@@ -142,13 +195,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *                                   removed from the library that I'm a viewer of
          */
         var setupOverlay = function(contentIManage, contentIView){
+            var template = "";
             if (contentIManage.length > 0 && contentIView.lenght > 0){
                 // Set up overlay for mixed permissions
             } else if (contentIManage.length > 0){
                 // Set up overlay for full management permissions
-            } else if (contentIView.lenght > 0){
+            } else if (contentIView.length > 0){
                 // Set up overlay for full viewer permissions
+                template = "deletecontent_template_view_all";
             }
+            $("#deletecontent_container").html(sakai.api.Util.TemplateRenderer(template, {
+                "contentIManage": contentIManage,
+                "contentIView": contentIView
+            }));
         };
 
         /**
@@ -158,8 +217,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *                                metadata for all content that need to be deleted
          */
         var findContentIManage = function(contentList){
-            var contentIManage = [], 
-                contentIView = [];
+            contentIManage = []; 
+            contentIView = [];
             $.each(contentList.results, function (i, contentItem) {
                 var content = $.parseJSON(contentItem.body);
                 var manage = sakai.api.Content.isUserAManager(content, sakai.data.me);
@@ -181,7 +240,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var batchRequest = [];
             $.each(paths, function (i, url) {
                 batchRequest.push({
-                    url: url + ".json",
+                    url: "/p/" + url + ".json",
                     method: "GET"
                 });
             });
@@ -205,7 +264,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *
          * @example To delete one item:
          *     $(window).trigger('init.deletecontent.sakai', [{
-         *         "path": "/test.jpg"
+         *         "path": [ "/test.jpg" ]
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          *
          * @example To delete multiple items:
@@ -213,44 +272,38 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *         "path": [ "/file1.ext", "/file2.ext", "/file3.ext", "/file4.ext" ]
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          */
-        var load = function(data, callback){
-            deletedata = $.extend(true, {}, data);
-            addBinding(callback);
-
-            // STEP3: If not, just remove from the library
-            // STEP3A: Single item
-            // STEP3B: Mutliple items
-            // STEP4: If so, remove from system or remove fron library
-            // STEP4A: Used by others
-            // STEP4B: Not used by others
-            
-            var paths = deletedata.path;
-            if (deletedata.path && typeof(deletedata.path) !== "object") {
-                paths = [];
-                paths.push(deletedata.path);
-            }
-            getContentInfo(paths);
+        var load = function(ev, data, _callback){
+            context = data.context || sakai.data.me.user.userid;
+            callback = _callback;
+            getContentInfo(data.path);
             $("#deletecontent_form", $rootel).html("");
+            $deletecontent_dialog.css("top", (50 + $(window).scrollTop()) + "px");
             $deletecontent_dialog.jqmShow();
-            
         };
-        $(window).bind("init.deletecontent.sakai", function (e, data, callback) {
-            load(data, callback);
-        });
 
         /**
          * Initialize the delete content widget
          * All the functionality in here is loaded before the widget is actually rendered
          */
         var init = function(){
-
             // This will make the widget popup as a layover.
             $deletecontent_dialog.jqm({
                 modal: true,
                 toTop: true
             });
-
         };
+
+        ////////////////////////////
+        // Internal event binding //
+        ////////////////////////////
+
+        $("#deletecontent_action_removefromlibrary").live("click", removeFromLibrary);
+
+        ////////////////////////////
+        // External event binding //
+        ////////////////////////////
+
+        $(window).bind("init.deletecontent.sakai", load);
 
         init();
     };

@@ -413,6 +413,12 @@ define(
             return sakai_content.isUserAViewer(content, fakeMeObj, true) || sakai_content.isUserAManager(content, fakeMeObj, true);
         },
 
+        /**
+         * Add a piece of content to your personal library or a group library
+         * @param {Object} contentId   Unique pool id of the content being added to the library
+         * @param {Object} userId      Authorizable id of the library to add this content in
+         * @param {Object} callBack    Function to call once the content has been added to the library
+         */
         addToLibrary: function(contentId, userId, callBack){
             var toAdd = [];
             if (typeof userId === "string"){
