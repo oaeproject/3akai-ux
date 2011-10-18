@@ -195,19 +195,7 @@ define(function(){
                     "public": "public" // Anyone on the Internet
                 },
                 "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
-                "defaultjoin": "yes", // no, yes, or withauth (see above for descriptions)
-                courses: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                research: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                },
-                group: {
-                    "defaultaccess": "public",
-                    "defaultjoin": "yes"
-                }
+                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
             },
             Content: {
                 /*
@@ -1542,6 +1530,8 @@ define(function(){
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
 
+        defaultSakaiDocContent: "",
+
         /*
          * _canEdit: can change the area permissions on this page
          * _reorderOnly: can reorder this item in the navigation, but cannot edit the name of the page
@@ -1773,6 +1763,8 @@ define(function(){
                 title: "GROUPS",
                 menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "simplegroup",
@@ -1878,6 +1870,8 @@ define(function(){
                 title : "COURSES",
                 menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "mathcourse",
@@ -2945,6 +2939,60 @@ define(function(){
                                     '; padding: 0pt; color: rgb(51, 51, 51);">Excersise two...</p> <hr style="visibi'+
                                     'lity: hidden; clear: both;"> </div> </div> </div> </div>'
                                 }
+                            },
+                            "${pid}6": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"${refid}16",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"${refid}16",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "${refid}16": {
+                                    page: "<img id='widget_mylibrary_${refid}17' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "${refid}17": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}7": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"${refid}18",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"${refid}18",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "${refid}18": {
+                                    page: "<img id='widget_participants_${refid}19' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "${refid}19": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
                             }
                         },
                         structure: {
@@ -2989,6 +3037,22 @@ define(function(){
                                 "_docref": "${pid}5",
                                 "_view": ["-ta"],
                                 "_edit": ["-lecturer"]
+                            },
+                            "library": {
+                                "_title": "Library",
+                                "_order": 6,
+                                "_docref": "${pid}6",
+                                "_nonEditable": true,
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 7,
+                                "_docref": "${pid}7",
+                                "_nonEditable": true,
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
                             }
                         },
                         joinRole: "student",

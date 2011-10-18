@@ -609,7 +609,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Add sanitized content
                 sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
                 sanitizedContent = sakai.api.i18n.General.process(sanitizedContent);
-                $contentEl.html(sanitizedContent);
+                if(sakai.api.Util.determineEmptyContent(currentPageShown.content)) {
+                    $contentEl.html(sanitizedContent);
+                } else {
+                    $contentEl.html(sakai.api.Util.TemplateRenderer("sakaidocs_empty_document_template", {
+                        "editor": !sakai.data.me.user.anon && canEdit()
+                    }));
+                }
                 // Insert widgets
                 sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", currentPageShown.widgetData, {currentPageShown:currentPageShown});
                 // Render Math formulas in the text
@@ -618,7 +624,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if (reloadPage) {
                     $contentEl = $("#" + currentPageShown.ref);
                     sanitizedContent = sakai.api.Security.saneHTML(currentPageShown.content);
-                    $contentEl.html(sanitizedContent);
+                    if(sakai.api.Util.determineEmptyContent(currentPageShown.content)) {
+                        $contentEl.html(sanitizedContent);
+                    } else {
+                        $contentEl.html(sakai.api.Util.TemplateRenderer("sakaidocs_empty_document_template", {
+                            "editor": !sakai.data.me.user.anon && canEdit()
+                        }));
+                    }
                     // Insert widgets
                     sakai.api.Widgets.widgetLoader.insertWidgets(currentPageShown.ref, false, currentPageShown.pageSavePath + "/", null, {currentPageShown:currentPageShown});
                     // Render Math formulas in the text

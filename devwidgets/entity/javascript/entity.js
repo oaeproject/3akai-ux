@@ -260,8 +260,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $("#entity_comments_link").live("click", function(){
                         $("html:not(:animated),body:not(:animated)").animate({ scrollTop: $("#contentcomments_mainContainer").offset().top}, 500 );
                         $("#contentcomments_txtMessage").focus();
-                       return false;
-
                     });
                     break;
             }

@@ -23,7 +23,7 @@
  */
 /*global $ */
 
-require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakaidocConfig, sakai){
+require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     /**
      * @name sakai_global.newaddcontent
@@ -229,6 +229,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
             itemsUploaded = 0;
             disableAddToQueue();
             renderQueue();
+            $("#newaddcontent_container input, #newaddcontent_container textarea").val("");
             $(".MultiFile-remove").click();
         };
 
@@ -491,7 +492,7 @@ require(["jquery", "config/sakaidoc", "sakai/sakai.api.core"], function($, sakai
                     lastUpload.push(itemToPush);
                     var content = {};
                     content[refID] = {
-                        "page": sakaidocConfig.defaultContent
+                        "page": sakai.config.defaultSakaiDocContent
                     };
                     $.ajax({
                         url: "/p/" + data._contentItem.poolId + ".resource",
