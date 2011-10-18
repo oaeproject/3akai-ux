@@ -139,15 +139,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             var manageRoleSelections = false;
+            var doubleQuote = sakai.api.i18n.getValueForKey("DOUBLE_QUOTE");
             if (manageRoles.length > 1) {
                 for (var m in manageRoles) {
                     if (manageRoles.hasOwnProperty(m)){
                         if (!manageRoleSelections){
-                            manageRoleSelections = manageRoles[m];
+                            manageRoleSelections = doubleQuote + manageRoles[m] + doubleQuote;
                         } else if ((parseInt(m, 10) + 1) === manageRoles.length){
-                            manageRoleSelections = manageRoleSelections + " " + sakai.api.i18n.getValueForKey("OR") + " " + manageRoles[m];
+                            manageRoleSelections = manageRoleSelections + " " + sakai.api.i18n.getValueForKey("OR") + " " + doubleQuote + manageRoles[m] + doubleQuote;
                         } else {
-                            manageRoleSelections = manageRoleSelections + ", " + manageRoles[m];
+                            manageRoleSelections = manageRoleSelections + ", " + doubleQuote + manageRoles[m] + doubleQuote;
                         }
                     }
                 }
