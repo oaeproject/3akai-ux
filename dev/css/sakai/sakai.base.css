@@ -459,6 +459,11 @@ label.error{color:#9f3333;font-weight:bold;}
 .s3d-dialog-container .s3d-dialog-close:hover {background:url("/dev/images/dialog_close.png") no-repeat left -19px transparent;}
 .s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}
 
+/* Widget bar item counts */
+.s3d-counts-outer{padding:3px 2px;background:#fff;border:1px solid #D6D9DB;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 4px -2px #A8A8A8 inset;-webkit-box-shadow:0 0 4px -2px #A8A8A8 inset;-moz-box-shadow:0 0 4px -2px #A8A8A8 inset;}
+.s3d-counts-outer a{padding-right:6px;color:#707070;}
+.s3d-counts-inner{color:#fff;padding:0px 4px;background:#D4D4D4;border:1px solid #CACACA;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 4px -2px #A2A2A2 inset;-webkit-box-shadow:0 0 4px -2px #A2A2A2 inset;-moz-box-shadow:0 0 4px -2px #A2A2A2 inset;}
+
 /*
  * CHAT
  */

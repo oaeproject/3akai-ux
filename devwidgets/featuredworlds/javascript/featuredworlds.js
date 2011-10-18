@@ -60,6 +60,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 "title": pageData.title,
                 "data": data
             }));
+            for (var d in data){
+                if (data.hasOwnProperty(d) && data[d].total > data[d].results.length){
+                    $("#featuredworlds_showall_" + d, $rootel).show();
+                }
+            }
         };
 
         renderWidget = function(success, data){
