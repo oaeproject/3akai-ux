@@ -69,6 +69,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "total": total,
                         "category": pageData.category
                     }));
+                    if (total > featuredCategoryContentArr.length){
+                        $("#featuredcontent_showall", $rootel).show();
+                    }
                 }
             }
         };

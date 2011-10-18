@@ -448,6 +448,11 @@ label.error{color:#9f3333;font-weight:bold;}
 .s3d-dialog-container .s3d-dialog-close:hover {background:url("/dev/images/dialog_close.png") no-repeat left -19px transparent;}
 .s3d-dialog-container h1.s3d-dialog-header {border-bottom:1px dotted #d4d4d4;color:#666;font-size:19px;font-weight:normal;padding-bottom:11px;margin-bottom:15px;}
 
+/* Widget bar item counts */
+.s3d-counts-outer{padding:3px 2px;border-radius:5px;border:none;background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;border:1px solid #D6D9DB;}
+.s3d-counts-outer a{padding-right:6px;}
+.s3d-counts-inner{color:#fff;padding:0px 2px;border-radius:5px;border:none;background:#D4D4D4;box-shadow:0 0 4px -2px #A2A2A2 inset;border:1px solid #CACACA;}
+
 /*
  * CHAT
  */
