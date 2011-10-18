@@ -15,46 +15,49 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/* Dropdown */
-.addarea_widget .addarea_dropdown span.s3d-link-button {background-color:#fff;border-radius:5px 5px 0 0;border-top:1px solid #eee;box-shadow:0 10px 10px #888;color:#919191;font-size:12px;margin:12px 12px 0;padding:5px 10px;text-decoration:none;}
-.addarea_widget .addarea_dropdown .addarea_plus_icon {}
-.addarea_widget .addarea_dropdown_content {background-color:#fff;box-shadow:0 12px 10px #888;min-width:200px;padding:12px 12px 12px 0;position:absolute;z-index:999; margin-left: 15px;margin-top: -12px; border: 1px solid #eee;}
 
-/* Left hand nav list*/
-.addarea_widget ul.addarea_contents_list {margin:0 0 0 12px;float:left;}
-.addarea_widget li.addarea_contents_list_item {-moz-border-radius:5px 0 0 5px;border-radius:5px 0 0 5px;clear:both;list-style:none outside none;margin-bottom:0;padding:5px 0 5px 7px;color:#2683BC;cursor:pointer;padding:10px 0 10px 12px;width:174px;}
-.addarea_widget li.addarea_contents_selected_list_item {-moz-border-radius:5px 0 0 5px;border-radius:5px 0 0 5px;background-color:#e4e3e2;color:#424242;}
+/**
+ * General
+ */
+#addarea_container {width:auto;}
 
-/* Template area (forms etc.) */
-.addarea_widget #addarea_contents_container {background-color:#e4e3e2;min-width:150px;min-height:284px;float:left;-moz-border-radius:5px;border-radius:5px;margin-left:-5px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description {height:251px;width:90px;padding:33px 24px 0;float:left;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description #addarea_preview_description {color:#424242;display:block;margin:5px 0 10px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description #addarea_preview_image{border:1px solid #ccc;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_description .addarea_select_template {width:100%;}
+/**
+ * Navigation
+ */
+#addarea_container ul#addarea_content_menu {width:180px;display:block;margin:0;float:left;position:relative;}
+#addarea_container ul#addarea_content_menu ul.addarea_content_menu_item_subnav {margin:0 0 0 26px;padding-bottom:5px;}
+#addarea_container ul#addarea_content_menu li.selected ul.addarea_content_menu_item_subnav li.selected {background:url("/devwidgets/addarea/images/addarea_subnav_selected.png") repeat-x top left #3c96d4;border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;-webkit-border-radius:4px 0 0 4px;}
+#addarea_container ul#addarea_content_menu li.selected ul.addarea_content_menu_item_subnav li.selected button {color:#fff;font-weight:bold;}
+#addarea_container ul#addarea_content_menu li {list-style:none;min-height:28px;background:transparent;line-height:28px;padding:1px 0 1px 1px;}
+#addarea_container ul#addarea_content_menu > li.selected {background-color:#e9e9e8;border-radius:5px 0 0 5px;-webkit-border-radius:5px 0 0 5px;-moz-border-radius:5px 0 0 5px;border-left:1px solid #e2e2e2;border-top:1px solid #e2e2e2;border-bottom:1px solid #e2e2e2;padding:0;}
+#addarea_container ul#addarea_content_menu li button {font-size:13px;font-weight:normal;line-height:28px;height:28px;}
+#addarea_container ul#addarea_content_menu li.hassubnav > button {color:#666;}
+#addarea_container ul#addarea_content_menu li.hassubnav.selected > button {font-weight:bold;color:#333;}
+#addarea_container ul#addarea_content_menu .s3d-link-button {width:100%;padding-left:8px;}
+#addarea_container ul#addarea_content_menu li .navigation_icon {display:block;float:left;height:20px;margin-right:8px;margin-top:4px;width:20px;}
+#addarea_container ul#addarea_content_menu li .navigation_icon.new_document_icon {background:url("/devwidgets/addarea/images/addarea_new_document_icon.png") no-repeat top left transparent;}
+#addarea_container ul#addarea_content_menu li .navigation_icon.existing_content_icon {background:url("/devwidgets/addarea/images/addarea_existing_content_icon.png") no-repeat top left transparent;}
+#addarea_container ul#addarea_content_menu li .navigation_icon.content_list_icon {background:url("/devwidgets/addarea/images/addarea_content_library_icon.png") no-repeat top left transparent;}
+#addarea_container ul#addarea_content_menu li .navigation_icon.participants_icon {background:url("/devwidgets/addarea/images/addarea_participants_icon.png") no-repeat top left transparent;}
+#addarea_container ul#addarea_content_menu li .navigation_icon.widgets_icon {background:url("/devwidgets/addarea/images/addarea_widget_icon.png") no-repeat top left transparent;}
 
-.addarea_widget #addarea_contents_container #addarea_contents_container_form {float:left;min-height:251px;width:250px;padding:33px 24px 0 0;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form label {margin-bottom:4px;color:#424242;display:block;clear:both;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form input, .addarea_widget #addarea_contents_container #addarea_contents_container_form select {border:1px solid #ccc;float:left;margin-bottom:12px;margin-right:12px;padding:2px;color:#424242;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form input {width:100%;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form select {padding:1px 0; max-width:150px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form .addarea_form_annotation {color:#424242;float:left;font-size:10px;line-height:10px;width:100px;}
+/**
+ * Content
+ */
+#addarea_container #addarea_content_container {background-color:#e9e9e8;float:left;min-height:270px;min-width:200px;margin-left:-1px;border:1px solid #e2e2e2;border-radius:0 5px 5px 5px;-moz-border-radius:0 5px 5px 5px;-webkit-border-radius:0 5px 5px 5px;padding:12px;}
+#addarea_container #addarea_content_container label {margin-bottom:5px;display:block;}
+#addarea_container #addarea_content_container select, #addarea_container #addarea_content_container input, #addarea_container #addarea_content_container textarea {border:1px solid #A9A9A9;margin-bottom:15px;display:block;padding:0 5px;}
+#addarea_container #addarea_content_container input {height:20px;width:240px;}
+#addarea_container #addarea_content_container textarea {width:340px;resize:none;padding:5px;}
+#addarea_container #addarea_content_container select {height:20px;padding:0;}
 
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs {background-color:#FFF;border:1px solid #CCC;border-radius:5px;clear:both;display:block;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer {height:150px;overflow:auto;clear:both;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer ul {margin:0;display:block;clear:both;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocscontainer li {list-style:none;padding:8px 12px;clear:both;color:#424242;cursor:pointer;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search {padding:5px 0 8px 12px;border-bottom:1px solid #CCC;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search_clear {font-size:11px;margin-top:3px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs input#addarea_sakaidoc_searchfield {width:150px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_existingdocs_sort {float:right;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs .s3d-icon-16 {display:block;float:left;margin-right:5px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form #addarea_sakaidoc_existingdocs #addarea_sakaidoc_search label {color:#424242;font-size:12px;margin:3px 7px 0 0;clear:none;}
+/* new content */
+#addarea_container #addarea_content_container #addarea_new_container #addarea_new_tagsandcategories {margin-bottom:0;}
+#addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages {float:left;margin-right:10px;line-height:12px;margin-top:5px;}
+#addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages_doc {display:block;float:left;font-size:11px;overflow:auto;width:120px;}
+#addarea_container #addarea_content_container #addarea_new_container #addarea_new_list_categories {float:right;}
 
-/* Save button */
-.addarea_widget #addarea_action_buttons {clear: both; text-align: right; padding-top: 10px;}
-.addarea_widget #addarea_create_new_area {margin-left: 20px;}
-.addarea_widget #addarea_contents_container #addarea_contents_container_form .addarea_divide_container {float:left;margin:12px 32px 0 0;width:218px;}
-
-/* Existing Doc Selection */
-.addarea_widget .s3d-split-line {margin: 0px 0px !important;}
-.addarea_widget .addarea_existing_sakaidoc_item_selected {background-color: #eee;}
+/** 
+ * Buttons
+ */
+#addarea_container #addarea_actions {float:right;margin-top:15px;clear:both;}
