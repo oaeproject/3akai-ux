@@ -579,7 +579,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:deleted": deleteValue,
                 "sakai:deletedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:deletedOn": (new Date()).getTime()
+                "sakai:deletedOn": sakai.api.Util.Datetime.getCurrentGMTTime()
             };
             $.ajax({
                 url: url,
@@ -625,7 +625,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
             var data = {
                 "sakai:edited": true,
                 "sakai:editedBy": sakai.api.User.getDisplayName(sakai.data.me.profile),
-                "sakai:editedOn": (new Date()).getTime(),
+                "sakai:editedOn": sakai.api.Util.Datetime.getCurrentGMTTime(),
                 "sakai:body": body
             };
             if(quote){
