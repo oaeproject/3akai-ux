@@ -121,7 +121,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     } else {
                         var messageKey = "THIS_PERSON_HASNT_ADDED_INFORMATION";
                         var sectionKey = "THIS_PERSON_HASNT_ADDED_" + data.sectionid.toUpperCase();
-                        if (sakai.api.i18n.getValueForKey(sectionKey, "displayprofilesection") !== false){
+                        if (sakai.api.i18n.getValueForKey(sectionKey, "displayprofilesection")){
                             messageKey = sectionKey;
                         }
 
