@@ -78,7 +78,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#contacts_delete_contacts_dialog").jqm({
                 modal: true,
                 overlay: 20,
-                toTop: true,
+                toTop: true
             });
 
             $(".s3d-actions-delete").live("click", function(){
