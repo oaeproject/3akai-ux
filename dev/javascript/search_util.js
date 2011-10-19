@@ -118,6 +118,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (results[group]["sakai:group-description"]) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
+                        results[group]["sakai:group-description-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 150, {max_rows: 2,whole_word: false}, "");
                     }
 
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
