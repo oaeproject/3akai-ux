@@ -55,10 +55,26 @@
 #addarea_container #addarea_content_container .addarea_data_container {float:left;margin-left:15px;overflow:visible;}
 #addarea_container #addarea_content_container h3 {margin:0 0 15px;}
 
+#addarea_container #addarea_content_container .addarea_column {width:50%;float:left;}
+#addarea_container #addarea_content_container .addarea_column input,
+#addarea_container #addarea_content_container .addarea_column select {width:80%;}
+
 /* new content */
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_tagsandcategories {margin-bottom:0;}
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages {float:left;margin-right:10px;line-height:12px;margin-top:5px;}
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_numberofpages_doc {display:block;float:left;font-size:11px;overflow:auto;width:120px;}
+
+/* Existing content */
+.addarea_existing_top, .addarea_existing_bottom {background-color:#fff;padding:5px;width:400px;margin-bottom:5px;}
+.addarea_existing_bottom {height:250px;overflow:auto;}
+.addarea_existing_bottom ul {margin:0;}
+.addarea_existing_bottom ul li {border-bottom:1px dotted #999;margin:2px;padding:5px;cursor:pointer;}
+.addarea_existing_bottom ul li.selected {background:url("/devwidgets/addarea/images/addarea_subnav_selected.png") repeat-x scroll left top transparent;}
+.addarea_existing_bottom ul li.selected .s3d-regular-links {color:#fff;}
+.addarea_existing_top input {margin-bottom:0 !important;width:210px !important;}
+.addarea_existing_top select {float:right;margin-bottom:0 !important;}
+.addarea_existing_top label {float:right;margin:3px 7px 0 0;}
+
 
 /** 
  * Buttons

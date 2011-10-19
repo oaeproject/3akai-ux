@@ -63,9 +63,84 @@
                 <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_new_tagsandcategories" name="addarea_new_tagsandcategories"></textarea>
             </div>
         </div>
-        <div id="addarea_existing_currentlyviewing_container" style="display:none;">Existing Content I'm currently viewing'</div>
-        <div id="addarea_existing_mylibrary_container" style="display:none;">Existing Content in My Library</div>
-        <div id="addarea_existing_everywhere_container" style="display:none;">Existing Content Everywhere</div>
+        <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
+            <h3>__MSG__CURRENTLY_VIEWING__</h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_currentlyviewing_sort" name="addarea_existing_currentlyviewing_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_currentlyviewing_sort">__MSG__SORT_BY__</label>
+                <input type="text" id="addarea_existing_currentlyviewing_search" class="addarea_existing_search"/>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_currentlyviewing_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+            </div>
+        </div>
+        <div id="addarea_existing_mylibrary_container" class="addarea_existing_container" data-doc-type="existing_mylibrary" style="display:none;">
+            <h3>__MSG__FROM_MY_LIBRARY__...</h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_mylibrary_sort" name="addarea_existing_mylibrary_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_mylibrary_sort">__MSG__SORT_BY__</label>
+                <input type="text" id="addarea_existing_mylibrary_search" class="addarea_existing_search"/>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_mylibrary_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+            </div>
+        </div>
+        <div id="addarea_existing_everywhere_container" class="addarea_existing_container" data-doc-type="existing_everywhere" style="display:none;">
+            <h3>__MSG__FROM_EXISTING__...</h3>
+            <div class="addarea_existing_top">
+                <select id="addarea_existing_everywhere_sort" name="addarea_existing_everywhere_sort">
+                    <option value="desc">__MSG__NEWEST__</option>
+                    <option value="asc">__MSG__OLDEST__</option>
+                </select>
+                <label for="addarea_existing_everywhere_sort">__MSG__SORT_BY__</label>
+                <input type="text" id="addarea_existing_everywhere_search" class="addarea_existing_search"/>
+            </div>
+            <div class="addarea_existing_bottom" id="addarea_existing_everywhere_bottom">
+                
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
+                <input type="text" name="addarea_existing_name" class="addarea_existing_name"></input>
+            </div>
+            <div class="addarea_column">
+                <label for="addarea_existing_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
+                <select name="addarea_existing_permissions" class="addarea_existing_permissions">
+                    <option value="public">__MSG__PUBLIC__</option>
+                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
+                    <option value="private">__MSG__ONLY_ME__</option>
+                </select>
+            </div>
+        </div>
         <div id="addarea_contentlist_container" data-doc-type="contentlibrary" style="display:none;">
             <h3>__MSG__CONTENT_LIST_OR_LIBARY__</h3>
             <div class="addarea_preview_container">
@@ -121,9 +196,8 @@
                     <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
                     <option value="private">__MSG__ONLY_ME__</option>
                 </select>
-                <label for="addarea_widgets_widget">__MSG__NUMBER_OF_PAGES__:</label>
+                <label for="addarea_widgets_widget">__MSG__SELECT_WIDGET__:</label>
                 <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
-                <span id="addarea_widgets_numberofpages_doc">__MSG__YOU_CAN_ADD_MORE_LATER__</span>
                 <hr class="fl-push fl-hidden"/>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
                 <label for="addarea_widgets_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
@@ -141,6 +215,14 @@
     {for widget in data}
         <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
     {/for}
+--></div>
+
+<div id="addarea_existing_bottom_template"><!--
+    <ul>
+        {for doc in data}
+            <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="/p/${doc["_path"]}/${doc["sakai:pooled-content-file-name"]}" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
+        {/for}
+    </ul>
 --></div>
 
 <!-- JAVASCRIPT -->
