@@ -446,6 +446,55 @@ define(
         },
 
         /**
+         * Removes multiple users from the specified role for multiple content items
+         *
+         * @param role  content profile data as defined in loadContentProfile()
+         * @param {String} role The role to remove user(s) from
+         * @param {String/Array} contentId The content to remove the user from
+         * @param {String/Array} userId The user to remove
+         * @param {Function} callback Callback function
+         */
+        removeUser: function(role, contentId, userId, callback){
+            var batchRequests = [];
+            var userIds = [];
+            var contentIds = [];
+
+            if (typeof userId === "string"){
+                userIds.push(userId);
+            } else {
+                userIds = userId;
+            }
+
+            if (typeof contentId === "string"){
+                contentIds.push(contentId);
+            } else {
+                contentIds = contentId;
+            }
+
+            for (var c = 0; c < contentIds.length; c++) {
+                for (var i = 0; i < userIds.length; i++) {
+                    var parameter = {":viewer@Delete": userIds[i]};
+                    if (role === "manager"){
+                        parameter = {":manager@Delete": userIds[i]};
+                    }
+                    batchRequests.push({
+                        url: "/p/" + contentIds[c] + ".members.json",
+                        parameters: parameter,
+                        method: "POST"
+                    });
+                }
+            }
+
+            sakai_serv.batch(batchRequests, function(success, data){
+                if (success && $.isFunction(callback)) {
+                   callback(true);
+                } else {
+                   callback(false);
+                }
+            });
+        },
+
+        /**
          * Returns a preview URL for known services, empty string otherwise
          *
          * @param url The url of the content in an external service that you'd like a preview of
