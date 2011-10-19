@@ -44,11 +44,7 @@
                 <label for="addarea_new_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
                 <input type="text" name="addarea_new_name" id="addarea_new_name"></input>
                 <label for="addarea_new_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                <select id="addarea_new_permissions" name="addarea_new_permissions">
-                    <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
-                </select>
+                <select id="addarea_new_permissions" name="addarea_new_permissions"></select>
                 <label for="addarea_new_numberofpages">__MSG__NUMBER_OF_PAGES__:</label>
                 <select id="addarea_new_numberofpages" name="addarea_new_numberofpages">
                     <option value="1">1</option>
@@ -64,7 +60,7 @@
             </div>
         </div>
         <div id="addarea_existing_currentlyviewing_container" data-doc-type="existing_currentlyviewing" class="addarea_existing_container" style="display:none;">
-            <h3>__MSG__CURRENTLY_VIEWING__</h3>
+            <h3>__MSG__CURRENTLY_VIEWING__ <span class="addarea_group_name"></span></h3>
             <div class="addarea_existing_top">
                 <select id="addarea_existing_currentlyviewing_sort" name="addarea_existing_currentlyviewing_sort">
                     <option value="desc">__MSG__NEWEST__</option>
@@ -151,11 +147,7 @@
                 <label for="addarea_contentlist_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
                 <input type="text" id="addarea_contentlist_name" name="addarea_contentlist_name"/>
                 <label for="addarea_contentlist_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions">
-                    <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
-                </select>
+                <select id="addarea_contentlist_permissions" name="addarea_contentlist_permissions"></select>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
                 <label for="addarea_contentlist_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
                 <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_contentlist_tagsandcategories" name="addarea_contentlist_tagsandcategories"></textarea>
@@ -171,11 +163,7 @@
                 <label for="addarea_participants_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
                 <input type="text" id="addarea_participants_name" name="addarea_participants_name"/>
                 <label for="addarea_participants_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                <select id="addarea_participants_permissions" name="addarea_participants_permissions">
-                    <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
-                </select>
+                <select id="addarea_participants_permissions" name="addarea_participants_permissions"></select>
                 <button type="button" class="s3d-link-button s3d-bold addarea_list_categories">__MSG__LIST_CATEGORIES__</button>
                 <label for="addarea_participants_tagsandcategories">__MSG__TAGS_AND_CATEGORIES__:</label>
                 <textarea placeholder="Type tags and categories here to keep it all organized" id="addarea_participants_tagsandcategories" name="addarea_participants_tagsandcategories"></textarea>
@@ -191,11 +179,7 @@
                 <label for="addarea_widgets_name">__MSG__PLEASE_ENTER_A_NAME__:</label>
                 <input type="text" name="addarea_widgets_name" id="addarea_widgets_name"></input>
                 <label for="addarea_widgets_permissions">__MSG__WHO_CAN_SEE_IT__:</label>
-                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions">
-                    <option value="public">__MSG__PUBLIC__</option>
-                    <option value="everyone">__MSG__LOGGED_IN_USERS__</option>
-                    <option value="private">__MSG__ONLY_ME__</option>
-                </select>
+                <select id="addarea_widgets_permissions" name="addarea_widgets_permissions"></select>
                 <label for="addarea_widgets_widget">__MSG__SELECT_WIDGET__:</label>
                 <select id="addarea_widgets_widget" name="addarea_widgets_widget"></select>
                 <hr class="fl-push fl-hidden"/>
@@ -218,11 +202,37 @@
 --></div>
 
 <div id="addarea_existing_bottom_template"><!--
-    <ul>
-        {for doc in data}
-            <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="/p/${doc["_path"]}/${doc["sakai:pooled-content-file-name"]}" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
-        {/for}
-    </ul>
+    {if data.length}
+        <ul>
+            {for doc in data}
+                <li class="addarea_existing_item" data-can-manage="${doc.canManage}" data-doc-title="${doc["sakai:pooled-content-file-name"]}" data-doc-id="${doc["_path"]}"><a href="/p/${doc["_path"]}/${doc["sakai:pooled-content-file-name"]}" title="${doc["sakai:pooled-content-file-name"]}" class="s3d-regular-links s3d-bold">${doc["sakai:pooled-content-file-name"]}</a></li>
+            {/for}
+        </ul>
+    {else}
+        <div class="s3d-no-results-container">
+            <div class="s3d-no-results-arrow-up"></div>
+            <div class="s3d-no-results-icon s3d-no-results-search-content less-margin"></div>
+            {if context && context === "currently_viewing"}
+                <h1>__MSG__NO_CURRENTLY_VIEWING_RESULTS_DESCRIPTION__</h1>
+            {elseif context && context === "my_library"}
+                <h1>__MSG__NO_LIBRARY_RESULTS_DESCRIPTION__</h1>
+            {else}
+                <h1>__MSG__NO_EVERYWHERE_RESULTS_DESCRIPTION__</h1>
+            {/if}
+        </div>
+    {/if}
+--></div>
+
+<div id="addarea_permissions_template"><!--
+    {if !newDoc}
+        <option value="public" {if !canManage || groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
+        <option value="everyone" {if !canManage || groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USERS__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){elseif !canManage} (__MSG__YOU_MUST_MANAGE_THIS_DOCUMENT_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__ONLY_ME__</option>
+    {else}
+        <option value="public" {if groupVisibility !== "public"} disabled="true"{/if}>__MSG__PUBLIC__ {if groupVisibility !== "public"} (__MSG__GROUP_MUST_BE_PUBLIC_TO_DO_THIS__){/if}</option>
+        <option value="everyone" {if groupVisibility === "members-only"} disabled="true"{/if}>__MSG__LOGGED_IN_USERS__ {if groupVisibility === "members-only"} (__MSG__GROUP_MUST_BE_OPEN_TO_LOGGED_IN_USERS_TO_DO_THIS__){/if}</option>
+        <option value="private">__MSG__ONLY_ME__</option>
+    {/if}
 --></div>
 
 <!-- JAVASCRIPT -->

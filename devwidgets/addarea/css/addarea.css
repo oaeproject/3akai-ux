@@ -57,7 +57,7 @@
 
 #addarea_container #addarea_content_container .addarea_column {width:50%;float:left;}
 #addarea_container #addarea_content_container .addarea_column input,
-#addarea_container #addarea_content_container .addarea_column select {width:80%;}
+#addarea_container #addarea_content_container .addarea_column select {width:170px;}
 
 /* new content */
 #addarea_container #addarea_content_container #addarea_new_container #addarea_new_tagsandcategories {margin-bottom:0;}
