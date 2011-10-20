@@ -67,7 +67,7 @@
                         {var count = count + 1}
                         {if i.userid}
                             {var peopleFound = true}
-                            <li class="fl-container fl-fix s3d-search-result-person s3d-search-result{if count == 1} s3d-search-result-first{/if}">
+                            <li class="fl-container fl-fix s3d-search-result-person s3d-search-result{if count === 1} s3d-search-result-first{/if}">
                                 <span class="s3d-search-result-user-functions">
                                     {if ! i.isMe && ! sakai.data.me.user.anon}
                                         {if ! i.connected}
@@ -102,15 +102,15 @@
                                     <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
                                     <div class="searchpeople_result_counts">
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
-                                            ${i.counts.contentCount || 0} {if i.counts.contentCount == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                                            ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                         </a>
                                         <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
-                                            ${i.counts.contactsCount || 0} {if i.counts.contactsCount == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
+                                            ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                                         </a>
                                         <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                         <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
-                                            ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
+                                            ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                                         </a>
                                     </div>
                                     {if i.extra}
