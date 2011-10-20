@@ -86,7 +86,10 @@
                                     <div class="searchcontent_result_by">
                                         __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeURL}">${i['sakai:pool-content-created-for']}</a> <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
-                                    {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:description"]}
+                                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+                                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
+                                    {/if}
                                     <div class="searchcontent_result_usedin">
                                         {var placeCount = sakai.api.Content.getPlaceCount(i)}
                                         {if placeCount > 0}

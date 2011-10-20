@@ -77,10 +77,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        contentItem["sakai:description-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 150, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
                         contentItem["sakai:description"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 580, {
                             max_rows: 2,
                             whole_word: false
-                        }, "search_result_course_site_excerpt");
+                        }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
                         contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
