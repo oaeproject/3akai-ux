@@ -50,6 +50,8 @@
 .s3d-search-result-content .searchcontent_result_left_filler, .s3d-search-result-person .searchpeople_result_left_filler, .s3d-search-result-group .searchgroups_result_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .s3d-search-result-content .searchcontent_result_plus, .s3d-search-result-person .searchpeople_result_plus, .s3d-search-result-group .searchgroups_result_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:-5px 10px 10px -2px;}
 .s3d-search-result-content .searchcontent_result_icon, .s3d-search-result-person .searchpeople_result_icon{display: inline-block;height:10px;width:15px;}
+.s3d-search-result-content .searchcontent_result_description, .s3d-search-result-person .searchperson_result_description, .s3d-search-result-group .searchgroup_result_description{word-wrap:break-word;}
+.s3d-search-result-content .searchcontent_result_description_grid, .s3d-search-result-person .searchpeople_result_description_grid, .s3d-search-result-group .searchgroups_result_description_grid{display:none;}
 
 /* search results content */
 .s3d-search-result-content .searchcontent_result_description{margin:0 0 5px;color:#333;font-size:.90em;padding:6px 0; word-wrap: break-word;}
@@ -59,7 +61,6 @@
 .s3d-search-result-content .searchcontent_result_usedin{margin-top:2px;font-size:11px;}
 .s3d-search-result-content .searchcontent_result_share_icon{display:inline-block;float:right;}
 .s3d-search-result-content .searchcontent_result_author_icon{margin-left:8px;display:inline-block;float:right;}
-.s3d-search-result-content .searchcontent_result_description_grid{display:none;}
 
 /* search results people */
 .s3d-search-result-person .searchpeople_result_person{margin:5px 8px 10px;padding:10px;width:280px;background-color:#FFF;height:50px;float:left;border:none;overflow:hidden;}
@@ -72,7 +73,6 @@
 .s3d-search-result-person .searchpeople_result_person_threedots{display:block;width:150px;}
 .s3d-search-result-person .searchpeople_result_counts{padding:3px 0;font-size:11px;}
 .s3d-search-result-person .searchpeople_result_message_icon{display:inline-block;float:right;}
-.s3d-search-result-person .searchpeople_result_description_grid{display:none;}
 
 /* search results groups */
 .s3d-search-result-group .searchgroups_result_grouptype {font-size:smaller;white-space:pre;}
@@ -83,7 +83,6 @@
 .s3d-search-result-group .searchgroups_result_description{color:#333;font-size:.90em;padding:3px 0;word-wrap: break-word;}
 .s3d-search-result-group .searchgroups_result_plus{margin:1px 8px 0 0;display:inline;float:left;height:17px;width:17px;}
 .s3d-search-result-group .searchgroups_result_plus:hover{cursor:pointer;}
-.s3d-search-result-group .searchgroups_result_description_grid{display:none;}
 
 /* search results grid */
 .s3d-search-results-grid{border:0 !important;}
