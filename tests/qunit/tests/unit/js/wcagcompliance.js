@@ -48,10 +48,7 @@ require(
         });
 
         $.each($elt.find("textarea"), function(i, elt) {
-            // ignore the tinymce editor textarea
-            if ($(elt).attr("id") !== "elm1") {
-                ok($(elt).attr("title") || $(elt).attr("placeholder"), "TEXTAREA tag has TITLE or PLACEHOLDER attribute: " + $("<div/>").html(elt).html());
-            }
+            ok($(elt).attr("title"), "TEXTAREA tag has TITLE attribute: " + $("<div/>").html(elt).html());
         });
 
         $.each($elt.find("div"), function(i, elt) {
