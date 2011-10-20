@@ -155,6 +155,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $("#addarea_contentlist_permissions").html(permissionsSelect);
             $("#addarea_participants_permissions").html(permissionsSelect);
             $("#addarea_widgets_permissions").html(permissionsSelect);
+            $(addareaCreateDocButton).removeAttr("disabled");
         };
 
         /*
