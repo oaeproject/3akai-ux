@@ -153,7 +153,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             } else {
-                manageRoleSelections = manageRoles[0];
+                manageRoleSelections = doubleQuote + manageRoles[0] + doubleQuote;
             }
             errorMsg = sakai.api.i18n.getValueForKey("THIS_GROUP_MUST_HAVE_AT_LEAST_ONE_MANAGER", "addpeople");
             errorMsg = errorMsg.replace("${groupType}", sakai.api.i18n.getValueForKey(currentTemplate.title.substr(7, currentTemplate.title.length - 9)));
