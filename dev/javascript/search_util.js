@@ -141,7 +141,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     // use large default group icon on search page
                     if (results[group].picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
-                        results[group].picPath = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
+                        results[group].picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
                     }
 
                     finaljson.items.push(results[group]);
@@ -175,7 +175,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     // use large default user icon on search page
                     if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
-                        user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                        user.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
                         user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);

@@ -143,7 +143,12 @@
                                 {if ! i.picture}
                                     <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
                                 {else}
-                                    <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"><img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/></a>
+                                    <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
+                                        <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}" width="48px" height="48px"/>
+                                        {if i.pictureLarge}
+                                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" width="48px" height="48px" class="searchpeople_avatar_large"/>
+                                        {/if}
+                                    </a>
                                 {/if}
                                 <div class="s3d-search-result-right">
                                     <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links">${i.name}</a>
@@ -189,7 +194,10 @@
                                     {if i.picPath}
                                         <img src="${i.picPath}" alt="${i['sakai:group-title']|safeOutput}">
                                     {else}
-                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
+                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="${i['sakai:group-title']|safeOutput}">
+                                    {/if}
+                                    {if i.picPathLarge}
+                                        <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="searchgroups_avatar_large">
                                     {/if}
                                 </a>
                                 <div class="s3d-search-result-right">

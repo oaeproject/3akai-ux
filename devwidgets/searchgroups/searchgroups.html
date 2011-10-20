@@ -74,7 +74,10 @@
                                     {if i.picPath}
                                         <img src="${i.picPath}" alt="${i['sakai:group-title']|safeOutput}">
                                     {else}
-                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="group name">
+                                        <img src="/dev/images/group_avatar_icon_64x64_nob.png" alt="${i['sakai:group-title']|safeOutput}">
+                                    {/if}
+                                    {if i.picPathLarge}
+                                        <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="searchgroups_avatar_large">
                                     {/if}
                                 </a>
                                 <div class="searchgroups_result_right s3d-search-result-right">
