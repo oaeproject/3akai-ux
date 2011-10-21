@@ -115,7 +115,7 @@ require(
         "qunitjs/qunit"
     ],
     function($, sakai) {
-        require.ready(function() {
+        require(["misc/domReady!"], function(doc) {
             if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
                 sakai.api.User.loadMeData(function(success, data) {
                     // Start i18n

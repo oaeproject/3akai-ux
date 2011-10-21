@@ -19,7 +19,7 @@
 
 /*global Querystring, Config, $,  set_cookie */
 require(["/dev/lib/sakai/sakai.dependencies.js"], function(){
-    require.ready(function() {
+    require(["misc/domReady!"], function(doc) {
         debug.log("page.js");
 
         var sakai = sakai || {};
