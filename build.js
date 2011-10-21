@@ -164,5 +164,6 @@
         //        "foo/bar/bot"
         //    ]
         //}
-    ]
+    ],
+    dirExclusionRegExp: /^(\.|tools|target|test)/
 })

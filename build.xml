@@ -216,18 +216,21 @@
     <target name="optimize" depends="init">
         <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
         <path id="reqjs.path">
-            <pathelement location="tools/requirejs-optimizer/build"/>
+            <pathelement location="tools/requirejs-optimizer/r.js"/>
         </path>
         <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
         <exec executable="cmd" osfamily="windows">
             <arg value="/c" />
-            <arg value="${requireJs.path}\buildj.bat" />
+            <arg value="rhino ${requireJs.path}" />
+            <arg value="-o" />
             <arg value="${requireJs.conf}" />
         </exec>
 
-        <exec executable="${requireJs.path}/buildj.sh" osfamily="unix">
+        <exec executable="rhino" osfamily="unix">
+            <arg value="${requireJs.path}" />
+            <arg value="-o" />
             <arg value="${requireJs.conf}" />
         </exec>
     </target>
