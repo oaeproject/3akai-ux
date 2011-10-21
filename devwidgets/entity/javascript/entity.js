@@ -350,7 +350,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            $('#ew_permissions').click(function(e){
+            $('.ew_permissions').click(function(e){
                 e.preventDefault();
                 $(window).trigger("init.contentpermissions.sakai");
                 $('#entity_contentsettings_dropdown').jqmHide();

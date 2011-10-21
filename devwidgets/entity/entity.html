@@ -7,7 +7,7 @@
     <div id="entity_dropdown_wrapper" class="s3d-dropdown-list">
         <div class="s3d-dropdown-list-arrow-up"></div>
         <ul>
-            <li id="ew_permissions">
+            <li class="ew_permissions">
                 <button class="s3d-link-button">__MSG__PERMISSIONS__</button>
             </li>
             <hr class="s3d-split-line"/>
@@ -161,24 +161,7 @@
 --></div>
 
 <div id="entity_content_template" style="display:none"><!--
-    <div id="entity_actions">
-        {if !anon}
-            {if type && type == "content_managed"}
-                <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
-            {/if}
-            <button type="button" id="entity_content_save" class="s3d-button s3d-header-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
-            <button type="button" id="entity_content_share" class="s3d-button s3d-header-button share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__<span class="entity_share_content"></span></button>
-        {/if}
-        {if data.data.mimeType === "x-sakai/link"}
-            <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                __MSG__OPEN_LINK__<span class="entity_download_content"></span>
-            </a>
-        {elseif data.data.mimeType !== "x-sakai/document"}
-            <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
-                __MSG__DOWNLOAD__<span class="entity_download_content"></span>
-            </a>
-        {/if}
-    </div>
+    {var permissions = data.data["sakai:permissions"]}
     <div id="entity_content_image" class="entity_content_image">
         {if data.isManager}
             <div id="entity_managed_content"></div>
@@ -189,43 +172,80 @@
     <span id="entity_name_edit" style="display:none">
         <input id="entity_name_text" type="text" />
     </span>
+    <span id="entity_type">${data.data['iconDescription']}</span>
     <div id="entity_owns" class="s3d-regular-links">
-        {var peopleCount = data.members.counts.people}
-        <div class="entity_number">
-            <div id="entity_used_by_icon" class="entity_content_details_icon"></div>
-            __MSG__USED_BY__
-            <a href="#" title="${peopleCount} {if peopleCount == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}" class="entity_content_people">
-                ${peopleCount}
-                {if peopleCount == 1}__MSG__PERSON_LC__{else}__MSG__PEOPLE_LC__{/if}
-            </a>
+        <div id="entity_actions">
+            {if !anon}
+                {if type && type == "content_managed"}
+                    <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
+                {/if}
+                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger" data-entityid="${data.data["_path"]}">__MSG__ADD_TO_LIBRARY__<span class="entity_add_to_library"></span></button>
+            {/if}
+            {if data.data.mimeType === "x-sakai/link"}
+                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-smaller-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
+                    __MSG__OPEN_LINK__<span class="entity_download_content"></span>
+                </a>
+            {elseif data.data.mimeType !== "x-sakai/document"}
+                <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
+                    __MSG__DOWNLOAD__<span class="entity_download_content"></span>
+                </a>
+            {/if}
         </div>
-        {var groupCount = data.members.counts.groups}
-        {if groupCount}
-            and
-            <a href="#" class="entity_content_group">
-                ${groupCount}
-                {if groupCount == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}
-            </a>
-        {/if}
+
+        <div class="entity_owns_actions_container">
+            __MSG__VISIBILITY__
+            <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
+                <div class="entity_owns_actions_private {if permissions === "private"} selected {/if}">
+                    <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list-arrow-up"></div>
+                        {if permissions === "private"}
+                        	<span>__MSG__PRIVATE_SELECTED__</span>
+                        {else}
+                            <span>__MSG__PRIVATE_DESCRIPTION__</span>
+                        {/if}
+                    	<button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    </div>
+                </div>
+                <div class="entity_owns_actions_institution {if permissions === "everyone"} selected {/if}">
+                    <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list-arrow-up"></div>
+                        {if permissions === "everyone"}
+                        	<span>__MSG__EVERYONE_SELECTED__</span>
+                        {else}
+                        	<span>__MSG__EVERYONE_DESCRIPTION__</span>
+                        {/if}
+                        <button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    </div>
+                </div>
+                <div class="entity_owns_actions_public {if permissions === "public"} selected {/if}">
+                    <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list-arrow-up"></div>
+                        {if permissions === "public"}
+                            <span>__MSG__PUBLIC_SELECTED__</span>
+                        {else}
+                            <span>__MSG__PUBLIC_DESCRIPTION__</span>
+                        {/if}
+                        <button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="entity_owns_actions_container">
+            <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right"></div>
+            __MSG__COLLABORATION__
+            <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
+                <div class="entity_owns_actions_collaborator has_counts entity_content_people"><span id="entity_participants_count">${data.members.counts.people}</span></div>
+                <span>|</span>
+                <div class="entity_owns_actions_share has_counts entity_content_group"><span>${data.members.counts.groups}</span></div>
+                <span>|</span>
+                <button type="button" class="s3d-link-button s3d-bold ew_permissions" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
+            </div>
+        </div>
         <span class="entity_comments">
             <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
             {var commentCount = sakai.api.Content.getCommentCount(data.data)}
             <a id="entity_comments_link" href="#">${commentCount} {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
         </span>
-        <div class="entity_number entity_permissions_label">
-            {var permissions = data.data["sakai:permissions"]}
-            <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
-            {if permissions == "public"}
-                __MSG__VISIBLE_TO_ANYONE__
-            {elseif permissions == "everyone"}
-                __MSG__VISIBLE_TO_LOGGED__
-            {else}
-                __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
-                {if (peopleCount + groupCount) > 1}
-                    + ${groupCount + peopleCount - 1} __MSG__OTHERS__
-                {/if}
-            {/if}
-        </div>
     </div>
 --></div>
 

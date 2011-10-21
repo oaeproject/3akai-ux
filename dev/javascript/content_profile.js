@@ -220,8 +220,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                         contentInfo.mimeType = mimeType;
                         if (sakai.config.MimeTypes[mimeType]) {
                             contentInfo.iconURL = sakai.config.MimeTypes[mimeType].URL;
+                            contentInfo.iconDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                         } else {
                             contentInfo.iconURL = sakai.config.MimeTypes["other"].URL;
+                            contentInfo.iconDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
                         }
 
                         if (ignoreActivity && sakai_global.content_profile && sakai_global.content_profile.content_data){

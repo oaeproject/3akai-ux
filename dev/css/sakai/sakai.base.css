@@ -70,7 +70,7 @@ h1{font-size:2em;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;line-
 
 .s3d-dropdown-list {background:url("/dev/images/dropdown_list_bg.png") repeat-x scroll left top #F5F5F5;border: 1px solid #aaa;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:0 0 6px 0 #666;}
 .s3d-dropdown-list ul {padding:0;margin:5px;}
-.s3d-dropdown-list ul li {padding:2px 5px;margin:0;font-size:12px;list-style-type:none;}
+.s3d-dropdown-list ul li {padding:2px 5px;margin:0;font-size:12px;list-style-type:none;cursor:pointer;}
 .s3d-dropdown-list ul li button, .s3d-dropdown-list ul li a {color:#2683bc;font-size:11px;font-weight:bold;text-decoration:none;}
 .s3d-dropdown-list ul li a:hover {color:#999;}
 .s3d-dropdown-list .s3d-dropdown-list-arrow-up {background:url("/dev/images/dropdown_list_arrow_up.png") no-repeat scroll left top transparent;height:20px;margin-top:-20px;position:absolute;right:8px;width:25px;}
@@ -212,8 +212,9 @@ a.s3d-button {text-decoration:none;}
 a.s3d-button.s3d-header-button {height:24px;line-height:24px;}
 
 /* Header buttons, smaller */
-.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;}
-a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;}
+.s3d-button.s3d-header-button.s3d-header-smaller-button,
+a.s3d-button.s3d-header-button.s3d-header-smaller-button {font-size:10px;height:23px;padding:0 5px;}
+a.s3d-button.s3d-header-button.s3d-header-smaller-button {display:inline-block;height:22px;padding:0 8px;}
 
 /* Regular in-page buttons */
 .s3d-button.s3d-regular-button{background:url("/dev/images/button_regular_default.png") repeat-x scroll left top transparent;height:24px;padding:0 7px;border:1px solid #e0e3e5;color:#666;box-shadow:0 1px 1px 0 #999;text-shadow:0 2px 3px #fff;}
@@ -240,7 +241,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-button.s3d-overlay-button.grey, .s3d-button.s3d-overlay-action-button.grey {color:#666;}
 
 /* No text buttons */
-.s3d-button.s3d-button-no-text {padding:0;}
+.s3d-button.s3d-button-no-text {padding:0 !important;}
 
 
 /*
