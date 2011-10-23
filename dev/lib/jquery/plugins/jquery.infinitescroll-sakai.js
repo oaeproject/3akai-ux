@@ -24,8 +24,14 @@
         // Infinite scrolling //
         ////////////////////////
 
+        // Keep track as to whether we're currently fetching a new list of items or not.
+        // If we're doing that, we wait until it has finished before fetching the next list.
         var isDoingExtraSearch = false;
 
+        /**
+         * Start listening to the window's scroll event and decide when we are close enough to the end of the
+         * page before fetching the next set of items
+         */
         var startInfiniteScrolling = function(){
             $(window).scroll(function() {
                 if (!isDoingExtraSearch){
@@ -42,18 +48,32 @@
         // List manipulation //
         ///////////////////////
 
+        /**
+         * Function called when items are removed from the list. This will fade the items out and
+         * hide them.
+         * @param {Object} items    Array of strings that need to be removed. Each of these string should
+         *                          correspond with a Dom element that has this string as an id.
+         */
         var removeItems = function(items){
             $.each(items, function(i, item){
-                $("#" + item, container).fadeOut();
+                $("#" + item, container).fadeOut(false, function(){
+                    isDoingExtraSearch = false;
+                    // If no items are visible anymore, we call the function
+                    // that deals with an empty list
+                    if ($('div:visible', container).size() === 0){
+                        if ($.isFunction(emptylistprocessor)){
+                            emptylistprocessor();
+                        };
+                    }
+                });
             });
-            isDoingExtraSearch = false;
-            if ($('div:visible', container).size() === 0){
-                if ($.isFunction(emptylistprocessor)){
-                    emptylistprocessor();
-                };
-            }
         };
 
+        /**
+         * Function called to prepend items to the list. This will be used when UI caching needs
+         * to be used
+         * @param {Object} items    Array of items to be prepended
+         */
         var prependItems = function(items){
             processList({
                 "results": items
@@ -64,11 +84,19 @@
         // List rendering //
         ////////////////////
 
+        /**
+         * Add a list of items to the current infinite scroll list.
+         * @param {Object} data       List of items to add to the infinite scroll list
+         * @param {Object} prepend    True when we want to prepend the new items to the list
+         *                            False when we want to append the new items to the list
+         */
         var renderList = function(data, prepend){
             // Filter out items that are already in the list
             var filteredresults = [];
             $.each(data.results, function(i, result){
                 if (result.id){
+                    // Determine whether this item is already in the list
+                    // by looking for an element with the same id
                     if ($("#" + result.id, container).size() === 0){
                         filteredresults.push(result);
                     }
@@ -88,6 +116,13 @@
             isDoingExtraSearch = false;
         };
 
+        /**
+         * Run the list of items to be added to a processor before pushing them through
+         * a template
+         * @param {Object} data       List of items to add to the infinite scroll list
+         * @param {Object} prepend    True when we want to prepend the new items to the list
+         *                            False when we want to append the new items to the list
+         */
         var processList = function(data, prepend){
             if (data.results.length === 0){
                 return false;
@@ -102,6 +137,10 @@
             }
         };
 
+        /**
+         * Retrieve the next set of results from the server
+         * @param {Object} initial    Whether or not this is the initial set of results that's being loaded
+         */
         var loadResultList = function(initial){
             isDoingExtraSearch = true;
             parameters.page = currentPage;
@@ -110,6 +149,9 @@
                 "url": url,
                 "data": parameters,
                 "success": function(data){
+                    // If this is the initial set of results and no items are
+                    // available, we call the function that deals with displaying
+                    // the default message
                     if (initial && data.results.length === 0){
                         if ($.isFunction(emptylistprocessor)){
                             emptylistprocessor();
@@ -128,6 +170,10 @@
         // Kill infinite scroller //
         ////////////////////////////
 
+        /**
+         * Kill an instance of an infinite scroll object. This means the object
+         * will no longer respond to any events or functions
+         */
         var kill = function(){
             container.html("");
             isDoingExtraSearch = true;
@@ -138,13 +184,18 @@
         // Initialisation //
         ////////////////////
 
+        /**
+         * Get the initial list of items to add to the list
+         */
         var loadInitialList = function(){
-            if (initialcontent){
+            var initial = true;
+            if (initialcontent && initialcontent.length > 0){
+                initial = false;
                 processList({
                     "results": initialcontent
                 });
             }
-            loadResultList(true);
+            loadResultList(initial);
             startInfiniteScrolling();
         };
 

@@ -336,7 +336,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     sortOrder: "desc"
                 },
                 success: function(data){
-                    data = sakai.api.Content.getNewList(data, null, 0, 1);
+                    data.results = $.merge(sakai.api.Content.getNewList(sakai.data.me.user.userid), data.results);
                     handleRecentChangedContentData(true, data);
                 },
                 error: function(data){

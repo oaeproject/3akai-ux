@@ -25,10 +25,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @class mylibrary
      *
      * @description
-     * My Hello World is a dashboard widget that says hello to the current user
-     * with text in the color of their choosing
+     * Widget that lists all of the content items that live inside of a given
+     * library
      *
-     * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
@@ -45,7 +44,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             default_search_text: "",
             userArray: [],
             contextId: false,
-            infinityScroll: false
+            infinityScroll: false,
+            widgetShown: true
         };
 
         // DOM jQuery Objects
@@ -61,9 +61,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
 
-        var currentGroup = false,
-            currentQuery = "",
-            currentItems = [];
+        var currentGroup = false;
 
         ///////////////////////
         // Utility functions //
@@ -91,33 +89,62 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
+        /**
+         * Bring all of the topbar items (search, checkbox, etc.) back into its original state
+         */
         var resetView = function(){
             $mylibrary_check_all.removeAttr("checked");
             $mylibrary_remove.attr("disabled", "disabled");
             $("#mylibrary_title_bar").show();
         };
 
-        /////////////////////////////
-        // Deal with empty library //
-        /////////////////////////////
-
-        var handleEmptyLibrary = function(){
-            $mylibrary_items.hide();
-            var query = $mylibrary_livefilter.val();
-            if (!query){
+        /**
+         * Show or hide the controls on the top of the library (search box, sort, etc.)
+         * @param {Object} show    True when you want to show the controls, false when
+         *                         you want to hide the controls
+         */
+        var showHideTopControls = function(show){
+            if (show){
+                if (mylibrary.isOwnerViewing) {
+                    $mylibrary_admin_actions.show();
+                }
+                $mylibrary_livefilter.show();
+                $mylibrary_sortarea.show();
+            } else {
                 $mylibrary_admin_actions.hide();
                 $mylibrary_livefilter.hide();
                 $mylibrary_sortarea.hide();
             }
-            var mode = "me";
-            if (sakai_global.profile && sakai_global.profile.main.mode.value !== sakai.data.me.user.userid) {
+        };
+
+        /////////////////////////////
+        // Deal with empty library //
+        /////////////////////////////
+
+        /**
+         * Function that manages how a library with no content items is handled. In this case,
+         * the items container will be hidden and a "no items" container will be shown depending
+         * on what the current context of the library is
+         */
+        var handleEmptyLibrary = function(){
+            resetView();
+            $mylibrary_items.hide();
+            var query = $mylibrary_livefilter.val();
+            // We only show the controls when there is a search query. 
+            // All other scenarios with no items don't show the top controls
+            if (!query){
+                showHideTopControls(false);
+            } else {
+                showHideTopControls(true);
+            }
+            // Determine the state of the current user in the current library
+            var mode = "user_me";
+            if (sakai_global.profile && mylibrary.contextId !== sakai.data.me.user.userid) {
                 mode = "user_other";
-            } else if (sakai_global.group) {
-                if (mylibrary.isOwnerViewing) {
-                    mode = "group_managed";
-                } else {
-                    mode = "group";
-                }
+            } else if (mylibrary.isOwnerViewing) {
+                mode = "group_managed";
+            } else {
+                mode = "group";
             }
             $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {
                 mode: mode,
@@ -131,17 +158,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ////////////////////
 
         /**
-         * Reset the current my library view
-         *
-         * @param {String} query  optional query string to limit search results
+         * Load the items of the current library and start an infinite scroll on
+         * them
          */
         var showLibraryContent = function () {
             resetView();
             var query = $mylibrary_livefilter.val() || "*";
-            // Set up the infinite scroll for the list of items in the library
+            // Disable the previous infinite scroll
             if (mylibrary.infinityScroll){
                 mylibrary.infinityScroll.kill();
             }
+            // Set up the infinite scroll for the list of items in the library
             mylibrary.infinityScroll = $mylibrary_items.infinitescroll("/var/search/pool/manager-viewer.json", {
                 userid: mylibrary.contextId,
                 sortOn: mylibrary.sortBy,
@@ -151,9 +178,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         ////////////////////
+        // State handling //
+        ////////////////////
+
+        /**
+         * Deal with changed state in the library. This can be triggered when
+         * a search was initiated, sort was changed, etc.
+         */
+        var handleHashChange = function(e) {
+            if (mylibrary.widgetShown){
+                // Set the sort states
+                var parameters = $.bbq.getState();
+                mylibrary.sortOrder = parameters["lso"] || "desc";
+                mylibrary.sortBy = parameters["lsb"] || "_lastModified";
+                $mylibrary_livefilter.val(parameters["lq"] || "");
+                $mylibrary_sortby.val("lastModified_" + mylibrary.sortOrder);
+                showLibraryContent();
+            }
+        };
+
+        ////////////////////
         // Event Handlers //
         ////////////////////
 
+        /**
+         * Enable/disable the remove selected button depending on whether
+         * any items in the library are checked
+         */
         $mylibrary_check.live("change", function (ev) {
             if ($(this).is(":checked")) {
                 $mylibrary_remove.removeAttr("disabled");
@@ -162,6 +213,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        /**
+         * Check/uncheck all loaded items in the library
+         */
         $mylibrary_check_all.change(function (ev) {
             if ($(this).is(":checked")) {
                 $(".mylibrary_check").attr("checked", "checked");
@@ -172,6 +226,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        /**
+         * Gather all selected library items and initiate the
+         * deletecontent widget
+         */
         $mylibrary_remove.click(function (ev) {
             var $checked = $(".mylibrary_check:checked", $rootel);
             if ($checked.length) {
@@ -191,6 +249,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         });
 
+        /**
+         * Reload the library list based on the newly selected
+         * sort option
+         */
         $mylibrary_sortby.change(function (ev) {
             var sortSelection = $(this).val();
             var sortBy = "_lastModified",
@@ -198,158 +260,152 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sortSelection === "lastModified_asc") {
                 sortOrder = "asc";
             }
-            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder, "lp": 1});
+            $.bbq.pushState({"lsb": sortBy, "lso": sortOrder});
         });
 
+        /**
+         * Initiate a library search when the enter key is pressed
+         */
         $mylibrary_livefilter.keyup(function (ev) {
             if (ev.keyCode === 13) {
                 var q = $.trim(this.value);
-                if (q && q !== currentQuery) {
-                    $.bbq.pushState({
-                        "lq": q,
-                        "lp": 1
-                    });
-                } else if (!q) {
-                    $.bbq.removeState("lq", "lp");
+                if (q) {
+                    $.bbq.pushState({ "lq": q });
+                } else {
+                    $.bbq.removeState("lq");
                 }
             }
             return false;
         });
 
+        /**
+         * Initiate the add content widget
+         */
         $mylibrary_addcontent.click(function (ev) {
             $(window).trigger("init.newaddcontent.sakai");
             return false;
         });
 
-        var handleHashChange = function(e, changed, deleted, all, currentState, first) {
-            // Set the sort states
-            mylibrary.sortOrder = all["lso"] || "desc";
-            mylibrary.sortBy = all["lsb"] || "_lastModified";
-            $mylibrary_livefilter.val(changed["lq"] || all["lq"] || "");
-            $mylibrary_sortby.val("lastModified_" + mylibrary.sortOrder);
-            showLibraryContent();
-        };
-
-        // Listen for newly the newly added content event
+        /**
+         * Listen for newly the newly added content or newly saved content
+         * @param {Object} data        Object that contains the new library items
+         * @param {Object} library     Context id of the library the content has been added to
+         */ 
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
             if (library === mylibrary.contextId) {
                 mylibrary.infinityScroll.prependItems(data);
             }
         });
 
-        $(window).bind("hashchanged.mylibrary.sakai", handleHashChange);
+        /**
+         * Keep track as to whether the current library widget is visible or not. If the
+         * widget is not visible, it's not necessary to respond to hash change events.
+         */
+        $(window).bind(tuid + ".shown.sakai", function(e, shown){
+            mylibrary.widgetShown = shown;
+        });
+        /**
+         * Bind to hash changes in the URL
+         */
+        $(window).bind("hashchange", handleHashChange);
 
         ////////////////////////////////////////////
         // Data retrieval and rendering functions //
         ////////////////////////////////////////////
 
-            /**
-             * Formats a tag list from the server for display in the UI
-             *
-             * @param {Array} tags  an array of tags from the server
-             * @return {Array} an array of tags formatted for the UI
-             */
-            var formatTags = function (tags) {
-                if (!tags) {
-                    return null;
-                }
-                var formatted_tags = [];
-                debug.log("Here");
-                $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
-                    formatted_tags.push({
-                        name: name,
-                        link: "search#q=" + sakai.api.Util.safeURL(name)
-                    });
+        /**
+         * Formats a tag list from the server for display in the UI
+         *
+         * @param {Array} tags  an array of tags from the server
+         * @return {Array} an array of tags formatted for the UI
+         */
+        var formatTags = function (tags) {
+            if (!tags) {
+                return null;
+            }
+            var formatted_tags = [];
+            $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
+                formatted_tags.push({
+                    name: name,
+                    link: "search#q=" + sakai.api.Util.safeURL(name)
                 });
-                debug.log("Here");
-                return formatted_tags;
-            };
+            });
+            return formatted_tags;
+        };
 
-            var canDeleteContent = function(item){
-                var canDelete = false;
-                if (!mylibrary.isOwnerViewing){
-                    return false;
-                }
-                if (item["sakai:pooled-content-viewer"]){
-                    for (var v = 0; v < item["sakai:pooled-content-viewer"].length; v++){
-                        if (item["sakai:pooled-content-viewer"][v] === mylibrary.contextId){
-                            canDelete = true;
-                        }
+        /**
+         * Determines whether the current user can delete a content object from the
+         * library. This can happen if the user/group that owns the library is either
+         * a direct manager or direct viewer of the item
+         * @param {Object} item    Content item object
+         */
+        var canDeleteContent = function(item){
+            var canDelete = false;
+            if (!mylibrary.isOwnerViewing){
+                return false;
+            }
+            if (item["sakai:pooled-content-viewer"]){
+                for (var v = 0; v < item["sakai:pooled-content-viewer"].length; v++){
+                    if (item["sakai:pooled-content-viewer"][v] === mylibrary.contextId){
+                        canDelete = true;
                     }
                 }
-                if (item["sakai:pooled-content-manager"]){
-                    for (var m = 0; m < item["sakai:pooled-content-manager"].length; m++){
-                        if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
-                            canDelete = true;
-                        }
+            }
+            if (item["sakai:pooled-content-manager"]){
+                for (var m = 0; m < item["sakai:pooled-content-manager"].length; m++){
+                    if (item["sakai:pooled-content-manager"][m] === mylibrary.contextId){
+                        canDelete = true;
                     }
                 }
-                return canDelete;
-            };
+            }
+            return canDelete;
+        };
 
-            /**
-             * Process library item results from the server
-             */
-            var handleLibraryItems = function (results, callback) {
-                var userIds = [];
-                debug.log("Here1");
-                $.each(results, function(index, content){
-                    userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
-                });
-                debug.log("Here1");
-                if (userIds.length) {
-                    sakai.api.User.getMultipleUsers(userIds, function(users){
-                        currentItems = [];
-                        $.each(results, function(i, result){
-                            var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);
-                            currentItems.push({
-                                id: result["_path"],
-                                filename: result["sakai:pooled-content-file-name"],
-                                link: "/content#p=" + sakai.api.Util.safeURL(result["_path"]),
-                                last_updated: $.timeago(new Date(result["_lastModified"])),
-                                type: sakai.api.i18n.getValueForKey(mimetypeObj.description),
-                                type_src: mimetypeObj.URL,
-                                ownerid: result["sakai:pool-content-created-for"],
-                                ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
-                                tags: formatTags(result["sakai:tags"]),
-                                numPlaces: sakai.api.Content.getPlaceCount(result),
-                                numComments: sakai.api.Content.getCommentCount(result),
-                                mimeType: result["_mimeType"],
-                                thumbnail: sakai.api.Content.getThumbnail(result),
-                                description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
-                                    max_rows: 1,
-                                    whole_word: false
-                                }, "searchcontent_result_course_site_excerpt"),
-                                fullResult: result,
-                                canDelete: canDeleteContent(result)
-                            });
-                            mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
+        /**
+         * Process library item results from the server
+         */
+        var handleLibraryItems = function (results, callback) {
+            var userIds = [];
+            $.each(results, function(index, content){
+                userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
+            });
+            if (userIds.length) {
+                sakai.api.User.getMultipleUsers(userIds, function(users){
+                    var currentItems = [];
+                    $.each(results, function(i, result){
+                        var mimetypeObj = sakai.api.Content.getMimeTypeData(result["_mimeType"]);
+                        currentItems.push({
+                            id: result["_path"],
+                            filename: result["sakai:pooled-content-file-name"],
+                            link: "/content#p=" + sakai.api.Util.safeURL(result["_path"]),
+                            last_updated: $.timeago(new Date(result["_lastModified"])),
+                            type: sakai.api.i18n.getValueForKey(mimetypeObj.description),
+                            type_src: mimetypeObj.URL,
+                            ownerid: result["sakai:pool-content-created-for"],
+                            ownername: sakai.data.me.user.userid === result["sakai:pool-content-created-for"] ? sakai.api.i18n.getValueForKey("YOU") : sakai.api.User.getDisplayName(users[result["sakai:pool-content-created-for"]]),
+                            tags: formatTags(result["sakai:tags"]),
+                            numPlaces: sakai.api.Content.getPlaceCount(result),
+                            numComments: sakai.api.Content.getCommentCount(result),
+                            mimeType: result["_mimeType"],
+                            thumbnail: sakai.api.Content.getThumbnail(result),
+                            description: sakai.api.Util.applyThreeDots(result["sakai:description"], 1300, {
+                                max_rows: 1,
+                                whole_word: false
+                            }, "searchcontent_result_course_site_excerpt"),
+                            fullResult: result,
+                            canDelete: canDeleteContent(result)
                         });
-                        callback(currentItems);
+                        mylibrary.userArray.push(result["sakai:pool-content-created-for"]);
                     });
-                    // Show the admin controls now we know that there are items to display
-                    if (mylibrary.isOwnerViewing) {
-                        $mylibrary_admin_actions.show();
-                    }
-                    $mylibrary_livefilter.show();
-                    $mylibrary_sortarea.show();
-                    $mylibrary_empty.hide();
-                    $mylibrary_items.show();
-                } else {
-                    callback([]);
-                }
-            };
-
-            var handleResponse = function(success, data) {
-                if (sakai_global.newaddcontent) {
-                    var library = null;
-                    if (!isOnPersonalDashboard()) {
-                        library = mylibrary.contextId;
-                    }
-                    data = sakai.api.Content.getNewList(data, library, mylibrary.currentPagenum - 1, mylibrary.itemsPerPage);
-                }
-                handleLibraryItems(success, data);
-            };
+                    callback(currentItems);
+                });
+                showHideTopControls(true);
+                $mylibrary_empty.hide();
+                $mylibrary_items.show();
+            } else {
+                callback([]);
+            }
+        };
 
         /////////////////////////////
         // Initialization function //
@@ -381,22 +437,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             } else {
                 mylibrary.contextId = sakai_global.profile.main.data.userid;
-                // TODO: Change this to getFirstName function
-                contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
+                contextName = sakai.api.User.getFirstName(sakai_global.profile.main.data);
                 if (mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;
                 }
                 finishInit(contextName, isGroup);
             }
         };
-        
+
+        /**
+         * Additional set-up of the widget
+         */
         var finishInit = function(contextName, isGroup){
             if (mylibrary.contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
                 $mylibrary_livefilter.attr("placeholder", mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
                 var all = state && state.all ? state.all : {};
-                handleHashChange(null, {}, {}, all, $.bbq.getState(), true);
+                handleHashChange(null, true);
                 sakai.api.Util.TemplateRenderer("mylibrary_title_template", {
                     isMe: mylibrary.isOwnerViewing,
                     isGroup: isGroup,

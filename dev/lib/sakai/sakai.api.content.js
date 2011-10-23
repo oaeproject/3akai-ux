@@ -719,6 +719,7 @@ define(
                 var newlySavedData = sakai_global.savecontent.getNewContent(library);
                 $.merge(newData, newlySavedData);
             }
+            debug.log(newData);
             return newData;
         }
     };
