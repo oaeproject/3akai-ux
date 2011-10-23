@@ -12,8 +12,9 @@
      * @param {Object} emptylistprocessor  Function used to deal with an empty result list [optional]
      * @param {Object} postprocessor       Function used to transform the search results before rendering
      *                                     the template [optional]
+     * @param {Object} initialcontent      Initial content to be added to the list
      */
-    $.fn.infinitescroll = function(url, parameters, template, sakai, emptylistprocessor, postprocessor){
+    $.fn.infinitescroll = function(url, parameters, template, sakai, emptylistprocessor, postprocessor, initialcontent){
 
         var currentPage = 0;
         var itemsPerPage = 18;
@@ -53,15 +54,17 @@
             }
         };
 
-        var prependItems = function(){
-            debug.log("Not implemented yet");
+        var prependItems = function(items){
+            processList({
+                "results": items
+            }, true);
         };
 
         ////////////////////
         // List rendering //
         ////////////////////
 
-        var renderList = function(data){
+        var renderList = function(data, prepend){
             // Filter out items that are already in the list
             var filteredresults = [];
             $.each(data.results, function(i, result){
@@ -73,24 +76,29 @@
             });
             data.results = filteredresults;
             // Render the template and put it in the container
-            container.append(sakai.api.Util.TemplateRenderer(template, {
+            var templateOutput = sakai.api.Util.TemplateRenderer(template, {
                 "items": data.results,
                 "sakai": sakai
-            }));
+            });
+            if (prepend){
+                container.prepend(templateOutput);
+            } else {
+                container.append(templateOutput);
+            }
             isDoingExtraSearch = false;
         };
 
-        var processList = function(data){
+        var processList = function(data, prepend){
             if (data.results.length === 0){
                 return false;
             };
             if ($.isFunction(postprocessor)){
                 postprocessor(data.results, function(items){
                     data.results = items;
-                    renderList(data);
+                    renderList(data, prepend);
                 });
             } else {
-                renderList(data);
+                renderList(data, prepend);
             }
         };
 
@@ -131,6 +139,11 @@
         ////////////////////
 
         var loadInitialList = function(){
+            if (initialcontent){
+                processList({
+                    "results": initialcontent
+                });
+            }
             loadResultList(true);
             startInfiniteScrolling();
         };

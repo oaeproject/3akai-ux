@@ -39,13 +39,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var mylibrary = {  // global data for mylibrary widget
-            totalItems: 0,
             sortBy: "_lastModified",
             sortOrder: "desc",
             isOwnerViewing: false,
             default_search_text: "",
             userArray: [],
-            oldResults: false,
             contextId: false,
             infinityScroll: false
         };
@@ -70,13 +68,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         ///////////////////////
         // Utility functions //
         ///////////////////////
-
-        /**
-         * Determine if we're on the user's personal dashboard or not
-         */
-        var isOnPersonalDashboard = function() {
-            return $('body').hasClass('me');
-        };
 
         /**
          * Get personalized text for the given message bundle key based on
@@ -156,7 +147,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 sortOn: mylibrary.sortBy,
                 sortOrder: mylibrary.sortOrder,
                 q: query
-            }, "mylibrary_items_template", sakai, handleEmptyLibrary, handleLibraryItems);
+            }, "mylibrary_items_template", sakai, handleEmptyLibrary, handleLibraryItems, sakai.api.Content.getNewList(mylibrary.contextId));
         };
 
         ////////////////////
@@ -241,8 +232,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         // Listen for newly the newly added content event
         $(window).bind("done.newaddcontent.sakai", function(e, data, library) {
-            if (library === mylibrary.contextId || isOnPersonalDashboard()) {
-                reset();
+            if (library === mylibrary.contextId) {
+                mylibrary.infinityScroll.prependItems(data);
             }
         });
 
@@ -263,35 +254,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     return null;
                 }
                 var formatted_tags = [];
+                debug.log("Here");
                 $.each(sakai.api.Util.formatTagsExcludeLocation(tags), function (i, name) {
                     formatted_tags.push({
                         name: name,
                         link: "search#q=" + sakai.api.Util.safeURL(name)
                     });
                 });
+                debug.log("Here");
                 return formatted_tags;
-            };
-
-            /**
-             * Returns the number of comments for the given item
-             *
-             * @param {Object} item  the item object returned from the server
-             * @return {Number} the number of comments for this item
-             */
-            var getNumComments = function (item) {
-                if (!item) {
-                    return 0;
-                }
-                var id = item["_path"];
-                var count = 0;
-                if (item[id + "/comments"]) {
-                    $.each(item[id + "/comments"], function (param, value) {
-                        if (param.indexOf("/comments/") != -1) {
-                            count++;
-                        }
-                    });
-                }
-                return count;
             };
 
             var canDeleteContent = function(item){
@@ -321,9 +292,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
              */
             var handleLibraryItems = function (results, callback) {
                 var userIds = [];
+                debug.log("Here1");
                 $.each(results, function(index, content){
                     userIds.push(content["sakai:pool-content-created-for"] || content["_lastModifiedBy"]);
                 });
+                debug.log("Here1");
                 if (userIds.length) {
                     sakai.api.User.getMultipleUsers(userIds, function(users){
                         currentItems = [];
@@ -408,6 +381,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 });
             } else {
                 mylibrary.contextId = sakai_global.profile.main.data.userid;
+                // TODO: Change this to getFirstName function
                 contextName = sakai_global.profile.main.data.basic.elements.firstName.value;
                 if (mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.isOwnerViewing = true;
