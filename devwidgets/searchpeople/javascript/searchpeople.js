@@ -204,7 +204,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             $(searchConfig.global.pagerClass).hide();
 
             var params = sakai_global.data.search.getQueryParams();
-            var urlsearchterm = sakai.api.Server.createSearchString(params.realq || params.q);
+            var urlsearchterm = sakai.api.Server.createSearchString(params.cat || params.q);
 
             var facetedurl = "";
             var facetedurlall = "";
@@ -239,13 +239,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
             if (urlsearchterm === '**' || urlsearchterm === '*') {
                 url = facetedurlall;
-                $(window).trigger("lhnav.addHashParam", [{"q": "", "realq": ""}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": "", "cat": ""}]);
             } else {
                 url = facetedurl;
                 if (url.indexOf(".infinity.json") === -1) {
                     url = url.replace(".json", ".infinity.json");
                 }
-                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "realq": params.realq}]);
+                $(window).trigger("lhnav.addHashParam", [{"q": params.q, "cat": params.cat}]);
             }
 
             searchAjaxCall = $.ajax({
@@ -271,7 +271,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     "q": $(searchConfig.global.text).val(),
-                    "realq": "",
+                    "cat": "",
                     "page": 0
                 }, 0);
             }
@@ -280,7 +280,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         $(searchConfig.global.button).live("click", function(ev){
             $.bbq.pushState({
                 "q": $(searchConfig.global.text).val(),
-                "realq": "",
+                "cat": "",
                 "page": 0
             }, 0);
         });

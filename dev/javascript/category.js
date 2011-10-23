@@ -140,15 +140,15 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 };
                 pubdata[fcRnd] = {
                     category: navData.id + "-" + index,
-                    title: navData.title + " > " + item.title
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fpRnd] = {
                     category: navData.id + "-" + index,
-                    title: navData.title + " > " + item.title
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fwRnd] = {
                     category: navData.id + "-" + index,
-                    title: navData.title + " > " + item.title
+                    title: navData.title + " » " + item.title
                 };
 
                 count++;
