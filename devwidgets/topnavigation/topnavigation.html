@@ -19,21 +19,26 @@
         {if type === "messages"}
             <div id="topnavigation_user_messages_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"></div>
-                <div id="topnavigation_user_inbox_messages" class="topnavigation_menuitem_counts"></div>
+                <div class="topnavigation_menuitem_counts_container" id="topnavigation_messages_container">
+                    <div id="topnavigation_user_inbox_icon" class="topnavigation_menuitem_icon"></div>
+                    <div id="topnavigation_user_inbox_messages" class="topnavigation_menuitem_counts s3d-bold"></div>
+                </div>
+                <div class="s3d-dropdown-menu" style="display:none;"></div>
             </div>
         {elseif type === "collections"}
             <div id="topnavigation_user_collections_container" class="topnavigation_counts_container">
                 <div class="topnavigation_usersection_splitter">|</div>
-                <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"></div>
-                <div id="topnavigation_user_collections" class="topnavigation_menuitem_counts">23</div>
+                <div class="topnavigation_menuitem_counts_container">
+                    <div id="topnavigation_user_collections_icon" class="topnavigation_menuitem_icon"></div>
+                    <div id="topnavigation_user_collections" class="topnavigation_menuitem_counts s3d-bold">23</div>
+                </div>
             </div>
         {/if}
     {/macro}
 
     {for i in links}
         <li class="s3d-bold s3d-dropdown-menu{if i.subnav} hassubnav{/if}">
-            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label} {if i.append}${appendInfo(i.append)}{/if}</a>
+            <a role="menuitem" class="s3d-bold" {if i.id}id="${i.id}" {/if} href="${i.url}">${i.label}</a>
             <div id="${i.id}_dropdown" class="s3d-dropdown-container" style="display:none;">
                 {if i.subnav}
                     <ul role="menu">
@@ -50,7 +55,34 @@
                 {/if}
             </div>
         </li>
+        {if i.append}${appendInfo(i.append)}{/if}
     {/for}
+--></div>
+
+<div id="topnavigation_messages_dropdown_template"><!--
+    <div class="dropdown-menu-arrowup"></div>
+    <div class="s3d-dropdown-container">
+        {if dataPresent}
+            <div class="s3d-dropdown-menu-content-container">
+                <div id="topnavigation_message_profile_pic">
+                    <img src="${sakai.api.User.getProfilePicture(data.results[0].userFrom[0])}" alt="test"/>
+                </div>
+                <div id="topnavigation_message_sender" class="s3d-bold">${sakai.api.User.getDisplayName(data.results[0].userFrom[0])} <span>(${data.results[0].timeago})</span></div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:subject"], 120)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:body"], 270)}</div>
+
+                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+            {else}
+                <div class="s3d-dropdown-menu-content-container no_messages">
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-icon s3d-no-results-people"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                    </div>
+            {/if}
+            <hr class="fl-hidden fl-push"/>
+        </div>
+    </div>
 --></div>
 
 <div id="search_template" style="display:none"><!--

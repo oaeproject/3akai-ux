@@ -834,6 +834,10 @@ define(function(){
             }, {
                 "id": "subnavigation_hr"
             }, {
+                "url": "/me#l=profile/basic",
+                "id": "subnavigation_profile_link",
+                "label": "MY_PROFILE"
+            }, {
                 "url": "/me#l=library",
                 "id": "subnavigation_content_link",
                 "label": "MY_LIBRARY"
@@ -845,12 +849,6 @@ define(function(){
                 "url": "/me#l=contacts",
                 "id": "subnavigation_contacts_link",
                 "label": "MY_CONTACTS_CAP"
-            }, {
-                "id": "subnavigation_hr"
-            }, {
-                "url": "/me#l=profile/basic",
-                "id": "subnavigation_profile_link",
-                "label": "MY_PROFILE"
             }]
         }, {
             "url": "#",
