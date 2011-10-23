@@ -21,6 +21,7 @@ define(function(){
             // Static URLs
             GATEWAY_URL: "/",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
+            GROUP_DEFAULT_ICON_URL_LARGE: "/dev/images/group_avatar_icon_100x100_nob.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/me#l=messages/inbox",
@@ -31,6 +32,7 @@ define(function(){
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
+            USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
 
             // Services
             BATCH: "/system/batch",
