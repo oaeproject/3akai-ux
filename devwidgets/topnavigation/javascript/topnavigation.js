@@ -472,10 +472,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             }
         };
 
+        var hideMessageInlay = function(){
+            $("#topnavigation_user_messages_container .s3d-dropdown-menu").hide();
+            $("#topnavigation_messages_container").removeClass("selected");
+        };
+
         /**
          * Add binding to the elements
          */
         var addBinding = function(){
+
+            sakai.api.Util.hideOnClickOut("#topnavigation_user_messages_container .s3d-dropdown-menu", "", function(){
+                hideMessageInlay();
+            });
+
             // Navigation hover binding
             var closeMenu = function(e){
                 if ($openMenu.length){
@@ -840,6 +850,9 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             function(){
                 $(topnavUserOptionsLoginFields).hide();
             });
+            
+            $("#topnavigation_message_reply").live("click", hideMessageInlay);
+            $("#topnavigation_message_readfull").live("click", hideMessageInlay);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
@@ -901,6 +914,24 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             if (el.attr("data-groupid")){
                 $(window).trigger("initialize.joingroup.sakai", [el.attr("data-groupid"), el]);
             }
+        });
+
+        $("#topnavigation_messages_container").live("click", function(){
+            sakai.api.Server.loadJSON(sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE, function(success, data){
+                var created = new Date(data.results[0]["_created"]);
+                data.results[0].timeago = $.timeago(created);
+                $("#topnavigation_messages_container").addClass("selected");
+                var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
+                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai}));
+                $messageContainer.show();
+            }, {
+                "items": 1,
+                "page": 0,
+                "box": "inbox",
+                "category": "message",
+                "sortOn": "_created",
+                "sortOrder": "asc"
+            });
         });
 
 
