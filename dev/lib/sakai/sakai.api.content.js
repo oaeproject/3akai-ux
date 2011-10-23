@@ -360,7 +360,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAManager: function(content, meObj, directOnly) {
-            if (content["sakai:pooled-content-manager"]) {
+            if (content && content["sakai:pooled-content-manager"]) {
                 for (var i = 0; i < content["sakai:pooled-content-manager"].length; i++) {
                     var authorizable = content["sakai:pooled-content-manager"][i];
                     // Direct association
@@ -383,7 +383,7 @@ define(
          * @param {Object} directOnly   specifies whether or not the manager relationship needs to be direct
          */
         isUserAViewer: function(content, meObj, directOnly) {
-            if (content["sakai:pooled-content-viewer"]) {
+            if (content && content["sakai:pooled-content-viewer"]) {
                 for (var i = 0; i < content["sakai:pooled-content-viewer"].length; i++) {
                     var authorizable = content["sakai:pooled-content-viewer"][i];
                     // Direct association
@@ -719,7 +719,6 @@ define(
                 var newlySavedData = sakai_global.savecontent.getNewContent(library);
                 $.merge(newData, newlySavedData);
             }
-            debug.log(newData);
             return newData;
         }
     };

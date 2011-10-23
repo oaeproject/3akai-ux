@@ -35,13 +35,21 @@
         var startInfiniteScrolling = function(){
             $(window).scroll(function() {
                 if (!isDoingExtraSearch){
-                    var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-                    if (pixelsRemainingUntilBottom < 500){
-                        currentPage++;
-                        loadResultList();
-                    }
+                    loadNextList();
                 }
             });
+        };
+
+        /**
+         * Function that checks whether the current scroll position is within a certain distance
+         * of the end of the page. If it is, we load the next set of results
+         */
+        var loadNextList = function(){
+            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+            if (pixelsRemainingUntilBottom < 500){
+                currentPage++;
+                loadResultList();
+            }
         };
 
         ///////////////////////
@@ -58,15 +66,10 @@
             $.each(items, function(i, item){
                 $("#" + item, container).fadeOut(false, function(){
                     isDoingExtraSearch = false;
-                    // If no items are visible anymore, we call the function
-                    // that deals with an empty list
-                    if ($('div:visible', container).size() === 0){
-                        if ($.isFunction(emptylistprocessor)){
-                            emptylistprocessor();
-                        };
-                    }
                 });
             });
+            currentPage = 0;
+            loadResultList();
         };
 
         /**
@@ -93,6 +96,7 @@
         var renderList = function(data, prepend){
             // Filter out items that are already in the list
             var filteredresults = [];
+            var doAnotherOne = data.results.length > 0;
             $.each(data.results, function(i, result){
                 if (result.id){
                     // Determine whether this item is already in the list
@@ -114,6 +118,17 @@
                 container.append(templateOutput);
             }
             isDoingExtraSearch = false;
+            // If there are more results and we're still close to the bottom of the page,
+            // do another one
+            if (doAnotherOne) {
+                loadNextList();
+            } else {
+                if ($('div:visible', container).size() === 0) {
+                    if ($.isFunction(emptylistprocessor)) {
+                        emptylistprocessor();
+                    };
+                };
+            }
         };
 
         /**
@@ -124,9 +139,6 @@
          *                            False when we want to append the new items to the list
          */
         var processList = function(data, prepend){
-            if (data.results.length === 0){
-                return false;
-            };
             if ($.isFunction(postprocessor)){
                 postprocessor(data.results, function(items){
                     data.results = items;
@@ -149,15 +161,6 @@
                 "url": url,
                 "data": parameters,
                 "success": function(data){
-                    // If this is the initial set of results and no items are
-                    // available, we call the function that deals with displaying
-                    // the default message
-                    if (initial && data.results.length === 0){
-                        if ($.isFunction(emptylistprocessor)){
-                            emptylistprocessor();
-                        };
-                        return false;
-                    };
                     processList(data);
                 },
                 "error": function(){

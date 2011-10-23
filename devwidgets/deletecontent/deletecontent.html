@@ -5,6 +5,7 @@
 <div style="display:none">
     <div id="deletecontent_message_title">__MSG__REMOVE_CONTENT__</div>
     <div id="deletecontent_message_from_library">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_LIBRARY__.</div>
+    <div id="deletecontent_message_from_library">__MSG__CONTENT_SUCCESSFULLY_DELETED_FROM_SYSTEM__.</div>
     <div id="deletecontent_message_error">__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__.</div>
 </div>
 
@@ -13,15 +14,59 @@
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__REMOVE_CONTENT__</h1>
     <div id="deletecontent_container"></div>
-    <div id="deletecontent_template_view_all" style="display:none"><!--
-        <ul class="deletecontent_content_list">
+    <div id="deletecontent_button_container" class="fl-force-right">
+        <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
+    </div>
+    <div id="deletecontent_template_list" style="display:none"><!--
+        <ul class="deletecontent_content_list deletecontent_content_list_large">
+            {var count = 0}
             {for content in contentIView}
-                <li>"${content["sakai:pooled-content-file-name"]}"</li>
+                ${count++|eat}
+                {if count <= 8}
+                    <li>"${content["sakai:pooled-content-file-name"]}"</li>
+                {/if}
             {/for}
+            {for content in contentIManage}
+                ${count++|eat}
+                {if count <= 8}
+                    <li>"${content["sakai:pooled-content-file-name"]}"</li>
+                {/if}
+            {/for}
+            {if count > 8}
+                <li>and ${contentIView.length + contentIManage.length - 8} more ...</li>
+            {/if}
         </ul>
-        <div class="fl-force-right">
-            <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
+    --></div>
+    <div id="deletecontent_template_hybrid" style="display:none"><!--
+        <div class="deletecontent_hybrid_container deletecontent_hybrid_dontmanage">
+            <div class="s3d-bold deletecontent_hybrid_container_padding">You don't manage ${contentIView.length} __MSG__ITEMS__</div>
+            <div class="deletecontent_hybrid_container_padding">Content you don't manage will be removed from this Library but remain in the system</div>
+        </div>
+        <div class="deletecontent_hybrid_container deletecontent_hybrid_manage">
+            <div class="s3d-bold deletecontent_hybrid_container_padding">
+                You manage ${contentIManage.length} __MSG__ITEMS__
+                <div class="deletecontent_hybrid_right">
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="libraryonly" checked> Remove from this library only</div>
+                    <div class="deletecontent_hybrid_options"><input type="radio" name="deletecontent_hybrid_options" value="system"> Delete from the system</div>
+                </div>
+                <div class="deletecontent_hybrid_left">
+                    <ul class="deletecontent_content_list">
+                        {var count = 0}
+                        {for content in contentIManage}
+                            ${count++|eat}
+                            {if count <= 8}
+                                <li>"${sakai.api.Util.applyThreeDots(content["sakai:pooled-content-file-name"], 115)}"</li>
+                            {/if}
+                        {/for}
+                        {if count > 8}
+                            <li>and ${contentIManage.length - 8} more ...
+                        {/if}
+                    </ul>
+                </div>
+            </div>
         </div>
     --></div>
 </div>

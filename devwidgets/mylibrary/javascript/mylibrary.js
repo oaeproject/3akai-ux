@@ -60,6 +60,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mylibrary_empty = $("#mylibrary_empty", $rootel);
         var $mylibrary_admin_actions = $("#mylibrary_admin_actions", $rootel);
         var $mylibrary_addcontent = $("#mylibrary_addcontent", $rootel);
+        var $mylibrary_remove_icon = $(".mylibrary_remove_icon", $rootel);
 
         var currentGroup = false;
 
@@ -141,9 +142,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var mode = "user_me";
             if (sakai_global.profile && mylibrary.contextId !== sakai.data.me.user.userid) {
                 mode = "user_other";
-            } else if (mylibrary.isOwnerViewing) {
+            } else if (!sakai_global.profile && mylibrary.isOwnerViewing) {
                 mode = "group_managed";
-            } else {
+            } else if (!sakai_global.profile) {
                 mode = "group";
             }
             $mylibrary_empty.html(sakai.api.Util.TemplateRenderer("mylibrary_empty_template", {
@@ -231,7 +232,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * deletecontent widget
          */
         $mylibrary_remove.click(function (ev) {
-            var $checked = $(".mylibrary_check:checked", $rootel);
+            var $checked = $(".mylibrary_check:checked:visible", $rootel);
             if ($checked.length) {
                 var paths = [];
                 $checked.each(function () {
@@ -242,6 +243,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     context: mylibrary.contextId
                 }, function (success) {
                     if (success) {
+                        resetView();
+                        $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
+                        mylibrary.infinityScroll.removeItems(paths);
+                    }
+                }]);
+            }
+        });
+
+        /**
+         * Called when clicking the remove icon next to an individual content
+         * item
+         */
+        $mylibrary_remove_icon.live("click", function(ev) {
+            if ($(this).data("entityid")){
+                var paths = [];
+                paths.push($(this).data("entityid"));
+                $(window).trigger('init.deletecontent.sakai', [{
+                    path: paths,
+                    context: mylibrary.contextId
+                }, function (success) {
+                    if (success) {
+                        resetView();
                         $(window).trigger("lhnav.updateCount", ["library", -(paths.length)]);
                         mylibrary.infinityScroll.removeItems(paths);
                     }

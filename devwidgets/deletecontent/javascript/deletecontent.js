@@ -61,82 +61,85 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Removing content from library only //
         ////////////////////////////////////////
 
-        /**
-         * Add binding to the various element in the delete content widget
-         */
-       /* var addBinding = function(callback){
-
-            // Reinitialise the jQuery selector
-            $deletecontent_action_delete = $($deletecontent_action_delete.selector);
-
-            // Add binding to the delete button
-            $deletecontent_action_delete.unbind("click").bind("click", function () {
-                var batchRequests = [];
-                if (deletedata.path && typeof(deletedata.path) === "string") {
-                    batchRequests.push({
-                        url: deletedata.path,
-                        method: "POST",
-                        parameters: {":operation" : "delete"}
-                    });
-                } else if (deletedata.path && typeof(deletedata.path) === "object" && deletedata.path.length) {
-                    $.each(deletedata.path, function (i, url) {
-                        batchRequests.push({
-                            url: url,
-                            method: "POST",
-                            parameters: {":operation" : "delete"}
-                        });
-                    });
-                }
-                sakai.api.Server.batch(batchRequests, function (success, data) {
-                    if (success) {
-                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
-                            sakai.api.Util.notification.show($deletecontent_deleted.html(),
-                                $deletecontent_successfully_deleted.html());
-                        } else {
-                            sakai.api.Util.notification.show($deletecontent_deleted.html(),
-                                sakai.api.i18n.getValueForKey("ITEMS_SUCCESSFULLY_DELETED", "deletecontent"));
-                        }
-                        if (callback && typeof(callback) === "function") {
-                            callback(true);
-                        }
-                    } else {
-                        if (typeof(deletedata.path) === "string" || deletedata.path.length === 1) {
-                            sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
-                                $deletecontent_not_successfully_deleted.html());
-                        } else {
-                            sakai.api.Util.notification.show($deletecontent_not_deleted.html(),
-                                sakai.api.i18n.getValueForKey("ITEMS_NOT_SUCCESSFULLY_DELETED", "deletecontent"));
-                        }
-                        if (callback && typeof(callback) === "function") {
-                            callback(false);
-                        }
+        var removeHybrid = function(){
+            var batchRequests = [];
+            // Remove for content I'm viewer of
+            for (var v = 0; v < contentIView.length; v++){
+                batchRequests.push({
+                    "url": "/p/" + contentIView[v]["_path"] + ".members.json",
+                    "method": "POST",
+                    "parameters": {
+                        ":viewer@Delete": context
                     }
                 });
-                $(window).trigger("done.deletecontent.sakai", [deletedata]);
-                $deletecontent_dialog.jqmHide();
-                return false;
-            });
-            
-                if (manager) {
-                    userToDelete = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
+            }
+            var manageOption = $("input[name='deletecontent_hybrid_options']:checked").val();
+            if (manageOption === "libraryonly"){
+                // Remove for content I'm a manager of
+                for (var m = 0; m < contentIManage.length; m++){
+                    batchRequests.push({
+                        "url": "/p/" + contentIManage[m]["_path"] + ".members.json",
                         "method": "POST",
                         "parameters": {
-                            ":manager@Delete": userid
+                            ":manager@Delete": context
                         }
-                    };
-                    numberOfManagersToDelete++;
-                }else{
-                    userToDelete = {
-                        "url": "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".members.json",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer@Delete": userid
-                        }
-                    };
+                    });
                 }
-            
-        }; */
+            } else if (manageOption === "system"){
+                // Remove for content I'm manager of
+                for (var m = 0; m < contentIManage.length; m++){
+                    batchRequests.push({
+                        "url": "/p/" + contentIManage[m]["_path"],
+                        "method": "POST",
+                        "parameters": {
+                            ":operation": "delete"
+                        }
+                    });
+                }
+            }
+            sakai.api.Server.batch(batchRequests, function (success, data) {
+                if (success) {
+                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_library").html());
+                } else {
+                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
+                }
+                $(window).trigger("done.deletecontent.sakai");
+                if (callback && typeof(callback) === "function") {
+                    callback(success);
+                }
+                $deletecontent_dialog.jqmHide();
+            });
+        };
+
+        /**
+         * Remove the selected items from the system and thus from all libraries where this is being
+         * used
+         */
+        var removeFromSystem = function(){
+            var batchRequests = [];
+            // Remove for content I'm manager of
+            for (var m = 0; m < contentIManage.length; m++){
+                batchRequests.push({
+                    "url": "/p/" + contentIManage[m]["_path"],
+                    "method": "POST",
+                    "parameters": {
+                        ":operation": "delete"
+                    }
+                });
+            }
+            sakai.api.Server.batch(batchRequests, function (success, data) {
+                if (success) {
+                    sakai.api.Util.notification.show($("#deletecontent_message_title").html(), $("#deletecontent_message_from_system").html());
+                } else {
+                    sakai.api.Util.error.show($("#deletecontent_message_title").html(), $("#deletecontent_message_error").html()); 
+                }
+                $(window).trigger("done.deletecontent.sakai");
+                if (callback && typeof(callback) === "function") {
+                    callback(success);
+                }
+                $deletecontent_dialog.jqmHide();
+            });
+        };
 
         /**
          * Remove the selected items from the current library only and keep them onto the
@@ -182,6 +185,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Overlay setup //
         ///////////////////
 
+        var hideButtons = function(){
+            $("#deletecontent_action_removefromsystem").hide();
+            $("#deletecontent_action_removefromlibrary").hide();
+            $("#deletecontent_action_apply").hide();
+        };
+
         /**
          * Set up the delete overlay depending on the permissions I have on the content
          * about to be deleted from the overlay
@@ -195,18 +204,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *                                   removed from the library that I'm a viewer of
          */
         var setupOverlay = function(contentIManage, contentIView){
+            hideButtons();
             var template = "";
-            if (contentIManage.length > 0 && contentIView.lenght > 0){
+            if (contentIManage.length > 0 && contentIView.length > 0){
                 // Set up overlay for mixed permissions
+                template = "deletecontent_template_hybrid";
+                $("#deletecontent_action_apply").show();
             } else if (contentIManage.length > 0){
                 // Set up overlay for full management permissions
+                template = "deletecontent_template_list";
+                $("#deletecontent_action_removefromsystem").show();
+                $("#deletecontent_action_removefromlibrary").show();
             } else if (contentIView.length > 0){
                 // Set up overlay for full viewer permissions
-                template = "deletecontent_template_view_all";
+                template = "deletecontent_template_list";
+                $("#deletecontent_action_removefromlibrary").show();
             }
             $("#deletecontent_container").html(sakai.api.Util.TemplateRenderer(template, {
                 "contentIManage": contentIManage,
-                "contentIView": contentIView
+                "contentIView": contentIView,
+                "sakai": sakai
             }));
         };
 
@@ -276,7 +293,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             context = data.context || sakai.data.me.user.userid;
             callback = _callback;
             getContentInfo(data.path);
-            $("#deletecontent_form", $rootel).html("");
+            $("#deletecontent_form").html("");
             $deletecontent_dialog.css("top", (50 + $(window).scrollTop()) + "px");
             $deletecontent_dialog.jqmShow();
         };
@@ -297,7 +314,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Internal event binding //
         ////////////////////////////
 
-        $("#deletecontent_action_removefromlibrary").live("click", removeFromLibrary);
+        $("#deletecontent_action_removefromlibrary").bind("click", removeFromLibrary);
+        $("#deletecontent_action_removefromsystem").bind("click", removeFromSystem);
+        $("#deletecontent_action_apply").bind("click", removeHybrid);
 
         ////////////////////////////
         // External event binding //
