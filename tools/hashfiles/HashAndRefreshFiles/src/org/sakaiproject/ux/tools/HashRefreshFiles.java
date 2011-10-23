@@ -142,14 +142,6 @@ public class HashRefreshFiles {
   public void updateFolderFiles (String newRootPath, String oldRootPath, File file) {
     if (!file.exists())
       return;
-    if (this.ignoreFilePaths != null && ignoreFilePaths.size() > 0) {
-      for (String s : ignoreFilePaths) {
-        if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
-          System.out.println("ignored file: " + file.getAbsolutePath());
-          return;
-        }
-      }
-    }
     if (file.isDirectory()) {
       File[] files = file.listFiles();
       if (files != null) {
@@ -183,8 +175,6 @@ public class HashRefreshFiles {
           if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
             String oldPath = file.getAbsolutePath();
             String newName = hashFolders(file);
-            System.out.println("###############oldPath = " + oldPath + " #######################");
-            System.out.println("###############newName = " + newName + " #######################");
             updateFolderFiles(oldPath + "-" + newName, oldPath, file);
             file.renameTo(new File(oldPath + "-" + newName));
             return;
