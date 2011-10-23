@@ -301,7 +301,7 @@ a.s3d-button.s3d-regular-button{height:24px;line-height:24px;}
 .s3d-actions-delete {background:url("/dev/images/delete_icon_default.png") no-repeat top left transparent;}
 .s3d-actions-delete:hover {background:url("/dev/images/delete_icon_hover.png") no-repeat top left transparent;}
 
-.s3d-actions-addtolibrary {background:url("/dev/images/addtolibrary_icon_default.png") no-repeat top left transparent;}
+.s3d-actions-addtolibrary {background:url("/dev/images/addtolibrary_icon_default.png") no-repeat top left transparent; width: 17px; height: 25px;}
 .s3d-actions-addtolibrary:hover {background:url("/dev/images/addtolibrary_icon_hover.png") no-repeat top left transparent;}
 
 .s3d-actions-author {background:url("/dev/images/author_icon_default.png") no-repeat scroll left top transparent;width:32px !important;}
