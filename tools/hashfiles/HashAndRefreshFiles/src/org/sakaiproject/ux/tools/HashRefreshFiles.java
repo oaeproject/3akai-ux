@@ -19,13 +19,14 @@ import java.util.Set;
 public class HashRefreshFiles {
   public String configName = "config.properties";
   public HashMap<String, String> props = new HashMap<String, String>();
-  public String BASE_DIR = "basedir";
-  public String HASH_TYPES = "hash_file_types";
-  public String PROCESSING_FILE_TYPES = "need_to_change_file_types";
-  public String IGNORE_FILE_PATHS = "ignore_file_paths";
-  public String REQUIRE_BASE_URL = "require_base_url";
-  public String REQUIRE_PATHS = "require_paths";
-  public String REQUIRE_DEPENDENCY_FILE = "require_dependency_file";
+  public final String BASE_DIR = "basedir";
+  public final String HASH_TYPES = "hash_file_types";
+  public final String PROCESSING_FILE_TYPES = "need_to_change_file_types";
+  public final String IGNORE_FILE_PATHS = "ignore_file_paths";
+  public final String REQUIRE_BASE_URL = "require_base_url";
+  public final String REQUIRE_PATHS = "require_paths";
+  public final String REQUIRE_DEPENDENCY_FILE = "require_dependency_file";
+  public final String MANAGE_FOLDERS = "folder_libs";
   
   public Set<String> hashFileTypes = new HashSet<String>();
   public Set<String> ignoreFilePaths = new HashSet<String>();
@@ -35,6 +36,7 @@ public class HashRefreshFiles {
   public Map<String, String> requirePaths = new HashMap<String, String>() ;
   public Map<String, String> hashedResults = new HashMap<String, String>();
   public String requireDependencyFile = "";
+  public Set<String> manageFolders = new HashSet<String>();
   
   public void readProperties (String fileName) throws Exception{
     FileInputStream fis = new FileInputStream(new File(fileName));
@@ -82,8 +84,62 @@ public class HashRefreshFiles {
     BigInteger bi = new BigInteger(1, md.digest());
     return bi.toString(16);
   }
+  /**
+   *  return the relative path of path2 file in path1 file
+   *  for example: path1: /a/b/d/e/t.js, path2: /a/b/c/x.js
+   *  return: ../../c/x.js
+   * @param path1
+   * @param path2
+   * @return
+   */
+  public String getRelativePath (String path1, String path2) { 
+    if (path1 == null || path2 == null)
+      return null;
+    if (path1.equals(path2))
+      return null;
+    
+    String lastDir = "../";
+    String result = "";
+    String[] allPath1 = path1.split("/");
+    String[] allPath2 = path2.split("/");
+    int i = 0;
+    for ( i = 0; i < allPath1.length - 1; i++) {
+      if (i >= allPath2.length - 1 || (!allPath1[i].equals(allPath2[i]))) {
+        for (int j = i; j < allPath1.length - 1; j++) {
+          result += lastDir;
+        }
+        break;
+      }
+    }
+    for (int j = i ; j < allPath2.length; j++) {
+      result += allPath2[j];
+      if (j != allPath2.length - 1)
+         result += "/";
+    }
+    return result;
+  }
   
-  public void hashFiles (File file, String rootPath) throws Exception{
+  public String hashFolders (File file) throws Exception{
+    if (file == null || ! file.exists())
+      return null;
+    if (!file.isDirectory())
+      return getCheckSum (file);
+    File[] files = file.listFiles();
+    StringBuilder sb = new StringBuilder("");
+    if (files != null && files.length > 0) {
+      for (File f : files) {
+        String s = hashFolders(f);
+        if (s != null)
+          sb.append(s);
+      }
+    }
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    md.update(sb.toString().getBytes());
+    BigInteger bi = new BigInteger(1, md.digest());
+    return bi.toString(16);
+  }
+  
+  public void updateFolderFiles (String newRootPath, String oldRootPath, File file) {
     if (!file.exists())
       return;
     if (this.ignoreFilePaths != null && ignoreFilePaths.size() > 0) {
@@ -98,7 +154,49 @@ public class HashRefreshFiles {
       File[] files = file.listFiles();
       if (files != null) {
         for ( File f : files) {
-          hashFiles(f, rootPath);
+          updateFolderFiles (newRootPath, oldRootPath, f);
+        }
+      }
+      return;
+    }
+    String newPath = newRootPath + file.getAbsolutePath().substring(oldRootPath.length());
+    newPath = newPath.substring(rootDir.getAbsolutePath().length());
+    String oldPath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
+    this.hashedResults.put(newPath, oldPath);
+    System.out.println("hashed file: {" + oldPath + ", " + newPath + "}");
+  }
+  
+  public void hashFiles (File file) throws Exception{
+    if (!file.exists())
+      return;
+    if (this.ignoreFilePaths != null && ignoreFilePaths.size() > 0) {
+      for (String s : ignoreFilePaths) {
+        if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
+          System.out.println("ignored file: " + file.getAbsolutePath());
+          return;
+        }
+      }
+    }
+    if (file.isDirectory()) {
+      if (this.manageFolders != null && manageFolders.size() > 0) {
+        for (String s : manageFolders) {
+          if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
+            String oldPath = file.getAbsolutePath();
+            String newName = hashFolders(file);
+            System.out.println("###############oldPath = " + oldPath + " #######################");
+            System.out.println("###############newName = " + newName + " #######################");
+            updateFolderFiles(oldPath + "-" + newName, oldPath, file);
+            file.renameTo(new File(oldPath + "-" + newName));
+            return;
+          }
+        }
+      }
+    }
+    if (file.isDirectory()) {
+      File[] files = file.listFiles();
+      if (files != null) {
+        for ( File f : files) {
+          hashFiles(f);
         }
       }
       return;
@@ -125,7 +223,7 @@ public class HashRefreshFiles {
     
     String newName = prefix + "-" + getCheckSum(file) + suffix;
     String path = file.getAbsolutePath();
-    String relativePath = path.substring(rootPath.length());
+    String relativePath = path.substring(rootDir.getAbsolutePath().length());
     String newPath = relativePath.substring(0, relativePath.length() - fileName.length()) + newName;
     file.renameTo(new File(path.substring(0, path.length() - fileName.length()) + newName));
     this.hashedResults.put(relativePath, newPath);
@@ -165,11 +263,21 @@ public class HashRefreshFiles {
     }
     input.close();
     String all = sb.toString();
+    String filePath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
+    
     for (String s : hashedResults.keySet()) {
       if (all.contains(s)) {
-        System.out.println("processing file: " + file.getAbsolutePath());
+        System.out.println("processing file: " + filePath);
         System.out.println("replace path: {" + s + ", " + hashedResults.get(s) + "}");
         all = all.replaceAll(s, hashedResults.get(s));
+      }
+      String relativePath = this.getRelativePath(filePath, s);
+      if (relativePath != null && all.contains(relativePath)) {
+        String newPath = hashedResults.get(s);
+        newPath = relativePath.substring(0, relativePath.lastIndexOf("/") + 1) + newPath.substring(newPath.lastIndexOf("/") + 1);
+        System.out.println("processing file: " + filePath);
+        System.out.println("replace path: {" + relativePath + ", " + newPath + "}");
+        all = all.replaceAll(relativePath, newPath);
       }
     }
     BufferedWriter bw = new BufferedWriter (new FileWriter (file));
@@ -255,6 +363,7 @@ public class HashRefreshFiles {
     putString (props.get(HASH_TYPES), ",", this.hashFileTypes);
     putString (props.get(PROCESSING_FILE_TYPES), ",", this.processingFileTypes);
     putString (props.get(IGNORE_FILE_PATHS), ",", this.ignoreFilePaths);
+    putString (props.get(MANAGE_FOLDERS), ",", this.manageFolders);
     
     this.requireBaseUrl = props.get(REQUIRE_BASE_URL);
     this.requireDependencyFile = props.get(REQUIRE_DEPENDENCY_FILE);
@@ -270,7 +379,7 @@ public class HashRefreshFiles {
       }
     }
     rootDir = new File (props.get(BASE_DIR));
-    hashFiles (rootDir, rootDir.getAbsolutePath());
+    hashFiles (rootDir);
     replaceWithNewPaths(rootDir);
     handleRequireJS();
   }
@@ -281,5 +390,4 @@ public class HashRefreshFiles {
       hrf.configName = args[0];
     hrf.processData();
   }
-  
 }
