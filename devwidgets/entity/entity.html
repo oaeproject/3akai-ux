@@ -203,7 +203,7 @@
                         {else}
                             <span>__MSG__PRIVATE_DESCRIPTION__</span>
                         {/if}
-                    	<button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    	<button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                     </div>
                 </div>
                 <div class="entity_owns_actions_institution {if permissions === "everyone"} selected {/if}">
@@ -214,7 +214,7 @@
                         {else}
                         	<span>__MSG__EVERYONE_DESCRIPTION__</span>
                         {/if}
-                        <button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                     </div>
                 </div>
                 <div class="entity_owns_actions_public {if permissions === "public"} selected {/if}">
@@ -225,18 +225,38 @@
                         {else}
                             <span>__MSG__PUBLIC_DESCRIPTION__</span>
                         {/if}
-                        <button type="button" class="s3d-button s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="entity_owns_actions_container">
-            <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right"></div>
+            <div class="s3d-actions-addtolibrary s3d-action-icon fl-force-right">
+                <div class="s3d-dropdown-list" id="">
+                    <div class="s3d-dropdown-list-arrow-up"></div>
+                    <span>Create a new collection using the same collaborators</span>
+                    <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                </div>
+            </div>
             __MSG__COLLABORATION__
             <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
-                <div class="entity_owns_actions_collaborator has_counts entity_content_people"><span id="entity_participants_count">${data.members.counts.people}</span></div>
+                <div class="entity_owns_actions_collaborator has_counts">
+                    <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list-arrow-up"></div>
+                        	<span><button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people} {if data.members.counts.people == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}</button> and <button class="s3d-link-button entity_content_group">${data.members.counts.groups} {if data.members.counts.groups == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}</button> are collaborating managers of this list</span>
+                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    </div>
+                    <span id="entity_participants_count">0</span>
+                </div>
                 <span>|</span>
-                <div class="entity_owns_actions_share has_counts entity_content_group"><span>${data.members.counts.groups}</span></div>
+                <div class="entity_owns_actions_share has_counts">
+                    <div class="s3d-dropdown-list" id="">
+                        <div class="s3d-dropdown-list-arrow-up"></div>
+                        	<span>Shared with <button type="button" class="s3d-link-button entity_content_people">${data.members.counts.people} {if data.members.counts.people == 1} __MSG__PERSON_LC__{else} __MSG__PEOPLE_LC__{/if}</button> and <button class="s3d-link-button entity_content_group">${data.members.counts.groups} {if data.members.counts.groups == 1} __MSG__GROUP_LC__{else} __MSG__GROUPS_LC__{/if}</button></span>
+                        <button type="button" class="s3d-link-button ew_permissions">__MSG__CHANGE__</button>
+                    </div>
+                    <span>${data.members.counts.groups + data.members.counts.people}</span>
+                </div>
                 <span>|</span>
                 <button type="button" class="s3d-link-button s3d-bold ew_permissions" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
             </div>
