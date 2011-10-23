@@ -918,12 +918,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
 
         $("#topnavigation_messages_container").live("click", function(){
             sakai.api.Server.loadJSON(sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE, function(success, data){
-                var created = new Date(data.results[0]["_created"]);
-                data.results[0].timeago = $.timeago(created);
+                var dataPresent = false;
+                if (data.results && data.results[0]){
+                    dataPresent = true;
+                    var created = new Date(data.results[0]["_created"]);
+                    data.results[0].timeago = $.timeago(created);
+                }
                 $("#topnavigation_messages_container").addClass("selected");
                 var $messageContainer = $("#topnavigation_user_messages_container .s3d-dropdown-menu");
-                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai}));
+                $messageContainer.html(sakai.api.Util.TemplateRenderer("topnavigation_messages_dropdown_template", {data: data, sakai: sakai, dataPresent: dataPresent}));
                 $messageContainer.show();
+                
             }, {
                 "items": 1,
                 "page": 0,

@@ -62,16 +62,24 @@
 <div id="topnavigation_messages_dropdown_template"><!--
     <div class="dropdown-menu-arrowup"></div>
     <div class="s3d-dropdown-container">
-        <div class="s3d-dropdown-menu-content-container">
-            <div id="topnavigation_message_profile_pic">
-                <img src="${sakai.api.User.getProfilePicture(data.results[0].userFrom[0])}" alt="test"/>
-            </div>
-            <div id="topnavigation_message_sender" class="s3d-bold">${sakai.api.User.getDisplayName(data.results[0].userFrom[0])} <span>(${data.results[0].timeago})</span></div>
-            <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:subject"], 120)}</div>
-            <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:body"], 270)}</div>
+        {if dataPresent}
+            <div class="s3d-dropdown-menu-content-container">
+                <div id="topnavigation_message_profile_pic">
+                    <img src="${sakai.api.User.getProfilePicture(data.results[0].userFrom[0])}" alt="test"/>
+                </div>
+                <div id="topnavigation_message_sender" class="s3d-bold">${sakai.api.User.getDisplayName(data.results[0].userFrom[0])} <span>(${data.results[0].timeago})</span></div>
+                <div id="topnavigation_message_subject" class="s3d-bold">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:subject"], 120)}</div>
+                <div id="topnavigation_message_body">${sakai.api.Util.applyThreeDots(data.results[0]["sakai:body"], 270)}</div>
 
-            <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
-            <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
+                <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+            {else}
+                <div class="s3d-dropdown-menu-content-container no_messages">
+                    <div class="s3d-no-results-container">
+                        <div class="s3d-no-results-icon s3d-no-results-people"></div>
+                        <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                    </div>
+            {/if}
             <hr class="fl-hidden fl-push"/>
         </div>
     </div>
