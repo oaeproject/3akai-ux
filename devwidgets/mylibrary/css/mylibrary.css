@@ -48,7 +48,7 @@
 .mylibrary_item_right{margin-left:78px;}
 .mylibrary_item_mimetype {font-size:smaller;white-space:pre;text-transform:uppercase;}
 .mylibrary_item_by {padding:3px 0;font-size:11px;}
-.mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0;}
+.mylibrary_item_description{margin:0px;font-size:.90em;padding:6px 0; word-wrap: break-word;}
 .mylibrary_item_share_icon{display:inline-block;float:right; margin-right: 10px;}
 .mylibrary_item_author_icon{margin-left:8px;display:inline-block;float:right;}
 .mylibrary_item_usedin{margin-top:2px;font-size:11px;}

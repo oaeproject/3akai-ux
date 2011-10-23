@@ -126,6 +126,7 @@ require(
         "jquery-plugins/jquery.pager.sakai-edited",
         "jquery-plugins/jquery.threedots",
         "jquery-plugins/jquery.form",
+        "jquery-plugins/jquery.fileupload",
         "jquery-plugins/jquery.MultiFile",
         "jquery-plugins/jquery.hoverIntent.sakai-edit",
         "jquery-plugins/jsTree/jquery.jstree.sakai-edit",
