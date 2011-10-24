@@ -51,7 +51,7 @@
     <div class="areapermissions_permissions_container">
         <h2>__MSG__EDIT__ </h2>
         <div class="s3d-inset-shadow-container">
-            <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__ {if !manager} <span class="areapermissions_grouppermissions_notificationlabel">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</p>
+            <p>__MSG__WHICH_ROLES_CAN_EDIT_THIS__ {if !manager} <span class="areapermissions_grouppermissions_notificationlabel inline">(__MSG__YOU_HAVE_TO_MANAGE_THIS_DOCUMENT__)</span>{/if}</p>
             <div class="s3d-outer-shadow-container">
                 {for role in roles}
                     <div class="areapermissions_edit_role_container {if roles.length > 3} multiple{/if}">
@@ -87,7 +87,7 @@
     {/if}
 --></div>
 
-<span style="display:none" id="areapermissions_notification_title">__MSG__AREA_PERMISSIONS__</span>
+<span style="display:none" id="areapermissions_notification_title">__MSG__PERMISSIONS_CHANGED__</span>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/areapermissions/javascript/areapermissions.js"></script>
