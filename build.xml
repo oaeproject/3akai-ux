@@ -252,8 +252,24 @@
         <delete file="${MATH_DIR}/config/local/imageFonts.js"/>
     </target>
 
+    <!-- Build hash tool -->
+    <target name="compile_hash_tool">
+        <javac srcdir="${HASHTOOL_DIR}/HashAndRefreshFiles/src/org/sakaiproject/ux/tools" 
+            destdir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"/>
+        <delete file="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"/>
+        <delete file="${HASHTOOL_DIR}/MANIFEST.MF"/>
+        <manifest file="${HASHTOOL_DIR}/MANIFEST.MF">
+            <attribute name="Built-By" value="Sakai project"/>
+            <attribute name="Main-class" value="org.sakaiproject.ux.tools.HashRefreshFiles"/>
+        </manifest>
+        <jar destfile="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
+            basedir="${HASHTOOL_DIR}/HashAndRefreshFiles/classes"
+            manifest="${HASHTOOL_DIR}/MANIFEST.MF"
+            />
+    </target>
+
     <!-- Target: Hash files-->
-    <target name="hash_files" depends="optimize">
+    <target name="hash_files" depends="compile_hash_tool, optimize">
         <java jar="${HASHTOOL_DIR}/HashAndRefreshFiles.jar"
         fork="true">
             <arg value="${HASHTOOL_DIR}/config.properties" />

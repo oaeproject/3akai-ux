@@ -138,26 +138,7 @@ public class HashRefreshFiles {
     BigInteger bi = new BigInteger(1, md.digest());
     return bi.toString(16);
   }
-  
-  public void updateFolderFiles (String newRootPath, String oldRootPath, File file) {
-    if (!file.exists())
-      return;
-    if (file.isDirectory()) {
-      File[] files = file.listFiles();
-      if (files != null) {
-        for ( File f : files) {
-          updateFolderFiles (newRootPath, oldRootPath, f);
-        }
-      }
-      return;
-    }
-    String newPath = newRootPath + file.getAbsolutePath().substring(oldRootPath.length());
-    newPath = newPath.substring(rootDir.getAbsolutePath().length());
-    String oldPath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
-    this.hashedResults.put(newPath, oldPath);
-    System.out.println("hashed file: {" + oldPath + ", " + newPath + "}");
-  }
-  
+
   public void hashFiles (File file) throws Exception{
     if (!file.exists())
       return;
@@ -174,9 +155,12 @@ public class HashRefreshFiles {
         for (String s : manageFolders) {
           if (file.getAbsolutePath().toLowerCase().endsWith(s.toLowerCase())) {
             String oldPath = file.getAbsolutePath();
-            String newName = hashFolders(file);
-            updateFolderFiles(oldPath + "-" + newName, oldPath, file);
-            file.renameTo(new File(oldPath + "-" + newName));
+            String newPath = oldPath + "-" + hashFolders(file);
+            file.renameTo(new File(newPath));
+            oldPath = oldPath.substring(rootDir.getAbsolutePath().length());
+            newPath = newPath.substring(rootDir.getAbsolutePath().length());
+            this.hashedResults.put(oldPath, newPath);
+            System.out.println("hashed file: {" + oldPath + ", " + newPath + "}");
             return;
           }
         }
@@ -254,19 +238,21 @@ public class HashRefreshFiles {
     input.close();
     String all = sb.toString();
     String filePath = file.getAbsolutePath().substring(rootDir.getAbsolutePath().length());
-    
     for (String s : hashedResults.keySet()) {
       if (all.contains(s)) {
         System.out.println("processing file: " + filePath);
         System.out.println("replace path: {" + s + ", " + hashedResults.get(s) + "}");
         all = all.replaceAll(s, hashedResults.get(s));
+        continue;
       }
       String relativePath = this.getRelativePath(filePath, s);
       if (relativePath != null && all.contains(relativePath)) {
         String newPath = hashedResults.get(s);
         newPath = relativePath.substring(0, relativePath.lastIndexOf("/") + 1) + newPath.substring(newPath.lastIndexOf("/") + 1);
+        if (relativePath.equals(newPath))
+          continue;
         System.out.println("processing file: " + filePath);
-        System.out.println("replace path: {" + relativePath + ", " + newPath + "}");
+        System.out.println("replace relative path: {" + relativePath + ", " + newPath + "}");
         all = all.replaceAll(relativePath, newPath);
       }
     }
