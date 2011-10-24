@@ -104,7 +104,10 @@
                                             </a>
                                         {/if}
                                     </div>
-                                    {if i["sakai:group-description-short"]}<div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>{/if}
+                                    {if i["sakai:group-description-short"]}
+                                        <div class="searchgroups_result_description">${i["sakai:group-description-short"]}</div>
+                                        <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
+                                    {/if}
                                     {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                         <div class="searchgroups_result_tags">
                                             <span class="searchgroups_result_icon searchgroups_result_tags_icon"></span>
