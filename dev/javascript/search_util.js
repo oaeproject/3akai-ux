@@ -139,6 +139,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
                         results[group].userMember = true;
                     }
+                    // use large default group icon on search page
+                    if (results[group].picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
+                        results[group].picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
+                    }
 
                     finaljson.items.push(results[group]);
                 }
@@ -169,6 +173,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
+                    // use large default user icon on search page
+                    if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
+                        user.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
                         user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
@@ -239,6 +247,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.getQueryParams = function(){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
+                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby')

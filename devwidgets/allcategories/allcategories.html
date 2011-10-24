@@ -27,7 +27,7 @@
                                 <div class="allcategories_item_header">
                                     <div class="allcategories_item_raquo"></div>
                                     <div class="allcategories_item_header_link s3d-regular-links s3d-bold">${item.title}</div>
-                                    <span class="allcategories_item_header_meta">${item.count} content items</span>
+                                    <span class="allcategories_item_header_meta">${item.count || 0} {if item.count === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</span>
                                 </div>
                             </a>
                             {if item.content}
@@ -43,7 +43,7 @@
                                     {if item.content["sakai:description"]}
                                         <span class="allcategories_content_description">${sakai.api.Util.applyThreeDots(item.content["sakai:description"], size)}</span>
                                     {/if}
-                                    <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>
+                                    <span class="allcategories_content_category_description"><span class="allcategories_content_usedin_icon allcategories_content_icon"></span>__MSG__USED_IN__ ${item.content.usedin} {if item.content.usedin == 1} __MSG__PLACE_LC__{else} __MSG__PLACES_LC__{/if}</span>
                                     {if item.content.commentcount}<span class="allcategories_content_category_description"><span class="allcategories_content_comments_icon allcategories_content_icon"></span><a href="/content#p=${item.content["_path"]|safeURL}/${item.content["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links">${item.content.commentcount} {if item.content.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                                     {if item.content["sakai:tags"] && sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"]).length > 0}
                                         {var realTags = sakai.api.Util.formatTagsExcludeLocation(item.content["sakai:tags"])}

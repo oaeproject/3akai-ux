@@ -105,13 +105,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
             };
             privdata[fcRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
             privdata[fpRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
             privdata[fwRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
 
             var count = 0;
@@ -136,13 +139,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
                 };
                 pubdata[fcRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fpRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fwRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
 
                 count++;

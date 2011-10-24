@@ -57,6 +57,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             $featuredworldsContainer.html(sakai.api.Util.TemplateRenderer(featuredworldsTemplate, {
                 "tabs": tabs,
                 "category":pageData.category,
+                "title": pageData.title,
                 "data": data
             }));
             for (var d in data){
