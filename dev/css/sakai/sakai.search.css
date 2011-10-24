@@ -91,7 +91,7 @@
 .s3d-search-results-grid{border:0 !important;}
 .s3d-search-results-grid .s3d-search-result{width:145px;height:232px;overflow:hidden;float:left;position:relative;border: 1px solid #FFFFFF;}
 .s3d-search-results-grid .s3d-search-result{margin:0 10px 10px 0;}
-.s3d-search-results-grid .s3d-search-result a img{float:left;padding:0;margin:0 0 0 20px;width:100px;height:100px;position:absolute;}
+.s3d-search-results-grid .s3d-search-result a img{float:left;padding:0;margin-left:7px;width:100px;height:100px;position:absolute;}
 .s3d-search-results-grid .s3d-search-result-right{margin:135px 0 0 0;}
 .s3d-search-results-grid .s3d-search-result-user-functions{position:absolute;float:left;margin:110px 0 0 20px;}
 .s3d-search-results-grid .s3d-search-result-content .s3d-actions-addtolibrary{margin-right:8px;}
