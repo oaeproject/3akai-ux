@@ -518,36 +518,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 } else if (e.which == $.ui.keyCode.LEFT) {
                     if ($(this).prevAll("li:first").length > 0){
                         $(this).prevAll("li:first").children("a").focus();
-                    } else if ($(this).parent().hasClass("topnavigation_user_container")) {
-                        if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else {
-                            $(this).parent().prevAll("ul").find("li:last a").focus();
-                        }
-                    } else if ($(this).parent().parent().hasClass("topnavigation_user_container")) {
-                        if ($("#topnavigation_user_inbox_container").length){
-                            $("#topnavigation_user_inbox_container").focus();
-                        } else if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else {
-                            $(this).parent().parent().parent().prevAll("ul").children("li:last").children("a").focus();
-                        }
+                    } else {
+                        $(this).nextAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if (e.which == $.ui.keyCode.RIGHT) {
                     if ($(this).nextAll("li:first").length > 0){
                         $(this).nextAll("li:first").children("a").focus();
-                    } else if ($(this).parent().hasClass("topnavigation_explore")) {
-                        if ($("#topnavigation_search_input").length) {
-                            $("#topnavigation_search_input").focus();
-                        } else if ($("#topnavigation_user_options_login").length) {
-                            // focus on login menu
-                            $("#topnavigation_user_options_login").focus();
-                            $(topnavUseroptionsLoginFieldsUsername).focus();
-                        } else if ($("#topnavigation_user_options_name").length) {
-                            // focus on user options menu
-                            $("#topnavigation_user_options_name").focus();
-                        }
+                    } else {
+                        $(this).prevAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if ($(this).hasClass("hassubnav") && $(this).children("a").is(":focus")) {
@@ -582,13 +561,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
                 if (e.which == $.ui.keyCode.DOWN) {
                     if ($(this).parent().nextAll("li:first").length > 0){
                         $(this).parent().nextAll("li:first").children("a").focus();
+                    } else {
+                        $(this).parent().prevAll("li:last").children("a").focus();
                     }
                     return false; // prevent browser page from scrolling down
                 } else if (e.which == $.ui.keyCode.UP) {
                     if ($(this).parent().prevAll("li:first").length > 0) {
                         $(this).parent().prevAll("li:first").children("a").focus();
                     } else {
-                        $(this).parent().parents("li:first").find("a:first").focus();
+                        $(this).parent().nextAll("li:last").children("a").focus();
                     }
                     return false;
                 } else if (e.which == $.ui.keyCode.ESCAPE) {
