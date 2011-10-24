@@ -141,7 +141,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             });
         };
 
-        var doShare = function(event,userlist,message,contentobj){
+        var doShare = function(event, userlist, message, contentobj){
             var userList = userlist || getSelectedList();
             var messageText = message || $.trim($newsharecontentMessage.val());
             contentObj = contentobj || contentObj;
@@ -152,7 +152,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 userList.list = toAddList;
                 if (toAddList.length) {
                     sakai.api.Communication.sendMessage(userList.list, sakai.data.me, sakai.api.i18n.getValueForKey("I_WANT_TO_SHARE", "newsharecontent") + " \"" + contentObj.data["sakai:pooled-content-file-name"] + "\"", messageText, "message", false, false, true, "shared_content");
-                    sakai.api.Content.addToLibrary(contentObj.data["_path"], toAddList);
+                    sakai.api.Content.addToLibrary(contentObj.data["_path"], toAddList, contentObj.data.viewerOrManager || "viewer");
                     sakai.api.Util.notification.show(false, $("#newsharecontent_users_added_text").text() + " " + userList.toAddNames.join(", "), "");
                     createActivity("__MSG__ADDED_A_MEMBER__");
                     $newsharecontentContainer.jqmHide();

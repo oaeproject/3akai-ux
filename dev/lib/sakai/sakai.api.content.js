@@ -417,7 +417,7 @@ define(
             return false;
         },
 
-        addToLibrary: function(contentId, userId, callBack){
+        addToLibrary: function(contentId, userId, viewerOrManager, callBack){
             var toAdd = [];
             if (typeof userId === "string"){
                 toAdd.push(userId);
@@ -426,9 +426,19 @@ define(
             }
             var batchRequests = [];
             for (var i = 0; i < toAdd.length; i++){
+                var params = {};
+                if (viewerOrManager && viewerOrManager === "manager"){
+                    params = {
+                        ":manager": toAdd[i]
+                    }
+                } else {
+                    params = {
+                        ":viewer": toAdd[i]
+                    }
+                }
                 batchRequests.push({
                     url: "/p/" + contentId + ".members.json",
-                    parameters: {":viewer": toAdd[i]},
+                    parameters: params,
                     method: "POST"
                 });
             }
