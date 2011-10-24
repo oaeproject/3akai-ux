@@ -824,6 +824,7 @@ define(function(){
             "id": "navigation_you_link",
             "anonymous": false,
             "label": "YOU",
+            "append": "messages",
             "subnav": [{
                 "url": "/me#l=dashboard",
                 "id": "subnavigation_home_link",
@@ -855,15 +856,16 @@ define(function(){
             "url": "#",
             "id": "navigation_create_and_add_link",
             "anonymous": false,
-            "label": "CREATE_AND_ADD",
+            "label": "CREATE_AND_COLLECT",
+            "append": "collections",
             "subnav": [{
                 "id": "subnavigation_add_content_link",
                 "label": "ADD_CONTENT",
                 "url": "#"
             }, {
-                "id": "subnavigation_add_contacts_link",
-                "label": "ADD_CONTACTS",
-                "url": "/search#l=people"
+                "id": "subnavigation_add_collection_link",
+                "label": "ADD_COLLECTION",
+                "url": "#"
             }, {
                 "id": "subnavigation_hr"
             }]
