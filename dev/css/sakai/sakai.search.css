@@ -103,8 +103,6 @@
 .s3d-search-results-grid .s3d-search-result-detail-separator span{display:none;}
 .s3d-search-results-grid .searchpeople_result_description, .s3d-search-results-grid .searchgroups_result_description, .s3d-search-results-grid .searchcontent_result_description{display:none;}
 .s3d-search-results-grid .searchpeople_result_description_grid, .s3d-search-results-grid .searchgroups_result_description_grid, .s3d-search-results-grid .searchcontent_result_description_grid{display:inline;word-wrap:break-word;}
-.s3d-search-results-grid .searchpeople_result_description{display:none;}
-.s3d-search-results-grid .searchpeople_result_description_grid{display:inline;}
 .s3d-search-results-grid .searchgroups_avatar_large, .s3d-search-results-grid .searchpeople_avatar_large {display:inline;}
 .s3d-search-results-grid ~ .jq_pager{border:0;}
 .s3d-search-results-grid .s3d-search-result:hover{border: 1px solid #e9e9e9;
