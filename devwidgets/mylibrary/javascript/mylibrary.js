@@ -626,7 +626,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var finishInit = function(contextName, isGroup){
             if (mylibrary.contextId) {
                 mylibrary.default_search_text = getPersonalizedText("SEARCH_YOUR_LIBRARY");
-                $mylibrary_livefilter.attr("placeholder", mylibrary.default_search_text);
                 mylibrary.currentPagenum = 1;
                 var all = state && state.all ? state.all : {};
                 onPage = $.bbq.getState("l");
