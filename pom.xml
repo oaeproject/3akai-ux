@@ -259,6 +259,12 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.5.2</version>
           </dependency>
+          <!-- rhino is used by the optimizer in build.xml, if you change this dep be sure to update it -->
+          <dependency>
+            <groupId>rhino</groupId>
+            <artifactId>js</artifactId>
+            <version>1.7R2</version>
+          </dependency>
         </dependencies>
         <executions>
           <execution>
@@ -292,16 +298,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.4</version>
+        <version>1.6</version>
         <executions>
           <execution>
             <!-- Should be process-resources but that is blocked by the maven-bundle-plugin bug. -->
             <id>generate-resources</id>
             <phase>generate-resources</phase>
             <configuration>
-              <tasks>
+              <target>
                 <ant target="${ant.target}" inheritRefs="true" antfile="./build.xml" />
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
@@ -310,7 +316,7 @@
           <execution>
             <phase>initialize</phase>
             <configuration>
-              <tasks>
+              <target>
                 <exec outputproperty="git.version" executable="git" failifexecutionfails="false" searchpath="true" >
                   <arg line="describe" />
                 </exec>
@@ -320,7 +326,7 @@
                 <echo file="${basedir}/target/scm-version.properties" >
                   scm.version=${git.version.value}
                 </echo>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

@@ -221,18 +221,12 @@
         <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/c" />
-            <arg value="rhino ${requireJs.path}" />
-            <arg value="-o" />
-            <arg value="${requireJs.conf}" />
-        </exec>
-
-        <exec executable="rhino" osfamily="unix">
-            <arg value="${requireJs.path}" />
-            <arg value="-o" />
-            <arg value="${requireJs.conf}" />
-        </exec>
+        <!-- the rhino jar gets put here by maven -->
+        <java jar="${settings.localRepository}/rhino/js/1.7R2/js-1.7R2.jar" fork="true">
+          <arg value="${requireJs.path}" />
+          <arg value="-o" />
+          <arg value="${requireJs.conf}" />
+        </java>
     </target>
 
     <!-- Target: Unpack MathJax Font Images -->
