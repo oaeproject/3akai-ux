@@ -241,7 +241,6 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addCount = function(pubdata, pageid, count){
-            count = count || 0;
             if (pageid.indexOf("/") !== -1) {
                 var split = pageid.split("/");
                 if (pubdata.structure0 && pubdata.structure0[split[0]] && pubdata.structure0[split[0]][split[1]]) {

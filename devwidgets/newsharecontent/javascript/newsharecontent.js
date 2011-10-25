@@ -60,6 +60,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         var $newsharecontentMessageToggle = $('label.toggletext',$newsharecontentContainer);
         var $newsharecontentMessageArrow = $('#newsharecontent_message_arrow');
         var $newsharecontentHeading = $('#newsharecontent_heading');
+        var $newsharecontentAnon = $('.newsharecontent_anon_function');
+        var $newsharecontentUser = $('.newsharecontent_user_function');
 
         // Classes
         var newsharecontentRequiredClass = "newsharecontent_required";
@@ -224,6 +226,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         ////////////////////
 
         var init = function(){
+            if (!sakai.data.me.user.anon){
+                $newsharecontentAnon.hide();
+                $newsharecontentUser.show();
+            }
             addBinding();
             var ajaxcache = $.ajaxSettings.cache;
             $.ajaxSettings.cache = true;

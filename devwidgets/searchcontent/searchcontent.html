@@ -4,8 +4,11 @@
     <div class="searchcontent_content_main">
         <!-- SEARCH BAR -->
         <div class="fl-left fl-container fl-fix s3d-search-bar">
-            <span id="form">
-                <input type="text" maxlength="255" id="searchcontent_text" class="input" value="" title="__MSG__ENTER_A_SEARCHTERM__" />
+            <span id="form" class="s3d-search-container">
+                <input type="text" maxlength="255" id="searchcontent_text" title="__MSG__ENTER_A_SEARCHTERM__" class="s3d-search-inputfield"/>
+                <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH__"/>
+                </button
             </span>
         </div>
         <div class="fl-left fl-container s3d-search-header" id="results_header">
@@ -98,7 +101,10 @@
                                     <div class="searchcontent_result_by">
                                         __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeOutput}">${i['displayName']}</a> <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
-                                    {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:description"]}
+                                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+                                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
+                                    {/if}
                                     <div class="searchcontent_result_usedin">
                                         {var placeCount = sakai.api.Content.getPlaceCount(i)}
                                         {if placeCount > 0}
