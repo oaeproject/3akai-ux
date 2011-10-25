@@ -389,7 +389,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             $(".addpeople_init").click(function(){
-                $(window).trigger("init.addpeople.sakai", [tuid]);
+                $(window).trigger("init.addpeople.sakai", [tuid, true]);
                 $("#entity_groupsettings_dropdown").jqmHide();
             });
 

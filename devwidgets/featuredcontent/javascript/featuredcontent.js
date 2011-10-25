@@ -51,13 +51,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                     "data": featuredContentArr,
                     "sakai": sakai,
-                    "category": pageData.category
+                    "category": pageData.category,
+                    "title": pageData.title
                 }));
             } else {
                 $featuredcontentContentContainer.html(sakai.api.Util.TemplateRenderer(featuredcontentContentTemplate, {
                     "data": featuredContentArr,
                     "sakai": sakai,
-                    "category": pageData.category
+                    "category": pageData.category,
+                    "title": pageData.title
                 }));
                 if (featuredCategoryContentArr && !featuredCategoryContentArr.hasPreview) {
                     featuredCategoryContentArr.splice(0, 1);
@@ -67,7 +69,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         "data": featuredCategoryContentArr,
                         "sakai": sakai,
                         "total": total,
-                        "category": pageData.category
+                        "category": pageData.category,
+                        "title": pageData.title
                     }));
                 }
             }

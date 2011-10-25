@@ -644,8 +644,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                         if (arrayItem.hashpath && (arrayItem.hashpath.poolId || arrayItem.type === "dropped")) {
                             sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","));
                         }
+                        checkUploadCompleted(true);
                     });
-                    checkUploadCompleted(true);
                 }
                 else {
                     checkUploadCompleted(true);

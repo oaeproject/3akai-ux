@@ -359,19 +359,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var orderedItems = [],
                 alreadyAdded = [],
                 order = 0;
-            $.each(items, function(idx, item) {
-                var toAdd = getLowestOrderItem(items, alreadyAdded);
-                var itemToAdd = toAdd[1],
-                    itemID = toAdd[0];
-                if (toAdd) {
-                    itemToAdd._order = order;
-                    order++;
-                    itemToAdd._id = itemID;
-                    itemToAdd._elements = orderItems(itemToAdd);
-                    orderedItems.push(itemToAdd);
-                    alreadyAdded.push(itemID);
-                }
-            });
+            if (items) {
+                $.each(items, function(idx, item){
+                    var toAdd = getLowestOrderItem(items, alreadyAdded);
+                    var itemToAdd = toAdd[1], itemID = toAdd[0];
+                    if (toAdd) {
+                        itemToAdd._order = order;
+                        order++;
+                        itemToAdd._id = itemID;
+                        itemToAdd._elements = orderItems(itemToAdd);
+                        orderedItems.push(itemToAdd);
+                        alreadyAdded.push(itemID);
+                    }
+                });
+            }
             return orderedItems;
         };
 
