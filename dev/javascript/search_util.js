@@ -77,10 +77,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
 
                     // Only modify the description if there is one
                     if (contentItem["sakai:description"]) {
+                        contentItem["sakai:description-shorter"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 150, {
+                            max_rows: 2,
+                            whole_word: false
+                        }, "");
                         contentItem["sakai:description"] = sakai.api.Util.applyThreeDots(contentItem["sakai:description"], 580, {
                             max_rows: 2,
                             whole_word: false
-                        }, "search_result_course_site_excerpt");
+                        }, "");
                     }
                     if (contentItem["sakai:pooled-content-file-name"]) {
                         contentItem["sakai:pooled-content-file-name"] = sakai.api.Util.applyThreeDots(contentItem["sakai:pooled-content-file-name"], 600, {
@@ -118,6 +122,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
                     if (results[group]["sakai:group-description"]) {
                         results[group]["sakai:group-description-short"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 580, {max_rows: 2,whole_word: false}, "");
+                        results[group]["sakai:group-description-shorter"] = sakai.api.Util.applyThreeDots(results[group]["sakai:group-description"], 150, {max_rows: 2,whole_word: false}, "");
                     }
 
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
@@ -138,6 +143,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     results[group].userMember = false;
                     if (sakai.api.Groups.isCurrentUserAManager(results[group]["sakai:group-id"], sakai.data.me) || sakai.api.Groups.isCurrentUserAMember(results[group]["sakai:group-id"], sakai.data.me)){
                         results[group].userMember = true;
+                    }
+                    // use large default group icon on search page
+                    if (results[group].picPath === sakai.config.URL.GROUP_DEFAULT_ICON_URL){
+                        results[group].picPathLarge = sakai.config.URL.GROUP_DEFAULT_ICON_URL_LARGE;
                     }
 
                     finaljson.items.push(results[group]);
@@ -169,6 +178,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     user.firstName = sakai.api.User.getProfileBasicElementValue(item, "firstName");
                     user.lastName = sakai.api.User.getProfileBasicElementValue(item, "lastName");
 
+                    // use large default user icon on search page
+                    if (user.picture === sakai.config.URL.USER_DEFAULT_ICON_URL){
+                        user.pictureLarge = sakai.config.URL.USER_DEFAULT_ICON_URL_LARGE;
+                    }
                     if (item["sakai:tags"] && item["sakai:tags"].length > 0){
                         user["sakai:tags"] = sakai.api.Util.formatTagsExcludeLocation(item["sakai:tags"]);
                     }
@@ -239,6 +252,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         sakai_global.data.search.getQueryParams = function(){
             var params = {
                 "page": parseInt($.bbq.getState('page'), 10) || 1,
+                "cat": $.bbq.getState('cat'),
                 "q": $.bbq.getState('q') || "*",
                 "facet": $.bbq.getState('facet'),
                 "sortby": $.bbq.getState('sortby')
