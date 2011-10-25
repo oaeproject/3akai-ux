@@ -73,14 +73,15 @@
 
                 <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}&reply=true" class="s3d-button s3d-overlay-button" id="topnavigation_message_reply">Reply</a>
                 <a href="/me#l=messages/inbox&message=${data.results[0]["sakai:id"]}" class="s3d-button s3d-overlay-button" id="topnavigation_message_readfull">Read full message</a>
+                <hr class="fl-hidden fl-push"/>
             {else}
                 <div class="s3d-dropdown-menu-content-container no_messages">
                     <div class="s3d-no-results-container">
+                        <img src="/devwidgets/topnavigation/images/topnav_messages_demo.png" alt="__MSG__MESSAGES_DEMO__" id="message_video_preview"/>
                         <div class="s3d-no-results-icon s3d-no-results-people"></div>
-                        <h1>__MSG__NO_RESULTS_DESCRIPTION_INBOX__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__AND_EXPAND_YOUR_NETWORK__</h1>
+                        <h1>__MSG__YOUR_INBOX_IS_EMPTY__. <a class="s3d-regular-links" href="/me#l=messages/inbox&newmessage=true">__MSG__SEND_A_MESSAGE__</a> __MSG__OR__ <a class="s3d-regular-links" href="/search#l=people">__MSG__FIND_PEOPLE__</a> __MSG__TO_EXPAND_YOUR_NETWORK__.</h1>
                     </div>
             {/if}
-            <hr class="fl-hidden fl-push"/>
         </div>
     </div>
 --></div>
