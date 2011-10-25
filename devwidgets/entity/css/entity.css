@@ -28,23 +28,30 @@
 #entity_container #entity_directory_image {width:45px;float:left;margin-right:15px;margin-top:-14px;}
 #entity_container #entity_directory_image img {width:45px; height:45px;}
 
-/* User */
-#entity_container #entity_user_image, #entity_container #entity_group_image {cursor:pointer;}
-#entity_container #entity_group_image {margin-top:-4px;}
-#entity_container #entity_user_image .s3d-dropdown-list {margin-left:18px;}
+/* Avatar */
+#entity_container #entity_profile_picture {width: 50px; height: 50px;}
+#entity_container .entity_change_avatar{display:inline-block;cursor:pointer;padding:3px 0 3px 3px;margin-right:10px;float:left;}
+#entity_container .entity_change_avatar .s3d-dropdown-list{cursor:default;}
+#entity_container .entity_change_avatar:hover, #entity_container .entity_change_avatar.clicked{background-color:#32b3ec;}
+#entity_container .entity_change_avatar:hover .entity_profilepic_internal, #entity_container .entity_change_avatar.clicked .entity_profilepic_internal {box-shadow:none;-webkit-box-shadow:none;}
+#entity_container .entity_change_avatar.clicked .entity_profile_picture_down_arrow, #entity_container .entity_change_avatar:hover .entity_profile_picture_down_arrow{color:#ecedeb;}
 #entity_container .s3d-dropdown-list {position:absolute;width:120px;}
-#entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:62px;right:auto;}
-#entity_container .entity_profile_picture_down_arrow{color:#ecedeb;cursor:pointer;float:left;height:16px;margin-left:12px;margin-top:34px;padding-top:2px;text-align:center;text-shadow:0 0 1px #999999;width:20px;}
-#entity_container .entity_profile_picture_down_arrow.clicked, #entity_container .entity_profile_picture_down_arrow:hover {background:url("/devwidgets/lhnavigation/images/lhnav_selected_item_bg.png") repeat-x scroll left -10px transparent;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}
-#entity_container #entity_group_image .entity_profile_picture_down_arrow {margin-right:10px;}
-
+#entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:31px;right:auto;}
+#entity_container #entity_user_image.entity_change_avatar{margin-left:18px;}
+#entity_container #entity_user_image.entity_change_avatar .s3d-dropdown-list {margin-left:18px;}
+#entity_container #entity_group_image .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:49px;}
+#entity_container .entity_profile_picture_down_arrow{color:#32b3ec;cursor:pointer;float:left;height:16px;margin-top:34px;padding-top:2px;text-align:center;text-shadow:0 0 1px #999999;width:20px;}
 #entity_container .entity_user_image_pointer {cursor:pointer;width:93px; margin-left: 15px !important;}
 #entity_container .entity_user_create_add_dropdown {position:fixed;z-index:999;width:150px;margin-top:34px;}
-#entity_container #entity_user_image #entity_profile_picture {width: 50px; height: 50px;}
 #entity_container .entity_other_profilepic {float: left; margin: -10px 15px 0px 5px; width:52px; height: 54px; background-color:#fff; padding: 2px 2px 2px 1px;}
 #entity_container .entity_profilepic_internal {background-color:#FFFFFF;box-shadow:0 0 1px 2px #AAAAAA;-webkit-box-shadow:0 0 1px 2px #AAAAAA;float:left;height:50px;padding:1px;width:50px;}
-.s3d-page-column-left #entity_container .entity_profilepic_internal {margin-left:20px;}
+#entity_container #entity_group_image.s3d-dropdown-menu {float: left; padding:5px 6px;margin: -10px 15px 0px 5px;}
+#entity_container #entity_group_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
+#entity_container #entity_group_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
+#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
+#entity_container #entity_group_image {margin-top:-11px;}
 
+/* User */
 #entity_container .entity_user_action_icon {margin-left: 5px;padding-right: 20px;}
 #entity_container .entity_message_icon {background: url("/dev/images/message_icon.png") no-repeat scroll left center transparent;}
 #entity_container .entity_add_to_contacts_icon {background:url("/dev/images/opposite_arrows_icon.png") no-repeat scroll left center transparent;}
@@ -55,12 +62,6 @@
 #entity_container .entity_my_profilepic {width:70px; height: 54px; background-color:#fff; margin-left: 20px; padding: 2px 2px 2px 1px;}
 
 /* Group */
-#entity_container #entity_group_image.s3d-dropdown-menu {float: left; padding:5px 6px;margin: -10px 15px 0px 5px;}
-#entity_container #entity_group_image.s3d-dropdown-menu .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_arrow.png") no-repeat top left transparent;height: 8px;margin-left: 7px;margin-top: 40px;width: 12px;float:right;}
-#entity_container #entity_group_image.s3d-dropdown-menu:hover .s3d-dropdown-menu-arrow {background:url("/devwidgets/entity/images/entity_changepic_hover_arrow.png") no-repeat top left transparent;width:12px;height:8px;}
-#entity_container #entity_group_image #entity_profile_picture {width: 50px; height: 50px;}
-
-#entity_container .entity_group_image {width:63px;height:46px; background:url("/dev/images/group_icon.png") no-repeat transparent;float:left;margin-right:10px;margin-top:5px; margin-left:5px;}
 .entity_pseudogroup {font-size:11px; color: #666;}
 
 /* Content */
