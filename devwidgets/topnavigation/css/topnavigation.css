@@ -62,7 +62,7 @@
 .topnavigation_counts_container .topnavigation_menuitem_counts_container.selected {background:url("/devwidgets/topnavigation/images/topnav_nav_hover.png") repeat-x scroll left top #3480B2;}
 .topnavigation_counts_container .topnavigation_menuitem_counts {float:left;color:#fff;}
 .topnavigation_counts_container .topnavigation_menuitem_icon {display:inline;float:left;height:15px;margin:1px 5px 0 0;width:15px;}
-#topnavigation_user_messages_container .s3d-dropdown-menu {display:block;margin-left:-71px;position:relative;top:25px;}
+#topnavigation_user_messages_container .s3d-dropdown-menu {display:block;margin-left:-71px;position:relative;top:25px;z-index:100;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .dropdown-menu-arrowup {background:url("/devwidgets/topnavigation/images/topnav_nav_list_arrow.png") no-repeat scroll left top transparent;height:14px;margin-left:87px;margin-top:-14px;position:absolute;width:28px;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container {width:330px;color:#333;font-size:12px;overflow:auto;letter-spacing:0.01em;}
 #topnavigation_user_messages_container .s3d-dropdown-menu .s3d-dropdown-container .s3d-dropdown-menu-content-container{background:url("/devwidgets/topnavigation/images/topnav_message_bg.png") repeat-x scroll left top #F3F3F3;padding-bottom:4px;height:115px;}
