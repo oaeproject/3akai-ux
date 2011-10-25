@@ -461,13 +461,13 @@ define(
 
             if (_.isString(userId)){
                 userIds.push(userId);
-            } else {
+            } else if (_.isArray(userId)){
                 userIds = userId;
             }
 
             if (_.isString(contentId)){
                 contentIds.push(contentId);
-            } else {
+            } else if (_.isArray(contentId)){
                 contentIds = contentId;
             }
 
