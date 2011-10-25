@@ -417,7 +417,14 @@ define(
             return false;
         },
 
-        addToLibrary: function(contentId, userId, viewerOrManager, callBack){
+        /**
+         * Shares content with a user and sets permissions for the user.
+         * @param {String} contentId ID of the content that is shared with the users
+         * @param {String} userId ID of the users to share the content with
+         * @param {Boolean} canManage set to true if the user that's being shared with should have managing permissions
+         * @param {Function} callBack function to be executed when finishing sharing the content
+         */
+        addToLibrary: function(contentId, userId, canManage, callBack){
             var toAdd = [];
             if (typeof userId === "string"){
                 toAdd.push(userId);
@@ -427,7 +434,7 @@ define(
             var batchRequests = [];
             for (var i = 0; i < toAdd.length; i++){
                 var params = {};
-                if (viewerOrManager && viewerOrManager === "manager"){
+                if (canManage){
                     params = {
                         ":manager": toAdd[i]
                     }

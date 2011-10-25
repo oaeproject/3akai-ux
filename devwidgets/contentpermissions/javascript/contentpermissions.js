@@ -54,13 +54,23 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         var contentpermissionsMembersAutosuggest = "#contentpermissions_members_autosuggest";
         var contentpermissionsShareMessageTemplate = "contentpermissions_share_message_template";
 
-
         var globalPermissionsChanged = false;
 
+
+        ////////////////////
+        // UTIL FUNCTIONS //
+        ////////////////////
+
+        /**
+         * Closes the widget overlay
+         */
         var closeOverlay= function(){
             $("#contentpermissions_container").jqmHide();
         };
 
+        /**
+         * Saves permissions for each individual member in the list of members
+         */
         var saveMemberPermissions = function(){
             var permissionsBatch = [];
             var atLeastOneManager = false;
@@ -68,7 +78,6 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $(contentPermissionsEditList).each(function(index, item){
                 var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
                 var userId = item.id.split("_")[1];
-                var p = {};
                 if (newPermission == "manager") {
                     atLeastOneManager = true;
                     permissionsBatch.push({
@@ -117,13 +126,11 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     sakai.api.Util.notification.show(sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","CANNOT_SAVE_SETTINGS"), sakai.api.i18n.Widgets.getValueForKey("contentpermissions","","THERE_SHOULD_BE_AT_LEAST_ONE_MANAGER"));
                 }
             }
-            
-            
-            //closeOverlay();
-            //sakai.api.Util.notification.show($("#contentpermissions_permissions").text(), $("#contentpermissions_permissionschanged").text());
-            //$(window).trigger("load.content_profile.sakai");
         };
 
+        /**
+         * Saves the global permissions for the widget
+         */
         var doSave = function(){
             var newPermissions = $("#contentpermissions_see_container input:checked").val();
             var dataObj = {
@@ -145,6 +152,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
         };
 
+        /**
+         * Deletes a user from the list of members by deleting the user from the content and removing permissions
+         */
         var doDelete = function(){
             var userid = $(this).data("sakai-entityid");
             var manager = $(this).parent().data("originalpermission") === "managers";
@@ -175,10 +185,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         /**
-        * Checks the data for duplicate users/groups and removes the duplicate; gives preference to the user/group with edit permissions
-        * n.b. duplicates were being introduced via the sharing widget which will be addressed, so this sanity check will ultimately be optional
-        * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
-        */
+         * Checks the data for duplicate users/groups and removes the duplicate; gives preference to the user/group with edit permissions
+         * n.b. duplicates were being introduced via the sharing widget which will be addressed, so this sanity check will ultimately be optional
+         * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
+         */
         var removeDuplicateUsersGroups = function(data){
             if(!data || !data.members){
                 return data;
@@ -254,15 +264,22 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             }
         };
 
+        /**
+         * Removes a user or group from the autosuggest input field and 
+         * hides the message box if no other users or groups are present
+         */
         var removedUserGroup = function(elem){
             elem.remove();
-            if(getSelectedList().list.length == 0){
+            if(getSelectedList().list.length === 0){
                 $("#contentpermissions_members_autosuggest_container").hide();
                 $("#contentpermissions_members_list").show();
                 $("#contentpermissions_members_autosuggest_permissions").attr("disabled", "disabled");
             }
         };
 
+        /**
+         * Renders the list of members and their permissions in the widget
+         */
         var renderMemberList = function(){
             $("#contentpermissions_content_container").html(
                 sakai.api.Util.TemplateRenderer("contentpermissions_content_template", {
@@ -271,10 +288,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     sakai: sakai
                 })
             );
-        }
+        };
 
         /**
-         * Share the piece of content with a user by adding the user to the list of members (editor or viewer)
+         * Share the piece of content with a user by adding the user to the list of members (manager or viewer)
          */
         var doShare = function(){
             $(window).bind("ready.contentprofile.sakai", doInit);
@@ -284,7 +301,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                     data:{
                         "_path": sakai_global.content_profile.content_data.data["_path"],
                         "sakai:pooled-content-file-name": sakai_global.content_profile.content_data.data["sakai:pooled-content-file-name"],
-                        "viewerOrManager": $("#contentpermissions_members_autosuggest_permissions").val()
+                        "canManage": $("#contentpermissions_members_autosuggest_permissions").val() === "manager"
                     }
                 }
             ]);
@@ -292,6 +309,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
 
         /**
          * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
+         * @return {Array} Array of users and groups to populate the autosuggest field with
          */     
         var autosuggestFilterUsersGroups = function(){
             var filterlist = [];
@@ -302,10 +320,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             return filterlist;
         };
 
+
         ////////////////////
         // INITIALIZATION //
         ////////////////////
 
+        /**
+         * Add binding to various elements in the content permissions widget
+         */
         var addBinding = function(){
             $(contentpermissionsSelectable).live("click", function(){
                 $("#contentpermissions_see_container .s3d-outer-shadow-container").addClass("contentpermissions_unselected_rbt");
@@ -319,6 +341,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $("#contentpermissions_members_autosuggest_sharebutton").live("click", doShare)
         };
 
+        /**
+         * Show the content permissions overlay
+         */
         var initializeOverlay = function(){
             $("#contentpermissions_container").jqm({
                 modal: true,
@@ -329,6 +354,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             $("#contentpermissions_container").jqmShow();
         };
 
+        /**
+         * Initializes the content permission widget and invokes the overlay
+         */
         var doInit = function(){
             $(window).unbind("ready.contentprofile.sakai", doInit);
             contentData = sakai_global.content_profile.content_data;

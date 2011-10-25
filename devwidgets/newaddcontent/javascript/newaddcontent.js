@@ -723,7 +723,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 }
             }
             if (doShare) {
-                sakai.api.Content.addToLibrary(item.id || item.poolId, libraryToUploadTo, "viewer");
+                sakai.api.Content.addToLibrary(item.id || item.poolId, libraryToUploadTo);
             }
         };
 
