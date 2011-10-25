@@ -41,7 +41,7 @@
 .collections_widget #collections_middlecolumn #collections_add_new > div input[type="text"],
 .collections_widget #collections_middlecolumn #collections_add_new > div textarea {padding:0 5px;height:25px;width:115px;margin:0 auto;display:block;resize:none;}
 .collections_widget #collections_middlecolumn #collections_add_new #collections_newcollection_description {height:80px;padding:5px;}
-.collections_widget #collections_middlecolumn .collection_counts_container {background-color:#171717;border-radius:7px;-webkit-border-radius:7px;-moz-border-radius:7px;color:#fff;height:56px;margin-top:17px;text-align:center;width:56px;float:left;margin-left:13px;font-size:11px;box-shadow:0 0 2px 0 #999;}
+.collections_widget #collections_middlecolumn .collection_counts_container {background-color:#171717;border-radius:7px;-webkit-border-radius:7px;-moz-border-radius:7px;color:#fff;height:56px;margin-top:4px;text-align:center;width:56px;float:left;margin-left:13px;font-size:11px;box-shadow:0 0 2px 0 #999;}
 .collections_widget #collections_middlecolumn .collection_counts_container #collection_counts_content_icon {background: url("/devwidgets/collections/images/collections_content_icon_32x26.png") no-repeat scroll left top transparent;height:26px;margin:8px auto 0;width:32px;}
 .collections_widget #collections_middlecolumn .collection_counts_container #collection_counts_participants_icon {background: url("/devwidgets/collections/images/collections_participants_icon_32x26.png") no-repeat scroll left top transparent;height:26px;margin:8px auto 0;width:32px;}
 .collections_widget #collections_middlecolumn .collections_add_new_nextsteplabel {color:#fff;float:right;font-size:11px;margin:14px 13px 0 0;background:url("/devwidgets/collections/images/collections_arrowright_icon_12x12.png") no-repeat right 8px transparent;cursor:pointer;padding-right:15px;font-weight:normal;}
@@ -62,6 +62,7 @@
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information {float:left;width:160px;padding:23px 18px 0;height:177px;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information h2 {margin:0;font-size:15px;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information p {margin-top: 15px;}
+.collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information img.drag_here_icon {display:block;height:60px;margin-left:auto;margin-right:auto;width:122px;padding-top:12px;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_general_information #collections_collection_type,
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_recently_added ul li span {font-size:10px;text-transform:uppercase;}
 .collections_widget #collections_middlecolumn .collections_large_preview .collections_recently_added {width:148px;height:177px;border-left:1px dotted #111;float:left;padding-left:10px;margin-top:23px;}
@@ -76,6 +77,7 @@
 .collections_widget #collections_middlecolumn .collections_large_preview.collapsed .collections_recently_added {display:none;}
 .collections_widget #collections_middlecolumn .collections_large_preview.collapsed .collections_general_information {width:auto;}
 .collections_widget #collections_middlecolumn .collections_large_preview.collapsed .collection_counts_container {margin-top:10px;margin-left:auto;margin-right:auto;}
+.collections_widget #collections_middlecolumn .collections_large_preview.collapsed img.drag_here_icon {display:none;}
 
 .collections_widget #collections_middlecolumn .s3d-no-results-container {padding:10px;width:116px;}
 .collections_widget #collections_middlecolumn .s3d-no-results-container .s3d-no-results-arrow-up{margin-top:-34px;}
