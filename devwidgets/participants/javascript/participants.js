@@ -203,9 +203,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         var addBinding = function(){
-            $participantsSearchField.unbind("keyup").bind("keyup", function() {
+            $(".participants_widget .s3d-search-button").unbind("click").bind("click", function(){
                 currentPage = 1;
                 loadParticipants();
+            });
+            $participantsSearchField.unbind("keyup").bind("keyup", function(ev) {
+                if (ev.keyCode === 13) {
+                    loadParticipants();
+                }
             });
             $participants_sort_by.unbind("change").bind("change", loadParticipants);
             $participantsSelectAll.unbind("click").bind("click", checkAll);
