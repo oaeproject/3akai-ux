@@ -459,13 +459,13 @@ define(
             var userIds = [];
             var contentIds = [];
 
-            if (typeof userId === "string"){
+            if (_.isString(userId)){
                 userIds.push(userId);
             } else {
                 userIds = userId;
             }
 
-            if (typeof contentId === "string"){
+            if (_.isString(contentId)){
                 contentIds.push(contentId);
             } else {
                 contentIds = contentId;
@@ -486,10 +486,8 @@ define(
             }
 
             sakai_serv.batch(batchRequests, function(success, data){
-                if (success && $.isFunction(callback)) {
-                   callback(true);
-                } else {
-                   callback(false);
+                if ($.isFunction(callback)) {
+                   callback(success);
                 }
             });
         },

@@ -192,8 +192,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             var contentIds = [];
                             for (var s in sakaiDocs) {
                                 if (sakaiDocs.hasOwnProperty(s)){
-                                    contentId = sakaiDocs[s]._contentItem.poolId;
-                                    contentIds.push(contentId);
+                                    contentIds.push(sakaiDocs[s]._contentItem.poolId);
                                 }
                             }
                             sakai.api.Content.removeUser("manager", contentIds, sakai.data.me.user.userid, function() {
@@ -334,7 +333,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         }
         sakai.api.Server.batch(batchRequests, function(success, data) {
-            if (success) {
+            if (success && data.results) {
                 var sakaiDocs = [];
                 for (var i in data.results) {
                     if (data.results.hasOwnProperty(i)){
