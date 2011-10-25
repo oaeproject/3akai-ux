@@ -853,6 +853,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.fieldselection
             
             $("#topnavigation_message_reply").live("click", hideMessageInlay);
             $("#topnavigation_message_readfull").live("click", hideMessageInlay);
+            $(".no_messages .s3d-no-results-container a").live("click", hideMessageInlay);
 
             $(window).bind("updated.messageCount.sakai", setCountUnreadMessages);
         };
