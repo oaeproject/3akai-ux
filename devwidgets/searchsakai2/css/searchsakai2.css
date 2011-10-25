@@ -32,7 +32,7 @@ strong{color:#000;}
 /* SEARCH RESULTS TITLE */
 .searchsakai2_result_title{text-align:center;font-size:1.1em;color:#6d6d6d;padding:0;}
 .searchsakai2_result_title{text-align:left;font-weight:normal;font-size:1em;color:#828e9c;margin:10px 0px 0 10px;}
-.searchsakai2_selects{float:right;}
+.searchsakai2_selects{float:right;margin-top:-23px;}
 .search_sortby{margin-left:10px;}
 .searchsakai2_selects div{display:inline !important;}
 

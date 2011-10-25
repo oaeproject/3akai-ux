@@ -6,7 +6,12 @@
     <div id="participants_general_actions">
         <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
-        <input type="text" id="participants_search_field"/>
+        <div class="s3d-search-container">
+            <input type="text" tabindex_none="40" id="participants_search_field" title="__MSG__SEARCH_PARTICIPANTS__" class="s3d-search-inputfield"/>
+            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_PARTICIPANTS__"/>
+            </button>
+        </div>
         <div id="participants_sort">
             <label for="participants_sort_by">__MSG__SORT_BY__</label>
             <select id="participants_sort_by">
@@ -14,6 +19,7 @@
                 <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
+        <hr class="fl-hidden fl-push"/>
         <div id="participants_list_container"><!-- --></div>
         <div id="participants_pager" class="jq_pager" style="display:none"></div>
     </div>
