@@ -426,7 +426,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /** History management **/
 
         $inbox_item.live("click", function(e) {
-            if (!($(e.target).hasClass("personinfo_trigger_click") || $(e.target).hasClass("inbox_action_button") || $(e.target).is("input"))) {
+            if (!($(e.target).hasClass("personinfo_trigger_click") || $(e.target).hasClass("inbox_action_button") || $(e.target).hasClass("inbox_delete_icon") || $(e.target).is("input"))) {
                 $.bbq.pushState({"message": $(this).attr("id")});
             }
         });
