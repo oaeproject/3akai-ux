@@ -64,3 +64,5 @@ body.error404 .s3d-contentpage-title, body.error403 .s3d-contentpage-title, body
 #error_sign_in_button p.error_signin_button button{border:0;background:#fff;font-size:12px;font-weight:bold;cursor: hand; cursor: pointer;}
 #error_content_second_column_box_container hr:last-child{display:none;}
 #errorsearch_text{border:1px solid #ddd;margin:0 0 25px 0;height:22px;width:350px;padding-left:5px;display:block;}
+#error_page_links_container {clear:both;}
+
