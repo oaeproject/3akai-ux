@@ -191,9 +191,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             if (pubdata && pubdata.structure0) {
                 if (contextData && contextData.profile && contextData.profile.counts) {
                     addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
-                    addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
                     if (isMe) {
+                        addCount(pubdata, "contacts", sakai.data.me.contacts.ACCEPTED + sakai.data.me.contacts.INVITED);
                         addCount(privdata, "messages", sakai.data.me.messages.unread);
                         if (messageCounts && messageCounts.count && messageCounts.count.length) {
                             for (var i = 0; i < messageCounts.count.length; i++) {
@@ -205,6 +205,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                                 }
                             }
                         }
+                    } else {
+                        addCount(pubdata, "contacts", contextData.profile.counts["contactsCount"]);
                     }
                 }
             }
