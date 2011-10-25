@@ -33,9 +33,9 @@
                 <br/>
                 {if participant.type === "user" && participant.id !== sakai.data.me.user.userid}
                     {if ! participant.connected}
-                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
+                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}></button>
                     {elseif participant.invited}
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button participants_plus participants_accept_invitation" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}>+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary participants_plus participants_accept_invitation" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}></button>
                     {elseif !participant.pending && !participant.none}
                         <img class="participants_contact_icon" src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" />
                     {/if}
