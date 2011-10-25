@@ -36,9 +36,10 @@
 #areapermissions_container .s3d-outer-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon_black.png") no-repeat top left transparent;}
 #areapermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
 #areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:95%}
-#areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {min-height:30px;margin-left:13px;padding-top:15px;}
+#areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {margin:0 3px 3px 13px;min-height:20px;padding:10px 0 5px !important;}
+#areapermissions_container .s3d-inset-shadow-container .areapermissions_subchoice {padding:10px 13px 0;}
+#areapermissions_container .s3d-outer-shadow-container {color:#333;min-height:20px;padding:10px 13px 5px;}
 #areapermissions_container .areapermissions_buttons{margin-top:15px;}
-#areapermissions_container .s3d-outer-shadow-container {color:#333;}
 #areapermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
 #areapermissions_container .areapermissions_you {font-weight:normal;}
 #areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {text-transform: capitalize;}
