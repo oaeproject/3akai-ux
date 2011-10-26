@@ -21,7 +21,7 @@
             </div>
             <div id="addarea_action_buttons" style="display:none;">
                 <button id="addarea_cancel_new_area" class="s3d-link-button s3d-bold" type="button">__MSG__CANCEL__</button>
-                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-overlay-button">__MSG__CREATE__</button>
+                <button type="button" id="addarea_create_new_area" class="s3d-button s3d-overlay-action-button">__MSG__CREATE__</button>
             </div>
         </div>
     </div>
@@ -115,8 +115,12 @@
             </select>
             <label class="fl-force-right" for="addarea_sakaidoc_existingdocs_sort">__MSG__SORT_BY__</label>
             <label class="fl-force-left" for="addarea_sakaidoc_searchfield">__MSG__SEARCH_EVERYWHERE__</label>
-            <input type="text" id="addarea_sakaidoc_searchfield"/>
-            <button id="addarea_sakaidoc_search_clear" class="s3d-link-button">__MSG__CLEAR__</button>
+            <div class="s3d-search-container">
+                <input type="text" tabindex_none="40" id="addarea_sakaidoc_searchfield" title="__MSG__SEARCH_FOR_EXISTING_DOCUMENTS__" class="s3d-search-inputfield" maxlength="255"/>
+                <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" id="addarea_sakaidoc_searchbutton">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR_EXISTING_DOCUMENTS__"/>
+                </button>
+            </div>
         </div>
         <div id="addarea_sakaidoc_existingdocscontainer"></div>
     </div>
@@ -246,7 +250,7 @@
     <label for="addarea_widgetpage_selectwidget">__MSG__SELECT_WIDGET__:</label>
     <select id="addarea_widgetpage_selectwidget">
         {for widget in data}
-            <option value="${widget.id}">${widget.name}</option>
+            <option value="${widget.id}">${sakai.api.Widgets.getWidgetTitle(widget.id)}</option>
         {/for}
     </select>
 

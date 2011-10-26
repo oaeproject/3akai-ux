@@ -66,7 +66,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var item = {
                 name: result["sakai:pooled-content-file-name"],
                 path: "/p/" + result["_path"],
-                type: sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes.other.description),
+                type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 size: "",
@@ -77,10 +77,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set the mimetype and corresponding image
             if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             } else {
-                item.type = sakai.api.i18n.General.getValueForKey(sakai.config.MimeTypes["other"].description);
+                item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
                 item.type_img_url = sakai.config.MimeTypes["other"].URL;
             }
 
@@ -158,30 +158,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     for (var role in memberList) {
                         if (memberList[role].results.length > 0){
                             var member = memberList[role].results[0];
-                             if (member.userid){
+                             if (member.userid && member.userid !== sakai.data.me.user.userid){
                                 id = member.userid;
                                 name = sakai.api.User.getDisplayName(member);
-                                linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
+                                linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                                 picture = sakai.api.User.getProfilePicture(member);
                             } else if (member.groupid){
                                 id = member.groupid;
                                 name = sakai.api.Security.safeOutput(member["sakai:group-title"]);
-                                linkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
+                                linkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", name);
                                 picture = sakai.api.Groups.getProfilePicture(member);
                             }
-                            newjson.entry[0].manager = member;
-                            var item = {
-                                member: {
-                                    memberId: id,
-                                    memberName: name,
-                                    memberLinkTitle: linkTitle,
-                                    memberPicture: picture,
-                                    roleName: role
-                                },
-                                group: newjson.entry[0]
-                            };
-                            $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
-                            break;
+                            if (id) {
+                                newjson.entry[0].manager = member;
+                                var item = {
+                                    member: {
+                                        memberId: id,
+                                        memberName: name,
+                                        memberLinkTitle: linkTitle,
+                                        memberPicture: picture,
+                                        roleName: role
+                                    },
+                                    group: newjson.entry[0],
+                                    sakai: sakai
+                                };
+                                $("#recentmemberships_item_member_container").html(sakai.api.Util.TemplateRenderer("#recentmemberships_item_member_template", item));
+                                break;
+                            }
                         }
                     }
                 }
@@ -192,7 +195,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fetches the related content
          */
         var getGroupInfo = function(newjson){
-            newjson.entry[0].displayLinkTitle = sakai.api.i18n.General.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
+            newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
             $(recentmembershipsItem, rootel).html(sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,newjson));
 
             // get related content for group

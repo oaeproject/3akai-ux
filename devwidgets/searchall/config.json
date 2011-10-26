@@ -1,14 +1,16 @@
 {
-    "description":        "Search All",
     "enabled":            false,
     "groupdashboard":     false,
     "grouppages":         false,
     "hasSettings":        false,
     "i18n": {
-        "default":        "/devwidgets/searchall/bundles/default.properties"
+        "default": {
+            "bundle":     "/devwidgets/searchall/bundles/default.properties",
+            "name":       "Search all",
+            "description":"Search all"
+        }
     },
     "id":                 "searchallold",
-    "name":               "Search All",
     "personalportal":     false,
     "showinsakaigoodies": false,
     "type":               "core",

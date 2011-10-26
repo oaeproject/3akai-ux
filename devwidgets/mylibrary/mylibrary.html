@@ -9,9 +9,9 @@
     <div id="mylibrary_title_container"></div>
     <div id="mylibrary_title_template"><!--
         {if isMe && !isGroup}
-            <div class='s3d-contentpage-title'>My Library</div>
+            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY__</div>
         {else}
-            <div class='s3d-contentpage-title'>${firstName|safeOutput}'s Library</div>
+            <div class='s3d-contentpage-title'>__MSG__MY_LIBRARY_OTHER__</div>
         {/if}
     --></div>
     <!-- Action bar -->
@@ -19,14 +19,19 @@
         <div id="mylibrary_sortarea" class="mylibrary_description mylibrary_noborder" style="display:none; width: auto;">
             __MSG__SORT_BY__: 
             <select id="mylibrary_sortby">
-                <option value="lastModified_desc">__MSG__NEWEST__</option>
+                <option value="lastModified_desc">__MSG__MOST_RECENT__</option>
                 <option value="lastModified_asc">__MSG__OLDEST__</option> 
             </select>
         </div>
-        <input id="mylibrary_livefilter" class="mylibrary_meta" style="display:none;" type="text" />
         <div id="mylibrary_admin_actions" style="display:none;">
             <div class="mylibrary_placeholder"><input id="mylibrary_check_all" type="checkbox" /></div>
             <button type="button" id="mylibrary_remove" class="s3d-button s3d-header-button s3d-header-smaller-button" disabled="disabled">__MSG__REMOVE__</button>
+            <div class="s3d-search-container">
+                <input id="mylibrary_livefilter" style="display:none;" type="text" title="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__" class="s3d-search-inputfield"/>
+                <button type="button" id="mylibrary_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
+                    <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_THE_CONTENT_LIBRARY__"/>
+                </button
+            </div>
         </div>
         <div id="mylibrary_groupfilter_wrapper" style="display:none;">
             <div id="mylibrary_groupfilter">
@@ -89,7 +94,7 @@
         {for item in items}
             {if item.filename}
                 {var count = count + 1}
-                <div class="fl-container fl-fix mylibrary_item{if count == 1} mylibrary_item_first{/if}">
+                <div class="fl-container fl-fix mylibrary_item{if count === 1} mylibrary_item_first{/if}">
                     <div class="mylibrary_item_left_filler">{if user_is_owner(item)}<input class="mylibrary_check"
                         id="mylibrary_check_${item.id}" type="checkbox" />{/if}</div>
                     <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
@@ -120,11 +125,11 @@
                             {var placeCount = sakai.api.Content.getPlaceCount(item)}
                             {if item.numPlaces > 0}
                                 <span class="mylibrary_item_icon mylibrary_item_usedin_icon"></span>
-                                __MSG__USED_IN__ ${item.numPlaces} {if item.numPlaces == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
+                                __MSG__USED_IN__ ${item.numPlaces} {if item.numPlaces === 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}
                             {/if}
                             {if item.numComments > 0}
                                 <span class="mylibrary_item_icon mylibrary_item_comments_icon"></span>
-                                ${item.numComments} {if item.numComments == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                                ${item.numComments} {if item.numComments === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
                             {/if}
                         </div>
                         {if item.tags && item.tags.length > 0}

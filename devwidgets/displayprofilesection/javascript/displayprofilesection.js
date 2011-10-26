@@ -47,6 +47,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var displayprofilesectionContentWidgetHolder = ".displayprofilesection_content_widget_holder";
         var displayprofilesectionNoProfileInfoInserted = ".displayprofilesection_no_profile_info_inserted";
         var displayprofilesectionNoProfileInfoInsertedViewMode = ".displayprofilesection_no_profile_info_inserted_view_mode";
+        var displayprofilesectionNoProfileInfoInsertedViewModeText = "#displayprofilesection_no_results_text";
+        var displayprofilesectionUserMessageButton = "#displayprofilesection_user_message";
+        var displayprofilesectionUserMessage = "#displayprofilesection_no_results_message";
 
         // Templates
         var displayprofilesectionSectionWidgetsContainerTemplate = "#displayprofilesection_sectionwidgets_container_template";
@@ -116,7 +119,24 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     if (sakai.data.me.user.userid === sakai_global.profile.main.data["rep:userId"]) {
                         $(displayprofilesectionNoProfileInfoInserted, rootel).show();
                     } else {
+                        var messageKey = "THIS_PERSON_HASNT_ADDED_INFORMATION";
+                        var sectionKey = "THIS_PERSON_HASNT_ADDED_" + data.sectionid.toUpperCase();
+                        if (sakai.api.i18n.getValueForKey(sectionKey, "displayprofilesection")){
+                            messageKey = sectionKey;
+                        }
+
+                        $(displayprofilesectionNoProfileInfoInsertedViewModeText, rootel).text(
+                            sakai.api.i18n.getValueForKey("THIS_PERSON_HASNT_ADDED_SECTION_YET", "displayprofilesection").replace("${section}", sakai.api.i18n.getValueForKey(messageKey, "displayprofilesection"))
+                        );
+
+                        $(displayprofilesectionUserMessageButton, rootel).attr("sakai-entityid", sakai_global.profile.main.data["rep:userId"]);
+                        $(displayprofilesectionUserMessageButton, rootel).attr("sakai-entityname", sakai.api.User.getDisplayName(sakai_global.profile.main.data));
+
                         $(displayprofilesectionNoProfileInfoInsertedViewMode, rootel).show();
+
+                        if (!sakai.data.me.user.anon){
+                            $(displayprofilesectionUserMessage, rootel).show();
+                        }
                     }
                 } else {
                     $(displayprofilesectionNoProfileInfoInserted, rootel).hide();
@@ -136,7 +156,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 if(sakai.config.Profile.configuration.defaultConfig[s].display){
                     var obj = {
                         "id" : s,
-                        "label" : sakai.api.i18n.General.getValueForKey(sakai.config.Profile.configuration.defaultConfig[s].label.split("__MSG__")[1].split("__")[0])
+                        "label" : sakai.api.i18n.getValueForKey(sakai.config.Profile.configuration.defaultConfig[s].label.split("__MSG__")[1].split("__")[0])
                     };
                     objArr.configuration.push(obj);
                 }

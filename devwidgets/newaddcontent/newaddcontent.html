@@ -92,7 +92,12 @@
             </div>
 
             <div id="newaddcontent_add_existing_template" class="newaddcontent_newitem_container" style="display:none;">
-                <input type="text" class="newaddcontent_existingitems_search"/><button class="s3d-link-button" id="newaddcontent_existingitems_search_clear">__MSG__CLEAR__</button>
+                <div class="s3d-search-container">
+                    <input type="text" maxlength="255" title="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__" class="s3d-search-inputfield newaddcontent_existingitems_search" placeholder="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                    <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                        <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_EXISTING_CONTENT__"/>
+                    </button>
+                </div>
                 <div id="newaddcontent_existingitems_list_container">
                     <div id="newaddcontent_existingitems_list_container_actions">
                         <input type="checkbox" id="newaddcontent_existingitems_list_container_actions_checkall"/>
@@ -134,7 +139,7 @@
 
     <div id="newaddcontent_container_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button newaddcontent_container_start_upload" disabled="disabled">__MSG__DONE_ADD_COLLECTED__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button newaddcontent_container_start_upload" disabled="disabled">__MSG__DONE_ADD_COLLECTED__</button>
     </div>
 
     <div id="newaddcontent_selecteditems_edit_data_container" style="display:none;"><!----></div>
@@ -144,8 +149,8 @@
 <div id="newaddcontent_copyright_template"><!--
     <label for="newaddcontent_upload_content_copyright">__MSG__COPYRIGHT__:</label>
     <select id="newaddcontent_upload_content_copyright">
-    {for cr in copyright}
-        <option value="${cr_index}">${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+    {for cr in copyright.types}
+        <option value="${cr_index}"{if cr_index === copyright_default}selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
     {/for}
 --></div>
 
@@ -180,8 +185,8 @@
             </select>
             <label for="newaddcontent_selecteditems_edit_permissions_copyright">__MSG__COPYRIGHT__:</label>
             <select id="newaddcontent_selecteditems_edit_permissions_copyright">
-            {for cr in copyright}
-                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.Widgets.getValueForKey("newaddcontent", "", cr.title)}</option>
+            {for cr in copyright.types}
+                <option value="${cr_index}" {if cr_index == item.copyright} selected="selected"{/if}>${sakai.api.i18n.getValueForKey(cr.title, "newaddcontent")}</option>
             {/for}
             </select>
         </form>
@@ -191,7 +196,7 @@
     </div>
 --></div>
 
-<div id="newaddcontent_selecteditems_template"><!--
+<div id="newaddcontent_selecteditems_template" style="display:none;"><!--
     {if items.length}
         <div id="newaddcontent_saveto_container">
             <label for="newaddcontent_saveto">__MSG__SAVE_ALL_TO__</label>
@@ -234,7 +239,7 @@
     {/if}
 --></div>
 
-<div id="newaddcontent_existingitems_template"><!--
+<div id="newaddcontent_existingitems_template" style="display:none;"><!--
     <form id="newaddcontent_existing_content_form" class="newaddcontent_form">
         <ul>
             {if data.results.length}
@@ -272,13 +277,21 @@
     </form>
 --></div>
 
-<div id="newaddcontent_notification_finished_template" style="display:none"><!--
+<div id="newaddcontent_notification_finished_template" style="display:none;"><!--
     {if me.user.userid === libraryid}
         __MSG__MY_LIBRARY_ADDED__
     {else}
         __MSG__THIS_CONTENT_HAS_BEEN_ADDED_TO__ <a href="/~${libraryid}#l=library">${librarytitle|safeOutput}</a>
     {/if}
 --></div>
+
+<div id="newaddcontent_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <h1 class="s3d-dialog-header">__MSG__UPLOADING_YOUR_CONTENT__</h1>
+    <p>__MSG__PROCESSING__</p>
+    <div class="s3d-inset-shadow-container">
+        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+    </div>
+</div>
 
 <!-- 
 {if $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-manager"]) >= 0 || $.inArray(sakai.data.me.user.userid, item["sakai:pooled-content-viewer"]) >= 0 || $.inArray(item["_path"], queue) >= 0} disabled{/if}

@@ -8,7 +8,7 @@
     <div id="uploadnewversion_form_container"></div>
     <div id="uploadnewversion_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button uploadnewversion_doupload">__MSG__UPLOAD__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button uploadnewversion_doupload">__MSG__UPLOAD__</button>
     </div>
 </div>
 
@@ -18,6 +18,14 @@
         <input name="fileData" id="multifile_upload" class="multi max-1" maxlength="1" type="file" size="44"/>
     </form>
 --></div>
+
+<div id="uploadnewversion_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <h1 class="s3d-dialog-header">__MSG__UPLOADING_YOUR_CONTENT__</h1>
+    <p>__MSG__PROCESSING__</p>
+    <div class="s3d-inset-shadow-container">
+        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+    </div>
+</div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/uploadnewversion/javascript/uploadnewversion.js"></script>

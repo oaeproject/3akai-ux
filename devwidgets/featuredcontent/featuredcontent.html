@@ -10,7 +10,7 @@
 
 <div id="featuredcontent_content_template"><!--
     {if !sakai_global.category}
-        <div class="s3d-contentpage-title">__MSG__ALL_CATEGORIES__</div>
+        <div class="s3d-contentpage-title">{if sakai.config.enableCategories}__MSG__ALL_CATEGORIES__{else}__MSG__SUGGESTED__{/if}</div>
     {/if}
     {if data && data.length}
         {if !sakai_global.category}
@@ -106,7 +106,7 @@
         {if !sakai_global.category}
         </div>
             <div id="featuredcontent_show_more_container">
-                <a class="s3d-button s3d-large-button" href="/categories">
+                <a class="s3d-button s3d-large-button" href="{if sakai.config.enableCategories}/categories{else}/search{/if}">
                     <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
                 </a>
             </div>
@@ -115,7 +115,7 @@
         {if sakai_global.category}
             <div class="s3d-widget-container" id="featuredcontent_category_content_border">
                 <div id="featuredcontent_category_content_container">
-                    <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
+                    <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${title|safeURL}&cat=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">0</a>)</div>
                     <div class="s3d-no-results-container">
                         <div class="s3d-no-results-arrow-up"></div>
                         <div class="s3d-no-results-icon s3d-no-results-content"></div><h1>__MSG__NO_RESULTS_DESCRIPTION__ {if !sakai.data.me.user.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</h1>
@@ -136,7 +136,7 @@
 
 <div id="featuredcontent_category_content_template"><!--
         <div class="s3d-widget-container">
-            <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${category}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">${total}</a>)</div>
+            <div class="s3d-contentpage-title">__MSG__CONTENT__ (<a href="/search#l=content&q=${title|safeURL}&cat=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL_CONTENT__" class="s3d-bold s3d-regular-links">${total}</a>)</div>
             {for small in data}
                 <div class="featuredcontent_content featuredcontent_content_small">
                     <div class="featuredcontent_content_actions">

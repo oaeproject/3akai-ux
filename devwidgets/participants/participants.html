@@ -6,7 +6,12 @@
     <div id="participants_general_actions">
         <div class="participants_selectall"><input type="checkbox" id="participants_select_all"></div>
         <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button sakai_sendmessage_overlay" id="participants_send_selected_message" disabled="disabled">__MSG__MESSAGE_SELECTED__</button>
-        <input type="text" id="participants_search_field"/>
+        <div class="s3d-search-container">
+            <input type="text" tabindex_none="40" id="participants_search_field" title="__MSG__SEARCH_PARTICIPANTS__" class="s3d-search-inputfield"/>
+            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button">
+                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_PARTICIPANTS__"/>
+            </button>
+        </div>
         <div id="participants_sort">
             <label for="participants_sort_by">__MSG__SORT_BY__</label>
             <select id="participants_sort_by">
@@ -14,6 +19,7 @@
                 <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
+        <hr class="fl-hidden fl-push"/>
         <div id="participants_list_container"><!-- --></div>
         <div id="participants_pager" class="jq_pager" style="display:none"></div>
     </div>
@@ -33,9 +39,9 @@
                 <br/>
                 {if participant.type === "user" && participant.id !== sakai.data.me.user.userid}
                     {if ! participant.connected}
-                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}>+</button>
+                        <button title="__MSG__REQUEST_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary participants_plus sakai_addtocontacts_overlay" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.profilePicture}sakai-entitypicture="${participant.profilePicture}"{/if}></button>
                     {elseif participant.invited}
-                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button participants_plus participants_accept_invitation" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}>+</button>
+                        <button title="__MSG__ACCEPT_CONNECTION__" class="s3d-link-button s3d-actions-addtolibrary participants_plus participants_accept_invitation" sakai-entityid="${participant.id|safeOutput}" sakai-entityname="${participant.name|safeOutput}" {if participant.picture}sakai-entitypicture="${participant.picture}"{/if}></button>
                     {elseif !participant.pending && !participant.none}
                         <img class="participants_contact_icon" src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" />
                     {/if}
@@ -46,23 +52,23 @@
             </label>
             <a href="/~${participant.id|safeOutput}" title="{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}'s __MSG__PROFILE__" class="s3d-bold s3d-regular-light-links participants_list_participant_name">{if participant.type != "group"}${participant.name}{else}${participant.name|safeOutput}{/if}</a>
             <br/>
-            <span class="participants_list_participant_details participants_list_participant_details_capitalize">${participant.title|safeOutput}</span>
+            <span class="participants_list_participant_details">${sakai.api.i18n.General.process(participant.title)}</span>
             <br/>
             <a href="/~${participant.id|safeOutput}#l=library" class="s3d-regular-light-links participants_list_participant_details">
-                ${participant.content} {if participant.content == 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
+                ${participant.content} {if participant.content === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
             </a>
             <span class="participants_list_participant_divider">|</span>
             {if participant.type === "user"}
                 <a href="/~${participant.id|safeOutput}#l=contacts" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.contacts} {if participant.contacts == 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
+                    ${participant.contacts} {if participant.contacts === 1} __MSG__CONTACT__{else} __MSG__CONTACTS__{/if}
                 </a>
                 <span class="participants_list_participant_divider">|</span>
                 <a href="/~${participant.id|safeOutput}#l=memberships" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.memberships} {if participant.memberships == 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
+                    ${participant.memberships} {if participant.memberships === 1} __MSG__MEMBERSHIP__{else} __MSG__MEMBERSHIPS__{/if}
                 </a>
             {else}
                 <a href="/~${participant.id|safeOutput}#l=participants" class="s3d-regular-light-links participants_list_participant_details">
-                    ${participant.membersCount} {if participant.membersCount == 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
+                    ${participant.membersCount} {if participant.membersCount === 1} __MSG__PARTICIPANT__{else} __MSG__PARTICIPANTS__{/if}
                 </a>
             {/if}
         </li>

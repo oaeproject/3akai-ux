@@ -16,7 +16,7 @@
         </div>
         <div class="dialog_buttons">
             <button type="button" id="select-layout_cancel" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-            <button type="button" class="s3d-button s3d-overlay-button" id="select-layout-finished">__MSG__SAVE__</button>
+            <button type="button" class="s3d-button s3d-overlay-action-button" id="select-layout-finished">__MSG__SAVE__</button>
         </div>
     </div>
 
@@ -61,7 +61,7 @@
                         <li id="row_compulsary_${i.id}" class="compulsary" style="display:none">
                                 <div class="dialog_add_goodies_title">${i.title}</div>
                                 <div class="dialog_add_goodies_description">
-                                ${i.description}
+                                ${sakai.api.Widgets.getWidgetDescription(i.id)}
                                 </div>
                         </li>
                     {else}
@@ -71,11 +71,11 @@
                         <li id="row_add_${i.id}" class="add">
                         {/if}
                             <div class="remove_add_column">
-                            <button type="button" id="btn_add_${i.id}" class="s3d-button s3d-overlay-button add-button add goodies_add_button">__MSG__ADD__</button>
+                            <button type="button" id="btn_add_${i.id}" class="s3d-button s3d-overlay-action-button add-button add goodies_add_button">__MSG__ADD__</button>
                             </div>
                                 <div class="dialog_add_goodies_title">${i.title}</div>
                                 <div class="dialog_add_goodies_description">
-                                ${i.description}
+                                ${sakai.api.Widgets.getWidgetDescription(i.id)}
                                 </div>
                         </li>
                         {if i.alreadyIn}
@@ -84,11 +84,11 @@
                             <li id="row_remove_${i.id}" class="remove" style="display:none">
                         {/if}
                             <div class="remove_add_column">
-                                <button type="button" id="btn_remove_${i.id}" class="s3d-button s3d-overlay-button remove goodies_remove_button">__MSG__REMOVE__</button>
+                                <button type="button" id="btn_remove_${i.id}" class="s3d-button s3d-overlay-action-button remove goodies_remove_button">__MSG__REMOVE__</button>
                             </div>
                                 <div class="dialog_remove_goodies_title">${i.title}</div>
                                 <div class="dialog_remove_goodies_description">
-                                ${i.description}
+                                ${sakai.api.Widgets.getWidgetDescription(i.id)}
                             </div>
                         </li>
                     {/if}
@@ -109,7 +109,7 @@
                         <div {if p.display=="none"} class="fl-widget-titlebar widget1-head hiddenwidget" {else} class="fl-widget-titlebar widget1-head" {/if} id="draghandle_${p.id}_${p.uid}">
                             <div class="s3d-contentpage-title">
                                 <button type="button" id="${p.id}_${p.uid}_settings" class="fl-force-right fl-icon settings s3d-link-button s3d-action" style="display:none" title="__MSG__OPTIONS__">&#9660;</button>
-                                ${p.title}
+                                ${sakai.api.Widgets.getWidgetTitle(p.id)}
                             </div>
                         </div>
                     {if p.display == "none"}

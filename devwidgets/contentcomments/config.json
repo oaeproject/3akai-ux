@@ -1,5 +1,4 @@
 {
-    "description":"Content Comments",
     "userpages": false,
     "userdashboard": false,
     "grouppages": false,
@@ -7,10 +6,13 @@
     "hasSettings":true,
     "id":"contentcomments",
     "i18n": {
-        "default": "/devwidgets/contentcomments/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/contentcomments/bundles/default.properties",
+            "name":"Content comments",
+            "description":"Content comments"
+        }
     },
     "img":"/devwidgets/contentcomments/images/comments.png",
-    "name":"Content Comments",
     "showinsakaigoodies":false,
     "siteportal":false,
     "type":"core",

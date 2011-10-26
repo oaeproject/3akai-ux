@@ -7,11 +7,13 @@
     "showinsakaigoodies": true,
     "type": "sakai",
 	"img":"/devwidgets/displayprofilesection/images/displayprofilesection.png",
-    "description":"Profile Section",
-    "name":"Profile Section",
     "id":"displayprofilesection",
     "i18n": {
-        "default": "/devwidgets/displayprofilesection/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/displayprofilesection/bundles/default.properties",
+            "name":"Profile section",
+            "description":"Profile section"
+        }
     },
     "enabled": true,
     "url":"/devwidgets/displayprofilesection/displayprofilesection.html"

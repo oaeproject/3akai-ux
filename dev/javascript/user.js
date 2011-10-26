@@ -44,18 +44,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         var contextData = false;
         var newContent = 0;
 
-        var setupProfile = function(pub) {
+        var setupProfile = function(structure) {
             var firstWidgetRef = "";
             var profilestructure = {
-                _title: pub.structure0.profile._title,
-                _altTitle: pub.structure0.profile._altTitle,
-                _order: pub.structure0.profile._order,
+                _title: structure.structure0.profile._title,
+                _altTitle: structure.structure0.profile._altTitle,
+                _order: structure.structure0.profile._order,
                 _canEdit: true,
                 _nonEditable: true,
                 _reorderOnly: true,
                 _canSubedit: true
             };
-            pub.structure0.profile = {};
+            structure.structure0.profile = {};
             var initialProfilePost = [];
             var paths = []; var permissions = [];
             $.each(sakai.config.Profile.configuration.defaultConfig, function(title, section) {
@@ -86,10 +86,10 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 if (section.order === 0) {
                     firstWidgetRef = widgetID;
                 }
-                pub[widgetID] = {
+                structure[widgetID] = {
                     page: "<div id='widget_displayprofilesection_" + widgetUUID + "' class='widget_inline'/>"
                 };
-                pub[widgetUUID] = {
+                structure[widgetUUID] = {
                     sectionid: title
                 };
             });
@@ -104,8 +104,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     debug.error("Error saving initial profile fields");
                 }
             });
-            pub.structure0.profile = profilestructure;
-            pub.structure0.profile._ref = firstWidgetRef;
+            structure.structure0.profile = profilestructure;
+            structure.structure0.profile._ref = firstWidgetRef;
         };
 
         var continueLoadSpaceData = function(userid){
@@ -118,7 +118,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     pubdata = $.extend(true, {}, sakai.config.defaultpubstructure);
                     var refid = {"refid": sakai.api.Util.generateWidgetId()};
                     pubdata = sakai.api.Util.replaceTemplateParameters(refid, pubdata);
-                    setupProfile(pubdata);
+                    if (pubdata.structure0.profile) {
+                        setupProfile(pubdata);
+                    }
                     publicToStore = $.extend(true, {}, pubdata);
                 } else {
                     pubdata = data;
@@ -136,6 +138,9 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             privdata = $.extend(true, {}, sakai.config.defaultprivstructure);
                             var refid = {"refid": sakai.api.Util.generateWidgetId()};
                             privdata = sakai.api.Util.replaceTemplateParameters(refid, privdata);
+                            if (privdata.structure0.profile) {
+                                setupProfile(privdata);
+                            }
                             privateToStore = $.extend(true, {}, privdata);
                         } else {
                             privdata = data2;

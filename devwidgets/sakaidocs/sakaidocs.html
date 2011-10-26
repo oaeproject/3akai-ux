@@ -54,19 +54,13 @@
                                 <div id="sakaidocs_insert_dropdown_container"></div>
 
                                 <div style="clear:both"><!-- --></div>
-
-                                <!--<ul class="fl-tabs fl-tabs-right">
-                                    <li id="tab_text_editor"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__TEXT_EDITOR__</span></button></li>
-                                    <li id="tab_html"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__HTML__</span></button></li>
-                                    <li id="tab_preview"><button class="s3d-button s3d-button-link-2-state"><span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__PREVIEW__</span></button></li>
-                                </ul> -->
                             </div>
 
                             <!-- EDIT CONTENTS -->
                             <div class="edit_contents_main">
                                 <div id="fl-tab-content-editor">
                                     <div id="placeholderforeditor" class="textarea">
-                                        <textarea id="elm1" name="elm1" style="width: 100%; height:430px"></textarea>
+                                        <textarea id="elm1" name="elm1" style="width: 100%; height:430px" title="__MSG__EDITOR__"></textarea>
                                     </div>
                                 </div>
 
@@ -115,11 +109,11 @@
                     <li class="sakaidocs_insert_dropdown_header"><span>__MSG__MEDIA__:</span></li>
                     <li id="sakaidocs_embed_content_button"><button class="insert_dropdown_widget_link s3d-link-button s3d-action" id="embedcontent">__MSG__FILES_AND_DOCUMENTS__</button></li>
                     {for i in media.items}
-                        <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${i.name}</button></li>
+                        <li><button id="${i.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${sakai.api.Widgets.getWidgetTitle(i.id)}</button></li>
                     {/for}
                     <li class="sakaidocs_insert_dropdown_header"><span>__MSG__SAKAI_GOODIES__:</span></li>
                     {for ii in goodies.items}
-                        <li><button id="${ii.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${ii.name}</button></li>
+                        <li><button id="${ii.id}" class="insert_dropdown_widget_link s3d-link-button s3d-action">${sakai.api.Widgets.getWidgetTitle(ii.id)}</button></li>
                     {/for}
                     <li class="sakaidocs_insert_dropdown_header"><span>(__MSG__MORE_COMING_SOON__)</span></li>
                 </ul>
@@ -152,7 +146,7 @@
                 <p>__MSG__DO_YOU_WANT_TO_LOAD_UNSAVED_VERSION__?</p>
                 <div class="fl-force-right">
                     <button type="button" class="s3d-button s3d-link-button" id="autosave_keep">__MSG__NO__</button>
-                    <button type="button" class="s3d-button s3d-overlay-button" id="autosave_revert">__MSG__YES__</button>
+                    <button type="button" class="s3d-button s3d-overlay-action-button" id="autosave_revert">__MSG__YES__</button>
                 </div>
             </div>
         </div>
@@ -183,6 +177,14 @@
         <div class="s3d-widget-no-options-inner"></div>
     </div>
 </div>
+
+<div id="sakaidocs_empty_document_template" style="display:none;"><!--
+{if editor}
+    <div class="sakaidocs_default_editable_content_imagecontainer"></div>
+{else}
+    <div class="sakaidocs_default_viewable_content_imagecontainer"></div>
+{/if}
+--></div>
 
 <div id="sakaidocs_concurrent_editing_message" style="display:none">__MSG__CONCURRENT_EDITING__</div>
 <!-- JAVASCRIPT -->

@@ -124,7 +124,7 @@
             {var count = 0}
             {for a in accepted.results}
                 {var count = count + 1}
-                <div class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
+                <div data-userid="${a.profile.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items{if count == 1} contacts_item_first{/if}">
                     <div class="contacts_item_left_filler" style="display:none;">
                         {if sakai_global.profile.main.mode.value !== "view"}
                             <input type="checkbox" name="checkbox_${a.profile.userid}" />
@@ -199,7 +199,7 @@
     <p>__MSG__ARE_YOU_SURE_YOU_WANT_TO_REMOVE__ <span id="contacts_contact_to_delete" class="s3d-bold"></span> __MSG__FROM_YOUR_CONTACTS__</p>
     <div class="dialog_buttons fl-force-right">
         <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="contacts_delete_contact_confirm" data-sakai-entityid="placeholder">__MSG__REMOVE_CONTACT__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="contacts_delete_contact_confirm" data-sakai-entityid="placeholder">__MSG__REMOVE_CONTACT__</button>
     </div>
 </div>
 

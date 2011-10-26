@@ -460,6 +460,16 @@ define(
             if (!alreadySecure) {
                 dotted = sakai_util.Security.safeOutput(dotted);
             }
+            // if params contains middledots = true then the string is threedotted in the middle
+            if(params && params.middledots && body.length > dotted.length){
+                var maxlength = dotted.length - 3;
+                if (!alreadySecure) {
+                    body = sakai_util.Security.safeOutput(body);
+                }
+                var prepend = body.slice(0, maxlength / 2);
+                var append = body.slice(body.length - (maxlength / 2), body.length);
+                return prepend + "..." + append;
+            }
             return dotted;
         },
 
@@ -537,7 +547,7 @@ define(
                         //change string to json object and get name from picture object
                         picture_name = $.parseJSON(profile.picture).name;
                     }
-                    return "/~" + id + "/public/profile/" + picture_name;
+                    imgUrl = "/~" + sakai_util.safeURL(id) + "/public/profile/" + sakai_util.safeURL(picture_name);
                 } else if (profile.basic && profile.basic.elements && profile.basic.elements.picture && profile.basic.elements.picture.value) {
                     if (profile.basic.elements.picture.value.name) {
                         picture_name = profile.basic.elements.picture.value.name;
@@ -552,9 +562,26 @@ define(
                 } else {
                     return imgUrl;
                 }
-            } else {
-                return imgUrl;
             }
+            return imgUrl;
+        },
+
+        /**
+         * Do some checks on the content to see if it's the default Tinymce content or just empty
+         * @param {String} content Content in the form of a string
+         * @return{Boolean} True indicates that content is present, False indicates that there is no content
+         */
+        determineEmptyContent: function(content){
+            var textPresent = $.trim($("<div>").html(content).text());
+            var elementArr = ["div", "img", "ol", "ul", "li", "hr", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "em", "strong", "code", "dl", "dt", "dd", "table", "tr", "th", "td", "iframe", "frame", "form", "input", "select", "option", "blockquote", "address"];
+            var containsElement = false;
+            $.each(elementArr, function(i, el){
+                if(content.indexOf(el) != -1){
+                    containsElement = true;
+                    return false;
+                }
+            });
+            return textPresent || containsElement;
         },
 
         /**
@@ -1222,46 +1249,6 @@ define(
                 date.setDate(date.getUTCDate());
                 date.setHours(date.getUTCHours());
                 return date;
-            },
-            getTimeAgo : function(date){
-                if (date !== null) {
-                    var currentDate = new Date();
-                    // convert current date to GMT time
-                    currentDate = sakai_l10n.fromEpoch(currentDate.getTime(), require("sakai/sakai.api.user").data.me);
-                    var iTimeAgo = (currentDate - date) / (1000);
-                    if (iTimeAgo < 60) {
-                        if (Math.floor(iTimeAgo) === 1) {
-                            return Math.floor(iTimeAgo) +" " + require("sakai/sakai.api.i18n").General.getValueForKey("SECOND");
-                        }
-                        return Math.floor(iTimeAgo) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("SECONDS");
-                    } else if (iTimeAgo < 3600) {
-                        if (Math.floor(iTimeAgo / 60) === 1) {
-                            return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTE");
-                        }
-                        return Math.floor(iTimeAgo / 60) + " "+ require("sakai/sakai.api.i18n").General.getValueForKey("MINUTES");
-                    } else if (iTimeAgo < (3600 * 60)) {
-                        if (Math.floor(iTimeAgo / (3600)) === 1) {
-                            return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOUR");
-                        }
-                        return Math.floor(iTimeAgo / (3600)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("HOURS");
-                    } else if (iTimeAgo < (3600 * 60 * 30)) {
-                        if (Math.floor(iTimeAgo / (3600 * 60)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAY");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("DAYS");
-                    } else if (iTimeAgo < (3600 * 60 * 30 * 12)) {
-                        if (Math.floor(iTimeAgo / (3600 * 60 * 30)) === 1) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTH");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("MONTHS");
-                    } else {
-                        if (Math.floor(iTimeAgo / (3600 * 60 * 30 * 12) === 1)) {
-                            return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEAR");
-                        }
-                        return Math.floor(iTimeAgo / (3600 * 60 * 30 * 12)) + " "+require("sakai/sakai.api.i18n").General.getValueForKey("YEARS");
-                    }
-                }
-                return null;
             }
         },
         /*
@@ -1350,6 +1337,7 @@ define(
                 templateElement = $("#" + templateName);
             }
             else {
+                debug.log(templateElement);
                 throw "TemplateRenderer: The templateElement '" + templateElement + "' is not in a valid format or the template couldn't be found.";
             }
 
@@ -1674,9 +1662,9 @@ define(
                 sakai_util.loadSkinsFromConfig();
 
                 // Put the title inside the page
-                var pageTitle = require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.prefix);
+                var pageTitle = require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.prefix);
                 if (sakai_conf.PageTitles.pages[window.location.pathname]){
-                    pageTitle += require("sakai/sakai.api.i18n").General.getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
+                    pageTitle += " " + require("sakai/sakai.api.i18n").getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
                 document.title = pageTitle;
                 // Show the actual page content
@@ -1852,11 +1840,11 @@ define(
                                 $.each(data.results, function(i) {
                                     if (data.results[i]["rep:userId"] && data.results[i]["rep:userId"] !== user.data.me.user.userid) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["rep:userId"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "type": "user"});
+                                            suggestions.push({"value": data.results[i]["rep:userId"], "name": user.getDisplayName(data.results[i]), "picture": sakai_util.constructProfilePicture(data.results[i], "user"), "type": "user"});
                                     	}
                                     } else if (data.results[i]["sakai:group-id"]) {
                                         if(!options.filterUsersGroups || $.inArray(data.results[i]["sakai:group-id"],options.filterUsersGroups)===-1){
-                                        	suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "type": "group"});
+                                            suggestions.push({"value": data.results[i]["sakai:group-id"], "name": sakai_util.Security.safeOutput(data.results[i]["sakai:group-title"]), "picture": sakai_util.constructProfilePicture(data.results[i], "group"), "type": "group"});
                                         }
                                     }
                                 });

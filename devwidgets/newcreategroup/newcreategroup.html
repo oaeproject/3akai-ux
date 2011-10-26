@@ -66,7 +66,7 @@
                         <br/>
                         {for role in roles}
                             {if role.id == user.permission}
-                                <span class="s3d-entity-displayname">${role.title}</span>
+                                <span class="s3d-entity-displayname">${sakai.api.i18n.General.process(role.title)}</span>
                             {/if}
                         {/for}
                     </li>
@@ -74,7 +74,7 @@
                 {/for}
             </ul>
         </div>
-        <textarea id="newcreategroup_members_message" placeholder="__MSG__ENTER_A_MESSAGE__"></textarea>
+        <textarea id="newcreategroup_members_message" placeholder="__MSG__ENTER_A_MESSAGE__" title="__MSG__ENTER_A_MESSAGE__"></textarea>
     --></div>
 
     <div id="newcreategroup_members_message_template"><!--
@@ -83,6 +83,16 @@
  __MSG__USER_HAS_ADDED_YOU_AS_A_ROLE_TO_THE_GROUP_GROUPNAME__
 
  __MSG__YOU_CAN_FIND_IT_HERE_URL__
+    --></div>
+
+    <div id="newcreategroup_creating" class="s3d-dialog s3d-dialog-container" style="display:none;"></div>
+
+    <div id="newcreategroup_creating_template" style="display:none;"><!--
+        <h1 class="s3d-dialog-header">__MSG__CREATING_YOUR_GROUP__</h1>
+        <p>__MSG__PROCESSING__</p>
+        <div class="s3d-inset-shadow-container">
+            <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+        </div>
     --></div>
 
 </div>

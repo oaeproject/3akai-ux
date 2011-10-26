@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/devwidgets/joingroup/css/joingroup.css" />
 
 <div class="joingroup_widget">
+    <span style="display:none;">__MSG__IE_PLACEHOLDER__</span>
     <div id="joingroup_hover_template" style="display:none;"><!--
         <div class="joingroup_hover_top">
             <div id="joingroup_joinrequestbuttons"></div>
@@ -15,17 +16,17 @@
         <table class="joingroup_group_participants">
             {for p in participants}
                 <tr><td class="joingroup_userimg"><a href="${p.link}" title="__MSG__VIEW_PROFILE__"><img
-                    alt="__MSG__USER_PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
+                    alt="__MSG__PROFILE_PICTURE__" src="${p.picsrc}" /></a></td>
                     <td class="joingroup_userinfo"><p><a href="${p.link}" title="__MSG__VIEW_PROFILE__"
                         class="joingroup_itemtitle">${p.displayname}</a></p>
-                    <p>${p.role}</p>
+                    <p>${sakai.api.i18n.General.process(p.role)}</p>
                     </td>
                 </tr>
             {/for}
         </table>
         {if seeAll}
             <div class="joingroup_people_footer">
-                <a class="joingroup_see_all joingroup_itemtitle" href="/~${id}"
+                <a class="fl-force-right s3d-widget-links" href="/~${id}#l=participants"
                     title="__MSG__VIEW_ALL_GROUP_MEMBERS__">__MSG__SEE_ALL_PARTICIPANTS__</a>
             </div>
         {/if}

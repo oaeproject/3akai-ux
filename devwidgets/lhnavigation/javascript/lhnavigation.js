@@ -75,7 +75,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "contextData": contextData,
                 "parametersToCarryOver": parametersToCarryOver
             });
-            lhnavHTML = sakai.api.i18n.General.process(lhnavHTML, sakai.api.User.data.me);
             $("#lhnavigation_container").html(lhnavHTML);
         };
 
@@ -114,7 +113,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     count._count = value;
                 }
                 if (listitem.length) {
-                    $(element, listitem).text(" (" + count._count + ")");
+                    $(element, listitem).text(count._count);
                     if (count._count <= 0){
                         $(element, listitem).hide();
                     } else {
@@ -196,8 +195,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 if (level && level.substring(0,1) !== "_"){
                     childCount++;
                     structure[level] = includeChildCount(structure[level]);
+                } else if (level && level === "_title"){
+                    structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === "_altTitle"){
-                    structure[level] = structure[level].replace("${user}", contextData.profile.basic.elements.firstName.value);
+                    structure[level] = sakai.api.i18n.General.process(structure[level]);
+                    structure[level] = structure[level].replace("${user}", sakai.api.User.getFirstName(contextData.profile));
                 }
             }
             structure._childCount = childCount;
@@ -357,19 +359,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var orderedItems = [],
                 alreadyAdded = [],
                 order = 0;
-            $.each(items, function(idx, item) {
-                var toAdd = getLowestOrderItem(items, alreadyAdded);
-                var itemToAdd = toAdd[1],
-                    itemID = toAdd[0];
-                if (toAdd) {
-                    itemToAdd._order = order;
-                    order++;
-                    itemToAdd._id = itemID;
-                    itemToAdd._elements = orderItems(itemToAdd);
-                    orderedItems.push(itemToAdd);
-                    alreadyAdded.push(itemID);
-                }
-            });
+            if (items) {
+                $.each(items, function(idx, item){
+                    var toAdd = getLowestOrderItem(items, alreadyAdded);
+                    var itemToAdd = toAdd[1], itemID = toAdd[0];
+                    if (toAdd) {
+                        itemToAdd._order = order;
+                        order++;
+                        itemToAdd._id = itemID;
+                        itemToAdd._elements = orderItems(itemToAdd);
+                        orderedItems.push(itemToAdd);
+                        alreadyAdded.push(itemID);
+                    }
+                });
+            }
             return orderedItems;
         };
 
@@ -489,6 +492,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var pageContent = content && content.page ? content.page : "";
             var lastModified = content && content._lastModified ? content._lastModified : null;
             var autosave = content && content.autosave ? content.autosave : null;
+            var pageTitle = $.trim($(".lhnavigation_selected_item .lhnavigation_page_title_value").text());
             var saveRef = ref;
             if (saveRef.indexOf("-") !== -1){
                 saveRef = saveRef.substring(saveRef.indexOf("-") + 1);
@@ -505,7 +509,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 "addArea": contextData.addArea,
                 "nonEditable": nonEditable,
                 "_lastModified": lastModified,
-                "autosave": autosave
+                "autosave": autosave,
+                "title": pageTitle
             };
             if (newPageMode) {
                 $(window).trigger("editpage.sakaidocs.sakai", [currentPageShown]);
@@ -604,7 +609,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var newpageid = sakai.api.Util.generateWidgetId();
             var neworder = pubstructure.orderedItems.length;
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": newpageid,
                 "_title": "Untitled Page",
@@ -652,7 +657,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var fullRef = currentPageShown.pageSavePath.split("/p/")[1] + "-" + newpageid;
             var basePath = currentPageShown.path.split("/")[0];
 
-            var pageContent = "Default content";
+            var pageContent = "";
             var pageToCreate = {
                 "_ref": fullRef,
                 "_title": "Untitled Page",
@@ -753,6 +758,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             pageTitle.text(inputArea.val());
             pageTitle.show();
 
+            currentPageShown.title = $.trim(pageTitle.text());
             // Change main structure
             var mainPath = changingPageTitle.path;
             if (changingPageTitle.path.indexOf("/") !== -1){
@@ -1027,6 +1033,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             } else {
                 renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
             }
+        };
+
+        sakai_global.lhnavigation.getCurrentPage = function() {
+            return currentPageShown;
         };
 
         ////////////////////////////

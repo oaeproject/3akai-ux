@@ -19,54 +19,36 @@ define(function(){
     var config = {
         URL: {
             // Static URLs
-            CONTENT_MEDIA_URL: "/dev/content_media.html",
-            COURSES_SITES_URL: "/dev/courses_sites.html",
             GATEWAY_URL: "/",
-            GROUP_DEFAULT_ICON_URL_SMALL: "/dev/images/group_avatar_icon_35x35_nob.png",
             GROUP_DEFAULT_ICON_URL: "/dev/images/group_avatar_icon_64x64_nob.png",
+            GROUP_DEFAULT_ICON_URL_LARGE: "/dev/images/group_avatar_icon_100x100_nob.png",
             I10N_BUNDLE_URL: "/dev/lib/misc/l10n/cultures/globalize.culture.__CODE__.js",
             I18N_BUNDLE_ROOT: "/dev/bundle/",
             INBOX_URL: "/me#l=messages/inbox",
             INVITATIONS_URL: "/me#l=messages/invitations",
             LOGOUT_URL: "/logout",
             MY_DASHBOARD_URL: "/me#l=dashboard",
-            PROFILE_EDIT_URL: "/profile/edit",
-            PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
-            PUBLIC_COURSES_SITES_URL: "/dev/public_courses_sites.html",
-            PUBLIC_INSTITUTIONAL_LOGIN_URL: "/dev/i_index.html",
-            PUBLIC_MY_DASHBOARD_URL: "/index",
+            PROFILE_EDIT_URL: "/me#l=profile/basic",
             SEARCH_ACTIVITY_ALL_URL: "/var/search/activity/all.json",
-            SEARCH_GENERAL_URL: "/search",
-            SEARCH_CONTENT_URL: "/search#l=content",
-            SEARCH_PEOPLE_URL: "/search#l=people",
             TINY_MCE_CONTENT_CSS: "/dev/css/FSS/fss-base.css,/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css,/dev/css/sakai/sakai.base.css,/dev/css/sakai/sakai.editor.css,/dev/css/sakai/sakai.content_profile.css",
-            TINY_MCE_EDITOR_CSS: "/dev/css/sakai/tinymce_editor_styling.css",
-            USER_DEFAULT_ICON_URL_SMALL: "/dev/images/default_User_icon_35x35.png",
             USER_DEFAULT_ICON_URL: "/dev/images/default_User_icon_50x50.png",
-            USER_DEFAULT_UPLOAD_FOLDER: "/private/uploads",
+            USER_DEFAULT_ICON_URL_LARGE: "/dev/images/default_User_icon_100x100.png",
 
             // Services
-            ACTIVITY_PERSONAL: "/var/search/activity/myfeed.json",
-            ACTIVITY_SITE: "/var/search/activity/sitefeed.json",
             BATCH: "/system/batch",
             CAPTCHA_SERVICE: "/system/captcha",
-            CHAT_GET_SERVICE: "/var/message/chat/__KIND__.json",
-            CHAT_UPDATE_SERVICE: "/var/message.chatupdate.json",
             CONTACTS_FIND: "/var/contacts/find.json",
             CONTACTS_FIND_STATE: "/var/contacts/findstate.json",
             CONTACTS_FIND_ALL: "/var/contacts/find-all.json",
-            CONTACTS_FIND_BY_USER: "/var/contacts/findbyuser.json",
             CREATE_USER_SERVICE: "/system/userManager/user.create.html",
             DISCUSSION_GETPOSTS_THREADED: "/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__",
-            DISCUSSION_INITIALPOSTS_SERVICE: "/var/search/discussions/initialdiscussionposts.json?path=__PATH__&items=__ITEMS__&page=__PAGE__",
             GOOGLE_CHARTS_API: "http://chart.apis.google.com/chart",
             GROUP_CREATE_SERVICE: "/system/userManager/group.create.json",
             GROUPS_MANAGER: "/system/me/managedgroups.json",
             GROUPS_MEMBER: "/system/me/groups.json",
-            HEADER_SERVICE: "/var/proxy/header.json",
             IMAGE_SERVICE: "/var/image/cropit",
             LOGIN_SERVICE: "/system/sling/formlogin",
-            LOGOUT_SERVICE: "/system/sling/logout?resource=/dev/index.html",
+            LOGOUT_SERVICE: "/system/sling/logout?resource=/index",
             ME_SERVICE: "/system/me",
             MESSAGE_BOX_SERVICE: "/var/message/box.json",
             MESSAGE_BOXCATEGORY_SERVICE: "/var/message/boxcategory.json",
@@ -77,61 +59,28 @@ define(function(){
             POOLED_CONTENT_VIEWER_ALL: "/var/search/pool/me/viewer-all.json",
             POOLED_CONTENT_SPECIFIC_USER: "/var/search/pool/manager-viewer.json",
             POOLED_CONTENT_ACTIVITY_FEED: "/var/search/pool/activityfeed.json",
-            PRESENCE_CONTACTS_SERVICE: "/var/presence.contacts.json",
             PRESENCE_SERVICE: "/var/presence.json",
-            PROXY_RSS_SERVICE: "/var/proxy/rss.json?rss=",
             SAKAI2_TOOLS_SERVICE: "/var/proxy/s23/site.json?siteid=__SITEID__",
+
             // Replace these in widgets with proper widgetsave functions from magic
-            SDATA_FETCH_BASIC_URL: "/sites/__PLACEMENT__/__TUID__",
-            SDATA_FETCH_PLACEMENT_URL: "/sites/__PLACEMENT__",
-            SDATA_FETCH_URL: "/sites/__PLACEMENT__/__TUID__/__NAME__",
-            SDATA_FETCH: "/",
-            // --
             SEARCH_ALL_ENTITIES: "/var/search/general.json",
             SEARCH_ALL_ENTITIES_ALL: "/var/search/general-all.json",
             SEARCH_ALL_FILES: "/var/search/pool/all.json",
             SEARCH_ALL_FILES_ALL: "/var/search/pool/all-all.json",
-            SEARCH_ALL_FILES_SERVICE: "/var/search/files/allfiles.json",
-            SEARCH_ALL_FILES_SERVICE_ALL: "/var/search/files/allfiles-all.json",
-            SEARCH_CONTENT_COMPREHENSIVE_SERVICE: "/var/search/sitecontent.json",
-            SEARCH_CONTENT_SERVICE: "/var/search/content.json",
             SEARCH_MY_BOOKMARKS: "/var/search/files/mybookmarks.json",
             SEARCH_MY_BOOKMARKS_ALL: "/var/search/files/mybookmarks-all.json",
             SEARCH_MY_CONTACTS: "/var/search/files/mycontacts.json",
             SEARCH_MY_FILES: "/var/search/files/myfiles.json",
             SEARCH_MY_FILES_ALL: "/var/search/files/myfiles-all.json",
-            SEARCH_MY_SITES: "/var/search/files/mysites.json",
             SEARCH_GROUP_MEMBERS: "/var/search/groupmembers.json",
             SEARCH_GROUP_MEMBERS_ALL: "/var/search/groupmembers-all.json",
             SEARCH_GROUPS: "/var/search/groups.infinity.json",
             SEARCH_GROUPS_ALL: "/var/search/groups-all.json",
-            SEARCH_PAGES: "/var/search/page.json",
-            SEARCH_SITES: "/var/search/sites.json",
             SEARCH_USERS_ACCEPTED: "/var/contacts/findstate.infinity.json",
             SEARCH_USERS: "/var/search/users.infinity.json",
             SEARCH_USERS_ALL: "/var/search/users-all.json",
             SEARCH_USERS_GROUPS: "/var/search/usersgroups.json",
             SEARCH_USERS_GROUPS_ALL: "/var/search/usersgroups-all.json",
-            SITE_ADD_MEMBERS_SERVICE: "/_rest/site/members/add/__SITE__",
-            SITE_CONFIGFOLDER: "/sites/__SITEID__",
-            SITE_CREATE_SERVICE: "/sites.createsite.json",
-            SITE_FILES_URL: "/sites/__SITEID__/_files",
-            SITE_GET_MEMBERS_SERVICE: "/sites/__SITE__.members.json",
-            SITE_GROUPDEF_URL: "/sites/__SITEID__/groupdef.json",
-            SITE_JOIN_REQUESTS: "/var/sites/joinrequests/pending.json",
-            SITE_NAVIGATION_CONTENT: "/sites/__SITEID__/_navigation/content.json",
-            SITE_NAVIGATION: "/sites/__SITEID__/_navigation",
-            SITE_PAGECONFIGURATION: "/sites/__SITEID__/pageconfiguration",
-            SITE_PRINT_URL: "/dev/print.html?pagetitle=__CURRENTSITENAME__",
-            SITE_REMOVE_MEMBERS_SERVICE: "/_rest/site/members/remove/__SITE__",
-            SITE_ROOT: "/sites",
-            SITE_TEMPLATE: "/var/templates/site/__TEMPLATE__",
-            SITE_UPDATE_SERVICE: "/_rest/site/update/sites/__SITEID__",
-            SITE_URL_SITEID: "/dev/site.html?siteid=__SITEID__",
-            SITES_SERVICE: "/system/sling/membership.json",
-            TWITTER_GET_URL: "/var/proxy/twitter/status.json",
-            TWITTER_POST_URL: "/var/proxy/twitter/update_status.json",
-            USER_CHANGELOCALE_SERVICE: "/rest/user/changelocale/__USERID__",
             USER_CHANGEPASS_SERVICE: "/system/userManager/user/__USERID__.changePassword.html",
             USER_EXISTENCE_SERVICE: "/system/userManager/user.exists.html?userid=__USERID__"
         },
@@ -247,7 +196,8 @@ define(function(){
                     "allusers": "logged-in-only", // All logged in users
                     "public": "public" // Anyone on the Internet
                 },
-                "defaultaccess": "public" // public, logged-in-only or members-only (see above for role description)
+                "defaultaccess": "public", // public, logged-in-only or members-only (see above for role description)
+                "defaultjoin": "yes" // no, yes, or withauth (see above for descriptions)
             },
             Content: {
                 /*
@@ -265,22 +215,31 @@ define(function(){
                  */
                 "defaultaccess": "public" // public, everyone or private (see above for role description)
             },
+            Links: {
+                "defaultaccess": "public" // public, everyone or private (see above for role description)
+            },
             Copyright: {
-                "creativecommons": {
-                    "title": "CREATIVE_COMMONS_LICENSE",
-                    "default": true
+                types: {
+                    "creativecommons": {
+                        "title": "CREATIVE_COMMONS_LICENSE"
+                    },
+                    "copyrighted": {
+                        "title": "COPYRIGHTED"
+                    },
+                    "nocopyright": {
+                        "title": "NO_COPYRIGHT"
+                    },
+                    "licensed": {
+                        "title": "LICENSED"
+                    },
+                    "waivecopyright": {
+                        "title": "WAIVE_COPYRIGHT"
+                    }
                 },
-                "copyrighted": {
-                    "title": "COPYRIGHTED"
-                },
-                "nocopyright": {
-                    "title": "NO_COPYRIGHT"
-                },
-                "licensed": {
-                    "title": "LICENSED"
-                },
-                "waivecopyright": {
-                    "title": "WAIVE_COPYRIGHT"
+                defaults: {
+                    "content": "creativecommons",
+                    "sakaidocs": "creativecommons",
+                    "links": "creativecommons"
                 }
             }
         },
@@ -558,40 +517,40 @@ define(function(){
              * Relationships used by the add contacts widget to define what relationship the contacts can have
              */
             "contacts": [{
-                "name": "Classmate",
-                "definition": "is my classmate",
+                "name": "__MSG__CLASSMATE__",
+                "definition": "__MSG__IS_MY_CLASSMATE__",
                 "selected": true
             }, {
-                "name": "Supervisor",
-                "inverse": "Supervised",
-                "definition": "is my supervisor",
+                "name": "__MSG__SUPERVISOR__",
+                "inverse": "__MSG__SUPERVISED__",
+                "definition": "__MSG__IS_MY_SUPERVISOR__",
                 "selected": false
             }, {
-                "name": "Supervised",
-                "inverse": "Supervisor",
-                "definition": "is being supervised by me",
+                "name": "__MSG__SUPERVISED__",
+                "inverse": "__MSG__SUPERVISOR__",
+                "definition": "__MSG__IS_SUPERVISED_BY_ME__",
                 "selected": false
             }, {
-                "name": "Lecturer",
-                "inverse": "Student",
-                "definition": "is my lecturer",
+                "name": "__MSG__LECTURER__",
+                "inverse": "__MSG__STUDENT__",
+                "definition": "__MSG__IS_MY_LECTURER__",
                 "selected": false
             }, {
-                "name": "Student",
-                "inverse": "Lecturer",
-                "definition": "is my student",
+                "name": "__MSG__STUDENT__",
+                "inverse": "__MSG__LECTURER__",
+                "definition": "__MSG__IS_MY_STUDENT__",
                 "selected": false
             }, {
-                "name": "Colleague",
-                "definition": "is my colleague",
+                "name": "__MSG__COLLEAGUE__",
+                "definition": "__MSG__IS_MY_COLLEAGUE__",
                 "selected": false
             }, {
-                "name": "College Mate",
-                "definition": "is my college mate",
+                "name": "__MSG__COLLEGE_MATE__",
+                "definition": "__MSG__IS_MY_COLLEGE_MATE__",
                 "selected": false
             }, {
-                "name": "Shares Interests",
-                "definition": "shares an interest with me",
+                "name": "__MSG__SHARES_INTERESTS__",
+                "definition": "__MSG__SHARES_INTEREST_WITH_ME__",
                 "selected": false
             }]
         },
@@ -955,6 +914,32 @@ define(function(){
             "label": "SIGN_UP"
         }],
 
+        Footer: {
+            leftLinks: [{
+                "title": "__MSG__COPYRIGHT__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__HELP__",
+                "href": "http://sakaiproject.org",
+                "newWindow": true
+            }, {
+                "title": "__MSG__ACKNOWLEDGEMENTS__",
+                "href": "/acknowledgements"
+            }, {
+                "title": "__MSG__SUGGEST_AN_IMPROVEMENT__",
+                "href": "http://sakaioae.idea.informer.com/",
+                "newWindow": true
+            }],
+            rightLinks: [{
+                "title": "__MSG__BROWSE__",
+                "href": "/categories"
+            }, {
+                "title": "__MSG__EXPLORE__",
+                "href": "/"
+            }]
+        },
+
         /*
          * Are anonymous users allowed to browse/search
          */
@@ -995,502 +980,504 @@ define(function(){
          * Section dividers can be added to the directory structure by adding in the following
          * element at the appropriate place:
          *  divider1: {
-         *      divider: true
+         *      "divider": true,
+         *      "title": "Divider title" [optional],
+         *      "class": "CSS class to add to items inside of elements beneath the divider [optional]
          *  }
          */
         Directory: {
             medicineanddentistry: {
-                title: "Medicine and Dentistry",
+                title: "__MSG__MEDICINE_AND_DENTISTRY__",
                 children: {
                     preclinicalmedicine: {
-                        title: "Pre-clinical Medicine"
+                        title: "__MSG__PRECLINICAL_MEDICINE__"
                     },
                     preclinicaldentistry: {
-                        title: "Pre-clinical Dentistry"
+                        title: "__MSG__PRECLINICAL_DENTISTRY__"
                     },
                     clinicalmedicine: {
-                        title: "Clinical Medicine"
+                        title: "__MSG__CLININCAL_MEDICINE__"
                     },
                     clinicaldentistry: {
-                        title: "Clinical Dentistry"
+                        title: "__MSG__CLININCAL_DENTISTRY__"
                     },
                     othersinmedicineanddentistry: {
-                        title: "Others in Medicine and Dentistry"
+                        title: "__MSG__MEDICINE_AND_DENTISTRY_OTHERS__"
                     }
                 }
             },
             biologicalsciences: {
-                title: "Biological Sciences",
+                title: "__MSG__BIOLOGICAL_SCIENCES__",
                 children: {
                     biology: {
-                        title: "Biology"
+                        title: "__MSG__BIOLOGY__"
                     },
                     botany: {
-                        title: "Botany"
+                        title: "__MSG__BOTANY__"
                     },
                     zoology: {
-                        title: "Zoology"
+                        title: "__MSG__ZOOLOGY__"
                     },
                     genetics: {
-                        title: "Genetics"
+                        title: "__MSG__GENETICS__"
                     },
                     microbiology: {
-                        title: "Microbiology"
+                        title: "__MSG__MICROBIOLOGY__"
                     },
                     sportsscience: {
-                        title: "Sports Science"
+                        title: "__MSG__SPORTS_SCIENCE__"
                     },
                     molecularbiologybiophysicsandbiochemistry: {
-                        title: "Molecular Biology, Biophysics and Biochemistry"
+                        title: "__MSG__MOLECULAR_BIOLOGY__"
                     },
                     psychology: {
-                        title: "Psychology"
+                        title: "__MSG__PSYCHOLOGY__"
                     },
                     othersinbiologicalsciences: {
-                        title: "Others in Biological Sciences"
+                        title: "__MSG__BIOLOGICAL_SCIENCES_OTHER__"
                     }
                 }
             },
             veterinarysciencesagriculture: {
-                title: "Veterinary Sciences and Agriculture",
+                title: "__MSG__VETERINARY_SCIENCES__",
                 children: {
                     preclinicalveterinarymedicine: {
-                        title: "Pre-clinical Veterinary Medicine"
+                        title: "__MSG__PRE_CLINICAL_VETERINARY__"
                     },
                     clinicalveterinarymedicineanddentistry: {
-                        title: "Clinical Veterinary Medicine and Dentistry"
+                        title: "__MSG__CLINICAL_VETERINARY__"
                     },
                     animalscience: {
-                        title: "Animal Science"
+                        title: "__MSG__ANIMAL_SCIENCE__"
                     },
                     agriculture: {
-                        title: "Agriculture"
+                        title: "__MSG__AGRICULTURE__"
                     },
                     forestry: {
-                        title: "Forestry"
+                        title: "__MSG__FORESTRY__"
                     },
                     foodandbeveragestudies: {
-                        title: "Food and Beverage studies"
+                        title: "__MSG__FOOD_BEVERAGE__"
                     },
                     agriculturalsciences: {
-                        title: "Agricultural Sciences"
+                        title: "__MSG__AGRICULTURAL_SCIENCE__"
                     },
                     othersinveterinarysciencesandagriculture: {
-                        title: "Others in Veterinary Sciences and Agriculture"
+                        title: "__MSG__VETERINARY_SCIENCES_OTHER__"
                     }
                 }
             },
             physicalsciences: {
-                title: "Physical Sciences",
+                title: "__MSG__PHYSICAL_SCIENCE__",
                 children: {
                     chemistry: {
-                        title: "Chemistry"
+                        title: "__MSG__CHEMISTRY__"
                     },
                     materialsscience: {
-                        title: "Materials Science"
+                        title: "__MSG__MATERIALS_SCIENCE__"
                     },
                     physics: {
-                        title: "Physics"
+                        title: "__MSG__PHYSICS__"
                     },
                     forensicandarchaeologicalscience: {
-                        title: "Forensic and Archaeological Science"
+                        title: "__MSG__FORENSIC_ARCHEALOGICAL__"
                     },
                     astronomy: {
-                        title: "Astronomy"
+                        title: "__MSG__ASTRONOMY__"
                     },
                     geology: {
-                        title: "Geology"
+                        title: "__MSG__GEOLOGY__"
                     },
                     oceansciences: {
-                        title: "Ocean Sciences"
+                        title: "__MSG__OCEAN_SCIENCE__"
                     },
                     othersinphysicalsciences: {
-                        title: "Others in Physical Sciences"
+                        title: "__MSG__PHYSICAL_SCIENCE_OTHER__"
                     }
                 }
             },
             mathematicalandcomputersciences: {
-                title: "Mathematical and Computer Sciences",
+                title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES__",
                 children: {
                     mathematics: {
-                        title: "Mathematics"
+                        title: "__MSG__MATHEMATICS__"
                     },
                     operationalresearch: {
-                        title: "Operational Research"
+                        title: "__MSG__OPERATIONAL_RESEARCH__"
                     },
                     statistics: {
-                        title: "Statistics"
+                        title: "__MSG__STATISTICS__"
                     },
                     computerscience: {
-                        title: "Computer Science"
+                        title: "__MSG__COMPUTER_SCIENCE__"
                     },
                     informationsystems: {
-                        title: "Information Systems"
+                        title: "__MSG__INFORMATION_SYSTEMS__"
                     },
                     softwareengineering: {
-                        title: "Software Engineering"
+                        title: "__MSG__SOFTWARE_ENGINEERING__"
                     },
                     artificialintelligence: {
-                        title: "Artificial Intelligence"
+                        title: "__MSG__ARTIFICIAL_INTELLIGENCE__"
                     },
                     othersinmathematicalandcomputingsciences: {
-                        title: "Others in Mathematical and Computing Sciences"
+                        title: "__MSG__MATHEMATICAL_COMPUTER_SCIENCES_OTHER__"
                     }
                 }
             },
             engineering: {
-                title: "Engineering",
+                title: "__MSG__ENGINEERING__",
                 children: {
                     generalengineering: {
-                        title: "General Engineering"
+                        title: "__MSG__GENERAL_ENGINEERING__"
                     },
                     civilengineering: {
-                        title: "Civil Engineering"
+                        title: "__MSG__CIVIL_ENGINEERING__"
                     },
                     mechanicalengineering: {
-                        title: "Mechanical Engineering"
+                        title: "__MSG__MECHANICAL_ENGINEERING__"
                     },
                     aerospaceengineering: {
-                        title: "Aerospace Engineering"
+                        title: "__MSG__AEROSPACE_ENGINEERING__"
                     },
                     navalarchitecture: {
-                        title: "Naval Architecture"
+                        title: "__MSG__NAVAL_ARCHITECTURE__"
                     },
                     electronicandelectricalengineering: {
-                        title: "Electronic and Electrical Engineering"
+                        title: "__MSG__ELECTRONIC_ELECTRICAL_ENGINEERING__"
                     },
                     productionandmanufacturingengineering: {
-                        title: "Production and Manufacturing Engineering"
+                        title: "__MSG__PRODUCTION_MANUFACTURING_ENGINEERING__"
                     },
                     chemicalprocessandenergyengineering: {
-                        title: "Chemical, Process and Energy Engineering"
+                        title: "__MSG__CHEMICAL_PROCESS_ENERGY_ENGINEERING__"
                     },
                     othersinengineering: {
-                        title: "Others in Engineering"
+                        title: "__MSG__ENGINEERING_OTHER__"
                     }
                 }
             },
             technologies: {
-                title: "Technologies",
+                title: "__MSG__TECHNOLOGIES__",
                 children: {
                     mineralstechnology: {
-                        title: "Minerals Technology"
+                        title: "__MSG__MINERALS_TECHNOLOGY__"
                     },
                     metallurgy: {
-                        title: "Metallurgy"
+                        title: "__MSG__METALLURGY__"
                     },
                     ceramicsandglasses: {
-                        title: "Ceramics and Glasses"
+                        title: "__MSG__CERAMICS_GLASSES__"
                     },
                     polymersandtextiles: {
-                        title: "Polymers and Textiles"
+                        title: "__MSG__POLYMERS_TEXTILES__"
                     },
                     materialstechnologynototherwisespecified: {
-                        title: "Materials Technology not otherwise specified"
+                        title: "__MSG__MATERIALS_TECHNOLOGY_OTHER__"
                     },
                     maritimetechnology: {
-                        title: "Maritime Technology"
+                        title: "__MSG__MARITIME_TECHNOLOGY__"
                     },
                     industrialbiotechnology: {
-                        title: "Industrial Biotechnology"
+                        title: "__MSG__INDUSTRIAL_BIOTECHNOLOGY__"
                     },
                     othersintechnology: {
-                        title: "Others in Technology"
+                        title: "__MSG__TECHNOLOGIES_OTHER__"
                     }
                 }
             },
             architecturebuildingandplanning: {
-                title: "Architecture, Building and Planning",
+                title: "__MSG__ARCHITECTURE_BUILDING_PLANNING__",
                 children: {
                     architecture: {
-                        title: "Architecture"
+                        title: "__MSG__ARCHITECTURE__"
                     },
                     building: {
-                        title: "Building"
+                        title: "__MSG__BUILDING__"
                     },
                     landscapedesign: {
-                        title: "Landscape Design"
+                        title: "__MSG__LANDSCAPE_DESIGN__"
                     },
                     planning: {
-                        title: "Planning (Urban, Rural and Regional)"
+                        title: "__MSG__PLANNING__"
                     },
                     othersinarchitecturebuildingandplanning: {
-                        title: "Others in Architecture, Building and Planning"
+                        title: "__MSG__ARCHITECTURE_BUILDING_PLANNING_OTHER__"
                     }
                 }
             },
             socialstudies: {
-                title: "Social studies",
+                title: "__MSG__SOCIAL_STUDIES__",
                 children: {
                     economics: {
-                        title: "Economics"
+                        title: "__MSG__ECONOMICS__"
                     },
                     politics: {
-                        title: "Politics"
+                        title: "__MSG__POLITICS__"
                     },
                     sociology: {
-                        title: "Sociology"
+                        title: "__MSG__SOCIOLOGY__"
                     },
                     socialpolicy: {
-                        title: "Social Policy"
+                        title: "__MSG__SOCIAL_POLICY__"
                     },
                     socialwork: {
-                        title: "Social Work"
+                        title: "__MSG__SOCIAL_WORK__"
                     },
                     anthropology: {
-                        title: "Anthropology"
+                        title: "__MSG__ANTHROPOLOGY__"
                     },
                     humanandsocialgeography: {
-                        title: "Human and Social Geography"
+                        title: "__MSG__HUMAN_SOCIAL_GEOGRAPHY__"
                     },
                     othersinsocialstudies: {
-                        title: "Others in Social studies"
+                        title: "__MSG__SOCIAL_STUDIES_OTHER__"
                     }
                 }
             },
             law: {
-                title: "Law",
+                title: "__MSG__LAW__",
                 children: {
                     publiclaw: {
-                        title: "Public Law"
+                        title: "__MSG__LAW_PUBLIC__"
                     },
                     privatelaw: {
-                        title: "Private Law"
+                        title: "__MSG__LAW_PRIVATE__"
                     },
                     jurisprudence: {
-                        title: "Jurisprudence"
+                        title: "__MSG__JURISPRUDENCE__"
                     },
                     legalpractice: {
-                        title: "Legal Practice"
+                        title: "__MSG__LEGAL_PRACTICE__"
                     },
                     medicallaw: {
-                        title: "Medical Law"
+                        title: "__MSG__LAW_MEDICAL__"
                     },
                     othersinlaw: {
-                        title: "Others in law"
+                        title: "__MSG__LAW_OTHER__"
                     }
                 }
             },
             businessandadministrativestudies: {
-                title: "Business and Administrative studies",
+                title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES__",
                 children: {
                     businessstudies: {
-                        title: "Business studies"
+                        title: "__MSG__BUSINESS_STUDIES__"
                     },
                     managementstudies: {
-                        title: "Management studies"
+                        title: "__MSG__MANAGEMENTS_STUDIES__"
                     },
                     finance: {
-                        title: "Finance"
+                        title: "__MSG__FINANCE__"
                     },
                     accounting: {
-                        title: "Accounting"
+                        title: "__MSG__ACCOUNTING__"
                     },
                     marketing: {
-                        title: "Marketing"
+                        title: "__MSG__MARKETING__"
                     },
                     humanresourcemanagement: {
-                        title: "Human Resource Management"
+                        title: "__MSG__HUMAN_RESOURCE_MANAGEMENT__"
                     },
                     officeskills: {
-                        title: "Office skills"
+                        title: "__MSG__OFFICE_SKILLS__"
                     },
                     tourismtransportandtravel: {
-                        title: "Tourism, Transport and Travel"
+                        title: "__MSG__TOURISM__"
                     },
                     othersinbusandadminstudies: {
-                        title: "Others in Business and Administrative studies"
+                        title: "__MSG__BUSINESS_ADMINISTRATIVE_STUDIES_OTHER__"
                     }
                 }
             },
             masscommunicationsanddocumentation: {
-                title: "Mass Communications and Documentation",
+                title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION__",
                 children: {
                     informationservices: {
-                        title: "Information Services"
+                        title: "__MSG__INFORMATION_SERVICES__"
                     },
                     publicitystudies: {
-                        title: "Publicity studies"
+                        title: "__MSG__PUBLICITY_STUDIES__"
                     },
                     mediastudies: {
-                        title: "Media studies"
+                        title: "__MSG__MEDIA_STUDIES__"
                     },
                     publishing: {
-                        title: "Publishing"
+                        title: "__MSG__PUBLISHING__"
                     },
                     journalism: {
-                        title: "Journalism"
+                        title: "__MSG__JOURNALISM__"
                     },
                     othersinmasscommanddoc: {
-                        title: "Others in Mass Communications and Documentation"
+                        title: "__MSG__MASS_COMMUNICATIONS_DOCUMENTATION_OTHER__"
                     }
                 }
             },
             linguisticsclassicsandrelatedsubjects: {
-                title: "Linguistics, Classics and related subjects",
+                title: "__MSG__LINGUISTICS_CLASSICS__",
                 children: {
                     linguistics: {
-                        title: "Linguistics"
+                        title: "__MSG__LINGUISTICS__"
                     },
                     comparativeliterarystudies: {
-                        title: "Comparative Literary studies"
+                        title: "__MSG__LINGUISTICS_LITERARY__"
                     },
                     englishstudies: {
-                        title: "English studies"
+                        title: "__MSG__LINGUISTICS_ENGLISH__"
                     },
                     ancientlanguagestudies: {
-                        title: "Ancient Language studies"
+                        title: "__MSG__LINGUISTICS_ANCIENT__"
                     },
                     celticstudies: {
-                        title: "Celtic studies"
+                        title: "__MSG__LINGUISTICS_CELTIC__"
                     },
                     latinstudies: {
-                        title: "Latin studies"
+                        title: "__MSG__LINGUISTICS_LATIN__"
                     },
                     classicalgreekstudies: {
-                        title: "Classical Greek studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL_GREEK__"
                     },
                     classicalstudies: {
-                        title: "Classical studies"
+                        title: "__MSG__LINGUISTICS_CLASSICAL__"
                     },
                     othersinlinguisticsclassicsandrelsubject: {
-                        title: "Others in Linguistics, Classics and related subjects"
+                        title: "__MSG__LINGUISTICS_CLASSICS_OTHER__"
                     }
                 }
             },
             europeanlanguagesliteratureandrelatedsubjects: {
-                title: "European Languages, Literature and related subjects",
+                title: "__MSG__EUROPEAN_LANGUAGES__",
                 children: {
                     frenchstudies: {
-                        title: "French studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_FRENCH__"
                     },
                     germanstudies: {
-                        title: "German studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_GERMAN__"
                     },
                     italianstudies: {
-                        title: "Italian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_ITALIAN__"
                     },
                     spanishstudies: {
-                        title: "Spanish studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SPANISH__"
                     },
                     portuguesestudies: {
-                        title: "Portuguese studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_PORTUGUESE__"
                     },
                     scandinavianstudies: {
-                        title: "Scandinavian studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_SCANDINAVIAN__"
                     },
                     russianandeasteuropeanstudies: {
-                        title: "Russian and East European studies"
+                        title: "__MSG__EUROPEAN_LANGUAGES_RUSSIAN__"
                     },
                     othersineurolangliteratureandrelsubjects: {
-                        title: "Others in European Languages, Literature and related subjects"
+                        title: "__MSG__EUROPEAN_LANGUAGES_OTHER__"
                     }
                 }
             },
             easiaticlanguagesliterature: {
-                title: "Exotic Languages, Literature and related subjects",
+                title: "__MSG__EXOTIC_LANGUAGES__",
                 children: {
                     chinesestudies: {
-                        title: "Chinese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_CHINESE__"
                     },
                     japanesestudies: {
-                        title: "Japanese studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_JAPANESE__"
                     },
                     southasianstudies: {
-                        title: "South Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_SOUTH_ASIAN__"
                     },
                     otherasianstudies: {
-                        title: "Other Asian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_ASIAN_OTHER__"
                     },
                     africanstudies: {
-                        title: "African studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AFRICAN__"
                     },
                     modernmiddleeasternstudies: {
-                        title: "Modern Middle Eastern studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_MIDDLE_EAST__"
                     },
                     americanstudies: {
-                        title: "American studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AMERICAN__"
                     },
                     australasianstudies: {
-                        title: "Australasian studies"
+                        title: "__MSG__EXOTIC_LANGUAGES_AUSTRALIAN__"
                     },
                     othersineasternasiaafriamericaaustralianlang: {
-                        title: "Others in Eastern, Asiatic, African, American and Australasian Languages, Literature and related subjects"
+                        title: "__MSG__EXOTIC_LANGUAGES_OTHER__"
                     }
                 }
             },
             historicalandphilosophicalstudies: {
-                title: "Historical and Philosophical studies",
+                title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES__",
                 children: {
                     historybyperiod: {
-                        title: "History by period"
+                        title: "__MSG__HISTORY_PERIOD__"
                     },
                     historybyarea: {
-                        title: "History by area"
+                        title: "__MSG__HISTORY_AREA__"
                     },
                     historybytopic: {
-                        title: "History by topic"
+                        title: "__MSG__HISTORY_TOPIC__"
                     },
                     archaeology: {
-                        title: "Archaeology"
+                        title: "__MSG__ARCHEOLOGY__"
                     },
                     philosophy: {
-                        title: "Philosophy"
+                        title: "__MSG__PHILOSOPHY__"
                     },
                     theologyandreligiousstudies: {
-                        title: "Theology and Religious studies"
+                        title: "__MSG__THEOLOGY_STUDIES__"
                     },
                     othersinhistoricalandphilosophicalstudies: {
-                        title: "Others in Historical and Philosophical studies"
+                        title: "__MSG__HISTORICAL_PHILOSOPHICAL_STUDIES_OTHER__"
                     }
                 }
             },
             creativeartsanddesign: {
-                title: "Creative Arts and Design",
+                title: "__MSG__CREATIVE_ARTS__",
                 children: {
                     fineart: {
-                        title: "Fine Art"
+                        title: "__MSG__FINE_ART__"
                     },
                     designstudies: {
-                        title: "Design studies"
+                        title: "__MSG__DESIGN_STUDIES__"
                     },
                     music: {
-                        title: "Music"
+                        title: "__MSG__MUSIC__"
                     },
                     drama: {
-                        title: "Drama"
+                        title: "__MSG__DRAMA__"
                     },
                     dance: {
-                        title: "Dance"
+                        title: "__MSG__DANCE__"
                     },
                     cinematicsandphotography: {
-                        title: "Cinematics and Photography"
+                        title: "__MSG__CINEMATICS_PHOTOGRAPHY__"
                     },
                     crafts: {
-                        title: "Crafts"
+                        title: "__MSG__CRAFTS__"
                     },
                     imaginativewriting: {
-                        title: "Imaginative Writing"
+                        title: "__MSG__IMAGINITIVE_WRITING__"
                     },
                     othersincreativeartsanddesign: {
-                        title: "Others in Creative Arts and Design"
+                        title: "__MSG__CREATIVE_ARTS_OTHER__"
                     }
                 }
             },
             education: {
-                title: "Education",
+                title: "__MSG__EDUCATION__",
                 children: {
                     trainingteachers: {
-                        title: "Training Teachers"
+                        title: "__MSG__TRAINING_TEACHERS__"
                     },
                     researchandstudyskillsineducation: {
-                        title: "Research and Study Skills in Education"
+                        title: "__MSG__EDUCATION_RESEARCH_STUDY_SKILLS__"
                     },
                     academicstudiesineducation: {
-                        title: "Academic studies in Education"
+                        title: "__MSG__EDUCATION_ACADEMIC_STUDIES__"
                     },
                     othersineducation: {
-                        title: "Others in Education"
+                        title: "__MSG__EDUCATION_OTHER__"
                     }
                 }
             }
@@ -1536,6 +1523,7 @@ define(function(){
         defaultGroupTemplate: "defaultgroup",
 
         enableChat: false,
+        enableCategories: true,
 
         Editor: {
             tinymceLanguagePacks: ['ar','ch','en','gl','id','lb','nb','ru','sv','uk','az','cn','eo','gu','is','lt','nl',
@@ -1543,6 +1531,8 @@ define(function(){
                 'th','zh-cn','bn','da','eu','hr','ka','ml','pl','sk','tn','zh-tw','br','de','fa','hu','kl','mn','ps','sl',
                 'tr','zh','bs','dv','fi','hy','km','ms','pt','sq','tt','zu','ca','el','fr','ia','ko','my','ro','sr','tw']
         },
+
+        defaultSakaiDocContent: "",
 
         /*
          * _canEdit: can change the area permissions on this page
@@ -1555,7 +1545,7 @@ define(function(){
             "structure0": {
                 "dashboard": {
                     "_ref": "${refid}0",
-                    "_title": "My Dashboard",
+                    "_title": "__MSG__MY_DASHBOARD__",
                     "_order": 0,
                     "_canEdit": true,
                     "_reorderOnly": true,
@@ -1563,11 +1553,11 @@ define(function(){
                     "main": {
                         "_ref": "${refid}0",
                         "_order": 0,
-                        "_title": "Dashboard"
+                        "_title": "__MSG__MY_DASHBOARD__"
                     }
                 },
                 "messages": {
-                    "_title": "My Messages",
+                    "_title": "__MSG__MY_MESSAGES__",
                     "_ref": "${refid}1",
                     "_order": 1,
                     "_canEdit": true,
@@ -1577,25 +1567,25 @@ define(function(){
                     "inbox": {
                         "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Inbox",
+                        "_title": "__MSG__INBOX__",
                         "_nonEditable": true
                     },
                     "invitations": {
                         "_ref": "${refid}2",
                         "_order": 1,
-                        "_title": "Invitations",
+                        "_title": "__MSG__INVITATIONS__",
                         "_nonEditable": true
                     },
                     "sent": {
                         "_ref": "${refid}3",
                         "_order": 2,
-                        "_title": "Sent",
+                        "_title": "__MSG__SENT__",
                         "_nonEditable": true
                     },
                     "trash": {
                         "_ref": "${refid}4",
                         "_order": 3,
-                        "_title": "Trash",
+                        "_title": "__MSG__TRASH__",
                         "_nonEditable": true
                     }
                 }
@@ -1603,10 +1593,10 @@ define(function(){
             "${refid}0": {
                 "page": "<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin"+
                 "-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' dat"+
-                "a-tuid='${refid}5'>Edit Layout</button><button type='button' class='s3d-button "+
+                "a-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button "+
                 "s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_a"+
-                "dd_widget' data-tuid='${refid}5'>Add Widget</button></div><div class='s3d-conte"+
-                "ntpage-title'>My Dashboard</div><div id='widget_carousel' class='widget_inline'"+
+                "dd_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><div class='s3d-conte"+
+                "ntpage-title'>__MSG__MY_DASHBOARD__</div><div id='widget_carousel' class='widget_inline'"+
                 "></div><br/><div id='widget_dashboard_${refid}5' class='widget_inline'></div>"
             },
             "${refid}1": {
@@ -1646,22 +1636,22 @@ define(function(){
             "${refid}6": {
                 "box": "inbox",
                 "category": "message",
-                "title": "INBOX"
+                "title": "__MSG__INBOX__"
             },
             "${refid}7": {
                 "box": "inbox",
                 "category": "invitation",
-                "title": "INVITATIONS"
+                "title": "__MSG__INVITATIONS__"
             },
             "${refid}8": {
                 "box": "outbox",
                 "category": "*",
-                "title": "SENT"
+                "title": "__MSG__SENT__"
             },
             "${refid}9": {
                 "box": "trash",
                 "category": "*",
-                "title": "TRASH"
+                "title": "__MSG__TRASH__"
             }
         },
 
@@ -1675,8 +1665,8 @@ define(function(){
         defaultpubstructure: {
             "structure0": {
                 "profile": {
-                    "_title": "My Profile",
-                    "_altTitle": "${user}'s Profile",
+                    "_title": "__MSG__MY_PROFILE__",
+                    "_altTitle": "__MSG__MY_PROFILE_OTHER__",
                     "_order": 0,
                     "_view": "anonymous",
                     "_reorderOnly": true,
@@ -1685,43 +1675,43 @@ define(function(){
                 "library": {
                     "_ref": "${refid}0",
                     "_order": 1,
-                    "_title": "My Library",
-                    "_altTitle": "${user}'s Library",
+                    "_title": "__MSG__MY_LIBRARY__",
+                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}0",
                         "_order": 0,
-                        "_title": "Content"
+                        "_title": "__MSG__MY_LIBRARY__"
                     }
                 },
                 "memberships": {
-                    "_title": "My Memberships",
+                    "_title": "__MSG__MY_MEMBERSHIPS__",
                     "_order": 2,
                     "_ref": "${refid}1",
-                    "_altTitle": "${user}'s Memberships",
+                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}1",
                         "_order": 0,
-                        "_title": "Memberships"
+                        "_title": "__MSG__MY_MEMBERSHIPS__"
                     }
                 },
                 "contacts": {
-                    "_title": "My Contacts",
+                    "_title": "__MSG__MY_CONTACTS__",
                     "_order": 3,
                     "_ref": "${refid}2",
-                    "_altTitle": "${user}'s Contacts",
+                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
                     "_reorderOnly": true,
                     "_nonEditable": true,
                     "_view": "anonymous",
                     "main": {
                         "_ref": "${refid}2",
                         "_order": 0,
-                        "_title": "Contacts"
+                        "_title": "__MSG__MY_CONTACTS__"
                     }
                 }
             },
@@ -1773,25 +1763,28 @@ define(function(){
             {
                 id: "group",
                 title: "GROUPS",
+                menuLabel : "CREATE_A_GROUP",
                 titleSing: "GROUP",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "simplegroup",
-                        title: "Simple group",
+                        title: "__MSG__SIMPLE_GROUP__",
                         img: "/dev/images/worldtemplates/simplegroup.png",
                         fullImg: "/dev/images/worldtemplates/simplegroup-full.png",
-                        perfectFor: "Sharing content and sending messages",
+                        perfectFor: "__MSG__SIMPLE_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "member",
-                                roleTitle: "Members",
-                                title: "Member",
+                                roleTitle: "__MSG__MEMBERS__",
+                                title: "__MSG__MEMBER__",
                                 allowManage: false
                             },
                             {
                                 id: "manager",
-                                roleTitle: "Managers",
-                                title: "Manager",
+                                roleTitle: "__MSG__MANAGERS__",
+                                title: "__MSG__MANAGER__",
                                 allowManage: true
                             }
                         ],
@@ -1877,31 +1870,34 @@ define(function(){
             {
                 id: "courses",
                 title : "COURSES",
+                menuLabel : "CREATE_A_COURSE",
                 titleSing: "COURSE",
+                defaultaccess: "public",
+                defaultjoin: "yes",
                 templates: [
                     {
                         id: "mathcourse",
-                        title: "Mathematics course",
+                        title: "__MSG__MATHEMATICS_COURSE__",
                         img: "/dev/images/worldtemplates/mathcourse.png",
                         fullImg: "/dev/images/worldtemplates/mathcourse-full.png",
-                        perfectFor: "Algebra, Analysis, Probability and statistics, Mechanics, Mathematical Methods and Applications",
+                        perfectFor: "__MSG__MATHEMATICS_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -2945,6 +2941,60 @@ define(function(){
                                     '; padding: 0pt; color: rgb(51, 51, 51);">Excersise two...</p> <hr style="visibi'+
                                     'lity: hidden; clear: both;"> </div> </div> </div> </div>'
                                 }
+                            },
+                            "${pid}6": {
+                                structure0: {
+                                    "library":{
+                                        "_ref":"${refid}16",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title": "Library",
+                                        "main":{
+                                            "_ref":"${refid}16",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Library"
+                                        }
+                                    }
+                                },
+                                "${refid}16": {
+                                    page: "<img id='widget_mylibrary_${refid}17' class='widget_inline' style='display: blo"+
+                                    "ck; padding: 10px; margin: 4px;' src='/devwidgets/mylibrary/images/mylibrary.pn"+
+                                    "g' data-mce-src='/devwidgets/mylibrary/images/mylibrary.png' data-mce-style='di"+
+                                    "splay: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "${refid}17": {
+                                    mylibrary: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
+                            },
+                            "${pid}7": {
+                                structure0: {
+                                    "participants":{
+                                        "_ref":"${refid}18",
+                                        "_order":0,
+                                        "_nonEditable": true,
+                                        "_title":"Participants",
+                                        "main":{
+                                            "_ref":"${refid}18",
+                                            "_order":0,
+                                            "_nonEditable": true,
+                                            "_title":"Participants"
+                                        }
+                                    }
+                                },
+                                "${refid}18": {
+                                    page: "<img id='widget_participants_${refid}19' class='widget_inline' style='display: "+
+                                    "block; padding: 10px; margin: 4px;' src='/devwidgets/participants/images/partic"+
+                                    "ipants.png' data-mce-src='/devwidgets/participants/images/participants.png' dat"+
+                                    "a-mce-style='display: block; padding: 10px; margin: 4px;' border='1'><br></p>"
+                                },
+                                "${refid}19": {
+                                    participants: {
+                                        "groupid": "${groupid}"
+                                    }
+                                }
                             }
                         },
                         structure: {
@@ -2973,7 +3023,7 @@ define(function(){
                                 "_title": "Course website",
                                 "_order": 3,
                                 "_docref": "${pid}3",
-                                "_view": ["-student", "everyone", "anonmyous"],
+                                "_view": ["-student", "everyone", "anonymous"],
                                 "_edit": ["-lecturer", "-ta"]
                             },
                             "organizationnotes": {
@@ -2989,6 +3039,22 @@ define(function(){
                                 "_docref": "${pid}5",
                                 "_view": ["-ta"],
                                 "_edit": ["-lecturer"]
+                            },
+                            "library": {
+                                "_title": "Library",
+                                "_order": 6,
+                                "_docref": "${pid}6",
+                                "_nonEditable": true,
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
+                            },
+                            "participants": {
+                                "_title": "Participants",
+                                "_order": 7,
+                                "_docref": "${pid}7",
+                                "_nonEditable": true,
+                                "_view": ["-student"],
+                                "_edit": ["-lecturer", "-ta"]
                             }
                         },
                         joinRole: "student",
@@ -2996,27 +3062,27 @@ define(function(){
                     },
                     {
                         id: "basiccourse",
-                        title: "Basic course",
+                        title: "__MSG__BASIC_COURSE__",
                         img: "/dev/images/worldtemplates/basiccourse.png",
                         fullImg: "/dev/images/worldtemplates/basiccourse-full.png",
-                        perfectFor: "Basic course using content sharing and messaging",
+                        perfectFor: "__MSG__BASIC_COURSE_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "student",
-                                roleTitle: "Students",
-                                title: "Student",
+                                roleTitle: "__MSG__STUDENTS__",
+                                title: "__MSG__STUDENT__",
                                 allowManage: false
                             },
                             {
                                 id: "ta",
-                                roleTitle: "Teaching Assistants",
-                                title: "Teaching Assistant",
+                                roleTitle: "__MSG__TEACHING_ASSISTANTS__",
+                                title: "__MSG__TEACHING_ASSISTANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lecturer",
-                                roleTitle: "Lecturers",
-                                title: "Lecturer",
+                                roleTitle: "__MSG__LECTURERS__",
+                                title: "__MSG__LECTURER__",
                                 allowManage: true
                             }
                         ],
@@ -3102,43 +3168,44 @@ define(function(){
             {
                 id: "research",
                 title : "RESEARCH",
+                menuLabel : "CREATE_RESEARCH",
                 titleSing: "RESEARCH",
                 templates: [
                     {
                         id: "researchproject",
-                        title: "Research project",
+                        title: "__MSG__RESEARCH_PROJECT__",
                         img: "/dev/images/worldtemplates/researchgroup-full.png",
                         fullImg: "/dev/images/worldtemplates/research_tempate.png",
-                        perfectFor: "Research Projects, Collaborative student projects, Class projects, Reading clubs",
+                        perfectFor: "__MSG__RESEARCH_PROJECT_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "leadresearcher",
-                                roleTitle: "Lead researchers",
-                                title: "Lead researcher",
+                                roleTitle: "__MSG__LEAD_RESEARCHERS__",
+                                title: "__MSG__LEAD_RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researcher",
-                                roleTitle: "Researchers",
-                                title: "Researcher",
+                                roleTitle: "__MSG__RESEARCHERS__",
+                                title: "__MSG__RESEARCHER__",
                                 allowManage: true
                             },
                             {
                                 id: "researchassistant",
-                                roleTitle: "Research assistants",
-                                title: "Research assistant",
+                                roleTitle: "__MSG__RESEARCH_ASSISTANTS__",
+                                title: "__MSG__RESEARCH_ASSISTANT__",
                                 allowManage: false
                             },
                             {
                                 id: "contributor",
-                                roleTitle: "Contributors",
-                                title: "Contributor",
+                                roleTitle: "__MSG__CONTRIBUTORS__",
+                                title: "__MSG__CONTRIBUTOR__",
                                 allowManage: false
                             },
                             {
                                 id: "evaluator",
-                                roleTitle: "Evaluators",
-                                title: "Evaluator",
+                                roleTitle: "__MSG__EVALUATORS__",
+                                title: "__MSG__EVALUATOR__",
                                 allowManage: false
                             }
                         ],
@@ -3358,21 +3425,21 @@ define(function(){
                     },
                     {
                         id: "researchsupport",
-                        title: "Research support group",
+                        title: "__MSG__RESEARCH_SUPPORT_GROUP__",
                         img: "/dev/images/worldtemplates/researchsupport.png",
                         fullImg: "/dev/images/worldtemplates/researchsupport-full.png",
-                        perfectFor: "Support a research project using content sharing and messaging",
+                        perfectFor: "__MSG__RESEARCH_SUPPORT_GROUP_PERFECT_FOR__",
                         roles: [
                             {
                                 id: "participant",
-                                roleTitle: "Participants",
-                                title: "Participant",
+                                roleTitle: "__MSG__PARTICIPANTS__",
+                                title: "__MSG__PARTICIPANT__",
                                 allowManage: true
                             },
                             {
                                 id: "lurker",
-                                roleTitle: "Lurkers",
-                                title: "Lurker",
+                                roleTitle: "__MSG__LURKERS__",
+                                title: "__MSG__LURKER__",
                                 allowManage: false
                             }
                         ],

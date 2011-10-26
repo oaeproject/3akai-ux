@@ -10,8 +10,12 @@
         <div id="pickeradvanced_header">
             <span class="fl-force-left">
                 <form id="pickeradvanced_content_search_form" method="post" action="#">
-                    __MSG__SEARCH_FOR__ <input name="pickeradvanced_search_query" id="pickeradvanced_search_query" />
-                    <button type="button" id="pickeradvanced_search_button" class="s3d-button s3d-header-button">__MSG__SEARCH__</button>
+                    <div class="s3d-search-container">
+                        <label for="pickeradvanced_search_query" id="pickeradvanced_search_query_label">__MSG__SEARCH_FOR_CONTENT_TO_ADD__</label> <input type="text" tabindex_none="40" name="pickeradvanced_search_query" id="pickeradvanced_search_query" title="__MSG__SEARCH_FOR_CONTENT_TO_ADD__" class="s3d-search-inputfield"/>
+                        <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" id="pickeradvanced_search_button">
+                            <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_FOR_CONTENT_TO_ADD__"/>
+                        </button>
+                    </div>
                 </form>
             </span>
 
@@ -47,7 +51,7 @@
             <div id="pickeradvanced_content_search" class="fl-force-left"></div>
             <div class="pickeradvanced_selection_buttons fl-force-right">
                 <button type="button" class="s3d-button s3d-link-button jqmClose">__MSG__CANCEL__</button>
-                <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-button" disabled="disabled">__MSG__ADD_SELECTED__</button>
+                <button type="button" id="pickeradvanced_add_button" class="s3d-button s3d-overlay-action-button" disabled="disabled">__MSG__ADD_SELECTED__</button>
             </div>
         </div>
 

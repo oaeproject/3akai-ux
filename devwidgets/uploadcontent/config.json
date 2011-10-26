@@ -1,10 +1,12 @@
 {
-    "description": "Upload content to Sakai3",
     "i18n": {
-        "default": "/devwidgets/uploadcontent/bundles/default.properties"
+        "default": {
+            "bundle": "/devwidgets/uploadcontent/bundles/default.properties",
+            "name": "Upload content",
+            "description": "Upload content to Sakai OAE"
+        }
     },
     "id": "uploadcontent",
-    "name": "Upload Content",
     "type":"core",
     "enabled":true,
     "url": "/devwidgets/uploadcontent/uploadcontent.html"

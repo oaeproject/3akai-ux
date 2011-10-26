@@ -26,8 +26,6 @@
 * The included Pager.CSS file is a dependancy but can obviously tweaked to your wishes
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 *
-* modified by Oszkar Nagy (oszkar@caret.cam.ac.uk) for Sakai
-* modified by Simon Gaeremynck (sg555@caret.cam.ac.uk) for Sakai
 */
 (function($) {
 
@@ -52,9 +50,6 @@
 
         // setup $pager to hold render
         var $pager = $('<ul class="sakai_pager"></ul>');
-
-        // add in the previous and next buttons
-        //$pager.append(renderButton('First', pagenumber, pagecount, buttonClickCallback)).append(renderButton('&laquo; Prev', pagenumber, pagecount, buttonClickCallback));
 
     // Without 'First' button
     $pager.append(renderButton('prev', pagenumber, pagecount, buttonClickCallback, htmlparts));
@@ -84,14 +79,11 @@
         // loop thru visible pages and render buttons
         for (var page = startPoint; page <= endPoint; page++) {
 
-            var currentButton = $('<li class="page-number"><span>' + (page) + '</span></li>');
+            var currentButton = $($.fn.pager.defaults.htmlparts.current.replace(/[$][{][p][a][g][e][}]/ig, "" + page));
 
             page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.firstChild.data); });
             currentButton.appendTo($pager);
         }
-
-        // render in the next and last buttons before returning the whole rendered control back.
-        //$pager.append(renderButton('Next &raquo;', pagenumber, pagecount, buttonClickCallback)).append(renderButton('Last', pagenumber, pagecount, buttonClickCallback));
 
         // Add 3 dots divider
         var $divider_end = $('<li id="jq_pager_three_dots_end" class="dots hidden">...</li>');
@@ -157,10 +149,9 @@
         htmlparts : {
             "first" : "first",
             "last" : "last",
-            //"prev" : "<span><img src=\"/dev/images/pager_next_left.png\" alt=\"\" /> <span class=\"t\">Prev</span></span>",
-            //"next" : "<span><span class=\"t\">Next</span> <img src=\"/dev/images/pager_next_right.png\" alt=\"\" /></span>"
-            "prev" : "<span><div class=\"sakai_pager_prev\"></div> <span class=\"t\">Prev</span></span>",
-            "next" : "<span><span class=\"t\">Next</span><div class=\"sakai_pager_next\"></div></span>"
+            "prev" : '<span><div class=\"sakai_pager_prev\"></div> <a href="javascript:;" class=\"t\" title="Previous page">Prev</span></a>',
+            "next" : '<span><a href="javascript:;" class=\"t\" title="Next page">Next</a><div class=\"sakai_pager_next\"></div></span>',
+            "current": '<li class="page-number"><a href="javascript:;" title="Page ${page}">${page}</a></li>'
         }
     };
 

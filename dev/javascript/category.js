@@ -39,10 +39,14 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @param {Array} bbqData Array of IDs fetched with bbq to help identify correct children
          */
         var createBreadcrumb = function(dirData, bbqData){
+            if (!dirData){
+                sakai.api.Security.send404();
+                return false;
+            }
             // Create top level breadcrumb
             var breadcrumb = [];
             breadcrumb.push({
-                "title": sakai.api.i18n.General.getValueForKey("ALL_CATEGORIES"),
+                "title": sakai.api.i18n.getValueForKey("ALL_CATEGORIES"),
                 "id": bbqData[0],
                 "link": true,
                 "url": "/categories"
@@ -101,13 +105,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                 page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
             };
             privdata[fcRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
             privdata[fpRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
             privdata[fwRnd] = {
-                category: navData.id
+                category: navData.id,
+                title: navData.title
             };
 
             var count = 0;
@@ -132,13 +139,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     page: "<div class=\"s3d-contentpage-title\"><!----></div><div id=\"widget_featuredcontent_" + fcRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredpeople_" + fpRnd + "\" class=\"widget_inline\"></div><div id=\"widget_featuredworlds_" + fwRnd + "\" class=\"widget_inline\"></div>"
                 };
                 pubdata[fcRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fpRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
                 pubdata[fwRnd] = {
-                    category: navData.id + "-" + index
+                    category: navData.id + "-" + index,
+                    title: navData.title + " » " + item.title
                 };
 
                 count++;
@@ -151,12 +161,19 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
          * @return {Array} Array of strings representing the selected hierarchy
          */
         var getCategory = function(){
-            var category = $.bbq.getState("l").split("-");
+            var category = $.bbq.getState("l");
+            if (category) {
+                category = category.split("-");
+            }
             return category;
         };
 
         var doInit = function(){
             var category = getCategory();
+            if (!$.isArray(category) || !sakai.config.Directory[category[0]]){
+                sakai.api.Security.send404();
+                return false;
+            }
             sakai.config.Directory[category[0]].id = category[0];
             generateNav(sakai.config.Directory[category[0]]);
             createBreadcrumb(sakai.config.Directory[category[0]], category);

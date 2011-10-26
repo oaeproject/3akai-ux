@@ -7,24 +7,40 @@
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__SELECT_YOUR_PROFILE_PICTURE__</h1>
 
-    <!-- TABS -->
-    <ul class="fl-tabs fl-tabs-left search_tab_nav">
-        <li id="changepic_select" class="fl-tabs-active search_tab_selected s3d-tab-active"><button type="button" class="s3d-link-button">__MSG__SELECT_PICTURE__</button></li>
-        <li id="changepic_upload"><button type="button" class="s3d-link-button">__MSG__UPLOAD_A_NEW_PICTURE__</button></li>
-    </ul>
+    <!-- UPLOAD NEW PIC -->
+    <div id="changepic_uploadnew">
+        <div id="changepic_nofile_error" style="display:none;"><p>__MSG__PLEASE_SELECT_A_FILE__</p></div>
+        <form id="changepic_form" method="post" enctype="multipart/form-data">
+            <p class="changepic_heading">__MSG__UPLOAD_A_NEW_PICTURE__</p>
+            <div id="changepic_upload_input" class="s3d-inset-shadow-container">
+                <div id="changepic_uploading" style="display:none;">
+                    <p>__MSG__PROCESSING__</p>
+                    <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+                </div>
+                <input type="file" name="profilepicture" id="profilepicture" size="50"/>
+            </div>
+
+            <!-- BUTTONS -->
+            <div id="changepic_uploadnew_buttons" class="dialog_buttons">
+                <button type="button" class="s3d-link-button s3d-bold jqmClose" id="profile_upload_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
+                <button type="button" class="s3d-button s3d-overlay-action-button" id="profile_upload"><span class="s3d-button-inner">__MSG__UPLOAD__</span></button>
+            </div>
+        </form>
+    </div>
 
     <!-- SELECT AREA -->
     <div id="changepic_selectpicture">
-        <h4>__MSG__SELECT_THE_AREA_YOU_WANT__</h4>
-        <div id="changepic_picture_selectarea">
-            <div id="changepic_uploaded_picture" class="fl-force-left">
+        <p class="changepic_heading">__MSG__CROP_AND_PREVIEW__</p>
+        <div id="changepic_picture_selectarea" class="s3d-inset-shadow-container">
+            <p class="changepic_select_instructions">__MSG__CREATE_A_BOX__</p>
+            <div id="changepic_uploaded_picture">
                 <p>__MSG__YOUR_UPLOADED_PICTURE__:</p>
                 <p>
                     <span id="changepic_fullpicture_alt" style="display:none;">__MSG__SELECT_AN_AREA_TO_CREATE__</span>
                     <span id="changepic_fullpicture"></span>
                 </p>
             </div>
-            <div class="fl-force-left">
+            <div id="changepic_uploaded_picture_selection">
                 <p>__MSG__YOUR_PROFILE_PICTURE__:</p>
                 <div id="thumbnail_container">
                     <span id="thumbnail_alt" style="display:none;">__MSG__THUMBNAIL_PREVIEW__</span>
@@ -35,25 +51,8 @@
 
         <div id="changepic_selectpic_buttons" class="dialog_buttons">
             <button type="button" class="s3d-link-button s3d-bold jqmClose" id="save_new_selection_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-            <button type="button" class="s3d-button s3d-overlay-button" id="save_new_selection"><span class="s3d-button-inner">__MSG__SAVE_NEW_SELECTION__</span></button>
+            <button type="button" class="s3d-button s3d-overlay-action-button" id="save_new_selection"><span class="s3d-button-inner">__MSG__SAVE_NEW_SELECTION__</span></button>
         </div>
-    </div>
-
-    <!-- UPLOAD NEW PIC -->
-    <div id="changepic_uploadnew" style="display:none;">
-
-        <form id="changepic_form" method="post" enctype="multipart/form-data">
-            <h4>__MSG__UPLOAD_A_NEW_PICTURE__</h4>
-            <p><input type="file" name="profilepicture" id="profilepicture" size="40"/></p>
-            <p id="changepic_nofile_error" style="display:none;">__MSG__PLEASE_SELECT_A_FILE__</p>
-            <!-- BUTTONS -->
-            <p id="changepic_processing_msg" style="display:none;">__MSG__PROCESSING__</p>
-            <div id="changepic_uploadnew_buttons" class="dialog_buttons">
-                <!-- THIS HAS TO BE A SUBMIT BUTTON SINCE WE WILL DO A POST TO JCR. -->
-                <button type="button" class="s3d-link-button s3d-bold jqmClose" id="profile_upload_cancel"><span class="s3d-button-inner">__MSG__CANCEL__</span></button>
-                <button type="submit" class="s3d-button s3d-overlay-button" id="profile_upload"><span class="s3d-button-inner">__MSG__UPLOAD__</span></button>
-            </div>
-        </form>
     </div>
 </div>
 
