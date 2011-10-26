@@ -1923,7 +1923,6 @@ define(
              */
             validate: function($form, opts) {
                 var options = $.extend(true, {}, opts);
-                var oldSubmitHandler = options.submitHandler;
                 options.errorClass = "s3d-error";
                 options.errorElement = "span";
                 options.errorPlacement = function($error, $element) {

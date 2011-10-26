@@ -251,11 +251,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 return this.optional(element) || (value === $(passwordField).val());
             }, "* The passwords do not match.");
 
-            $("#create_account_form").validate({
+            var validateOpts = {
                 onclick: false,
                 onkeyup: false,
                 onfocusout: false,
-                errorClass: "signup_form_error",
                 rules: {
                     password: {
                         minlength: 4
@@ -291,19 +290,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     }
                 },
                 submitHandler: function(form, validator){
-                    $(".create_account_input_error").hide();
                     doCreateUser();
                     return false;
-                },
-                errorPlacement: function(error, element){
-                    $("label."+element[0].id).addClass("signup_form_error_label");
-                    $(element).prev().text(error.text());
-                    $(element).prev().show();
-                    if(element[0].id == "username"){
-                        $(element).removeClass("username_available_icon");
-                    }
                 }
-            });
+            };
+            sakai.api.Util.Forms.validate($("#create_account_form"), validateOpts);
         };
 
         $("#save_account").click(function(){
