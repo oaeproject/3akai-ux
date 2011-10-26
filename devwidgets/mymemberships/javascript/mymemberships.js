@@ -52,6 +52,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var $mymemberships_actionbar = $("#mymemberships_actionbar", $rootel);
         var $mymemberships_sortby = $("#mymemberships_sortby", $rootel);
         var $mymemberships_item = $(".mymemberships_item", $rootel);
+        var $mymemberships_show_grid = $("#mymemberships_show_grid");
+        var $mymemberships_show_list = $("#mymemberships_show_list");
 
         var currentQuery = "";
 
@@ -190,10 +192,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         }
 
+                        var pic = "";
+                        if(group.basic.elements.picture){
+                            pic = sakai.api.Groups.getProfilePicture(group)
+                        } else {
+                            pic = false;
+                        }
+
                         groupData.push({
                             id: group.groupid,
                             url: "/~" + sakai.api.Util.makeSafeURL(group.groupid),
-                            picsrc: sakai.api.Groups.getProfilePicture(group),
+                            picsrc: pic,
                             edit_url: "/dev/group_edit2.html?id=" + group.groupid,
                             title: group["sakai:group-title"],
                             titleShort: titleShort,
@@ -252,6 +261,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     $.bbq.pushState({"mq": q, "mp": 1});
                     currentQuery = q;
                 }
+            });
+
+            $mymemberships_show_list.click(function(){
+                $("#mymemberships_items").removeClass("s3d-search-results-grid");
+                $("#mymemberships_listview_options").find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
+            });
+
+            $mymemberships_show_grid.click(function(){
+                $("#mymemberships_items").addClass("s3d-search-results-grid");
+                $("#mymemberships_listview_options").find("div").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).children().addClass("selected");
             });
 
             $("#mymemberships_livefilter").keyup(function(ev){

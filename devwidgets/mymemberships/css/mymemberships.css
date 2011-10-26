@@ -20,8 +20,6 @@
 #mymemberships_sortarea {float:right;}
 #mymemberships_sortarea select {border:1px solid #999;}
 #mymemberships_items {margin:0;}
-#mymemberships_items li.mymemberships_item {list-style:none outside none;
-    padding:10px 10px 0;}
 .mymemberships_imagearea {float:left;height:45px;width:50px;}
 .mymemberships_edit_link {position:relative;top:-13px;left:0;}
 .mymemberships_info {float:left;width:650px;}
@@ -44,26 +42,28 @@
 .mymemberships_top_row .s3d-button .mymemberships_add_to_icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left top transparent;display:block;float:right;height:16px;margin-left:5px;width:16px;}
 .mymemberships_top_row .s3d-button:hover .mymemberships_add_to_icon {background:url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat top left transparent;}
 .mymemberships_top_row #mymemberships_select {float:left;}
+.mymemberships_top_row #mymemberships_listview_options {float:right;padding:0;height:19px;margin-top:4px;margin-left:20px;}
+.mymemberships_top_row #mymemberships_listview_options:hover {background:#fff;box-shadow:0 0 4px -2px #A8A8A8 inset;}
+.mymemberships_top_row #mymemberships_listview_options > div {float:left;height:15px;padding:3px 4px 2px;}
+.mymemberships_top_row #mymemberships_listview_options > div.selected,
+.mymemberships_top_row #mymemberships_listview_options > div:hover {background:url("/dev/images/button_header_hover.png") repeat-x scroll left -1px transparent;box-shadow:0 0 4px -2px #A8A8A8 inset;} 
+.mymemberships_top_row #mymemberships_listview_options #mymemberships_show_list {border-radius:0 5px 5px 0;}
+.mymemberships_top_row #mymemberships_listview_options #mymemberships_show_grid {border-radius:5px 0 0 5px;}
 
 /* groups list */
-.mymemberships_item{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}
-.mymemberships_item a img{float:left;padding:0 10px 10px 0;width:50px;}
-.mymemberships_item_first{border-top: 1px dotted #cccccc;}
-.mymemberships_item_right{margin-left:90px;}
 .mymemberships_item_grouptype {font-size:smaller;white-space:pre;}
 .mymemberships_item_icon{display: inline-block;height: 10px;width: 15px;}
 .mymemberships_item_right_buttons{display: inline-block;float:right;}
 .mymemberships_item_message_icon{float:right;}
 .mymemberships_item_edit {display:block;margin:30px 0 10px 10px;}
 .mymemberships_item_usedin{font-size: 11px;padding:3px 0;}
-.mymemberships_item_detail_separator {color:#cccccc;padding: 0 5px;}
 .mymemberships_item_description{color:#333;font-size:.90em;padding:3px 0 6px 0;word-wrap:break-word;}
 .mymemberships_item_tags{padding-top:3px;}
 .mymemberships_item_tags_icon{float:left;height:15px;background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll left top transparent;}
 .mymemberships_item_tags_list {margin-left:20px;margin-top:-2px;font-size:11px;}
 .mymemberships_item_tags_dot{color: #999999;}
 .mymemberships_item_anonuser{display:inline;float:left;height:15px;width:15px;}
-.mymemberships_item_left_filler{margin:1px 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
+.mymemberships_item_left_filler{margin:0 8px 0 0;display: inline;float: left;height: 25px;width: 17px;}
 .mymemberships_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:1px 8px 0 0;display: inline;float: left;height: 17px;width: 17px;}
 .mymemberships_item:hover {background-color:#f2f9fc;}
 
