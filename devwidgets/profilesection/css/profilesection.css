@@ -39,7 +39,8 @@
 
 /* Validation errors */
 /* Errors */
-#profilesection_generalinfo label.error{display:block;margin-left:126px;padding:3px;}
+#profilesection_generalinfo span.s3d-error{display:block;margin-left:126px;padding:3px;color:#9f3333;font-weight:bold;}
+#profilesection_generalinfo input.s3d-error{border-color:#9f3333;background-color:#ffdede;}
 
 /* DIRECTORY */
 #profilesection_locations_dialog{width:750px;margin-left:-370px;}
