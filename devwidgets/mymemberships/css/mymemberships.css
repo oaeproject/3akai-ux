@@ -18,6 +18,7 @@
 #mymemberships_actionbar {height:13px;padding:5px 0 10px;}
 #mymemberships_actionbar {border-bottom:1px solid #DDDDDD;}
 #mymemberships_sortarea {float:right;}
+#mymemberships_sortarea select {border:1px solid #999;}
 #mymemberships_items {margin:0;}
 #mymemberships_items li.mymemberships_item {list-style:none outside none;
     padding:10px 10px 0;}
@@ -34,6 +35,15 @@
     -webkit-border-radius: 5px; /* Safari */
 }
 .mymemberships_no_memberships {text-decoration:none;}
+
+.mymemberships_top_row {clear:both;margin-bottom:10px;}
+.mymemberships_top_row .s3d-search-inputfield {width:220px;}
+.mymemberships_top_row#mymemberships_top_second_row {line-height:30px;margin-bottom:15px;}
+.mymemberships_top_row#mymemberships_top_second_row button, .mymemberships_top_row#mymemberships_top_second_row #mymemberships_select {margin-top:12px;}
+.mymemberships_top_row#mymemberships_top_second_row #mymemberships_select {height:21px;line-height:23px;}
+.mymemberships_top_row .s3d-button .mymemberships_add_to_icon {background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left top transparent;display:block;float:right;height:16px;margin-left:5px;width:16px;}
+.mymemberships_top_row .s3d-button:hover .mymemberships_add_to_icon {background:url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat top left transparent;}
+.mymemberships_top_row #mymemberships_select {float:left;}
 
 /* groups list */
 .mymemberships_item{color:#333;padding:10px;border-bottom: 1px dotted #cccccc;}

@@ -3,12 +3,6 @@
 
 <div class="mymemberships_widget">
     
-    <div id="mymemberships_sortarea" class="s3d-margin-top-5" style="display:none;">__MSG__SORT_BY__:
-        <select id="mymemberships_sortby">
-            <option value="asc">__MSG__A_Z__</option>
-            <option value="desc">__MSG__Z_A__</option>
-        </select>
-    </div>
     <div id="mymemberships_title_container"></div>
     <div id="mymemberships_title_template"><!--
         {if isMe}
@@ -17,7 +11,33 @@
             <div class='s3d-contentpage-title'>__MSG__MY_MEMBERSHIPS_OTHER__</div>
         {/if}
     --></div>
-    
+
+    <div class="mymemberships_top_row">
+        <div id="mymemberships_sortarea" class="s3d-margin-top-5" style="display:none;">
+            <label for="mymemberships_sortby">__MSG__SORT_BY__:</label>
+            <select id="mymemberships_sortby" name="mymemberships_sortby">
+                <option value="asc">__MSG__MOST_RECENTLY_CHANGED__ __MSG__A_Z__</option>
+                <option value="desc">__MSG__MOST_RECENTLY_CHANGED__ __MSG__Z_A__</option>
+            </select>
+        </div>
+        <div class="s3d-search-container">
+            <input id="mymemberships_livefilter" type="text" title="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__" class="s3d-search-inputfield"/>
+            <button type="button" id="mymemberships_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
+                <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__"/>
+            </button
+        </div>
+    </div>
+    <div class="mymemberships_top_row" id="mymemberships_top_second_row">
+        <a class="s3d-button s3d-large-button fl-force-right" href="/create">__MSG__CREATE_A_NEW_GROUP__</a>
+        <div title="__MSG__SELECT_ALL_GROUPS__" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button" id="mymemberships_select" type="button">
+            <input type="checkbox" id="mymemberships_select_checkbox"/>
+        </div>
+        <button type="button" class="s3d-button s3d-header-button s3d-header-smaller-button">
+            __MSG__ADD_TO__...
+            <span class="mymemberships_add_to_icon"></span>
+        </button>
+    </div>
+
     <!-- Empty/Error messages -->
     <p id="mymemberships_nodata" style="display:none;">__MSG__SORRY_WIP__</p>
     <p id="mymemberships_nogroups" style="display:none;" class="fl-fix"><!-- No groups message renders here --></p>
