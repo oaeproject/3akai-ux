@@ -1220,6 +1220,17 @@ define(
                 }
             }
             return template;
+        },
+
+        getCategoryTitle: function(cat) {
+            var category = false;
+            for (var i = 0; i < sakai_conf.worldTemplates.length; i++){
+                if (sakai_conf.worldTemplates[i].id === cat){
+                    category = sakai_conf.worldTemplates[i];
+                    break;
+                }
+            }
+            return sakai_i18n.getValueForKey(category.titleSing);
         }
 
     };

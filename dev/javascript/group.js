@@ -35,6 +35,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     groupData.authprofile = data.properties;
                     groupData.authprofile.picture = sakai.api.Groups.getProfilePicture(groupData.authprofile);
                     sakai_global.group.groupData = groupData.authprofile;
+                    sakai_global.group.groupData.categoryType = sakai.api.Groups.getCategoryTitle(groupData.authprofile["sakai:category"]);
                     var directory = [];
                     // When only one tag is put in this will not be an array but a string
                     // We need an array to parse and display the results
