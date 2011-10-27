@@ -88,8 +88,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
         // Add new topic
         var discussionAddNewTopic = "#discussion_add_new_topic";
-        var discussionDontAddTopic= "#discussion_dont_add_topic";
-        var discussionAddTopic= "#discussion_add_topic";
+        var discussionDontAddTopic = "#discussion_dont_add_topic";
+        var discussionAddTopic = "#discussion_add_topic";
         var discussionCreateNewTopicTitle = "#discussion_create_new_topic_title";
         var discussionCreateNewTopicMessageText = "#discussion_create_new_topic_message_text";
         var discussionCreateNewTopicForm = "#discussion_create_new_topic form";
@@ -259,6 +259,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 "settings":parsedSettings,
                 "sakai": sakai
             }, $(discussionListTopicsContainer, $rootel));
+            sakai.api.Util.renderMath(tuid);
         };
 
         var setEllipsis = function(){
@@ -285,7 +286,6 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 try {
                     renderPosts(response.results);
                     $discussionListTopics.show();
-                    setEllipsis();
 
                     var cookieData = $.parseJSON($.cookie(tuid));
                     // loop through the posts
@@ -534,6 +534,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
+                	sakai.api.Util.renderMath(tuid);
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
@@ -642,7 +643,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
 
                     // Set post data
                     post.find(discussionPostMessage).text(body);
+                    post.find(discussionPostMessage).data("source-text", body);
                     post.find(discussionReplyContentsText).text(quote);
+                    post.find(discussionReplyContentsText).data("source-text", quote);
+                    sakai.api.Util.renderMath(tuid);
 
                     // Set entity data
                     post.children(discussionEntityContainer).find(discussionUpdatingDate).children("span").text(sakai.api.User.getDisplayName(sakai.data.me.profile) + " " + sakai.api.l10n.transformDateTimeShort(parseDate(sakai.api.Util.createSakaiDate(new Date()))));
@@ -762,7 +766,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent[0].id.split("discussion_post_")[1];
-                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).text(), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
+                sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, {"edit":false, "quoted":true, "quotedUser":$(this).parents(s3dHighlightBackgroundClass).find(discussionPosterName).text(), "quotedMessage":$(this).parent().prev().children(discussionPostMessage).data("source-text"), "postId": postId}, replyParent.children(discussionTopicReplyContainer));
                 replyParent.children(discussionTopicReplyContainer).show();
                 replyParent.find(discussionTopicReplyText).focus();
             });
@@ -812,15 +816,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                         "edit": true,
                         "quoted": true,
                         "quotedUser": $(this).parents(s3dHighlightBackgroundClass).find(discussionReplyContentsTextQuoted).text(),
-                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).text()),
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).text())
+                        "quotedMessage": $.trim($(this).parent().prevAll(discussionQuotedTextContainer).children(discussionReplyContentsText).data("source-text")),
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).data("source-text"))
                     };
                 } else {
                     renderData = {
                         "edit": true,
                         "quoted": false,
                         "quotedUser": false,
-                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).text())
+                        "body": $.trim($(this).parent().parent().find(discussionPostMessage).data("source-text"))
                     };
                 }
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + "," + discussionReplyContents).hide();
