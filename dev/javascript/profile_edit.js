@@ -563,7 +563,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             };
 
             // Initialize the validate plug-in
-            sakai.api.Util.Forms.validate($profile_form, validateOps, true, invalidHandler);
+            sakai.api.Util.Forms.validate($profile_form, validateOps, invalidHandler);
         };
 
 

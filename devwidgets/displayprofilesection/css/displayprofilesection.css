@@ -19,7 +19,7 @@
 .displayprofilesection_widget .dialog_buttons{float:right;}
 
 /** OVERRIDE PROFILESECTION CSS **/
-.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{width:120px;}
+.displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_label,.profilesection_generalinfo label{width:127px;}
 .displayprofilesection_widget #profilesection_generalinfo div.profilesection_generalinfo_content{width:auto!important;}
 .displayprofilesection_widget #profilesection_generalinfo .profilesection_generalinfo_header{margin:0 0 15px !important; padding:0 0 15px !important;}
 .displayprofilesection_widget #edit_view_container .content_bottom,.fl-widget .fl-widget-no-options{clear:both;}
