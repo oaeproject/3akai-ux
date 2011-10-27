@@ -534,7 +534,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-plugins/jquery.cookie"], func
                     $parentDiv.prevAll(discussionTopicRepliesContainer).append(renderedTemplate);
 
                     $parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(parseInt($parentDiv.parents(discussionTopicContainer).find(discussionNumberOfReplies).text(), 10) + 1);
-                	sakai.api.Util.renderMath(tuid);
+                    sakai.api.Util.renderMath(tuid);
                 },
                 error: function(xhr, textStatus, thrownError){
                     if (xhr.status === 401) {
