@@ -183,13 +183,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             "refid": sakai.api.Util.generateWidgetId()
         };
         currentTemplate = sakai.api.Util.replaceTemplateParameters(templateParameters, currentTemplate);
-        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
+        createSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate, sakaiDocs){
             fillSakaiDocs(groupid, currentTemplate, function(groupid, currentTemplate){
                 setSakaiDocPermissions(groupid, currentTemplate, function(groupid, currentTemplate){
                     addStructureToGroup(groupid, currentTemplate, function(){
                         removeCreatorFromManagersOfMainGroup(groupid, currentTemplate, function() {
-                            $newcreategroupCreating.jqmHide();
-                            window.location = "/~" + groupid;
+                            // find the sakai doc content ID's and remove the user from the management role
+                            var contentIds = [];
+                            for (var s in sakaiDocs) {
+                                if (sakaiDocs.hasOwnProperty(s)){
+                                    contentIds.push(sakaiDocs[s]._contentItem.poolId);
+                                }
+                            }
+                            sakai.api.Content.removeUser("manager", contentIds, sakai.data.me.user.userid, function() {
+                                $newcreategroupCreating.jqmHide();
+                                window.location = "/~" + groupid;
+                            });
                         });
                     });
                 });
@@ -324,14 +333,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         }
         sakai.api.Server.batch(batchRequests, function(success, data) {
-            if (success) {
+            if (success && data.results) {
+                var sakaiDocs = [];
+                for (var i in data.results) {
+                    if (data.results.hasOwnProperty(i)){
+                        sakaiDocs.push($.parseJSON(data.results[i].body));
+                    }
+                }
                 var count = 0;
                 for (var doc in currentTemplate.structure){
                     var response = $.parseJSON(data.results[count].body);
                     currentTemplate.structure[doc]._pid = response._contentItem.poolId;
                     count++;
                 }
-                callback(groupid, currentTemplate);
+                callback(groupid, currentTemplate, sakaiDocs);
             }
         });
     };
