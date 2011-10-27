@@ -1,0 +1,122 @@
+Example of how defaultpubstructure can be adjusted to include more sections
+
+========
+
+defaultpubstructure: {
+            "structure0": {
+                "website": {
+                    "_ref": "${refid}3",
+                    "_order": 0,
+                    "_title": "My website",
+                    "_altTitle": "${user}'s website",
+                    "_reorderOnly": true,
+                    "_nonEditable": false,
+                    "_view": "anonymous",
+                    "home": {
+                        "_ref": "${refid}3",
+                        "_order": 0,
+                        "_title": "Home",
+                        "_altTitle": "Home"
+                    },
+                    "research": {
+                        "_ref": "${refid}4",
+                        "_order": 1,
+                        "_title": "Research",
+                        "_altTitle": "Research"
+                    }
+                },
+                "library": {
+                    "_ref": "${refid}0",
+                    "_order": 1,
+                    "_title": "__MSG__MY_LIBRARY__",
+                    "_altTitle": "__MSG__MY_LIBRARY_OTHER__",
+                    "_reorderOnly": true,
+                    "_nonEditable": true,
+                    "_view": "anonymous",
+                    "main": {
+                        "_ref": "${refid}0",
+                        "_order": 0,
+                        "_title": "__MSG__MY_LIBRARY__"
+                    }
+                },
+                "memberships": {
+                    "_title": "__MSG__MY_MEMBERSHIPS__",
+                    "_order": 2,
+                    "_ref": "${refid}1",
+                    "_altTitle": "__MSG__MY_MEMBERSHIPS_OTHER__",
+                    "_reorderOnly": true,
+                    "_nonEditable": true,
+                    "_view": "anonymous",
+                    "main": {
+                        "_ref": "${refid}1",
+                        "_order": 0,
+                        "_title": "__MSG__MY_MEMBERSHIPS__"
+                    }
+                },
+                "contacts": {
+                    "_title": "__MSG__MY_CONTACTS__",
+                    "_order": 3,
+                    "_ref": "${refid}2",
+                    "_altTitle": "__MSG__MY_CONTACTS_OTHER__",
+                    "_reorderOnly": true,
+                    "_nonEditable": true,
+                    "_view": "anonymous",
+                    "main": {
+                        "_ref": "${refid}2",
+                        "_order": 0,
+                        "_title": "__MSG__MY_CONTACTS__"
+                    }
+                }
+            },
+            "${refid}0": {
+                "page": "<div id='widget_mylibrary' class='widget_inline'></div>"
+            },
+            "${refid}1": {
+                "page": "<div id='widget_joinrequestbuttons' class='widget_inline'></div> " +
+                    "<div id='widget_tooltip' class='widget_inline'></div> " +
+                    "<div id='widget_mymemberships' class='widget_inline'></div>"
+            },
+            "${refid}2": {
+                "page": "<div id='widget_contacts' class='widget_inline'></div>"
+            },
+            "${refid}3": {
+                "page": "<img id='widget_camcard' class='widget_inline' src='/devwidgets/embedcontent/images/content.png'></div>"
+            },
+            "${refid}4": {
+                "page": "<h3 class=\"heading-h4\">Multiscale Materials Simulation</h3><p class=\"paragraph\">I develop " + 
+                                  "computational schemes that allow materials simulation with <em class=\"italic\">simultaneous, " +
+                                  "concurrent</em> use of multiple models, which address physical properties at different length scales. " +
+                                  "Most problems in the world are multiscale; however typical areas where direct multiscale simulation " +
+                                  "is unavoidable include e.g. plasticity, brittle fracture and enzyme catalysis.<br></p><p class=\"para" +
+                                  "graph\"><img border=\"0\" title=\"multiscale methods\" alt=\"multiscale methods\" class=\"float-left\" " +
+                                  "src=\"https://camtools.cam.ac.uk/access/content/group/5b59f819-0806-4a4d-0046-bcad6b9ac70f/multiscale." +
+                                  "png\"></p><p class=\"paragraph\">There are many techniques that are each appropriate at a given scale" + 
+                                  "and have a corresponding capability in terms of number of atoms handled or simulation time. Multiscale " +
+                                  "schemes use two or more of these techniques simultaneously.</p><h3 class=\"heading-h5\"><a class=\"an" +
+                                  "chorpoint mceItemAnchor\" name=\"Brittlefracture\"></a>Brittle fracture </h3><p class=\"paragraph\">" +
+                                  "<img border=\"0\" title=\"crack\" alt=\"crack\" class=\"float-left\" src=\"https://camtools.cam.ac.uk" +
+                                  "/access/content/group/5b59f819-0806-4a4d-0046-bcad6b9ac70f/microcrack_small.png\"> <img border=\"0\" " +
+                                  "title=\"kink\" alt=\"kink\" class=\"float-right\" src=\"https://camtools.cam.ac.uk/access/content/gr" +
+                                  "oup/5b59f819-0806-4a4d-0046-bcad6b9ac70f/ridge_small.png\"></p><p class=\"paragraph\"> The picture on " +
+                                  "the left shows the tip of a silicon crack just before the onset of crack propagation. It has a complex " +
+                                  "atomic structure, with a Stone-Wales rotation of a bond turning a pair of hexagons into a pentagon and " +
+                                  "a heptagon and a nanovoid opening up in front of the tip. This <em class=\"italic\">crack tip reconst" +
+                                  "ruction</em> phenomenon adds a new twist to our understanding of the atomic processes that underlie the" +
+                                  " catastrophic failure of brittle materials. In carefully controlled experiments on silicon, macroscopic " +
+                                  "consequences of tip reconstructions can be observed. The panels on the right show the grooved structure " +
+                                  "of slowly propagating cracks and the corresponding mesoscopic simulation based on the newly uncovered " +
+                                  "atomistic processes. Our simulations explain the counterintuitive observations that low speed cracks " +
+                                  "on the (111) surface of silicon (the supposedly \"best\" cleavage plane) are rough, whereas high speed " +
+                                  "cracks leave behind mirror smooth surfaces, because the crack tip does not have time to get trapped in " +
+                                  "the reconstruction: the atoms are dynamically steered towards rapid cracking in a cooperative manner." +
+                                  "</p><p class=\"paragraph\">On the one hand these simulations involve at least 200,000 atoms to describe " +
+                                  "the long range stress and strain fields of the crack tip, but on the other hand require not just quantum " +
+                                  "mechanics near the tip, but the use of a sophisticated and accurate model such as density functional " +
+                                  "theory (DFT). Using lower levels of theory the reconstruction does not always form. In our hybrid " +
+                                  "molecular dynamics simulation, the red atoms were described with DFT using <span class=\"nobr\"><a " +
+                                  "target=\"rwikiexternal\" href=\"http://www.castep.org/\">Castep</a></span> while the rest of the system " +
+                                  "with a simple interatomic potential (Stillinger-Weber).</p>"
+            }
+        }
+
+=======
