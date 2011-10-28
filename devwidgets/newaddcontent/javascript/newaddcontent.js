@@ -1119,7 +1119,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit);
             sakai.api.Util.hideOnClickOut($newaddcontentSelectedItemsEditPermissionsContainer, newaddcontentSelectedItemsActionsPermissions);
 
-            $newaddcontentAddLinkForm.validate({
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($newaddcontentAddLinkForm, {
                 success: function(){
                     enableAddToQueue();
                 }
