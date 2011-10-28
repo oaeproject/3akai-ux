@@ -258,16 +258,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }, "No error message, this is just an appender");
 
             // FORM VALIDATION 
-            $("#remotecontent_form", rootel).validate({
-                onkeyup: false,
-                errorPlacement: function(error, element){
-                    if (clickSubmit) {
-                        sakai.api.Util.notification.show($(remotecontentTitle, rootel).html(), $(error, rootel).html());
-                        clickSubmit = false;
-                    }
-                }
-            });
-        
+            var validateOps = {
+                onkeyup: false
+            };
+            // Initialize the validate plug-in
+            sakai.api.Util.Forms.validate($("#remotecontent_form", rootel), validateOps);
+
             // define rules for the url
             $(remotecontentSettingsUrl, rootel).rules("add", {
                 required: true,
