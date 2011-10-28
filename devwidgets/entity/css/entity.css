@@ -33,7 +33,7 @@
 #entity_container .entity_change_avatar{display:inline-block;cursor:pointer;padding:3px 0 3px 3px;margin-right:10px;float:left;}
 #entity_container .entity_change_avatar .s3d-dropdown-list{cursor:default;}
 #entity_container .entity_change_avatar:hover, #entity_container .entity_change_avatar.clicked{background-color:#32b3ec;}
-#entity_container .entity_change_avatar:hover .entity_profilepic_internal, #entity_container .entity_change_avatar.clicked .entity_profilepic_internal {box-shadow:none;-webkit-box-shadow:none;}
+#entity_container .entity_change_avatar:hover .entity_profilepic_internal, #entity_container .entity_change_avatar.clicked .entity_profilepic_internal {box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;}
 #entity_container .entity_change_avatar.clicked .entity_profile_picture_down_arrow, #entity_container .entity_change_avatar:hover .entity_profile_picture_down_arrow{color:#ecedeb;}
 #entity_container .s3d-dropdown-list {position:absolute;width:120px;}
 #entity_container .s3d-dropdown-list .s3d-dropdown-list-arrow-up {margin-left:31px;right:auto;}
