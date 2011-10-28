@@ -61,6 +61,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Batch request handling //
         ////////////////////////////
 
+        /**
+         * Once all requests have been collected into a batchRequest array, we can submit them as
+         * a batch request
+         * @param {Object} batchRequests    Array that contains all batch requests to be submitted
+         * @param {Object} successMessage   Id of the dom element that contains the success message to be displayed
+         */
         var sendDeletes = function(batchRequests, successMessage){
             sakai.api.Server.batch(batchRequests, function (success, data) {
                 if (success) {
@@ -80,6 +86,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Remove from library only //
         //////////////////////////////
 
+        /**
+         * Add one request for each item to be removed from the current library
+         * @param {Object} batchRequests    Array to which to add the requests for removing the content
+         * @param {Object} items            Content items to be removed from the current library
+         */
         var processRemoveFromLibrary = function(batchRequests, items, role){
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
@@ -108,6 +119,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Remove from the system //
         ////////////////////////////
 
+        /**
+         * Add one request for each item to delete from the system
+         * @param {Object} batchRequests    Array to which to add the requests for removing the content
+         * @param {Object} items            Content items to be removed from the system
+         */
         var processRemoveFromSystem = function(batchRequests, items){
             batchRequests = batchRequests || [];
             for (var i = 0; i < items.length; i++){
@@ -129,10 +145,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var removeFromSystem = function(){
             // Remove content I manage from the system
             var batchRequests = processRemoveFromLibrary([], contentIView, "viewer");
-            var batchRequests = processRemoveFromSystem([], contentIManage);
+            batchRequests = processRemoveFromSystem(batchRequests, contentIManage);
             sendDeletes(batchRequests, "#deletecontent_message_from_system");
         };
 
+        /**
+         * Check whether any users or groups are either managers or viewers from
+         * any of the selected content items
+         */
         var checkUsedByOthers = function(){
             var userGroupIds = [];
             // Check whether any of the content I manage is managed by or
@@ -157,28 +177,65 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             if (userGroupIds.length > 0){
-                // Show the overview screen of who else is using this
-                $("#deletecontent_used_by_others_container").html("");
-                $("#deletecontent_container").hide();
-                $("#deletecontent_used_by_others").show();
-                // Set up the buttons correctly
-                hideButtons();
-                $("#deletecontent_action_removefromsystem_confirm").show();
-                $("#deletecontent_action_removefromlibrary_only").show();
-                // Show the correct overlay title
-                $("#deletecontent_main_content").hide();
-                $("#deletecontent_main_confirm").show();
-                // Get the profile information of who else is using it
-                
+                setUpUsedByOverlay(userGroupIds);
             } else {
                 removeFromSystem();
             }
+        };
+
+        /**
+         * When the content the user is trying to delete from the system is
+         * being used by others, present an overlay that lists all of the
+         * groups and users that either use or manage the content
+         * @param {Object} userGroupIds    Array that contains the userids and groupids of all
+         *                                 users and groups using the content
+         */
+        var setUpUsedByOverlay = function(userGroupIds){
+            // Show the overview screen of who else is using this
+            $("#deletecontent_used_by_others_container").html("");
+            $("#deletecontent_container").hide();
+            $("#deletecontent_used_by_others").show();
+            // Set up the buttons correctly
+            hideButtons();
+            $("#deletecontent_action_removefromsystem_confirm").show();
+            $("#deletecontent_action_removefromlibrary_only").show();
+            // Show the correct overlay title
+            $("#deletecontent_main_content").hide();
+            $("#deletecontent_main_confirm").show();
+            // Get the profile information of who else is using it
+            var batchRequests = [];
+            for (var i = 0; i < userGroupIds.length; i++){
+                batchRequests.push({
+                    "url": "/~" + userGroupIds[i] + "/public/authprofile.profile.json",
+                    "method": "GET"
+                });
+            }
+            // Get profile information for each of the users and groups using
+            // this content
+            sakai.api.Server.batch(batchRequests, function (success, data) {
+                var profileInfo = [];
+                for (var i = 0; i < data.results.length; i++){
+                    if (data.results[i].success){
+                        profileInfo.push($.parseJSON(data.results[i].body));
+                    }
+                }
+                $("#deletecontent_used_by_others_container").html(sakai.api.Util.TemplateRenderer("deletecontent_used_by_others_template", {
+                    "profiles": profileInfo,
+                    "sakai": sakai
+                }));
+            });
         };
 
         ////////////////////////////
         // Remove hybrid strategy //
         ////////////////////////////
 
+        /**
+         * Check whether the users has chosen to remove the content he manages from his
+         * library only or from the system. If removing from the library only, we can
+         * go ahead and remove the content. If removing from the system, we want to check
+         * first whether the content is being used by anyone else
+         */
         var selectHybrid = function(){
             var manageOption = $("input[name='deletecontent_hybrid_options']:checked").val();
             if (manageOption === "libraryonly") {
@@ -192,6 +249,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Overlay setup //
         ///////////////////
 
+        /**
+         * Hide all of the action buttons in the overlay
+         */
         var hideButtons = function(){
             $("#deletecontent_action_removefromsystem").hide();
             $("#deletecontent_action_removefromlibrary").hide();
@@ -333,6 +393,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         $("#deletecontent_action_removefromlibrary").bind("click", removeFromLibrary);
         $("#deletecontent_action_removefromsystem").bind("click", checkUsedByOthers);
         $("#deletecontent_action_apply").bind("click", selectHybrid);
+        $("#deletecontent_action_removefromlibrary_only").bind("click", removeFromLibrary);
+        $("#deletecontent_action_removefromsystem_confirm").bind("click", removeFromSystem);
 
         ////////////////////////////
         // External event binding //

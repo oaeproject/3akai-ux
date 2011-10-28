@@ -32,4 +32,8 @@
 .deletecontent_hybrid_right {float:right; width: 190px; margin-top: 30px}
 .deletecontent_hybrid_options {margin-bottom: 10px;}
 
-#deletecontent_used_by_others_container {margin: 10px 0px 20px 0px; min-height: 20px; max-height: 200px; overflow: auto;}
+#deletecontent_used_by_others_container {margin: 10px 0px 20px 0px; padding: 10px 0px 10px 10px;}
+#deletecontent_used_by_others_list_container {min-height: 20px; max-height: 210px; overflow: auto;}
+#deletecontent_used_by_others_list {margin: 0px 0px 0px 0px;}
+#deletecontent_used_by_others_list li {width: 560px; height: 30px; padding: 3px 13px 6px; list-style: none outside none;}
+#deletecontent_used_by_others_list li a {line-height: 30px; padding: 1px 0 0 6px;}
