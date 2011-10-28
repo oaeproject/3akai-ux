@@ -63,13 +63,17 @@
          *                          correspond with a Dom element that has this string as an id.
          */
         var removeItems = function(items){
+            var toFadeOut = 0;
             $.each(items, function(i, item){
                 $("#" + item, container).fadeOut(false, function(){
                     isDoingExtraSearch = false;
+                    toFadeOut++;
+                    if (toFadeOut === items.length) {
+                        currentPage = 0;
+                        loadResultList();
+                    }
                 });
             });
-            currentPage = 0;
-            loadResultList();
         };
 
         /**

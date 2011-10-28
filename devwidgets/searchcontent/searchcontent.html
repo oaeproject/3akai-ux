@@ -101,8 +101,10 @@
                                     <div class="searchcontent_result_by">
                                         __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${i['sakai:pool-content-created-for']|safeOutput}">${i['displayName']}</a> <span class="s3d-search-result-detail-separator"><span> | </span></span> __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                                     </div>
-<<<<<<< HEAD
-                                    {if i["sakai:description"]}<div class="searchcontent_result_description">${i["sakai:description"]}</div>{/if}
+                                    {if i["sakai:description"]}
+                                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+                                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
+                                    {/if}
                                     {if i["sakai:tags"] && i["sakai:tags"].length > 0}
                                         <div class="searchcontent_result_tags">
                                             <span class="searchcontent_result_icon searchcontent_result_tags_icon"></span>
@@ -110,11 +112,6 @@
                                                 {for t in i["sakai:tags"]}{if t.split("/")[0] !== "directory"}{if t_index > 0} <span class="searchcontent_result_tags_dot"> &bull;</span>{/if} <a class="s3d-regular-light-links" href="/search#q=${t|safeURL}">${t|safeOutput}</a>{/if}{/for}
                                             </p>
                                         </div>
-=======
-                                    {if i["sakai:description"]}
-                                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
-                                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
->>>>>>> master
                                     {/if}
                                     <div class="searchcontent_result_usedin">
                                         {var placeCount = sakai.api.Content.getPlaceCount(i)}

@@ -422,17 +422,21 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
          * Check if all items have been uploaded
          */
         var checkUploadCompleted = function(files){
-            if (files) {
-                $.each(itemsToUpload, function(index, item){
-                    if (item.type == "content" || item.type == "dropped") {
-                        itemsUploaded++;
-                        return false;
-                    }
-                });
-            } else {
+            debug.log("checking if upload is completed");
+            debug.log(files);
+            //if (files) {
+            //    $.each(itemsToUpload, function(index, item){
+            //        if (item.type == "content" || item.type == "dropped") {
+            //            itemsUploaded++;
+            //            return false;
+            //        }
+            //    });
+            //} else {
                 itemsUploaded++;
-            }
+            //}
+            debug.log(itemsToUpload.length + " - " + itemsUploaded);
             if(itemsToUpload.length === itemsUploaded) {
+                debug.log("In final state!");
                 $(window).trigger("done.newaddcontent.sakai", [lastUpload, libraryToUploadTo]);
                 brandNewContent[libraryToUploadTo] = brandNewContent[libraryToUploadTo] || [];
                 _.uniq($.merge(brandNewContent[libraryToUploadTo], lastUpload));
@@ -514,20 +518,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                 data: {
                                     "sling:resourceType": "sakai/pagecontent",
                                     "sakai:pagecontent": content,
-                                    "_charset_": "utf-8"
+                                    "_charset_": "utf-8",
+                                    "success": function(){
+                                        sakai.api.Util.tagEntity("/p/" + data._contentItem.poolId, documentObj.tags.split(","), function(){
+                                            doc.hashpath = data["_contentItem"].poolId;
+                                            doc.permissions = doc["sakai:permissions"];
+                                            sakai.api.Content.setFilePermissions([doc], function(){
+                                                checkUploadCompleted();
+                                                addToLibrary(data._contentItem, true);
+                                            });
+                                        });
+                                    }
                                 }
                             });
-                            sakai.api.Util.tagEntity("/p/" + data._contentItem.poolId, documentObj.tags.split(","));
-                            checkUploadCompleted();
                         },
                         error: function() {
                             checkUploadCompleted();
                         }
-                    });
-                    doc.hashpath = data["_contentItem"].poolId;
-                    doc.permissions = doc["sakai:permissions"];
-                    sakai.api.Content.setFilePermissions([doc], function(){
-                        addToLibrary(data._contentItem, true);
                     });
                 },
                 error: function(err){
@@ -565,10 +572,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                     itemToPush["sakai:tags"] = linkObj.tags;
                     lastUpload.push(itemToPush);
                     linkObj.hashpath = data._contentItem.poolId;
-                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","));
-                    sakai.api.Content.setFilePermissions([linkObj], function(){
-                        addToLibrary(data._contentItem, true);
-                        checkUploadCompleted();
+                    sakai.api.Util.tagEntity("/p/" + linkObj.hashpath.poolId, linkObj.tags.split(","), false, function(){
+                        sakai.api.Content.setFilePermissions([linkObj], function(){
+                            addToLibrary(data._contentItem, true);
+                            checkUploadCompleted();
+                        });
                     });
                 },
                 error: function() {
@@ -630,25 +638,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                                     item["sakai:tags"] = arrayItem.tags;
                                 }
                             });
+
+                            sakai.api.Server.batch(objArr, function(success, response){
+                                debug.log("============================");
+                                debug.log("Tagging " + arrayItem.title);
+                                debug.log("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath));
+                                debug.log(arrayItem.tags.split(","));
+                                debug.log("============================");
+                                sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","), false, function(){
+                                    sakai.api.Content.setFilePermissions(data, function(){
+                                        checkUploadCompleted(true);
+                                    });
+                                });
+                            });
+                            
                         }
                     });
-                }
-            });
-
-            sakai.api.Content.setFilePermissions(data, false);
-
-            sakai.api.Server.batch(objArr, function(success, data){
-                if (success) {
-                    // save tags
-                    $.each(itemsToUpload, function(i, arrayItem){
-                        if (arrayItem.hashpath && (arrayItem.hashpath.poolId || arrayItem.type === "dropped")) {
-                            sakai.api.Util.tagEntity("/p/" + (arrayItem.hashpath.poolId || arrayItem.hashpath), arrayItem.tags.split(","));
-                        }
-                        checkUploadCompleted(true);
-                    });
-                }
-                else {
-                    checkUploadCompleted(true);
                 }
             });
         };
@@ -738,6 +743,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 // Remove the previously added file to avoid https://jira.sakaiproject.org/browse/SAKIII-3269
                 $(".MultiFile-list").children().last().find("a").click();
             }
+            debug.log("Items to upload:");
+            debug.log(itemsToUpload);
             $.each(itemsToUpload, function(index,item){
                 switch(item.type){
                     case "link":
