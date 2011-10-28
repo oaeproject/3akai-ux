@@ -121,12 +121,8 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     var groupType = sakai.api.i18n.getValueForKey("OTHER");
-                    if (results[group]["sakai:category"]){
-                        for (var c = 0; c < sakai.config.worldTemplates.length; c++) {
-                            if (sakai.config.worldTemplates[c].id === results[group]["sakai:category"]){
-                                groupType = sakai.api.i18n.getValueForKey(sakai.config.worldTemplates[c].titleSing);
-                            }
-                        }
+                    if (results[group]["sakai:template-title"]){
+                        groupType = sakai.api.i18n.getValueForKey(results[group]["sakai:template-title"]);
                     }
                     // Modify the tags if there are any
                     if (results[group]["sakai:tags"]) {
