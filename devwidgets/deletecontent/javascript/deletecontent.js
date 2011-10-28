@@ -140,7 +140,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             for (var m = 0; m < contentIManage.length; m++){
                 var managers = contentIManage[m]["sakai:pooled-content-manager"];
                 if (managers){
-                    debug.log(managers);
                     for (var i = 0; i < managers.length; i++){
                         if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid){
                             userGroupIds.push(managers[i]);
@@ -149,7 +148,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
                 var viewers = contentIManage[m]["sakai:pooled-content-viewer"];
                 if (viewers){
-                    debug.log(viewers);
                     for (var i = 0; i < viewers.length; i++){
                         if ($.inArray(viewers[i], userGroupIds) === -1 && viewers[i] !== sakai.data.me.user.userid &&
                             viewers[i] !== "everyone" && viewers[i] !== "anonymous"){
@@ -158,17 +156,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
                 }
             }
-            debug.log(userGroupIds);
-            return false;
             if (userGroupIds.length > 0){
                 // Show the overview screen of who else is using this
-                $("#deletecontent_used_by_others_container").hide();
+                $("#deletecontent_used_by_others_container").html("");
                 $("#deletecontent_container").hide();
                 $("#deletecontent_used_by_others").show();
                 // Set up the buttons correctly
                 hideButtons();
                 $("#deletecontent_action_removefromsystem_confirm").show();
                 $("#deletecontent_action_removefromlibrary_only").show();
+                // Show the correct overlay title
+                $("#deletecontent_main_content").hide();
+                $("#deletecontent_main_confirm").show();
                 // Get the profile information of who else is using it
                 
             } else {
@@ -303,6 +302,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             context = data.context || sakai.data.me.user.userid;
             callback = _callback;
             getContentInfo(data.path);
+            hideButtons();
+            // Show the appropriate overlay title
+            $("#deletecontent_main_confirm").hide();
+            $("#deletecontent_main_content").show();
+            // Show and clear the main container
             $("#deletecontent_container").html("");
             $("#deletecontent_container").show();
             $("#deletecontent_used_by_others").hide();

@@ -12,18 +12,20 @@
 <!-- DIALOG -->
 <div class="s3d-dialog s3d-dialog-container" id="deletecontent_dialog">
     <div class="s3d-dialog-close jqmClose"></div>
-    <h1 class="s3d-dialog-header">__MSG__REMOVE_CONTENT__</h1>
+    <h1 class="s3d-dialog-header" id="deletecontent_main_content">__MSG__REMOVE_CONTENT__</h1>
+    <h1 class="s3d-dialog-header" id="deletecontent_main_confirm">Are you sure you want to delete this content?</h1>
     <div id="deletecontent_container"><!-- --></div>
     <div id="deletecontent_used_by_others">
-        <div id="deletecontent_used_by_others_container"><!-- --></div>
+        <div id="deletecontent_main_confirm_message">This content is used by other people, groups or courses or embedded into pages</div>
+        <div id="deletecontent_used_by_others_container" class="deletecontent_hybrid_container"><!-- --></div>
     </div>
     <div id="deletecontent_button_container" class="fl-force-right">
         <button type="button" class="s3d-link-button s3d-bold jqmClose">__MSG__CANCEL__</button>
         <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem">__MSG__REMOVE_FROM_SYSTEM__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary">__MSG__REMOVE_FROM_LIBRARY__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_apply">__MSG__APPLY__</button>
-        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromlibrary_only">__MSG__REMOVE_FROM_LIBRARY_ONLY__</button>
-        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromsystem_confirm">__MSG__REMOVE_FROM_SYSTEM_ANYWAY__</button>
+        <button type="button" class="s3d-button s3d-overlay-button" id="deletecontent_action_removefromlibrary_only">__MSG__REMOVE_FROM_LIBRARY_ONLY__</button>
+        <button type="button" class="s3d-button s3d-overlay-action-button" id="deletecontent_action_removefromsystem_confirm">__MSG__REMOVE_FROM_SYSTEM_ANYWAY__</button>
     </div>
     <div id="deletecontent_template_list" style="display:none"><!--
         <ul class="deletecontent_content_list deletecontent_content_list_large">
