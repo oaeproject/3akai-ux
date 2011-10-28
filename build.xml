@@ -216,20 +216,17 @@
     <target name="optimize" depends="init">
         <delete dir="${OPTIMIZED_DIR}" includeemptydirs="true" />
         <path id="reqjs.path">
-            <pathelement location="tools/requirejs-optimizer/build"/>
+            <pathelement location="tools/requirejs-optimizer/r.js"/>
         </path>
         <property name="requireJs.path" refid="reqjs.path"/>
         <property name="requireJs.conf" value="build.js" />
 
-        <exec executable="cmd" osfamily="windows">
-            <arg value="/c" />
-            <arg value="${requireJs.path}\buildj.bat" />
-            <arg value="${requireJs.conf}" />
-        </exec>
-
-        <exec executable="${requireJs.path}/buildj.sh" osfamily="unix">
-            <arg value="${requireJs.conf}" />
-        </exec>
+        <!-- the rhino jar gets put here by maven -->
+        <java jar="${settings.localRepository}/rhino/js/1.7R2/js-1.7R2.jar" fork="true">
+          <arg value="${requireJs.path}" />
+          <arg value="-o" />
+          <arg value="${requireJs.conf}" />
+        </java>
     </target>
 
     <!-- Target: Unpack MathJax Font Images -->
