@@ -186,6 +186,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             finaljson.category = selectedCategory.toLowerCase();
             finaljson.categoryid = selectedCategoryId;
             $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
+            bindResultsEvents();
         };
 
         /**
@@ -288,6 +289,36 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 "page": 0
             }, 0);
         });
+        
+        /*
+         * Bindings that occur after we've rendered the search results.
+         */
+        var bindResultsEvents = function() {
+            $('.searchgroups_result_plus',rootel).live("click", function(ev) {
+                var joinable = $(this).data("group-joinable");
+                var groupid = $(this).data("groupid");
+                var itemdiv = $(this);
+                sakai.api.Groups.addJoinRequest(sakai.data.me, groupid, false, true, function (success) {
+                    if (success) {
+                        if (joinable === "withauth") {
+                            // Don't add green tick yet because they need to be approved.
+                            var notimsg = sakai.api.i18n.getValueForKey("YOUR_REQUEST_HAS_BEEN_SENT");
+                        } 
+                        else  { // Everything else should be regular success
+                            $("#searchgroups_memberimage_"+groupid,rootel).show();
+                            var notimsg = sakai.api.i18n.getValueForKey("SUCCESSFULLY_ADDED_TO_GROUP");
+                        }
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                            notimsg, sakai.api.Util.notification.type.INFORMATION);
+                        itemdiv.removeClass("s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus");
+                    } else {
+                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("GROUP_MEMBERSHIP"),
+                            sakai.api.i18n.getValueForKey("PROBLEM_ADDING_TO_GROUP"),
+                            sakai.api.Util.notification.type.ERROR);
+                    }
+                });
+            });
+        };
 
         /////////////////////////
         // Initialise Function //
