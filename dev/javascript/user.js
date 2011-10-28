@@ -193,7 +193,16 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                     addCount(pubdata, "library", contextData.profile.counts["contentCount"]);
                     addCount(pubdata, "memberships", contextData.profile.counts["membershipsCount"]);
                     if (isMe) {
-                        addCount(pubdata, "contacts", sakai.data.me.contacts.ACCEPTED + sakai.data.me.contacts.INVITED);
+                        var contactCount = 0;
+                        // determine the count of contacts to list in lhnav
+                        if (sakai.data.me.contacts.ACCEPTED && sakai.data.me.contacts.INVITED){
+                            contactCount = sakai.data.me.contacts.ACCEPTED + sakai.data.me.contacts.INVITED;
+                        } else if (sakai.data.me.contacts.ACCEPTED){
+                            contactCount = sakai.data.me.contacts.ACCEPTED;
+                        } else if (sakai.data.me.contacts.INVITED){
+                            contactCount = sakai.data.me.contacts.INVITED;
+                        }
+                        addCount(pubdata, "contacts", contactCount);
                         addCount(privdata, "messages", sakai.data.me.messages.unread);
                         if (messageCounts && messageCounts.count && messageCounts.count.length) {
                             for (var i = 0; i < messageCounts.count.length; i++) {
